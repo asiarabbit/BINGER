@@ -38,6 +38,7 @@
 *.data
 
 # ignore directories
+build/
 doc/
 misc/
 !misc/tools/
