@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../etf/inc/TACtrlPara.h
+string
+-
+
+../etf/inc/TAEventProcessor.h
+string
+-
+vector
+-
+climits
+-
+TAPopMsg.h
+../etf/inc/TAPopMsg.h
+TACtrlPara.h
+../etf/inc/TACtrlPara.h
+
+../etf/inc/TAPopMsg.h
+
+/home/asia/pionExp2017/src/pre.C
+iostream
+-
+cstdlib
+-
+TAEventProcessor.h
+/home/asia/pionExp2017/src/TAEventProcessor.h
+
