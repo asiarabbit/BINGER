@@ -40,7 +40,7 @@
 # ignore directories
 build/
 doc/
-misc/
+misc/*
 !misc/tools/
 Lab/
 data/
