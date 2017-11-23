@@ -1,0 +1,117 @@
+///////////////////////////////////////////////////////////////////////////////////////
+// Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
+//																				     //
+// BINGER/inc/etf/TAMath.C															 //
+//   TAMath.C -- source file for class TAMath										 //
+//   Introduction: offering a mathematical toolkit for math problems in the data	 //
+// analysis.																		 //
+//																				     //
+// Author: SUN Yazhou, asia.rabbit@163.com.										     //
+// Created: 2017/9/25.															     //
+// Last modified: 2017/11/14, SUN Yazhou.										     //
+//																				     //
+//																				     //
+// Copyright (C) 2017, SUN Yazhou.												     //
+// All rights reserved.															     //
+///////////////////////////////////////////////////////////////////////////////////////
+
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include "TAMath.h"
+#include "TAPopMsg.h"
+#include "TACtrlPara.h"
+
+using std::cout;
+using std::endl;
+
+double TAMath::norm(const double *p, int len){
+	double norm = 0.;
+	for(int i = 0; i < len; i++){
+		norm += p[i]*p[i];
+	}
+	return sqrt(norm);
+}
+double TAMath::L(const double *p0, const double *p1, int len){
+	double p[3] = {p0[0] - p1[0], p0[1] - p1[1], p0[2] - p1[2]};
+	return norm(p, len);
+}
+
+double TAMath::acceptance(const double *p0, const double *p1){
+	double innerProduct = p0[0]*p1[0] + p0[1]*p1[1];
+	double cosTheta = innerProduct/(norm(p0,2)*norm(p1,2));
+	return acos(cosTheta);
+}
+// r_global = R.r_local
+// angle0: yaw, angle1: pitch, angle2: roll
+void TAMath::rotate(const double *pIn, double *pOut, const double *angIn){
+	double s1 = sin(angIn[0]), s2 = sin(angIn[1]), s3 = sin(angIn[2]);
+	double c1 = cos(angIn[0]), c2 = cos(angIn[1]), c3 = cos(angIn[2]);
+	pOut[0] = (c1*c3-s1*s2*s3)*  pIn[0] -c2*s3* pIn[1] +(c1*s2*s3+s1*c3)* pIn[2];
+	pOut[1] = (c1*s3+s1*s2*c3)*  pIn[0] +c2*c3* pIn[1] +(s1*s3-c1*s2*c3)* pIn[2];
+	pOut[2] = -s1*c2*            pIn[0] +s2*    pIn[1] +c1*c2*            pIn[2];	
+}
+void TAMath::rotateOffset(const double *pIn, double *pOut, const double *angOff){
+	pOut[0] = pIn[0] -angOff[0]* pIn[1] +angOff[2]* pIn[2]; // x
+	pOut[1] = angOff[0]* pIn[0] + pIn[1] -angOff[1]* pIn[2]; // y
+	pOut[2] = -angOff[2]* pIn[0] +angOff[1]* pIn[1] + pIn[2]; // z
+}
+
+/////// functions serving TAMWDCArray tracking //////
+// U+V->X tranformation: l: x=kz+b: slope
+double TAMath::kUV_X(double phi, double ku, double kv){
+	return ((ku+kv)*cos(phi)+sqrt(3.)*sin(phi))/(sqrt(3.)*cos(phi)-(ku+kv)*sin(phi));
+}
+// U+V->X tranformation: l: x=kz+b: intercept
+double TAMath::bUV_X(double phi, double ku, double kv, double bu, double bv){
+	return (bu+bv)/(sqrt(3.)*cos(phi)-(ku+kv)*sin(phi));
+}
+// U+V->Y tranformation: l: y=kz+b: slope
+double TAMath::kUV_Y(double phi, double ku, double kv){
+	return sqrt(3.)*(-ku+kv)/(sqrt(3.)*cos(phi)-(ku+kv)*sin(phi));
+}
+// U+V->Y tranformation: l: y=kz+b: intercept
+double TAMath::bUV_Y(double phi, double ku, double kv, double bu, double bv){
+	return (sqrt(3.)*(-bu+bv)*cos(phi)+2.*(-bv*ku+bu*kv)*sin(phi))/(sqrt(3.)*cos(phi)-(ku+kv)*sin(phi));
+}
+
+// X+Y->U tranformation: l: xu=kzu+bu: slope
+double TAMath::kXY_U(double phi, double k1, double k2){
+	return (-k2+sqrt(3.)*(k1*cos(phi)-sin(phi)))/(2.*(cos(phi)+k1*sin(phi)));
+}
+// X+Y->U tranformation: l: xu=kzu+bu: intercept
+double TAMath::bXY_U(double phi, double k1, double k2, double b1, double b2){
+	return 1./2.*(-b2+b1*(sqrt(3.)+k2*sin(phi))/(cos(phi)+k1*sin(phi)));
+}
+// X+Y->V tranformation: l: yv=kzv+bv: slope
+double TAMath::kXY_V(double phi, double k1, double k2){
+	return (k2+sqrt(3.)*(k1*cos(phi)-sin(phi)))/(2.*(cos(phi)+k1*sin(phi)));
+}
+// X+Y->V tranformation: l: yv=kzv+bv: intercept
+double TAMath::bXY_V(double phi, double k1, double k2, double b1, double b2){
+	return 1./2.*(b2+b1*(sqrt(3.)-k2*sin(phi))/(cos(phi)+k1*sin(phi)));
+}
+
+// the closest point of two skew lines -> hitp
+// B, b: track point and track vector; A, a: anode point and track vector;
+void TAMath::GetHitPoint(const double *b, const double *B, const double *a, const double *A, double *hitp){
+	double aa = a[0]*a[0]+a[1]*a[1]+a[2]*a[2], bb = b[0]*b[0]+b[1]*b[1]+b[2]*b[2],
+	       ab = a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+	double AB[3] = {A[0]-B[0], A[1]-B[1], A[2]-B[2]};
+	double tt1 = bb*(a[0]*AB[0] + a[1]*AB[1] + a[2]*AB[2])
+		     -ab*(b[0]*AB[0] + b[1]*AB[1] + b[2]*AB[2]);
+	tt1 /= ab*ab - aa*bb;
+	hitp[0] = a[0]*tt1+A[0];
+	hitp[1] = a[1]*tt1+A[1];
+	hitp[2] = a[2]*tt1+A[2];
+} // end of function GetHitPoint
+
+
+
+// definitions for fit functions serving class TATrack.
+#include "TAMath/deviaFun.C" // Dsquare, minid2 - global functions.
+#include "TAMath/iterFit.C" // iterativeFit - TAMath member function
+#include "TAMath/refinedFit.C" // refinedFit - TAMath member function.
+#include "TAMath/bfgs2.C" // refinedFitBFGS - TAMath member function.
+#include "TAMath/bfgs4.C" // BFGS4 - TAMath member function for 3D linear tracking
+

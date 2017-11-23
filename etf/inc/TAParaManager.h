@@ -1,0 +1,69 @@
+///////////////////////////////////////////////////////////////////////////////////////
+// Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
+//																				     //
+// BINGER/inc/etf/TAParaManager.h													 //
+//   TAParaManager.h -- header file for class TAParaManager							 //
+//   Introduction: Global parameter manager, a container class. All the parameter	 //
+// used in the code would be registered in this class for assignment and retrieval.  //
+// This class is supposed to be a singleton, reading parameters from config files.	 //
+//																				     //
+// Author: SUN Yazhou, asia.rabbit@163.com.										     //
+// Created: 2017/9/26.															     //
+// Last modified: 2017/10/16, SUN Yazhou.										     //
+//																				     //
+//																				     //
+// Copyright (C) 2017, SUN Yazhou.												     //
+// All rights reserved.															     //
+///////////////////////////////////////////////////////////////////////////////////////
+
+#ifndef _TAPARAMANAGER_H_
+#define _TAPARAMANAGER_H_
+
+#include <vector>
+#include <array>
+#include <fstream>
+
+using std::vector;
+using std::array;
+
+class TADetUnion;
+class TAParameter;
+class TACtrlPara;
+
+class TAParaManager{
+public:
+	typedef array<TADetUnion *, 64> ArrDet_t;
+
+	static TAParaManager *Instance();
+	virtual ~TAParaManager();
+	void ReadParameters(); // read all the parameters required
+	double GetPhysConst(const char *name) const;
+	ArrDet_t &GetDetList(){ return fDetList; }
+	// add physical constants to fPhysConst list
+	void AddPhysConst(const char *name, double value);
+	const unsigned *UIDList() const{ return fUIDList; }
+	unsigned GetUID(int chId) const;
+	static const int MAX_CH_NUM = 20000; // maximum number of channels
+	static const int UID_DUMMY = 999999999; // dummy uid for channels with unknown channel ids
+protected:
+	// read the cofig files and register them in a text file
+	void RegisterConfigFiles(const char *basePath);
+	static int FileType(const char *fname); // tell file type by suffix
+	// read all the files under a designated file
+	static int ReadFileList(const char *basePath, std::ofstream &configFileList);
+	TAParaManager(); // not to be called from outside the class
+
+	// assignment functions: read parameters from given file
+	void AssignChId(const char *fname); // channel id
+	void AssignDetPos(const char *fname); // Detector Position set
+	void AssignT0(const char *fname); // T0, including DC anode T0 and plastic scintillator T0
+	void AssignSTRCor(const char *fname); // spatial time relation correction table
+	void AssignSTR(); // spatial time relation extract from rootfile
+
+	static TAParaManager *kInstance;
+	vector<TAParameter *> fPhysConst; // physics constants
+	ArrDet_t fDetList; // detectors created
+	unsigned fUIDList[MAX_CH_NUM]; // UID-ChId map, with the subscrip being channel id
+};
+
+#endif

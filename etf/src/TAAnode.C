@@ -1,0 +1,155 @@
+///////////////////////////////////////////////////////////////////////////////////////
+// Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
+//																				     //
+// BINGER/inc/etf/TAAnode.C														     //
+//   TAAnode.C -- source file for class TAAnode									     //
+//   Introduction: Drift chamber anode class, representative of the physical	     //
+// entity. This is a container class, providing the attributes and data analysis     //
+// function of the anode.														     //
+//																				     //
+// Author: SUN Yazhou, asia.rabbit@163.com.										     //
+// Created: 2017/9/24.															     //
+// Last modified: 2017/10/15, SUN Yazhou.										     //
+//																				     //
+//																				     //
+// Copyright (C) 2017, SUN Yazhou.												     //
+// All rights reserved.															     //
+///////////////////////////////////////////////////////////////////////////////////////
+
+#include "TAAnodePara.h"
+#include "TAAnodeData.h"
+#include "TAAnode.h"
+#include "TAPopMsg.h"
+#include "TAUIDParser.h"
+#include "TACtrlPara.h"
+#include "TAVisual.h"
+
+TAAnode::TAAnode(const string &name, const string &title, unsigned uid)
+		: TAStuff(name, title, uid), fPara(nullptr), fData(nullptr){
+	fPara = new TAAnodePara(name+"->Para", title+"->Para", uid);
+	fData = new TAAnodeData(name+"->Data", title+"->Data", uid);
+
+	fAnodeId = -1;
+	
+	int type[6]{}; TAUIDParser::DNS(type, GetUID());
+	if(0 == type[2]) TAVisual::Instance()->AddAnode(this); // only X anodes would be visualized
+}
+
+TAAnode::~TAAnode(){
+	if(!fPara){
+		delete fPara;
+		fPara = nullptr;
+	}
+	if(!fData){
+		delete fData;
+		fData = nullptr;
+	}
+}
+
+// return type is TACh*, which could be cast into TAAnode* if necessary
+TAChPara *TAAnode::GetPara() const{
+	if(!fPara) TAPopMsg::Error(GetName().c_str(), "GetPara: Para not assgined.");
+	return fPara;
+}
+TAChData *TAAnode::GetData() const{
+	if(!fData) TAPopMsg::Error(GetName().c_str(), "GetData: Data not assgined.");
+	return fData;
+}
+short TAAnode::GetAnodeId() const{
+	if(-1 == fAnodeId) TAPopMsg::Error(GetName().c_str(), "GetAnodeId: Not assgined.");
+	return fAnodeId;
+}
+
+void TAAnode::SetAnodeId(int id){
+	if(id < 0) TAPopMsg::Error(GetName().c_str(), "SetAnodeId: Input id is minus: %d", id);
+	fAnodeId = id;
+}
+bool TAAnode::GetFiredStatus() const{
+	return GetData()->GetFiredStatus();
+}
+double TAAnode::GetTOT(int n) const{
+	const double tl = GetData()->GetLeadingTime(n);
+	const double tt = GetData()->GetTrailingTime(n);
+	if(-9999. == tt || -9999. == tl) return -9999.; // one of them is not assigned
+	return tt - tl;
+}
+
+double TAAnode::GetDriftTime() const{
+	double weight;
+	return GetDriftTime(weight);
+}
+double TAAnode::GetDriftTime(double &weight) const{
+	if(!GetData()->GetFiredStatus()) TAPopMsg::Error(GetName().c_str(), "GetDriftTime: Not fired");
+	const double tof = ((TAAnodeData*)GetData())->GetTOF();
+	if(-9999. == tof){ // usually this is for U or V anodes
+		return -9999.;
+	} // end if
+	double driftTime = GetData()->GetLeadingTime() - GetPara()->GetDelay() - tof;
+	// weight: for weighted addition of chi to chi2
+	if(TACtrlPara::IsDriftTimeQtCorrection())
+		((TAAnodePara*)GetPara())->DriftTimeQtCorrection(driftTime, GetTOT(), weight);
+	else weight = 1.; // the default weight value.
+	return driftTime;
+} // end of function GetDriftTime().
+// for generate simulation data //
+double TAAnode::GetDriftTime(double r, double k){ // k is the track slope
+	const int n = 100;
+	double span = 1000.; // search scope, unit: ns
+	double t, tc = 60., tm = 0.; // ns
+	double d, dmin = 1E200;
+	for(int l = 0; l < 4; l++){
+		for(int i = 0; i <= n; i++){
+			t = tc+(2.*i/n-1.)*span;
+			if(t < 0.) continue;
+//			d = fabs(f->Eval(t)-r);
+			d = fabs(GetDriftDistance(t, k) - r);
+			if(d < dmin){
+				dmin = d;
+				tm = t;
+			} // end if
+		} // end for over i
+		span = span/n*2.5;
+		tc = tm;
+	} // end for over l
+	if(tm > 400.) tm = 398.;
+	return tm;
+} // end function GetDriftTime.
+
+
+double TAAnode::GetDriftDistance(double dt, double k){
+	int type[6]{}; TAUIDParser::DNS(type, GetUID());
+	int id = ((TAAnodePara*)GetPara())->GetSTRid(k, type[2]);
+	return GetDriftDistance(dt, id);
+} // end of function GetDriftDistance().
+double TAAnode::GetDriftDistance(double dt, int STR_id){ // k is the track slope
+	double r_base = ((TAAnodePara*)GetPara())->GetSTR(STR_id)->Eval(dt); // the base drift distance
+	double r_correct = GetDriftDistanceCorrection(r_base, STR_id); // the anode-specific drift distance corection, determined by STR autocalibration
+	r_correct = GetDriftDistanceCorrection(r_base+r_correct, STR_id); // so the drift distance bin would be more accurate.
+	double r = r_base + r_correct;
+	return r > 0. ? r : 0.;
+} // end of function GetDriftDistance
+double TAAnode::GetDriftDistanceCorrection(double r, int STR_id) const{
+	const double *pcor = ((TAAnodePara*)GetPara())->GetSTRCorrection(STR_id);
+	if(r < 0. || r >= TAAnodePara::kSTRCorRMax) return 0.;
+	else{
+		int DT = TAAnodePara::GetDriftDistanceBinNumber(r);
+		if(DT == 0){ // the zero bin is void to avoid bias, so the STR correction value of this bin has to be extrapolated.
+			return pcor[1];
+		}
+		double k = (r - (DT + 0.5) * TAAnodePara::kSTRCorRStep) / TAAnodePara::kSTRCorRStep; // DEBUG
+		if(k < 0.) k = 0.;
+		// TODO: to be completed with more advanced interpolation method
+		// such as (Newton interpolation.)
+		return pcor[DT] * (1. - k) + pcor[DT + 1] * k;
+	} // end else
+} // end of function GetDriftDistanceCorrection
+
+void TAAnode::SetChId(int id){
+	GetPara()->SetChannelId(id);
+}
+
+void TAAnode::Initialize(){
+	GetData()->Initialize();
+}
+
+

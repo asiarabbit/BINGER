@@ -1,0 +1,75 @@
+///////////////////////////////////////////////////////////////////////////////////////
+// Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
+//																				     //
+// BINGER/inc/etf/TAMath.h															 //
+//   TAMath.h -- header file for class TAMath										 //
+//   Introduction: offering a mathematical toolkit for math problems in the data	 //
+// analysis.																		 //
+//																				     //
+// Author: SUN Yazhou, asia.rabbit@163.com.										     //
+// Created: 2017/9/25.															     //
+// Last modified: 2017/11/19, SUN Yazhou.										     //
+//																				     //
+//																				     //
+// Copyright (C) 2017, SUN Yazhou.												     //
+// All rights reserved.															     //
+///////////////////////////////////////////////////////////////////////////////////////
+
+#ifndef _TAMATH_H_
+#define _TAMATH_H_
+
+#include <cmath>
+
+class TAMath{
+public:
+	TAMath(){};
+	~TAMath(){};
+	
+	// r_global = dR.(R.r_local)+r0+dr
+	static void rotate(const double *pIn, double *pOut, const double *angle);
+	static void rotateOffset(const double *pIn, double *pOut, const double *angOff);
+	static double Pi(){ return 3.14159265358979323846; }
+	static double Alpha(){ return 0.61803398874989484820458683436565; } // the Golden Cut ratio
+	static double DEGREE(){ return Pi() / 180.; } // rad per degree
+	static double norm(const double *p, int len = 3); // length of the vector, len: vector dimension
+	static double L(const double *p0, const double *p1, int len = 3); // |p0-p1|
+
+	static double acceptance(const double *p0, const double *p1);
+	/////////////////////// TAMWDCARRAY 3D TRACK PROJRECTION TRANSFORMATION ///////////////////////
+	// 3D track projections transformation, functions serving TAMWDCArray tracking.
+	// U+V->X tranformation: l: x=kz+b: slope
+	static double kUV_X(double phi, double ku, double kv);
+	// U+V->X tranformation: l: x=kz+b: intercept
+	static double bUV_X(double phi, double ku, double kv, double bu, double bv);
+	// U+V->Y tranformation: l: y=kz+b: slope
+	static double kUV_Y(double phi, double ku, double kv);
+	// U+V->Y tranformation: l: y=kz+b: intercept
+	static double bUV_Y(double phi, double ku, double kv, double bu, double bv);
+	// X+Y->U tranformation: l: xu=kzu+bu: slope
+	static double kXY_U(double phi, double k1, double k2);
+	// X+Y->U tranformation: l: xu=kzu+bu: intercept
+	static double bXY_U(double phi, double k1, double k2, double b1, double b2);
+	// X+Y->V tranformation: l: yv=kzv+bv: slope
+	static double kXY_V(double phi, double k1, double k2);
+	// X+Y->V tranformation: l: yv=kzv+bv: intercept
+	static double bXY_V(double phi, double k1, double k2, double b1, double b2);
+	// the closest point of two skew lines -> hitp
+	// B, b: track point and track vector; A, a: anode point and track vector;
+	static void GetHitPoint(const double *b, const double *B, const double *a, const double *A, double *hitp);
+
+	///////////////////// TATRACK MINIMIZATION & LSM FUNCTIONS /////////////////////////////
+	// minimization and Least Squares Method functions, serving TATrack track fitting
+	// the least square fit of fired andoes
+	static double Dsquare(const double *x, const double *y, double &kL, double &bL, int gGOOD, const int *LAYER, double DsqThrePerDot); // a global function.
+	// calculate chi of line(k, b) to drift distance set (x, y, r).
+	static double minid2(const double *x, const double *y, const double *r, double k, double b, int gGOOD, const int *LAYER); // a global function.
+	static double dSkew(const double *Ag, const double *ag, const double *p); // distance between two skew lines
+	static double BFGS4(const double Ag[][3], const double ag[][3], double *p, const double *r, const int nF); // for 3D linear tracking
+	// direct search method
+	static double refinedFit(const double *z, const double *x, const double *r, double &k, double &b, int gGOOD, const int *LAYER, int isTest, double x0, double y0, double d2ThrePerDot, bool isDEBUG = false);
+	// fit using BFGS minimization algorithm.
+	static double refinedFitBFGS(const double *z, const double *x, const double *r, double &k, double &b, int gGOOD, const int *LAYER, double d2ThrePerDot);
+	static double iterativeFit(const double *z, const double *x, const double *r, double &k, double &b, int gGOOD, const int *LAYER, double d2ThrePerDot);
+};
+
+#endif

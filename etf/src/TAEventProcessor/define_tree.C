@@ -1,0 +1,157 @@
+///////////////////////////////////////////////////////////////////////////////////////
+// Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
+//																				     //
+// BINGER/inc/etf/TAEventProcessor/define_tree.C									 //
+//   define_tree.C -- a scriplet encapuslated in TAEventProcessor.C for method		 //
+// TAEventProcessor::Run().															 //
+//   Introduction: definition for tree storing the data reconstuction result.		 //
+//																					 //
+// Author: SUN Yazhou, asia.rabbit@163.com.										     //
+// Created: 2017/10/21.															     //
+// Last modified: 2017/10/21, SUN Yazhou.										     //
+//																				     //
+//																				     //
+// Copyright (C) 2017, SUN Yazhou.												     //
+// All rights reserved.															     //
+///////////////////////////////////////////////////////////////////////////////////////
+
+	vector<TTree *> objLsTree; // a vector to manage tree pointers
+	int ntr = 0; // number of track projections in a data section(3*3D track)
+	int index; // data section index
+	int bunchId; // trigger time
+	double beta; // particle speed
+	const int ntrMax = 200;
+	int type[ntrMax], gGOOD[ntrMax]; // type: XUV; gGOOD: nFiredAnodePerLayer, ==2 specially...
+	int id[ntrMax]; // tracks with the same track Id and different track type are projections of the same 3-D track.
+	int nu[ntrMax][6], sfe16Id[ntrMax][6]; // fired anode id, SFE16 chip id
+	double t[ntrMax][6], TOT_DC[ntrMax][6], TOT_DC_Avrg[ntrMax], r[ntrMax][6]; // hit pattern
+	double k[ntrMax], b[ntrMax]; // track
+	double aoz[ntrMax], aozdmin[ntrMax], poz[ntrMax]; // aoz
+	double yp[ntrMax][2]; // dx/dz; dy/dz, on the target hit position
+	// w: weight for weight addition of chi to chi2
+	double chi[ntrMax][6], chi2[ntrMax], Chi[ntrMax], w[ntrMax][6];
+	double TOF[ntrMax], nStripStray[ntrMax], xMiss3D[ntrMax][3];
+	// beta2: w.r.t. tof2, trkLenT: total track length from the target to the TOF wall
+	double beta2[ntrMax], trkLenT[ntrMax];
+	double tof2[ntrMax], taHitX[ntrMax]; // tof2: from T0_1 to TOFWall; taHitX: hit pos in target
+	int firedStripId[ntrMax], sipmArrStripId[ntrMax];
+	// TOT: time over threshold.    for a certain strip, U: upside; D: downside,
+	// V: very high resolution mode, H: high resolutio mode
+	double TOTUV[ntrMax], TOTUH[ntrMax], TOTDV[ntrMax], TOTDH[ntrMax];
+	double TOT_T0[6]; // [1-6: T0V, T0H, T1LV, T1LH, T1RV, T1RH]
+	double TOF_T1; // time tag of T1 plastic scintillator, beside the target.
+	double tRef; // T reference -> ~ 500+-100 to trigger
+	TTree *treeTrack = new TTree("treeTrack", "pattern recognition tracks");
+	treeTrack->SetAutoSave(1e7);
+	treeTrack->Branch("index", &index, "index/I");
+	treeTrack->Branch("bunchId", &bunchId, "bunchId/I");
+	treeTrack->Branch("tRef", &tRef, "tRef/D");
+	treeTrack->Branch("beta", &beta, "beta/D");
+	treeTrack->Branch("TOT_T0", TOT_T0, "TOT_T0[6]/D"); // see the comment above
+	treeTrack->Branch("ntr", &ntr, "ntr/I");
+	treeTrack->Branch("nu", nu, "nu[ntr][6]/I");
+	treeTrack->Branch("SFE16Id", sfe16Id, "SFE16Id[ntr][6]/I");
+	treeTrack->Branch("gGOOD", gGOOD, "gGOOD[ntr]/I");
+	treeTrack->Branch("type", type, "type[ntr]/I"); // track type: 1[LR][XUV]
+	treeTrack->Branch("id", id, "id[ntr]/I"); // 3-D track id
+	treeTrack->Branch("xMiss3D", xMiss3D, "xMiss3D[ntr][3]/D"); // 3D track coincidence test at z coordinates of the three DCs
+	treeTrack->Branch("t", t, "t[ntr][6]/D");
+	treeTrack->Branch("TOT_DC", TOT_DC, "TOT_DC[ntr][6]/D");
+	treeTrack->Branch("TOT_DC_Avrg", TOT_DC_Avrg, "TOT_DC_Avrg[ntr]/D");
+	treeTrack->Branch("w", w, "w[ntr][6]/D");
+	treeTrack->Branch("r", r, "r[ntr][6]/D");
+	treeTrack->Branch("k", k, "k[ntr]/D"); // start for iterative fit, necessary
+	treeTrack->Branch("b", b, "b[ntr]/D"); // start for iterative fit, necessary
+	treeTrack->Branch("aoz", aoz, "aoz[ntr]/D"); // mass over z; mass unit: amu
+	treeTrack->Branch("poz", poz, "poz[ntr]/D"); // momentum over z; momentum unit: MeV/c
+	treeTrack->Branch("trkLenT", trkLenT, "trkLenT[ntr]/D"); // total trk len from Ta to TOFW
+	treeTrack->Branch("angTaOut", yp, "angTaOut[ntr][2]/D"); // out angle at the target hit point
+	treeTrack->Branch("aozdmin", aozdmin, "aozdmin[ntr]/D"); // start for iterative fit, necessary
+	treeTrack->Branch("chi", chi, "chi[ntr][6]/D"); // residuals for each hit
+	treeTrack->Branch("chi2", chi2, "chi2[ntr]/D"); // sum of chi^2
+	treeTrack->Branch("Chi", Chi, "Chi[ntr]/D"); // sqrt(chi2/nFiredAnodeLayer)
+	treeTrack->Branch("TOF", TOF, "TOF[ntr]/D");
+	treeTrack->Branch("tof2", tof2, "tof2[ntr]/D");
+	treeTrack->Branch("taHitX", taHitX, "taHitX[ntr]/D");
+	treeTrack->Branch("beta2", beta2, "beta2[ntr]/D");
+	treeTrack->Branch("TOTUV", TOTUV, "TOTUV[ntr]/D"); // time over threshold, up side, V
+	treeTrack->Branch("TOTUH", TOTUH, "TOTUH[ntr]/D"); // time over threshold, up side, H
+	treeTrack->Branch("TOTDV", TOTDV, "TOTDV[ntr]/D"); // time over threshold, down side, V
+	treeTrack->Branch("TOTDH", TOTDH, "TOTDH[ntr]/D"); // time over threshold, down side, H
+	treeTrack->Branch("TOF_T1", &TOF_T1, "TOF_T1/D"); // time tag of T1 plastic scintillator
+	treeTrack->Branch("firedStripId", firedStripId, "firedStripId[ntr]/I");
+	treeTrack->Branch("sipmArrStripId", sipmArrStripId, "sipmArrStripId[ntr]/I");
+	treeTrack->Branch("nStripStray", nStripStray, "nStripStray[ntr]/D"); // distance of track to fired TOF Wall strip center
+	objLsTree.push_back(treeTrack);
+
+	int multiSipmArr_pre, multiSipmArr_post, hitListSipmArr_pre[10], hitListSipmArr_post[10];
+	TTree *treeSiPMPlaArr = new TTree("treeSiPMPlaArr", "SiPM Plastic Scintillator Bar Array Statistics");
+	treeSiPMPlaArr->SetAutoSave(1e7);
+	treeSiPMPlaArr->Branch("index", &index, "index/I");
+	treeSiPMPlaArr->Branch("multi_pre", &multiSipmArr_pre, "multi_pre/I");
+	treeSiPMPlaArr->Branch("multi_post", &multiSipmArr_post, "multi_post/I");
+	treeSiPMPlaArr->Branch("hitLs_pre", hitListSipmArr_pre, "hitLs_pre[multi_pre]/I");
+	treeSiPMPlaArr->Branch("hitLs_post", hitListSipmArr_post, "hitLs_post[multi_post]/I");
+	objLsTree.push_back(treeSiPMPlaArr);
+
+	int multiSipmBarr_pre, multiSipmBarr_post, hitListSipmBarr_pre[10], hitListSipmBarr_post[10];
+	TTree *treeSiPMPlaBarr = new TTree("treeSiPMPlaBarr", "SiPM Plastic Scintillator Strip Barrel Statistics");
+	treeSiPMPlaBarr->SetAutoSave(1e7);
+	treeSiPMPlaBarr->Branch("index", &index, "index/I");
+	treeSiPMPlaBarr->Branch("multi_pre", &multiSipmBarr_pre, "multi_pre/I");
+	treeSiPMPlaBarr->Branch("multi_post", &multiSipmBarr_post, "multi_post/I");
+	treeSiPMPlaBarr->Branch("hitLs_pre", hitListSipmBarr_pre, "hitLs_pre[multi_pre]/I");
+	treeSiPMPlaBarr->Branch("hitLs_post", hitListSipmBarr_post, "hitLs_post[multi_post]/I");
+	objLsTree.push_back(treeSiPMPlaBarr);
+
+	int multiTOFW_pre[2], multiTOFW_post[2], hitListTOFW_pre[2][30], hitListTOFW_post[2][30];
+	TTree *treeTOFW[2]{};
+	treeTOFW[0] = new TTree("treeTOFWL", "TOF Wall (L) Statistics");
+	treeTOFW[1] = new TTree("treeTOFWR", "TOF Wall (R) Statistics");
+	for(int i = 2; i--;){
+		treeTOFW[i]->SetAutoSave(1e7);
+		treeTOFW[i]->Branch("index", &index, "index/I");
+		treeTOFW[i]->Branch("multi_pre", multiTOFW_pre+i, "multi_pre/I");
+		treeTOFW[i]->Branch("multi_post", multiTOFW_post+i, "multi_post/I");
+		treeTOFW[i]->Branch("hitLs_pre", hitListTOFW_pre[i], "hitLs_pre[multi_pre]/I");
+		treeTOFW[i]->Branch("hitLs_post", hitListTOFW_post[i], "hitLs_post[multi_post]/I");
+		objLsTree.push_back(treeTOFW[i]);
+	}
+
+	const int n3DtrMax = ntrMax/3;
+	bool isDCArrR[n3DtrMax];
+	int n3Dtr;
+	double Chi3D[n3DtrMax], chi2_3D[n3DtrMax], chi3D[n3DtrMax][18];
+	double k1[n3DtrMax], b1[n3DtrMax], k2[n3DtrMax], b2[n3DtrMax]; // x=k1*z+b1; y=k2*z+b2;
+	double aoz3D[n3DtrMax], aozdmin3D[n3DtrMax], beta2_3D[n3DtrMax];
+	double yp3D[n3DtrMax][2], poz3D[n3DtrMax], trkLenT3D[n3DtrMax];
+	t3DTrkInfo trk3DIf[n3DtrMax]; t3DPIDInfo pid3DIf[n3DtrMax];
+	TTree *treePID3D = new TTree("treePID3D", "PID using 3D Tracking and Refinement");
+	treePID3D->SetAutoSave(1e7);
+	treePID3D->Branch("index", &index, "index/I");
+	treePID3D->Branch("n3Dtr", &n3Dtr, "n3Dtr/I");
+	treePID3D->Branch("isDCArrR", isDCArrR, "isDCArrR[n3Dtr]/O");
+	treePID3D->Branch("Chi", Chi3D, "Chi[n3Dtr]/D");
+	treePID3D->Branch("chi2", chi2_3D, "chi2[n3Dtr]/D");
+	treePID3D->Branch("chi", chi3D, "chi[n3Dtr][18]/D"); // residuum [x6->u6->v6]
+	treePID3D->Branch("k1", k1, "k1[n3Dtr]/D");
+	treePID3D->Branch("b1", b1, "b1[n3Dtr]/D");
+	treePID3D->Branch("k2", k2, "k2[n3Dtr]/D");
+	treePID3D->Branch("b2", b2, "b2[n3Dtr]/D");
+	// 3D PID result using the same PID method
+	treePID3D->Branch("aoz", aoz3D, "aoz[n3Dtr]/D");
+	treePID3D->Branch("aozdmin", aozdmin3D, "aozdmin[n3Dtr]/D");
+	treePID3D->Branch("beta2_3D", beta2_3D, "beta2_3D[n3Dtr]/D");
+	treePID3D->Branch("angTaOut", yp3D, "angTaOut[n3Dtr][2]/D"); // out angle at the target hit point
+	treePID3D->Branch("trkLenT", trkLenT3D, "trkLenT[n3Dtr]/D");
+	treePID3D->Branch("poz", poz3D, "poz[n3Dtr]/D"); // MeV/c
+
+
+
+
+
+
+
+
+
+
