@@ -26,7 +26,7 @@ int main(int argc, char *argv[]){ // datafilename id0 id1 runId
 	// data file has to be put in ../config/data
 	TAEventProcessor *ep = TAEventProcessor::Instance(argv[1], arg[2]);
 	ep->Verbose(false); // don't show TAPopMsg::ConfigInfo() printings (detector information)
-	ep->Silent(); // don't show TAPopMsg::Info() printings
+//	ep->Silent(); // don't show TAPopMsg::Info() printings
 	ep->CoarseFit(); // rough yet fast fit // May Not Use
 
 	ep->SetConfigExpDir("pion_2017Oct");

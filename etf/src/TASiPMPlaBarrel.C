@@ -100,7 +100,7 @@ TAStuff *TASiPMPlaBarrel::GetChannel(unsigned uid) const{
 
 void TASiPMPlaBarrel::GetStripProjection(int serialId, double *p) const{
 	const double width = GetStrip(0)->GetStripPara()->GetWidth();
-	const double r0 = width*3.*(1.+sqrt(2.))/2.; // from central point to any side.
+	const double r0 = width*3.*(1.+sqrt(2.))/2.; // from central point to any side
 	const double theta = int(serialId / 3) * 45. * TAMath::DEGREE();
 	const short subId = serialId % 3;
 	double pt[3][2]; // [serilaId: 0,1,2][x,y]

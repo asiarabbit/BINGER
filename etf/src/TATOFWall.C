@@ -24,6 +24,8 @@
 #include "TADeployPara.h"
 #include "TACtrlPara.h"
 #include "TAMath.h"
+#include "TAChannel.h"
+#include "TAChData.h"
 
 TATOFWall::TATOFWall(const string &name, const string &title, unsigned uid)
 		: TADetector(name, title, uid){
@@ -58,6 +60,27 @@ void TATOFWall::GetFiredStripArr(int *idLs, int &multi) const{
 			idLs[multi++] = str->GetStripId();
 		}
 	}
+	// DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG //
+	if(strcmp(GetName().c_str(), "SiPMPlaBarrel")) return;
+	cout << "Name: " << GetName() << "\tGetNStrip(): " << GetNStrip() << endl; // DEBUG
+	cout << "GetNFiredStrip(): " << GetNFiredStrip() << endl; // DEBUG
+	cout << "muilti: " << multi << endl; // DEBUG
+	for(int i = 0; i < multi; i++){ // DEBUG
+		cout << "i: " << i << "\tidLs[i]: "  << idLs[i] << endl; // DEBUG
+	} // DEBUG
+	cout << "----- FiredStatus Check -----" << endl; // DEBUG
+	for(TAPlaStrip *str : fStripArr){ // DEBUG
+		TAChannel *uv = str->GetUV(), *uh = str->GetUH(); // DEBUG
+		TAChannel *dv = str->GetDV(), *dh = str->GetDH(); // DEBUG
+		cout << "strip Id: " << str->GetStripId() << endl; // DEBUG
+		uv->GetData()->Show(); // DEBUG
+		uh->GetData()->Show(); // DEBUG
+		dv->GetData()->Show(); // DEBUG
+		dh->GetData()->Show(); // DEBUG
+		cout << "Strip Fired Status: " << str->GetFiredStatus() << endl; // DEBUG
+		getchar(); // DEBUG
+	} // DEBUG
+	// DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG //
 }
 // Get TOF time from strip specified by a track with linear parameter kl and bl.
 // firedStripId: serial id of the fired strip for the track specifically.

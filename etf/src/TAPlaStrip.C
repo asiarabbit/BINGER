@@ -69,17 +69,23 @@ double TAPlaStrip::GetHitPosition() const{ // distance from hit point to the dow
 int TAPlaStrip::GetFiredStatus() const{
 	int sta = GetStripData()->GetFiredStatus();
 	if(-2 == sta){ // not assigned
-		bool dvf = GetDV()->GetFiredStatus(), uvf = GetUV()->GetFiredStatus();
-		if(dvf && uvf){
-			double x = GetHitPosition();
-			double l = GetStripPara()->GetLength();
-			if(x >= -1. * l && x < 2. * l) sta = 4; // l +- 0.3*l: good hit
-			else sta = 3; // off strip hit
-		}
-		else if(!dvf && uvf) sta = 2;
-		else if(dvf && !uvf) sta = 1;
-		else if(!dvf && !uvf) sta = 0;
-		else sta = -1;
+		bool df[2] = {GetDV()->GetFiredStatus(), GetDH()->GetFiredStatus()}; // H-V
+		bool uf[2] = {GetUV()->GetFiredStatus(), GetUH()->GetFiredStatus()}; // H-V
+		for(int i = 0; i < 2; i++){
+			if(df[i] && uf[i]){
+				sta = 3; // off strip hit
+				if(0 == i){ // Very high resolution
+					double x = GetHitPosition();
+					double l = GetStripPara()->GetLength();
+					if(x >= -1. * l && x < 2. * l) sta = 4; // l +- 1*l: good hit
+				}
+			} // end if(... && ...)
+			else if(!df[i] && uf[i]) sta = 2;
+			else if(df[i] && !uf[i]) sta = 1;
+			else sta = 0;
+			if(0 == i && sta >= 3) break; // V, both-end fired
+			if(1 == i && sta >= 0) sta += 10; // U
+		} // end for over H and V resolution mode
 		GetStripData()->SetFiredStatus(sta); // assign the fStripData object
 	} // end the outer if
 	return sta;
