@@ -43,13 +43,6 @@ TAPID::TAPID(const string &name, const string &title)
 	: TAMagnet(name, title), fGCurve(0){
 	fIsFlied = true; Initialize(); fIsFlied = false;
 	fExB = -9999.;
-
-	TAParaManager::ArrDet_t &dec_vec = TAParaManager::Instance()->GetDetList();
-	if(!dec_vec[3] && !dec_vec[4])
-		TAPopMsg::Error("TAPID", "constructor: MWDC arrays in paraManger are null.");
-	TAMWDCArray *dcArr[2]{0};
-	dcArr[0] = (TAMWDCArray*)dec_vec[3]; fTOFWall[0] = dcArr[0]->GetTOFWall(); // dc array L
-	dcArr[1] = (TAMWDCArray*)dec_vec[4]; fTOFWall[1] = dcArr[1]->GetTOFWall(); // dc array R
 }
 TAPID *TAPID::Instance(){
 	if(!fInstance) fInstance = new TAPID();
@@ -62,14 +55,14 @@ TAPID::~TAPID(){}
 static double c0 = TAParaManager::Instance()->GetPhysConst("c0");
 // TaHit: target hit position
 double TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, bool isPrecise){
-	if(0 != dcArrId|| 1 != dcArrId) TAPopMsg::Error("TAPID", "Fly: dcArrId neither 0 nor 1 (which is supposed to be a boolean)");
+	if(0 != dcArrId && 1 != dcArrId) TAPopMsg::Error("TAPID", "Fly: dcArrId neither 0 nor 1 (which is supposed to be a boolean)");
 
-	const double h0 = GetIterationStep(), stepError = GetStepError();;
+	const double h0 = GetIterationStep(), stepError = GetStepError();
 	if(!isPrecise){
 		SetIterationStep(h0*5.); // increment for z per step
 		SetStepErrorTolerance(stepError*5.); // truncation error for RK method
 	}
-	
+
 	TATOFWall *tofw = fTOFWall[dcArrId]; // 0 (faLse): L; 1 (true): R
 	const double tofwPhi = tofw->GetDetPara()->GetPhi();
 	const double tofwXc = tofw->GetDetPara()->GetX();
@@ -94,15 +87,16 @@ double TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId
 	double trkL2 = // from exit of the magnetic field to TOF wall
 		sqrt(pow(x_tofwHit-xe, 2.) + pow(y_tofwHit-ye, 2.) + pow(z_tofwHit-ze, 2.));
 	double beta = (trkL1+trkL2) / tof2 / c0;
+	cout << "beta: " << beta << endl; getchar(); // DEBUG
 	if(beta < 0. || beta >= 1.){
+		fIsFlied = true;
 		return -9999.;
 	}
 	// after the initial beta was estimated, trkL2 is assigned with l from pi(not pe) to TOFWall
 	trkL2 = // from exit of the magnetic field to TOF wall
 		sqrt(pow(x_tofwHit-xi, 2.) + pow(y_tofwHit-yi, 2.) + pow(z_tofwHit-zi, 2.));
 
-	double aozm = -9999., trackLengthm = -9999., betam = 0.; // to cache the optimal track length
-	double ddmin[2]{}, d2min = 100000.; // quality estimator
+	double ddmin[2]{}; // quality estimator
 	double aoz, aozc = 1., d2; // aozc: the central aoz
 	double span = 3.; // search scope, aozc-span ~ aozc+span
 	int ln = 1, n = 60; if(!isPrecise){ n = 30; }
@@ -110,8 +104,8 @@ double TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId
 		if(1 == iter){
 			// reset search domin, narrow the scope and coodinate the center
 			n = 24; ln = 5; if(!isPrecise){ n = 10; ln = 3; }
-			span = 1.; aozc = aozm;
-			d2min = 100000.; // reset dmin
+			span = 1.; aozc = fAoZ;
+			fAoZdmin = 9999.; // reset dmin
 		}
 		// aozc: center of the scope domain
 		for(int l = 0; l < ln; l++){ // outer loop
@@ -122,18 +116,16 @@ double TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId
 				y[0] = xi; y[1] = yi; // start of the RK propagation
 				yp[0] = k1; yp[1] = k2; // k1 and k2
 				TransportIon(y, yp, zi, z0_TA);
-				if(IsOutOfRange()){
-					continue; // ineligible aoz
-				}
+				if(IsOutOfRange()) continue; // ineligible aoz
 				double dd[2] = {y[0] - x0TaHit, y[1] - y0_SiPMArr};
 				d2 = sqrt(dd[0]*dd[0]); // + dd[1]*dd[1]; 2017.7.5 20:27
-				if(d2 < d2min){
+				if(d2 < fAoZdmin){
 					fAoZdmin = d2; fAoZ = aoz; fBeta = beta;
-					fTotalTrackLength = GetTrackLength();
+					fTotalTrackLength = GetTrackLength() + trkL2;
 					ddmin[0] = dd[0]; ddmin[1] = dd[1];
 					memcpy(fAngleTaOut, yp, sizeof(fAngleTaOut));
 				} // end if
-				if(sqrt(fAoZdmin) < 1E-2) break;
+				if(fAoZdmin < 1E-2) break;
 			} // end for over ll
 			if(-9999. == fAoZ){ // failed, possibly fake track caused by chaos
 				fAoZdmin = 9999.; break;
@@ -145,35 +137,33 @@ double TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId
 		if(-9999. == fAoZ){ // failed, possibly fake track caused by chaos
 			fAoZdmin = 9999.; break;
 		}
-		beta = (fTotalTrackLength + trkL2) / tof2 / c0;
+		beta = fTotalTrackLength/tof2/c0;
 		if(beta < 0. || beta >= 1.){
 			break;
 		}
 	} // end iteration to refine beta
-	fTotalTrackLength += trkL2;
-	fAoZdmin = sqrt(fAoZdmin);
-	fGamma = 1. / sqrt(1. - betam * betam);
+	fIsFlied = true; // fIsflied should be assigned immediately after flying
+	fGamma = 1. / sqrt(1. - fBeta * fBeta);
 	fPoZ = fAoZ * fBeta * fGamma * 931.494; // MeV/c
 
 #ifdef DEBUG
 	cout << "___________________________________________________________\n";
-	cout << "beta: " << fBeta << endl; // DEBUG
+	cout << "fBeta: " << fBeta << endl; // DEBUG
 	cout << "ddmin[0]: " << ddmin[0] << "\tddmin[1]: " << ddmin[1] << endl; // DEBUG
-	cout << "aozm: " << fAoZ << endl; // DEBUG
-	cout << "trackLengthm: " << fTotalTrackLength << endl; getchar(); // DEBUG
+	cout << "fAoZ: " << fAoZ << endl; // DEBUG
+	cout << "fTotalTrackLength: " << fTotalTrackLength << endl; getchar(); // DEBUG
 #endif
 
-	if(fGCurve && -9999. != aozm){
+	if(fGCurve && -9999. != fAoZ){
 		// Fill curved track
 		SetOutOfRangeError(false);
-		SetQoP(aozm, betam);
+		SetQoP(fAoZ, fBeta);
 		y[0] = xi; y[1] = yi; // start of the RK propagation
 		yp[0] = k1; yp[1] = k2; // k1 and k2
 		TransportIon(y, yp, zi, z0_TA, true);
 		FillGraphTrajectory();
 	}
 
-	fIsFlied = true;
 	if(!isPrecise){
 		// recover precision level setttings
 		SetIterationStep(h0); SetStepErrorTolerance(stepError);
@@ -195,31 +185,31 @@ void TAPID::FillGraphTrajectory() const{
 }
 
 double TAPID::GetAoZ() const{
-	if(IsFlied()) TAPopMsg::Error("TAPID", "GetAoZ: Particle Not Flied");
+	if(!IsFlied()) TAPopMsg::Error("TAPID", "GetAoZ: Particle Not Flied");
 	return fAoZ;
 }
 double TAPID::GetBeta() const{
-	if(IsFlied()) TAPopMsg::Error("TAPID", "GetBeta: Particle Not Flied");
+	if(!IsFlied()) TAPopMsg::Error("TAPID", "GetBeta: Particle Not Flied");
 	return fBeta;
 }
 double TAPID::GetGamma() const{
-	if(IsFlied()) TAPopMsg::Error("TAPID", "GetGamma: Particle Not Flied");
+	if(!IsFlied()) TAPopMsg::Error("TAPID", "GetGamma: Particle Not Flied");
 	return fGamma;
 }
 double TAPID::GetPoZ() const{
-	if(IsFlied()) TAPopMsg::Error("TAPID", "GetPoZ: Particle Not Flied");
+	if(!IsFlied()) TAPopMsg::Error("TAPID", "GetPoZ: Particle Not Flied");
 	return fPoZ;
 }
 double TAPID::GetChi() const{
-	if(IsFlied()) TAPopMsg::Error("TAPID", "GetChi: Particle Not Flied");
+	if(!IsFlied()) TAPopMsg::Error("TAPID", "GetChi: Particle Not Flied");
 	return fAoZdmin;
 }
 void TAPID::GetTargetExitAngle(double *a) const{
-	if(IsFlied()) TAPopMsg::Error("TAPID", "GetTargetExitAngle: Particle Not Flied");
+	if(!IsFlied()) TAPopMsg::Error("TAPID", "GetTargetExitAngle: Particle Not Flied");
 	memcpy(a, fAngleTaOut, sizeof(fAngleTaOut));
 }
 double TAPID::GetTotalTrackLength() const{
-	if(IsFlied()) TAPopMsg::Error("TAPID", "GetTotalTrackLength: Particle Not Flied");
+	if(!IsFlied()) TAPopMsg::Error("TAPID", "GetTotalTrackLength: Particle Not Flied");
 	return fTotalTrackLength;
 }
 
@@ -240,6 +230,14 @@ void TAPID::Configure(){
 	EnableEnergyLoss(false); // calculate energy loss in the magnetic field
 	// kClassic, kNystrom. kNystrom is preferrable, well kClassic is considered normal and safe
 	SetRKMethod(kNystrom);
+
+	// assign TOF wall pionters
+	TAParaManager::ArrDet_t &dec_vec = TAParaManager::Instance()->GetDetList();
+	if(!dec_vec[3] && !dec_vec[4])
+		TAPopMsg::Error("TAPID", "constructor: MWDC arrays in paraManger are null. Consider to put this TOFWall pointer assignment in TAPID::Configure(), and put TAPID::Configure in the last of TAEventProcessor::Configure to lick the problem");
+	TAMWDCArray *dcArr[2]{0};
+	dcArr[0] = (TAMWDCArray*)dec_vec[3]; fTOFWall[0] = dcArr[0]->GetTOFWall(); // dc array L
+	dcArr[1] = (TAMWDCArray*)dec_vec[4]; fTOFWall[1] = dcArr[1]->GetTOFWall(); // dc array R
 
 //	p0[0] = 0.; p0[1] = 00.; p0[2] = 0.;
 	GetMagneticIntensity(B0, p0); B0m = TAMath::norm(B0);

@@ -1,0 +1,1 @@
+Each directory contains a code file specified to a certain MWDC to resolve the position (X, Y, Z) of its specifically-designated approximate geometry center, and its orientation angle - yaw (phi), pitch (theta), and roll (psi). The MWDC corresponding to the directory is idicated by the directory name.

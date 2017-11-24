@@ -316,21 +316,13 @@ void TAMagnet::SetRKMethod(int selection){
 
 // the following two methods are for control of RK numerical method
 void TAMagnet::SetIterationStep(double h){
-	if(h > 100.){
-		cout << "\033[1mWARNING\033[0mTAMagnet::SetIterationStep(double h):\n";
-		cout << "Input iteration might be too big.\n";
-		cout << "h: " << h << endl;
-		getchar();
-	} // end of if
+	if(h > 100.)
+		TAPopMsg::Warn("TAMagnet", "SetIterationStep(): Input iteration might be too big: h: %f", h);
 	fh0 = h;
 } // end of function SetIterationStep
 void TAMagnet::SetStepErrorTolerance(double e){
-	if(e > 100.){
-		cout << "\033[1mWARNING\033[0mTAMagnet::SetStepErrorTolerance(double e):\n";
-		cout << "Input step error tolerance might be too big.\n";
-		cout << "e: " << e << endl;
-		getchar();
-	} // end of if
+	if(e > 100.)
+		TAPopMsg::Warn("TAMagnet", "SetStepErrorTolerance(): Input step error tolerance might be too big: e: %f", e);
 	fStepError = e;
 } // end of function SetStepErrorTolerance(double e)
 

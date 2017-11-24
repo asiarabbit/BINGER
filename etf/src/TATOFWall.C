@@ -41,7 +41,7 @@ TAPlaStrip *TATOFWall::GetStrip(int stripId) const{
 		TAPopMsg::Error(GetName().c_str(), "GetStrip: stripId out of range: %d", stripId);
 	return fStripArr[stripId];
 }
-// return count of strips with fired status being 4.
+// return count of strips with fired status being 4
 unsigned short TATOFWall::GetNFiredStrip() const{
 	unsigned short cnt = 0;
 	for(TAPlaStrip *str : fStripArr){

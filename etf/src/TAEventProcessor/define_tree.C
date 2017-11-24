@@ -98,7 +98,7 @@
 	TTree *treeSiPMPlaBarr = new TTree("treeSiPMPlaBarr", "SiPM Plastic Scintillator Strip Barrel Statistics");
 	treeSiPMPlaBarr->SetAutoSave(1e7);
 	treeSiPMPlaBarr->Branch("index", &index, "index/I");
-	treeSiPMPlaBarr->Branch("multi_pre", &multiSipmBarr_pre, "multi_pre/I");
+	treeSiPMPlaBarr->Branch("multi_pre", &multiSipmBarr_pre, "multiaozdmin_pre/I");
 	treeSiPMPlaBarr->Branch("multi_post", &multiSipmBarr_post, "multi_post/I");
 	treeSiPMPlaBarr->Branch("hitLs_pre", hitListSipmBarr_pre, "hitLs_pre[multi_pre]/I");
 	treeSiPMPlaBarr->Branch("hitLs_post", hitListSipmBarr_post, "hitLs_post[multi_post]/I");
