@@ -9,7 +9,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/29.															     //
-// Last modified: 2017/11/14, SUN Yazhou.										     //
+// Last modified: 2017/11/24, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -76,12 +76,13 @@
 			if(0 == dcType && tof2[j] > 0. && -9999. != taHitX[j]){ // X tracks
 				if(IsPID()){
 					double p[4] = {k[j], 0., b[j], 0.}; // {k1, k2, b1, b2}
-					pid->Fly(tof2[j], taHitX[j], p, dcArrId);
+					pid->Fly(tof2[j], taHitX[j], p, dcArrId); // , false
 					aoz[j] = pid->GetAoZ(); aozdmin[j] = pid->GetChi();
 					beta2[j] = pid->GetBeta(); poz[j] = pid->GetPoZ(); // MeV/c
 					pid->GetTargetExitAngle(yp[j]); trkLenT[j] = pid->GetTotalTrackLength();
 				}
-				if(aozdmin[j] > 0.1 || -9999. == aoz[j]) cntaozWrong++;
+				if(aozdmin[j] > 0.5 || -9999. == aoz[j]) cntaozWrong++;
+				cout << "aozdmin[j]: " << aozdmin[j] << endl; getchar(); // DEBUG
 				cntaoz++;
 			} // end the lengthy if
 			// track information
@@ -126,6 +127,7 @@
 //		for(auto &t : trk3DIf) t.initialize(); for(auto &t : pid3DIf) t.initialize();
 		RefineTracks(n3Dtr, trk3DIf, tof2, taHitX);
 		RefinePID(n3Dtr, trk3DIf, pid3DIf);
+		cout << "n3Dtr: " << n3Dtr << endl; getchar(); // DEBUG
 		// assignment for the filling of treePID3D
 		for(int jj = 0; jj < n3Dtr; jj++){
 			isDCArrR[jj] = trk3DIf[jj].isDCArrR;

@@ -251,8 +251,8 @@ void TAMWDCArray::TrackMerger(){ // assembly projections to 3-D tracks.
 					u->SetDriftTime(tu, weightU); u->SetDriftDistance(ru);
 					v->SetDriftTime(tv, weightV); v->SetDriftDistance(rv);
 					// check the validity of U and V tracks
-					for(double tt : tu) if(-9999. != tt && TACtrlPara::TimeThre(tt)) break;
-					for(double tt : tv) if(-9999. != tt && TACtrlPara::TimeThre(tt)) break;
+					for(double tt : tu) if(-9999. != tt && !TACtrlPara::TimeThre(tt)) break;
+					for(double tt : tv) if(-9999. != tt && !TACtrlPara::TimeThre(tt)) break;
 					if(fabs(u->GetChi()) > ctrlPara->ChiThre()) break;
 					if(fabs(v->GetChi()) > ctrlPara->ChiThre()) break;
 					double chi[6]{};

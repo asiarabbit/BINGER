@@ -198,7 +198,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 #endif
 				// test the validity of drift time for X tracks
 				if(0 == dcType) for(double tt : t){
-					if(-9999. != tt && TACtrlPara::TimeThre(tt))
+					if(-9999. != tt && !TACtrlPara::TimeThre(tt))
 						goto END;
 				} // end loop over drift time
 				// Assign newTrack
