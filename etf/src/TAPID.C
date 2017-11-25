@@ -87,7 +87,6 @@ double TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId
 	double trkL2 = // from exit of the magnetic field to TOF wall
 		sqrt(pow(x_tofwHit-xe, 2.) + pow(y_tofwHit-ye, 2.) + pow(z_tofwHit-ze, 2.));
 	double beta = (trkL1+trkL2) / tof2 / c0;
-	cout << "beta: " << beta << endl; getchar(); // DEBUG
 	if(beta < 0. || beta >= 1.){
 		fIsFlied = true;
 		return -9999.;

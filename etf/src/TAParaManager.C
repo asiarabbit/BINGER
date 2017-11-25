@@ -35,6 +35,8 @@
 #include "TAMWDCArray.h"
 #include "TATOFWall.h"
 
+//#define VERBOSE // show TAPopMsg::Info() information
+
 using std::string;
 using std::cout;
 using std::endl;
@@ -129,7 +131,9 @@ void TAParaManager::ReadParameters(){
 	// extract TF1 objects from rootfiles as STRs
 	AssignSTR();
 
+# ifdef VERBOSE
 	TAPopMsg::Info("TAParaManager", "ReadParameters: Parameters has been read and assigned~ \033[33;1m:)\033[0m");
+#endif
 }
 
 
@@ -140,13 +144,17 @@ void TAParaManager::ReadParameters(){
 
 // read the cofig files and register them in a text file
 void TAParaManager::RegisterConfigFiles(const char *basePath){
+# ifdef VERBOSE
 	TAPopMsg::Info("TAParaManager", "RegisterConfigFiles: The config file dir is %s", basePath);
+#endif
 	char fname[512]; // file name
 	sprintf(fname, "%s/content", basePath);
 	ofstream configFileList(fname); // output the file list to file
 	ReadFileList(basePath, configFileList);
 	configFileList.close();
+# ifdef VERBOSE
 	TAPopMsg::Info("TAParaManager", "RegisterConfigFiles: %s/content has been updated.", basePath);
+#endif
 }
 int TAParaManager::ReadFileList(const char *basePath, ofstream &configFileList){
 	DIR *dir;

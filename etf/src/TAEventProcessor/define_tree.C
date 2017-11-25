@@ -98,13 +98,14 @@
 	TTree *treeSiPMPlaBarr = new TTree("treeSiPMPlaBarr", "SiPM Plastic Scintillator Strip Barrel Statistics");
 	treeSiPMPlaBarr->SetAutoSave(1e7);
 	treeSiPMPlaBarr->Branch("index", &index, "index/I");
-	treeSiPMPlaBarr->Branch("multi_pre", &multiSipmBarr_pre, "multiaozdmin_pre/I");
+	treeSiPMPlaBarr->Branch("multi_pre", &multiSipmBarr_pre, "multi_pre/I");
 	treeSiPMPlaBarr->Branch("multi_post", &multiSipmBarr_post, "multi_post/I");
 	treeSiPMPlaBarr->Branch("hitLs_pre", hitListSipmBarr_pre, "hitLs_pre[multi_pre]/I");
 	treeSiPMPlaBarr->Branch("hitLs_post", hitListSipmBarr_post, "hitLs_post[multi_post]/I");
 	objLsTree.push_back(treeSiPMPlaBarr);
 
-	int multiTOFW_pre[2], multiTOFW_post[2], hitListTOFW_pre[2][30], hitListTOFW_post[2][30];
+	int multiTOFW_pre[2], multiTOFW_post[2];
+	int hitListTOFW_pre[2][30], hitListTOFW_post[2][30];
 	TTree *treeTOFW[2]{};
 	treeTOFW[0] = new TTree("treeTOFWL", "TOF Wall (L) Statistics");
 	treeTOFW[1] = new TTree("treeTOFWR", "TOF Wall (R) Statistics");

@@ -67,21 +67,21 @@ using std::endl;
 using std::flush;
 
 //#define DEBUG
+//#define VERBOSE // show TAPopMsg::Info() information
 
 TAEventProcessor* TAEventProcessor::fInstance = nullptr;
 
 TAEventProcessor::TAEventProcessor(const string &datafile, int runId)
 		: fRawDataProcessor(0), fParaManager(0), fCtrlPara(0),
-		fVisual(0), fPID(0), fIsPID(true){
+		fVisual(0), fPID(0), fIsPID(true), fIsTracking(true){
 	fEntryList.reserve(100);
 	fTrackList.reserve(50);
 
 	fRawDataProcessor = TARawDataProcessor::Instance();
-	fParaManager = TAParaManager::Instance();
 	fCtrlPara = TACtrlPara::Instance();
 	fVisual = TAVisual::Instance();
 	fPID = TAPID::Instance();
-
+	TAPopMsg::Verbose(false); TAPopMsg::Silent();
 	SetDataFile(datafile, runId);
 }
 TAEventProcessor::~TAEventProcessor(){
@@ -160,6 +160,7 @@ void TAEventProcessor::Configure(){ // create detectors
 	for(TADetUnion *&p : detList) if(p) p->Configure(); // build the detectors
 
 	// read all the parameters required and assign positiion parameters to every channel and alike
+	fParaManager = TAParaManager::Instance();
 	GetParaManager()->ReadParameters();
 
 	// TAVisual::Configure can only be implemented AFTER all the other detectors are created.
@@ -210,6 +211,8 @@ void TAEventProcessor::Initialize(){
 // analyze one event after its channels data are assigned to detectors
 static const double c0 = TAParaManager::Instance()->GetPhysConst("c0");
 void TAEventProcessor::Analyze(){
+	if(!IsTracking()) return;
+
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
 	static TAT0_0 *T0_0 = (TAT0_0*)detList[0];
 	static TAT0_1 *T0_1 = (TAT0_1*)detList[1];
@@ -245,7 +248,9 @@ void TAEventProcessor::Analyze(){
 void TAEventProcessor::Run(int id0, int id1, int secLenLim){
 	Configure(); // prepare ETF setup
 
+#ifdef VERBOSE
 	TAPopMsg::Info("TAEventProcessor", "Run: Analyzing event#%d to event#%d from datafile %s", id0, id1, GetRawDataProcessor()->GetDataFileName());
+#endif
 	GetRawDataProcessor()->SetPeriod(id0, id1);
 	GetRawDataProcessor()->ReadOffline(); // prepare data file
 //	return;
@@ -295,12 +300,14 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim){
 		Assign(); // *** assign entries in fEntryList *** //
 //		for(auto &t : entry_ls) cout << t->name << "\t" << t->channelId << endl; getchar(); // DEBUG
 		#include "TAEventProcessor/fill_pre.C" // fill hists and trees before tracking
-		Analyze(); // *** recognize patterns and assign raw tracks to fTrackList *** //
+		// *** recognize patterns and assign raw tracks to fTrackList *** //
+		Analyze();
 		#include "TAEventProcessor/fill_post.C" // fill hists and trees after tracking
 		cntSec++;
 	} // end while over treeData entries
 	#include "TAEventProcessor/write.C" // write all the ROOT objects necessary.
 
+	cout << "\n\n";
 	cout << "Totally \033[33;1m" << cntSec << "\033[0m sections ";
 	cout << "\033[1m" << i << "\033[0m entries \033[1m" << cntTrk;
 	cout << "\033[0m tracks and \033[1m" << cnt3DTrk / 3;
@@ -309,11 +316,11 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim){
 	cout << "Exiting the Run function.\n\n";
 	f->Close(); delete f;
 //	delete treeTrack;
-}
+} // end of member function Run
 // correct drift time and refit with the update
 void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const double *tof2, const double *taHitX){
-	if(!IsPID())
-		TAPopMsg::Warn("TAEventProcessor", "RefineTracks: PID is not on, so beta is unavailable");
+	if(!IsPID()) return; // PID is not on, so beta is unavailable
+//		TAPopMsg::Warn("TAEventProcessor", "RefineTracks: PID is not on, so beta is unavailable");
 	vector<tTrack *> &tl = GetTrackList();
 	const int ntr = tl.size(); if(!ntr) return;
 

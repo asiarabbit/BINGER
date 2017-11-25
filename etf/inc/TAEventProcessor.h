@@ -60,9 +60,11 @@ public:
 	void SetSTRROOTFile(const string &file);
 	void SetDataFile(const string &datafile, int runId);
 	void SetMagneticIntensity(double B);
-	// whether or not to implement the rigidity analysis
+	// whether or not to implement the particle tracking or rigidity analysis
 	void SetIsPID(bool opt = true){ fIsPID = opt; }
+	void SetIsTracking(bool opt = true){ fIsTracking = opt; }
 	bool IsPID() const{ return fIsPID; }
+	bool IsTracking() const{ return fIsTracking; }
 	void Verbose(bool opt = true){ TAPopMsg::Verbose(opt); } // true or null: verbose; false: succinct
 	void Silent(bool opt = true){ TAPopMsg::Silent(opt); } // true: silent TAPopMsg::Info: false: not
 	void CoarseFit(bool opt = true){ GetCtrlPara()->CoarseFit(opt); } // rough ye fast fit
@@ -87,6 +89,7 @@ protected:
 
 	static TAEventProcessor* fInstance;
 	bool fIsPID; // whether or not to implement the rigidity analysis
+	bool fIsTracking; // whether or not to implement particle tracking
 	vector<tEntry *> fEntryList; // store channel data entry of one data section
 	vector<tTrack *> fTrackList; // store particle track of one data section
 	TARawDataProcessor *fRawDataProcessor; // to read raw binary data file into a ROOT tree

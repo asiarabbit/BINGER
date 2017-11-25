@@ -30,6 +30,8 @@
 #include "TACtrlPara.h"
 #include "TAPopMsg.h"
 
+//#define VERBOSE // show TAPopMsg::Info() information
+
 using std::ifstream;
 using std::cout;
 using std::endl;
@@ -362,7 +364,9 @@ void TAMagnet::LoadMagneticFieldFile(const string &file){
 //		cout << "current: " << current << "\tx: " << x << "\ty: " << y << "\tz: " << z << "\tBx: " << Bx << "\tBy: " << By << "\tBz: " << Bz << endl; getchar(); // DEBUG
 	} // end while
 	if(inFile.eof()){
+#ifdef VERBOSE
 		TAPopMsg::Info("TAMagnet", "LoadMagneticFieldFile: End of the file reached.\nFile %s loaded successfully.\n", filename);
+#endif
 		fIsFileLoaded = true;
 	} // end if
 	else if(inFile.fail()){

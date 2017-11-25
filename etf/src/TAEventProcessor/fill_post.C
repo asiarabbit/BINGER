@@ -80,10 +80,10 @@
 					aoz[j] = pid->GetAoZ(); aozdmin[j] = pid->GetChi();
 					beta2[j] = pid->GetBeta(); poz[j] = pid->GetPoZ(); // MeV/c
 					pid->GetTargetExitAngle(yp[j]); trkLenT[j] = pid->GetTotalTrackLength();
+					if(aozdmin[j] > 0.5 || -9999. == aoz[j]) cntaozWrong++;
+//					cout << "aozdmin[j]: " << aozdmin[j] << endl; getchar(); // DEBUG
+					cntaoz++;
 				}
-				if(aozdmin[j] > 0.5 || -9999. == aoz[j]) cntaozWrong++;
-				cout << "aozdmin[j]: " << aozdmin[j] << endl; getchar(); // DEBUG
-				cntaoz++;
 			} // end the lengthy if
 			// track information
 			for(int k = 0; k < 6; k++){ // loop over anode layers
@@ -127,7 +127,7 @@
 //		for(auto &t : trk3DIf) t.initialize(); for(auto &t : pid3DIf) t.initialize();
 		RefineTracks(n3Dtr, trk3DIf, tof2, taHitX);
 		RefinePID(n3Dtr, trk3DIf, pid3DIf);
-		cout << "n3Dtr: " << n3Dtr << endl; getchar(); // DEBUG
+//		cout << "n3Dtr: " << n3Dtr << endl; getchar(); // DEBUG
 		// assignment for the filling of treePID3D
 		for(int jj = 0; jj < n3Dtr; jj++){
 			isDCArrR[jj] = trk3DIf[jj].isDCArrR;
@@ -143,9 +143,9 @@
 		treePID3D->Fill();
 		for(TTree *&tree : objLsTree) tree->Fill();
 
-		vis->FillHitMap();
+		if(0) vis->FillHitMap();
 		static int jj = 0;
-		if(jj < 100){
+		if(jj < 100) if(0){
 			jj++;
 			static int i0 = 0;
 			if(0 == i0){ // to make sure that this block would only be carried out once

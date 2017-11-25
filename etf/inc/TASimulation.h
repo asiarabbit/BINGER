@@ -37,7 +37,7 @@ public:
 	virtual void GenerateSim(int run, int nTrkPerEvEx, double effEx);
 	virtual void Evaluate();
 	// simfile: name of the rootfile containing the simulation data
-	static void GenerateSim(DetArr_t *detList, int run, int nTrkPerEvEx, double effEx, char *simFile);
+	static void GenerateSim(int run, int nTrkPerEvEx, double effEx, char *simFile, DetArr_t *detList);
 	static void Evaluate(const string &rootfile);
 protected:
 	DetArr_t *fDetList;

@@ -48,19 +48,19 @@ static const double DEGREE = TAMath::DEGREE();
 static const double Pi = TAMath::Pi();
 
 TASimulation::TASimulation(DetArr_t *detList) : fDetList(detList){
+	if(!fDetList) fDetList = &TAParaManager::Instance()->GetDetList();
 }
 TASimulation::~TASimulation(){}
 
 // generate simualtion data based on the current experiment setup, including
 // spacial layout, detector efficiency, and detector structure.
 void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx){
-	if(!fDetList) TAPopMsg::Error("TASimulation", "GenerateSim: Detector list pointer is null");
 	char rootfile[64];
-	GenerateSim(fDetList, run, nTrkPerEvEx, effEx, rootfile);
+	GenerateSim(run, nTrkPerEvEx, effEx, rootfile, fDetList);
 	fROOTFile = rootfile;
 }
 // simfile: name of the rootfile containing the simulation data
-void TASimulation::GenerateSim(DetArr_t *detList, int run, int nTrkPerEvEx, double effEx, char *simFile){
+void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *simFile, DetArr_t *detList){
 	const int maxNTrack = nTrkPerEvEx; // number of tracks per event
 	const double eff = effEx; // tracking efficiency of a certain anode plane
 
@@ -108,7 +108,7 @@ void TASimulation::GenerateSim(DetArr_t *detList, int run, int nTrkPerEvEx, doub
 	TAMWDCArray *dcArrL = (TAMWDCArray*)(*detList)[3];
 	TAMWDCArray *dcArrR = (TAMWDCArray*)(*detList)[4];
 	if(!dcArrL && !dcArrR)
-		TAPopMsg::Error("TASimulation", "GenerateSim: Both MWDC arrays are null");
+		TAPopMsg::Error("TASimulation", "GenerateSim: Both MWDC arrays are null. TAEventProcessor::Configure() not run yet?");
 	// number of tracks in an MWDC array and linear parameters
 	// for each track are all randomly generated.
 	TRandom3 rdm; rdm.SetSeed(::time(0)); // so that the random series would be different at each run
