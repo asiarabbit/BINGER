@@ -137,7 +137,7 @@ void TAMWDC::GetAnodeGlobalProjection(int dcType, const double *globalCenter, do
 	const double *p = globalCenter;
 	if(0. == p[0] && 0. == p[1] && 0. == p[2])
 		TAPopMsg::Warn(GetName().c_str(), "GetAnodeGlobalProjection: input anode global Center is zero array~ Not assigned?");
-	// Au = Rz(-theta).Ry[-phi].A;
+	// Au = Rz[-theta].Ry[-phi].A;
 	globalProjection[0] = ct*cp  *p[0] +st *p[1] -ct*sp *p[2];
 	globalProjection[1] = -st*cp *p[0] +ct *p[1] -st*sp *p[2];
 	globalProjection[2] = sp     *p[0] +0. *p[1] +cp    *p[2];

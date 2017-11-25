@@ -27,6 +27,7 @@ public:
 	static void Warn(const char *cname, const char *fmt, ...);
 	static void Debug(const char *cname, const char *fmt, ...);
 	static void ConfigInfo(const char *cname, const char *fmt, ...);
+
 	static void Verbose(bool opt = true){ fIsVerbose = opt; }
 	static bool IsVerbose() { return fIsVerbose; }
 	static void Silent(bool opt = true){ fIsSilent = opt; }

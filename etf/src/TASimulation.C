@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2017/11/21, SUN Yazhou.										     //
+// Last modified: 2017/11/25, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -38,6 +38,8 @@
 #include "TAPlaStrip.h"
 #include "TAPopMsg.h"
 #include "TAMath.h"
+
+//#define DEBUG
 
 using std::cout;
 using std::endl;
@@ -74,14 +76,14 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 	// treeTrackSim: simulation data, including all the results to be reconstructed
 	TTree *treeTrackSim = new TTree("treeTrackSim", "SIMULATION INPUT");
 	// data section index, channel id, number of leading or trailing edges
-	int index, nTrack, chId, nl = 1, nt = 1;
+	int index = 0, nTrack, chId, nl = 1, nt = 1;
 	double leadingTime[10], trailingTime[10];
 	bool is_V; // whether of Very High Resolution mode of HPTDC or not
 	bool isDCArrR; // wheter of MWDC array R
-	int  nu[3][6]; // fired anode serial id X-U-V DC0X1-DC0X2-DC1X1-DC1X2-DC2X1-DC2X2
+	int nu[3][6]; // fired anode serial id X-U-V DC0X1-DC0X2-DC1X1-DC1X2-DC2X1-DC2X2
 	// minimal distance between a track and a sense wire
 	// d: geometrical; rt: smeared. tt: true drift time
-	double d[3][6], rt[3][6], tt[3][6]; // X-U-V DC0X1-DC0X2-DC1X1-DC1X2-DC2X1-DC2X2
+	double d[3][6], rt[3][6], tt[3][6]; // [X-U-V] [DC0X1-DC0X2-DC1X1-DC1X2-DC2X1-DC2X2]
 	// b: 3-D track direction vector: (bx, by, bz); B: a point in the track.
 	// note that B and b are both in global reference.
 	double B[3]{}, b[3]{}; // bx, by and Bx, By are to be assigned with random nums.
@@ -149,7 +151,7 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 			double thetaX = Pi / 2. - (-1. + rdm.Uniform(2.)) * 10. * DEGREE - phiAvrg;
 			double thetaY = Pi / 2. - (-1. + rdm.Uniform(2.)) * 10. * DEGREE;
 			double cosX = cos(thetaX), cosY = cos(thetaY);
-			double cosZ = sqrt(1.-cosX*cosX-cosX*cosX);
+			double cosZ = sqrt(1.-cosX*cosX-cosY*cosY);
 			b[0] = cosX; b[1] = cosY; b[2] = cosZ;
 			double B_local[3]; // local coordinates of a point in DC1-X1
 			B_local[0] = (-400. + 2. * rdm.Uniform(400.)) * 0.7; // local X
@@ -160,31 +162,32 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 			// So, the 3-D track has been randomly sampled.
 			// ---------------------------------------------------------------------- //
 			// only a little math would have to be done to generate the simulation data
-			double a_tmp[3][6][3], A_tmp[3][6][3]; // DEBUG 2017.4.29
+#ifdef DEBUG
+			double a_tmp[3][6][3], A_tmp[3][6][3]; // DEBUG
+#endif
 			for(int j = 0; j < 3; j++){ // loop over MWDCs
 				TAMWDC *dc = dcArr->GetMWDC(j);
 				for(int k = 0; k < 6; k++){ // loop over X1-X2-U1-U2-V1-V2
 					// type: X-U-V layer: DC0X1-DC0X2-DC1X1-DC1X2-DC2X1-DC2X2
 					int type = k/2, layer = 2*j+k%2;
 					double ag[3]; dc->GetAnodeGlobalDirection(type, ag);
-					double ab[3] = // cross product of vector ag and b.
-						{ag[1]*b[2]-ag[2]*b[1], ag[2]*b[0]-ag[0]*b[2], ag[0]*b[1]-ag[1]*b[0]};
 					const double nAnodePerLayer = dc->GetNAnodePerLayer();
 					for(int l = 0; l < nAnodePerLayer; l++){ // loop over anodes per layer
 						double Ag[3];
 						((TAAnodePara*)dc->GetAnode(type, k%2+1, l)->GetPara())->GetGlobalCenter(Ag);
-						double d_t = // (B->Ag).(ag×b)/|ag×b|, d of two skew 3-D lines
-							fabs((B[0]-Ag[0])*ab[0]+(B[1]-Ag[1])*ab[1]+(B[2]-Ag[2])*ab[2]) /
-							sqrt(ab[0]*ab[0]+ab[1]*ab[1]+ab[2]*ab[2]);
+						// (B->Ag).(ag×b)/|ag×b|, d of two skew 3-D lines
+						double d_t = TAMath::dSkew(ag, Ag, b, B);
 						if(d_t < d[type][layer]){
 							d[type][layer] = d_t;
 							nu[type][layer] = l;
-							memcpy(a_tmp[type][layer], ag, sizeof(ag));
-							memcpy(A_tmp[type][layer], Ag, sizeof(Ag));
+#ifdef DEBUG
+							memcpy(a_tmp[type][layer], ag, sizeof(ag)); // DEBUG
+							memcpy(A_tmp[type][layer], Ag, sizeof(Ag)); // DEBUG
+#endif
 						}
 					} // end for over l
 					if(rdm.Uniform() > efficiency[type][layer]){ // hit missed due to efficiency
-						d[type][layer] = 1E200;
+						d[type][layer] = -9999.;
 						nu[type][layer] = -1;
 					}
 				} // end for over k
@@ -197,7 +200,7 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 
 			// fill tree treeSim //
 			// determine fired TOF wall strip, x = kz+b
-			double k = b[0]/b[2], b_t = B[0]-k*B[2], p[3], dmin = -9999.;
+			double k = b[0]/b[2], b_t = B[0]-k*B[2], p[3], dmin = 1E200;
 			int firedStripId = -1;
 			for(int j = 0; j < 30; j++){
 				dcArr->GetTOFWall()->GetStripProjection(j, p);

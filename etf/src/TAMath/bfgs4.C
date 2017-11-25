@@ -196,14 +196,18 @@ void funxy(double *gk, const double *xk, const double Ag[][3], const double ag[]
 //	cout << "gk[0]: " << gk[0] << " gk[1]: " << gk[1] << " gk[2]: " << gk[2] << " gk[3]: " << gk[3] << endl; getchar(); // DEBUG
 } // end function funx
 
-// Ag[3], ag[3], p[4].
-double TAMath::dSkew(const double *Ag, const double *ag, const double *p){ // distance between two skew lines
+// distance between two skew lines
+// Ag[3], ag[3], p[4] = {k1, k2, b1, b2}; B[3], b[3]: counterpart of Ag and ag for another line
+double TAMath::dSkew(const double *ag, const double *Ag, const double *p){
 	// 3-D track line parameters. B[3]: one point in the line; b[3]: direction vector
-	double B[3] = {0., 0., 0.}, b[3] = {0., 0., 1.}; // B[2] = 0. and b[2] = 1.; preset values.
+	double b[3] = {0., 0., 1.}, B[3] = {0., 0., 0.}; // B[2] = 0. and b[2] = 1.; preset values.
 	B[0] = p[2]+B[2]*p[0]; // B[0] = b1+B[2]*k1;
 	B[1] = p[3]+B[2]*p[1]; // B[1] = b2+B[2]*k2;
 	b[0] = b[2]*p[0]; // b[0] = b[2]*k1;
 	b[1] = b[2]*p[1]; // b[1] = b[2]*k2;
+	return dSkew(ag, Ag, b, B);
+}
+double TAMath::dSkew(const double *ag, const double *Ag, const double *b, const double *B){
 	double bb = sqrt(b[0]*b[0]+b[1]*b[1]+b[2]*b[2]); // DEBUG
 	double ab[3] = // cross product of vector ag and b.  (dR.R.al)×b
 	 {ag[1]*b[2]-ag[2]*b[1], ag[2]*b[0]-ag[0]*b[2], ag[0]*b[1]-ag[1]*b[0]};

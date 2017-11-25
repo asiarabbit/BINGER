@@ -24,9 +24,9 @@
 // for debugging purposeses
 #include <iostream>
 #include <cstdlib>
+
 using std::cout;
 using std::endl;
-
 using std::string;
 
 class TAChPara;

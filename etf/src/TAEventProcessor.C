@@ -36,8 +36,7 @@
 #include "TAParaManager.h"
 #include "TAVisual.h"
 #include "TAPID.h"
-#include "tEntry.h"
-#include "tTrack.h"
+#include "TAUIDParser.h"
 #include "TASiPMPlaArray.h"
 #include "TASiPMPlaBarrel.h"
 #include "TAMWDCArrayL.h"
@@ -52,15 +51,13 @@
 #include "TAAnodePara.h"
 #include "TAAnodeData.h"
 #include "TAMath.h"
+#include "tEntry.h"
+#include "tTrack.h"
 #include "t3DTrkInfo.h"
 #include "t3DPIDInfo.h"
 
 #include "TAT0_0.h"
 #include "TAT0_1.h"
-
-// debug purposes
-#include "TADetectorPara.h"
-#include "TAUIDParser.h"
 
 using std::cout;
 using std::endl;
@@ -78,6 +75,7 @@ TAEventProcessor::TAEventProcessor(const string &datafile, int runId)
 	fTrackList.reserve(50);
 
 	fRawDataProcessor = TARawDataProcessor::Instance();
+	fParaManager = TAParaManager::Instance();
 	fCtrlPara = TACtrlPara::Instance();
 	fVisual = TAVisual::Instance();
 	fPID = TAPID::Instance();
@@ -160,7 +158,6 @@ void TAEventProcessor::Configure(){ // create detectors
 	for(TADetUnion *&p : detList) if(p) p->Configure(); // build the detectors
 
 	// read all the parameters required and assign positiion parameters to every channel and alike
-	fParaManager = TAParaManager::Instance();
 	GetParaManager()->ReadParameters();
 
 	// TAVisual::Configure can only be implemented AFTER all the other detectors are created.
