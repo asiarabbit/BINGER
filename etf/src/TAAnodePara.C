@@ -7,7 +7,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/24.															     //
-// Last modified: 2017/10/20, SUN Yazhou.										     //
+// Last modified: 2017/11/25, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -30,7 +30,7 @@ const double TAAnodePara::kSTRCorArrDummy[TAAnodePara::kSTRCorRNBins] = {0.};
 
 TAAnodePara::TAAnodePara(const string &name, const string &title, unsigned uid)
 		: TAChPara(name, title, uid), fMotherDC(0), fGlobalDirection(nullptr){
-	fDelay = -9999.;
+	fDelay = 0.;
 	for(int i = 0; i < 3; i++){
 		fGlobalCenter[i] = -9999.;
 		fGlobalProjection[i] = -9999.;
@@ -48,7 +48,7 @@ TAAnodePara::~TAAnodePara(){
 }
 
 double TAAnodePara::GetDelay() const{
-	if(-9999. == fDelay)
+	if(0. == fDelay)
 		TAPopMsg::Warn(fName.c_str(), "GetDelay(): Global Delay may have not been assigned.");
 	return fDelay;
 }

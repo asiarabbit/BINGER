@@ -37,6 +37,8 @@
 #include "TAMath.h"
 #include "TAParaManager.h"
 
+#define DEBUG // DEBUG MODE
+
 using std::cout;
 using std::endl;
 
@@ -128,7 +130,6 @@ void TAMWDCArray::Map(){ // map the fired channels in one data section once and 
 //	TrackMerger();
 } // end of function void Map()
 
-//#define DEBUG // DEBUG MODE
 // to see if particle track resolved from UV data is compatible with that from X data.
 bool TAMWDCArray::Compatible(double k, double b, double ku, double bu, double kv, double bv, double &k2, double &b2, double *xMiss3D){
 	const double phi = GetPhiAvrg();
@@ -139,8 +140,8 @@ bool TAMWDCArray::Compatible(double k, double b, double ku, double bu, double kv
 	cout << "phi: " << phi / DEGREE << endl; // DEBUG
 	cout << "k1: " << k << "\tb1: " << b << endl; // DEBUG
 	cout << "k1t: " << k1t << "\tb1t: " << b1t << endl; getchar(); // DEBUG
-	k2 = kUV_Y(phi, ku, kv); // DEBUG
-	b2 = bUV_Y(phi, ku, kv, bu, bv); // DEBUG
+	k2 = TAMath::kUV_Y(phi, ku, kv); // DEBUG
+	b2 = TAMath::bUV_Y(phi, ku, kv, bu, bv); // DEBUG
 	cout << "k2: " << k2 << "\tb2: " << b2 << endl; getchar(); // DEBUG
 	cout << "Coincidence test begin: \n"; // DEBUG
 #endif

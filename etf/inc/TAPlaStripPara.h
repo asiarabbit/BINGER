@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/9.															     //
-// Last modified: 2017/10/9, SUN Yazhou.										     //
+// Last modified: 2017/11/25, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -19,6 +19,8 @@
 #define _TAPLASTRIPPARA_H_
 
 #include "TAStuff.h"
+
+class TAPlaStrip;
 
 class TAPlaStripPara : public TAStuff{
 public:
@@ -34,9 +36,11 @@ public:
 	void SetWidth(double width){ fWidth = width; }
 	void SetLength(double length){ fLength = length; }
 	void SetVeff(double veff){ fVeff = veff; }
-	void SetDelay(double delay){ fDelay = delay; }
+	void AppendDelay(double delay){ fDelay += delay; }
 	void SetGlobalProjection(const double *Ag);
+	friend TAPlaStrip;
 protected:
+	void SetDelay(double delay){ fDelay = delay; } // should be called with caution
 	double fWidth; // width of a stip
 	double fLength; // length of a strip
 	double fVeff; // effective light speed in the plastic scintiilator strip.

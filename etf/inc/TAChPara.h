@@ -7,7 +7,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/24.															     //
-// Last modified: 2017/9/25, SUN Yazhou.										     //
+// Last modified: 2017/11/25, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -27,9 +27,10 @@ public:
 	int GetChannelId() const;
 	virtual double GetDelay() const;
 	void SetChannelId(int chid){ fChId = chid; }
-	void SetDelay(double delay){ fDelay = delay; }
 	void AppendDelay(double delay) { fDelay += delay; }
 protected:
+	void SetDelay(double delay){ fDelay = delay; } // should be called with caution
+
 	double fDelay; // time offset
 	int fChId; // channel id
 };

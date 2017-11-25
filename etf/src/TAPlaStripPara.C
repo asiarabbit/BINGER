@@ -21,7 +21,7 @@
 TAPlaStripPara::TAPlaStripPara(const string &name, const string &title, unsigned uid)
 		:TAStuff(name, title, uid){
 	fWidth = -9999.; fLength = -9999.;
-	fVeff = -9999.; fDelay = -9999.;
+	fVeff = -9999.; fDelay = 0.;
 	for(double &x : fGlobalProjection) x = -9999.;
 }
 TAPlaStripPara::~TAPlaStripPara(){}
@@ -39,7 +39,7 @@ double TAPlaStripPara::GetVeff() const{
 	return fVeff;
 }
 double TAPlaStripPara::GetDelay() const{
-	if(-9999. == fDelay) TAPopMsg::Error(GetName().c_str(), "GetDelay: not defined.");
+	if(0. == fDelay) TAPopMsg::Error(GetName().c_str(), "GetDelay: may not be defined yet.");
 	return fDelay;
 }
 void TAPlaStripPara::GetGlobalProjection(double *Ag){

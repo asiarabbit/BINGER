@@ -48,21 +48,21 @@ void TASiPMPlaBarrel::Configure(){ //			    C
 			str->SetStripId(stripId); str->Configure();
 			TAPlaStripPara *pra = str->GetStripPara();
 			pra->SetWidth(20.); pra->SetLength(300.);
-			pra->SetVeff(1200./7.8); pra->SetDelay(-471.);
-			str->GetDV()->GetPara()->SetDelay(5.); // D: B(back) -> close to Magnet
-			str->GetDH()->GetPara()->SetDelay(5.); // D: B(back) -> close to Magnet
+			pra->SetVeff(1200./7.8); pra->AppendDelay(-471.);
+			str->GetDV()->GetPara()->AppendDelay(5.); // D: B(back) -> close to Magnet
+			str->GetDH()->GetPara()->AppendDelay(5.); // D: B(back) -> close to Magnet
 			if(stripId >= 15 && stripId <= 22){ // 3m signal wire -> add 5ns delay
-				str->GetUV()->GetPara()->SetDelay(5.); // U: F(front) -> far from Magnet
-				str->GetUH()->GetPara()->SetDelay(5.); // U: F(front) -> far from Magnet
+				str->GetUV()->GetPara()->AppendDelay(5.); // U: F(front) -> far from Magnet
+				str->GetUH()->GetPara()->AppendDelay(5.); // U: F(front) -> far from Magnet
 			}
 			fStripArr.push_back(str);
 		} // end for over j
 	} // end for over i
 	// 20171026_2149, calibrated.
-	GetStrip(1)->GetUV()->GetPara()->SetDelay(-1.);
-	GetStrip(1)->GetUV()->GetPara()->SetDelay(-1.);
-	GetStrip(2)->GetUV()->GetPara()->SetDelay(-2.);
-	GetStrip(2)->GetUV()->GetPara()->SetDelay(-2.);
+	GetStrip(1)->GetUV()->GetPara()->AppendDelay(-1.);
+	GetStrip(1)->GetUV()->GetPara()->AppendDelay(-1.);
+	GetStrip(2)->GetUV()->GetPara()->AppendDelay(-2.);
+	GetStrip(2)->GetUV()->GetPara()->AppendDelay(-2.);
 	
 	// configure the barrel itself
 	fDelayAvrg = -498.107 + 1.95;

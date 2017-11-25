@@ -71,7 +71,7 @@ void TAT0_1::Configure(){
 
 	fStripPara->SetWidth(30.); // mm, not accurate
 	fStripPara->SetLength(70.); // mm, not accurate
-	fStripPara->SetDelay(-477.037 + 19.5); // ns, calibrated. // +19.5, 20171027_1438, calibrated
+	fStripPara->AppendDelay(-477.037 + 19.5); // ns, calibrated. // +19.5, 20171027_1438, calibrated
 	fStripPara->SetVeff(1200. / 7.8); // mm/ns, roughly calibrated
 
 	// print user-defined configurations

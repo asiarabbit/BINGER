@@ -39,7 +39,7 @@
 #include "TAPopMsg.h"
 #include "TAMath.h"
 
-//#define DEBUG
+#define DEBUG
 
 using std::cout;
 using std::endl;
@@ -267,6 +267,7 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 				// from the anode to TOF Wall
 				double T_tof = dcArr->GetTimeOfFlight(b, B, nu[j][k], j, k, firedStripId, beta);
 				double T0 = anoPar->GetDelay();
+				cout << "anoPar->GetDelay(): " << anoPar->GetDelay() << endl; getchar(); // DEBUG
 				leadingTime[0] = T_drift + T_wire - T_tof + T0;
 #ifdef DEBUG
 				cout << "r_t: " << r_t << "\td[j][k]: " << d[j][k] << endl; // DEBUG

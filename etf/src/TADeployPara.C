@@ -91,7 +91,7 @@ double TADeployPara::GetMWDCDelay(unsigned uid) const{
 
 	double offset0[2] = {17.73, 17.73}; // delay between TOFWall and DCs
 	double delay = GetTOFWallDelayAvrg(uid) + offset0[type[0] - 3];
-	delay += - TACtrlPara::Instance()->T_wireMean(uid);
+	delay += -TACtrlPara::Instance()->T_wireMean(uid);
 	return delay;
 }
 

@@ -340,7 +340,7 @@ void TAParaManager::AssignT0(const char *fname){
 		TAChPara *chPara = nullptr;
 		if(fDetList[detId]) chPara = fDetList[detId]->GetChannel(uid)->GetPara();
 		if(chPara){
-			chPara->SetDelay(value);
+			chPara->AppendDelay(value);
 		}
 		else TAPopMsg::Warn("TAParaManager",
 			"AssignT0: homeless T0: %s: line %d", fname, linecnt);
