@@ -103,6 +103,10 @@ void TAPopMsg::ConfigInfo(const char *cname, const char *fmt, ...){
 	va_end(arg_ptr);
 	cout << omsg;
 }
+void TAPopMsg::ShowPiont(const char *msg, const double *p, const int len){
+	for(int i = 0; i < len; i++)
+		cout << msg << "[" << i << "]: " << p[i] << "\t";
+}
 
 const char *TAPopMsg::time0(){
 	time_t tt = ::time(NULL);

@@ -53,20 +53,23 @@ unsigned short TATOFWall::GetNFiredStrip() const{
 	}
 	return cnt;
 }
-void TATOFWall::GetFiredStripArr(int *idLs, int &multi) const{
+// vlT: very high resolution mode time
+void TATOFWall::GetFiredStripArr(int &multi, int *idLs, short *staLs, double *uvlTLs, double *dvlTLs) const{
 	multi = 0;
 	for(TAPlaStrip *str : fStripArr){
 		const int sta = str->GetFiredStatus();
 		if(
-		   3 == sta ||
-//		   1 == sta ||
-//		   2 == sta ||
-//		  11 == sta ||
-//		  12 == sta ||
-//		  13 == sta ||
-		  4 == sta
+//		  11 == sta || 12 == sta || // either H end is fired
+//		  13 == sta || // both U ends are fired
+		   1 == sta || 2 == sta || // either V end is fired
+		   3 == sta || // both V ends are fired, not within valid scope
+		   4 == sta // both V ends are fired, within valid scope
 		){
-			idLs[multi++] = str->GetStripId();
+			idLs[multi] = str->GetStripId();
+			if(staLs) staLs[multi] = sta;
+			if(uvlTLs) uvlTLs[multi] = str->GetUV()->GetLeadingTime();
+			if(dvlTLs) dvlTLs[multi] = str->GetDV()->GetLeadingTime();
+			multi++;
 		}
 	}
 }

@@ -30,7 +30,6 @@ const double TAAnodePara::kSTRCorArrDummy[TAAnodePara::kSTRCorRNBins] = {0.};
 
 TAAnodePara::TAAnodePara(const string &name, const string &title, unsigned uid)
 		: TAChPara(name, title, uid), fMotherDC(0), fGlobalDirection(nullptr){
-	fDelay = 0.;
 	for(int i = 0; i < 3; i++){
 		fGlobalCenter[i] = -9999.;
 		fGlobalProjection[i] = -9999.;

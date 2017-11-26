@@ -95,22 +95,21 @@
 		for(TAChannel *&ch : sipmArr->GetChArr())
 		if(ch->GetFiredStatus()) hSiPMPlaArrFiredDist->Fill(ch->GetSerialId());
 		hSiPMPlaArrMulti->Fill(sipmArr->GetNFiredStrip());
-		sipmArr->GetFiredStripArr(hitListSipmArr_pre, multiSipmArr_pre);
-		sipmBarr->GetFiredStripArr(hitListSipmBarr_pre, multiSipmBarr_pre);
+		sipmArr->GetFiredStripArr(multiSipmArr_pre, hitIdLsSipmArr_pre, uvlTLsSipmArr_pre);
+		sipmBarr->GetFiredStripArr(multiSipmBarr_pre, hitIdLsSipmBarr_pre, hitStaLsSipmBarr_pre, uvlTLsSipmBarr_pre, dvlTLsSipmBarr_pre);
 		// detector performance statistics //
 		for(int ii = 0; ii < 2; ii++){ // loop over MWDC arrays
-			tofw[ii]->GetFiredStripArr(hitListTOFW_pre[ii], multiTOFW_pre[ii]);
+			tofw[ii]->GetFiredStripArr(multiTOFW_pre[ii], hitIdLsTOFW_pre[ii], hitStaLsTOFW_pre[ii], uvlTLsTOFW_pre[ii], dvlTLsTOFW_pre[ii]);
 			for(TAPlaStrip *&str : tofw[ii]->GetStripArr()){
 				const int sta = str->GetFiredStatus();
 				const int strId = str->GetStripId();
 				if(4 == sta) hTOFWFiredDist[ii]->Fill(strId);
 				if(4 == sta || 3 == sta){
-					if(26 == strId){
+					if(15 == strId){
 						for(int j = 0; j < str->GetUV()->GetData()->GetNLeadingEdge(); j++){
 							if(tRef != -9999.){
 								hTOFWToTrigUVStrip15[ii]->Fill(j, str->GetUV()->GetLeadingTime(j) - bunchIdTime);
 							}
-								
 						}
 					}
 					double tofwToTRef = str->GetUV()->GetLeadingTime() - tRef;
@@ -124,7 +123,7 @@
 					}
 				}
 			}
-			tofw[ii]->GetFiredStripArr(hitListTOFW_post[ii], multiTOFW_post[ii]);
+			tofw[ii]->GetFiredStripArr(multiTOFW_post[ii], hitIdLsTOFW_post[ii]);
 			hTOFWMulti[ii]->Fill(tofw[ii]->GetNFiredStrip());
 			for(int j = 0; j < 3; j++){ // loop over the three MWDCs
 				for(int k = 0; k < 3; k++){ // loop over XUV SLayers
@@ -153,8 +152,6 @@
 			} // end for over DCs
 		} // end for over DC arrays
 
-///		cout << "tRef: " << tRef << endl; getchar(); // DEBUG
-///		cout << "sipmArr->GetNFiredStrip(): " << sipmArr->GetNFiredStrip() << endl;
 		// sipmArr stastics //
 		int sipmArrStripId_pre = 0, multiSipmArr = 0, multiSipmArrTRef = 0;
 		for(TAChannel *&ch : sipmArr->GetChArr()){
@@ -164,10 +161,6 @@
 				if(fabs(time) < 50.) multiSipmArr++;
 				time = ch->GetTime() - bunchIdTime; if(time < 0.) time += 51200.;
 				hsipmArrToTrig->Fill(sipmArrStripId_pre, time);
-///				cout << "ch->GetTime(): " << ch->GetLeadingTime() << "\ttRef: " << tRef << endl; // DEBUG
-///				cout << "ch->GetSerialId(): " << ch->GetSerialId() << endl; // DEBUG
-///				cout << "ch->GetTime() - tRef: " << ch->GetLeadingTime() - tRef << endl; getchar(); // DEBUG
-//				cout << "\n\n\ntRef: " << tRef << endl; getchar(); // DEBUG
 				double timeToTRef = ch->GetLeadingTime() - tRef;
 				if(tRef != -9999.){
 					hsipmArrToTRef->Fill(sipmArrStripId_pre, timeToTRef);
@@ -176,29 +169,35 @@
 				// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
 				if(!(timeToTRef > -60. && timeToTRef < -10.)) ch->GetData()->SetFiredStatus(false);
 				else multiSipmArrTRef++;
-///				cout << "ch->GetLeadingTime() - tRef: " << ch->GetLeadingTime() - tRef << endl;
-///				cout << "\n\033[36;1mmultiSipmArrTRef: " << multiSipmArrTRef << "\n\033[0m";
 			}
 			sipmArrStripId_pre++;
 		} // end for over channels
 		if(tRef != -9999.) hSiPMPlaArrMultiTRef->Fill(multiSipmArrTRef);
-///		cout << "multiSipmArrTRef: " << multiSipmArrTRef << endl << endl; getchar(); // DEBUG
 //		hSiPMPlaArrMulti->Fill(multiSipmArr);
 
 		for(TAPlaStrip *&str : sipmBarr->GetStripArr()){
-			const int sta = str->GetFiredStatus();
+			const short sta = str->GetFiredStatus();
 			const int strId = str->GetStripId();
 			if(4 == sta) hSiPMPlaBarrFiredDist->Fill(strId);
 			if(4 == sta || 3 == sta){
 				hSiPMPlaBarrHitPos->Fill(strId, str->GetHitPosition());
 				if(tRef != -9999.) hsipmBarrToTRef->Fill(strId, str->GetUV()->GetLeadingTime() - tRef);
+				timeToTRefSipmBarr = str->GetTime() - tRef;
+				// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
+				timeToTrigSipmBarr = str->GetTime() - bunchIdTime;
+				if(timeToTrigSipmBarr < 0.) timeToTrigSipmBarr += 51200.;
+				if(!(timeToTRefSipmBarr > -60. && timeToTRefSipmBarr < -10.)) str->GetStripData()->SetFiredStatus(-10);
+				cout << "\nstr->GetName(): " << str->GetName() << endl; // DEBUG
+				cout << "chId:\n";
+				cout << "UV: " << str->GetUV()->GetPara()->GetChannelId() << endl; // DEBUG
+				cout << "UH: " << str->GetUH()->GetPara()->GetChannelId() << endl; // DEBUG
+				cout << "DV: " << str->GetDV()->GetPara()->GetChannelId() << endl; // DEBUG
+				cout << "DH: " << str->GetDH()->GetPara()->GetChannelId() << endl; getchar(); // DEBUG
+//				if(!(timeToTrigSipmBarr > 300. && timeToTrigSipmBarr < 600.)) str->GetStripData()->SetFiredStatus(-10);
 			}
-			double timeToTRef = str->GetUV()->GetLeadingTime() - tRef;
-			// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
-			if(!(timeToTRef > -40. && timeToTRef < 40.)) str->GetStripData()->SetFiredStatus(-10);
 		} // end for over sipmArr
-		sipmArr->GetFiredStripArr(hitListSipmArr_post, multiSipmArr_post);
-		sipmBarr->GetFiredStripArr(hitListSipmBarr_post, multiSipmBarr_post);
+		sipmArr->GetFiredStripArr(multiSipmArr_post, hitIdLsSipmArr_post);
+		sipmBarr->GetFiredStripArr(multiSipmBarr_post, hitIdLsSipmBarr_post);
 		hSiPMPlaBarrMulti->Fill(multiSipmBarr_post);
 
 

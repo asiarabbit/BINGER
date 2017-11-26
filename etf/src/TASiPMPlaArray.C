@@ -66,15 +66,13 @@ short TASiPMPlaArray::GetNFiredStrip(bool isV) const{ // number of fired strips
 		return cnt;
 	}
 }
-void TASiPMPlaArray::GetFiredStripArr(int *idLs, int &multi, bool isV) const{
+void TASiPMPlaArray::GetFiredStripArr(int &multi, int *idLs, double *lTLs, bool isV) const{
 	multi = 0;
-	if(isV){
-		for(const TAChannel *ch : fUVArr)
-			if(ch->GetFiredStatus()) idLs[multi++] = ch->GetSerialId();
-	}
-	else{
-		for(const TAChannel *ch : fUHArr)
-			if(ch->GetFiredStatus()) idLs[multi++] = ch->GetSerialId();
+	auto arr = &fUVArr; if(!isV) arr = &fUHArr;
+	for(const TAChannel *ch : (*arr)) if(ch->GetFiredStatus()){
+		idLs[multi] = ch->GetSerialId();
+		if(lTLs) lTLs[multi] = ch->GetLeadingTime();
+		multi++;
 	}
 }
 double TASiPMPlaArray::GetDelay() const{

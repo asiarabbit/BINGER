@@ -8,7 +8,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/21.															     //
-// Last modified: 2017/10/21, SUN Yazhou.										     //
+// Last modified: 2017/11/26, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -84,28 +84,40 @@
 	treeTrack->Branch("nStripStray", nStripStray, "nStripStray[ntr]/D"); // distance of track to fired TOF Wall strip center
 	objLsTree.push_back(treeTrack);
 
-	int multiSipmArr_pre, multiSipmArr_post, hitListSipmArr_pre[10], hitListSipmArr_post[10];
+	int multiSipmArr_pre,  hitIdLsSipmArr_pre[10];
+	int multiSipmArr_post, hitIdLsSipmArr_post[10];
+	double uvlTLsSipmArr_pre[10]; // uvl: up, Very high resl, leading edge
 	TTree *treeSiPMPlaArr = new TTree("treeSiPMPlaArr", "SiPM Plastic Scintillator Bar Array Statistics");
 	treeSiPMPlaArr->SetAutoSave(1e7);
 	treeSiPMPlaArr->Branch("index", &index, "index/I");
 	treeSiPMPlaArr->Branch("multi_pre", &multiSipmArr_pre, "multi_pre/I");
 	treeSiPMPlaArr->Branch("multi_post", &multiSipmArr_post, "multi_post/I");
-	treeSiPMPlaArr->Branch("hitLs_pre", hitListSipmArr_pre, "hitLs_pre[multi_pre]/I");
-	treeSiPMPlaArr->Branch("hitLs_post", hitListSipmArr_post, "hitLs_post[multi_post]/I");
+	treeSiPMPlaArr->Branch("hitIdLs_pre", hitIdLsSipmArr_pre, "hitIdLs_pre[multi_pre]/I");
+	treeSiPMPlaArr->Branch("hitIdLs_post", hitIdLsSipmArr_post, "hitIdLs_post[multi_post]/I");
+	treeSiPMPlaArr->Branch("uvlTLs_pre", uvlTLsSipmArr_pre, "uvlTLs_pre[multi_pre]/D");
 	objLsTree.push_back(treeSiPMPlaArr);
 
-	int multiSipmBarr_pre, multiSipmBarr_post, hitListSipmBarr_pre[10], hitListSipmBarr_post[10];
+	int multiSipmBarr_pre,  hitIdLsSipmBarr_pre[24];
+	int multiSipmBarr_post, hitIdLsSipmBarr_post[24];
+	short hitStaLsSipmBarr_pre[24]; double uvlTLsSipmBarr_pre[24], dvlTLsSipmBarr_pre[24];
+	double timeToTrigSipmBarr, timeToTRefSipmBarr;
 	TTree *treeSiPMPlaBarr = new TTree("treeSiPMPlaBarr", "SiPM Plastic Scintillator Strip Barrel Statistics");
 	treeSiPMPlaBarr->SetAutoSave(1e7);
 	treeSiPMPlaBarr->Branch("index", &index, "index/I");
+	treeSiPMPlaBarr->Branch("timeToTrig", &timeToTrigSipmBarr, "timeToTrig/D");
+	treeSiPMPlaBarr->Branch("timeToTRef", &timeToTRefSipmBarr, "timeToTRef/D");
 	treeSiPMPlaBarr->Branch("multi_pre", &multiSipmBarr_pre, "multi_pre/I");
 	treeSiPMPlaBarr->Branch("multi_post", &multiSipmBarr_post, "multi_post/I");
-	treeSiPMPlaBarr->Branch("hitLs_pre", hitListSipmBarr_pre, "hitLs_pre[multi_pre]/I");
-	treeSiPMPlaBarr->Branch("hitLs_post", hitListSipmBarr_post, "hitLs_post[multi_post]/I");
+	treeSiPMPlaBarr->Branch("hitIdLs_pre", hitIdLsSipmBarr_pre, "hitIdLs_pre[multi_pre]/I");
+	treeSiPMPlaBarr->Branch("hitIdLs_post", hitIdLsSipmBarr_post, "hitIdLs_post[multi_post]/I");
+	treeSiPMPlaBarr->Branch("hitStaLs_pre", hitStaLsSipmBarr_pre, "hitStaLs_pre[multi_pre]/S");
+	treeSiPMPlaBarr->Branch("uvlTLs_pre", uvlTLsSipmBarr_pre, "uvlTLs_pre[multi_pre]/D");
+	treeSiPMPlaBarr->Branch("dvlTLs_pre", dvlTLsSipmBarr_pre, "dvlTLs_pre[multi_pre]/D");
 	objLsTree.push_back(treeSiPMPlaBarr);
 
-	int multiTOFW_pre[2], multiTOFW_post[2];
-	int hitListTOFW_pre[2][30], hitListTOFW_post[2][30];
+	int multiTOFW_pre[2], hitIdLsTOFW_pre[2][30];
+	int multiTOFW_post[2], hitIdLsTOFW_post[2][30];
+	short hitStaLsTOFW_pre[2][30]; double uvlTLsTOFW_pre[2][30], dvlTLsTOFW_pre[2][30];
 	TTree *treeTOFW[2]{};
 	treeTOFW[0] = new TTree("treeTOFWL", "TOF Wall (L) Statistics");
 	treeTOFW[1] = new TTree("treeTOFWR", "TOF Wall (R) Statistics");
@@ -114,14 +126,16 @@
 		treeTOFW[i]->Branch("index", &index, "index/I");
 		treeTOFW[i]->Branch("multi_pre", multiTOFW_pre+i, "multi_pre/I");
 		treeTOFW[i]->Branch("multi_post", multiTOFW_post+i, "multi_post/I");
-		treeTOFW[i]->Branch("hitLs_pre", hitListTOFW_pre[i], "hitLs_pre[multi_pre]/I");
-		treeTOFW[i]->Branch("hitLs_post", hitListTOFW_post[i], "hitLs_post[multi_post]/I");
+		treeTOFW[i]->Branch("hitIdLs_pre", hitIdLsTOFW_pre[i], "hitIdLs_pre[multi_pre]/I");
+		treeTOFW[i]->Branch("hitIdLs_post", hitIdLsTOFW_post[i], "hitIdLs_post[multi_post]/I");
+		treeTOFW[i]->Branch("hitStaLs_pre", hitStaLsTOFW_pre[i], "hitStaLs_ptre[multi_pre]/S");
+		treeTOFW[i]->Branch("uvlTLs_pre", uvlTLsTOFW_pre[i], "uvlTLs_pre[multi_pre]/D");
+		treeTOFW[i]->Branch("dvlTLs_pre", dvlTLsTOFW_pre[i], "dvlTLs_pre[multi_pre]/D");
 		objLsTree.push_back(treeTOFW[i]);
 	}
 
-	const int n3DtrMax = ntrMax/3;
+	const int n3DtrMax = ntrMax/3; int n3Dtr;
 	bool isDCArrR[n3DtrMax];
-	int n3Dtr;
 	double Chi3D[n3DtrMax], chi2_3D[n3DtrMax], chi3D[n3DtrMax][18];
 	double k1[n3DtrMax], b1[n3DtrMax], k2[n3DtrMax], b2[n3DtrMax]; // x=k1*z+b1; y=k2*z+b2;
 	double aoz3D[n3DtrMax], aozdmin3D[n3DtrMax], beta2_3D[n3DtrMax];

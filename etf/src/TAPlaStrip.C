@@ -87,10 +87,6 @@ int TAPlaStrip::GetFiredStatus() const{
 			if(1 == i && sta > 0) sta += 10; // U
 		} // end for over H and V resolution mode
 		GetStripData()->SetFiredStatus(sta); // assign the fStripData object
-//		cout << "df[0]: " << df[0] << "\tdf[1]: " << df[1] << endl; // DEBUG
-//		cout << "uf[0]: " << uf[0] << "\tuf[1]: " << uf[1] << endl; // DEBUG
-//		cout << "sta: " << sta << endl; // DEBUG
-//		getchar(); // DEBUG
 	} // end the outer if
 	return sta;
 } // end function GetFiredStatus

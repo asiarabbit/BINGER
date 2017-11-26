@@ -249,12 +249,13 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 				TAAnode *ano = dcArr->GetMWDC(k/2)->GetAnode(j, k%2+1, nu[j][k]);
 				TAAnodePara *anoPar = (TAAnodePara*)ano->GetPara();
 				chId = anoPar->GetChannelId();
+//				cout << "nu[j][k]: " << nu[j][k] << "\tchId: " << chId << endl; getchar(); // DEBUG
 				double s_t = anoPar->GetSpatialResolution(d[j][k], kl[j]);
 				double r_t = rdm.Gaus(d[j][k], s_t);
 				double T_drift = ano->GetDriftTime(r_t, kl[j]); // b[0]/b[2]: track projection slope
 				rt[j][k] = r_t; tt[j][k] = T_drift;
 #ifdef DEBUG
-				cout << "chId: " << chId << endl; // DEBUG
+				cout << "nu: " << nu[j][k] << "\tchId: " << chId << endl; // DEBUG
 				cout << "b[0]: " << b[0] << "\tb[1]: " << b[1] << "\tb[2]: " << b[2] << endl; // DEBUG
 				cout << "B[0]: " << B[0] << "\tB[1]: " << B[1] << "\tB[2]: " << B[2] << endl; // DEBUG
 				double *aa = a_tmp[j][k], *AA = A_tmp[j][k]; // DEBUG

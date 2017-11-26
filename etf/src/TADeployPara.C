@@ -53,22 +53,24 @@ double TADeployPara::GetTOFWallStripLength(unsigned uid) const{
 	return 1200.; // mm
 }
 double TADeployPara::GetTOFWallStripDelay(unsigned uid) const{
-	int type[6]{}; TAUIDParser::DNS(type, uid);
-	if(3 != type[0] && 4 != type[0])
-		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an MWDC array");
-	if(3 != type[1]) TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not a TOFWall");
-	if(type[2] > 30)
-		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Strip Id out of range: %d", type[2]);
 	static const double ccDelay_TOFWallR[30] = { // calibrated by 40Ar, no target. Nov.25 night, 2016.
 		-0.858497, -1.16066,  -1.16797,   -0.970526, -0.389165,
 		-0.487886, -0.429385, -0.136876,  -0.615859, -1.01806,
 		-0.996121, -0.707268, -0.144188,  -0.261192, -0.155158,
 		 0.100788, -0.506168, -0.656079,  -0.561014, -0.586608,
 		 0.0898187, 0.0271849, 0.104444,   0.305544, -0.462292,
-		-0.447666, -0.64511,   0.,         0.,        0.,
+		-0.447666, -0.64511,   1E-10,         1E-10,     1E-10,
 	}; // mean: -0.424532ns, standard deviation: 0.410898ns.
-	if(3 == type[0]) return 0.; // MWDC array L
+
+	int type[6]{}; TAUIDParser::DNS(type, uid);
+	if(3 != type[0] && 4 != type[0])
+		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an MWDC array");
+	if(3 != type[1]) TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not a TOFWall");
+	if(type[2] > 30)
+		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Strip Id out of range: %d", type[2]);
+	if(3 == type[0]) return 1E-10; // MWDC array L // DO NOT SET TO 0, or ERROR would be triggered
 	if(4 == type[0]) return ccDelay_TOFWallR[type[2]]; // MWDC array R
+	return 1E-10; // DO NOT SET TO 0, or ERROR would be triggered
 }
 // speed at which light travels in TOF wall plastic scintillator strips
 double TADeployPara::GetTOFWallStripVeff(unsigned uid) const{

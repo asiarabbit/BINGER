@@ -48,7 +48,7 @@ void TASiPMPlaBarrel::Configure(){ //			    C
 			str->SetStripId(stripId); str->Configure();
 			TAPlaStripPara *pra = str->GetStripPara();
 			pra->SetWidth(20.); pra->SetLength(300.);
-			pra->SetVeff(1200./7.8); pra->AppendDelay(-471.);
+			pra->SetVeff(1200./7.8); pra->AppendDelay(1E-10); // -471.
 			str->GetDV()->GetPara()->AppendDelay(5.); // D: B(back) -> close to Magnet
 			str->GetDH()->GetPara()->AppendDelay(5.); // D: B(back) -> close to Magnet
 			if(stripId >= 15 && stripId <= 22){ // 3m signal wire -> add 5ns delay

@@ -34,7 +34,7 @@ public:
 	TAPlaStrip *GetStrip(int stripId) const;
 	vector<TAPlaStrip *> &GetStripArr(){ return fStripArr; }
 	// assign the input array with the list of ids of fired strips
-	void GetFiredStripArr(int *idLs, int &multi) const; // sta == 4 is mandatory
+	void GetFiredStripArr(int &multi, int *idLs, short *staLs = nullptr, double *uvlTLs = nullptr, double *dvlTLs = nullptr) const; // sta == 4 is mandatory
 	unsigned short GetNFiredStrip() const; // return count of strips with fired status being 4
 	// return number of strips on aggregate
 	unsigned short GetNStrip() const{ return fStripArr.size(); }

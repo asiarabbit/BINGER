@@ -36,7 +36,7 @@ public:
 	short GetNStrip(bool isV = true) const; // total number of strips
 	short GetNFiredStrip(bool isV = true) const; // number of fired strips
 	// assign the input array with the list of ids of fired strips
-	void GetFiredStripArr(int *idLs, int &multi, bool isV = true) const;
+	void GetFiredStripArr(int &multi, int *idLs, double *lTLs = nullptr, bool isV = true) const;
 	vector<TAChannel *> &GetChArr(bool isV = true);
 	double GetDelay() const;
 	double GetX0() const;

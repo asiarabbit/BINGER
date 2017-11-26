@@ -39,7 +39,7 @@ double TAPlaStripPara::GetVeff() const{
 	return fVeff;
 }
 double TAPlaStripPara::GetDelay() const{
-	if(0. == fDelay) TAPopMsg::Error(GetName().c_str(), "GetDelay: may not be defined yet.");
+	if(0. == fDelay) TAPopMsg::Warn(GetName().c_str(), "GetDelay: may not be defined yet.");
 	return fDelay;
 }
 void TAPlaStripPara::GetGlobalProjection(double *Ag){
