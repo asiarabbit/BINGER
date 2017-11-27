@@ -230,24 +230,16 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 			kl[2] = TAMath::kXY_V(phiAvrg, k1, k2); // V
 			// get drift time //
 			for(int j = 0; j < 3; j++){ // loop over X-U-V
-				cout << "0.j: " << j; getchar(); // DEBUG
 			for(int k = 0; k < 6; k++){ // loop over DC0X1-DC0X2-DC1X1-DC1X2-DC2X1-DC2X2
 			if(nu[j][k] >= 0){ // nu[][] < 0 is only due to efficiency.
 				TAAnode *ano = dcArr->GetMWDC(k/2)->GetAnode(j, k%2+1, nu[j][k]);
-				cout << "ano: " << ano << endl; getchar(); // DEBUG
 				TAAnodePara *anoPar = (TAAnodePara*)ano->GetPara();
 				chId = anoPar->GetChannelId();
-				cout << "nu[j][k]: " << nu[j][k] << "\tchId: " << chId << endl; // DEBUG
 				double s_t = anoPar->GetSpatialResolution(d[j][k], kl[j]);
-				cout << "Mark 1" << endl; // DEBUG
 				double r_t = rdm.Gaus(d[j][k], s_t);
-				cout << "Mark 2, kl[j]: " << kl[j] << "\tr_t: " << r_t << endl; // DEBUG
 				double T_drift = ano->GetDriftTime(r_t, kl[j]); // b[0]/b[2]: track projection slope
-				cout << "Mark 3" << endl; // DEBUG
 				rt[j][k] = r_t; tt[j][k] = T_drift;
-				cout << "Mark 4" << endl; // DEBUG
 #ifdef DEBUG
-				cout << "Mark 6"; getchar(); // DEBUG
 				cout << "nu: " << nu[j][k] << "\tchId: " << chId << endl; // DEBUG
 				cout << "b[0]: " << b[0] << "\tb[1]: " << b[1] << "\tb[2]: " << b[2] << endl; // DEBUG
 				cout << "B[0]: " << B[0] << "\tB[1]: " << B[1] << "\tB[2]: " << B[2] << endl; // DEBUG
@@ -258,17 +250,12 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 				double flight_length = dcArr->GetDistanceOfFlight(b, B, nu[j][k], j, k, firedStripId); // DEBUG
 #endif
 				double T_wire = dcArr->GetWirePropagationTime(b, B, nu[j][k], j, k);
-				cout << "Mark 7" << endl; // DEBUG
 				// from the anode to TOF Wall
 				double T_tof = dcArr->GetTimeOfFlight(b, B, nu[j][k], j, k, firedStripId, beta);
-				cout << "Mark 8" << endl; // DEBUG
 				double T0 = anoPar->GetDelay();
-				cout << "Mark 9" << endl; // DEBUG
 //				cout << "anoPar->GetDelay(): " << anoPar->GetDelay(); getchar(); // DEBUG
 				leadingTime[0] = T_drift + T_wire - T_tof + T0;
-				cout << "Mark 10" << endl; // DEBUG
 #ifdef DEBUG
-				cout << "Mark 7"; getchar(); // DEBUG
 				cout << "r_t: " << r_t << "\td[j][k]: " << d[j][k] << endl; // DEBUG
 				cout << "wire_length of propagation: " << wire_length << endl; // DEBUG
 				cout << "flight_length: " << flight_length << endl; // DEBUG
@@ -277,27 +264,20 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 				cout << "T_drift + T_wire - T_tof: " << T_drift + T_wire - T_tof << endl; // DEBUG
 				getchar(); // DEBUG
 #endif
-				cout << "Mark 11" << endl; // DEBUG
 				trailingTime[0] = leadingTime[0] + 300.;
-				cout << "Mark 12" << endl; // DEBUG
 				is_V = false;
 				treeData->Fill();
-				cout << "Mark 13" << endl; // DEBUG
 			} // end fill loop
 			} // end for over k
-				cout << "Mark 8, j: " << j << "\tnTrack: " << nTrack; getchar(); // DEBUG
 			} // end for over j
-
 			// one particle trajectory has been tracked down
 			treeTrackSim->Fill(); // store the input track information
-			cout << "Mark 9, i: " << i; getchar(); // DEBUG
 		} // end for over i (loop over tracks)
 		int temp = index; nl = 0; nt = 0;
 		index = -2; chId = nTrack * 40; // section length, word(32bit)
 		treeData->Fill();
 		index = temp; nl = 1; nt = 1;
 		index++; // one run is completed.
-		cout << "Mark 10, index: " << index; getchar(); // DEBUG
 		cout << "run " << index << " completed.\r" << flush;
 	} // end while
 	cout << "\n\n";

@@ -25,9 +25,6 @@
 using std::cout;
 using std::endl;
 
-const double TAMath::kSqrt3 = sqrt(3.);
-const double TAMath::kDegToRad = TAMath::Pi() / 180.;
-
 double TAMath::norm(const double *p, int len){
 	double norm = 0.;
 	for(int i = 0; i < len; i++){
@@ -65,35 +62,35 @@ void TAMath::rotateOffset(const double *pIn, double *pOut, const double *angOff)
 // Similar rotation has been implemented for V tracking
 // U+V->X tranformation: lx: x=kz+b: slope
 double TAMath::kUV_X(double phi, double ku, double kv){
-	return ((ku+kv)*cos(phi)+kSqrt3*sin(phi))/(kSqrt3*cos(phi)-(ku+kv)*sin(phi));
+	return ((ku+kv)*cos(phi)+Sqrt3()*sin(phi))/(Sqrt3()*cos(phi)-(ku+kv)*sin(phi));
 }
 // U+V->X tranformation: lx: x=kz+b: intercept
 double TAMath::bUV_X(double phi, double ku, double kv, double bu, double bv){
-	return (bu+bv)/(kSqrt3*cos(phi)-(ku+kv)*sin(phi));
+	return (bu+bv)/(Sqrt3()*cos(phi)-(ku+kv)*sin(phi));
 }
 // U+V->Y tranformation: ly: y=kz+b: slope
 double TAMath::kUV_Y(double phi, double ku, double kv){
-	return kSqrt3*(-ku+kv)/(kSqrt3*cos(phi)-(ku+kv)*sin(phi));
+	return Sqrt3()*(-ku+kv)/(Sqrt3()*cos(phi)-(ku+kv)*sin(phi));
 }
 // U+V->Y tranformation: ly: y=kz+b: intercept
 double TAMath::bUV_Y(double phi, double ku, double kv, double bu, double bv){
-	return (kSqrt3*(-bu+bv)*cos(phi)+2.*(-bv*ku+bu*kv)*sin(phi))/(kSqrt3*cos(phi)-(ku+kv)*sin(phi));
+	return (Sqrt3()*(-bu+bv)*cos(phi)+2.*(-bv*ku+bu*kv)*sin(phi))/(Sqrt3()*cos(phi)-(ku+kv)*sin(phi));
 }
 // X+Y->U tranformation: lu: xu=k zu+bu: slope
 double TAMath::kXY_U(double phi, double k1, double k2){
-	return (-k2+kSqrt3*(k1*cos(phi)-sin(phi)))/(2.*(cos(phi)+k1*sin(phi)));
+	return (-k2+Sqrt3()*(k1*cos(phi)-sin(phi)))/(2.*(cos(phi)+k1*sin(phi)));
 }
 // X+Y->U tranformation: lu: xu=k zu+bu: intercept
 double TAMath::bXY_U(double phi, double k1, double k2, double b1, double b2){
-	return 1./2.*(-b2+b1*(kSqrt3+k2*sin(phi))/(cos(phi)+k1*sin(phi)));
+	return 1./2.*(-b2+b1*(Sqrt3()+k2*sin(phi))/(cos(phi)+k1*sin(phi)));
 }
 // X+Y->V tranformation: lv: yv=k zv+bv: slope
 double TAMath::kXY_V(double phi, double k1, double k2){
-	return (k2+kSqrt3*(k1*cos(phi)-sin(phi)))/(2.*(cos(phi)+k1*sin(phi)));
+	return (k2+Sqrt3()*(k1*cos(phi)-sin(phi)))/(2.*(cos(phi)+k1*sin(phi)));
 }
 // X+Y->V tranformation: lv: yv=k zv+bv: intercept
 double TAMath::bXY_V(double phi, double k1, double k2, double b1, double b2){
-	return 1./2.*(b2+b1*(kSqrt3-k2*sin(phi))/(cos(phi)+k1*sin(phi)));
+	return 1./2.*(b2+b1*(Sqrt3()-k2*sin(phi))/(cos(phi)+k1*sin(phi)));
 }
 
 // the closest point of two skew lines -> hitp, note that hip is in the (a, A) line

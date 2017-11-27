@@ -54,7 +54,7 @@ public:
 
 	// static variables for STR correction table definition
 	static const int kSTRCorRNBins = 60; // number of drift distance bins to implement STR correction
-	static const int kSTRCorAngleNBins = 6; // number of bins of ..., has to be even
+	static const int kSTRCorAngleNBins = 6; // number of bins of ..., has to be even, greater than 2
 	static const double kSTRCorRMax; // maximum dirft distance
 	static const double kSTRCorRStep; // bin width
 	static const double kSTRCorAngleMax; // maximum track and drift cell angle

@@ -93,28 +93,20 @@ double TAAnode::GetDriftTime(double &weight) const{
 } // end of function GetDriftTime().
 // for generate simulation data //
 double TAAnode::GetDriftTime(double r, double k){ // k is the track slope
-	cout << "This is GetDriftTime(double r, double k)!!!" << endl; // DEBUG
-	cout << "r: " << r << "\tk: " << k << endl; getchar(); // DEBUG
 	const int n = 100;
 	double span = 300.; // search scope, unit: ns
 	double t, tc = 60., tm = 0.; // ns
 	double d, dmin = 1E200;
-	for(int l = 0; l < 3; l++){
+	for(int l = 0; l < 2; l++){
 		for(int i = 0; i <= n; i++){
-			cout << "l: " << l << "\ti: " << i << endl; // DEBUG
-			t = tc+(2.*i/n-1.)*span; t = 1.; k = 0.638671;
-			cout << "t: " << t << endl; getchar(); // DEBUG
+			t = tc+(2.*i/n-1.)*span;
 			if(t < 0.) continue;
-			cout << "hello, there~" << endl; // DEBUG
 			d = fabs(GetDriftDistance(t, k) - r);
-			cout << "GetDriftDistance(t, k): " << GetDriftDistance(t, k) << "\tr: " << r << endl; getchar(); // DEBUG
-			cout << "d: " << d << "\tdmin: " << dmin << endl; getchar(); // DEBUG
 			if(d < dmin){
 				dmin = d; tm = t;
-				cout << "d: " << d << "\ttm: " << tm << endl; getchar(); // DEBUG
 			} // end if
 		} // end for over i
-		span = span/n*2.5;
+		span *= 2.2/n;
 		tc = tm;
 	} // end for over l
 	if(tm > 400.) tm = 398.;
@@ -123,11 +115,8 @@ double TAAnode::GetDriftTime(double r, double k){ // k is the track slope
 
 
 double TAAnode::GetDriftDistance(double dt, double k){
-	cout << "what's up" << endl; // DEBUG
 	int type[6]{}; TAUIDParser::DNS(type, GetUID());
-	cout << "what's up, dude, type[2]: " << type[2] << endl; // DEBUG
 	int id = ((TAAnodePara*)GetPara())->GetSTRid(k, type[2]);
-	cout << "what's up, bitch" << endl; // DEBUG
 	return GetDriftDistance(dt, id);
 } // end of function GetDriftDistance().
 double TAAnode::GetDriftDistance(double dt, int STR_id){ // k is the track slope

@@ -28,7 +28,7 @@ int main(int argc, char *argv[]){ // datafilename id0 id1 runId
 	TAEventProcessor *ep = TAEventProcessor::Instance(argv[1], arg[2]);
 	ep->Verbose(false); // don't show TAPopMsg::ConfigInfo() printings (detector information)
 //	ep->Silent(); // don't show TAPopMsg::Info() printings
-	ep->CoarseFit(); // rough yet fast fit // May Not Use
+//	ep->CoarseFit(); // rough yet fast fit // May Not Use
 
 	ep->SetConfigExpDir("pion_2017Oct");
 	ep->SetSTRROOTFile("STR.root");

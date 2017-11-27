@@ -7,7 +7,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/24.															     //
-// Last modified: 2017/11/25, SUN Yazhou.										     //
+// Last modified: 2017/11/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -26,7 +26,7 @@ const double TAAnodePara::kSTRCorAngleMax = 10. * TAMath::DEGREE(); // unit: rad
 const double TAAnodePara::kSTRCorRStep = TAAnodePara::kSTRCorRMax / TAAnodePara::kSTRCorRNBins;
 const double TAAnodePara::kSTRCorAngleStep = 
 			TAAnodePara::kSTRCorAngleMax * 2. / (TAAnodePara::kSTRCorAngleNBins - 2);
-const double TAAnodePara::kSTRCorArrDummy[TAAnodePara::kSTRCorRNBins] = {0.};
+const double TAAnodePara::kSTRCorArrDummy[TAAnodePara::kSTRCorRNBins]{0.};
 
 TAAnodePara::TAAnodePara(const string &name, const string &title, unsigned uid)
 		: TAChPara(name, title, uid), fMotherDC(0), fGlobalDirection(nullptr){
@@ -107,15 +107,14 @@ int TAAnodePara::GetSTRid(double k, int dcType) const{
 	double theta, phi = GetMotherDC()->GetDetPara()->GetPhi();
 	if(TAMWDC::kX == dcType) theta = atan(k) - phi; // X
 	else theta = atan(k); // U or V
-	int STR_id, i = 0; double thetaStair = -kSTRCorAngleMax;
-	if(theta < -kSTRCorAngleMax) STR_id = 0.;
+	double thetaStair = -kSTRCorAngleMax; // angle range border stairs
+	if(theta < -kSTRCorAngleMax) return 0.; int i = 0;
 	while(thetaStair <= kSTRCorAngleMax){
 		if(theta < thetaStair){
 			if(i < kSTRCorAngleNBins) return i;
 			else TAPopMsg::Error(GetName().c_str(), "GetSTRid: Abnormal id calculated: %d", i);
 		}
-		thetaStair += kSTRCorAngleStep;
-		i++;
+		thetaStair += kSTRCorAngleStep; i++;
 	} // end while
 	if(i < kSTRCorAngleNBins) return i;
 	else TAPopMsg::Error(GetName().c_str(), "GetSTRid: Abnormal id calculated: %d", i);
@@ -123,7 +122,7 @@ int TAAnodePara::GetSTRid(double k, int dcType) const{
 int TAAnodePara::GetDriftDistanceBinNumber(double r){
 	if(r <= kSTRCorRStep / 2.) // no extrapolation before the first point.
 		r = kSTRCorRStep / 2. + 0.01;
-	if(r >= kSTRCorRMax - kSTRCorRStep / 2.) // no extrapolation beyond the last point.
+	if(r >= kSTRCorRMax - kSTRCorRStep / 2.) // no extrapolation beyond the last point
 		r = kSTRCorRMax - kSTRCorRStep / 2. - 0.01;
 	return int(r / kSTRCorRStep - 0.5);
 } // end of function GetDriftDistanceBinNumber

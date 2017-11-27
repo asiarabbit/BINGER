@@ -24,13 +24,16 @@ class TAMath{
 public:
 	TAMath(){};
 	~TAMath(){};
-	
+
+	// mathematic constants
+	static constexpr double Pi(){ return 3.14159265358979323846; }
+	static constexpr double Alpha(){ return 0.61803398874989484820458683436565; } // golden cut ratio
+	static constexpr double DEGREE(){ return 0.01745329251994329547; } // rad per degree
+	static constexpr double Sqrt3(){ return 1.73205080756887719318; }
+
 	// r_global = dR.(R.r_local)+r0+dr
 	static void rotate(const double *pIn, double *pOut, const double *angle);
 	static void rotateOffset(const double *pIn, double *pOut, const double *angOff);
-	static double Pi(){ return 3.14159265358979323846; }
-	static double Alpha(){ return 0.61803398874989484820458683436565; } // the Golden Cut ratio
-	static double DEGREE(){ return kDegToRad; } // rad per degree
 	static double norm(const double *p, int len = 3); // length of the vector, len: vector dimension
 	static double L(const double *p0, const double *p1, int len = 3); // |p0-p1|
 
@@ -73,8 +76,6 @@ public:
 	// fit using BFGS minimization algorithm
 	static double refinedFitBFGS(const double *z, const double *x, const double *r, double &k, double &b, int gGOOD, const int *LAYER, double d2ThrePerDot);
 	static double iterativeFit(const double *z, const double *x, const double *r, double &k, double &b, int gGOOD, const int *LAYER, double d2ThrePerDot);
-	static const double kDegToRad; // = Pi / 180.
-	static const double kSqrt3; // = sqrt(3.)
 };
 
 #endif
