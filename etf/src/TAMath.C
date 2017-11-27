@@ -98,18 +98,16 @@ double TAMath::bXY_V(double phi, double k1, double k2, double b1, double b2){
 
 // the closest point of two skew lines -> hitp, note that hip is in the (a, A) line
 // B, b: track point and track vector; A, a: anode point and track vector
-void TAMath::GetHitPoint(const double *b, const double *B, const double *a, const double *A, double *hitp){
+void TAMath::GetHitPoint(const double *b, const double *B, const double *a, const double *A, double *hitpA){
 	double aa = a[0]*a[0]+a[1]*a[1]+a[2]*a[2], bb = b[0]*b[0]+b[1]*b[1]+b[2]*b[2],
 	       ab = a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
 	double AB[3] = {A[0]-B[0], A[1]-B[1], A[2]-B[2]};
 	double tt1 = bb*(a[0]*AB[0] + a[1]*AB[1] + a[2]*AB[2])
 		     -ab*(b[0]*AB[0] + b[1]*AB[1] + b[2]*AB[2]);
 	tt1 /= ab*ab - aa*bb;
-	hitp[0] = a[0]*tt1+A[0];
-	hitp[1] = a[1]*tt1+A[1];
-	hitp[2] = a[2]*tt1+A[2];
-	
-	cout << "tt1: " << tt1; // DEBUG
+	hitpA[0] = a[0]*tt1+A[0];
+	hitpA[1] = a[1]*tt1+A[1];
+	hitpA[2] = a[2]*tt1+A[2];
 } // end of function GetHitPoint
 
 

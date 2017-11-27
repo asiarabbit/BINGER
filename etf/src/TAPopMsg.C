@@ -108,13 +108,18 @@ void TAPopMsg::ShowPiont(const char *msg, const double *p, const int len){
 		cout << msg << "[" << i << "]: " << p[i] << "\t";
 }
 
-const char *TAPopMsg::time0(){
+// isName: no comma in the returned string, suitable for path and file name
+const char *TAPopMsg::time0(bool isName){
 	time_t tt = ::time(NULL);
 	tm *t = localtime(&tt);
 	static char ttt[128];
-	sprintf(ttt, "%d-%02d-%02d_%02d:%02d", t->tm_year + 1900,
+	if(!isName) sprintf(ttt, "%d-%02d-%02d_%02d:%02d", t->tm_year + 1900,
+	 t->tm_mon + 1, t->tm_mday, t->tm_hour, t->tm_min);
+	else sprintf(ttt, "%d-%02d-%02d_%02d_%02d", t->tm_year + 1900,
 	 t->tm_mon + 1, t->tm_mday, t->tm_hour, t->tm_min);
 	return ttt;
 }
+
+
 
 

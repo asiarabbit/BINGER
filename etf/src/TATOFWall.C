@@ -61,7 +61,7 @@ void TATOFWall::GetFiredStripArr(int &multi, int *idLs, short *staLs, double *uv
 		if(
 //		  11 == sta || 12 == sta || // either H end is fired
 //		  13 == sta || // both U ends are fired
-		   1 == sta || 2 == sta || // either V end is fired
+//		   1 == sta || 2 == sta || // either V end is fired
 		   3 == sta || // both V ends are fired, not within valid scope
 		   4 == sta // both V ends are fired, within valid scope
 		){

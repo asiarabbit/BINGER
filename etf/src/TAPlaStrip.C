@@ -69,9 +69,9 @@ double TAPlaStrip::GetHitPosition() const{ // distance from hit point to the dow
 int TAPlaStrip::GetFiredStatus() const{
 	int sta = GetStripData()->GetFiredStatus();
 	if(-2 == sta){ // not assigned
-		bool df[2] = {GetDV()->GetFiredStatus(), GetDH()->GetFiredStatus()}; // H-V
-		bool uf[2] = {GetUV()->GetFiredStatus(), GetUH()->GetFiredStatus()}; // H-V
-		for(int i = 0; i < 2; i++){
+		bool df[2] = {GetDV()->GetFiredStatus(), GetDH()->GetFiredStatus()}; // [H-V]
+		bool uf[2] = {GetUV()->GetFiredStatus(), GetUH()->GetFiredStatus()}; // [H-V]
+		for(int i = 0; i < 2; i++){ // loop over U and V channels
 			if(df[i] && uf[i]){
 				sta = 3; // off strip hit
 				if(0 == i){ // Very high resolution
@@ -83,7 +83,7 @@ int TAPlaStrip::GetFiredStatus() const{
 			else if(!df[i] && uf[i]) sta = 2;
 			else if(df[i] && !uf[i]) sta = 1;
 			else sta = 0;
-			if(0 == i && sta >= 3) break; // V, both-end fired
+			if(0 == i && sta >= 3) break; // XXX: V sta is good enough for the strip
 			if(1 == i && sta > 0) sta += 10; // U
 		} // end for over H and V resolution mode
 		GetStripData()->SetFiredStatus(sta); // assign the fStripData object

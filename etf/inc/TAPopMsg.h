@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/24.															     //
-// Last modified: 2017/10/24, SUN Yazhou.										     //
+// Last modified: 2017/11/26, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -36,7 +36,8 @@ public:
 	static void SetDebug(bool opt = true){ fIsDebug = opt; }
 	static bool IsDebug() { return fIsDebug; }
 
-	static const char *time0(); // current time year-month-day_hour-Min
+	// isName (true): no comma in the returned string, suitable for path and file name
+	static const char *time0(bool isName = false); // current time year-month-day_hour-Min
 protected:
 	static bool fIsVerbose; // to switch ConfigInfo() method
 	static bool fIsSilent; // to switch Info() method

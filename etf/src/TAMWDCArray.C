@@ -37,7 +37,7 @@
 #include "TAMath.h"
 #include "TAParaManager.h"
 
-#define DEBUG // DEBUG MODE
+//#define DEBUG // DEBUG MODE
 
 using std::cout;
 using std::endl;
@@ -408,7 +408,7 @@ double TAMWDCArray::GetWirePropagationLength(const double *b, const double *B, i
 
 	const TAMWDC *dc = GetMWDC(k/2);
 	const TAAnode *ano = dc->GetAnode(j, k%2+1, nu);
-	double p0[3]{}, p1[3]{}; // p0: the hit point; p1: anode center position
+	double p0[3]{}, p1[3]{}; // p0: the hit point on the anode; p1: anode center position
 	double ag[3]{}; ((TAAnodePara*)ano->GetPara())->GetGlobalDirection(ag); // global direction
 	((TAAnodePara*)ano->GetPara())->GetGlobalCenter(p1);
 	TAMath::GetHitPoint(b, B, ag, p1, p0);
@@ -435,7 +435,7 @@ double TAMWDCArray::GetWirePropagationLength(const double *b, const double *B, i
 		if(2 == j && (type[3] <= 1 && type[3] >= 0)) FEE_Y *= -1.; // V, the first two cable
 	}
 
-	double dd = fabs(p0[1] - FEE_Y) * cos(theta);
+	double dd = fabs(p0[1] - FEE_Y) / cos(theta);
 #ifdef DEBUG
 	cout << "TAMWDCArray::GetWirePropagationLength(): " << dd << endl; getchar(); // DEBUG
 #endif
@@ -451,7 +451,7 @@ double TAMWDCArray::GetDistanceOfFlight(const double *b, const double *B, int nu
 
 	const TAMWDC *dc = GetMWDC(k/2);
 	const TAAnode *ano = dc->GetAnode(j, k%2+1, nu);
-	// p0: the hit point; p1: anode center position
+	// p0: the hit point on the anode; p1: anode center position
 	double p0[3], p1[3], p2[3]; // p2: fired strip projection
 	double ag[3]; ((TAAnodePara*)ano->GetPara())->GetGlobalDirection(ag);
 	((TAAnodePara*)ano->GetPara())->GetGlobalCenter(p1);

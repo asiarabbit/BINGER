@@ -53,9 +53,9 @@ public:
 	static double kXY_V(double phi, double k1, double k2);
 	// X+Y->V tranformation: l: yv=kzv+bv: intercept
 	static double bXY_V(double phi, double k1, double k2, double b1, double b2);
-	// the closest point of two skew lines -> hitp
+	// the closest point of two skew lines -> hitpA: hit point on lA: (a, A)
 	// B, b: track point and track vector; A, a: anode point and track vector;
-	static void GetHitPoint(const double *b, const double *B, const double *a, const double *A, double *hitp);
+	static void GetHitPoint(const double *b, const double *B, const double *a, const double *A, double *hitpA);
 
 	///////////////////// TATRACK MINIMIZATION & LSM FUNCTIONS /////////////////////////////
 	// minimization and Least Squares Method functions, serving TATrack track fitting

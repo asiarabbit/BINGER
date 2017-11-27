@@ -187,12 +187,6 @@
 				timeToTrigSipmBarr = str->GetTime() - bunchIdTime;
 				if(timeToTrigSipmBarr < 0.) timeToTrigSipmBarr += 51200.;
 				if(!(timeToTRefSipmBarr > -60. && timeToTRefSipmBarr < -10.)) str->GetStripData()->SetFiredStatus(-10);
-				cout << "\nstr->GetName(): " << str->GetName() << endl; // DEBUG
-				cout << "chId:\n";
-				cout << "UV: " << str->GetUV()->GetPara()->GetChannelId() << endl; // DEBUG
-				cout << "UH: " << str->GetUH()->GetPara()->GetChannelId() << endl; // DEBUG
-				cout << "DV: " << str->GetDV()->GetPara()->GetChannelId() << endl; // DEBUG
-				cout << "DH: " << str->GetDH()->GetPara()->GetChannelId() << endl; getchar(); // DEBUG
 //				if(!(timeToTrigSipmBarr > 300. && timeToTrigSipmBarr < 600.)) str->GetStripData()->SetFiredStatus(-10);
 			}
 		} // end for over sipmArr

@@ -326,8 +326,6 @@ int TARawDataProcessor::ReadOffline(){
 					getchar();
 				}
 				eventID[i] = (data_ch_last[0] >> 12) & 0xFFF;
-//				fAskMe.fragment[i].bunchID = bunchID[i]; /// Nov. 7, 2016
-//				fAskMe.fragment[i].eventID = eventID[i]; /// Nov. 7, 2016
 			} // end if(length_last_ch > 0)
 			else{
 
@@ -367,13 +365,11 @@ int TARawDataProcessor::ReadOffline(){
 //			#include "read/initializePostFragment.C"
 		} // end for over fragments
 		section_len /= 4;
-//		fSectionLength = section_len;
-//		fAskMe.length = section_len; /// Nov. 7, 2016
 
 		// check consistency of bunchIDs of all fragments in one data section.
 		for(int ii = 1; ii < frag_nu; ii++){ // print the bunchID and eventID of any fragment whose IDs don't agree with the first fragment's in an event
-//			cout << "bunchID[" << ii << "]: " << bunchID[ii] << endl;
-//			cout << "eventID[" << ii << "]: " << eventID[ii] << endl;
+//			cout << "bunchID[" << ii << "]: " << bunchID[ii] << endl; // DEBUG
+//			cout << "eventID[" << ii << "]: " << eventID[ii] << endl; // DEBUG
 //			getchar(); // DEBUG
 			if(bunchID[0] != bunchID[ii] || eventID[0] != eventID[ii])
 			{
@@ -405,12 +401,13 @@ int TARawDataProcessor::ReadOffline(){
 
 		section_len = -1; Is_vacant = 0; Is_Error = 0;
 
-		cout << "Processing event  " << index + 1 << "\r" << flush;
+		cout << "Processing event index  " << index << "\r" << flush;
 	} // end while
 	
 	cout << endl << endl << "Total Event Count: " << endl;
 	cout << endl <<  "       \033[1m" << fEventCnt << "\033[0m        " << endl << endl;
 	cout << "\033[36;1mBunch ID misalignment count: " << fBunchIdMisAlignCnt << "\033[0m\n";
+	if(fBunchIdMisAlignCnt > 0) TAPopMsg::Error("TARawDataProcessor", "ReadOffLine: BunchId misalignment count happend %d times", fBunchIdMisAlignCnt);
 
 	treeData->Write("", TObject::kOverwrite);
 	fclose(fp);

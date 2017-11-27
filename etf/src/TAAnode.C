@@ -93,19 +93,25 @@ double TAAnode::GetDriftTime(double &weight) const{
 } // end of function GetDriftTime().
 // for generate simulation data //
 double TAAnode::GetDriftTime(double r, double k){ // k is the track slope
+	cout << "This is GetDriftTime(double r, double k)!!!" << endl; // DEBUG
+	cout << "r: " << r << "\tk: " << k << endl; getchar(); // DEBUG
 	const int n = 100;
-	double span = 1000.; // search scope, unit: ns
+	double span = 300.; // search scope, unit: ns
 	double t, tc = 60., tm = 0.; // ns
 	double d, dmin = 1E200;
-	for(int l = 0; l < 4; l++){
+	for(int l = 0; l < 3; l++){
 		for(int i = 0; i <= n; i++){
-			t = tc+(2.*i/n-1.)*span;
+			cout << "l: " << l << "\ti: " << i << endl; // DEBUG
+			t = tc+(2.*i/n-1.)*span; t = 1.; k = 0.638671;
+			cout << "t: " << t << endl; getchar(); // DEBUG
 			if(t < 0.) continue;
-//			d = fabs(f->Eval(t)-r);
+			cout << "hello, there~" << endl; // DEBUG
 			d = fabs(GetDriftDistance(t, k) - r);
+			cout << "GetDriftDistance(t, k): " << GetDriftDistance(t, k) << "\tr: " << r << endl; getchar(); // DEBUG
+			cout << "d: " << d << "\tdmin: " << dmin << endl; getchar(); // DEBUG
 			if(d < dmin){
-				dmin = d;
-				tm = t;
+				dmin = d; tm = t;
+				cout << "d: " << d << "\ttm: " << tm << endl; getchar(); // DEBUG
 			} // end if
 		} // end for over i
 		span = span/n*2.5;
@@ -113,12 +119,15 @@ double TAAnode::GetDriftTime(double r, double k){ // k is the track slope
 	} // end for over l
 	if(tm > 400.) tm = 398.;
 	return tm;
-} // end function GetDriftTime.
+} // end function GetDriftTime
 
 
 double TAAnode::GetDriftDistance(double dt, double k){
+	cout << "what's up" << endl; // DEBUG
 	int type[6]{}; TAUIDParser::DNS(type, GetUID());
+	cout << "what's up, dude, type[2]: " << type[2] << endl; // DEBUG
 	int id = ((TAAnodePara*)GetPara())->GetSTRid(k, type[2]);
+	cout << "what's up, bitch" << endl; // DEBUG
 	return GetDriftDistance(dt, id);
 } // end of function GetDriftDistance().
 double TAAnode::GetDriftDistance(double dt, int STR_id){ // k is the track slope
@@ -133,7 +142,7 @@ double TAAnode::GetDriftDistanceCorrection(double r, int STR_id) const{
 	if(r < 0. || r >= TAAnodePara::kSTRCorRMax) return 0.;
 	else{
 		int DT = TAAnodePara::GetDriftDistanceBinNumber(r);
-		if(DT == 0){ // the zero bin is void to avoid bias, so the STR correction value of this bin has to be extrapolated.
+		if(0 == DT){ // the zero bin is void to avoid bias, so the STR correction value of this bin has to be extrapolated.
 			return pcor[1];
 		}
 		double k = (r - (DT + 0.5) * TAAnodePara::kSTRCorRStep) / TAAnodePara::kSTRCorRStep; // DEBUG
