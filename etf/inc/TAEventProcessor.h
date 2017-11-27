@@ -82,7 +82,8 @@ public:
 	// a method dedicated for TAVisual::Fill()
 	void FillTrack(TGraph *gTrack, TGraph *gTrack_R) const;
 	// the overall data analysis routine
-	virtual void Run(int id0 = 0, int id1 = INT_MAX, int secLenLim = INT_MAX);
+	// (id0, id1): index range for analysis; secLenLim: event length limit; rawrtfile: raw rootfile
+	virtual void Run(int id0 = 0, int id1 = INT_MAX, int secLenLim = INT_MAX, const string &rawrtfile = "");
 	virtual void Initialize();
 protected:
 	TAEventProcessor(const string &datafile = "", int runId = 0);

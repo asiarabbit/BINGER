@@ -115,7 +115,7 @@ const char *TAPopMsg::time0(bool isName){
 	static char ttt[128];
 	if(!isName) sprintf(ttt, "%d-%02d-%02d_%02d:%02d", t->tm_year + 1900,
 	 t->tm_mon + 1, t->tm_mday, t->tm_hour, t->tm_min);
-	else sprintf(ttt, "%d-%02d-%02d_%02d_%02d", t->tm_year + 1900,
+	else sprintf(ttt, "%d%02d%02d_%02d%02d", t->tm_year + 1900,
 	 t->tm_mon + 1, t->tm_mday, t->tm_hour, t->tm_min);
 	return ttt;
 }

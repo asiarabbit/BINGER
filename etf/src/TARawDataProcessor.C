@@ -37,7 +37,7 @@ using std::flush;
 
 TARawDataProcessor* TARawDataProcessor::fInstance = nullptr;
 
-TARawDataProcessor::TARawDataProcessor(){
+TARawDataProcessor::TARawDataProcessor() : fDataFile(""), fROOTFile(""){
 	fBunchIdMisAlignCnt = 0;
 	fEventCnt = 0;
 	fIsCheckBunchId = TACtrlPara::IsCheckBunchIdAlignment();
@@ -70,14 +70,16 @@ inline double rand0_5(){ return rand()*1./RAND_MAX; } // bin smoothing, import f
 
 // read offline binary data file and store them in a tree and a rootfile.
 int TARawDataProcessor::ReadOffline(){
+	if(!strcmp(fDataFile.c_str(), ""))
+		TAPopMsg::Warn("TARawDataProcessor", "ReadOffline: Input binary data file is null.");
 	if(0 == access(fROOTFile.c_str(), 0)) return -1; // file already exists. Function has been called.
 
-	const double H_BLIP = 25. / pow(2., 8);
-	const double V_BLIP = 25. / pow(2., 10);
+	static const double H_BLIP = 25. / pow(2., 8);
+	static const double V_BLIP = 25. / pow(2., 10);
 
-	const int edge_num_limit = 10;
-	const int ch_num_limit_per_frag = 128;
-	const int frag_num_limit_per_event = 100; // used for bunchID checking
+	static const int edge_num_limit = 10;
+	static const int ch_num_limit_per_frag = 128;
+	static const int frag_num_limit_per_event = 100; // used for bunchID checking
 
 
 	/* struct varibles definition in the raw binary data file */

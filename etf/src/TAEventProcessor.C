@@ -81,6 +81,8 @@ TAEventProcessor::TAEventProcessor(const string &datafile, int runId)
 	fPID = TAPID::Instance();
 	TAPopMsg::Verbose(false); TAPopMsg::Silent();
 	SetDataFile(datafile, runId);
+	SetConfigExpDir("pion_2017Oct");
+	SetSTRROOTFile("STR.root");
 }
 TAEventProcessor::~TAEventProcessor(){
 	if(fRawDataProcessor){
@@ -242,16 +244,20 @@ void TAEventProcessor::Analyze(){
 	}
 } // end of member function Analyze
 // the overall data analysis routine
-void TAEventProcessor::Run(int id0, int id1, int secLenLim){
+// (id0, id1): index range for analysis; secLenLim: event length limit; rawrtfile: raw rootfile
+void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtfile){
 	Configure(); // prepare ETF setup
-
 #ifdef VERBOSE
 	TAPopMsg::Info("TAEventProcessor", "Run: Analyzing event#%d to event#%d from datafile %s", id0, id1, GetRawDataProcessor()->GetDataFileName());
 #endif
-	GetRawDataProcessor()->SetPeriod(id0, id1);
-	GetRawDataProcessor()->ReadOffline(); // prepare data file
+	string rootfile;
+	if(!strcmp(rawrtfile.c_str(), "")){ // no input rootfile
+		GetRawDataProcessor()->SetPeriod(id0, id1);
+		GetRawDataProcessor()->ReadOffline(); // prepare data file
+		rootfile = GetRawDataProcessor()->GetROOTFileName();
+	}
 //	return;
-	TFile *f = new TFile(GetRawDataProcessor()->GetROOTFileName(), "UPDATE");
+	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
 	TTree *treeData = (TTree*)f->Get("treeData");
 	tEntry entry_t;
 	treeData->SetBranchAddress("index", &entry_t.index);
