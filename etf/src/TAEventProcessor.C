@@ -79,7 +79,7 @@ TAEventProcessor::TAEventProcessor(const string &datafile, int runId)
 	fCtrlPara = TACtrlPara::Instance();
 	fVisual = TAVisual::Instance();
 	fPID = TAPID::Instance();
-	TAPopMsg::Verbose(false); TAPopMsg::Silent();
+	TAPopMsg::Verbose(false); // TAPopMsg::Silent();
 	SetDataFile(datafile, runId);
 	SetConfigExpDir("pion_2017Oct");
 	SetSTRROOTFile("STR.root");
@@ -247,15 +247,16 @@ void TAEventProcessor::Analyze(){
 // (id0, id1): index range for analysis; secLenLim: event length limit; rawrtfile: raw rootfile
 void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtfile){
 	Configure(); // prepare ETF setup
-#ifdef VERBOSE
-	TAPopMsg::Info("TAEventProcessor", "Run: Analyzing event#%d to event#%d from datafile %s", id0, id1, GetRawDataProcessor()->GetDataFileName());
-#endif
-	string rootfile;
+	if(id0 >= id1)
+		TAPopMsg::Error("TAEventProcessor", "Run: index0 %d is not smaller than index1 %d", id0, id1);
+	string rootfile = rawrtfile; // name of the ROOT file storing raw data - treeData
 	if(!strcmp(rawrtfile.c_str(), "")){ // no input rootfile
 		GetRawDataProcessor()->SetPeriod(id0, id1);
 		GetRawDataProcessor()->ReadOffline(); // prepare data file
 		rootfile = GetRawDataProcessor()->GetROOTFileName();
+		printf("  Analyzing event#%d to event#%d from datafile  %s\n", id0, id1, GetRawDataProcessor()->GetDataFileName());
 	}
+	else printf("  Analyzing event#%d to event#%d from rootfile   %s\n", id0, id1, rootfile.c_str());
 //	return;
 	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
 	TTree *treeData = (TTree*)f->Get("treeData");

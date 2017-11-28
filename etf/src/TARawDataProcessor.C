@@ -61,8 +61,9 @@ void TARawDataProcessor::SetDataFileName(const string &name, int runId){
 //	TAPopMsg::Debug("TARawDataProcessor", "SetDataFileName: fROOTFile: %s", fROOTFile.c_str());
 }
 void TARawDataProcessor::SetPeriod(int index0, int index1){
+	if(fIndex0 >= fIndex1)
+		TAPopMsg::Error("TARawDataProcessor", "SetPeriod: index0 %d is not smaller than index1 %d", index0, index1);
 	fIndex0 = index0; fIndex1 = index1;
-//	TAPopMsg::Debug("TARawDataProcessor", "SetPeriod: Analyzing index %d to index %d", index0, index1);
 }
 
 //////---------------------------- READ OFFLINE-----------------------------------------------------//

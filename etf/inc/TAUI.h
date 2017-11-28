@@ -31,7 +31,7 @@ public:
 	virtual ~TAUI();
 protected:
 	TAUI(); // the constructor
-	void PromptHelp(); // show manual for input rules
+	void PromptHelp(bool isVerbose = false); // show manual for input rules
 
 	static TAUI *fInstance;
 	// parameters to be passed to the constructor of TAEventProcessor

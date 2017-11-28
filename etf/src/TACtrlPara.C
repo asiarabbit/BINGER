@@ -174,7 +174,7 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 	else TAPopMsg::Error("TACtrlPara", "AssignSTR: input anode para uid error: DCArrId: type[0]: %d", type[0]);
 } // end of member function AssignSTR
 
-TACtrlPara::TACtrlPara(){
+TACtrlPara::TACtrlPara() : kIsCoarseFit(false){
 	// for TATOFWall::GetTime().
 	// count of strips from a fired strips to the fitted track. TATOFWall.C
 	kNStripStrayMinR = -0.8, kNStripStrayMaxR = 0.8; // -0.95, 0.20

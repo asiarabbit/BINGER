@@ -55,7 +55,7 @@ void TAPopMsg::Error(const char *cname, const char *fmt, ...){
 		std::getline(std::cin, str);
 		if(!str.empty() && (str.c_str())[0] == 'q'){
 			cout << "Aborting BINGER...\n";
-			abort();
+			exit(1);
 		}
 		else if(!str.empty() && (str.c_str())[0] == 'n'){
 			nomore = true;

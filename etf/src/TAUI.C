@@ -41,48 +41,80 @@ TAUI *TAUI::Instance(){
 void TAUI::GetOpt(int argc, char *argv[]){
 	int ch;
 //	opterr = 0;
-	while((ch = getopt(argc, argv, ":r:i:f:t::v::m::")) != -1){
+	if(1 == argc) PromptHelp();
+	while((ch = getopt(argc, argv, ":r:i:f:d::u::m::hv")) != -1){
 		switch(ch){
 			case 'r': strcpy(fROOTFile, optarg); break;
 			case 'i': fIndex0 = atoi(optarg); break;
 			case 'f': fIndex1 = atoi(optarg); break;
-			case 'l': fAnaDepth = 1; if(optarg) fAnaDepth = atoi(optarg); break;
-			case 'v': fRunId = 1; if(optarg) fRunId = atoi(optarg); break;
+			case 'd': fAnaDepth = 2; if(optarg) fAnaDepth = atoi(optarg); break;
+			case 'u': fRunId = 1; if(optarg) fRunId = atoi(optarg); break;
 			case 'm': fEvLenLim = atoi(optarg); break;
-			default: PromptHelp(); exit(1);
+			case 'h': PromptHelp(true); break;
+			case 'v': Verbose(true); break;
+			default: PromptHelp();
 		}
 	}
 	if(argv[optind]) strcpy(fDataFile, argv[optind]);
+	
+	// input file name validity check
 	if(strcmp(fROOTFile, "") && strcmp(fDataFile, ""))
 		TAPopMsg::Error("TAUI", "GetOpt: The data file and root file are designated at the same time, which is conflicting.\n\t(The rootfile ought be generated from the datafile.)");
 	if(!strcmp(fROOTFile, "") && !strcmp(fDataFile, ""))
 		TAPopMsg::Error("TAUI", "GetOpt: Neither a data file or root file is given.");
+	// check data type by filename suffixes
+	if(strcmp(fDataFile, "") && strcmp(fDataFile+strlen(fDataFile)-4, ".dat"))
+		TAPopMsg::Error("TAUI", "GetOpt: datafile name is invalid: %s", fDataFile);
+	if(strcmp(fROOTFile, "") && strcmp(fROOTFile+strlen(fROOTFile)-5, ".root"))
+		TAPopMsg::Error("TAUI", "GetOpt: rootfile name is invalid: %s", fROOTFile);
+
+	// echo user input
+	return;
+	cout << "       --- USER INPUT CHECK LIST ---\n"; // DEBUG
+	cout << "fDataFile: " << fDataFile << "\tfROOTFile: " << fROOTFile; // DEBUG
+	cout << "\tfAnaDepth: " << fAnaDepth << "\tfRunId: " << fRunId << endl; // DEBUG
+	cout  << "fEvLenLim: " << fEvLenLim << "\tfIndex0: " << fIndex0; // DEBUG
+	cout << "\tfIndex1: " << fIndex1 << endl; getchar(); // DEBUG
 }
 // show manual for input rules
-void TAUI::PromptHelp(){
+void TAUI::PromptHelp(bool isVerbose){
 	cout << "\n          ----------------- USER MANUL ----------------\n";
 	cout << "Usage:\n";
-	cout << "\t./pre [options] [<datafile> | -r <rootfile>]\n\n";
+	cout << "\t./pre <datafile | -\033[1mr\033[0m rootfile>" ;
+	cout << "[-\033[1mi\033[0m index0] [-\033[1mf\033[0m index1]\n";
+	cout << "\t\t[-\033[1md\033[0manalyze-depth] ";
+	cout << "[-\033[1mm\033[0mevent-length-limit] [-\033[1mu\033[0mrunId]\n";
+	cout << "\t\t[-\033[1mh\033[0m] [-\033[1mv\033[0m]\n";
+	if(!isVerbose) cout << "Use'./pre -h' for detailed help.\n";
+	if(!isVerbose) exit(1);
+
+	cout << endl;
 	cout << "\t[datafile]: \n\t\traw binary datafile\n";
 	cout << "\t[-r <rootfile>]: \n\t\traw rootfile\n";
 	cout << "\t[-i <index0>] [-f <index1>]: \n\t\tindex range of events to be analysed.\n";
 	cout << "\t\ti-initial, f-final. All events are chosen by default.\n";
-	cout << "\t[-t[<depth>]]: \n\t\tanalyze depth:\n";
-	cout << "\t\tnot used or 0: daq and detector statistics;\n\t\t1: tracking (default); 2: PID\n";
-	cout << "\t[-m[<EvLenLim>]]: \n\t\tevent length limit (word)\n";
-	cout << "\t[-v[<runId>]]: \n\t\trun_number\n";
+	cout << "\t[-d[<depth>]]: \n\t\tanalyze depth:\n";
+	cout << "\t\tnot used or 0: daq and detector statistics.";
+	cout << "\n\t\t1: simple tracking; 2: normal tracking (default); 3: PID\n";
+	cout << "\t[-m[<EvLenLim>]]: \n\t\tevent length limit (word). INT_MAX by default.\n";
+	cout << "\t[-u[<runId>]]: \n\t\trun_number\n";
 	cout << "\t\t - would be suffixed to the created rootfile name.\n";
 	cout << "\t\tNot used: 0; default: 1.\n";
+	cout << "\t[-v]: verbose mode (print detector information)\n";
+	exit(1);
 }
 
 void TAUI::Run(){
 	SetDataFile(fDataFile, fRunId);
-	if(0 == fAnaDepth){ SetIsTracking(false); SetIsPID(false); }
-	if(1 == fAnaDepth){ SetIsTracking(true);  SetIsPID(false); }
-	if(2 == fAnaDepth){ SetIsTracking(true);  SetIsPID(true); }
-	cout << "fDataFile: " << fDataFile << "\tfROOTFile: " << fROOTFile << "\tfAnaDepth: " << fAnaDepth;
-	cout << "\nfRunId: " << fRunId << "\tfEvLenLim: " << fEvLenLim << "\tfIndex0: " << fIndex0;
-	cout << "\tfIndex1: " << fIndex1;
+	switch(fAnaDepth){
+		case 0: SetIsTracking(false); SetIsPID(false); break;
+		case 1: SetIsTracking(true); SetIsPID(false);  CoarseFit(true); break;
+		case 2: SetIsTracking(true); SetIsPID(false); break;
+		case 3: SetIsTracking(true); SetIsPID(true); break;
+		default: SetIsTracking(false); SetIsPID(false);
+	}
+	if(fIndex0 >= fIndex1)
+		TAPopMsg::Error("TAUI", "Run: index0 %d is not smaller than index1 %d", fIndex0, fIndex1);
 	Run(fIndex0, fIndex1, fEvLenLim, fROOTFile);
 }
 
