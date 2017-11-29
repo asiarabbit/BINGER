@@ -33,9 +33,9 @@
 	f->cd("VISUAL");
 	vis->DrawHitMap();
 
-//	cout << "\n\n\n";
+	cout << "\n";
 //	cout << "cntTmp: " << cntTmp << endl;
-//	cout << "cntTRef: " << cntTRef << endl;
-//	cout << "cnt_timeToTrig_T0_1UV: " << cnt_timeToTrig_T0_1UV << endl;
-//	cout << "cnt_timeToTrig_T0_1DV: " << cnt_timeToTrig_T0_1DV << endl;
+	cout << "cntTRefCoincide: " << cntTRef << endl;
+	cout << "cnt_timeToTrig_T0_1UV: " << cnt_timeToTrig_T0_1UV << endl;
+	cout << "cnt_timeToTrig_T0_1DV: " << cnt_timeToTrig_T0_1DV << endl;
 	

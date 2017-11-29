@@ -26,21 +26,24 @@
 using std::vector;
 using std::array;
 
-class TADetUnion;
 class TAParameter;
+class TAChPara;
+class TADetUnion;
 class TACtrlPara;
 
 class TAParaManager{
 public:
-	typedef array<TADetUnion *, 64> ArrDet_t;
+	typedef array<TADetUnion *, 64> ArrDet_t; // 64: 0x3F. This value should NOT be changed
 
 	static TAParaManager *Instance();
 	virtual ~TAParaManager();
 	void ReadParameters(); // read all the parameters required
 	double GetPhysConst(const char *name) const;
 	ArrDet_t &GetDetList(){ return fDetList; }
+	vector<TAChPara *> &GetChParaList(){ return fChParaList; }
 	// add physical constants to fPhysConst list
 	void AddPhysConst(const char *name, double value);
+	void AddChPara(TAChPara *chpar);
 	const unsigned *UIDList() const{ return fUIDList; }
 	unsigned GetUID(int chId) const;
 	static const int MAX_CH_NUM = 20000; // maximum number of channels
@@ -48,6 +51,8 @@ public:
 protected:
 	// read the cofig files and register them in a text file
 	void RegisterConfigFiles(const char *basePath);
+	// destruct those detectors that are not commissioned in the current experiment
+	void Clean(); // by telling the status of channel id of the detector' units.
 	static int FileType(const char *fname); // tell file type by suffix
 	// read all the files under a designated file
 	static int ReadFileList(const char *basePath, std::ofstream &configFileList);
@@ -63,6 +68,7 @@ protected:
 	static TAParaManager *kInstance;
 	vector<TAParameter *> fPhysConst; // physics constants
 	ArrDet_t fDetList; // detectors created
+	vector<TAChPara *> fChParaList; // register all the TAChPara objects in this vector
 	unsigned fUIDList[MAX_CH_NUM]; // UID-ChId map, with the subscrip being channel id
 };
 

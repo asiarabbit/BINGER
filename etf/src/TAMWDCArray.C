@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2017/11/19, SUN Yazhou.										     //
+// Last modified: 2017/11/29, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -119,15 +119,15 @@ void TAMWDCArray::AssignTracks(vector<tTrack *> &track_ls){ // assig tracks
 
 #include "TAMWDCArray/map.C" // definition of bool Map(TAMWDC **MWDC, vector<TATrack> &track)
 void TAMWDCArray::Map(){ // map the fired channels in one data section once and for all.
-//	cout << GetName() << endl; // DEBUG
-//	cout << "GetTOFWall()->GetNFiredStrip(): " << GetTOFWall()->GetNFiredStrip() << endl; getchar(); // DEBUG
 	if(GetTOFWall()->GetNFiredStrip() <= 0) return; // event filter
 
 	Map(fMWDC, fTrackList[0], 0); // X
-//	Map(fMWDC, fTrackList[1], 1); // U
-//	Map(fMWDC, fTrackList[2], 2); // V
-	// merge track projections into 3-D tracks by labelling them with 3-D track ids
-//	TrackMerger();
+	if(ctrlPara->Is3DTracking()){
+		Map(fMWDC, fTrackList[1], 1); // U
+		Map(fMWDC, fTrackList[2], 2); // V
+		// merge track projections into 3-D tracks by labelling them with 3-D track ids
+		TrackMerger();
+	}
 } // end of function void Map()
 
 // to see if particle track resolved from UV data is compatible with that from X data.
@@ -187,6 +187,8 @@ void TAMWDCArray::TrackMerger(){ // assembly projections to 3-D tracks.
 		fTrackList[2].clear();
 		return;
 	} // end if
+	// no U or V tracks are found, no 3D tracks would be matched
+	if(0 == fTrackList[1].size() || 0 == fTrackList[2].size()) return;
 
 	bool BINGO = false; // X, U, V are projections of the same one 3-D straight track.
 	int id = -1; // 3-D track identifier

@@ -10,7 +10,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/29.															     //
-// Last modified: 2017/10/29, SUN Yazhou.										     //
+// Last modified: 2017/11/29, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -36,56 +36,50 @@
 		} // end for
 
 		// assign TOT_T0
-		bunchId = entry_t.bunchId; // the last channel
 		tRef = -9999.;
-		double bunchIdTime = (entry_t.bunchId - (entry_t.bunchId & 0x800)) * 25.; // 11 LSB
 		const int nUVLEdge_T0_1 = T0_1->GetUV()->GetData()->GetNLeadingEdge();
 		const int nDVLEdge_T0_1 = T0_1->GetDV()->GetData()->GetNLeadingEdge();
-		double timeToTrig_T0_1UV = -9999., timeToTrig_T0_1DV = -9999.;
 		// T0_1 UV validity check
 		for(int j = 0; j < nUVLEdge_T0_1; j++){
-			double time = T0_1->GetUV()->GetLeadingTime(j) - bunchIdTime;
-			if(time < 0.) time += 51200.;
+			double time = T0_1->GetUV()->GetLeadingTime(j);
 			hT0_1ToTrigUV->Fill(j, time);
-//			cout << "timeToTrig_T0_1UV: " << time << endl;
-			if(time > timeToTrigLowBoundUV && time < timeToTrigHighBoundUV){ // 1214.dat: 500. 640.
-				timeToTrig_T0_1UV = time;
+			if(time > timeToTrigLowBoundUV && time < timeToTrigHighBoundUV){
 				cnt_timeToTrig_T0_1UV++; break;
 			}
 		}
 		// T0_1 DV validity check
 		for(int j = 0; j < nDVLEdge_T0_1; j++){
-			double time = T0_1->GetDV()->GetLeadingTime(j) - bunchIdTime;
-			if(time < 0.) time += 51200.;
+			double time = T0_1->GetDV()->GetLeadingTime(j);
 			hT0_1ToTrigDV->Fill(j, time);
-//			cout << "timeToTrig_T0_1DV: " << time << endl; getchar();
-			if(time > timeToTrigLowBoundDV && time < timeToTrigHighBoundDV){ // 1214.dat: 450. 650.
-				timeToTrig_T0_1DV = time;
+			if(time > timeToTrigLowBoundDV && time < timeToTrigHighBoundDV){
 				cnt_timeToTrig_T0_1DV++; break;
 			}
 		}
 		// extract the best matched T0_1_UV and T0_1_DV
+		double timeUV_T0_1 = -9999., timeDV_T0_1 = -9999., dmin_T0_1 = 1E200;
 		for(int j = 0; j < nUVLEdge_T0_1; j++){
-			for(int k = 0; k < nDVLEdge_T0_1; k++){
-				double timeUV = T0_1->GetUV()->GetLeadingTime(j) - bunchIdTime;
-				if(timeUV < 0.) timeUV += 51200.;
-				double timeDV = T0_1->GetDV()->GetLeadingTime(k) - bunchIdTime;
-				if(timeDV < 0.) timeDV += 51200.;
-				if((timeUV > timeToTrigLowBoundUV && timeUV < timeToTrigHighBoundUV) && 
-				   (timeDV > timeToTrigLowBoundDV && timeDV < timeToTrigHighBoundDV)){
-					hTOF_T1_pos->Fill(timeDV - timeUV);
-					if(timeDV - timeUV < 2. && timeDV - timeUV > -2.){
-						tRef = (timeUV + timeDV) / 2. + bunchIdTime;
-						cntTRef++; break;
-					}
-				}
+			double tmpuv = T0_1->GetUV()->GetLeadingTime(j);
+			double tmpdv = T0_1->GetDV()->GetLT(tmpuv);
+			double tmpdt = fabs(tmpuv - tmpdv);
+			if(tmpuv > timeToTrigHighBoundUV || tmpuv < timeToTrigLowBoundUV) tmpdt += 20.;
+			if(tmpdt < dmin_T0_1){
+				dmin_T0_1 = tmpdt;
+				timeUV_T0_1 = tmpuv; timeDV_T0_1 = tmpdv;
 			}
-			if(tRef != -9999.) break;
 		}
-
-//		cout << "nUVLEdge_T0_1: " << nUVLEdge_T0_1 << "\ttimeToTrig_T0_1UV: " << timeToTrig_T0_1UV << endl;
-//		cout << "nDVLEdge_T0_1: " << nDVLEdge_T0_1 << "\ttimeToTrig_T0_1DV: " << timeToTrig_T0_1DV << endl;
-//		cout << "tRef: " << tRef << endl; getchar(); // DEBUG
+		
+		dmin_T0_1 = timeUV_T0_1 - timeDV_T0_1;
+		hTOF_T1_pos->Fill(dmin_T0_1);
+		if(dmin_T0_1 > -20. && dmin_T0_1 < 60.){
+			tRef = (timeUV_T0_1 + timeDV_T0_1) / 2.;
+			cntTRef++;
+		}
+//		if(tRef > timeToTrigHighBoundUV || tRef < timeToTrigLowBoundUV){
+//			cout << "\n\nnl: " << nUVLEdge_T0_1 << "\tnDVLEdge_T0_1: " << nDVLEdge_T0_1 << endl; // DEBUG
+//			cout << "timeUV_T0_1: " << timeUV_T0_1 << "\ttimeDV_T0_1: " << timeDV_T0_1 << endl; // DEBUG
+//			cout << "dmin_T0_1: " << dmin_T0_1 << "\ttRef: " << tRef << endl; // DEBUG
+//			T0_1->GetUV()->GetData()->Show(); T0_1->GetDV()->GetData()->Show(); getchar(); // DEBUG
+//		}
 
 		TOF_T1 = T0_1->GetTime();
 		TOT_T0[0] = T0_0->GetUV()->GetTOT(); TOT_T0[1] = T0_0->GetUH()->GetTOT();
@@ -108,7 +102,7 @@
 					if(15 == strId){
 						for(int j = 0; j < str->GetUV()->GetData()->GetNLeadingEdge(); j++){
 							if(tRef != -9999.){
-								hTOFWToTrigUVStrip15[ii]->Fill(j, str->GetUV()->GetLeadingTime(j) - bunchIdTime);
+								hTOFWToTrigUVStrip15[ii]->Fill(j, str->GetUV()->GetLeadingTime(j));
 							}
 						}
 					}
@@ -136,9 +130,9 @@
 								double dcToTRef = ano->GetData()->GetLeadingTime() - tRef;
 								if(tRef != -9999.) hDCToTRef[ii][j][k]->Fill(dcToTRef);
 								if(tRef != -9999.){
-									if(0 == ii && 0 == k && 0 == j && 0 == l && 40 == m){
-										for(int o = 0; o < ano->GetData()->GetNLeadingEdge(); o++)
-										hDCToTrig->Fill(o, ano->GetData()->GetLeadingTime(o) - bunchIdTime);
+									if(0 == ii && 0 == k && 0 == j){
+										for(int i = 0; i < ano->GetData()->GetNLeadingEdge(); i++)
+										hDCToTrig->Fill(i, ano->GetData()->GetLeadingTime(i));
 									}
 								}
 								// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
@@ -159,7 +153,6 @@
 				double time = ch->GetTime() - sipmArr->GetDelay() - TOF_T1;
 				if(-9999. != TOF_T1) hsipmStripMinusTOF_T1->Fill(sipmArrStripId_pre, time);
 				if(fabs(time) < 50.) multiSipmArr++;
-				time = ch->GetTime() - bunchIdTime; if(time < 0.) time += 51200.;
 				hsipmArrToTrig->Fill(sipmArrStripId_pre, time);
 				double timeToTRef = ch->GetLeadingTime() - tRef;
 				if(tRef != -9999.){
@@ -181,22 +174,22 @@
 			if(4 == sta) hSiPMPlaBarrFiredDist->Fill(strId);
 			if(4 == sta || 3 == sta){
 				hSiPMPlaBarrHitPos->Fill(strId, str->GetHitPosition());
-				if(tRef != -9999.) hsipmBarrToTRef->Fill(strId, str->GetUV()->GetLeadingTime() - tRef);
-				timeToTRefSipmBarr = str->GetTime() - tRef;
+				if(tRef != -9999.){
+					hsipmBarrToTRef->Fill(strId, str->GetUV()->GetLeadingTime() - tRef);
+					timeToTRefSipmBarr = str->GetTime(tRef, -300., 300.) - tRef;
+				}
 				// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
-				timeToTrigSipmBarr = str->GetTime() - bunchIdTime;
-				if(timeToTrigSipmBarr < 0.) timeToTrigSipmBarr += 51200.;
-				if(!(timeToTRefSipmBarr > -60. && timeToTRefSipmBarr < -10.)) str->GetStripData()->SetFiredStatus(-10);
-//				if(!(timeToTrigSipmBarr > 300. && timeToTrigSipmBarr < 600.)) str->GetStripData()->SetFiredStatus(-10);
+				timeToTrigSipmBarr = str->GetTime(0., 300., 600.);
+				if(!(timeToTRefSipmBarr > -600. && timeToTRefSipmBarr < 300.))
+//				if(!(timeToTrigSipmBarr > 300. && timeToTrigSipmBarr < 600.))
+				{
+					str->GetStripData()->SetFiredStatus(-10);
+				}
 			}
 		} // end for over sipmArr
 		sipmArr->GetFiredStripArr(multiSipmArr_post, hitIdLsSipmArr_post);
 		sipmBarr->GetFiredStripArr(multiSipmBarr_post, hitIdLsSipmBarr_post);
 		hSiPMPlaBarrMulti->Fill(multiSipmBarr_post);
-
-
-
-
 
 
 

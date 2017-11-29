@@ -63,6 +63,7 @@ public:
 	// whether or not to implement the particle tracking or rigidity analysis
 	void SetIsPID(bool opt = true){ fIsPID = opt; }
 	void SetIsTracking(bool opt = true){ fIsTracking = opt; }
+	void SetIs3DTracking(bool opt = true);
 	bool IsPID() const{ return fIsPID; }
 	bool IsTracking() const{ return fIsTracking; }
 	void Verbose(bool opt = true){ TAPopMsg::Verbose(opt); } // true or null: verbose; false: succinct

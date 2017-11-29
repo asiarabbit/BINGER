@@ -104,6 +104,7 @@
 	TTree *treeSiPMPlaBarr = new TTree("treeSiPMPlaBarr", "SiPM Plastic Scintillator Strip Barrel Statistics");
 	treeSiPMPlaBarr->SetAutoSave(1e7);
 	treeSiPMPlaBarr->Branch("index", &index, "index/I");
+	treeSiPMPlaBarr->Branch("tRef", &tRef, "tRef/D");
 	treeSiPMPlaBarr->Branch("timeToTrig", &timeToTrigSipmBarr, "timeToTrig/D");
 	treeSiPMPlaBarr->Branch("timeToTRef", &timeToTRefSipmBarr, "timeToTRef/D");
 	treeSiPMPlaBarr->Branch("multi_pre", &multiSipmBarr_pre, "multi_pre/I");

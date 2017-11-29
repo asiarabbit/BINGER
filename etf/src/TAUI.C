@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/11/27.															     //
-// Last modified: 2017/11/27, SUN Yazhou.										     //
+// Last modified: 2017/11/29, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -42,7 +42,7 @@ void TAUI::GetOpt(int argc, char *argv[]){
 	int ch;
 //	opterr = 0;
 	if(1 == argc) PromptHelp();
-	while((ch = getopt(argc, argv, ":r:i:f:d::u::m::hv")) != -1){
+	while((ch = getopt(argc, argv, ":r:i:f:d::u::m::hv:")) != -1){
 		switch(ch){
 			case 'r': strcpy(fROOTFile, optarg); break;
 			case 'i': fIndex0 = atoi(optarg); break;
@@ -69,12 +69,14 @@ void TAUI::GetOpt(int argc, char *argv[]){
 		TAPopMsg::Error("TAUI", "GetOpt: rootfile name is invalid: %s", fROOTFile);
 
 	// echo user input
-	return;
+//	return;
 	cout << "       --- USER INPUT CHECK LIST ---\n"; // DEBUG
 	cout << "fDataFile: " << fDataFile << "\tfROOTFile: " << fROOTFile; // DEBUG
-	cout << "\tfAnaDepth: " << fAnaDepth << "\tfRunId: " << fRunId << endl; // DEBUG
+	cout << "\tfAnaDepth: " << fAnaDepth;
+	if(!strcmp(fROOTFile, "")) cout << "\tfRunId: " << fRunId << endl; // DEBUG
+	else cout << "\tfRunId: (null)" << endl; // DEBUG
 	cout  << "fEvLenLim: " << fEvLenLim << "\tfIndex0: " << fIndex0; // DEBUG
-	cout << "\tfIndex1: " << fIndex1 << endl; getchar(); // DEBUG
+	cout << "\tfIndex1: " << fIndex1 << endl; // DEBUG
 }
 // show manual for input rules
 void TAUI::PromptHelp(bool isVerbose){
@@ -85,7 +87,7 @@ void TAUI::PromptHelp(bool isVerbose){
 	cout << "\t\t[-\033[1md\033[0manalyze-depth] ";
 	cout << "[-\033[1mm\033[0mevent-length-limit] [-\033[1mu\033[0mrunId]\n";
 	cout << "\t\t[-\033[1mh\033[0m] [-\033[1mv\033[0m]\n";
-	if(!isVerbose) cout << "Use'./pre -h' for detailed help.\n";
+	if(!isVerbose) cout << "Use './pre -h' for detailed help.\n";
 	if(!isVerbose) exit(1);
 
 	cout << endl;
@@ -96,31 +98,34 @@ void TAUI::PromptHelp(bool isVerbose){
 	cout << "\t[-d[<depth>]]: \n\t\tanalyze depth:\n";
 	cout << "\t\tnot used or 0: daq and detector statistics.";
 	cout << "\n\t\t1: simple tracking; 2: normal tracking (default); 3: PID\n";
+	cout << "\n\t\t4: 3D simple tracking; 5: 3D normal tracking (default); 6: 3D PID\n";
 	cout << "\t[-m[<EvLenLim>]]: \n\t\tevent length limit (word). INT_MAX by default.\n";
 	cout << "\t[-u[<runId>]]: \n\t\trun_number\n";
 	cout << "\t\t - would be suffixed to the created rootfile name.\n";
 	cout << "\t\tNot used: 0; default: 1.\n";
 	cout << "\t[-v]: verbose mode (print detector information)\n";
+	cout << "\tAbsolute path/data or ../data/relative-path/data is adopted\n";
+	cout << "\tfor input binary data files.\n";
 	exit(1);
 }
 
 void TAUI::Run(){
-	SetDataFile(fDataFile, fRunId);
+	if(fIndex0 >= fIndex1)
+		TAPopMsg::Error("TAUI", "Run: index0 %d is not smaller than index1 %d", fIndex0, fIndex1);
 	switch(fAnaDepth){
 		case 0: SetIsTracking(false); SetIsPID(false); break;
 		case 1: SetIsTracking(true); SetIsPID(false);  CoarseFit(true); break;
 		case 2: SetIsTracking(true); SetIsPID(false); break;
 		case 3: SetIsTracking(true); SetIsPID(true); break;
+		case 4: SetIs3DTracking(true); SetIsPID(false);  CoarseFit(true); break;
+		case 5: SetIs3DTracking(true); SetIsPID(false); break;
+		case 6: SetIs3DTracking(true); SetIsPID(true); break;
 		default: SetIsTracking(false); SetIsPID(false);
 	}
-	if(fIndex0 >= fIndex1)
-		TAPopMsg::Error("TAUI", "Run: index0 %d is not smaller than index1 %d", fIndex0, fIndex1);
+	if(strcmp(fDataFile, "") && !strcmp(fROOTFile, "")) SetDataFile(fDataFile, fRunId);
+
 	Run(fIndex0, fIndex1, fEvLenLim, fROOTFile);
 }
-
-
-
-
 
 
 

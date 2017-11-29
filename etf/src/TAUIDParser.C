@@ -37,7 +37,7 @@ void TAUIDParser::DNS(int *result, unsigned uid){
 		if(result[1] < 3){ // MWDCs
 			result[2] = (uid>>9) & 0x3; // the next 2 bits, super layer id [0-1-2]: [X-U-V]
 			result[3] = (uid>>11) & 0x7; // the next 3 bits, cable id
-			result[4] = (uid>>14) & 0x1; // the next 1 bit, SFE16 id, 0 or 1.
+			result[4] = (uid>>14) & 0x1; // the next 1 bit, SFE16 id, 0 or 1
 			result[5] = (uid>>15) & 0xF; // the next 4 bits, 16 anodes
 		}
 		else{ // TOF Wall

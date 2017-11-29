@@ -16,14 +16,16 @@
 
 #include "TAChPara.h"
 #include "TAPopMsg.h"
+#include "TAParaManager.h"
 
 TAChPara::TAChPara(const string &name, const string &title, unsigned uid)
 			: TAParameter(name, title, uid), fChId(-2), fDelay(-9999.){
 	fDelay = 0.; // 2017/10/15, temporary TODO: after completing T0-calib, comment this line
+	TAParaManager::Instance()->AddChPara(this);
 }
 
 int TAChPara::GetChannelId() const{
-	if(fChId < 0) TAPopMsg::Error(fName.c_str(), "GetChannelId: Minus value: %d", fChId);
+//	if(fChId < 0) TAPopMsg::Error(fName.c_str(), "GetChannelId: Minus value: %d", fChId);
 	return fChId;
 }
 double TAChPara::GetDelay() const{

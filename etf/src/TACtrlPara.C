@@ -37,8 +37,9 @@ TACtrlPara::~TACtrlPara(){
 bool TACtrlPara::IsCheckBunchIdAlignment(){ return true; }
 bool TACtrlPara::IsDriftTimeQtCorrection(){ return false; }
 bool TACtrlPara::IsCoarseFit(){ return kIsCoarseFit; }
-	// tolerance window for 3D coincidence test of X U and V track projections
-	// 5: half a DC cell, given all kinds of errors
+bool TACtrlPara::Is3DTracking(){ return kIs3DTracking; }
+// tolerance window for 3D coincidence test of X U and V track projections
+// 5: half a DC cell, given all kinds of errors
 double TACtrlPara::Get3DCoincideWindow(){ return 10.; }
 double TACtrlPara::D2Thre(){ return 300.; } // for eliminating falsely fired andoes. BINGO unit: mm^2
 bool TACtrlPara::TimeThre(double t){ return t > -40. && t < 400.; }
@@ -174,7 +175,7 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 	else TAPopMsg::Error("TACtrlPara", "AssignSTR: input anode para uid error: DCArrId: type[0]: %d", type[0]);
 } // end of member function AssignSTR
 
-TACtrlPara::TACtrlPara() : kIsCoarseFit(false){
+TACtrlPara::TACtrlPara() : kIsCoarseFit(false), kIs3DTracking(false){
 	// for TATOFWall::GetTime().
 	// count of strips from a fired strips to the fitted track. TATOFWall.C
 	kNStripStrayMinR = -0.8, kNStripStrayMaxR = 0.8; // -0.95, 0.20

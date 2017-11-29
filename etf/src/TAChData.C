@@ -18,6 +18,7 @@
 
 #include <iostream>
 #include <cstring>
+#include <cmath>
 #include "TAChData.h"
 #include "TAPopMsg.h"
 #include "tEntry.h"
@@ -41,6 +42,47 @@ double TAChData::GetLeadingTime(int n) const{
 	if(-9999. == fLeadingTime[0])
 		TAPopMsg::Error(GetName().c_str(), "GetLeadingTime: Leading time array is null.");
 	return fLeadingTime[n];
+}
+// t0, t1 and t2 are set for choosing ch->GetLT over edges
+// (ch->GetLT-t0) within t1 and t2 is chosen. t1 and t2 using default values, choose the 1st edge
+double TAChData::GetLT(double t0, double t1, double t2) const{
+	const int nl = GetNLeadingEdge();
+	double tmp, dt, lt = GetLeadingTime(); // default is the 0-th edge leading edge time
+	if(-9999. != t0 && -9999. == t1 && -9999. == t2){ // only the t-start is given
+		// select the closest edge to t0 //
+//		cout << "BINGO1" << endl; getchar(); // DEBUG
+		double dmin = 1E200;
+		for(int i = 0; i < nl; i++){
+			tmp = GetLeadingTime(i);
+			dt = fabs(tmp - t0);
+			if(dt < dmin){
+				dmin  = dt;
+				lt = tmp;
+			}
+		}
+	}
+	if(-9999. != t0 && -9999. != t1 && -9999. != t2){ // three pars are all given
+		// choose the one that is just within the range and exit the loop
+		// t1 is supposed to be no greater than t2
+//		cout << "BINGO2" << endl; getchar(); // DEBUG
+		if(t1 > t2){ // swap t1 and t2
+			tmp = t1;
+			t1 = t2;
+			t2 = tmp;
+		}
+		for(int i = 0; i < nl; i++){
+			tmp = GetLeadingTime(i);
+			dt = lt - t0;
+			if(tmp > t1 && tmp < t2){
+				lt = tmp;
+				break;
+			}
+		}
+	} // end outer else
+//	Show(); // DEBUG
+//	cout << "t0: " << t0 << "\tt1: " << t1 << "\tt2: " << t2 << endl; // DEBUG
+//	cout << "lt: " << lt << endl; getchar(); // DEBUG
+	return lt;
 }
 // get the n-th pulse
 double TAChData::GetTrailingTime(int n) const{

@@ -35,7 +35,10 @@ public:
 	// 0: not fired; 1:only upper end fired; 2: only down end fired;
 	// 3: both end fired, but hit position out of range. 4: both end fired and hit point within ration range. -1: H and V not simultaneously fired. -2: Member channels not assigned.
 	int GetFiredStatus() const; // not simply return fFired, but based on the data members
-	double GetTime() const; // get TOF time
+	// t0, t1 and t2 are set for choosing ch->GetLT over edges
+	// (ch->GetLT-t0) within t1 and t2 is chosen. 
+	// t0, t1 and t2 using default values, choose the 1st edge
+	double GetTime(double t0 = -9999., double t1 = -9999., double t2 = -9999.) const; // get TOF time
 	TAChannel *GetUV() const; // return up end of the strip, HPTDC very high resolution mode.
 	TAChannel *GetUH() const; // return up end of the strip, HPTDC high resolution mode.
 	TAChannel *GetDV() const; // return down end of the strip, HPTDC very high resolution mode.

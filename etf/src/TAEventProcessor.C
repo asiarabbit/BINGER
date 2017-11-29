@@ -37,10 +37,12 @@
 #include "TAVisual.h"
 #include "TAPID.h"
 #include "TAUIDParser.h"
+#include "TAT0_0.h"
+#include "TAT0_1.h"
 #include "TASiPMPlaArray.h"
-#include "TASiPMPlaBarrel.h"
 #include "TAMWDCArrayL.h"
 #include "TAMWDCArrayR.h"
+#include "TASiPMPlaBarrel.h"
 #include "TAChannel.h"
 #include "TAMWDC.h"
 #include "TATOFWall.h"
@@ -55,9 +57,6 @@
 #include "tTrack.h"
 #include "t3DTrkInfo.h"
 #include "t3DPIDInfo.h"
-
-#include "TAT0_0.h"
-#include "TAT0_1.h"
 
 using std::cout;
 using std::endl;
@@ -133,6 +132,10 @@ void TAEventProcessor::SetMagneticIntensity(double B){
 	// for extrapolation from B @1000A to other B value
 	GetPID()->SetMagneticIntensity(B);
 }
+void TAEventProcessor::SetIs3DTracking(bool opt){
+	SetIsTracking(true);
+	TACtrlPara::Instance()->SetIs3DTracking(opt);
+}
 void TAEventProcessor::SetSTRROOTFile(const string &file){
 	string STRFile = "/STR/"+file;
 	char tmp[64]; strcpy(tmp, GetCtrlPara()->ConfigExpDir());
@@ -140,17 +143,21 @@ void TAEventProcessor::SetSTRROOTFile(const string &file){
 	GetCtrlPara()->SetSTRROOTFile(STRFile);
 }
 void TAEventProcessor::SetDataFile(const string &datafile, int runId){
-	GetRawDataProcessor()->SetDataFileName("../data/"+datafile, runId);
+	if('/' == datafile.c_str()[0])
+		GetRawDataProcessor()->SetDataFileName(datafile, runId);
+	else GetRawDataProcessor()->SetDataFileName("../data/"+datafile, runId);
 }
 void TAEventProcessor::SetPeriod(int index0, int index1){
 	GetRawDataProcessor()->SetPeriod(index0, index1);
 }
 void TAEventProcessor::Configure(){ // create detectors
+	static bool isCalled = false;
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
-	if(detList[0]){
-//		TAPopMsg::Warn("TAEventProcessor", "Configurte: has been called once.");
+	if(isCalled){
+//		TAPopMsg::Warn("TAEventProcessor", "Configurte: has been called once.");i
 		return;
 	}
+	// note that the detector UID has to be equal to the array detList subscript
 	detList[0] = new TAT0_0("T0_0", "T0_0@Mid-RIBLL2", 0);
 	detList[1] = new TAT0_1("T0_1", "T0_1@End-RIBLL2", 1);
 	detList[2] = new TASiPMPlaArray("SiPMPlaArray", "SiPMPlaArray@Post-Target", 2);
@@ -168,6 +175,7 @@ void TAEventProcessor::Configure(){ // create detectors
 	// show some information
 //	((TAMWDCArray*)detList[3])->Info();
 //	((TAMWDCArray*)detList[4])->Info();
+	isCalled = true; // has been called
 }
 // assign an event to the detectors by distributing channel data to the matching channel objects
 void TAEventProcessor::Assign(){
@@ -243,6 +251,12 @@ void TAEventProcessor::Analyze(){
 #endif
 	}
 } // end of member function Analyze
+inline void correctCycleClear(double &x, double bunchIdTime){
+	if(-9999. != x){
+		x -= bunchIdTime;
+		if(x < 0.) x += 51200.;
+	}
+}
 // the overall data analysis routine
 // (id0, id1): index range for analysis; secLenLim: event length limit; rawrtfile: raw rootfile
 void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtfile){
@@ -269,6 +283,7 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	treeData->SetBranchAddress("trailingTime", entry_t.trailingTime);
 	treeData->SetBranchAddress("is_V", &entry_t.is_V);
 	treeData->SetBranchAddress("bunchId", &entry_t.bunchId);
+	vector<tEntry *> &entry_ls = GetEntryList();
 	// read rootfile and assembly each event
 	#include "TAEventProcessor/define_hist.C" // define histograms of interest
 	#include "TAEventProcessor/define_tree.C" // define the track tree
@@ -278,14 +293,15 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	int cntaozWrong = 0, cntaoz = 0;
 	int i = 0; int cntSec = 0;
 	// to select the trigger-generating particle
-	const double timeToTrigLowBoundUV = 404., timeToTrigHighBoundUV = 557.;
-	const double timeToTrigLowBoundDV = 404., timeToTrigHighBoundDV = 557.;
+	const double timeToTrigLowBoundUV = 204., timeToTrigHighBoundUV = 857.;
+	const double timeToTrigLowBoundDV = 204., timeToTrigHighBoundDV = 857.;
 	TAVisual *vis = GetVisual();
 	TAPID *pid = GetPID();
 	while(i < n){
 		Initialize(); // clear everything from last data section.
 		// assign all entries in a sec to fEntryList for processing.
 		while(1){
+			entry_t.initialize();
 			treeData->GetEntry(i++);
 			if(entry_t.index != -2){ // index == -2 marks end of one data section.
 				index = entry_t.index;
@@ -294,6 +310,12 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 			}
 			else break;
 		} // entry assignment for the data section complete
+		// correct time from cycle-clear
+		const double bunchIdTime = (entry_t.bunchId & 0x7FF) * 25.;
+		for(tEntry *t : entry_ls){
+			for(double &x : t->leadingTime) correctCycleClear(x, bunchIdTime);
+			for(double &x : t->trailingTime) correctCycleClear(x, bunchIdTime);
+		}
 		if(entry_t.channelId > secLenLim) continue; // index==2, then channelId stores secLen.
 		if(index < id0){
 			cout << "Skipping Event index " << index << "\r" << flush;

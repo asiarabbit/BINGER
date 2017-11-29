@@ -31,6 +31,7 @@ public:
 	static bool IsCheckBunchIdAlignment();
 	static bool IsDriftTimeQtCorrection();
 	bool IsCoarseFit();
+	bool Is3DTracking();
 	// tolerance window for 3D coincidence test of X U and V track projections
 	// 5: half a DC cell, given all kinds of errors
 	static double Get3DCoincideWindow();
@@ -70,11 +71,13 @@ public:
 	void SetConfigExpDir(const string &dir);
 	void SetSTRROOTFile(const string &file);
 	void CoarseFit(bool opt = true){ kIsCoarseFit = opt; }
+	void SetIs3DTracking(bool opt = true){ kIs3DTracking = opt; }
 private:
 	TACtrlPara();
 	static TACtrlPara *kInstance;
 
 	bool kIsCoarseFit; // true then only iterative fit would be used
+	bool kIs3DTracking; // whether or not to implement 3D tracking
 	// for TATOFWall::GetTime().
 	// count of strips from a fired strips to the fitted track. TATOFWall.C
 	double kNStripStrayMinR, kNStripStrayMaxR; // -0.95, 0.20 // DCArrayR

@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/9.															     //
-// Last modified: 2017/11/08, SUN Yazhou.										     //
+// Last modified: 2017/11/29, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -90,13 +90,18 @@ int TAPlaStrip::GetFiredStatus() const{
 	} // end the outer if
 	return sta;
 } // end function GetFiredStatus
-double TAPlaStrip::GetTime() const{ // get hit time
+// t0, t1 and t2 are set for choosing ch->GetLT over edges
+// (ch->GetLT-t0) within t1 and t2 is chosen. t0, t1 and t2 using default values, choose the 1st edge
+double TAPlaStrip::GetTime(double t0, double t1, double t2) const{ // get hit time
 	double time = GetStripData()->GetTime();
 	TAPlaStripPara *pa = GetStripPara();
 	if(-9999. == time){ // not assigned
-		if(4 == GetFiredStatus()){
-			time = -pa->GetLength()/(2.*pa->GetVeff())
-				 + (GetUV()->GetLeadingTime()+GetDV()->GetLeadingTime()) / 2.;
+		double tt = GetUV()->GetLT(t0,t1,t2)+GetDV()->GetLT(t0,t1,t2);
+		short sta = GetFiredStatus();
+		if(4 == sta || 
+		3 == sta
+		   ){
+			time = -pa->GetLength()/(2.*pa->GetVeff()) + tt / 2.;
 			time -= pa->GetDelay();
 			GetStripData()->SetTime(time); // assigne the fStripData object
 		}

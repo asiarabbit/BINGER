@@ -7,7 +7,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/30.															     //
-// Last modified: 2017/9/30, SUN Yazhou.										     //
+// Last modified: 2017/11/29, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -48,6 +48,11 @@ bool TAChannel::GetFiredStatus() const{
 }
 double TAChannel::GetLeadingTime(int n) const{
 	return GetData()->GetLeadingTime(n);
+}
+// t0, t1 and t2 are set for choosing ch->GetLT over edges
+// (ch->GetLT-t0) within t1 and t2 is chosen. t0, t1 and t2 using default values, choose the 1st edge
+double TAChannel::GetLT(double t0, double t1, double t2) const{
+	return GetData()->GetLT(t0, t1, t2);
 }
 double TAChannel::GetTOT(int n) const{
 	const double tl = GetData()->GetLeadingTime(n);

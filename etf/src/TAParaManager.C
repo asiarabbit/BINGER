@@ -29,6 +29,7 @@
 #include "TADetUnion.h"
 #include "TAParameter.h"
 #include "TAChannel.h"
+#include "TAChPara.h"
 #include "TAAnode.h"
 #include "TAAnodePara.h"
 #include "TAMWDC.h"
@@ -91,6 +92,9 @@ unsigned TAParaManager::GetUID(int chId) const{
 	}
 	return uid;
 }
+void TAParaManager::AddChPara(TAChPara *chpar){
+	fChParaList.push_back(chpar);
+}
 
 // Every value whatsoever has a UID. This is the utmost principle of para management.
 void TAParaManager::ReadParameters(){
@@ -134,6 +138,8 @@ void TAParaManager::ReadParameters(){
 # ifdef VERBOSE
 	TAPopMsg::Info("TAParaManager", "ReadParameters: Parameters has been read and assigned~ \033[33;1m:)\033[0m");
 #endif
+	// destruct those detectors that are not commissioned in the current experiment
+	Clean(); // by telling the status of channel id of the detector units.
 }
 
 
@@ -195,6 +201,19 @@ int TAParaManager::ReadFileList(const char *basePath, ofstream &configFileList){
 	closedir(dir);
 	return 1;
 } // end of ReadFileList
+void TAParaManager::Clean(){
+	const int n = fDetList.size();
+	bool isEmpty[n]{0}; // each element for a detector
+	memset(isEmpty, 1, sizeof(isEmpty));
+	for(TAChPara *p : fChParaList){
+		if(-2 != p->GetChannelId()){
+			isEmpty[p->GetUID() & 0x3F] = false;
+		}
+	}
+	for(int i = 0; i < n; i++) if(isEmpty[i] && fDetList[i]){
+		delete fDetList[i]; fDetList[i] = nullptr;
+	}
+}
 // 0: channel id; 1: detector position; 2: T0; 3: STR cor
 int TAParaManager::FileType(const char *fname){
 	int size = strlen(fname);

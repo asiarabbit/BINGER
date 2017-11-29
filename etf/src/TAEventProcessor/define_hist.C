@@ -16,7 +16,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 
 	// detector pointers
-	vector<tEntry *> &entry_ls = GetEntryList();
 	vector<tTrack *> &track_ls = GetTrackList();
 	TAParaManager::ArrDet_t &dec_vec = GetParaManager()->GetDetList();
 	TAT0_0 *T0_0 = (TAT0_0*)dec_vec[0];
@@ -110,7 +109,7 @@
 				// DC time to T-reference
 				sprintf(name, "hDCToTRefArr%c_DC%d_%c", LR[i], j, xuv[k]);
 				sprintf(title, "DC Time to T-reterence - DC Array%c - DC%d - %c;timeToTRef/ns", LR[i], j, xuv[k]);
-				hDCToTRef[i][j][k] = new TH1F(name, title, 4000, -1000., 2000.);
+				hDCToTRef[i][j][k] = new TH1F(name, title, 40000, -100000., 200000.);
 				objLs[7].push_back(hDCToTRef[i][j][k]);
 			} // end for over X-U-V
 		} // end for over DCs
@@ -153,7 +152,7 @@
 	TH2F *hTOFWToTrigUVStrip15[2];
 	hTOFWToTrigUVStrip15[0] = new TH2F("hLTOFWToTrigUVStrip15", "hLT0_1ToTrigUVStrip15;edgeNumId;timeToTrig/ns", 13, -1.5, 11.5, 4000, -2000., 2000.);
 	hTOFWToTrigUVStrip15[1] = new TH2F("hRTOFWToTrigUVStrip15", "hRT0_1ToTrigUVStrip15;edgeNumId;timeToTrig/ns", 13, -1.5, 11.5, 4000, -2000., 2000.);
-	TH2F *hDCToTrig = new TH2F("hDCToTrig", "hDCToTrig;edgeNumId;timeToTrig/ns", 13, -1.5, 11.5, 4000, -2000., 2000.);
+	TH2F *hDCToTrig = new TH2F("hDCToTrig", "hDCToTrig;edgeNumId;timeToTrig/ns", 13, -1.5, 11.5, 8000, -4000., 6000.);
 	objLs[6].push_back(htof2sipmArr); objLs[6].push_back(hsipmArrToTrig);
 	objLs[6].push_back(hTOF_T1_pos); objLs[6].push_back(hSiPMPlaArrMultiTRef);
 	objLs[6].push_back(hT0_1ToTrigUV); objLs[6].push_back(hT0_1ToTrigDV);
