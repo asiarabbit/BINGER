@@ -276,6 +276,7 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 //	return;
 	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
 	TTree *treeData = (TTree*)f->Get("treeData");
+	if(!treeData) TAPopMsg::Error("TAEventProcessor", "Run: Obtained treeData is null pointer");
 	tEntry entry_t;
 	treeData->SetBranchAddress("index", &entry_t.index);
 	treeData->SetBranchAddress("nl", &entry_t.nl);
@@ -305,7 +306,7 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 		while(1){
 			entry_t.initialize();
 			treeData->GetEntry(i++);
-			if(entry_t.index != -2){ // index == -2 marks end of one data section.
+			if(-2 != entry_t.index){ // index == -2 marks end of one data section
 				index = entry_t.index;
 				tEntry *pEntry_t = new tEntry(entry_t);
 				entry_ls.push_back(pEntry_t);
@@ -315,10 +316,11 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 		// correct time from cycle-clear
 		const double bunchIdTime = (entry_t.bunchId & 0x7FF) * 25.;
 		for(tEntry *t : entry_ls){
+//			t->show(); // DEBUG
 			for(double &x : t->leadingTime) correctCycleClear(x, bunchIdTime);
 			for(double &x : t->trailingTime) correctCycleClear(x, bunchIdTime);
 		}
-		if(entry_t.channelId > secLenLim) continue; // index==2, then channelId stores secLen.
+		if(entry_t.channelId > secLenLim) continue; // index==2, then channelId stores secLen
 		if(index < id0){
 			cout << "Skipping Event index " << index << "\r" << flush;
 			continue;

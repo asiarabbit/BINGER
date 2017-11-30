@@ -75,7 +75,7 @@ void TAT0_1::Configure(){
 	fStripPara->SetVeff(1200. / 7.8); // mm/ns, roughly calibrated
 
 	// print user-defined configurations
-	TAPopMsg::ConfigInfo(GetName().c_str(), "Configure: \nfZ0: %f\nfDelay: %f\nfWidth: %f\nfLength: %f\nfVeff: %f\n", fZ0, fStripPara->GetDelay(), fStripPara->GetWidth(), fStripPara->GetLength(), fStripPara->GetVeff());
+	TAPopMsg::ConfigInfo(GetName().c_str(), "Configure: \nfZ0: %f\nfDelay: %f\nfWidth: %f\nfLength: %f\nfVeff: %f\n", fZ0, GetDelay(), fStripPara->GetWidth(), fStripPara->GetLength(), fStripPara->GetVeff());
 } // end of member method Configure
 
 

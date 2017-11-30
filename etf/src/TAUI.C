@@ -42,7 +42,7 @@ void TAUI::GetOpt(int argc, char *argv[]){
 	int ch;
 //	opterr = 0;
 	if(1 == argc) PromptHelp();
-	while((ch = getopt(argc, argv, ":r:i:f:d::u::m::hv:")) != -1){
+	while((ch = getopt(argc, argv, ":r:i:f:d::u::m::hv")) != -1){
 		switch(ch){
 			case 'r': strcpy(fROOTFile, optarg); break;
 			case 'i': fIndex0 = atoi(optarg); break;

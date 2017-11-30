@@ -43,8 +43,8 @@ bool TACtrlPara::Is3DTracking(){ return kIs3DTracking; }
 double TACtrlPara::Get3DCoincideWindow(){ return 10.; }
 // used in map() as the averaged d2 over fired anodes. D2 <= nFiredAnodeLayer * D2Thre
 double TACtrlPara::D2Thre(){ return 30.; } // for eliminating falsely fired andoes. BINGO unit: mm^2
-bool TACtrlPara::TimeThre(double t){ return t > -40. && t < 300.; }
-double TACtrlPara::Beta(){ return 0.65; } // central beam energy
+bool TACtrlPara::TimeThre(double t){ return t > -40. && t < 350.; }
+double TACtrlPara::Beta(){ return 0.5; } // central beam energy
 // threshold for chi per dot, to eliminate false combinations. 4.0
 double TACtrlPara::ChiThrePD(){ return 2.5; }
 int TACtrlPara::Vicinity(){ return 5; } // used in discerning multiple tracks, unit: cell
@@ -91,8 +91,8 @@ double TACtrlPara::T_tofDCtoTOFW(unsigned uid){
 
 	// DC0-1-2, include [dcArr][DC]
 	static const double ccT_tofRDCtoTOFW[2][3] = {
-		{5., -1., 4.},
-		{-1., -3.5, -3.4}
+		{7.4, 4.8, 2.0}, // {7.4, 4.8, 2.0}, // beta = 0.5
+		{6.4, 4.0, 1.4} // {6.4, 4.0, 1.4} // beta = 0.6
 	};
 	return ccT_tofRDCtoTOFW[type[0]-3][type[1]];
 }
@@ -169,7 +169,8 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 			const int hv = HVopt[type[0]-3][type[1]][type[2]];
 			if(hv >= nHV) TAPopMsg::Error("TACtrlPara", "AssignSTR: hv id too large: hv: %d", hv);
 		for(int i = 0; i < nAngBin; i++){
-			if(hv < 0) para->SetSTR(rtDumb, i);
+			// XXX: RTDumb -> 1000V, facilitate simulation
+			if(hv < 0) para->SetSTR(rt[0][i], i); // rtDumb, rt[0][i]
 			else para->SetSTR(rt[hv][i], i);
 		}
 	}

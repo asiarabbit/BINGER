@@ -91,7 +91,7 @@ double TADeployPara::GetMWDCDelay(unsigned uid) const{
 	if(type[1] >= 3)
 		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an MWDC");
 
-	double offset0[2] = {17.73, 17.73}; // delay between TOFWall and DCs
+	double offset0[2] = {15.33, 10.33}; // delay between TOFWall and DCs
 	double delay = GetTOFWallDelayAvrg(uid) + offset0[type[0] - 3];
 	delay += -TACtrlPara::Instance()->T_wireMean(uid);
 	return delay;

@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2017/11/25, SUN Yazhou.										     //
+// Last modified: 2017/11/30, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -29,6 +29,8 @@
 #include "TH1F.h"
 
 #include "TASimulation.h"
+#include "TACtrlPara.h"
+#include "TAT0_1.h"
 #include "TAMWDCArray.h"
 #include "TAMWDC.h"
 #include "TAAnode.h"
@@ -67,7 +69,7 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 	const double eff = effEx; // tracking efficiency of a certain anode plane
 
 	string sys_time = TAPopMsg::time0(true); // used in rootfile name
-	char rootfile[64]; strcpy(rootfile, (sys_time+"_SIM.root").c_str());
+	char rootfile[64]; strcpy(rootfile, "SIM.root"); // (sys_time+"_SIM.root").c_str()
 	strncpy(simFile, rootfile, sizeof(simFile));
 	TFile *f = new TFile(rootfile, "RECREATE");
 	// treeData: raw data; each entry is a data channel
@@ -83,10 +85,11 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 	// minimal distance between a track and a sense wire
 	// d: geometrical; rt: smeared. tt: true drift time
 	double d[3][6], rt[3][6], tt[3][6]; // [X-U-V] [DC0X1-DC0X2-DC1X1-DC1X2-DC2X1-DC2X2]
-	// b: 3-D track direction vector: (bx, by, bz); B: a point in the track.
-	// note that B and b are both in global reference.
-	double B[3]{}, b[3]{}; // bx, by and Bx, By are to be assigned with random nums.
-	double beta = TACtrlPara::Beta(); // beta of incident particle
+	// b: 3-D track direction vector: (bx, by, bz); B: a point in the track
+	// note that B and b are both in global reference
+	double B[3]{}, b[3]{}; // bx, by and Bx, By are to be assigned with random nums
+	double beta[2] = {0.5, 0.6}, beta_t; // beta of incident particle [DCArrL-R]
+	int bunchId = -16; // -16*25 = -400., so that timeToTrig would within the right range
 	treeData->Branch("index", &index, "index/I"); // run id
 	treeData->Branch("channelId", &chId, "channelId/I");
 	treeData->Branch("nl", &nl, "nl/I");
@@ -94,10 +97,11 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 	treeData->Branch("leadingTime", leadingTime, "leadingTime[nl]/D");
 	treeData->Branch("trailingTime", trailingTime, "trailingTime[nt]/D");
 	treeData->Branch("is_V", &is_V, "is_V/O");
+	treeData->Branch("bunchId", &bunchId, "bunchId/I");
 	treeTrackSim->Branch("index", &index, "index/I"); // run id, a constant within a run
 	treeTrackSim->Branch("nTrack", &nTrack, "nTrack/I"); // number of tracks per event
 	treeTrackSim->Branch("isDCArrR", &isDCArrR, "isDCArrR/O"); // number of tracks per event
-	treeTrackSim->Branch("beta", &beta, "beta/D"); // particle speed
+	treeTrackSim->Branch("beta", &beta_t, "beta/D"); // particle speed
 	treeTrackSim->Branch("B", B, "B[3]/D");
 	treeTrackSim->Branch("b", b, "b[3]/D");
 	treeTrackSim->Branch("nu", nu, "nu[3][6]/I");
@@ -108,6 +112,7 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 	// ooooOOOOoooo ooooOOOOoooo    GENERATE SIMULATION DATA    ooooOOOOoooo ooooOOOOoooo //
 	TAMWDCArray *dcArrL = (TAMWDCArray*)(*detList)[3];
 	TAMWDCArray *dcArrR = (TAMWDCArray*)(*detList)[4];
+	TAT0_1 *T0_1 = (TAT0_1*)(*detList)[1]; // to provide time reference
 	if(!dcArrL && !dcArrR)
 		TAPopMsg::Error("TASimulation", "GenerateSim: Both MWDC arrays are null. TAEventProcessor::Configure() not run yet?");
 	// number of tracks in an MWDC array and linear parameters
@@ -133,15 +138,18 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 		nTrack = maxNTrack;
 		// select MWDC array; the initial settings are for MWDC array R
 		TAMWDCArray *dcArr = dcArrR; isDCArrR = true;
+		TAAnodePara *par = (TAAnodePara *)dcArrR->GetMWDC(0)->GetAnode(1, 1, 50)->GetPara(); // DEBUG
 		const double (*efficiency)[6] = efficiencyT[1];
 		short dcArrOpt = short(rdm.Uniform(1.)+0.5); // fifty-fifty
 		if(0 == dcArrOpt){ // MWDC array L
 			dcArr = dcArrL; isDCArrR = false;
 			efficiency = efficiencyT[0];
 		}
+		beta_t = beta[dcArrOpt];
 		if(!dcArr) continue;
 		// average phi of the three MWDCs for an MWDC array
 		const double phiAvrg = dcArr->GetPhiAvrg();
+		TATOFWall *tofw = dcArr->GetTOFWall();
 		for(int i = 0; i < nTrack; i++){ // loop over tracks
 			isValid = true; totalTrackCnt++;
 			for(int i = 0; i < 3; i++) for(int j = 0; j < 6; j++){
@@ -201,7 +209,7 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 			double k = b[0]/b[2], b_t = B[0]-k*B[2], p[3], dmin = 1E200;
 			int firedStripId = -1;
 			for(int j = 0; j < 30; j++){
-				dcArr->GetTOFWall()->GetStripProjection(j, p);
+				tofw->GetStripProjection(j, p);
 				double d_t = fabs(k*p[2]-p[0]+b_t)/sqrt(1.+k*k);
 				if(d_t < dmin){
 					dmin = d_t; firedStripId = j;
@@ -210,11 +218,11 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 			// firedStripId/8: PXI module #; j%8: strip # in certain module.
 			// one strip occupies 4 channels. 0-1-2-3: UV-UH-DV-DH
 			// fill the fired TOFWall strip, a series of temporary variables are defined
-			TAPlaStrip *str = dcArr->GetTOFWall()->GetStrip(firedStripId);
+			TAPlaStrip *str = tofw->GetStrip(firedStripId);
 			// 3.8961039 = 1200/(2.*veff) - scintillation transmission time veff: 1200/7.8
-			double delay = dcArr->GetTOFWall()->GetDelay(firedStripId) + 3.9;
-			double TOT_t[4] = {500., 2000., 500., 2000.}, preT_t[4] = {0., 100., 0., 100.};
-			bool isV_t[4] = {true, false, true, false};
+			const double delay = tofw->GetDelay(firedStripId) + 3.9;
+			const double TOT_t[4] = {500., 2000., 500., 2000.}, preT_t[4] = {0., 100., 0., 100.};
+			const bool isV_t[4] = {true, false, true, false};
 			TAChannel *ch_t[4] = {str->GetUV(), str->GetUH(), str->GetDV(), str->GetDH()};
 			for(int l = 0; l < 4; l++){ // loop over UV-UH-DV-DH
 				leadingTime[0] = preT_t[l] + delay; is_V = isV_t[l];
@@ -240,6 +248,7 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 				double T_drift = ano->GetDriftTime(r_t, kl[j]); // b[0]/b[2]: track projection slope
 				rt[j][k] = r_t; tt[j][k] = T_drift;
 #ifdef DEBUG
+				cout << ano->GetName() << endl; // DEBUG
 				cout << "nu: " << nu[j][k] << "\tchId: " << chId << endl; // DEBUG
 				cout << "b[0]: " << b[0] << "\tb[1]: " << b[1] << "\tb[2]: " << b[2] << endl; // DEBUG
 				cout << "B[0]: " << B[0] << "\tB[1]: " << B[1] << "\tB[2]: " << B[2] << endl; // DEBUG
@@ -251,7 +260,7 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 #endif
 				double T_wire = dcArr->GetWirePropagationTime(b, B, nu[j][k], j, k);
 				// from the anode to TOF Wall
-				double T_tof = dcArr->GetTimeOfFlight(b, B, nu[j][k], j, k, firedStripId, beta);
+				double T_tof = dcArr->GetTimeOfFlight(b, B, nu[j][k], j, k, firedStripId, beta_t);
 				double T0 = anoPar->GetDelay();
 //				cout << "anoPar->GetDelay(): " << anoPar->GetDelay(); getchar(); // DEBUG
 				leadingTime[0] = T_drift + T_wire - T_tof + T0;
@@ -273,6 +282,18 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 			// one particle trajectory has been tracked down
 			treeTrackSim->Fill(); // store the input track information
 		} // end for over i (loop over tracks)
+		// * prepare T0_1 channel to provide global time reference * //
+		const double delay = T0_1->GetDelay();
+		double TOT_t[4] = {500., 2000., 500., 2000.}, preT_t[4] = {0., 100., 0., 100.};
+		bool isV_t[4] = {true, false, true, false};
+		TAChannel *ch_t[4] = {T0_1->GetUV(), T0_1->GetUH(), T0_1->GetDV(), T0_1->GetDH()};
+		for(int l = 0; l < 4; l++){ // loop over UV-UH-DV-DH
+			leadingTime[0] = preT_t[l] + delay; is_V = isV_t[l];
+			trailingTime[0] = leadingTime[0] + TOT_t[l]; // 500: TOT
+			chId = ch_t[l]->GetPara()->GetChannelId(); treeData->Fill();
+		}
+
+		// complete the data section by filling the ending entry
 		int temp = index; nl = 0; nt = 0;
 		index = -2; chId = nTrack * 40; // section length, word(32bit)
 		treeData->Fill();

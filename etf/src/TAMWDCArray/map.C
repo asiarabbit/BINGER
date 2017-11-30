@@ -182,26 +182,28 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 					if(-9999. == TOF) goto END; // no corresponding fired TOF strips are found for the X track. So the validity of this track is also futile.
 				} // end if
 				// Assign drift time array and drift distance array.
-				for(int i = 0; i < 6; i++){ // DC0X1-X2-DC1X1-X2-DC2X1-X2
-					if(nu[i] >= 0){
-						TAAnode *ano = MWDC[i/2]->GetAnode(dcType, i % 2 + 1, nu[i]);
-						((TAAnodeData*)ano->GetData())->SetTOF(TOF);
-						// assign weight at the same time
-						t[i] = ano->GetDriftTime(weight[i]);
-//						cout << "TOF: " << TOF << endl;
-//						cout << "1, t[i]: " << t[i] << endl; getchar(); // DEBUG
-						// roughly correct time of flight from DC to TOF wall.
-						unsigned uid = ano->GetUID();
-						t[i] +=
-							clp->T_tofDCtoTOFW(uid) - clp->T_wireMean(uid);
-//						cout << "dt1: " << clp->T_tofDCtoTOFW(uid) << endl;
-//						cout << "dt2: " << clp->T_wireMean(uid) << endl;
-//						cout << "2, t[i]: " << t[i] << endl; getchar(); // DEBUG
-						if(0 == dcType && -9999. != TOF){ // X
-							r[i] = ano->GetDriftDistance(t[i], kl);
+				if(0 == dcType){
+					for(int i = 0; i < 6; i++){ // DC0X1-X2-DC1X1-X2-DC2X1-X2
+						if(nu[i] >= 0){
+							TAAnode *ano = MWDC[i/2]->GetAnode(dcType, i % 2 + 1, nu[i]);
+							((TAAnodeData*)ano->GetData())->SetTOF(TOF);
+							// assign weight at the same time
+							t[i] = ano->GetDriftTime(weight[i]);
+//							cout << "TOF: " << TOF << endl;
+//							cout << "1, t[i]: " << t[i] << endl; getchar(); // DEBUG
+							// roughly correct time of flight from DC to TOF wall.
+							unsigned uid = ano->GetUID();
+							t[i] +=
+								clp->T_tofDCtoTOFW(uid) - clp->T_wireMean(uid);
+//							cout << "dt1: " << clp->T_tofDCtoTOFW(uid) << endl;
+//							cout << "dt2: " << clp->T_wireMean(uid) << endl;
+//							cout << "2, t[i]: " << t[i] << endl; getchar(); // DEBUG
+							if(0 == dcType && -9999. != TOF){ // X
+								r[i] = ano->GetDriftDistance(t[i], kl);
+							} // end if
 						} // end if
-					} // end if
-				} // end for over i
+					} // end for over i
+				} // end if(DCtype == X)
 #ifdef DEBUG_MAP
 				for(double tt: t) cout << "t: " << tt << endl; getchar(); // DEBUG
 				for(double rr: r) cout << "r: " << rr << endl; getchar(); // DEBUG
@@ -224,7 +226,6 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 				cout << "newTrack->GetChi(): " << newTrack->GetChi() << endl; // DEBUG
 				for(double cc : chi) cout << "cc: " << cc << endl; // DEBUG
 				newTrack->Show(); // DEBUG
-				getchar(); // DEBUG
 #endif
 				if(0 == dcType){
 //					cout << "newTrack->GetChi(): " << newTrack->GetChi() << endl; getchar(); // DEBUG

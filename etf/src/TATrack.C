@@ -383,6 +383,7 @@ void TATrack::Show(){
 	cout << "Dsquare: " << GetDsquare() << endl;
 	cout << "gGOOD: " << GetgGOOD() << endl;
 	cout << "NFiredAnodeLayer: " << GetNFiredAnodeLayer() << endl;
+	cout << "TOF: " << GetTOF() << endl;
 	cout << "Nu:" << endl;
 	for(int x: fNu) cout << x << "\t"; cout << endl;
 	cout << "Drift Time:" << endl;

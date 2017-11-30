@@ -109,7 +109,7 @@ double TAAnode::GetDriftTime(double r, double k){ // k is the track slope
 		span *= 2.2/n;
 		tc = tm;
 	} // end for over l
-	if(tm > 400.) tm = 398.;
+	if(tm > 300.) tm = 298.;
 	return tm;
 } // end function GetDriftTime
 
