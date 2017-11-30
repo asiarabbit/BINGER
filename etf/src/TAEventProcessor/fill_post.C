@@ -32,8 +32,10 @@
 			memcpy(xMiss3D[j], tra->xMiss3D, sizeof(xMiss3D[j]));
 
 			const short dcArrId = (type[j]/10)%10; // 0: dcArrL; 1: dcArrR
+			if(0 != dcArrId && 1 != dcArrId)
+				TAPopMsg::Error("TAEvPro", "Run: invalid dcArrId: %d", dcArrId);
 			const int dcType = type[j]%10; // [0-1-2]: [X-U-V]
-			TAPlaStrip *strip = dcArr[dcArrId]->GetTOFWall()->GetStrip(firedStripId[j]);
+			TAPlaStrip *strip = tofw[dcArrId]->GetStrip(firedStripId[j]);
 			TOTUV[j] = strip->GetUV()->GetTOT(); TOTUH[j] = strip->GetUH()->GetTOT();
 			TOTDV[j] = strip->GetDV()->GetTOT(); TOTDH[j] = strip->GetDH()->GetTOT();
 			// particle identification //
@@ -43,7 +45,8 @@
 			if(sipmArr->GetNFiredStrip() >= 1){
 				for(TAChannel *&ch : sipmArr->GetChArr()){
 					if(ch->GetFiredStatus()){
-						double time = tra->TOF - (ch->GetTime() - sipmArr->GetDelay()); // sipm -> TOFWall
+						// sipm -> TOFWall
+						double time = tra->TOF - sipmArr->GetStripTime(ch->GetSerialId());
 						if(time < 50. && time > 30.) priority = 1;
 						else if(time < 60. && time > 20.) priority = 2;
 						else if(time < 80. && time > 10.) priority = 3;
@@ -66,9 +69,7 @@
 				} // end for over channels
 			} // end outer if
 			if(tRef != -9999.){
-				// + 0.78
-				// 3.8961039 = 1200/(2.*veff) - scintillation transmission time veff: 1200/7.8
-				tof2[j] = strip->GetTime() - tRef + 3.89 + 0.78;
+				tof2[j] = tofw[dcArrId]->GetStripTime(firedStripId[j], tRef, 9., 40.) - tRef;
 			}
 
 			yp[j][0] = -9999.; yp[j][1] = -9999.; trkLenT[j] -9999.;

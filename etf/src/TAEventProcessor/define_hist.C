@@ -109,7 +109,7 @@
 				// DC time to T-reference
 				sprintf(name, "hDCToTRefArr%c_DC%d_%c", LR[i], j, xuv[k]);
 				sprintf(title, "DC Time to T-reterence - DC Array%c - DC%d - %c;timeToTRef/ns", LR[i], j, xuv[k]);
-				hDCToTRef[i][j][k] = new TH1F(name, title, 40000, -100000., 200000.);
+				hDCToTRef[i][j][k] = new TH1F(name, title, 4000, -2000., 2000.);
 				objLs[7].push_back(hDCToTRef[i][j][k]);
 			} // end for over X-U-V
 		} // end for over DCs
@@ -118,9 +118,8 @@
 	TH1F *hSiPMPlaBarrFiredDist = new TH1F("hSiPMPlaBarrFiredDist", "Fired SiPM Plastic Scintillator Strip Barrel Distribution;Strip Serial Id", 27, -1.5, 25.5);
 	objLs[1].push_back(hSiPMPlaArrFiredDist);
 	objLs[1].push_back(hSiPMPlaBarrFiredDist);
-	TH1F *hSiPMPlaArrMulti = new TH1F("hSiPMPlaArrMulti", "SiPM Plastic Scintillator Strip Array Hit Multiplicity;Multiplicity", 8, -1.5, 6.5);
-	TH1F *hSiPMPlaArrMultiTRef = new TH1F("hSiPMPlaArrMultiTRef", "SiPM Plastic Scintillator Strip Array Hit Multiplicity - TRef;Multiplicity", 8, -1.5, 6.5);
-	TH1F *hSiPMPlaBarrMulti = new TH1F("hSiPMPlaBarrMulti", "SiPM Plastic Scintillator Strip Barrel Hit Multiplicity;Multiplicity", 25, -1.5, 23.5);
+	TH1F *hSiPMPlaArrMulti = new TH1F("hSiPMPlaArrMultipost", "SiPM Plastic Scintillator Strip Array Hit Multiplicity post-selection;Multiplicity", 8, -1.5, 6.5);
+	TH1F *hSiPMPlaBarrMulti = new TH1F("hSiPMPlaBarrMultipost", "SiPM Plastic Scintillator Strip Barrel Hit Multiplicity post-selection;Multiplicity", 25, -1.5, 23.5);
 	objLs[2].push_back(hSiPMPlaArrMulti);
 	objLs[2].push_back(hSiPMPlaBarrMulti);
 	TH2F *hSiPMPlaBarrHitPos = new TH2F("hSiPMPlaBarrHitPos", "SiPM Plastic Scintillator Strip Barrel Hit Position;Strip Serial Id;Hit Pos (from front end (z is smaller))/mm", 27, -1.5, 25.5, 501, -70.5, 430.5);
@@ -135,12 +134,10 @@
 	TH2F *htof2_vs_poz = new TH2F("htof2_vs_poz", "tof2 v.s. poz;p/z/ MeV/c;tof2/ns", 5000, -1000., 4000., 500, -20., 100.);
 	TH2F *haoz_vs_poz = new TH2F("haoz_vs_poz", "aoz v.s. poz;p/z/ MeV/c;aoz", 5000, -1000., 4000., 500, -5.0, 5.0);
 	TH2F *hdcTOT_vs_poz = new TH2F("hdcTOT_vs_poz", "Averaged DC Anode TOT v.s. poz;p/z/ MeV/c;dcTOT/ns", 5000, -1000., 4000., 500, -100., 1000.);
-	TH2F *hsipmStripMinusTOF_T1 = new TH2F("hsipmStripMinusTOF_T1", "hsipmStripMinusTOF_T1;stripId;tof/ns", 13, -1.5, 11.5, 1000, -2000., 2000.);
 	TH1F *hTOF_T1_pos = new TH1F("TOF_T1_pos", "TOF_T1_pos;pos/ns", 1000, -100., 100.);
 	objLs[5].push_back(hpoz); objLs[5].push_back(haoz); objLs[5].push_back(htof2);
 	objLs[5].push_back(hbeta2); objLs[5].push_back(hdcTOT); objLs[5].push_back(htof2_vs_poz);
 	objLs[5].push_back(haoz_vs_poz); objLs[5].push_back(hdcTOT_vs_poz);
-	objLs[5].push_back(hsipmStripMinusTOF_T1);
 
 	// ************************ MISC miscellaneous ****************************************** //
 	TH2F *htof2sipmArr = new TH2F("htof2sipmArr", "htof2sipmArr;stripId;tof2/ns", 13, -1.5, 11.5, 500, -300., 500.);
@@ -154,14 +151,12 @@
 	hTOFWToTrigUVStrip15[1] = new TH2F("hRTOFWToTrigUVStrip15", "hRT0_1ToTrigUVStrip15;edgeNumId;timeToTrig/ns", 13, -1.5, 11.5, 4000, -2000., 2000.);
 	TH2F *hDCToTrig = new TH2F("hDCToTrig", "hDCToTrig;edgeNumId;timeToTrig/ns", 13, -1.5, 11.5, 8000, -4000., 6000.);
 	objLs[6].push_back(htof2sipmArr); objLs[6].push_back(hsipmArrToTrig);
-	objLs[6].push_back(hTOF_T1_pos); objLs[6].push_back(hSiPMPlaArrMultiTRef);
+	objLs[6].push_back(hTOF_T1_pos); objLs[6].push_back(hDCToTrig);
 	objLs[6].push_back(hT0_1ToTrigUV); objLs[6].push_back(hT0_1ToTrigDV);
 	objLs[6].push_back(hTOFWToTrigUVStrip15[0]); objLs[6].push_back(hTOFWToTrigUVStrip15[1]);
 	objLs[7].push_back(hsipmArrToTRef); objLs[7].push_back(hsipmBarrToTRef);
-	objLs[6].push_back(hDCToTrig);
+	
 
-
-	int cntTmp = 0;
 	int cnt_timeToTrig_T0_1UV = 0, cnt_timeToTrig_T0_1DV = 0;
 	int cntTRef = 0;
 

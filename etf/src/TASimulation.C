@@ -86,7 +86,7 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 	// b: 3-D track direction vector: (bx, by, bz); B: a point in the track.
 	// note that B and b are both in global reference.
 	double B[3]{}, b[3]{}; // bx, by and Bx, By are to be assigned with random nums.
-	double beta = 0.69; // beta of incident particle
+	double beta = TACtrlPara::Beta(); // beta of incident particle
 	treeData->Branch("index", &index, "index/I"); // run id
 	treeData->Branch("channelId", &chId, "channelId/I");
 	treeData->Branch("nl", &nl, "nl/I");

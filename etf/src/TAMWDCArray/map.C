@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2017/10/7, SUN Yazhou.										     //
+// Last modified: 2017/11/30, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -18,6 +18,7 @@
 
 //#define DEBUG_MAP
 
+static TACtrlPara *clp = TACtrlPara::Instance();
 // subordinate function of void Map();
 bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 #ifdef DEBUG_MAP
@@ -32,10 +33,10 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 //	getchar(); // DEBUG
 	if(track.size() != 0) track.clear();
 
-	static TACtrlPara *ctrlPara = TACtrlPara::Instance();
+	static TACtrlPara *ctrlPara = clp->Instance();
 	bool cmpShow = false; // function compare debug
 	// GetDsquareThresholdPerDot(); // stores the minimum of Dsquares of  all the combinations.
-	double d2Thre = TACtrlPara::D2Thre();
+	double d2Thre = clp->D2Thre();
 
 	double z[6] = {-9999., -9999., -9999., -9999., -9999., -9999.};
 	double x[6] = {-9999., -9999., -9999., -9999., -9999., -9999.};
@@ -56,9 +57,9 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 	if(dcType == 0) type = 'X';
 	else if(dcType == 1) type = 'U';
 	else if(dcType == 2) type = 'V';
-	nullTrack.SetFitMethod(TACtrlPara::FitMethod());
-	if(TACtrlPara::FitMethod() == TATrack::kNormalFit){
-		nullTrack.SetFitPrecision(TACtrlPara::Precision());
+	nullTrack.SetFitMethod(clp->FitMethod());
+	if(clp->FitMethod() == TATrack::kNormalFit){
+		nullTrack.SetFitPrecision(clp->Precision());
 		nullTrack.SetFitRotationCenter(MWDC[1]->GetDetPara()->GetZ(), MWDC[1]->GetDetPara()->GetX());
 	}
 	nullTrack.SetDsquareThresholdPerDot(GetDsquareThresholdPerDot());
@@ -162,9 +163,18 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 //				getchar(); // DEBUG
 
 				if(0 == dcType){ // MWDC_X
-					TOF = GetTOFWall()->GetTime(kl, bl, nstripStray, firedStripId);
+					// get the lt time (t0) of the DC that is closest to the TOFWall,
+					// edges of TOFW would be compared to t0 for the suitable one
+					int lid = LAYER[nFiredAnodeLayer-1]; // id of the fired DC anode layer
+					TAAnode *ano = MWDC[lid/2]->GetAnode(dcType, lid%2+1, nu[lid]);
+					double t0 = ((TAAnodeData*)ano->GetData())->GetLeadingTime();
+					unsigned uid = ano->GetUID();
+					double delta = clp->T_tofDCtoTOFW(uid) - clp->T_wireMean(uid); // minor correction
+					// -10 ~ 150: speculated drift time zone
+					// (as small and correct as possible while inclusive)
+					double t1 = -(delta + 150.), t2 = -(delta - 10.); // the range borders
+					TOF = GetTOFWall()->GetTime(kl, bl, nstripStray, firedStripId, t0, t1, t2); // 
 #ifdef DEBUG_MAP
-					cout << "TOF: " << TOF << endl; // DEBUG
 					cout << "firedStripId: " << firedStripId << endl; // DEBUG
 					cout << "nstripStray: " << nstripStray << endl; // DEBUG
 					getchar(); // DEBUG
@@ -183,9 +193,9 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 						// roughly correct time of flight from DC to TOF wall.
 						unsigned uid = ano->GetUID();
 						t[i] +=
-							TACtrlPara::T_tofDCtoTOFW(uid) - TACtrlPara::T_wireMean(uid);
-//						cout << "dt1: " << TACtrlPara::T_tofDCtoTOFW(uid) << endl;
-//						cout << "dt2: " << TACtrlPara::T_wireMean(uid) << endl;
+							clp->T_tofDCtoTOFW(uid) - clp->T_wireMean(uid);
+//						cout << "dt1: " << clp->T_tofDCtoTOFW(uid) << endl;
+//						cout << "dt2: " << clp->T_wireMean(uid) << endl;
 //						cout << "2, t[i]: " << t[i] << endl; getchar(); // DEBUG
 						if(0 == dcType && -9999. != TOF){ // X
 							r[i] = ano->GetDriftDistance(t[i], kl);
@@ -198,7 +208,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 #endif
 				// test the validity of drift time for X tracks
 				if(0 == dcType) for(double tt : t){
-					if(-9999. != tt && !TACtrlPara::TimeThre(tt))
+					if(-9999. != tt && !clp->TimeThre(tt))
 						goto END;
 				} // end loop over drift time
 				// Assign newTrack
@@ -222,8 +232,8 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 					if(fabs(newTrack->GetChi()) > ctrlPara->ChiThre()) goto END;
 					for(double cc : chi){
 //						cout << "cc: " << cc << endl; getchar(); // DEBUG
-//						cout << "TACtrlPara::ChiThrePD(): " << TACtrlPara::ChiThrePD() << endl; getchar(); // DEBUG
-						if(-9999. != cc && fabs(cc) > TACtrlPara::ChiThrePD()) goto END;
+//						cout << "clp->ChiThrePD(): " << clp->ChiThrePD() << endl; getchar(); // DEBUG
+						if(-9999. != cc && fabs(cc) > clp->ChiThrePD()) goto END;
 					} // end for
 				} // end if
 				// system burden. // DEBUG
@@ -299,7 +309,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 // Here tracks with good == 2 are despised and discriminated.
 int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, int dcType, bool show){
 	int nstripDeviation = fabs(newTrack->GetFiredStripId() - oldTrack->GetFiredStripId());
-	const int &vicinity = TACtrlPara::Vicinity();
+	const int &vicinity = clp->Vicinity();
 //	cout << "vicinity: " << vicinity << endl; getchar(); // DEBUG
 	int stripTolerance = 3; // TOF strip stray tolerance for discern discrete tracks.
 	int nValid_nu = 0, nValid_nu_temp = 0; // count of positive elements in the array.

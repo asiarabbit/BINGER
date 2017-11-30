@@ -70,12 +70,12 @@ void TAT0_1::Configure(){
 	double p[3] = {0., 0., GetZ0()}; GetStripPara()->SetGlobalProjection(p);
 
 	fStripPara->SetWidth(30.); // mm, not accurate
-	fStripPara->SetLength(70.); // mm, not accurate
-	fStripPara->AppendDelay(-477.037 + 19.5); // ns, calibrated. // +19.5, 20171027_1438, calibrated
+	fStripPara->SetLength(0.); // mm, deliberately set to zero saving the trouble of additional delay
+	fStripPara->AppendDelay(1.E-7); // set as the time reference
 	fStripPara->SetVeff(1200. / 7.8); // mm/ns, roughly calibrated
 
 	// print user-defined configurations
-//	TAPopMsg::ConfigInfo(GetName().c_str(), "Configure: \nfZ0: %f\nfDelay: %f\nfWidth: %f\nfLength: %f\nfVeff: %f\n", fZ0, fStripPara->GetDelay(), fStripPara->GetWidth(), fStripPara->GetLength(), fStripPara->GetVeff());
+	TAPopMsg::ConfigInfo(GetName().c_str(), "Configure: \nfZ0: %f\nfDelay: %f\nfWidth: %f\nfLength: %f\nfVeff: %f\n", fZ0, fStripPara->GetDelay(), fStripPara->GetWidth(), fStripPara->GetLength(), fStripPara->GetVeff());
 } // end of member method Configure
 
 

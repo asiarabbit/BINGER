@@ -101,18 +101,14 @@
 				if(4 == sta || 3 == sta){
 					if(15 == strId){
 						for(int j = 0; j < str->GetUV()->GetData()->GetNLeadingEdge(); j++){
-							if(tRef != -9999.){
-								hTOFWToTrigUVStrip15[ii]->Fill(j, str->GetUV()->GetLeadingTime(j));
-							}
+							hTOFWToTrigUVStrip15[ii]->Fill(j, str->GetUV()->GetLeadingTime(j));
 						}
 					}
-					double tofwToTRef = str->GetUV()->GetLeadingTime() - tRef;
-					if(tRef != -9999.){
-						hTOFWHitPos[ii]->Fill(strId, str->GetHitPosition());
-						hTOFWToTRef[ii]->Fill(strId, tofwToTRef);
-					}
+					hTOFWHitPos[ii]->Fill(strId, str->GetHitPosition());
+					double tofwToTrig = str->GetUV()->GetLeadingTime();
+					if(-9999. != tRef) hTOFWToTRef[ii]->Fill(strId, tofwToTrig - tRef);
 					// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
-					if(!(tofwToTRef > 10. && tofwToTRef < 200.)){ // belongs to the trigger-generating particle
+					if(!(tofwToTrig > 300. && tofwToTrig < 700.)){ // belongs to the trigger-generating particle
 						str->GetStripData()->SetFiredStatus(-10); // manually altered
 					}
 				}
@@ -127,16 +123,15 @@
 							TAAnode *ano = dc[ii][j]->GetAnode(k, l + 1, m);
 							if(ano->GetFiredStatus()){
 								hDCFiredDist[ii][j][k]->Fill(l*na+m);
-								double dcToTRef = ano->GetData()->GetLeadingTime() - tRef;
-								if(tRef != -9999.) hDCToTRef[ii][j][k]->Fill(dcToTRef);
-								if(tRef != -9999.){
-									if(0 == ii && 0 == k && 0 == j){
-										for(int i = 0; i < ano->GetData()->GetNLeadingEdge(); i++)
-										hDCToTrig->Fill(i, ano->GetData()->GetLeadingTime(i));
-									}
+								double dcToTrig = ano->GetData()->GetLeadingTime();
+								if(tRef != -9999.) hDCToTRef[ii][j][k]->Fill(dcToTrig - tRef);
+//								if(0 == ii && 0 == k && 0 == j)
+								{
+									for(int i = 0; i < ano->GetData()->GetNLeadingEdge(); i++)
+									hDCToTrig->Fill(i, ano->GetData()->GetLeadingTime(i));
 								}
 								// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
-								if(!(dcToTRef > 0. && dcToTRef < 500.)) ano->GetData()->SetFiredStatus(false);
+								if(!(dcToTrig > 340. && dcToTrig < 840.)) ano->GetData()->SetFiredStatus(false);
 //								if(1 == ii && 0 == j && 0 == k) ano->GetData()->SetFiredStatus(false);
 							}
 						} // end for over anode of one layer
@@ -147,26 +142,17 @@
 		} // end for over DC arrays
 
 		// sipmArr stastics //
-		int sipmArrStripId_pre = 0, multiSipmArr = 0, multiSipmArrTRef = 0;
 		for(TAChannel *&ch : sipmArr->GetChArr()){
 			if(ch->GetFiredStatus()){
-				double time = ch->GetTime() - sipmArr->GetDelay() - TOF_T1;
-				if(-9999. != TOF_T1) hsipmStripMinusTOF_T1->Fill(sipmArrStripId_pre, time);
-				if(fabs(time) < 50.) multiSipmArr++;
-				hsipmArrToTrig->Fill(sipmArrStripId_pre, time);
-				double timeToTRef = ch->GetLeadingTime() - tRef;
-				if(tRef != -9999.){
-					hsipmArrToTRef->Fill(sipmArrStripId_pre, timeToTRef);
-					cntTmp++;
-				}
+				double timeToTrig = ch->GetLT(0., 200., 650.);
 				// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
-				if(!(timeToTRef > -60. && timeToTRef < -10.)) ch->GetData()->SetFiredStatus(false);
-				else multiSipmArrTRef++;
+				if(!(timeToTrig > 200. && timeToTrig < 650.)) ch->GetData()->SetFiredStatus(false);
+				if(tRef != -9999.){
+					hsipmArrToTRef->Fill(ch->GetSerialId(), timeToTrig - tRef);
+				}
+				hsipmArrToTrig->Fill(ch->GetSerialId(), timeToTrig);
 			}
-			sipmArrStripId_pre++;
 		} // end for over channels
-		if(tRef != -9999.) hSiPMPlaArrMultiTRef->Fill(multiSipmArrTRef);
-//		hSiPMPlaArrMulti->Fill(multiSipmArr);
 
 		for(TAPlaStrip *&str : sipmBarr->GetStripArr()){
 			const short sta = str->GetFiredStatus();
@@ -174,14 +160,14 @@
 			if(4 == sta) hSiPMPlaBarrFiredDist->Fill(strId);
 			if(4 == sta || 3 == sta){
 				hSiPMPlaBarrHitPos->Fill(strId, str->GetHitPosition());
-				if(tRef != -9999.){
-					hsipmBarrToTRef->Fill(strId, str->GetUV()->GetLeadingTime() - tRef);
-					timeToTRefSipmBarr = str->GetTime(tRef, -300., 300.) - tRef;
-				}
 				// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
 				timeToTrigSipmBarr = str->GetTime(0., 300., 600.);
-				if(!(timeToTRefSipmBarr > -600. && timeToTRefSipmBarr < 300.))
-//				if(!(timeToTrigSipmBarr > 300. && timeToTrigSipmBarr < 600.))
+				if(tRef != -9999.){
+					timeToTRefSipmBarr = timeToTrigSipmBarr - tRef;
+					hsipmBarrToTRef->Fill(strId, timeToTRefSipmBarr);
+				}
+//				if(tRef != -9999. && !(timeToTRefSipmBarr > -600. && timeToTRefSipmBarr < 300.))
+				if(!(timeToTrigSipmBarr > 200. && timeToTrigSipmBarr < 700.))
 				{
 					str->GetStripData()->SetFiredStatus(-10);
 				}
@@ -189,6 +175,7 @@
 		} // end for over sipmArr
 		sipmArr->GetFiredStripArr(multiSipmArr_post, hitIdLsSipmArr_post);
 		sipmBarr->GetFiredStripArr(multiSipmBarr_post, hitIdLsSipmBarr_post);
+		hSiPMPlaArrMulti->Fill(multiSipmArr_post);
 		hSiPMPlaBarrMulti->Fill(multiSipmBarr_post);
 
 

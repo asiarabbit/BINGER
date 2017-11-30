@@ -81,7 +81,7 @@ double TADeployPara::GetTOFWallDelayAvrg(unsigned uid) const{
 	if(3 != type[0] && 4 != type[0])
 		TAPopMsg::Error("TADeployPara", "GetTOFWallDelayAvrg: Not an MWDC array");
 
-	static double ccDelayAvrg_TOFWall[2] = {-484.40, -491.40};
+	static double ccDelayAvrg_TOFWall[2] = {2.33, -4.67};
 	return ccDelayAvrg_TOFWall[type[0] - 3]; // [0-1]: DCArr[L-R]
 }
 double TADeployPara::GetMWDCDelay(unsigned uid) const{

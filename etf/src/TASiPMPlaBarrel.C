@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/21.															     //
-// Last modified: 2017/10/24, SUN Yazhou.										     //
+// Last modified: 2017/11/25, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -65,7 +65,7 @@ void TASiPMPlaBarrel::Configure(){ //			    C
 	GetStrip(2)->GetUV()->GetPara()->AppendDelay(-2.);
 	
 	// configure the barrel itself
-	fDelayAvrg = -498.107 + 1.95;
+	fDelayAvrg = -9.427;
 	double pos[6]{};
 	// The central line of the detector is supposed to be overlap the z-axis.
 	pos[2] = -617.01 + 433.5/2.; // the z value. the front end (far from the magnet)
@@ -74,7 +74,7 @@ void TASiPMPlaBarrel::Configure(){ //			    C
 
 	// print user-defined configurations
 	TAPlaStripPara *pra = GetStrip(0)->GetStripPara();
-//	TAPopMsg::ConfigInfo(GetName().c_str(), "Configure: \nz0: %f\nfDelayAvrg: %f\nfWidth: %f\nfLength: %f\nfVeff: %f\n", GetDetPara()->GetZ(), fDelayAvrg, pra->GetWidth(), pra->GetLength(), pra->GetVeff());
+	TAPopMsg::ConfigInfo(GetName().c_str(), "Configure: \nz0: %f\nfDelayAvrg: %f\nfWidth: %f\nfLength: %f\nfVeff: %f\n", GetDetPara()->GetZ(), fDelayAvrg, pra->GetWidth(), pra->GetLength(), pra->GetVeff());
 } // end of member method Configure
 
 TAPlaStrip *TASiPMPlaBarrel::GetStrip(short plateId, short stripId) const{

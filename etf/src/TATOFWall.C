@@ -73,10 +73,17 @@ void TATOFWall::GetFiredStripArr(int &multi, int *idLs, short *staLs, double *uv
 		}
 	}
 }
+// t0, t1, t2: see explnanation below
+double TATOFWall::GetStripTime(int i, double t0, double t1, double t2) const{
+	return GetStrip(i)->GetTime(t0,t1,t2) - GetDelayAvrg();
+}
 // Get TOF time from strip specified by a track with linear parameter kl and bl.
 // firedStripId: serial id of the fired strip for the track specifically.
 // if the supposed fired strip is not fired, return -9999.
-double TATOFWall::GetTime(double kl, double bl, double &nstripStray, int &firedStripId) const{
+// t0, t1 and t2 are set for choosing time over edges
+// (time-t0) within t1 and t2 is chosen
+// t0, t1 and t2 using default values, choose the 1st edge
+double TATOFWall::GetTime(double kl, double bl, double &nstripStray, int &firedStripId, double t0, double t1, double t2) const{
 	double nStripStray = -9999., nStripStrayMin = 9999.; // see the assignment below.
 	int minID = -1; // serial Id of the strip with minimum nStripStray.
 
@@ -88,7 +95,7 @@ double TATOFWall::GetTime(double kl, double bl, double &nstripStray, int &firedS
 			strip->GetStripPara()->GetGlobalProjection(p); // assign p
 			double width = strip->GetStripPara()->GetWidth();
 			nStripStray = (kl * p[2] - p[0] + bl) / sqrt(1. + kl * kl) / width;
-			
+
 			if(fabs(nStripStray) < fabs(nStripStrayMin)){
 				nStripStrayMin = nStripStray; minID = i;
 			}
@@ -98,7 +105,7 @@ double TATOFWall::GetTime(double kl, double bl, double &nstripStray, int &firedS
 		if(minID >= 0){
 			firedStripId = minID;
 			nstripStray = nStripStrayMin;
-			return GetStrip(minID)->GetTime() - GetDelayAvrg();
+			return GetStrip(minID)->GetTime(t0,t1,t2) - GetDelayAvrg();
 		} // end if
 	} // end if
 

@@ -38,7 +38,7 @@ public:
 	static double D2Thre(); // for eliminating falsely fired andoes. unit: mm^2
 	static double DsquareThresholdPerDot(unsigned uid);
 	static bool TimeThre(double t); // if time is within set range
-	static double Beta(); // central beam energy
+	static double Beta(); // central beam energy, used in simulation currently
 	// threshold for chi per dot, to eliminate false combinations. 4.0
 	static double ChiThrePD();
 	static int Vicinity(); // used in discerning multiple tracks, unit: cell

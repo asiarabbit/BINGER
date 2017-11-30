@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2017/10/11, SUN Yazhou.										     //
+// Last modified: 2017/11/30, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -50,6 +50,7 @@ public:
 	double GetStripX(int serialId) const;
 	TAChannel *GetUV(int id) const; // return up end of the strip, HPTDC very high resolution mode
 	TAChannel *GetUH(int id) const; // return up end of the strip, HPTDC high resolution mode
+	double GetStripTime(int stripId, double t0 = -9999., double t1 = -9999., double t2 = -9999.); // UV end lv time
 	void SetDelay(double delay){ fDelay = delay; }
 
 	virtual void Initialize() override;

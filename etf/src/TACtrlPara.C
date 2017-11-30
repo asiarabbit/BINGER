@@ -41,18 +41,19 @@ bool TACtrlPara::Is3DTracking(){ return kIs3DTracking; }
 // tolerance window for 3D coincidence test of X U and V track projections
 // 5: half a DC cell, given all kinds of errors
 double TACtrlPara::Get3DCoincideWindow(){ return 10.; }
-double TACtrlPara::D2Thre(){ return 300.; } // for eliminating falsely fired andoes. BINGO unit: mm^2
-bool TACtrlPara::TimeThre(double t){ return t > -40. && t < 400.; }
+// used in map() as the averaged d2 over fired anodes. D2 <= nFiredAnodeLayer * D2Thre
+double TACtrlPara::D2Thre(){ return 30.; } // for eliminating falsely fired andoes. BINGO unit: mm^2
+bool TACtrlPara::TimeThre(double t){ return t > -40. && t < 300.; }
 double TACtrlPara::Beta(){ return 0.65; } // central beam energy
-	// threshold for chi per dot, to eliminate false combinations. 4.0
-double TACtrlPara::ChiThrePD(){ return 7.5; }
+// threshold for chi per dot, to eliminate false combinations. 4.0
+double TACtrlPara::ChiThrePD(){ return 2.5; }
 int TACtrlPara::Vicinity(){ return 5; } // used in discerning multiple tracks, unit: cell
-	// TATrack::kBFGSFit; // kNormalFit: 0; kBFGSFit: 1 kIterFit: 2
+// TATrack::kBFGSFit; // kNormalFit: 0; kBFGSFit: 1 kIterFit: 2
 int TACtrlPara::FitMethod(){ return 1; }
-	// only effective if input fit method is kNormalFit
-	// allowed value: -2, -1, 0, 1, 2, 3, with calculation depth increasing. unit: mm^2
+// only effective if input fit method is kNormalFit
+// allowed value: -2, -1, 0, 1, 2, 3, with calculation depth increasing. unit: mm^2
 int TACtrlPara::Precision(){ return 2; }
-	// MWDCArrayR_DC1_U: installation error
+// MWDCArrayR_DC1_U: installation error
 double TACtrlPara::DCArrR_DC1UHorizontalDeviation(){ return 4.; }
 
 void TACtrlPara::GetNStripStrayRangeR(double &minR, double &maxR) const{
@@ -65,7 +66,7 @@ double TACtrlPara::DsquareThresholdPerDot(unsigned uid){
 	int type[6]{}; TAUIDParser::DNS(type, uid);
 	if(3 != type[0] && 4 != type[0])
 		TAPopMsg::Error("TACtrlPara", "GetTOFWallStripDelay: Not an MWDC array");
-	static double d2Thre[2] = {200., 200.};
+	static double d2Thre[2] = {50., 50.};
 	return d2Thre[type[0] - 3];
 }
 // calculate the minmum deviation of a track off the fired strips in a TOF wall

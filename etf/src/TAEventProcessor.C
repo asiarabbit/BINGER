@@ -11,7 +11,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/13.															     //
-// Last modified: 2017/11/21, SUN Yazhou.										     //
+// Last modified: 2017/11/30, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -173,8 +173,10 @@ void TAEventProcessor::Configure(){ // create detectors
 	GetVisual()->Configure();
 	GetPID()->Configure();
 	// show some information
-//	((TAMWDCArray*)detList[3])->Info();
-//	((TAMWDCArray*)detList[4])->Info();
+	if(TAPopMsg::IsVerbose()){
+		((TAMWDCArray*)detList[3])->Info();
+		((TAMWDCArray*)detList[4])->Info();
+	}
 	isCalled = true; // has been called
 }
 // assign an event to the detectors by distributing channel data to the matching channel objects

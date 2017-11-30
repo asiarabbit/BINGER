@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/11.															     //
-// Last modified: 2017/10/25, SUN Yazhou.										     //
+// Last modified: 2017/11/30, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -20,6 +20,7 @@
 #include <cmath>
 #include "TASiPMPlaArray.h"
 #include "TAChannel.h"
+#include "TAChPara.h"
 #include "TAPopMsg.h"
 #include "TAUIDParser.h"
 #include "TAVisual.h"
@@ -29,7 +30,7 @@ TASiPMPlaArray::TASiPMPlaArray(const string &name, const string &title, unsigned
 		: TAStuff(name, title, uid){
 	fWidth = -9999.; fLength = -9999.;
 	fX0 = -9999.; fZ0 = -9999.;
-	fNStripV = -1; fNStripH = -1; fDelay = -9999.;
+	fNStripV = -1; fNStripH = -1;
 	fUVArr.reserve(10); fUHArr.reserve(10);
 }
 TASiPMPlaArray::~TASiPMPlaArray(){
@@ -75,10 +76,6 @@ void TASiPMPlaArray::GetFiredStripArr(int &multi, int *idLs, double *lTLs, bool 
 		multi++;
 	}
 }
-double TASiPMPlaArray::GetDelay() const{
-	if(-9999. == fDelay) TAPopMsg::Error(GetName().c_str(), "GetDelay: not assigned");
-	return fDelay;
-}
 double TASiPMPlaArray::GetX0() const{
 	if(-9999. == fX0){
 		TAPopMsg::Error(GetName().c_str(), "GetX0: Not assigned");
@@ -103,6 +100,10 @@ double TASiPMPlaArray::GetTime(){
 	if(-9999. == fTime) GetHitX();
 	return fTime;
 }
+double TASiPMPlaArray::GetStripTime(int stripId, double t0, double t1, double t2){
+	if(!GetUV(stripId)->GetFiredStatus()) TAPopMsg::Error("TASiPMPlaArray", "GetStripTime: Strip#%d not fired.", stripId);
+	return GetUV(stripId)->GetLT(t0, t1, t2);
+}
 short TASiPMPlaArray::GetFiredStripId(){
 	if(-1 == fFiredStripId) GetHitX();
 	return fFiredStripId;
@@ -116,7 +117,7 @@ double TASiPMPlaArray::GetHitX(){
 			for(TAChannel *&ch : fUVArr){
 				if(ch->GetFiredStatus()){
 					fFiredStripId = i;
-					fTime = ch->GetTime() - GetDelay();
+					fTime = ch->GetTime();
 					fHitX = GetStripX(i);
 				}
 				i++;
@@ -165,34 +166,32 @@ void TASiPMPlaArray::Configure(){
 		TAPopMsg::Warn(GetName().c_str(), "Configure: has been called once");
 		return; // Configure() has been called
 	}
-	const int nStripSiPM = 10;
-	if(nStripSiPM % 2 != 0) TAPopMsg::Warn(GetName().c_str(), "Configure: nStripSiPM not even");
 	fZ0 = TADeployPara::Instance()->GetSiPMArrayZ0(); // Z position of the SiPM array
-	fDelay = -498.107;
-	fWidth = 3.; // unit: mm
-	fLength = 30.; // unit: mm
+	const int nStripSiPM = 10;
+	fWidth = 3.; fLength = 30.; // unit: mm
 	fX0 = -fWidth * (nStripSiPM / 2. - 0.5); // central x of the leftest strip(strip#0)
 	fX0 += 3.; // 0 strip is broken, so 0 strip now is strip 1, 20171027_1445
 
-	// print user-defined configurations
-//	TAPopMsg::ConfigInfo(GetName().c_str(), "Configure: \nfZ0: %f\nfDelay: %f\nfWidth: %f\nfLength: %f\nfX0: %f\n", fZ0, fDelay, fWidth, fLength, fX0);
-
-	TAChannel *fuv, *fuh;
-	char name[128];
+	TAChannel *fuv, *fuh; char name[128]; // temporary variables
+	const double delay = -11.1495;
+	if(nStripSiPM % 2 != 0) TAPopMsg::Warn(GetName().c_str(), "Configure: nStripSiPM not even");
 	for(int i = 0; i < nStripSiPM; i++){
 		sprintf(name, "%s->Strip%d->UV", fName.c_str(), i);
 		fuv = new TAChannel(name, name, fUID+((i*2)<<6));
-		fuv->SetSerialId(i);
+		fuv->SetSerialId(i); fuv->GetPara()->AppendDelay(delay);
+		fuv->GetPara()->SetValue(GetStripX(i));
 		sprintf(name, "%s->Strip%d->UH", fName.c_str(), i);
 		fuh = new TAChannel(name, name, fUID+((i*2+1)<<6));
-		fuh->SetSerialId(i);
-		fUVArr.push_back(fuv); fuv->GetPara()->SetValue(GetStripX(i));
-		fUHArr.push_back(fuh); fuh->GetPara()->SetValue(GetStripX(i));
+		fuh->SetSerialId(i); fuh->GetPara()->AppendDelay(delay);
+		fuh->GetPara()->SetValue(GetStripX(i));
+		fUVArr.push_back(fuv); fUHArr.push_back(fuh);
 		TAVisual::Instance()->AddChannel(fuv);
-//		TAVisual::Instance()->AddChannel(fuh);
 	}
 	fNStripV = fUVArr.size();
 	fNStripH = fUHArr.size();
+
+	// print user-defined configurations
+	TAPopMsg::ConfigInfo(GetName().c_str(), "Configure: \nfZ0: %f\nfWidth: %f\nfLength: %f\nfX0: %f\n", fZ0, fWidth, fLength, fX0);
 }
 
 

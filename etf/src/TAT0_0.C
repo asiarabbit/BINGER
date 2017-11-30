@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2017/10/11, SUN Yazhou.										     //
+// Last modified: 2017/11/30, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -81,9 +81,9 @@ void TAT0_0::Configure(){
 	}
 	fUV = new TAChannel(fName+"->UV", fTitle+"->UV", fUID+(0<<6));
 	fUH = new TAChannel(fName+"->UH", fTitle+"->UH", fUID+(1<<6));
-	fDelay = 159.3;
+	fDelay = 646.03; // using TOF start as the delay reference, calibrated with beam test Nov., 2016
 
 	// print user-defined configurations
-//	TAPopMsg::ConfigInfo(GetName().c_str(), "Configure: \nfDelay: %f\n", fDelay);
+	TAPopMsg::ConfigInfo(GetName().c_str(), "Configure: \nfDelay: %f\n", fDelay);
 }
 

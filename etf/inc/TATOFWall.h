@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/30.															     //
-// Last modified: 2017/11/05, SUN Yazhou.										     //
+// Last modified: 2017/11/30, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -38,10 +38,14 @@ public:
 	unsigned short GetNFiredStrip() const; // return count of strips with fired status being 4
 	// return number of strips on aggregate
 	unsigned short GetNStrip() const{ return fStripArr.size(); }
+	double GetStripTime(int i, double t0 = -9999., double t1 = -9999., double t2 = -9999.) const;
 	// Get TOF time from strip specified by a track with linear parameter kl and bl
 	// firedStripId: serial id of the fired strip for the track specifically
 	// if the supposed fired strip is not fired, return -9999.
-	double GetTime(double kl, double bl, double &nstripsStray, int &firedStripId) const;
+	// t0, t1 and t2 are set for choosing time over edges
+	// (time-t0) within t1 and t2 is chosen
+	// t0, t1 and t2 using default values, choose the 1st edge
+	double GetTime(double kl, double bl, double &nstripsStray, int &firedStripId, double t0 = -9999., double t1 = -9999., double t2 = -9999.) const;
 	virtual void AssignStripPosition();
 	virtual void GetStripProjection(int serialId, double *p) const;
 	double Acceptance() const; // detector acceptance
