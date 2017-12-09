@@ -146,14 +146,14 @@
 	TH2F *hsipmBarrToTRef = new TH2F("hsipmBarrToTRef", "hsipmBarrToTRef;stripId;timeToTRef/ns", 27, -1.5, 25.5, 3000, -500., 1500.);
 	TH2F *hT0_1ToTrigUV = new TH2F("hT0_1ToTrigUV", "hT0_1ToTrigUV;edgeNumId;timeToTrig/ns", 13, -1.5, 11.5, 4000, -2000., 2000.);
 	TH2F *hT0_1ToTrigDV = new TH2F("hT0_1ToTrigDV", "hT0_1ToTrigDV;edgeNumId;timeToTrig/ns", 13, -1.5, 11.5, 4000, -2000., 2000.);
-	TH2F *hTOFWToTrigUVStrip15[2];
-	hTOFWToTrigUVStrip15[0] = new TH2F("hLTOFWToTrigUVStrip15", "hLT0_1ToTrigUVStrip15;edgeNumId;timeToTrig/ns", 13, -1.5, 11.5, 4000, -2000., 2000.);
-	hTOFWToTrigUVStrip15[1] = new TH2F("hRTOFWToTrigUVStrip15", "hRT0_1ToTrigUVStrip15;edgeNumId;timeToTrig/ns", 13, -1.5, 11.5, 4000, -2000., 2000.);
+	TH2F *hTOFWToTrigUV[2];
+	hTOFWToTrigUV[0] = new TH2F("hLTOFWToTrigUV", "hLTOFWToTrigUV;edgeNumId;timeToTrig/ns", 13, -1.5, 11.5, 4000, -2000., 2000.);
+	hTOFWToTrigUV[1] = new TH2F("hRTOFWToTrigUV", "hRTOFWToTrigUV;edgeNumId;timeToTrig/ns", 13, -1.5, 11.5, 4000, -2000., 2000.);
 	TH2F *hDCToTrig = new TH2F("hDCToTrig", "hDCToTrig;edgeNumId;timeToTrig/ns", 13, -1.5, 11.5, 8000, -4000., 6000.);
 	objLs[6].push_back(htof2sipmArr); objLs[6].push_back(hsipmArrToTrig);
 	objLs[6].push_back(hTOF_T1_pos); objLs[6].push_back(hDCToTrig);
 	objLs[6].push_back(hT0_1ToTrigUV); objLs[6].push_back(hT0_1ToTrigDV);
-	objLs[6].push_back(hTOFWToTrigUVStrip15[0]); objLs[6].push_back(hTOFWToTrigUVStrip15[1]);
+	objLs[6].push_back(hTOFWToTrigUV[0]); objLs[6].push_back(hTOFWToTrigUV[1]);
 	objLs[7].push_back(hsipmArrToTRef); objLs[7].push_back(hsipmBarrToTRef);
 	
 

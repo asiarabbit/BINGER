@@ -65,9 +65,10 @@ void TAVisual::Configure(){
 		TAPopMsg::Warn("TAVisual", "Configure: DC Anode array is empty. DC not configured?");
 
 	fGMainFrame = new TGraph(); fGMainFrame->SetNameTitle("MainFrame", "Experiment Snap");
-	fGMainFrame->SetPoint(0, 4000., 3000.); fGMainFrame->SetPoint(1, 4000., -3000.);
-	fGMainFrame->SetPoint(2, -3000., -3000.); fGMainFrame->SetPoint(3, -3000., 3000.);
-	fGMainFrame->SetPoint(4, 4000., 3000.);
+	const double L = 10000., W = 3000.;
+	fGMainFrame->SetPoint(0, L, W); fGMainFrame->SetPoint(1, L, -W);
+	fGMainFrame->SetPoint(2, -W, -W); fGMainFrame->SetPoint(3, -W, W);
+	fGMainFrame->SetPoint(4, L, W);
 	fGAnodeDumb = new TGraph(); fGAnodeDumb->SetNameTitle("AnodeDumb", "AnodeDumb");
 	fGAnodeDumb->SetMarkerColor(15); fGAnodeDumb->SetMarkerStyle(7);
 	for(TAAnode *&ano : fAnodeArr){

@@ -147,6 +147,7 @@
 		if(0) vis->FillHitMap();
 		static int jj = 0;
 //		if(0)
+		if(ntr > 1 && jj < 10)
 		if(jj < 100){
 			jj++;
 			static int i0 = 0;
@@ -164,8 +165,9 @@
 		if(index % 1 == 0){
 			cout << "Processing idx " << index << " dataSec " << cntSec;
 			cout << " trk " << cntTrk << " 3Dtrk " << cnt3DTrk / 3;
-			cout << " naoz " << cntaoz << " naozBad " << cntaozWrong << "\r" << flush;
+			cout << " naoz " << cntaoz << " naozBad " << jj << "\r" << flush; // cntaozWrong
 		}
+		if(jj > 20) break;
 
 
 

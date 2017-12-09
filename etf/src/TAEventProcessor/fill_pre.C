@@ -58,7 +58,7 @@
 		// extract the best matched T0_1_UV and T0_1_DV
 		double timeUV_T0_1 = -9999., timeDV_T0_1 = -9999., dmin_T0_1 = 1E200;
 		for(int j = 0; j < nUVLEdge_T0_1; j++){
-			double tmpuv = T0_1->GetUV()->GetLeadingTime(j);
+			double tmpuv = T0_1->GetUV()->GetLeadingTime(j)+2.7; // XXX: +2.7: for beamTest2016 only
 			double tmpdv = T0_1->GetDV()->GetLT(tmpuv);
 			double tmpdt = fabs(tmpuv - tmpdv);
 			if(tmpuv > timeToTrigHighBoundUV || tmpuv < timeToTrigLowBoundUV) tmpdt += 20.;
@@ -71,7 +71,7 @@
 		dmin_T0_1 = timeUV_T0_1 - timeDV_T0_1;
 		hTOF_T1_pos->Fill(dmin_T0_1);
 		if(dmin_T0_1 > -20. && dmin_T0_1 < 60.){
-			tRef = (timeUV_T0_1 + timeDV_T0_1) / 2.;
+			tRef = (timeUV_T0_1 + timeDV_T0_1) / 2.-343.7; // XXX: -343.7: for beamTest2016 only
 			cntTRef++;
 		}
 //		if(tRef > timeToTrigHighBoundUV || tRef < timeToTrigLowBoundUV){
@@ -99,16 +99,17 @@
 				const int strId = str->GetStripId();
 				if(4 == sta) hTOFWFiredDist[ii]->Fill(strId);
 				if(4 == sta || 3 == sta){
-					if(15 == strId){
+//					if(15 == strId)
+					{
 						for(int j = 0; j < str->GetUV()->GetData()->GetNLeadingEdge(); j++){
-							hTOFWToTrigUVStrip15[ii]->Fill(j, str->GetUV()->GetLeadingTime(j));
+							hTOFWToTrigUV[ii]->Fill(j, str->GetUV()->GetLeadingTime(j));
 						}
 					}
 					hTOFWHitPos[ii]->Fill(strId, str->GetHitPosition());
 					double tofwToTrig = str->GetUV()->GetLeadingTime();
 					if(-9999. != tRef) hTOFWToTRef[ii]->Fill(strId, tofwToTrig - tRef);
 					// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
-					if(!(tofwToTrig > 300. && tofwToTrig < 700.)){ // belongs to the trigger-generating particle
+					if(!(tofwToTrig > 1120. && tofwToTrig < 1160)){ // belongs to the trigger-generating particle // (300., 700.)->pion2017; (1120., 1160.)->beamTest2016
 						str->GetStripData()->SetFiredStatus(-10); // manually altered
 					}
 				}
@@ -131,7 +132,7 @@
 									hDCToTrig->Fill(i, ano->GetData()->GetLeadingTime(i));
 								}
 								// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
-								if(!(dcToTrig > 340. && dcToTrig < 840.)) ano->GetData()->SetFiredStatus(false);
+								if(!(dcToTrig > 1000. && dcToTrig < 1400.)) ano->GetData()->SetFiredStatus(false); // (340., 840.)->pion2017; (1000., 1400.)->beamTest2016
 //								if(1 == ii && 0 == j && 0 == k) ano->GetData()->SetFiredStatus(false);
 							}
 						} // end for over anode of one layer

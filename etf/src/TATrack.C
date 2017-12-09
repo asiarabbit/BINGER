@@ -441,9 +441,11 @@ void TATrack::FillTrack(TGraph *gTrack, TGraph *gTrack_R){
 	const int nTr = 10000, nCir = 300; // number of points to be filled.
 	double z, x, theta; // temporary variables
 	// first fill the track line
+	// calculate the interpolation pattern for drawing gTrack
+	static const double L = 10000., W = 3000., M = (L - W) / 2., S = (L + W) / 2.;
 	const double k = GetSlope(), b = GetIntercept();
 	for(int i = nTr; i--;){
-		z = (2.*i/nTr - 1.) * 4500.;
+		z = M + (2.*i/nTr - 1.) * S;
 		x = k*z+b;
 		gTrack->SetPoint(gTrack->GetN(), z, x);
 	}

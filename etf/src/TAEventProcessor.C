@@ -302,8 +302,10 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	int cntaozWrong = 0, cntaoz = 0;
 	int i = 0; int cntSec = 0;
 	// to select the trigger-generating particle
-	const double timeToTrigLowBoundUV = 204., timeToTrigHighBoundUV = 857.;
-	const double timeToTrigLowBoundDV = 204., timeToTrigHighBoundDV = 857.;
+	// (204., 857.)->pion2017; (1350., 1500.)->beamTest2016
+	const double timeToTrigLowBoundUV = 1350., timeToTrigHighBoundUV = 1500.;
+	// (204., 857.)->pion2017; (1350., 1500.)->beamTest2016
+	const double timeToTrigLowBoundDV = 1350., timeToTrigHighBoundDV = 1500.;
 	TAVisual *vis = GetVisual();
 	TAPID *pid = GetPID();
 	while(i < n){
