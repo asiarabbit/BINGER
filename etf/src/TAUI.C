@@ -71,12 +71,12 @@ void TAUI::GetOpt(int argc, char *argv[]){
 	// echo user input
 //	return;
 	cout << "       --- USER INPUT CHECK LIST ---\n"; // DEBUG
-	cout << "fDataFile: " << fDataFile << "\tfROOTFile: " << fROOTFile; // DEBUG
-	cout << "\tfAnaDepth: " << fAnaDepth;
-	if(!strcmp(fROOTFile, "")) cout << "\tfRunId: " << fRunId << endl; // DEBUG
-	else cout << "\tfRunId: (null)" << endl; // DEBUG
-	cout  << "fEvLenLim: " << fEvLenLim << "\tfIndex0: " << fIndex0; // DEBUG
-	cout << "\tfIndex1: " << fIndex1 << endl; // DEBUG
+	cout << "fDataFile: " << fDataFile << "   fROOTFile: " << fROOTFile; // DEBUG
+	cout << "   fAnaDepth: " << fAnaDepth;
+	if(!strcmp(fROOTFile, "")) cout << "   fRunId: " << fRunId << endl; // DEBUG
+	else cout << "   fRunId: (null)" << endl; // DEBUG
+	cout  << "fEvLenLim: " << fEvLenLim << "   fIndex0: " << fIndex0; // DEBUG
+	cout << "   fIndex1: " << fIndex1 << endl; // DEBUG
 }
 // show manual for input rules
 void TAUI::PromptHelp(bool isVerbose){

@@ -132,7 +132,11 @@ TAChannel *TAPlaStrip::GetDH() const{
 	return fDH;
 }
 TAPlaStripPara *TAPlaStrip::GetStripPara() const{
-	if(!fStripPara) TAPopMsg::Error(GetName().c_str(), "GetStripPara: pointer is null.");
+	if(!fStripPara){
+		cout << GetName() << endl; // DEBUG
+		cout << GetUID() << endl; // DEBUG
+		TAPopMsg::Error(GetName().c_str(), "GetStripPara: pointer is null.");
+	}
 	return fStripPara;
 }
 TAPlaStripData *TAPlaStrip::GetStripData() const{

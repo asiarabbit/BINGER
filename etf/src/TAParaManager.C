@@ -86,6 +86,10 @@ unsigned TAParaManager::GetUID(int chId) const{
 		TAPopMsg::Warn("TAParaManager", "GetUID: Input channel Id too large: %d", chId);
 		exit(1);
 	}
+	if(-2 == chId){ // default chid -- not assigned
+//		TAPopMsg::Wran("TAParaManager", "GetUID: default channel Id: channel Id not assigned %d", chId);
+		return UID_DUMMY * 2; // default value: -> default chId: ch not used in expriment.
+	}
 	unsigned uid = fUIDList[chId];
 	if(UID_DUMMY == uid){ // dummy channel
 //		TAPopMsg::Wran("TAParaManager", "GetUID: homeless channel: %d", chId);
@@ -139,7 +143,8 @@ void TAParaManager::ReadParameters(){
 	TAPopMsg::Info("TAParaManager", "ReadParameters: Parameters has been read and assigned~ \033[33;1m:)\033[0m");
 #endif
 	// destruct those detectors that are not commissioned in the current experiment
-	Clean(); // by telling the status of channel id of the detector units.
+	// FIXME: this function is a flawed function, may not be used.
+//	Clean(); // by telling the status of channel id of the detector units.
 }
 
 

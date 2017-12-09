@@ -75,8 +75,8 @@ int TARawDataProcessor::ReadOffline(){
 		TAPopMsg::Warn("TARawDataProcessor", "ReadOffline: Input binary data file is null.");
 	if(0 == access(fROOTFile.c_str(), 0)) return -1; // file already exists. Function has been called.
 
-	static const double H_BLIP = 25. / pow(2., 8);
-	static const double V_BLIP = 25. / pow(2., 10);
+	static const double H_BLIP = 25. / pow(2., 8.);
+	static const double V_BLIP = 25. / pow(2., 10.);
 
 	static const int edge_num_limit = 10;
 	static const int ch_num_limit_per_frag = 128;

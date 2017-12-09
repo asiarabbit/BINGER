@@ -80,8 +80,6 @@ TAEventProcessor::TAEventProcessor(const string &datafile, int runId)
 	fPID = TAPID::Instance();
 	TAPopMsg::Verbose(false); // TAPopMsg::Silent();
 	SetDataFile(datafile, runId);
-	SetConfigExpDir("pion_2017Oct");
-	SetSTRROOTFile("STR.root");
 }
 TAEventProcessor::~TAEventProcessor(){
 	if(fRawDataProcessor){
@@ -143,7 +141,8 @@ void TAEventProcessor::SetSTRROOTFile(const string &file){
 	GetCtrlPara()->SetSTRROOTFile(STRFile);
 }
 void TAEventProcessor::SetDataFile(const string &datafile, int runId){
-	if('/' == datafile.c_str()[0])
+	const char c = datafile.c_str()[0];
+	if('/' == c || '.' == c) // data file with its path specified
 		GetRawDataProcessor()->SetDataFileName(datafile, runId);
 	else GetRawDataProcessor()->SetDataFileName("../data/"+datafile, runId);
 }
@@ -151,6 +150,8 @@ void TAEventProcessor::SetPeriod(int index0, int index1){
 	GetRawDataProcessor()->SetPeriod(index0, index1);
 }
 void TAEventProcessor::Configure(){ // create detectors
+	SetSTRROOTFile("STR.root"); // space-time relations for MWDCs
+
 	static bool isCalled = false;
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
 	if(isCalled){
@@ -184,10 +185,15 @@ void TAEventProcessor::Assign(){
 	for(tEntry *&e : fEntryList) Assign(e);
 }
 void TAEventProcessor::Assign(tEntry *entry){
+
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
 	int uid = GetParaManager()->GetUID(entry->channelId);
 	if(TAParaManager::UID_DUMMY == uid){ // entry with homeless channel id
 		strcpy(entry->name, "\033[31mDUMMY_CHANNEL\033[0m");
+		return;
+	}
+	if(2 * TAParaManager::UID_DUMMY == uid){ // entry with homeless channel id
+		strcpy(entry->name, "\033[31mEMPTY_CHANNEL\033[0m");
 		return;
 	}
 	int type[6]{}; TAUIDParser::DNS(type, uid); int detId = type[0]; // resolute UID

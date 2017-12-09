@@ -140,9 +140,15 @@ void TACtrlPara::SetSTRROOTFile(const string &file){
 void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 	static const int HVopt[2][3][3] = { // [DCarrL-R][DC0-1-2][XUV]
 		// -1: no HV is applied; 0-5 -> HV[0-5] array element
-		{ {3, -1, 3}, {2, 2, 2}, {4, 4, 4} }, // DCArrL, DC0-1-2 - X U V // 20171028 ->
-		{ {3, -1, 3}, {3, 3, 3}, {3, 3, 3} }, // DCArrR, DC0-1-2 - X U V // 20171028 ->
+		{ {0, 0, 0}, {0, 0, 0}, {0, 0, 0} }, // DCArrL, DC0-1-2 - X U V // 20171028 ->
+		{ {0, 0, 0}, {0, 0, 0}, {0, 0, 0} }, // DCArrR, DC0-1-2 - X U V // 20171028 ->
 	};
+
+/////////////////// THIS IS FOR EXP_PION_2017 ///////////////////////////////////////////
+//		{ {3, -1, 3}, {2, 2, 2}, {4, 4, 4} }, // DCArrL, DC0-1-2 - X U V // 20171028 ->
+//		{ {3, -1, 3}, {3, 3, 3}, {3, 3, 3} }, // DCArrR, DC0-1-2 - X U V // 20171028 ->
+/////////////////////////////////////////////////////////////////////////////////////////
+
 	// ----------------- set STRs ---------------------- //
 	// use base STRs from garfield simualtion results
 	static TFile *f = new TFile(kSTRROOTFile.c_str());

@@ -10,7 +10,7 @@ using std::endl;
 int main(int argc, char *argv[]){
 	TAEventProcessor::Instance()->Configure();
 	TASimulation *sim = new TASimulation();
-	sim->GenerateSim(1000, 1, 1.);
+	sim->GenerateSim(100000, 1, 1.);
 
 	return 0;
 }

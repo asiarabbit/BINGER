@@ -96,7 +96,7 @@ double TATrack::GetChi2(){
 } // end of function GetChi2
 // fit residue = sqrt( chi2/ndf ). ndf = N - L or N - L + K
 double TATrack::GetChi(){
-	return sqrt( GetChi2()/(GetNFiredAnodeLayer()-2.) );
+	return sqrt(GetChi2() / GetNFiredAnodeLayer());
 } //
 double TATrack::GetSlope(){
 	if(!fIsAssigned){
