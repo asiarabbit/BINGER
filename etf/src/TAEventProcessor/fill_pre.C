@@ -10,7 +10,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/29.															     //
-// Last modified: 2017/11/29, SUN Yazhou.										     //
+// Last modified: 2017/12/13, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -71,7 +71,8 @@
 		dmin_T0_1 = timeUV_T0_1 - timeDV_T0_1;
 		hTOF_T1_pos->Fill(dmin_T0_1);
 		if(dmin_T0_1 > -20. && dmin_T0_1 < 60.){
-			tRef = (timeUV_T0_1 + timeDV_T0_1) / 2.-343.7; // XXX: -343.7: for beamTest2016 only
+			// XXX +gpar->Val(4): -343.7: for beamTest2016 only
+			tRef = (timeUV_T0_1 + timeDV_T0_1) / 2.+gpar->Val(4);
 			cntTRef++;
 		}
 //		if(tRef > timeToTrigHighBoundUV || tRef < timeToTrigLowBoundUV){
@@ -109,7 +110,7 @@
 					double tofwToTrig = str->GetUV()->GetLeadingTime();
 					if(-9999. != tRef) hTOFWToTRef[ii]->Fill(strId, tofwToTrig - tRef);
 					// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
-					if(!(tofwToTrig > 1120. && tofwToTrig < 1160)){ // belongs to the trigger-generating particle // (300., 700.)->pion2017; (1120., 1160.)->beamTest2016
+					if(!(tofwToTrig > gpar->Val(5) && tofwToTrig < gpar->Val(6))){ // belongs to the trigger-generating particle // (300., 700.)->pion2017; (1120., 1160.)->beamTest2016
 						str->GetStripData()->SetFiredStatus(-10); // manually altered
 					}
 				}
@@ -132,7 +133,7 @@
 									hDCToTrig->Fill(i, ano->GetData()->GetLeadingTime(i));
 								}
 								// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
-								if(!(dcToTrig > 1000. && dcToTrig < 1400.)) ano->GetData()->SetFiredStatus(false); // (340., 840.)->pion2017; (1000., 1400.)->beamTest2016
+								if(!(dcToTrig > gpar->Val(7) && dcToTrig < gpar->Val(8))) ano->GetData()->SetFiredStatus(false); // (340., 840.)->pion2017; (1000., 1400.)->beamTest2016
 //								if(1 == ii && 0 == j && 0 == k) ano->GetData()->SetFiredStatus(false);
 							}
 						} // end for over anode of one layer
@@ -147,7 +148,7 @@
 			if(ch->GetFiredStatus()){
 				double timeToTrig = ch->GetLT(0., 200., 650.);
 				// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
-				if(!(timeToTrig > 200. && timeToTrig < 650.)) ch->GetData()->SetFiredStatus(false);
+				if(!(timeToTrig > gpar->Val(9) && gpar->Val(10))) ch->GetData()->SetFiredStatus(false);
 				if(tRef != -9999.){
 					hsipmArrToTRef->Fill(ch->GetSerialId(), timeToTrig - tRef);
 				}
@@ -168,7 +169,7 @@
 					hsipmBarrToTRef->Fill(strId, timeToTRefSipmBarr);
 				}
 //				if(tRef != -9999. && !(timeToTRefSipmBarr > -600. && timeToTRefSipmBarr < 300.))
-				if(!(timeToTrigSipmBarr > 200. && timeToTrigSipmBarr < 700.))
+				if(!(timeToTrigSipmBarr > gpar->Val(11) && timeToTrigSipmBarr < gpar->Val(12)))
 				{
 					str->GetStripData()->SetFiredStatus(-10);
 				}

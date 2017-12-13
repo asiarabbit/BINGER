@@ -38,6 +38,7 @@ class TARawDataProcessor;
 class TAParaManager;
 class TAVisual;
 class TAPID;
+class TAGPar;
 
 struct tEntry; // store raw data of one channel of readout electronics
 struct tTrack; // store 2-D projection of straight particle track information
@@ -56,6 +57,7 @@ public:
 	TACtrlPara *GetCtrlPara() const;
 	TAVisual *GetVisual() const;
 	TAPID *GetPID() const;
+	TAGPar *GetGPar() const;
 	void SetConfigExpDir(const string &dir);
 	void SetSTRROOTFile(const string &file);
 	void SetDataFile(const string &datafile, int runId);
@@ -99,6 +101,7 @@ protected:
 	TACtrlPara *fCtrlPara; // control parameters to regulate program running
 	TAVisual *fVisual; // for visualize the data analysis result
 	TAPID *fPID; // particle identification method object
+	TAGPar *fGPar; // a container storing global parameters
 };
 
 #endif

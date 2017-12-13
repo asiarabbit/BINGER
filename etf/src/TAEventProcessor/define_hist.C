@@ -15,6 +15,10 @@
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
+	// global singleton instance pionters
+	TAVisual *vis = GetVisual();
+	TAPID *pid = GetPID();
+	TAGPar *gpar = GetGPar();
 	// detector pointers
 	vector<tTrack *> &track_ls = GetTrackList();
 	TAParaManager::ArrDet_t &dec_vec = GetParaManager()->GetDetList();
@@ -30,6 +34,14 @@
 	for(int i = 2; i--;) for(int j = 3; j--;) dc[i][j] = dcArr[i]->GetMWDC(j);
 //	TAAnode *ano = dc[1][1]->GetAnodeL1(1, 58); // DEBUG
 //	cout << ano->GetDriftDistance(70., 0) << endl; getchar(); // DEBUG
+
+	// to select the trigger-generating particle
+	// (204., 857.)->pion2017; (1350., 1500.)->beamTest2016
+	const double timeToTrigLowBoundUV = gpar->Val(0), timeToTrigHighBoundUV = gpar->Val(1);
+	// (204., 857.)->pion2017; (1350., 1500.)->beamTest2016
+	const double timeToTrigLowBoundDV = gpar->Val(2), timeToTrigHighBoundDV = gpar->Val(3);
+
+
 
 
 

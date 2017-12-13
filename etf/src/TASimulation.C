@@ -2,7 +2,7 @@
 // Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
 //																				     //
 // BINGER/inc/etf/TASimulation.C													 //
-//   TASimulation.C -- source file for class TASimulation						 //
+//   TASimulation.C -- source file for class TASimulation							 //
 //   Introduction: Simulation data generator, following the format of struct tEntry. //
 // A toy Monta Carlo simulator. Only geometrical specifications of detectors are	 //
 // considered.																		 //
@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2017/11/30, SUN Yazhou.										     //
+// Last modified: 2017/12/12, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -89,7 +89,8 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 	// note that B and b are both in global reference
 	double B[3]{}, b[3]{}; // bx, by and Bx, By are to be assigned with random nums
 	double beta[2] = {0.5, 0.6}, beta_t; // beta of incident particle [DCArrL-R]
-	int bunchId = -16; // -16*25 = -400., so that timeToTrig would within the right range
+	// -16*25 = -400., so that timeToTrig would within the right range
+	int bunchId = -kT0_1TimeToTrigNCycle; // T0_1 starts from 0.
 	treeData->Branch("index", &index, "index/I"); // run id
 	treeData->Branch("channelId", &chId, "channelId/I");
 	treeData->Branch("nl", &nl, "nl/I");

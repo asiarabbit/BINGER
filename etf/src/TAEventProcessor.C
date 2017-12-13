@@ -11,7 +11,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/13.															     //
-// Last modified: 2017/11/30, SUN Yazhou.										     //
+// Last modified: 2017/12/13, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -57,6 +57,7 @@
 #include "tTrack.h"
 #include "t3DTrkInfo.h"
 #include "t3DPIDInfo.h"
+#include "TAGPar.h" // Global parameters
 
 using std::cout;
 using std::endl;
@@ -69,7 +70,7 @@ TAEventProcessor* TAEventProcessor::fInstance = nullptr;
 
 TAEventProcessor::TAEventProcessor(const string &datafile, int runId)
 		: fRawDataProcessor(0), fParaManager(0), fCtrlPara(0),
-		fVisual(0), fPID(0), fIsPID(true), fIsTracking(true){
+		fVisual(0), fPID(0), fGPar(0), fIsPID(true), fIsTracking(true){
 	fEntryList.reserve(100);
 	fTrackList.reserve(50);
 
@@ -78,6 +79,7 @@ TAEventProcessor::TAEventProcessor(const string &datafile, int runId)
 	fCtrlPara = TACtrlPara::Instance();
 	fVisual = TAVisual::Instance();
 	fPID = TAPID::Instance();
+	fGPar = TAGPar::Instance();
 	TAPopMsg::Verbose(false); // TAPopMsg::Silent();
 	SetDataFile(datafile, runId);
 }
@@ -122,6 +124,10 @@ TAVisual *TAEventProcessor::GetVisual() const{
 TAPID *TAEventProcessor::GetPID() const{
 	if(!fPID) TAPopMsg::Error("TAEventProcessor", "GetPID(): pointer is null.");
 	return fPID;
+}
+TAGPar *TAEventProcessor::GetGPar() const{
+	if(!fGPar) TAPopMsg::Error("TAEventProcessor", "GetGPar(): pointer is null.");
+	return fGPar;
 }
 void TAEventProcessor::SetConfigExpDir(const string &dir){
 	GetCtrlPara()->SetConfigExpDir("../config/"+dir);
@@ -301,13 +307,6 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	int cntTrk = 0, cnt3DTrk = 0;
 	int cntaozWrong = 0, cntaoz = 0;
 	int i = 0; int cntSec = 0;
-	// to select the trigger-generating particle
-	// (204., 857.)->pion2017; (1350., 1500.)->beamTest2016
-	const double timeToTrigLowBoundUV = 1350., timeToTrigHighBoundUV = 1500.;
-	// (204., 857.)->pion2017; (1350., 1500.)->beamTest2016
-	const double timeToTrigLowBoundDV = 1350., timeToTrigHighBoundDV = 1500.;
-	TAVisual *vis = GetVisual();
-	TAPID *pid = GetPID();
 	while(i < n){
 		Initialize(); // clear everything from last data section.
 		// assign all entries in a sec to fEntryList for processing.

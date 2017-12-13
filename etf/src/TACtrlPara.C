@@ -123,7 +123,7 @@ const char *TACtrlPara::RootFileName() const{
 	return kRootFile.c_str();
 }
 const char *TACtrlPara::ConfigExpDir() const{
-	if("" == kConfigExpDir) TAPopMsg::Warn("TACtrlPara", "ConfigExpDir: not assigned");
+	if("" == kConfigExpDir) TAPopMsg::Error("TACtrlPara", "ConfigExpDir: not assigned");
 	return kConfigExpDir.c_str();
 }
 const char *TACtrlPara::STRROOTFile() const{

@@ -2,7 +2,7 @@
 // Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
 //																				     //
 // BINGER/inc/etf/TASimulation.h													 //
-//   TASimulation.h -- header file for class TASimulation						 //
+//   TASimulation.h -- header file for class TASimulation							 //
 //   Introduction: Simulation data generator, following the format of struct tEntry. //
 // A toy Monta Carlo simulator. Only geometrical specifications of detectors are	 //
 // considered.																		 //
@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2017/11/20, SUN Yazhou.										     //
+// Last modified: 2017/12/12, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -39,6 +39,8 @@ public:
 	// simfile: name of the rootfile containing the simulation data
 	static void GenerateSim(int run, int nTrkPerEvEx, double effEx, char *simFile, DetArr_t *detList);
 	static void Evaluate(const string &rootfile);
+	// time to trig of T0_1 signal. unit: clock cycle (25 ns)
+	static const int kT0_1TimeToTrigNCycle = 16; // -16*25=-400ns
 protected:
 	DetArr_t *fDetList;
 	string fROOTFile;
