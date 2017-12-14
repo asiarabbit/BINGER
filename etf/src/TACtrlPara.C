@@ -21,6 +21,7 @@
 #include "TACtrlPara.h"
 #include "TAPopMsg.h"
 #include "TAUIDParser.h"
+#include "TAGPar.h"
 #include "TAAnodePara.h"
 
 TACtrlPara *TACtrlPara::kInstance = nullptr;
@@ -138,10 +139,16 @@ void TACtrlPara::SetSTRROOTFile(const string &file){
 	kSTRROOTFile = file;
 }
 void TACtrlPara::AssignSTR(TAAnodePara *para) const{
+	static TAGPar *gp = TAGPar::Instance();
 	static const int HVopt[2][3][3] = { // [DCarrL-R][DC0-1-2][XUV]
 		// -1: no HV is applied; 0-5 -> HV[0-5] array element
-		{ {0, 0, 0}, {0, 0, 0}, {0, 0, 0} }, // DCArrL, DC0-1-2 - X U V // 20171028 ->
-		{ {0, 0, 0}, {0, 0, 0}, {0, 0, 0} }, // DCArrR, DC0-1-2 - X U V // 20171028 ->
+		{ {(int)gp->Val(13), (int)gp->Val(14), (int)gp->Val(15)},
+		  {(int)gp->Val(16), (int)gp->Val(17), (int)gp->Val(18)},
+		  {(int)gp->Val(19), (int)gp->Val(20), (int)gp->Val(21)} }, // DCArrL, DC0-1-2 - X U V
+
+		{ {(int)gp->Val(22), (int)gp->Val(23), (int)gp->Val(24)},
+		  {(int)gp->Val(25), (int)gp->Val(26), (int)gp->Val(27)},
+		  {(int)gp->Val(28), (int)gp->Val(29), (int)gp->Val(30)} }, // DCArrL, DC0-1-2 - X U V
 	};
 
 /////////////////// THIS IS FOR EXP_PION_2017 ///////////////////////////////////////////

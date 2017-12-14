@@ -99,6 +99,9 @@ TAEventProcessor::~TAEventProcessor(){
 	if(fPID){
 		delete fPID; fPID = nullptr;
 	}
+	if(fGPar){
+		delete fGPar; fGPar = nullptr;
+	}
 }
 TAEventProcessor* TAEventProcessor::Instance(const string &datafile, int runId){
 	if(!fInstance) fInstance = new TAEventProcessor(datafile, runId);

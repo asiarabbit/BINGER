@@ -94,6 +94,63 @@ TAGPar::TAGPar() : fParVec{0}{
 	// ---- PARAMETER 12 --- //
 	p = new TAParameter("sipmPlaBarrToTrigHB", "sipmPlaBarrToTrigHB");
 	p->SetValue(700.); fParVec[12] = p; p = nullptr;
+	// -- DC HV: 0,1,2,3,4: 900,1000,1300,1350,1500 --- //
+	// - DCL0-2 - //
+	// ---- PARAMETER 13 --- //
+	p = new TAParameter("HVDCL0X", "HVDCL0X");
+	p->SetValue(0); fParVec[13] = p; p = nullptr;
+	// ---- PARAMETER 14 --- //
+	p = new TAParameter("HVDCL0U", "HVDCL0U");
+	p->SetValue(0); fParVec[14] = p; p = nullptr;
+	// ---- PARAMETER 15 --- //
+	p = new TAParameter("HVDCL0V", "HVDCL0V");
+	p->SetValue(0); fParVec[15] = p; p = nullptr;
+	// ---- PARAMETER 16 --- //
+	p = new TAParameter("HVDCL1X", "HVDCL1X");
+	p->SetValue(0); fParVec[16] = p; p = nullptr;
+	// ---- PARAMETER 17 --- //
+	p = new TAParameter("HVDCL1U", "HVDCL1U");
+	p->SetValue(0); fParVec[17] = p; p = nullptr;
+	// ---- PARAMETER 18 --- //
+	p = new TAParameter("HVDCL1V", "HVDCL1V");
+	p->SetValue(0); fParVec[18] = p; p = nullptr;
+	// ---- PARAMETER 19 --- //
+	p = new TAParameter("HVDCL2X", "HVDCL2X");
+	p->SetValue(0); fParVec[19] = p; p = nullptr;
+	// ---- PARAMETER 20 --- //
+	p = new TAParameter("HVDCL2U", "HVDCL2U");
+	p->SetValue(0); fParVec[20] = p; p = nullptr;
+	// ---- PARAMETER 21 --- //
+	// - DCR0-2 - //
+	p = new TAParameter("HVDCR2V", "HVDCR2V");
+	p->SetValue(0); fParVec[21] = p; p = nullptr;
+	// ---- PARAMETER 22 --- //
+	p = new TAParameter("HVDCR0X", "HVDCR0X");
+	p->SetValue(0); fParVec[22] = p; p = nullptr;
+	// ---- PARAMETER 23 --- //
+	p = new TAParameter("HVDCR0U", "HVDCR0U");
+	p->SetValue(0); fParVec[23] = p; p = nullptr;
+	// ---- PARAMETER 24 --- //
+	p = new TAParameter("HVDCR0V", "HVDCR0V");
+	p->SetValue(0); fParVec[24] = p; p = nullptr;
+	// ---- PARAMETER 25 --- //
+	p = new TAParameter("HVDCR1X", "HVDCR1X");
+	p->SetValue(0); fParVec[25] = p; p = nullptr;
+	// ---- PARAMETER 26 --- //
+	p = new TAParameter("HVDCR1U", "HVDCR1U");
+	p->SetValue(0); fParVec[26] = p; p = nullptr;
+	// ---- PARAMETER 27 --- //
+	p = new TAParameter("HVDCR1V", "HVDCR1V");
+	p->SetValue(0); fParVec[27] = p; p = nullptr;
+	// ---- PARAMETER 28 --- //
+	p = new TAParameter("HVDCR2X", "HVDCR2X");
+	p->SetValue(0); fParVec[28] = p; p = nullptr;
+	// ---- PARAMETER 29 --- //
+	p = new TAParameter("HVDCR2U", "HVDCR2U");
+	p->SetValue(0); fParVec[29] = p; p = nullptr;
+	// ---- PARAMETER 30 --- //
+	p = new TAParameter("HVDCR2V", "HVDCR2V");
+	p->SetValue(0); fParVec[30] = p; p = nullptr;
 
 }
 

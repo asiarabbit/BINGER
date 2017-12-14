@@ -40,7 +40,7 @@ public:
 	static void GenerateSim(int run, int nTrkPerEvEx, double effEx, char *simFile, DetArr_t *detList);
 	static void Evaluate(const string &rootfile);
 	// time to trig of T0_1 signal. unit: clock cycle (25 ns)
-	static const int kT0_1TimeToTrigNCycle = 16; // -16*25=-400ns
+	static const int kT0_1TimeToTrigNCycle = 16; // 16*25 = 400ns
 protected:
 	DetArr_t *fDetList;
 	string fROOTFile;
