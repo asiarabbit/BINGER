@@ -28,9 +28,12 @@
 #include "TAMath.h"
 #include "TAMath.h"
 #include "tTrack.h"
+#include "TAGPar.h"
 
 using std::cout;
 using std::endl;
+
+static const TAGPar *gp = TAGPar::Instance();
 
 TATrack::TATrack(const string &name, const string &title, unsigned uid)
 		: TAStuff(name, title, uid){
@@ -96,7 +99,8 @@ double TATrack::GetChi2(){
 } // end of function GetChi2
 // fit residue = sqrt( chi2/ndf ). ndf = N - L or N - L + K
 double TATrack::GetChi(){
-	return sqrt(GetChi2() / GetNFiredAnodeLayer());
+	int ndf = GetNFiredAnodeLayer() - 2;
+	return sqrt(GetChi2() / ndf);
 } //
 double TATrack::GetSlope(){
 	if(!fIsAssigned){
@@ -438,11 +442,11 @@ void TATrack::Initialize(){
 void TATrack::FillTrack(TGraph *gTrack, TGraph *gTrack_R){
 	if(!gTrack || !gTrack_R)
 		TAPopMsg::Error(GetName().c_str(), "FillTrack: input TGraph pointer is null");
-	const int nTr = 10000, nCir = 300; // number of points to be filled.
 	double z, x, theta; // temporary variables
 	// first fill the track line
 	// calculate the interpolation pattern for drawing gTrack
-	static const double L = 10000., W = 3000., M = (L - W) / 2., S = (L + W) / 2.;
+	static const double L = gp->Val(31), W = gp->Val(32), M = (L - W) / 2., S = (L + W) / 2.;
+	static const int nTr = int(L), nCir = 300; // number of points to be filled.
 	const double k = GetSlope(), b = GetIntercept();
 	for(int i = nTr; i--;){
 		z = M + (2.*i/nTr - 1.) * S;

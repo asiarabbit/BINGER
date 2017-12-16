@@ -43,7 +43,7 @@ protected:
 	// x, y, z: one point moving with the detector,
 	// usually the center or one corner on the detector, to specify the detector position.
 	double fX, fY, fZ;
-	// Euler angles to describe the orientation of the detector.
+	// the orientation of the detector: yaw, pitch, roll
 	// rotation axis: y, z', y''
 	double fPhi, fTheta, fPsi;
 

@@ -46,7 +46,8 @@ void TAGPar::ShowPar(unsigned int id) const{
 	getchar();
 }
 const TAParameter *TAGPar::Par(unsigned int id) const{
-	if(id >= kSIZE) TAPopMsg::Error("TAGpar", "Par: input id exceeds the maximum parameter array size. M_SIZE: %d", kSIZE);
+	if(id >= kSIZE) TAPopMsg::Error("TAGPar", "Par: input id exceeds the maximum parameter array size. M_SIZE: %d", kSIZE);
+	if(!fParVec[id]) TAPopMsg::Error("TAGPar", "Par: required pointer is null");
 	return fParVec[id];
 }
 
@@ -55,6 +56,7 @@ const TAParameter *TAGPar::Par(unsigned int id) const{
 // the instructor
 TAGPar::TAGPar() : fParVec{0}{
 	TAParameter *p = nullptr; // a temporary variable
+	// $$$$$ time to trigger range $$$$$ //
 	// ---- PARAMETER 0 --- //
 	p = new TAParameter("T0_1ToTrigLBUV", "T0_1ToTrigLBUV");
 	p->SetValue(1350.); fParVec[0] = p; p = nullptr;
@@ -94,8 +96,8 @@ TAGPar::TAGPar() : fParVec{0}{
 	// ---- PARAMETER 12 --- //
 	p = new TAParameter("sipmPlaBarrToTrigHB", "sipmPlaBarrToTrigHB");
 	p->SetValue(700.); fParVec[12] = p; p = nullptr;
-	// -- DC HV: 0,1,2,3,4: 900,1000,1300,1350,1500 --- //
-	// - DCL0-2 - //
+	// $$$$$ DC HV: 0,1,2,3,4: 900,1000,1300,1350,1500 $$$$$ //
+	// $ DCL0-2 $ //
 	// ---- PARAMETER 13 --- //
 	p = new TAParameter("HVDCL0X", "HVDCL0X");
 	p->SetValue(0); fParVec[13] = p; p = nullptr;
@@ -121,7 +123,7 @@ TAGPar::TAGPar() : fParVec{0}{
 	p = new TAParameter("HVDCL2U", "HVDCL2U");
 	p->SetValue(0); fParVec[20] = p; p = nullptr;
 	// ---- PARAMETER 21 --- //
-	// - DCR0-2 - //
+	// $ DCR0-2 $ //
 	p = new TAParameter("HVDCR2V", "HVDCR2V");
 	p->SetValue(0); fParVec[21] = p; p = nullptr;
 	// ---- PARAMETER 22 --- //
@@ -151,7 +153,14 @@ TAGPar::TAGPar() : fParVec{0}{
 	// ---- PARAMETER 30 --- //
 	p = new TAParameter("HVDCR2V", "HVDCR2V");
 	p->SetValue(0); fParVec[30] = p; p = nullptr;
-
+	// $$$$$ Exp visualization Canvas Size (unit: mm) $$$$$ //
+	// ---- PARAMETER 31 --- //
+	p = new TAParameter("L-DownstreamMag", "L-DownstreamMag");
+	p->SetValue(10000.); fParVec[31] = p; p = nullptr;
+	// ---- PARAMETER 32 --- //
+	p = new TAParameter("W-DownstreamMag", "W-DownstreamMag");
+	p->SetValue(3000.); fParVec[32] = p; p = nullptr;
+	
 }
 
 

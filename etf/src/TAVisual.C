@@ -33,6 +33,11 @@
 #include "TAChannel.h"
 #include "TADeployPara.h"
 #include "TAPID.h"
+#include "TAGPar.h"
+
+static const TAGPar *gp = TAGPar::Instance();
+static const double z_SiPMArr = TADeployPara::Instance()->GetSiPMArrayZ0(); // z of SiPM Pla Array
+static const double z_Ta = TADeployPara::Instance()->GetTargetZ0(); // z of the target
 
 TAVisual *TAVisual::fInstance = nullptr;
 
@@ -57,15 +62,13 @@ TAVisual *TAVisual::Instance(){
 	return fInstance;
 }
 
-static const double z_SiPMArr = TADeployPara::Instance()->GetSiPMArrayZ0(); // z of SiPM Pla Array
-static const double z_Ta = TADeployPara::Instance()->GetTargetZ0(); // z of the target
 // note that this function can only be called after the TAEventProcessor::Configure is called.
 void TAVisual::Configure(){
 	if(0 == fAnodeArr.size())
 		TAPopMsg::Warn("TAVisual", "Configure: DC Anode array is empty. DC not configured?");
 
 	fGMainFrame = new TGraph(); fGMainFrame->SetNameTitle("MainFrame", "Experiment Snap");
-	const double L = 10000., W = 3000.;
+	const double L = gp->Val(31), W = gp->Val(32);
 	fGMainFrame->SetPoint(0, L, W); fGMainFrame->SetPoint(1, L, -W);
 	fGMainFrame->SetPoint(2, -W, -W); fGMainFrame->SetPoint(3, -W, W);
 	fGMainFrame->SetPoint(4, L, W);

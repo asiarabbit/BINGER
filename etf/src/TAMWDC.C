@@ -16,9 +16,11 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 
 #include <cmath>
+
 #include "TF1.h" // ROOT class
-#include "TAAnodePara.h"
+
 #include "TAAnode.h"
+#include "TAAnodePara.h"
 #include "TADCSFE16.h"
 #include "TADCCable.h"
 #include "TADCSuperLayer.h"
@@ -166,7 +168,9 @@ void TAMWDC::AssignAnodePosition(){
 		} // layer option
 	} // dc type
 } // end of the member function
-
+int TAMWDC::GetSTRid(double k, int dcType) const{
+	return GetAnode(dcType, 1, 0)->GetAnodePara()->GetSTRid(k, dcType);
+}
 
 TAAnode *TAMWDC::GetAnodeL1(int dcType, int anodeId) const{
 	short nap = GetNAnodePerLayer();

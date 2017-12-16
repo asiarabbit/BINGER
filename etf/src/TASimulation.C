@@ -389,7 +389,7 @@ void TASimulation::Evaluate(const string &rootfile){
 		memset(n3DtrXUV, 0, sizeof(n3DtrXUV));
 		memset(trkId, -1, sizeof(trkId));
 		// loop over grouped track projections
-		for(int j = 0; j < ntr; j++) if(id[j] != -1){
+		for(int j = 0; j < ntr; j++) if(-1 != id[j]){
 			for(int k = 0; k < 3; k++){ // loop over X-U-V track types
 				if(type[j]%10 == k){
 					trkId[id[j]][k] = j;

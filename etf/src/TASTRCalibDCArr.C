@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2017/11/18, SUN Yazhou.										     //
+// Last modified: 2017/12/16, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -30,6 +30,7 @@
 
 #include "TAPopMsg.h"
 #include "TASTRCalibDCArr.h"
+#include "TAParaManager.h"
 #include "TAMWDCArray.h"
 #include "TAMath.h"
 #include "TAMWDC.h"
@@ -64,6 +65,7 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 	if(!f->FindObjectAny("treeTrack")){
 		TAPopMsg::Error("TASTRCalibDCArr", "ChiHistogramming: treeTrack not found in input rootfile");
 	}
+	TAParaManager::Instance()->ReadParameters(); // keep up-to-date with the newest calibration
 
 	const int ntrMax = 200, ntrMax3D = ntrMax / 3;
 	int ntr, index, type[ntrMax], id[ntrMax], nu[ntrMax][6];
@@ -84,7 +86,7 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 
 	// create TH2F objects for the STR correction fittings //
 	TH2F *hRDCSTRCor[3][3][2][96][nAng]{0}; // [DC#][XUV][Layer][nu][STR_id]
-	TH2F *hRDCSTR_RT[3][3][2][96][nAng]{0}; // [DC#][XUV][Layer][nu][STR_id] r-t 2D graph.
+	TH2F *hRDCSTR_RT[3][3][2][96][nAng]{0}; // [DC#][XUV][Layer][nu][STR_id] r-t 2D graph
 	char name[64], title[128];
 	for(int i = 0; i < 3; i++){ // loop over DCs
 		for(int j = 0; j < 3; j++){ // loop over X-U-V

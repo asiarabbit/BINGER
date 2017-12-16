@@ -42,6 +42,7 @@ public:
 	void SetMotherDCArr(TAMWDCArray *mother){ fMotherDCArr = mother; }
 	double Acceptance() const; // detector acceptance
 	int GetNFiredAnodePerLayer(int dcType, int layerOption) const;
+	int GetSTRid(double k, int dcType) const;
 
 	// coordinate of the anode center of the sense wire. serialId: 0-159
 	void AssignAnodePosition();

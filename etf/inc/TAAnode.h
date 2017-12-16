@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/24.															     //
-// Last modified: 2017/10/12, SUN Yazhou.										     //
+// Last modified: 2017/12/16, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -31,6 +31,8 @@ public:
 
 	virtual TAChPara *GetPara() const override;
 	virtual TAChData *GetData() const override;
+	TAAnodeData *GetAnodeData() const{ return (TAAnodeData*)GetData(); }
+	TAAnodePara *GetAnodePara() const{ return (TAAnodePara*)GetPara(); }
 	short GetAnodeId() const;
 	double GetTOT(int n = 0) const;
 	void SetPara(TAAnodePara *para){ fPara = para; }

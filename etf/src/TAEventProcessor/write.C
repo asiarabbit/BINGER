@@ -20,7 +20,7 @@
 		 "DriftTimeDist", "PlaScintHitPos", "PID", "MISC", "TimeToTRef"};
 	for(int i = 0; i < 8; i++){
 		if(!f->FindObjectAny(dir[i])) f->mkdir(dir[i]); f->cd(dir[i]);
-		for(TObject *&b : objLs[i]) b->Write("", TObject::kOverwrite);
+		for(TObject *&b : objLs[i]) if(b) b->Write("", TObject::kOverwrite);
 	}
 	f->cd("/"); for(TTree *&tree : objLsTree) tree->Write("", TObject::kOverwrite);
 	treePID3D->Write("", TObject::kOverwrite);
