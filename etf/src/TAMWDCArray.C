@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2017/11/30, SUN Yazhou.										     //
+// Last modified: 2017/12/17, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -144,8 +144,8 @@ bool TAMWDCArray::Compatible(double k, double b, double ku, double bu, double kv
 	cout << "k1t: " << k1t << "\tb1t: " << b1t << endl; getchar(); // DEBUG
 	k2 = TAMath::kUV_Y(phi, ku, kv); // DEBUG
 	b2 = TAMath::bUV_Y(phi, ku, kv, bu, bv); // DEBUG
-	cout << "k2: " << k2 << "\tb2: " << b2 << endl; getchar(); // DEBUG
-	cout << "Coincidence test begin: \n"; // DEBUG
+	cout << "k2: " << k2 << "\tb2: " << b2 << endl; // DEBUG
+	cout << "Coincidence test begin: \n"; getchar(); // DEBUG
 #endif
 
 	bool coincide = true;
@@ -174,9 +174,9 @@ void TAMWDCArray::TrackMerger(){ // assembly projections to 3-D tracks.
 	cout << "\033[32;1m" << GetName() << "\033[0m" << endl; // DEBUG
 	cout << "This is TAMWDCArray::TrackFilter():" << endl; // DEBUG
 	cout << "____________________________________________" << endl; getchar(); // DEBUG
-//	for(TATrack *&x : fTrackList[0]) x->Show(); // DEBUG
-//	for(TATrack *&u : fTrackList[1]) u->Show(); // DEBUG
-//	for(TATrack *&v : fTrackList[2]) v->Show(); // DEBUG
+	for(TATrack *&x : fTrackList[0]) x->Show(); // DEBUG
+	for(TATrack *&u : fTrackList[1]) u->Show(); // DEBUG
+	for(TATrack *&v : fTrackList[2]) v->Show(); // DEBUG
 	cout << "____________________________________________" << endl; getchar(); // DEBUG
 	cout << "\n\n\033[33;1m____________________________________________\n\033[0m"; // DEBUG
 	cout << "x.size(): " << fTrackList[0].size(); cout << "\tu.size(): " << fTrackList[1].size(); // DEBUG
@@ -257,19 +257,30 @@ void TAMWDCArray::TrackMerger(){ // assembly projections to 3-D tracks.
 					u->SetDriftTime(tu, weightU); u->SetDriftDistance(ru);
 					v->SetDriftTime(tv, weightV); v->SetDriftDistance(rv);
 					// check the validity of U and V tracks
-					bool badTrk = false;
-					for(double tt : tu) if(-9999. != tt && !ctrlPara->TimeThre(tt)) { badTrk = true; break; }
-					for(double tt : tv) if(-9999. != tt && !ctrlPara->TimeThre(tt)) { badTrk = true; break; }
+					short badTrk = 0;
+					for(double tt : tu) if(-9999. != tt && !ctrlPara->TimeThre(tt)) { badTrk = 1; break; }
+					for(double tt : tv) if(-9999. != tt && !ctrlPara->TimeThre(tt)) { badTrk = 2; break; }
+#ifdef DEBUG
+					u->Show(); // DEBUG
+					v->Show(); // DEBUG
+					cout << "u->GetChi(): " << u->GetChi() << endl; // DEBUG
+					cout << "v->GetChi(): " << v->GetChi() << endl; // DEBUG
+					cout << "ctrlPara->ChiThre(): " << ctrlPara->ChiThre() << endl; // DEBUG
+					cout << "badTrk: " << badTrk << endl; getchar(); // DEBUG
+#endif
 					if(badTrk) continue; // nasty combination
 					if(fabs(u->GetChi()) > ctrlPara->ChiThre()) continue; // nasty combination
 					if(fabs(v->GetChi()) > ctrlPara->ChiThre()) continue; // nasty combination
 					double chi[6]{};
 					u->GetChi(chi);
 					for(double cc : chi)
-						if(-9999. != cc && fabs(cc) > ctrlPara->ChiThrePD()){ badTrk = true; break; }
+						if(-9999. != cc && fabs(cc) > ctrlPara->ChiThrePD()){ badTrk = 3; break; }
 					v->GetChi(chi);
 					for(double cc : chi)
-						if(-9999. != cc && fabs(cc) > ctrlPara->ChiThrePD()){ badTrk = true; break; }
+						if(-9999. != cc && fabs(cc) > ctrlPara->ChiThrePD()){ badTrk = 4; break; }
+#ifdef DEBUG
+					cout << "badTrk: " << badTrk << endl; getchar(); // DEBUG
+#endif
 					if(badTrk) continue; // nasty combination
 
 					if(!isMatched){ id++; isMatched = true; }

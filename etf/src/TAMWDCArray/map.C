@@ -326,14 +326,14 @@ int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, int dcType, bool 
 
 	// special elimination treatment for good == 2 tracks.
 	if(nstripDeviation <= stripTolerance){
-		if(newTrack->GetgGOOD() == 2 && oldTrack->GetgGOOD() > 2){
+		if(2 == newTrack->GetgGOOD() && oldTrack->GetgGOOD() > 2){
 			return 1; // newTrack is nasty.
 		} // end if
-		if(oldTrack->GetgGOOD() == 2 && newTrack->GetgGOOD() > 2){
+		if(2 == oldTrack->GetgGOOD() && newTrack->GetgGOOD() > 2){
 			oldTrack->SetName("OBSOLETE");
 			return 2; // oldTrack is nasty.
 		} // end if
-		if(newTrack->GetgGOOD() == 2 && oldTrack->GetgGOOD() == 2){
+		if(2 == newTrack->GetgGOOD() && 2 == oldTrack->GetgGOOD()){
 			if(dcType == 0){
 				if(newTrack->GetChi() >= oldTrack->GetChi()){
 					return 1; // newTrack is nasty.
@@ -410,7 +410,7 @@ int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, int dcType, bool 
 		} // end for over i
 
 		if(nstripDeviation <= stripTolerance){
-			if(dcType == 0){
+			if(0 == dcType){
 				if(newTrack->GetChi() < oldTrack->GetChi()){
 					oldTrack->SetName("OBSOLETE");
 					return 2;

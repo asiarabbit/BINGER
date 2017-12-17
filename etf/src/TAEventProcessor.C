@@ -257,7 +257,6 @@ void TAEventProcessor::Analyze(){
 	// pattern recognition and rough fit for particle tracking
 	if(dcArrL){ dcArrL->Map(); dcArrL->AssignTracks(fTrackList); }
 	if(dcArrR){ dcArrR->Map(); dcArrR->AssignTracks(fTrackList); }
-
 	// assign and output beta and index
 	vector<tTrack *> &track_ls = GetTrackList();
 	int index = GetEntryList()[0]->index;
@@ -374,7 +373,7 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 	int n3DtrXUV[3]{}, cntTrk = 0, cntSec = 0;
 	int trkId[ntr3DMax][3]; memset(trkId, -1, sizeof(trkId)); // track id [3D track id][XUV]
 	// loop over grouped track projections
-	for(int j = 0; j < ntr; j++) if(tl[j]->id != -1){
+	for(int j = 0; j < ntr; j++) if(-1 != tl[j]->id){
 		isDCArrR[j] = bool((tl[j]->type/10)%10); // 0: L; 1: R
 		for(int k = 0; k < 3; k++){ // loop over X-U-V track types
 			if(tl[j]->type%10 == k){
@@ -384,7 +383,7 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 		} // end loop over X-U-V track types
 	} // end for over j and if
 	if(n3DtrXUV[0] != n3DtrXUV[1] || n3DtrXUV[0] != n3DtrXUV[2]){
-		TAPopMsg::Error("TAT0CaliDCArr", "Refine_DTHisto: This is odd... track projections of X, U and V are not consistent: n3DtrX: %d, n3DtrU: %d, n3DtrV: %d", n3DtrXUV[0], n3DtrXUV[1], n3DtrXUV[2]);
+		TAPopMsg::Error("TAEventProcessor", "RefineTracks: This is odd... track projections of X, U and V are not consistent: n3DtrX: %d, n3DtrU: %d, n3DtrV: %d, ntr: %d", n3DtrXUV[0], n3DtrXUV[1], n3DtrXUV[2], ntr);
 	} // end if
 	n3Dtr = n3DtrXUV[0];
 	// // // ^^^^^^^ circulation over 3-D tracks in one data section ^^^^^^^ // // //
@@ -435,12 +434,13 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 				} // end if
 			} // end for over j
 		} // end for over l
-		// fit the track with the new drift time and drift distance
-		cout << "Before correction,\n"; // DEBUG
-		cout << "k1: " << trkVec[0] << "\tk2: " << trkVec[1] << "\tb1: " << trkVec[2] << "\tb2: " << trkVec[3] << endl; // DEBUG
+		// fit the track with the new drift time and drift distance // DEBUG
+
+//		cout << "Before correction,\n"; // DEBUG
+//		cout << "k1: " << trkVec[0] << "\tk2: " << trkVec[1] << "\tb1: " << trkVec[2] << "\tb2: " << trkVec[3] << endl; // DEBUG
 		TAMath::BFGS4(Ag, ag, trkVec, rr, nF);
-		cout << "After correction,\n"; // DEBUG
-		cout << "k1: " << trkVec[0] << "\tk2: " << trkVec[1] << "\tb1: " << trkVec[2] << "\tb2: " << trkVec[3] << endl; // DEBUG
+//		cout << "After correction,\n"; // DEBUG
+//		cout << "k1: " << trkVec[0] << "\tk2: " << trkVec[1] << "\tb1: " << trkVec[2] << "\tb2: " << trkVec[3] << endl; // DEBUG
 		for(double &x : trk3DIf[jj].chi) x = -9999.;
 		tmp = 0; trk3DIf[jj].chi2 = 0.;
 		// assign residuals and prepare for the tree filling
@@ -451,7 +451,7 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 					trk3DIf[jj].chi[l*6+j] = TAMath::dSkew(Ag[tmp], ag[tmp], trkVec) - rr[tmp];
 					trk3DIf[jj].chi2 += trk3DIf[jj].chi[l*6+j] * trk3DIf[jj].chi[l*6+j];
 					tmp++;
-					cout << "chi[" << l*6+j << "]: " << trk3DIf[jj].chi[l*6+j] << endl; // DEBUG
+//					cout << "chi[" << l*6+j << "]: " << trk3DIf[jj].chi[l*6+j] << endl; // DEBUG
 				} // end if
 			} // end for over j
 		} // end for over l
@@ -461,9 +461,10 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 		trk3DIf[jj].isDCArrR = isDCArrR[jj];
 		trk3DIf[jj].tof2 = tof2[trkId[jj][0]];
 		trk3DIf[jj].taHitX = taHitX[trkId[jj][0]];
-		cout << "isDCArrR: " << trk3DIf[jj].isDCArrR << endl; // DEBUG
-		cout << "Chi: " << trk3DIf[jj].Chi << endl; // DEBUG
-		cout << "tof2: " << trk3DIf[jj].tof2 << endl; getchar(); // DEBUG
+//		cout << "isDCArrR: " << trk3DIf[jj].isDCArrR << endl; // DEBUG
+//		cout << "chi2: " << trk3DIf[jj].chi2 << endl; // DEBUG
+//		cout << "Chi: " << trk3DIf[jj].Chi << endl; // DEBUG
+//		cout << "tof2: " << trk3DIf[jj].tof2 << endl; getchar(); // DEBUG
 	} // end for over jj
 } // end of member function RefineTracks
 // refine PID using the refined 3D track information

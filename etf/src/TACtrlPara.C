@@ -44,7 +44,7 @@ bool TACtrlPara::Is3DTracking(){ return kIs3DTracking; }
 // tolerance window for 3D coincidence test of X U and V track projections
 // 5: half a DC cell, given all kinds of errors
 double TACtrlPara::Get3DCoincideWindow(){ return 10.; }
-// used in map() as the averaged d2 over fired anodes. D2 <= nFiredAnodeLayer * D2Thre
+// used in map() as the averaged d2 over fired anodes. D2 <= nFiredAnodeLayer * D2Thre()   (PerDot)
 double TACtrlPara::D2Thre(){ return 30.; } // for eliminating falsely fired andoes. BINGO unit: mm^2
 bool TACtrlPara::TimeThre(double t){ return t > -40. && t < 350.; }
 double TACtrlPara::Beta(){ return 0.5; } // central beam energy

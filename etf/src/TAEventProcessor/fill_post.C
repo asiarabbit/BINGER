@@ -35,9 +35,11 @@
 			if(0 != dcArrId && 1 != dcArrId)
 				TAPopMsg::Error("TAEvPro", "Run: invalid dcArrId: %d", dcArrId);
 			const int dcType = type[j]%10; // [0-1-2]: [X-U-V]
-			TAPlaStrip *strip = tofw[dcArrId]->GetStrip(firedStripId[j]);
-			TOTUV[j] = strip->GetUV()->GetTOT(); TOTUH[j] = strip->GetUH()->GetTOT();
-			TOTDV[j] = strip->GetDV()->GetTOT(); TOTDH[j] = strip->GetDH()->GetTOT();
+			if(firedStripId[j] >= 0){
+				TAPlaStrip *strip = tofw[dcArrId]->GetStrip(firedStripId[j]);
+				TOTUV[j] = strip->GetUV()->GetTOT(); TOTUH[j] = strip->GetUH()->GetTOT();
+				TOTDV[j] = strip->GetDV()->GetTOT(); TOTDH[j] = strip->GetDH()->GetTOT();
+			}
 			// particle identification //
 
 			int ii = 0; taHitX[j] = -9999.; tof2[j] = -9999.; sipmArrStripId[j] = -1;
@@ -68,7 +70,7 @@
 					ii++;
 				} // end for over channels
 			} // end outer if
-			if(tRef != -9999.){
+			if(tRef != -9999. && firedStripId[j] >= 0){
 				tof2[j] = tofw[dcArrId]->GetStripTime(firedStripId[j], tRef, 9., 40.) - tRef;
 			}
 

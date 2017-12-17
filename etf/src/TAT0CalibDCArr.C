@@ -119,7 +119,7 @@ void TAT0CalibDCArr::Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, 
 			} // end loop over X-U-V track types
 		} // end for over j and if
 		if(n3DtrXUV[0] != n3DtrXUV[1] || n3DtrXUV[0] != n3DtrXUV[2]){
-			TAPopMsg::Error("TAT0CaliDCArr", "Refine_DTHisto: This is odd... track projections of X, U and V are not consistent: n3DtrX: %d, n3DtrU: %d, n3DtrV: %d", n3DtrXUV[0], n3DtrXUV[1], n3DtrXUV[2]);
+			TAPopMsg::Error("TAT0CaliDCArr", "Refine_DTHisto: This is odd... track projections of X, U and V are not consistent: n3DtrX: %d, n3DtrU: %d, n3DtrV: %d, ntr: %d", n3DtrXUV[0], n3DtrXUV[1], n3DtrXUV[2], ntr);
 		} // end if
 		n3Dtr = n3DtrXUV[0];
 		// // // ^^^^^^^ circulation over 3-D tracks in one data section ^^^^^^^ // // //
