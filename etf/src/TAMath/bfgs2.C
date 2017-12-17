@@ -21,6 +21,7 @@ static void funxy(double *xk, double *par, double *gk, int gGOOD, const int *LAY
 static void goldCut(double *xk, double *par, double *gk, int gGOOD, const int *LAYER);
 static void Ak1(double (*Ak)[2], double *dxk, double *dgk); // to refresh Ak
 static unsigned long long ii = 0, jj = 0; // DEBUG
+
 double TAMath::refinedFitBFGS(const double *x, const double *y, const double *r, double &kL, double &bL, int gGOOD, const int *LAYER, double d2PerDot){
 	double par[20] = {0.};
 	for(int i = 0; i < 6; i++){

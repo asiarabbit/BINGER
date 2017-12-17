@@ -359,7 +359,9 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 } // end of member function Run
 // correct drift time and refit with the update
 void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const double *tof2, const double *taHitX){
-	if(!IsPID()) return; // PID is not on, so beta is unavailable
+	// XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX //
+//	if(!IsPID()) return; // PID is not on, so beta is unavailable				// XXX XXX XXX //
+	// XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX //
 //		TAPopMsg::Warn("TAEventProcessor", "RefineTracks: PID is not on, so beta is unavailable");
 	vector<tTrack *> &tl = GetTrackList();
 	const int ntr = tl.size(); if(!ntr) return;
@@ -417,15 +419,28 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 					unsigned uid = ano->GetUID();
 					// t = T_tof + T_wire + T_drift + T0
 					// substract T_wire and T_tof from the time measurement
-					trk->t[j] -= TACtrlPara::T_tofDCtoTOFW(uid) - TACtrlPara::T_wireMean(uid); // recover the rough correction of time of flight from DC to TOF wall for a refined one.
-					dcArr->DriftTimeCorrection(trk->t[j], trk->r[j], anodeId[tmp], trkVec, trk->firedStripId, trk->beta);
+//					cout << "j: " << j << endl; // DEBUG
+//					cout << "Before correction,\n"; // DEBUG
+//					cout << "trk->t[j]: " << trk->t[j] << endl; // DEBUG
+//					cout << "trk->r[j]: " << trk->r[j] << endl; // DEBUG
+					trk->t[j] -= TACtrlPara::T_tofDCtoTOFW(uid) - TACtrlPara::T_wireMean(uid); // recover the rough correction of time of flight from DC to TOF wall for a refined one
+					double beta_t[2] = {0.5, 0.6}; // DEBUG // for simulation test XXX XXX XXX
+					dcArr->DriftTimeCorrection(trk->t[j], trk->r[j], anodeId[tmp], trkVec, trk->firedStripId, beta_t[isDCArrR[trkId[jj][0]]]); // trk->beta
 					rr[tmp] = trk->r[j];
+//					cout << "After correction,\n";
+//					cout << "trk->t[j]: " << trk->t[j] << endl; // DEBUG
+//					cout << "trk->r[j]: " << trk->r[j] << endl; // DEBUG
+//					getchar(); // DEBUG
 					tmp++;
 				} // end if
 			} // end for over j
 		} // end for over l
 		// fit the track with the new drift time and drift distance
+		cout << "Before correction,\n"; // DEBUG
+		cout << "k1: " << trkVec[0] << "\tk2: " << trkVec[1] << "\tb1: " << trkVec[2] << "\tb2: " << trkVec[3] << endl; // DEBUG
 		TAMath::BFGS4(Ag, ag, trkVec, rr, nF);
+		cout << "After correction,\n"; // DEBUG
+		cout << "k1: " << trkVec[0] << "\tk2: " << trkVec[1] << "\tb1: " << trkVec[2] << "\tb2: " << trkVec[3] << endl; // DEBUG
 		for(double &x : trk3DIf[jj].chi) x = -9999.;
 		tmp = 0; trk3DIf[jj].chi2 = 0.;
 		// assign residuals and prepare for the tree filling
@@ -436,15 +451,19 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 					trk3DIf[jj].chi[l*6+j] = TAMath::dSkew(Ag[tmp], ag[tmp], trkVec) - rr[tmp];
 					trk3DIf[jj].chi2 += trk3DIf[jj].chi[l*6+j] * trk3DIf[jj].chi[l*6+j];
 					tmp++;
+					cout << "chi[" << l*6+j << "]: " << trk3DIf[jj].chi[l*6+j] << endl; // DEBUG
 				} // end if
 			} // end for over j
 		} // end for over l
-		trk3DIf[jj].Chi = sqrt(trk3DIf[jj].chi2/nF);
+		trk3DIf[jj].Chi = sqrt(trk3DIf[jj].chi2/(nF-4));
 		trk3DIf[jj].k1 = trkVec[0]; trk3DIf[jj].b1 = trkVec[2];
 		trk3DIf[jj].k2 = trkVec[1]; trk3DIf[jj].b2 = trkVec[3];
 		trk3DIf[jj].isDCArrR = isDCArrR[jj];
 		trk3DIf[jj].tof2 = tof2[trkId[jj][0]];
 		trk3DIf[jj].taHitX = taHitX[trkId[jj][0]];
+		cout << "isDCArrR: " << trk3DIf[jj].isDCArrR << endl; // DEBUG
+		cout << "Chi: " << trk3DIf[jj].Chi << endl; // DEBUG
+		cout << "tof2: " << trk3DIf[jj].tof2 << endl; getchar(); // DEBUG
 	} // end for over jj
 } // end of member function RefineTracks
 // refine PID using the refined 3D track information

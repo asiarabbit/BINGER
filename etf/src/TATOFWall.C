@@ -84,17 +84,21 @@ double TATOFWall::GetStripTime(int i, double t0, double t1, double t2) const{
 // (time-t0) within t1 and t2 is chosen
 // t0, t1 and t2 using default values, choose the 1st edge
 double TATOFWall::GetTime(double kl, double bl, double &nstripStray, int &firedStripId, double t0, double t1, double t2) const{
+//	cout << "t0: " << t0 << "\tt1: " << t1 << "\tt2: " << t2 << endl; // DEBUG
 	double nStripStray = -9999., nStripStrayMin = 9999.; // see the assignment below.
 	int minID = -1; // serial Id of the strip with minimum nStripStray.
 
 	const int n = GetNStrip();
 	for(int i = 0; i < n; i++){
 		TAPlaStrip *strip = GetStrip(i);
+//		cout << "i: " << i << endl; // DEBUG
+//		cout << "strip->GetFiredStatus(): " << strip->GetFiredStatus() << endl; getchar(); // DEBUG
 		if(4 == strip->GetFiredStatus()){
 			double p[3]{}; // strip projection position
 			strip->GetStripPara()->GetGlobalProjection(p); // assign p
 			double width = strip->GetStripPara()->GetWidth();
 			nStripStray = (kl * p[2] - p[0] + bl) / sqrt(1. + kl * kl) / width;
+//			cout << "nStripStray: " << nStripStray << endl; getchar(); // DEBUG
 
 			if(fabs(nStripStray) < fabs(nStripStrayMin)){
 				nStripStrayMin = nStripStray; minID = i;
@@ -105,6 +109,7 @@ double TATOFWall::GetTime(double kl, double bl, double &nstripStray, int &firedS
 		if(minID >= 0){
 			firedStripId = minID;
 			nstripStray = nStripStrayMin;
+//			cout << "GetStrip(" << minID << ")->GetTime(t0,t1,t2): " << GetStrip(minID)->GetTime(t0,t1,t2) << endl; getchar(); // DEBUG
 			return GetStrip(minID)->GetTime(t0,t1,t2) - GetDelayAvrg();
 		} // end if
 	} // end if

@@ -7,7 +7,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/24.															     //
-// Last modified: 2017/9/25, SUN Yazhou.										     //
+// Last modified: 2017/12/16, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -20,7 +20,7 @@
 
 TAChPara::TAChPara(const string &name, const string &title, unsigned uid)
 			: TAParameter(name, title, uid), fChId(-2), fDelay(-9999.){
-	fDelay = 0.; // 2017/10/15, temporary TODO: after completing T0-calib, comment this line
+	fDelay = 0.;
 	TAParaManager::Instance()->AddChPara(this);
 }
 

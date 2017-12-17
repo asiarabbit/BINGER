@@ -33,6 +33,7 @@ public:
 	virtual TAChData *GetData() const override;
 	TAAnodeData *GetAnodeData() const{ return (TAAnodeData*)GetData(); }
 	TAAnodePara *GetAnodePara() const{ return (TAAnodePara*)GetPara(); }
+	double GetTime(int i = 0); // get the i-th leading edge + delay
 	short GetAnodeId() const;
 	double GetTOT(int n = 0) const;
 	void SetPara(TAAnodePara *para){ fPara = para; }

@@ -166,8 +166,8 @@ int TAAnodePara::GetCableId() const{
 } // the first 14 LSBs
 
 double TAAnodePara::GetSpatialResolution(double r, double k) const{ // smeared and delayed.
-	if(r < 0.5) return 0.1; // .3
-	else return 0.1; // .2
+	if(r < 0.5) return 0.2; // .3
+	else return 0.2; // .2
 } // end of member function GetSpatialResolution(...)
 void TAAnodePara::DriftTimeQtCorrection(double &driftTime, double TOT, double &weight){
 	TAPopMsg::Info("TAAnodePara", "DriftTimeQtCorrection: is being called.");

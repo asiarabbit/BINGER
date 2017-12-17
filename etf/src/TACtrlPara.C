@@ -23,8 +23,10 @@
 #include "TAUIDParser.h"
 #include "TAGPar.h"
 #include "TAAnodePara.h"
+#include "TAGPar.h"
 
 TACtrlPara *TACtrlPara::kInstance = nullptr;
+static const TAGPar *gp = TAGPar::Instance();
 
 TACtrlPara *TACtrlPara::Instance(){
 	if(!kInstance) kInstance = new TACtrlPara();
@@ -48,7 +50,7 @@ bool TACtrlPara::TimeThre(double t){ return t > -40. && t < 350.; }
 double TACtrlPara::Beta(){ return 0.5; } // central beam energy
 // threshold for chi per dot, to eliminate false combinations. 4.0
 double TACtrlPara::ChiThrePD(){ return 2.5; }
-int TACtrlPara::Vicinity(){ return 5; } // used in discerning multiple tracks, unit: cell
+int TACtrlPara::Vicinity(){ return 4; } // used in discerning multiple tracks, unit: cell
 // TATrack::kBFGSFit; // kNormalFit: 0; kBFGSFit: 1 kIterFit: 2
 int TACtrlPara::FitMethod(){ return 1; }
 // only effective if input fit method is kNormalFit
@@ -91,11 +93,11 @@ double TACtrlPara::T_tofDCtoTOFW(unsigned uid){
 		TAPopMsg::Error("TACtrlPara", "T_tofDCtoTOFW: Not an MWDC");
 
 	// DC0-1-2, include [dcArr][DC]
-	static const double ccT_tofRDCtoTOFW[2][3] = {
-		{7.4, 4.8, 2.0}, // {7.4, 4.8, 2.0}, // beta = 0.5
-		{6.4, 4.0, 1.4} // {6.4, 4.0, 1.4} // beta = 0.6
+	static const double ccT_tofDCtoTOFW[2][3] = {
+		{gp->Val(34), gp->Val(35), gp->Val(36)}, // {7.4, 4.8, 2.0}, // beta = 0.5
+		{gp->Val(37), gp->Val(38), gp->Val(39)} // {6.4, 4.0, 1.4} // beta = 0.6
 	};
-	return ccT_tofRDCtoTOFW[type[0]-3][type[1]];
+	return ccT_tofDCtoTOFW[type[0]-3][type[1]];
 }
 double TACtrlPara::T_wireMean(unsigned uid){
 	int type[6]{}; TAUIDParser::DNS(type, uid);

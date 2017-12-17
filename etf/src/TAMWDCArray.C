@@ -260,9 +260,9 @@ void TAMWDCArray::TrackMerger(){ // assembly projections to 3-D tracks.
 					bool badTrk = false;
 					for(double tt : tu) if(-9999. != tt && !ctrlPara->TimeThre(tt)) { badTrk = true; break; }
 					for(double tt : tv) if(-9999. != tt && !ctrlPara->TimeThre(tt)) { badTrk = true; break; }
-					if(badTrk) continue; // nastay combination
-					if(fabs(u->GetChi()) > ctrlPara->ChiThre()) continue; // nastay combination
-					if(fabs(v->GetChi()) > ctrlPara->ChiThre()) continue; // nastay combination
+					if(badTrk) continue; // nasty combination
+					if(fabs(u->GetChi()) > ctrlPara->ChiThre()) continue; // nasty combination
+					if(fabs(v->GetChi()) > ctrlPara->ChiThre()) continue; // nasty combination
 					double chi[6]{};
 					u->GetChi(chi);
 					for(double cc : chi)
@@ -270,7 +270,7 @@ void TAMWDCArray::TrackMerger(){ // assembly projections to 3-D tracks.
 					v->GetChi(chi);
 					for(double cc : chi)
 						if(-9999. != cc && fabs(cc) > ctrlPara->ChiThrePD()){ badTrk = true; break; }
-					if(badTrk) continue; // nastay combination
+					if(badTrk) continue; // nasty combination
 
 					if(!isMatched){ id++; isMatched = true; }
 					x->Set3DId(id); x->marked = true;

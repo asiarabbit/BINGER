@@ -36,14 +36,18 @@ public:
 	// run: event count; nTrkPerEvEx: number of tracks per event; effEx: detector efficiency
 	virtual void GenerateSim(int run, int nTrkPerEvEx, double effEx);
 	virtual void Evaluate();
+	void SetFixDCArr(short opt){ kFixDCArr = opt; }
+	void SetIsDebug(bool opt){ kIsDebug = opt; }
 	// simfile: name of the rootfile containing the simulation data
 	static void GenerateSim(int run, int nTrkPerEvEx, double effEx, char *simFile, DetArr_t *detList);
 	static void Evaluate(const string &rootfile);
 	// time to trig of T0_1 signal. unit: clock cycle (25 ns)
-	static const int kT0_1TimeToTrigNCycle = 16; // 16*25 = 400ns
+	static const int kT0_1TimeToTrigNCycle = 46; // 16*25 = 400ns
 protected:
 	DetArr_t *fDetList;
 	string fROOTFile;
+	static short kFixDCArr; // 0: DCArrL only; 1: DCArrR only; others: randomly chosen DCArrL or DCArrR
+	static bool kIsDebug;
 };
 
 #endif

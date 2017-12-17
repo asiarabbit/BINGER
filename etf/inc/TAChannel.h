@@ -37,7 +37,7 @@ public:
 	// t0, t1 and t2 using default values, choose the 1st edge
 	double GetLT(double t0 = -9999., double t1 = -9999., double t2 = -9999.) const;
 	double GetTOT(int n = 0) const;
-	double GetTime(int i = 0); // Get meaningful timing information for users
+	double GetTime(int i = 0) const; // Get meaningful timing information for users
 	int GetSerialId() const;
 	void SetPara(TAChPara *para){ fPara = para; }
 	void SetData(TAChData *data){ fData = data; }

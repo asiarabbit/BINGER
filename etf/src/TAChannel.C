@@ -52,7 +52,8 @@ double TAChannel::GetLeadingTime(int n) const{
 // t0, t1 and t2 are set for choosing ch->GetLT over edges
 // (ch->GetLT-t0) within t1 and t2 is chosen. t0, t1 and t2 using default values, choose the 1st edge
 double TAChannel::GetLT(double t0, double t1, double t2) const{
-	return GetData()->GetLT(t0, t1, t2);
+	if(-9999. == t0 && -9999. == t1 && -9999. == t2) return GetTime();
+	else return GetData()->GetLT(t0 + GetPara()->GetDelay(), t1, t2) - GetPara()->GetDelay();
 }
 double TAChannel::GetTOT(int n) const{
 	const double tl = GetData()->GetLeadingTime(n);
@@ -64,8 +65,10 @@ void TAChannel::SetChId(int id){
 	GetPara()->SetChannelId(id);
 }
 
-double TAChannel::GetTime(int i){
-	return GetData()->GetLeadingTime(i) - GetPara()->GetDelay();
+double TAChannel::GetTime(int i) const{
+	double t = GetData()->GetLeadingTime(i);
+	if(-9999 == t) return -9999.;
+	return t - GetPara()->GetDelay();
 }
 int TAChannel::GetSerialId() const{
 	if(-1 == fSerialId) TAPopMsg::Error(GetName().c_str(), "GetSerialId: not defined.");

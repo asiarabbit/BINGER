@@ -71,8 +71,7 @@ double TAChData::GetLT(double t0, double t1, double t2) const{
 			t2 = tmp;
 		}
 		for(int i = 0; i < nl; i++){
-			tmp = GetLeadingTime(i);
-			dt = lt - t0;
+			tmp = GetLeadingTime(i) - t0;
 			if(tmp > t1 && tmp < t2){
 				lt = tmp;
 				break;

@@ -49,7 +49,7 @@ double TAMath::refinedFit(const double *x, const double *y, const double *r, dou
 		k = km; b = bm; return d2min;
 	} // end if
 		
-	double theta0 = 25. * Pi() / 180.; // span of theta variation. unit: degree. 25. * Pi / 180.
+	double theta0 = 25. * DEGREE(); // span of theta variation. unit: degree. 25. * Pi / 180.
 	double theta = theta0;
 	double thetai = 0.;
 	double denoi = 0.; // the denominator

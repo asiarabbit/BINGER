@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2017/12/12, SUN Yazhou.										     //
+// Last modified: 2017/12/17, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -38,6 +38,7 @@
 #include "TAChannel.h"
 #include "TATOFWall.h"
 #include "TAPlaStrip.h"
+#include "TAPlaStripPara.h"
 #include "TAPopMsg.h"
 #include "TAMath.h"
 
@@ -50,6 +51,8 @@ using std::setw;
 
 static const double DEGREE = TAMath::DEGREE();
 static const double Pi = TAMath::Pi();
+short TASimulation::kFixDCArr = -1;
+bool TASimulation::kIsDebug = false;
 
 TASimulation::TASimulation(DetArr_t *detList) : fDetList(detList){
 	if(!fDetList) fDetList = &TAParaManager::Instance()->GetDetList();
@@ -88,6 +91,7 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 	// b: 3-D track direction vector: (bx, by, bz); B: a point in the track
 	// note that B and b are both in global reference
 	double B[3]{}, b[3]{}; // bx, by and Bx, By are to be assigned with random nums
+	double k1, k2, b1, b2; // x=k1z+b1; y=k2z+b2;
 	double beta[2] = {0.5, 0.6}, beta_t; // beta of incident particle [DCArrL-R]
 	// -16*25 = -400., so that timeToTrig would within the right range
 	int bunchId = -kT0_1TimeToTrigNCycle; // T0_1 starts from 0.
@@ -105,6 +109,10 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 	treeTrackSim->Branch("beta", &beta_t, "beta/D"); // particle speed
 	treeTrackSim->Branch("B", B, "B[3]/D");
 	treeTrackSim->Branch("b", b, "b[3]/D");
+	treeTrackSim->Branch("k1", &k1, "k1/D");
+	treeTrackSim->Branch("k2", &k2, "k2/D");
+	treeTrackSim->Branch("b1", &b1, "b1/D");
+	treeTrackSim->Branch("b2", &b2, "b2/D");
 	treeTrackSim->Branch("nu", nu, "nu[3][6]/I");
 	treeTrackSim->Branch("d", d, "d[3][6]/D");
 	treeTrackSim->Branch("rt", rt, "rt[3][6]/D");
@@ -142,6 +150,8 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 		TAAnodePara *par = (TAAnodePara *)dcArrR->GetMWDC(0)->GetAnode(1, 1, 50)->GetPara(); // DEBUG
 		const double (*efficiency)[6] = efficiencyT[1];
 		short dcArrOpt = short(rdm.Uniform(1.)+0.5); // fifty-fifty
+		if(0 == kFixDCArr) dcArrOpt = 0; // MWDC array L
+		if(1 == kFixDCArr) dcArrOpt = 1; // MWDC array R
 		if(0 == dcArrOpt){ // MWDC array L
 			dcArr = dcArrL; isDCArrR = false;
 			efficiency = efficiencyT[0];
@@ -157,8 +167,8 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 				d[i][j] = 1E200; nu[i][j] = -1;
 			}
 			// +-10 + 90 degrees, track v.s. x-axis and y-axis
-			double thetaX = Pi / 2. - (-1. + rdm.Uniform(2.)) * 10. * DEGREE - phiAvrg;
-			double thetaY = Pi / 2. - (-1. + rdm.Uniform(2.)) * 10. * DEGREE;
+			double thetaX = Pi / 2. - (-1. + rdm.Uniform(2.)) * 15. * DEGREE - phiAvrg;
+			double thetaY = Pi / 2. - (-1. + rdm.Uniform(2.)) * 15. * DEGREE;
 			double cosX = cos(thetaX), cosY = cos(thetaY);
 			double cosZ = sqrt(1.-cosX*cosX-cosY*cosY);
 			b[0] = cosX; b[1] = cosY; b[2] = cosZ;
@@ -168,12 +178,11 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 			B_local[2] = 0.; // local Z - X1 sense wire plane
 			// local coordinates -> global coordinates
 			dcArr->GetMWDC(1)->GetDetPara()->GetGlobalPosition(B_local, B);
+			k1 = b[0]/b[2]; b1 = B[0] - k1*B[2]; k2 = b[1]/b[2]; b2 = B[1] - k2*B[2];
 			// So, the 3-D track has been randomly sampled.
 			// ---------------------------------------------------------------------- //
 			// only a little math would have to be done to generate the simulation data
-#ifdef DEBUG
 			double a_tmp[3][6][3], A_tmp[3][6][3]; // DEBUG
-#endif
 			for(int j = 0; j < 3; j++){ // loop over MWDCs
 				TAMWDC *dc = dcArr->GetMWDC(j);
 				for(int k = 0; k < 6; k++){ // loop over X1-X2-U1-U2-V1-V2
@@ -185,13 +194,13 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 						double Ag[3];
 						((TAAnodePara*)dc->GetAnode(type, k%2+1, l)->GetPara())->GetGlobalCenter(Ag);
 						// (B->Ag).(ag×b)/|ag×b|, d of two skew 3-D lines
-						double d_t = TAMath::dSkew(ag, Ag, b, B);
+						double d_t = TAMath::dSkew(Ag, ag, b, B);
 						if(d_t < d[type][layer]){
 							d[type][layer] = d_t; nu[type][layer] = l;
-#ifdef DEBUG
-							memcpy(a_tmp[type][layer], ag, sizeof(ag)); // DEBUG
-							memcpy(A_tmp[type][layer], Ag, sizeof(Ag)); // DEBUG
-#endif
+							if(kIsDebug){ // DEBUG
+								memcpy(a_tmp[type][layer], ag, sizeof(ag)); // DEBUG
+								memcpy(A_tmp[type][layer], Ag, sizeof(Ag)); // DEBUG
+							} // end if // DEBUG
 						}
 					} // end for over l
 					if(rdm.Uniform() > efficiency[type][layer]){ // hit missed due to efficiency
@@ -207,15 +216,18 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 
 			// fill tree treeSim //
 			// determine fired TOF wall strip, x = kz+b
-			double k = b[0]/b[2], b_t = B[0]-k*B[2], p[3], dmin = 1E200;
+			double p[3], dmin = 1E200;
 			int firedStripId = -1;
 			for(int j = 0; j < 30; j++){
 				tofw->GetStripProjection(j, p);
-				double d_t = fabs(k*p[2]-p[0]+b_t)/sqrt(1.+k*k);
+				double d_t = fabs(k1*p[2]-p[0]+b1)/sqrt(1.+k1*k1);
 				if(d_t < dmin){
 					dmin = d_t; firedStripId = j;
 				}
 			} // end for over strip Id
+			static double stripWidth = tofw->GetStrip(0)->GetStripPara()->GetWidth();
+			if(dmin > 0.5*stripWidth) isValid = false; // missed the TOF wall
+			if(!isValid){ i--; failCnt++; continue; } // choose random track again
 			// firedStripId/8: PXI module #; j%8: strip # in certain module.
 			// one strip occupies 4 channels. 0-1-2-3: UV-UH-DV-DH
 			// fill the fired TOFWall strip, a series of temporary variables are defined
@@ -226,15 +238,14 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 			const bool isV_t[4] = {true, false, true, false};
 			TAChannel *ch_t[4] = {str->GetUV(), str->GetUH(), str->GetDV(), str->GetDH()};
 			for(int l = 0; l < 4; l++){ // loop over UV-UH-DV-DH
-				leadingTime[0] = preT_t[l] + delay; is_V = isV_t[l];
+				leadingTime[0] = preT_t[l] + delay + ch_t[l]->GetPara()->GetDelay(); is_V = isV_t[l];
 				trailingTime[0] = leadingTime[0] + TOT_t[l]; // 500: TOT
 				chId = ch_t[l]->GetPara()->GetChannelId(); treeData->Fill();
 			}
 
 			// to prepare STRid for the drift time extraction
 			double kl[3]; // slope of track projections [012]: [XUV]
-			double k1 = kl[0] = b[0]/b[2]; // X
-			double k2 = b[1]/b[2]; // Y
+			kl[0] = k1; // X
 			kl[1] = TAMath::kXY_U(phiAvrg, k1, k2); // U
 			kl[2] = TAMath::kXY_V(phiAvrg, k1, k2); // V
 			// get drift time //
@@ -248,32 +259,30 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 				double r_t = rdm.Gaus(d[j][k], s_t);
 				double T_drift = ano->GetDriftTime(r_t, kl[j]); // b[0]/b[2]: track projection slope
 				rt[j][k] = r_t; tt[j][k] = T_drift;
-#ifdef DEBUG
-				cout << ano->GetName() << endl; // DEBUG
-				cout << "nu: " << nu[j][k] << "\tchId: " << chId << endl; // DEBUG
-				cout << "b[0]: " << b[0] << "\tb[1]: " << b[1] << "\tb[2]: " << b[2] << endl; // DEBUG
-				cout << "B[0]: " << B[0] << "\tB[1]: " << B[1] << "\tB[2]: " << B[2] << endl; // DEBUG
-				double *aa = a_tmp[j][k], *AA = A_tmp[j][k]; // DEBUG
-				cout << "a[0]: " << aa[0] << "\ta[1]: " << aa[1] << "\ta[2]: " << aa[2] << endl; // DEBUG
-				cout << "A[0]: " << AA[0] << "\tA[1]: " << AA[1] << "\tA[2]: " << AA[2] << endl; // DEBUG
-				double wire_length = dcArr->GetWirePropagationLength(b, B, nu[j][k], j, k); // DEBUG
-				double flight_length = dcArr->GetDistanceOfFlight(b, B, nu[j][k], j, k, firedStripId); // DEBUG
-#endif
 				double T_wire = dcArr->GetWirePropagationTime(b, B, nu[j][k], j, k);
 				// from the anode to TOF Wall
 				double T_tof = dcArr->GetTimeOfFlight(b, B, nu[j][k], j, k, firedStripId, beta_t);
 				double T0 = anoPar->GetDelay();
 //				cout << "anoPar->GetDelay(): " << anoPar->GetDelay(); getchar(); // DEBUG
 				leadingTime[0] = T_drift + T_wire - T_tof + T0;
-#ifdef DEBUG
-				cout << "r_t: " << r_t << "\td[j][k]: " << d[j][k] << endl; // DEBUG
-				cout << "wire_length of propagation: " << wire_length << endl; // DEBUG
-				cout << "flight_length: " << flight_length << endl; // DEBUG
-				cout << "T0: " << T0 << "\tleadingTime[0]: " << leadingTime[0] << endl; // DEBUG
-				cout << "T_drift: " << T_drift << "\tT_wire: " << T_wire << "\tT_tof: " << T_tof << endl; // DEBUG
-				cout << "T_drift + T_wire - T_tof: " << T_drift + T_wire - T_tof << endl; // DEBUG
-				getchar(); // DEBUG
-#endif
+				if(kIsDebug){ // DEBUG
+					cout << ano->GetName() << endl; // DEBUG
+					cout << "nu: " << nu[j][k] << "\tchId: " << chId << endl; // DEBUG
+					cout << "b[0]: " << b[0] << "\tb[1]: " << b[1] << "\tb[2]: " << b[2] << endl; // DEBUG
+					cout << "B[0]: " << B[0] << "\tB[1]: " << B[1] << "\tB[2]: " << B[2] << endl; // DEBUG
+					double *aa = a_tmp[j][k], *AA = A_tmp[j][k]; // DEBUG
+					cout << "a[0]: " << aa[0] << "\ta[1]: " << aa[1] << "\ta[2]: " << aa[2] << endl; // DEBUG
+					cout << "A[0]: " << AA[0] << "\tA[1]: " << AA[1] << "\tA[2]: " << AA[2] << endl; // DEBUG
+					double wire_length = dcArr->GetWirePropagationLength(b, B, nu[j][k], j, k); // DEBUG
+					double flight_length = dcArr->GetDistanceOfFlight(b, B, nu[j][k], j, k, firedStripId); // DEBUG
+					cout << "r_t: " << r_t << "\td[j][k]: " << d[j][k] << endl; // DEBUG
+					cout << "wire_length of propagation: " << wire_length << endl; // DEBUG
+					cout << "flight_length: " << flight_length << endl; // DEBUG
+					cout << "T0: " << T0 << "\tleadingTime[0]: " << leadingTime[0] << endl; // DEBUG
+					cout << "T_drift: " << T_drift << "\tT_wire: " << T_wire << "\tT_tof: " << T_tof << endl; // DEBUG
+					cout << "T_drift + T_wire - T_tof: " << T_drift + T_wire - T_tof << endl; // DEBUG
+					getchar(); // DEBUG
+				} // DEBUG
 				trailingTime[0] = leadingTime[0] + 300.;
 				is_V = false;
 				treeData->Fill();
@@ -289,7 +298,7 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 		bool isV_t[4] = {true, false, true, false};
 		TAChannel *ch_t[4] = {T0_1->GetUV(), T0_1->GetUH(), T0_1->GetDV(), T0_1->GetDH()};
 		for(int l = 0; l < 4; l++){ // loop over UV-UH-DV-DH
-			leadingTime[0] = preT_t[l] + delay; is_V = isV_t[l];
+			leadingTime[0] = preT_t[l] + delay + ch_t[l]->GetPara()->GetDelay(); is_V = isV_t[l];
 			trailingTime[0] = leadingTime[0] + TOT_t[l]; // 500: TOT
 			chId = ch_t[l]->GetPara()->GetChannelId(); treeData->Fill();
 		}

@@ -37,11 +37,13 @@
 
 		// assign TOT_T0
 		tRef = -9999.;
+		static const double T0_1_delayAvrg = T0_1->GetDelay();
+		static const double T0_1_delayUV = T0_1->GetUV()->GetPara()->GetDelay();
 		const int nUVLEdge_T0_1 = T0_1->GetUV()->GetData()->GetNLeadingEdge();
 		const int nDVLEdge_T0_1 = T0_1->GetDV()->GetData()->GetNLeadingEdge();
 		// T0_1 UV validity check
 		for(int j = 0; j < nUVLEdge_T0_1; j++){
-			double time = T0_1->GetUV()->GetLeadingTime(j);
+			double time = T0_1->GetUV()->GetTime(j) - T0_1_delayAvrg;
 			hT0_1ToTrigUV->Fill(j, time);
 			if(time > timeToTrigLowBoundUV && time < timeToTrigHighBoundUV){
 				cnt_timeToTrig_T0_1UV++; break;
@@ -49,17 +51,20 @@
 		}
 		// T0_1 DV validity check
 		for(int j = 0; j < nDVLEdge_T0_1; j++){
-			double time = T0_1->GetDV()->GetLeadingTime(j);
+			double time = T0_1->GetDV()->GetTime(j) - T0_1_delayAvrg;
 			hT0_1ToTrigDV->Fill(j, time);
+//			cout << "time: " << time << "\ttimeToTrigLowBoundDV: " << timeToTrigLowBoundDV;
+//			cout << "\ttimeToTrigHighBoundDV: " << timeToTrigHighBoundDV << endl; getchar(); // DEBUG
 			if(time > timeToTrigLowBoundDV && time < timeToTrigHighBoundDV){
+//				cout << "cnt_timeToTrig_T0_1DV: " << cnt_timeToTrig_T0_1DV << endl; getchar(); // DEBUG
 				cnt_timeToTrig_T0_1DV++; break;
 			}
 		}
 		// extract the best matched T0_1_UV and T0_1_DV
 		double timeUV_T0_1 = -9999., timeDV_T0_1 = -9999., dmin_T0_1 = 1E200;
 		for(int j = 0; j < nUVLEdge_T0_1; j++){
-			double tmpuv = T0_1->GetUV()->GetLeadingTime(j)+2.7; // XXX: +2.7: for beamTest2016 only
-			double tmpdv = T0_1->GetDV()->GetLT(tmpuv);
+			double tmpuv = T0_1->GetUV()->GetTime(j) - T0_1_delayAvrg;
+			double tmpdv = T0_1->GetDV()->GetLT(tmpuv) - T0_1_delayAvrg;
 			double tmpdt = fabs(tmpuv - tmpdv);
 			if(tmpuv > timeToTrigHighBoundUV || tmpuv < timeToTrigLowBoundUV) tmpdt += 20.;
 			if(tmpdt < dmin_T0_1){
@@ -67,15 +72,14 @@
 				timeUV_T0_1 = tmpuv; timeDV_T0_1 = tmpdv;
 			}
 		}
-		
+
 		dmin_T0_1 = timeUV_T0_1 - timeDV_T0_1;
 		hTOF_T1_pos->Fill(dmin_T0_1);
 		if(dmin_T0_1 > -20. && dmin_T0_1 < 60.){
-			// XXX +gpar->Val(4): -343.7: for beamTest2016 only
-			tRef = (timeUV_T0_1 + timeDV_T0_1) / 2.+gpar->Val(4);
+			tRef = (timeUV_T0_1 + timeDV_T0_1) / 2.;
 			cntTRef++;
 		}
-//		if(tRef > timeToTrigHighBoundUV || tRef < timeToTrigLowBoundUV){
+//		if(!(tRef > timeToTrigHighBoundUV || tRef < timeToTrigLowBoundUV)){
 //			cout << "\n\nnl: " << nUVLEdge_T0_1 << "\tnDVLEdge_T0_1: " << nDVLEdge_T0_1 << endl; // DEBUG
 //			cout << "timeUV_T0_1: " << timeUV_T0_1 << "\ttimeDV_T0_1: " << timeDV_T0_1 << endl; // DEBUG
 //			cout << "dmin_T0_1: " << dmin_T0_1 << "\ttRef: " << tRef << endl; // DEBUG
@@ -103,11 +107,11 @@
 //					if(15 == strId)
 					{
 						for(int j = 0; j < str->GetUV()->GetData()->GetNLeadingEdge(); j++){
-							hTOFWToTrigUV[ii]->Fill(j, str->GetUV()->GetLeadingTime(j));
+							hTOFWToTrigUV[ii]->Fill(j, str->GetUV()->GetTime(j));
 						}
 					}
 					hTOFWHitPos[ii]->Fill(strId, str->GetHitPosition());
-					double tofwToTrig = str->GetUV()->GetLeadingTime();
+					double tofwToTrig = str->GetTime(0., gpar->Val(5), gpar->Val(6));
 					if(-9999. != tRef) hTOFWToTRef[ii]->Fill(strId, tofwToTrig - tRef);
 					// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
 					if(!(tofwToTrig > gpar->Val(5) && tofwToTrig < gpar->Val(6))){ // belongs to the trigger-generating particle // (300., 700.)->pion2017; (1120., 1160.)->beamTest2016
@@ -125,12 +129,12 @@
 							TAAnode *ano = dc[ii][j]->GetAnode(k, l + 1, m);
 							if(ano->GetFiredStatus()){
 								hDCFiredDist[ii][j][k]->Fill(l*na+m);
-								double dcToTrig = ano->GetData()->GetLeadingTime();
+								double dcToTrig = ano->GetTime();
 								if(tRef != -9999.) hDCToTRef[ii][j][k]->Fill(dcToTrig - tRef);
 //								if(0 == ii && 0 == k && 0 == j)
 								{
 									for(int i = 0; i < ano->GetData()->GetNLeadingEdge(); i++)
-									hDCToTrig->Fill(i, ano->GetData()->GetLeadingTime(i));
+									hDCToTrig->Fill(i, ano->GetTime(i));
 								}
 								// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
 								if(!(dcToTrig > gpar->Val(7) && dcToTrig < gpar->Val(8))) ano->GetData()->SetFiredStatus(false); // (340., 840.)->pion2017; (1000., 1400.)->beamTest2016

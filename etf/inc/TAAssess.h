@@ -20,6 +20,7 @@
 #define _TAAssess_H_
 
 #include <string>
+#include <cmath>
 
 #include "TAParaManager.h"
 
@@ -35,13 +36,15 @@ public:
 
 	// assess tracking results of MWDC array L and MWDC array R
 	void SetROOTFile(const string &file){ fROOTFile = file; }
+	void SetRunId(int run){ fRunId = abs(run); }
 	virtual void EvalDCArr(bool isDCArrR = true);
-	static void EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArrR = true);
+	static void EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArrR = true, unsigned short runid = 0);
 protected:
 	static TAAssess *fInstance;
 	TAAssess();
 	DetArr_t *fDetList;
 	string fROOTFile;
+	unsigned short fRunId; // run Id, to avoid overwriting
 };
 	
 #endif

@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/13.															     //
-// Last modified: 2017/12/12, SUN Yazhou.										     //
+// Last modified: 2017/12/16, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -59,31 +59,31 @@ TAGPar::TAGPar() : fParVec{0}{
 	// $$$$$ time to trigger range $$$$$ //
 	// ---- PARAMETER 0 --- //
 	p = new TAParameter("T0_1ToTrigLBUV", "T0_1ToTrigLBUV");
-	p->SetValue(1350.); fParVec[0] = p; p = nullptr;
+	p->SetValue(950.); fParVec[0] = p; p = nullptr;
 	// ---- PARAMETER 1 --- //
 	p = new TAParameter("T0_1ToTrigHBUV", "T0_1ToTrigHBUV");
-	p->SetValue(1500.); fParVec[1] = p; p = nullptr;
+	p->SetValue(1400.); fParVec[1] = p; p = nullptr;
 	// ---- PARAMETER 2 --- //
 	p = new TAParameter("T0_1ToTrigLBDV", "T0_1ToTrigLBDV");
-	p->SetValue(1350.); fParVec[2] = p; p = nullptr;
+	p->SetValue(950.); fParVec[2] = p; p = nullptr;
 	// ---- PARAMETER 3 --- //
 	p = new TAParameter("T0_1ToTrigHBDV", "T0_1ToTrigHBDV");
-	p->SetValue(1500.); fParVec[3] = p; p = nullptr;
+	p->SetValue(1400.); fParVec[3] = p; p = nullptr;
 	// ---- PARAMETER 4 --- //
 	p = new TAParameter("T0_1DelayAvrg", "T0_1DelayAvrg");
 	p->SetValue(-343.7); fParVec[4] = p; p = nullptr;
 	// ---- PARAMETER 5 --- //
 	p = new TAParameter("tofwToTrigLB", "tofwToTrigLB");
-	p->SetValue(1120.); fParVec[5] = p; p = nullptr;
+	p->SetValue(1000.); fParVec[5] = p; p = nullptr;
 	// ---- PARAMETER 6 --- //
 	p = new TAParameter("tofwToTrigHB", "tofwToTrigHB");
-	p->SetValue(1160.); fParVec[6] = p; p = nullptr;
+	p->SetValue(1360.); fParVec[6] = p; p = nullptr;
 	// ---- PARAMETER 7 --- //
 	p = new TAParameter("dcToTrigLB", "dcToTrigLB");
 	p->SetValue(1000.); fParVec[7] = p; p = nullptr;
 	// ---- PARAMETER 8 --- //
 	p = new TAParameter("dcToTrigHB", "dcToTrigHB");
-	p->SetValue(1400.); fParVec[8] = p; p = nullptr;
+	p->SetValue(1700.); fParVec[8] = p; p = nullptr;
 	// ---- PARAMETER 9 --- //
 	p = new TAParameter("sipmPlaArrToTrigLB", "sipmPlaArrToTrigLB");
 	p->SetValue(200.); fParVec[9] = p; p = nullptr;
@@ -160,6 +160,28 @@ TAGPar::TAGPar() : fParVec{0}{
 	// ---- PARAMETER 32 --- //
 	p = new TAParameter("W-DownstreamMag", "W-DownstreamMag");
 	p->SetValue(3000.); fParVec[32] = p; p = nullptr;
+	// ---- PARAMETER 33 --- //
+	p = new TAParameter("T0_1UV_delay", "T0_1UV_delay");
+	p->SetValue(-2.7); fParVec[33] = p; p = nullptr; // -2.7 for beamTest2016
+	// $$$$$ T_tofDCToTOFWall
+	// ---- PARAMETER 34 --- //
+	p = new TAParameter("T_tofDCtoTOFWLX", "T_tofDCtoTOFWLX");
+	p->SetValue(7.4); fParVec[34] = p; p = nullptr; // -2.7 for beamTest2016
+	// ---- PARAMETER 35 --- //
+	p = new TAParameter("T_tofDCtoTOFWLU", "T_tofDCtoTOFWLU");
+	p->SetValue(4.8); fParVec[35] = p; p = nullptr; // -2.7 for beamTest2016
+	// ---- PARAMETER 36 --- //
+	p = new TAParameter("T_tofDCtoTOFWLV", "T_tofDCtoTOFWLV");
+	p->SetValue(2.0); fParVec[36] = p; p = nullptr; // -2.7 for beamTest2016
+	// ---- PARAMETER 37 --- //
+	p = new TAParameter("T_tofDCtoTOFWRX", "T_tofDCtoTOFWRX");
+	p->SetValue(33.4); fParVec[37] = p; p = nullptr; // -2.7 for beamTest2016
+	// ---- PARAMETER 38 --- //
+	p = new TAParameter("T_tofDCtoTOFWRU", "T_tofDCtoTOFWRU");
+	p->SetValue(23.7); fParVec[38] = p; p = nullptr; // -2.7 for beamTest2016
+	// ---- PARAMETER 39 --- //
+	p = new TAParameter("T_tofDCtoTOFWRV", "T_tofDCtoTOFWRV");
+	p->SetValue(16.9); fParVec[39] = p; p = nullptr; // -2.7 for beamTest2016
 	
 }
 

@@ -57,15 +57,15 @@ TAAssess *TAAssess::Instance(){
 	if(!fInstance) fInstance = new TAAssess();
 	return fInstance;
 }
-TAAssess::TAAssess() : fDetList(0){
+TAAssess::TAAssess() : fDetList(0), fRunId(0){
 	if(!fDetList) fDetList = &TAParaManager::Instance()->GetDetList();
 }
 TAAssess::~TAAssess(){}
 
 void TAAssess::EvalDCArr(bool isDCArrR){
-	EvalDCArr(fROOTFile, fDetList, isDCArrR);
+	EvalDCArr(fROOTFile, fDetList, isDCArrR, fRunId);
 }
-void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArrR){
+void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArrR, unsigned short runid){
 	if(!strcmp("", rootfile.c_str()))
 		TAPopMsg::Error("TAAssess", "EvalDCArr: rootfile name is empty");
 	if(!detList)
@@ -80,10 +80,11 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 	TTree *treeTrack = (TTree*)f->Get("treeTrack");
 	if(!treeTrack) TAPopMsg::Error("TAAssess", "EvalDCArr: treeTrack is nullptr");
 	// default is for DCArrR
-	char topdir[64] = "assess0_DCArrR"; short lrtag = 11;
+	char topdir[64]; short lrtag = 11;
+	sprintf(topdir, "assess%dR", runid);
 	TAMWDCArray *dcArr = dcArrR;
 	if(!isDCArrR){
-		strcpy(topdir, "assess0_DCArrL"); lrtag = 10;
+		sprintf(topdir, "assess%dL", runid); lrtag = 10;
 		dcArr = dcArrL;
 	}
 	const short LRTAG = lrtag; // type/10: 10 -> dcArrL; 11 -> dcArrR
@@ -362,7 +363,8 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 
 	// write //
 	for(int i = 0; i < 5; i++){
-		if(!f->FindObjectAny(dir[i])) f->mkdir(dir[i]); f->cd(dir[i]);
+		char s[128]; sprintf(s, "%s/%s", topdir, dir[i]);
+		if(!f->FindObjectAny(dir[i])) f->mkdir(s); f->cd(s);
 		for(TObject *&b : objLs[i]) if(b) b->Write("", TObject::kOverwrite);
 	}
 	// print some information to the screen

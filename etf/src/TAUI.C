@@ -97,8 +97,8 @@ void TAUI::PromptHelp(bool isVerbose){
 	cout << "\t\ti-initial, f-final. All events are chosen by default.\n";
 	cout << "\t[-d[<depth>]]: \n\t\tanalyze depth:\n";
 	cout << "\t\tnot used or 0: daq and detector statistics.";
-	cout << "\n\t\t1: simple tracking; 2: normal tracking (default); 3: PID\n";
-	cout << "\n\t\t4: 3D simple tracking; 5: 3D normal tracking (default); 6: 3D PID\n";
+	cout << "\n\t\t1: simple tracking; 2: normal tracking (default); 3: PID";
+	cout << "\n\t\t4: 3D simple tracking; 5: 3D normal tracking; 6: 3D PID\n";
 	cout << "\t[-m[<EvLenLim>]]: \n\t\tevent length limit (word). INT_MAX by default.\n";
 	cout << "\t[-u[<runId>]]: \n\t\trun_number\n";
 	cout << "\t\t - would be suffixed to the created rootfile name.\n";

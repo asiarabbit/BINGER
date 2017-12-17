@@ -73,6 +73,11 @@ double TAAnode::GetTOT(int n) const{
 	if(-9999. == tt || -9999. == tl) return -9999.; // one of them is not assigned
 	return tt - tl;
 }
+double TAAnode::GetTime(int i){
+	double t = GetData()->GetLeadingTime(i);
+	if(-9999 == t) return -9999.;
+	return t - GetPara()->GetDelay();
+}
 
 double TAAnode::GetDriftTime() const{
 	double weight;

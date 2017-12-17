@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/9.															     //
-// Last modified: 2017/10/9, SUN Yazhou.										     //
+// Last modified: 2017/12/17, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -76,7 +76,7 @@ double TAMath::BFGS4(const double Ag[][3], const double ag[][3], double *p, cons
 			cout << "d2min: " << d2min << endl; getchar(); // DEBUG
 #endif
 		}
-		if(k == 4){ // a spoiled start needs a special treatment.
+		if(4 == k){ // a spoiled start needs a special treatment
 			k = 0;
 			memset(Ak, 0, sizeof(Ak));
 			for(int i = 0; i < 4; i++) Ak[i][i] = 1.;
@@ -173,8 +173,8 @@ double fun(const double *xk, const double Ag[][3], const double ag[][3], const d
 	double dr[nF]{}, pp[4]{}, d2 = 0.;
 //	cout << "xk[0]: " << xk[0] << " xk[1]: " << xk[1] << " xk[2]: " << xk[2] << " xk[3]: " << xk[3] << endl; // DEBUG
 //	cout << "p[0]: " << p[0] << " p[1]: " << p[1] << " p[2]: " << p[2] << " p[3]: " << p[3] << endl; // DEBUG
-	pp[0] = p[0] * (1 + xk[0]); pp[1] = p[1] * (1 + xk[1]); // k1, k2
-	pp[2] = p[2] * (1 + xk[2]); pp[3] = p[3] * (1 + xk[3]);	// b1, b2
+	pp[0] = p[0] * (1. + xk[0]); pp[1] = p[1] * (1. + xk[1]); // k1, k2
+	pp[2] = p[2] * (1. + xk[2]); pp[3] = p[3] * (1. + xk[3]);	// b1, b2
 	for(int i = 0; i < nF; i++){
 		dr[i] = TAMath::dSkew(Ag[i], ag[i], pp) - r[i];
 //		cout << "i: " << i << " dr[i]: " << dr[i] << endl; // DEBUG
@@ -198,17 +198,16 @@ void funxy(double *gk, const double *xk, const double Ag[][3], const double ag[]
 
 // distance between two skew lines
 // Ag[3], ag[3], p[4] = {k1, k2, b1, b2}; B[3], b[3]: counterpart of Ag and ag for another line
-double TAMath::dSkew(const double *ag, const double *Ag, const double *p){
+double TAMath::dSkew(const double *Ag, const double *ag, const double *p){
 	// 3-D track line parameters. B[3]: one point in the line; b[3]: direction vector
-	double b[3] = {0., 0., 1.}, B[3] = {0., 0., 0.}; // B[2] = 0. and b[2] = 1.; preset values.
-	B[0] = p[2]+B[2]*p[0]; // B[0] = b1+B[2]*k1;
-	B[1] = p[3]+B[2]*p[1]; // B[1] = b2+B[2]*k2;
-	b[0] = b[2]*p[0]; // b[0] = b[2]*k1;
-	b[1] = b[2]*p[1]; // b[1] = b[2]*k2;
-	return dSkew(ag, Ag, b, B);
+	double b[3] = {0., 0., 1.}, B[3] = {0., 0., 3000.}; // B[2] = 0. and b[2] = 1.; preset values.
+	B[0] = p[0]*B[2]+p[2]; // B[0] = k1*B[2]+b1;
+	B[1] = p[1]*B[2]+p[3]; // B[1] = k2*B[2]+b2;
+	b[0] = p[0]*b[2];	   // b[0] = k1*b[2];
+	b[1] = p[1]*b[2];	   // b[1] = k2*b[2];
+	return dSkew(Ag, ag, b, B);
 }
-double TAMath::dSkew(const double *ag, const double *Ag, const double *b, const double *B){
-	double bb = sqrt(b[0]*b[0]+b[1]*b[1]+b[2]*b[2]); // DEBUG
+double TAMath::dSkew(const double *Ag, const double *ag, const double *b, const double *B){
 	double ab[3] = // cross product of vector ag and b.  (dR.R.al)×b
 	 {ag[1]*b[2]-ag[2]*b[1], ag[2]*b[0]-ag[0]*b[2], ag[0]*b[1]-ag[1]*b[0]};
 	// (B-Ag).(ag×b)/|ag×b|

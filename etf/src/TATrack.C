@@ -325,6 +325,7 @@ void TATrack::Fit(){
 	else IterFit();
 	// assign array fChi
 	for(double &xx : fChi) xx = -9999.; fChi2 = 0.;
+//	fK = 0.225525; fB = -37.8764; // XXX XXX XXX XXX DEBUG DEBUG DEBUG XXX XXX XXX XXX
 	for(int i = 0; i < 6; i++){
 		if(fLAYER[i] != -1){
 			fChi[fLAYER[i]] = fabs(fK * fZ[fLAYER[i]] - fX[fLAYER[i]] + fB) / sqrt(1. + fK * fK) - fR[fLAYER[i]];

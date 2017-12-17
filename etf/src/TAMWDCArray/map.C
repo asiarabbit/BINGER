@@ -167,13 +167,13 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 					// edges of TOFW would be compared to t0 for the suitable one
 					int lid = LAYER[nFiredAnodeLayer-1]; // id of the fired DC anode layer
 					TAAnode *ano = MWDC[lid/2]->GetAnode(dcType, lid%2+1, nu[lid]);
-					double t0 = ((TAAnodeData*)ano->GetData())->GetLeadingTime();
+					double t0 = ano->GetTime();
 					unsigned uid = ano->GetUID();
 					double delta = clp->T_tofDCtoTOFW(uid) - clp->T_wireMean(uid); // minor correction
 					// -10 ~ 150: speculated drift time zone
 					// (as small and correct as possible while inclusive)
-					double t1 = -(delta + 150.), t2 = -(delta - 10.); // the range borders
-					TOF = GetTOFWall()->GetTime(kl, bl, nstripStray, firedStripId, t0, t1, t2); // 
+					double t1 = delta-150., t2 = delta+10.; // the range borders
+					TOF = GetTOFWall()->GetTime(kl, bl, nstripStray, firedStripId, t0, t1, t2);
 #ifdef DEBUG_MAP
 					cout << "firedStripId: " << firedStripId << endl; // DEBUG
 					cout << "nstripStray: " << nstripStray << endl; // DEBUG

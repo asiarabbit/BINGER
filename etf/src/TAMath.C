@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/25.															     //
-// Last modified: 2017/11/14, SUN Yazhou.										     //
+// Last modified: 2017/12/17, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -16,6 +16,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
+#include <iomanip>
 #include <cstdlib>
 #include <cstring>
 #include "TAMath.h"
@@ -24,6 +25,7 @@
 
 using std::cout;
 using std::endl;
+using std::setprecision;
 
 double TAMath::norm(const double *p, int len){
 	double norm = 0.;
