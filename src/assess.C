@@ -8,8 +8,13 @@ using std::cout;
 using std::endl;
 
 int main(int argc, char *argv[]){
+	if(argc <= 1){
+		cout << "ROOT file name not provided. Exit...\n";
+		exit(1);
+	}
 	TAEventProcessor *ep = TAEventProcessor::Instance();
-	ep->SetConfigExpDir("pion_2017Oct"); ep->Configure();
+	const char dir[2][64] = {"pion_2017Oct", "beamTest_2016Nov"};
+	ep->SetConfigExpDir(dir[1]); ep->Configure();
 	TAAssess *ass = TAAssess::Instance();
 	ass->SetROOTFile(argv[1]); ass->SetRunId(0);
 	ass->EvalDCArr();

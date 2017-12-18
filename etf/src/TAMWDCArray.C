@@ -139,9 +139,13 @@ bool TAMWDCArray::Compatible(double k, double b, double ku, double bu, double kv
 	double b1t = TAMath::bUV_X(phi, ku, kv, bu, bv);
 	double z, x, xt;
 #ifdef DEBUG
+	cout << "TAMath::kUV_X(" << phi / DEGREE << ", " << ku << ", " << kv << "): ";
+	cout << TAMath::kUV_X(phi, ku, kv) << endl; // DEBUG
+	cout << "ku: " << ku << "\tkv: " << kv << endl; // DEBUG
+	cout << "bu: " << bu << "\tbv: " << bv << endl; // DEBUG
 	cout << "phi: " << phi / DEGREE << endl; // DEBUG
 	cout << "k1: " << k << "\tb1: " << b << endl; // DEBUG
-	cout << "k1t: " << k1t << "\tb1t: " << b1t << endl; getchar(); // DEBUG
+	cout << "k1t: " << k1t << "\tb1t: " << b1t << endl; // DEBUG
 	k2 = TAMath::kUV_Y(phi, ku, kv); // DEBUG
 	b2 = TAMath::bUV_Y(phi, ku, kv, bu, bv); // DEBUG
 	cout << "k2: " << k2 << "\tb2: " << b2 << endl; // DEBUG

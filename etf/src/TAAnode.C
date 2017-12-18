@@ -97,24 +97,39 @@ double TAAnode::GetDriftTime(double &weight) const{
 	return driftTime;
 } // end of function GetDriftTime().
 // for generate simulation data //
-double TAAnode::GetDriftTime(double r, double k){ // k is the track slope
+double TAAnode::GetDriftTime(double rr, double k){ // k is the track slope
+//	rr = 5.2273836; // DEBUG
+	double r = rr, dr = 0.; // for overflow treatment (drift cell radius = 5 mm)
+	if(rr >= 4.999){ r = 4.999; dr = rr - r; }
 	const int n = 100;
 	double span = 300.; // search scope, unit: ns
 	double t, tc = 60., tm = 0.; // ns
 	double d, dmin = 1E200;
-	for(int l = 0; l < 2; l++){
+	for(int l = 0; l < 3; l++){
+//		cout << "___________l>>>>>>: " << l << endl; // DEBUG
 		for(int i = 0; i <= n; i++){
 			t = tc+(2.*i/n-1.)*span;
 			if(t < 0.) continue;
 			d = fabs(GetDriftDistance(t, k) - r);
-			if(d < dmin){
+//			if(d - dmin < 1.E-1){ // DEBUG
+//				cout.setf(std::ios::fixed); // DEBUG
+//				cout << "dmin: " << dmin << "\td: " << d << endl; // DEBUG
+//				cout << "d - dmin: " << d - dmin << endl;
+//				bool is = bool(d - dmin < -1.E-3);
+//				cout <<  "is: " << is << endl; getchar(); // DEBUG
+//			} // DEBUG
+			if(d - dmin < -1.1E-5){
 				dmin = d; tm = t;
+//				cout << "\033[36;1mdmin: " << dmin << "\ttm: " << tm << "\n\033[0m"; getchar(); // DEBUG
 			} // end if
 		} // end for over i
 		span *= 2.2/n;
 		tc = tm;
 	} // end for over l
-	if(tm > 300.) tm = 298.;
+//	cout << "tm: " << tm << endl; // DEBUG
+//	cout << "(298. - tm)*((r-4.999)/2.072): " << (298. - tm)*((rr-4.999)/2.072) << endl; // DEBUG
+	if(rr >= 4.999) tm += (298. - tm)*((rr-4.999)/2.072); // 2.072 = 5*sqrt(2)-4.999
+//	cout << "tm: " << tm << endl; getchar(); // DEBUG
 	return tm;
 } // end function GetDriftTime
 
