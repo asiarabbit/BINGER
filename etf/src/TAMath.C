@@ -27,6 +27,7 @@ using std::cout;
 using std::endl;
 using std::setprecision;
 
+// length of the vector, len: vector dimension
 double TAMath::norm(const double *p, int len){
 	double norm = 0.;
 	for(int i = 0; i < len; i++){
@@ -34,11 +35,18 @@ double TAMath::norm(const double *p, int len){
 	}
 	return sqrt(norm);
 }
+// |p0-p1|
 double TAMath::L(const double *p0, const double *p1, int len){
 	double p[3] = {p0[0] - p1[0], p0[1] - p1[1], p0[2] - p1[2]};
 	return norm(p, len);
 }
+// angle between two 3D vectors <a, b>
+double TAMath::VecAng3D(const double *a, const double *b){
+	// cosA = a*b / (|a||b|)
+	return acos( (a[0]*b[0]+a[1]*b[1]+a[2]*b[2]) / (norm(a,3)*norm(b,3)) );
+}
 
+// the triangle defined by (p0, p1, O). return the angle O: coordinate origin
 double TAMath::acceptance(const double *p0, const double *p1){
 	double innerProduct = p0[0]*p1[0] + p0[1]*p1[1];
 	double cosTheta = innerProduct/(norm(p0,2)*norm(p1,2));

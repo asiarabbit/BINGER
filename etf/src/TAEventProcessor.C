@@ -284,9 +284,9 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 		GetRawDataProcessor()->SetPeriod(id0, id1);
 		GetRawDataProcessor()->ReadOffline(); // prepare data file
 		rootfile = GetRawDataProcessor()->GetROOTFileName();
-		printf("  Analyzing event#%d to event#%d from datafile  %s\n", id0, id1, GetRawDataProcessor()->GetDataFileName());
+		printf("\033[32;1m  Analyzing event#%d to event#%d from datafile  %s\n\033[0m", id0, id1, GetRawDataProcessor()->GetDataFileName());
 	}
-	else printf("  Analyzing event#%d to event#%d from rootfile   %s\n", id0, id1, rootfile.c_str());
+	else printf("\033[32;1m  Analyzing event#%d to event#%d from rootfile   %s\n\033[0m", id0, id1, rootfile.c_str());
 //	return;
 	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
 	TTree *treeData = (TTree*)f->Get("treeData");

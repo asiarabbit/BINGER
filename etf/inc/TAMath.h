@@ -36,6 +36,7 @@ public:
 	static void rotateOffset(const double *pIn, double *pOut, const double *angOff);
 	static double norm(const double *p, int len = 3); // length of the vector, len: vector dimension
 	static double L(const double *p0, const double *p1, int len = 3); // |p0-p1|
+	static double VecAng3D(const double *a, const double *b); // angle between two 3D vectors <a, b>
 
 	static double acceptance(const double *p0, const double *p1);
 	/////////////////////// TAMWDCARRAY 3D TRACK PROJRECTION TRANSFORMATION ///////////////////////

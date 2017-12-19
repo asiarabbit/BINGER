@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/14.															     //
-// Last modified: 2017/12/16, SUN Yazhou.										     //
+// Last modified: 2017/12/19, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -62,7 +62,8 @@ TAAssess::TAAssess() : fDetList(0), fRunId(0){
 }
 TAAssess::~TAAssess(){}
 
-void TAAssess::EvalDCArr(bool isDCArrR){
+void TAAssess::EvalDCArr(bool isDCArrR, int runId){
+	SetRunId(runId);
 	EvalDCArr(fROOTFile, fDetList, isDCArrR, fRunId);
 }
 void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArrR, unsigned short runid){
@@ -80,12 +81,13 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 	TTree *treeTrack = (TTree*)f->Get("treeTrack");
 	if(!treeTrack) TAPopMsg::Error("TAAssess", "EvalDCArr: treeTrack is nullptr");
 	// default is for DCArrR
-	char topdir[64]; short lrtag = 11;
+	char topdir[64]; short lrtag = 11; const int ndir = 8;
 	sprintf(topdir, "assess%dR", runid);
+	char dir[ndir][64] = {"misc", "dt", "rt", "drt", "rr", "3Drt", "3Ddrt", "3Drr"};
 	TAMWDCArray *dcArr = dcArrR;
 	if(!isDCArrR){
 		sprintf(topdir, "assess%dL", runid); lrtag = 10;
-		dcArr = dcArrL;
+		dcArr = dcArrL; for(int i = ndir; i--;) strcat(dir[i], "L");
 	}
 	const short LRTAG = lrtag; // type/10: 10 -> dcArrL; 11 -> dcArrR
 	cout << "The results would be stored in ROOT file directory \"" << topdir << "\"\n";
@@ -127,63 +129,118 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 	treeTrack->SetBranchAddress("id", id);
 	treeTrack->SetBranchAddress("xMiss3D", xMiss3D);
 
+	double Chi3D[ntrMax3D], chi2_3D[ntrMax3D], chi3D[ntrMax3D][18];
+	// x=k1*z+b1; y=k2*z+b2;
+	double k1_3D[ntrMax3D], b1_3D[ntrMax3D], k2_3D[ntrMax3D], b2_3D[ntrMax3D];
+	TTree *treePID3D = (TTree*)f->Get("treePID3D"); // storing 3D tracking and 3D-PID information
+	if(treePID3D){
+		treeTrack->AddFriend(treePID3D);
+		treePID3D->SetBranchAddress("Chi", Chi3D);
+		treePID3D->SetBranchAddress("chi2", chi2_3D);
+		treePID3D->SetBranchAddress("chi", chi3D); // residuum [x6->u6->v6]
+		treePID3D->SetBranchAddress("k1", k1_3D);
+		treePID3D->SetBranchAddress("b1", b1_3D);
+		treePID3D->SetBranchAddress("k2", k2_3D);
+		treePID3D->SetBranchAddress("b2", b2_3D);
+	}
+
+/////////////////////////////////////// BEGIN OF THE HISTOGRAM DEFINITION ///////////////////////////
 	// to store all the ROOT statistical objects
-	vector<TObject *> objLs[5];
-	const char dir[5][64] = {"misc", "rt", "drt", "dt", "rr"};
+	vector<TObject *> objLs[ndir];
 	char name[64], title[128], xuv[4] = "XUV";
 	TH1F *hchi = new TH1F("hchi", "Overall Residual Distribution;dr [mm]", 1600, -8.0, 8.0);
 	TH1F *hChi = new TH1F("hChi", "\\sqrt{\\chi2/ndf}\\hbox{~Per Track};\\chi~[mm]", 800, 0, 8.);
 	TH1F *hchi2 = new TH1F("hchi2", "Track~\\chi^2~Distribution~\\sum(\\chi^2);\\chi^2~[mm^2]", 1000., -0.5, 100);
 	objLs[0].push_back(hchi); objLs[0].push_back(hChi); objLs[0].push_back(hchi2);
+	TH1F *hchi_3D = new TH1F("hchi_3D", "Overall Residual Distribution (for 3D Tracks);dr [mm]", 1600, -8.0, 8.0);
+	TH1F *hChi_3D = new TH1F("hChi_3D", "\\sqrt{\\chi2/ndf}\\hbox{~Per Track} (for 3D Tracks);\\chi~[mm]", 800, 0, 8.);
+	TH1F *hchi2_3D = new TH1F("hchi2_3D", "Track~\\chi^2~Distribution~\\sum(\\chi^2)~(for~3D~Tracks);\\chi^2~[mm^2]", 1000., -0.5, 100);
+	objLs[6].push_back(hchi_3D); objLs[6].push_back(hChi_3D); objLs[6].push_back(hchi2_3D);
 	// hrt: DCA v.s. t //
 	TH2F *hrt01 = new TH2F("hrt01", "Overall Distribution of Calculated Drift Distance and Drift Time;t [ns];r [mm]", 500, -100., 400., 800, -0.5, 7.5);
 	objLs[1].push_back(hrt01);
+	TH2F *hrt01_3D = new TH2F("hrt01_3D", "Overall Distribution of Calculated Drift Distance and Drift Time for 3D Tracks;t [ns];r [mm]", 500, -100., 400., 800, -0.5, 7.5);
+	objLs[5].push_back(hrt01_3D);
 	TH2F *hrt02[3], *hrt03[3][3]; // [0-3]: [XUV]; [0-3][0-3]: [XUV][DC0-1-2]
+	TH2F *hrt02_3D[3], *hrt03_3D[3][3]; // [0-3]: [XUV]; [0-3][0-3]: [XUV][DC0-1-2]
 	for(int i = 0; i < 3; i++){ // loop over XUV
 		sprintf(name, "hrt02_%d", i);
 		sprintf(title, "Distribution of DCA v.s. Drift Time for %c-Tracks;t [ns];DCA [mm]", xuv[i]);
 		hrt02[i] = new TH2F(name, title, 500, -100., 400., 800, -0.5, 7.5);
 		objLs[1].push_back(hrt02[i]);
+		sprintf(name, "hrt02_3D_%d", i);
+		sprintf(title, "Distribution of DCA v.s. Drift Time for 3D Tracks in %c Sense Wires;t [ns];DCA [mm]", xuv[i]);
+		hrt02_3D[i] = new TH2F(name, title, 500, -100., 400., 800, -0.5, 7.5);
+		objLs[5].push_back(hrt02_3D[i]);
 		for(int j = 0; j < 3; j++){ // loop over three DCs
 			sprintf(name, "hrt03_%d_%d", i, j);
 			sprintf(title, "Distribution of DCA v.s. Drift Time for %c-Track-DC%d;t [ns];DCA [mm]", xuv[i], j);
 			hrt03[i][j] = new TH2F(name, title, 500, -100., 400., 800, -0.5, 7.5);
 			objLs[1].push_back(hrt03[i][j]);
+			sprintf(name, "hrt03_3D_%d_%d", i, j);
+			sprintf(title, "Distribution of DCA v.s. Drift Time for 3D Tracks in DC%d %c Sense Wires;t [ns];DCA [mm]", j, xuv[i]);
+			hrt03_3D[i][j] = new TH2F(name, title, 500, -100., 400., 800, -0.5, 7.5);
+			objLs[5].push_back(hrt03_3D[i][j]);
 		} // end loop over DCs
 	} // end loop over XUV
 	TH2F *hrt04 = new TH2F("hrt04", "Distribution of DCA v.s. Drift Time for DC0X1Anode40;t [mm];DCA [mm]", 500, -100., 400., 800, -0.5, 7.5);
 	objLs[1].push_back(hrt04);
+	TH2F *hrt04_3D = new TH2F("hrt04_3D", "Distribution of DCA v.s. Drift Time for DC0X1Anode40(3D Tracks);t [mm];DCA [mm]", 500, -100., 400., 800, -0.5, 7.5);
+	objLs[5].push_back(hrt04_3D);
 	TH2F *hrt04_STR[nAng];
+	TH2F *hrt04_3D_STR[nAng];
 	for(int i = 0; i < nAng; i++){
 		sprintf(name, "hrt04_STR_%d", i);
-		sprintf(title, "Distribution of DCA and Drift Time for DC0X1Anode40STR_%d(alpha: %f~%f);t [ns]; r [mm]", i, (i-nAng/2.)*angStep, (i-nAng/2.+1.)*angStep);
+		sprintf(title, "Distribution of DCA and Drift Time for DC0X1Anode40STR_%d(alpha: %f~%f);t [ns]; r [mm]", i, (i-nAng/2.)*angStep/DEGREE, (i-nAng/2.+1.)*angStep/DEGREE);
 		hrt04_STR[i] = new TH2F(name, title, 500, -100., 400., 800, -0.5, 7.5);
 		objLs[1].push_back(hrt04_STR[i]);
+		sprintf(name, "hrt04_3D_STR_%d", i);
+		sprintf(title, "Distribution of DCA and Drift Time for DC0X1Anode40STR_%d(alpha: %f~%f)(3D Tracks);t [ns]; r [mm]", i, (i-nAng/2.)*angStep/DEGREE, (i-nAng/2.+1.)*angStep/DEGREE);
+		hrt04_3D_STR[i] = new TH2F(name, title, 500, -100., 400., 800, -0.5, 7.5);
+		objLs[5].push_back(hrt04_3D_STR[i]);
 	}
 	// hdrt: chi v.s. t //
 	TH2F *hdrt01 = new TH2F("hdrt01", "Overall Distribution of Redisual and Drift Time;t [ns];dr [mm]", 500, -100., 400., 800, -4.0, 4.0);
 	objLs[2].push_back(hdrt01);
-	TH2F *hdrt02[3], *hdrt03[3][3]; // [0-3]: [XUV]; [0-3]: [XUV][DC0-1-2]
+	TH2F *hdrt01_3D = new TH2F("hdrt01_3D", "Overall Distribution of Redisual and Drift Time for 3D Tracks;t [ns];dr [mm]", 500, -100., 400., 800, -4.0, 4.0);
+	objLs[6].push_back(hdrt01_3D);
+	TH2F *hdrt02[3]{}, *hdrt03[3][3]{}; // [0-3]: [XUV]; [0-3]: [XUV][DC0-1-2]
+	TH2F *hdrt02_3D[3]{}, *hdrt03_3D[3][3]{}; // [0-3]: [XUV]; [0-3]: [XUV][DC0-1-2]
 	for(int i = 0; i < 3; i++){ // loop over XUV
 		sprintf(name, "hdrt02_%d", i);
 		sprintf(title, "Distribution of Residual and Drift Time for %c-Tracks;t [ns];dr [mm]", xuv[i]);
 		hdrt02[i] = new TH2F(name, title, 500, -100., 400., 800, -4.0, 4.0);
 		objLs[2].push_back(hdrt02[i]);
+		sprintf(name, "hdrt02_3D_%d", i);
+		sprintf(title, "Distribution of Residual and Drift Time for 3D Tracks in %c Sense Wires;t [ns];dr [mm]", xuv[i]);
+		hdrt02_3D[i] = new TH2F(name, title, 500, -100., 400., 800, -4.0, 4.0);
+		objLs[6].push_back(hdrt02[i]);
 		for(int j = 0; j < 3; j++){ // loop over DCs
 			sprintf(name, "hdrt03_%d_%d", i, j);
 			sprintf(title, "Distribution of Residual and Drift Time for %c-Tracks-DC%d", xuv[i], j);
 			hdrt03[i][j] = new TH2F(name, title, 500, -100., 400., 800, -4.0, 4.0);
 			objLs[2].push_back(hdrt03[i][j]);
+			sprintf(name, "hdrt03_3D_%d_%d", i, j);
+			sprintf(title, "Distribution of Residual and Drift Time for 3D Tracks in DC%d %c Sense Wires", j, xuv[i]);
+			hdrt03_3D[i][j] = new TH2F(name, title, 500, -100., 400., 800, -4.0, 4.0);
+			objLs[6].push_back(hdrt03_3D[i][j]);
 		} // end loop over DCs
 	} // end loop over XUV
 	TH2F *hdrt04 = new TH2F("hdrt04", "Distribution of Residual and Drift Time for DC0X1Anode40;t [ns];dr [mm]", 500, -100., 400., 800, -4.0, 4.0);
 	objLs[2].push_back(hdrt04);
-	TH2F *hdrt04_STR[nAng];
+	TH2F *hdrt04_3D = new TH2F("hdrt04_3D", "Distribution of Residual and Drift Time for DC0X1Anode40(3D tracks);t [ns];dr [mm]", 500, -100., 400., 800, -4.0, 4.0);
+	objLs[6].push_back(hdrt04_3D);
+	TH2F *hdrt04_STR[nAng]{};
+	TH2F *hdrt04_3D_STR[nAng]{};
 	for(int i = 0; i < nAng; i++){
 		sprintf(name, "hdrt04_STR_%d", i);
-		sprintf(title, "Distribution of Residual and Drift Time for DC0X1Anode40STR_%d(alpha: %f~%f);t [ns];dr [mm]", i, (i-nAng/2.)*angStep, (i-nAng/2.+1.)*angStep);
+		sprintf(title, "Distribution of Residual and Drift Time for DC0X1Anode40STR_%d(alpha: %f~%f);t [ns];dr [mm]", i, (i-nAng/2.)*angStep/DEGREE, (i-nAng/2.+1.)*angStep/DEGREE);
 		hdrt04_STR[i] = new TH2F(name, title, 500, -100., 400., 800, -4.0, 4.0);
 		objLs[2].push_back(hdrt04_STR[i]);
+		sprintf(name, "hdrt04_3D_STR_%d", i);
+		sprintf(title, "Distribution of Residual and Drift Time for DC0X1Anode40STR_%d(alpha: %f~%f)(3D tracks);t [ns];dr [mm]", i, (i-nAng/2.)*angStep/DEGREE, (i-nAng/2.+1.)*angStep/DEGREE);
+		hdrt04_3D_STR[i] = new TH2F(name, title, 500, -100., 400., 800, -4.0, 4.0);
+		objLs[6].push_back(hdrt04_3D_STR[i]);
 	}
 	TH1F *hSTRid = new TH1F("hSTRid", "STR id Distribution;STRid", nAng+3, -1.5, nAng+1.5);
 	TH1F *hntrTot = new TH1F("hntrTot", "Total Track Count;nSec-X-U-V-3D", 8, -2.5, 5.5); // -10123
@@ -196,12 +253,13 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 		objLs[0].push_back(hntrPerSec[i]);
 	} // end loop over XUV
 	TH1F *hntrPerSec3D = new TH1F("hntrPerSec3D", "3D Track Horizontal Angle Distribution; ntracks/section", 11, -1.5, 9.5);
-	TH1F *hHAng = new TH1F("hHAng", "3D Track Horizontal Angle Distribution;angle [degree]", 2000, 5., 30.);
+	TH1F *hHAng = new TH1F("hHAng", "3D Track Horizontal Angle Distribution;angle [degree]", 2000, -50., 30.);
 	TH1F *hVAng = new TH1F("hVAng", "3D Track Vertical Angle Distribution;angle [degree]", 600, -30., 30.);
 	objLs[0].push_back(hHAng); objLs[0].push_back(hVAng);
 	// statistics of number of fired anode layers per section
 	TH1F *hnF[3], *hgGOOD[3]; // [XUV]
 	TH2F *htt[3][3], *hrr[3][3]; // [XUV][DC0-1-2]
+	TH2F *htt_3D[3][3], *hrr_3D[3][3]; // [XUV][DC0-1-2]
 	TH1F *h3DMissxPre[3], *h3DMissxPost[3], *hdt[3][3]; // [DC0-1-2][XUV]
 	for(int i = 0; i < 3; i++){ // loop over XUV
 		sprintf(name, "hnF_%d", i);
@@ -226,6 +284,13 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 			sprintf(title, "t_{X1} v.s. t_{X2} for Vertical %c Tracks for MWDC%d;r_{X1} [mm];r_{X2} [mm]", xuv[i], j);
 			hrr[i][j] = new TH2F(name, title, 500, -0.2, 6., 500., -0.2, 6.);
 			objLs[4].push_back(htt[i][j]); objLs[4].push_back(hrr[i][j]);
+			sprintf(name, "htt_3D_%c%d", xuv[i], j);
+			sprintf(title, "t_{X1} v.s. t_{X2} for Vertical 3D %c Tracks for MWDC%d;t_{X1} [ns];t_{X2} [ns]", xuv[i], j);
+			htt_3D[i][j] = new TH2F(name, title, 500, -100., 400., 500, -100., 400.);
+			sprintf(name, "hrr_3D_%c%d", xuv[i], j);
+			sprintf(title, "t_{X1} v.s. t_{X2} for Vertical 3D %c Tracks for MWDC%d;r_{X1} [mm];r_{X2} [mm]", xuv[i], j);
+			hrr_3D[i][j] = new TH2F(name, title, 500, -0.2, 6., 500., -0.2, 6.);
+			objLs[7].push_back(htt_3D[i][j]); objLs[7].push_back(hrr_3D[i][j]);
 			sprintf(name, "Hdt_DC%d%c", i, xuv[j]);
 			sprintf(title, "Drift Time Distribution of MWDC%d-%c;t [ns]", i, xuv[j]);
 			hdt[i][j] = new TH1F(name, title, 500, -100., 400.);
@@ -241,6 +306,8 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 	objLs[0].push_back(hXMag); objLs[0].push_back(hYMag);
 	TH1F *heff = new TH1F("heff", "MWDC efficiency - Number of X-U-V Tracks;X:Tot-DC0(X1-X2)-DC1-DC2--U--V", 30, -2.5, 27.5);
 	objLs[0].push_back(heff);
+///////////////////////////////////////// END OF THE HISTOGRAM DEFINITION //////////////////////////
+
 
 	const int n = treeTrack->GetEntries(); // number of data sections
 	int ntrTot[3]{}, n3DtrTot = 0; // total number of tracks of all kinds of type
@@ -277,10 +344,11 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 			double eM = 10.; // xMiss3D limit
 			if(fabs(xMiss3D[trkId[jj][0]][0]) < eM && fabs(xMiss3D[trkId[jj][0]][1]) < eM && fabs(xMiss3D[trkId[jj][0]][2]) < eM){ BINGO = true; effTot++; } // a valid 3D track
 			if(!BINGO) continue;
-			for(int j = 0; j < 6; j++){ // count effective measurements
-				for(int k = 0; k < 3; k++)
-					if(-1 != nu[trkId[jj][k]][j]){ nFXUV[k]++; if(BINGO) eff[j/2][k][j%2]++; }
-			} // end loop over six sense wire layers for one type
+			// count effective measurements
+			for(int j = 0; j < 3; j++){ // loop over XUV
+				for(int k = 0; k < 6; k++) // loop over DC0-X1X2-DC1-X1X2-DC2-X1X2
+					if(-1 != nu[trkId[jj][j]][k]){ nFXUV[j]++; if(BINGO) eff[k/2][j][k%2]++; }
+			} // end loop over XUV
 			const int nF = nFXUV[0] + nFXUV[1] + nFXUV[2]; // number of measured points
 			for(int j = 0; j < 3; j++) hnF[j]->Fill(nFXUV[j]); hnF3D->Fill(nF);
 			double p[4]; // [0-3]: k1, k2, b1, b2
@@ -303,6 +371,41 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 //				cout << "\tx-xt: " << x-xt; // DEBUG
 //				cout << "\txMiss3D: " << xMiss3D[trkId[jj][0]][k] << endl; getchar(); // DEBUG
 			} // end loop over DCs
+			// 3D statistics
+			if(treePID3D){ // if 3D tracking has been implemented
+				hChi_3D->Fill(Chi3D[jj]);
+				hchi2_3D->Fill(chi2_3D[jj]);
+				for(int j = 0; j < 3; j++){ // loop over XUV
+					int it = trkId[jj][j]; // id of track projections
+					for(int k = 0; k < 6; k++){ // loop over DC0-X1X2-DC1-X1X2-DC2-X1X2
+						if(-1 != nu[it][k]){
+							const double tt = t[it][k], dr = chi3D[jj][j*6+k];
+							const double rc = r[it][k] + dr;
+							hchi_3D->Fill(dr);
+							hrt01_3D->Fill(tt, rc);
+							hdrt01_3D->Fill(tt, dr);
+							hrt02_3D[j]->Fill(tt, rc);
+							hdrt02_3D[j]->Fill(tt, dr);
+							hrt03_3D[j][k/2]->Fill(tt, rc);
+							hdrt03_3D[j][k/2]->Fill(tt, dr);
+						}
+					} // end loop over six sense wire layers for one type
+					double b[3] = {k1_3D[jj], k2_3D[jj], 1.}, ag[3]{}; // b: trkVec; ag: anoVec
+					for(int k = 0; k < 3; k++){ // loop over MWDCs
+						dcArr->GetMWDC(k)->GetAnode(j, 0)->GetAnodePara()->GetGlobalDirection(ag);
+						double ang = TAMath::VecAng3D(b, ag) - Pi / 2.;
+//						cout << "\nb: "; for(double x : b) cout << x << "\t"; cout << endl; // DEBUG
+//						cout << "ag: "; for(double x : ag) cout << x << "\t"; cout << endl; // DEBUG
+//						cout << "ang: " << ang / DEGREE << endl; getchar(); // DEBUG
+						if(ang > -1. * DEGREE && ang < 1. * DEGREE){
+							if(nu[it][2*k] >= 30 && nu[it][2*k] <= 50){
+								htt_3D[j][k]->Fill(t[it][2*k], t[it][2*k+1]);
+								hrr_3D[j][k]->Fill(r[it][2*k], r[it][2*k+1]);
+							} // end if(nu...)
+						} // end if(ang > ..)
+					} // end for over MWDCs
+				} // end loop over XUV
+			} // end if(treePID3D)
 		} // end loop over 3D tracks
 		bool hasXUV[3]{}; // whether the data section has X, U or V track projections
 		for(int j = 0; j < ntr; j++){ // end for over track projections
@@ -327,6 +430,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 					hdrt02[dcType]->Fill(tt, dr);
 					hrt03[dcType][DCid]->Fill(tt, rc);
 					hdrt03[dcType][DCid]->Fill(tt, dr);
+
 					if(0 == dcType || 0 == l || 40 == nu[j][l]){
 						hrt04->Fill(tt, rc);
 						hdrt04->Fill(tt, dr);
@@ -341,16 +445,16 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 			hchi2->Fill(chi2[j]);
 			hgGOOD[dcType]->Fill(gGOOD[j]);
 			// fill the time loop from approximate perpendicular tracks
-			double ang = atan(k[j]);
-			if(0 == dcType) ang -= phiDC[1] + 0. * DEGREE;
-			if(ang > -1. * DEGREE && ang < 2. * DEGREE){
-				for(int l = 0; l < 3; l++){ // loop over three DCs
+			double ang0 = atan(k[j]), ang = ang0;
+			for(int l = 0; l < 3; l++){ // loop over three DCs
+				if(0 == dcType) ang = ang0 - phiDC[l] + 0. * DEGREE;
+				if(ang > -1. * DEGREE && ang < 1. * DEGREE){
 					if(nu[j][2*l] >= 30 && nu[j][2*l] <= 50){
 						htt[dcType][l]->Fill(t[j][2*l], t[j][2*l+1]);
 						hrr[dcType][l]->Fill(r[j][2*l], r[j][2*l+1]);
 					} // end if
-				} // end for over three DCs
-			} // end if
+				} // end if
+			} // end for over three DCs
 		} // end for over track projections
 		if(hasXUV[0] && hasXUV[1] && hasXUV[2]) hasAllCnt++;
 		for(int j = 3; j--;) if(hasXUV[j]) hasXUVCnt[j]++;
@@ -367,7 +471,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 	for(int i = 0; i < 10; i++) hntrPerSec3D->SetBinContent(i+2, n3DtrPerSec[i]);
 
 	// write //
-	for(int i = 0; i < 5; i++){
+	for(int i = 0; i < ndir; i++){
 		char s[128]; sprintf(s, "%s/%s", topdir, dir[i]);
 		if(!f->FindObjectAny(dir[i])) f->mkdir(s); f->cd(s);
 		for(TObject *&b : objLs[i]) if(b) b->Write("", TObject::kOverwrite);

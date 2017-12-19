@@ -77,6 +77,7 @@ void TAUI::GetOpt(int argc, char *argv[]){
 	else cout << "   fRunId: (null)" << endl; // DEBUG
 	cout  << "fEvLenLim: " << fEvLenLim << "   fIndex0: " << fIndex0; // DEBUG
 	cout << "   fIndex1: " << fIndex1 << endl; // DEBUG
+	cout << "       -------------------------------\n"; // DEBUG
 }
 // show manual for input rules
 void TAUI::PromptHelp(bool isVerbose){
