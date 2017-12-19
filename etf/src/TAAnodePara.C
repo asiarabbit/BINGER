@@ -107,18 +107,26 @@ int TAAnodePara::GetSTRid(double k, int dcType) const{
 	double theta, phi = GetMotherDC()->GetDetPara()->GetPhi();
 	if(TAMWDC::kX == dcType) theta = atan(k) - phi; // X
 	else theta = atan(k); // U or V
+	return GetSTRid(theta, GetName().c_str());
+} // end of function GetSTRid
+// alpha: angle between track proj and drift cell; unit: rad
+// name: the caller name
+int TAAnodePara::GetSTRid(double alpha, const char *name){
+	double theta = alpha; // a humdrum value passage ;)
 	double thetaStair = -kSTRCorAngleMax; // angle range border stairs
-	if(theta < -kSTRCorAngleMax) return 0.; int i = 0;
+	if(theta < -kSTRCorAngleMax) return 0.;
+	int i = 0;
 	while(thetaStair <= kSTRCorAngleMax){
 		if(theta < thetaStair){
 			if(i < kSTRCorAngleNBins) return i;
-			else TAPopMsg::Error(GetName().c_str(), "GetSTRid: Abnormal id calculated: %d", i);
+			else TAPopMsg::Error(name, "GetSTRid: Abnormal id calculated: %d", i);
 		}
 		thetaStair += kSTRCorAngleStep; i++;
 	} // end while
-	if(i < kSTRCorAngleNBins) return i;
-	else TAPopMsg::Error(GetName().c_str(), "GetSTRid: Abnormal id calculated: %d", i);
-} // end of function GetSTRid
+	if(i >= kSTRCorAngleNBins)
+		TAPopMsg::Error(name, "GetSTRid: Abnormal id calculated: %d", i);
+	return i; 
+}
 int TAAnodePara::GetDriftDistanceBinNumber(double r){
 	if(r <= kSTRCorRStep / 2.) // no extrapolation before the first point.
 		r = kSTRCorRStep / 2. + 0.01;

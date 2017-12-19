@@ -18,6 +18,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <cmath>
 #include <cstdlib>
 #include <cstring>
 #include <vector>
@@ -84,6 +85,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 	char topdir[64]; short lrtag = 11; const int ndir = 8;
 	sprintf(topdir, "assess%dR", runid);
 	char dir[ndir][64] = {"misc", "dt", "rt", "drt", "rr", "3Drt", "3Ddrt", "3Drr"};
+	for(int i = ndir; i--;) sprintf(dir[i], "%s%d", dir[i], runid);
 	TAMWDCArray *dcArr = dcArrR;
 	if(!isDCArrR){
 		sprintf(topdir, "assess%dL", runid); lrtag = 10;
@@ -103,6 +105,11 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 	const double phiDC[3] = {dcPar[0]->GetPhi(), dcPar[1]->GetPhi(), dcPar[2]->GetPhi()};
 	// for calculation of 3D coincidence deviation in x direction
 	const double zDC[3] = {dcPar[0]->GetZ(), dcPar[1]->GetZ(), dcPar[2]->GetZ()};
+	// The x-axis of xX, xU, xV, to calculate angle-alpha
+	const double al[3][3] = {{1., 0., 0.}, {-sqrt(3.), 1., 0.}, {sqrt(3.), 1., 0.}}; // X-U-V
+	double agAxis[3][3][3]{}; // [DC][XUV][xyz]; 
+	for(int i = 3; i--;) for(int j = 3; j--;) // i: DC0-1-2; j: X-U-V
+		dcArr->GetMWDC(i)->GetDetPara()->GetGlobalRotation(al[j], agAxis[i][j]);
 
 	// read the track tree
 	const int ntrMax = 200, ntrMax3D = ntrMax / 3;
@@ -375,9 +382,13 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 			if(treePID3D){ // if 3D tracking has been implemented
 				hChi_3D->Fill(Chi3D[jj]);
 				hchi2_3D->Fill(chi2_3D[jj]);
+				const double b[3] = {k1_3D[jj], k2_3D[jj], 1.}; // track direction vector
+				double alpha[3][3]{}; // angle between track projection and drift cell; [DC][XUV]
 				for(int j = 0; j < 3; j++){ // loop over XUV
-					int it = trkId[jj][j]; // id of track projections
+					for(int k = 3; k--;) alpha[k][j] = TAMath::VecAng3D(b, agAxis[k][j]) - Pi / 2.;
+					const int it = trkId[jj][j]; // id of track projections
 					for(int k = 0; k < 6; k++){ // loop over DC0-X1X2-DC1-X1X2-DC2-X1X2
+						const int dcId = k / 2;
 						if(-1 != nu[it][k]){
 							const double tt = t[it][k], dr = chi3D[jj][j*6+k];
 							const double rc = r[it][k] + dr;
@@ -386,18 +397,20 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 							hdrt01_3D->Fill(tt, dr);
 							hrt02_3D[j]->Fill(tt, rc);
 							hdrt02_3D[j]->Fill(tt, dr);
-							hrt03_3D[j][k/2]->Fill(tt, rc);
-							hdrt03_3D[j][k/2]->Fill(tt, dr);
+							hrt03_3D[j][dcId]->Fill(tt, rc);
+							hdrt03_3D[j][dcId]->Fill(tt, dr);
+
+							if(0 == j || 0 == k || 40 == nu[j][k]){
+								const int STRid = TAAnodePara::GetSTRid(alpha[dcId][j]);
+								hrt04_3D->Fill(tt, rc);
+								hdrt04_3D->Fill(tt, dr);
+								hrt04_3D_STR[STRid]->Fill(tt, rc);
+								hdrt04_3D_STR[STRid]->Fill(tt, dr);
+							} // end inner if
 						}
 					} // end loop over six sense wire layers for one type
-					double b[3] = {k1_3D[jj], k2_3D[jj], 1.}, ag[3]{}; // b: trkVec; ag: anoVec
 					for(int k = 0; k < 3; k++){ // loop over MWDCs
-						dcArr->GetMWDC(k)->GetAnode(j, 0)->GetAnodePara()->GetGlobalDirection(ag);
-						double ang = TAMath::VecAng3D(b, ag) - Pi / 2.;
-//						cout << "\nb: "; for(double x : b) cout << x << "\t"; cout << endl; // DEBUG
-//						cout << "ag: "; for(double x : ag) cout << x << "\t"; cout << endl; // DEBUG
-//						cout << "ang: " << ang / DEGREE << endl; getchar(); // DEBUG
-						if(ang > -1. * DEGREE && ang < 1. * DEGREE){
+						if(alpha[k][j] > -1. * DEGREE && alpha[k][j] < 1. * DEGREE){
 							if(nu[it][2*k] >= 30 && nu[it][2*k] <= 50){
 								htt_3D[j][k]->Fill(t[it][2*k], t[it][2*k+1]);
 								hrr_3D[j][k]->Fill(r[it][2*k], r[it][2*k+1]);
@@ -416,8 +429,8 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 			const int dcType = type[j]%10;
 			heff->Fill(dcType*8 + 2);
 			for(int l = 0; l < 6; l++){
-				const int DCid = l / 2;
-				const int STRid = dcArr->GetMWDC(DCid)->GetSTRid(k[j], dcType);
+				const int dcId = l / 2;
+				const int STRid = dcArr->GetMWDC(dcId)->GetSTRid(k[j], dcType);
 				if(-1 != nu[j][l]){
 					heff->Fill(dcType*8 + 2 + l + 1);
 					// rc: DCA
@@ -428,8 +441,8 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 					hdrt01->Fill(tt, dr);
 					hrt02[dcType]->Fill(tt, rc);
 					hdrt02[dcType]->Fill(tt, dr);
-					hrt03[dcType][DCid]->Fill(tt, rc);
-					hdrt03[dcType][DCid]->Fill(tt, dr);
+					hrt03[dcType][dcId]->Fill(tt, rc);
+					hdrt03[dcType][dcId]->Fill(tt, dr);
 
 					if(0 == dcType || 0 == l || 40 == nu[j][l]){
 						hrt04->Fill(tt, rc);
@@ -438,8 +451,8 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 						hdrt04_STR[STRid]->Fill(tt, dr);
 					} // end inner if
 				} // end if(nu[j][l] != -1)
-				if(-1 != nu[j][l]) hdt[DCid][dcType]->Fill(t[j][l]);
-				hSTRid->Fill(STRid);
+				if(-1 != nu[j][l]) hdt[dcId][dcType]->Fill(t[j][l]);
+				if(l%2 == 0) hSTRid->Fill(STRid);
 			} // end for over six sense wire layers
 			hChi->Fill(Chi[j]);
 			hchi2->Fill(chi2[j]);

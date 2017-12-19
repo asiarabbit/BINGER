@@ -17,7 +17,7 @@ int main(int argc, char *argv[]){
 	ep->SetConfigExpDir(dir[1]); ep->Configure();
 	TAAssess *ass = TAAssess::Instance();
 	ass->SetROOTFile(argv[1]); ass->SetRunId(0);
-	ass->EvalDCArr(0);
+	ass->EvalDCArr(true, 2);
 
 	return 0;
 }

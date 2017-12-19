@@ -43,6 +43,8 @@ public:
 	virtual int GetSFE16Id() const;
 	virtual int GetCableId() const;
 	int GetSTRid(double k, int dcType) const;
+	// alpha: angle between track proj and drift cell; name: the caller name; unit: rad
+	static int GetSTRid(double alpha, const char *name = "");
 	void SetGlobalCenter(const double *Ag);
 	void SetGlobalDirection(const double *ag){ fGlobalDirection = ag; }
 	void SetGlobalProjection(const double *proj);

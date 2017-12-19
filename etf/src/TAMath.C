@@ -19,6 +19,7 @@
 #include <iomanip>
 #include <cstdlib>
 #include <cstring>
+#include <cmath>
 #include "TAMath.h"
 #include "TAPopMsg.h"
 #include "TACtrlPara.h"

@@ -18,8 +18,6 @@
 #ifndef _TAMATH_H_
 #define _TAMATH_H_
 
-#include <cmath>
-
 class TAMath{
 public:
 	TAMath(){};
