@@ -40,6 +40,7 @@ public:
 	void SetIsDebug(bool opt){ kIsDebug = opt; }
 	// simfile: name of the rootfile containing the simulation data
 	static void GenerateSim(int run, int nTrkPerEvEx, double effEx, char *simFile, DetArr_t *detList);
+	// evaluate the performance of pattern recognition code
 	static void Evaluate(const string &rootfile);
 	// time to trig of T0_1 signal. unit: clock cycle (25 ns)
 	static const int kT0_1TimeToTrigNCycle = 46; // 16*25 = 400ns

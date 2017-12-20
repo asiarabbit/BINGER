@@ -33,7 +33,6 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 //	getchar(); // DEBUG
 	if(track.size() != 0) track.clear();
 
-	static TACtrlPara *ctrlPara = clp->Instance();
 	bool cmpShow = false; // function compare debug
 	// GetDsquareThresholdPerDot(); // stores the minimum of Dsquares of  all the combinations.
 	double d2Thre = clp->D2Thre();
@@ -229,8 +228,8 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 #endif
 				if(0 == dcType){
 //					cout << "newTrack->GetChi(): " << newTrack->GetChi() << endl; getchar(); // DEBUG
-//					cout << "ctrlPara->ChiThre(): " << ctrlPara->ChiThre() << endl; getchar(); // DEBUG
-					if(fabs(newTrack->GetChi()) > ctrlPara->ChiThre()) goto END;
+//					cout << "clp->ChiThre(): " << clp->ChiThre() << endl; getchar(); // DEBUG
+					if(fabs(newTrack->GetChi()) > clp->ChiThre()) goto END;
 					for(double cc : chi){
 //						cout << "cc: " << cc << endl; getchar(); // DEBUG
 //						cout << "clp->ChiThrePD(): " << clp->ChiThrePD() << endl; getchar(); // DEBUG
@@ -307,13 +306,14 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 // Code Recycle: if(fabs((atan(kl) - atan(track.at(i).GetSlope())) / atan(kl)) > 10. / 5100.) // 10mm / 5100mm
 // 0: the two tracks are different; 1: newTrack is defeated by oldTrack;
 // 2: newTrack defeats oldTrack
-// Here tracks with good == 2 are despised and discriminated.
+// Here tracks with good == 2 are despised and discriminated
 int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, int dcType, bool show){
 	int nstripDeviation = fabs(newTrack->GetFiredStripId() - oldTrack->GetFiredStripId());
 	const int &vicinity = clp->Vicinity();
 //	cout << "vicinity: " << vicinity << endl; getchar(); // DEBUG
-	int stripTolerance = 3; // TOF strip stray tolerance for discern discrete tracks.
-	int nValid_nu = 0, nValid_nu_temp = 0; // count of positive elements in the array.
+	// TOF strip stray tolerance for discern discrete tracks
+	const int stripTolerance = clp->StripTolerance();
+	int nValid_nu = 0, nValid_nu_temp = 0; // count of positive elements in the array
 
 	if(show){ // DEBUG
 		cout << "nValid_nu: " << nValid_nu << "\tnValid_nu_temp: " << nValid_nu_temp << endl; // DEBUG
@@ -324,19 +324,19 @@ int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, int dcType, bool 
 		getchar(); // DEBUG
 	} // end if(show) // DEBUG
 
-	// special elimination treatment for good == 2 tracks.
+	// special elimination treatment for good == 2 tracks
 	if(nstripDeviation <= stripTolerance){
 		if(2 == newTrack->GetgGOOD() && oldTrack->GetgGOOD() > 2){
-			return 1; // newTrack is nasty.
+			return 1; // newTrack is nasty
 		} // end if
 		if(2 == oldTrack->GetgGOOD() && newTrack->GetgGOOD() > 2){
 			oldTrack->SetName("OBSOLETE");
-			return 2; // oldTrack is nasty.
+			return 2; // oldTrack is nasty
 		} // end if
 		if(2 == newTrack->GetgGOOD() && 2 == oldTrack->GetgGOOD()){
 			if(dcType == 0){
 				if(newTrack->GetChi() >= oldTrack->GetChi()){
-					return 1; // newTrack is nasty.
+					return 1; // newTrack is nasty
 				} // end if
 				else{
 					oldTrack->SetName("OBSOLETE");
@@ -374,7 +374,7 @@ int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, int dcType, bool 
 	   		} // DEBUG
 			return 1;
 		} // end if
-		else{ // not sure.
+		else{ // not sure
 			return 0;
 		} // end else
 	} // end if

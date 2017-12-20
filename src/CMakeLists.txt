@@ -19,6 +19,9 @@ target_link_libraries(pre ${ROOT_LIBRARIES} libetf)
 add_executable(sim sim.C)
 target_link_libraries(sim ${ROOT_LIBRARIES} libetf)
 
+add_executable(eval eval.C)
+target_link_libraries(eval ${ROOT_LIBRARIES} libetf)
+
 add_executable(ass assess.C)
 target_link_libraries(ass ${ROOT_LIBRARIES} libetf)
 

@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2017/12/17, SUN Yazhou.										     //
+// Last modified: 2017/12/20, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -251,7 +251,7 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 			// get drift time //
 			for(int j = 0; j < 3; j++){ // loop over X-U-V
 			for(int k = 0; k < 6; k++){ // loop over DC0X1-DC0X2-DC1X1-DC1X2-DC2X1-DC2X2
-			if(nu[j][k] >= 0){ // nu[][] < 0 is only due to efficiency.
+			if(nu[j][k] >= 0){ // nu[][] < 0 is only due to efficiency
 				TAAnode *ano = dcArr->GetMWDC(k/2)->GetAnode(j, k%2+1, nu[j][k]);
 				TAAnodePara *anoPar = (TAAnodePara*)ano->GetPara();
 				chId = anoPar->GetChannelId();
@@ -327,8 +327,11 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 void TASimulation::Evaluate(){
 	Evaluate(fROOTFile);
 }
+
+//#define DEBUG
+
 void TASimulation::Evaluate(const string &rootfile){
-	TAPopMsg::Info("TASimulation", "Evaluate: rootfile to be evaluted is %s", rootfile.c_str());
+	TAPopMsg::Info("TASimulation", "Evaluate: rootfile to be evaluted is >> %s", rootfile.c_str());
 	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
 	if(!f->FindObjectAny("treeTrackSim"))
 		TAPopMsg::Error("TASimulation", "Evaluate: treeTrackSim is not found in the rootfile");
@@ -337,13 +340,13 @@ void TASimulation::Evaluate(const string &rootfile){
 	TTree *treeTrackSim = (TTree*)f->Get("treeTrackSim");
 	TTree *treeTrack = (TTree*)f->Get("treeTrack");
 
-	int nTrackPerEvent, nTrack; // number of tracks per event; number of tracks for a certain event
+	int nTrkPerEv = 0, nTrack; // nTrk per event; number of tracks for a certain event
 	int ntr = 0; // number of track projections in a data section(3*3D track)
 	int index, indexSim = 0, indexSimPre = indexSim; // data section index
 	const int ntrMax = 200, ntrMax3D = ntrMax / 3;
 
 	int nuSim[3][6], nu[ntrMax][6], nuSimAr[ntrMax3D][3][6];
-	bool isDCArrR; // wheter of MWDC array R
+	bool isDCArrR, isDCArrRSimAr[ntrMax3D]{}; // wheter of MWDC array R
 	treeTrackSim->SetBranchAddress("index", &indexSim); // run id, a constant within a run
 	treeTrackSim->SetBranchAddress("nTrack", &nTrack); // run id, a constant within a run
 	treeTrackSim->SetBranchAddress("isDCArrR", &isDCArrR); // wheter of MWDC array R
@@ -367,7 +370,7 @@ void TASimulation::Evaluate(const string &rootfile){
 	TTree *treeEff = new TTree("treeEff", "Tracking efficiency");
 	treeEff->Branch("index", &index, "index/I"); // event index, or data section index
 	treeEff->Branch("n3Dtr", &n3Dtr, "n3Dtr/I"); // number of 3d tracks
-	treeEff->Branch("n3DtrSim", &n3DtrSim, "n3DtrSim/I"); // number of 3d tracks in simualtion
+	treeEff->Branch("n3DtrSim", &n3DtrSim, "n3DtrSim/I"); // number of 3d tracks perEv in simualtion
 	treeEff->Branch("hitType", hitType, "hitType[n3Dtr][3]/I"); // X-U-V
 	treeEff->Branch("hitType3D", hitType3D, "hitType3D[n3Dtr]/I");
 
@@ -376,6 +379,7 @@ void TASimulation::Evaluate(const string &rootfile){
 	cout << "Totally " << n << " data sections\n";
 	const int nSim = treeTrackSim->GetEntries(); // number of total 3D tracks
 	int iSim = 1; int typeMinusCnt[3]{}; // count of ungrouped tracks
+	int cntEXproj = 0, cntCXproj = 0; // EXProj: Excellent (Perfect), CXproj: Common
 	for(int i = 0; i < n; i++){
 		// Get all tracks in a data section SIM //
 		n3DtrSim = 0; iSim--;
@@ -384,15 +388,14 @@ void TASimulation::Evaluate(const string &rootfile){
 			if(iSim < nSim) treeTrackSim->GetEntry(iSim++);
 			else indexSim = -1; // the end of the tree
 			if(indexSim != indexSimPre) break;
-			memcpy(nuSimAr[n3DtrSim++], nuSim, sizeof(nuSim));
+			memcpy(nuSimAr[n3DtrSim], nuSim, sizeof(nuSim));
+			isDCArrRSimAr[n3DtrSim] = isDCArrR;
+			n3DtrSim++;
 		}
 		// Get all tracks proj in a data section PATTERN //
 		treeTrack->GetEntry(i);
 		if(index != indexSimPre){
-			cout << "This is ridiculous.\n";
-			cout << "i: " << i << endl;
-			cout << "index: " << index << "\tindexSimPre: " << indexSimPre << endl;
-			getchar();
+			TAPopMsg::Error("TASimulation", "Evaluate: Sim disagrees with Pattern Recognition in event index: i: %d, index: %d, indexSimPre: %d", i, index, indexSimPre);
 		}
 		// identify 3-D tracks
 		memset(n3DtrXUV, 0, sizeof(n3DtrXUV));
@@ -406,45 +409,162 @@ void TASimulation::Evaluate(const string &rootfile){
 				}
 			} // end loop over X-U-V track types
 		} // end for over j and if
+		else typeMinusCnt[type[j]%10]++;
 		if(n3DtrXUV[0] != n3DtrXUV[1] || n3DtrXUV[0] != n3DtrXUV[2]){
 			TAPopMsg::Error("TASimulation", "Evaluate: This is odd... track projections of X, U and V are not consistent: n3DtrX: %d, n3DtrU: %d, n3DtrV: %d", n3DtrXUV[0], n3DtrXUV[1], n3DtrXUV[2]);
 		} // end if
 		n3Dtr = n3DtrXUV[0]; n3DtrTot += n3Dtr;
-
-		for(int j = 0; j < n3Dtr; j++){
-			// X-U-V coincidence hit count among six anode layers for a certain layer type (X-U-V).
-			int coin[3]{}, coinm[3]{}; // (optimal) coincidence count
-			bool dif[3]{}, difm[3]{}; // (optimal) wrong hit in the track
-			int score, scorem = -1; // score marking track overlap
-			// assign coin and dif
+#ifdef DEBUG
+		if(0 <= index){ // DEBUG
+			cout << "\nntr: " << ntr << "\tn3DtrSim: " << n3DtrSim << endl; // DEBUG
+			cout << "n3Dtr: " << n3Dtr << "\tn3DtrTot: " << n3DtrTot << endl; getchar(); // DEBUG
+		} // DEBUG
+#endif
+		// check purity of Xproj
+		for(int j = 0; j< ntr; j++){
+			if(0 != type[j]%10) continue;
+			// number of fired anode layers per track; Sim, patReg; Coin; FCoin; [XUV]
+			// the optimal set for the current 3D Trk
+			int nFSimM = 0, nFPatM = 0, nFCoinM = 0, nCoinM = 0;
+			int scorem = -1; // optimal store to estimate track overlap
 			for(int k = 0; k < n3DtrSim; k++){ // loop over simulated 3-D tracks
-				if(bool(type[trkId[j][0]]/10) != isDCArrR) continue; // not in the same MWDC array
-				score = 0; memset(coin, 0, sizeof(coin)); memset(dif, 0, sizeof(dif));
-				for(int m = 0; m < 3; m++){ // loop over X-U-V
-					for(int l = 0; l < 6; l++){ // loop over six anode layers over three DCs
-						if(-1 == nu[trkId[m][j]][l]) continue;
-						if(nu[trkId[j][m]][l] == nuSimAr[k][m][l]) coin[m]++;
-						else dif[m] = true;
-					} // end loop over l
-					score += coin[m];
-				} // end loop over m
+				bool isDCArrR_ = bool((type[j]/10)%10);
+				if(isDCArrR_ != isDCArrRSimAr[j]) continue; // not in the same MWDC array
+				int score = 0; // score marking track overlap
+				// number of fired anode layers per track X
+				int nFSim = 0, nFPat = 0, nFCoin = 0, nCoin = 0; // Simulation, patReg; Coincidence
+				for(int l = 0; l < 6; l++){
+					if(-1 != nuSimAr[k][0][l]) nFSim++;
+					if(-1 != nu[j][l]) nFPat++;
+					if(nu[j][l] == nuSimAr[k][0][l]){
+						nCoin++;
+						if(-1 != nu[j][l]) nFCoin++;
+					}
+				} // end for over DC0-X1X2-DC0-X1X2-DC1-X1X2-DC2-X1X2
+				score = nFCoin;
+				// select the best match in simulation for Trk_pat
 				if(score > scorem){
 					scorem = score;
-					memcpy(coinm, coin, sizeof(coinm));
-					memcpy(difm, dif, sizeof(difm));
+					nFSimM = nFSim; nFPatM = nFPat;
+					nCoinM = nCoin; nFCoinM = nFCoin;
+				} // end if(score > scorem)
+			} // end for over Sim tracks
+			cntCXproj++;
+			if(6 == nCoinM) cntEXproj++; // -> Reconstructable
+#ifdef DEBUG
+			cout << "cntCXproj: " << cntCXproj << "\tcntEXproj: " << cntEXproj << endl; // DEBUG
+			cout << "scorem: " << scorem << endl; // DEBUG
+			getchar(); // DEBUG
+#endif
+		} // end for over TrkProjs
+		for(int j = 0; j < n3Dtr; j++){
+			// assign coin and dif
+			// optimal number of fired anode layers per track; Simulation, patReg; Coincidence; [XUV]
+			int nFSimM[3]{}, nFPatM[3]{}, nFCoinM[3]{}, nCoinM[3]{}; // Sim, patReg; Coin, FCoin
+			int scorem = -1; // optimal store to estimate track overlap
+			for(int k = 0; k < n3DtrSim; k++){ // loop over simulated 3-D tracks
+				bool isDCArrR_ = bool((type[trkId[j][0]]/10)%10);
+//				if(0 <= index){ // DEBUG
+//					cout << "index: " << index << endl; // DEBUG
+//					cout << "trkId[j][0]: " << trkId[j][0] << endl; // DEBUG
+//					cout << "trkId[j][1]: " << trkId[j][1] << endl; // DEBUG
+//					cout << "trkId[j][2]: " << trkId[j][2] << endl; // DEBUG
+//					cout << "type[trkId[j][0]]: " << type[trkId[j][0]] << endl; // DEBUG
+//					cout << "isDCArrRSimAr[j]: " << isDCArrRSimAr[j] << "\tisDCArrR_: " << isDCArrR_ << endl; // DEBUG
+//					getchar(); // DEBUG
+//				} // DEBUG
+				if(isDCArrR_ != isDCArrRSimAr[j]) continue; // not in the same MWDC array
+				int score = 0; // score marking track overlap
+				// number of fired anode layers per track [XUV]
+				int nFSim[3]{}, nFPat[3]{}, nFCoin[3]{}, nCoin[3]{}; // Sim, patReg; Coin, FCoin
+				for(int m = 0; m < 3; m++){ // loop over X-U-V
+					for(int l = 0; l < 6; l++){ // loop over six anode layers over three DCs
+						if(-1 != nuSimAr[k][m][l]) nFSim[m]++;
+#ifdef DEBUG
+						if(0 <= index){ // DEBUG
+							cout << "nu[trkId[j][m]][l]: " << nu[trkId[j][m]][l]; // DEBUG
+							cout << "\tnuSimAr[k][m][l]: " << nuSimAr[k][m][l] << endl; // DEBUG
+						} // DEBUG
+#endif
+						if(-1 != nu[trkId[j][m]][l]) nFPat[m]++;
+						if(nu[trkId[j][m]][l] == nuSimAr[k][m][l]){
+							nCoin[m]++;
+							if(-1 != nu[trkId[j][m]][l]) nFCoin[m]++;
+						}
+					} // end loop over l
+					score += nFCoin[m];
+				} // end loop over m
+#ifdef DEBUG
+				if(0 <= index){ // DEBUG
+					cout << "\033[33;1m________ index: "<< index; // DEBUG
+					cout << "\tj: " << j << "\tk: " << k << "\033[0m\n"; // DEBUG
+					for(int k = 0; k < 3; k++){ // DEBUG
+						cout << "nFSim["<< k << "]: " << nFSim[k] << endl; // DEBUG
+						cout << "nFPat["<< k << "]: " << nFPat[k] << endl; // DEBUG
+						cout << "nCoin["<< k << "]: " << nCoin[k] << endl; // DEBUG
+						cout << "nFCoin["<< k << "]: " << nFCoin[k] << endl; // DEBUG
+					} // DEBUG
+				} // DEBUG
+				if(0 <= index){ // DEBUG
+					cout << "score: " << score << "\tscorem: " << scorem << endl; // DEBUG
+					getchar(); // DEBUG
+				} // DEBUG
+#endif
+				// select the best match in simulation for Trk_pat
+				if(score > scorem){
+					scorem = score;
+					memcpy(nFSimM, nFSim, sizeof(nFSimM));
+					memcpy(nFPatM, nFPat, sizeof(nFPatM));
+					memcpy(nCoinM, nCoin, sizeof(nCoinM));
+					memcpy(nFCoinM, nFCoin, sizeof(nFCoinM));
 				}
 			} // end loop over simulated 3-D tracks
+#ifdef DEBUG
+			if(0 <= index){ // DEBUG
+				for(int k = 0; k < 3; k++){ // DEBUG
+					cout << "nFSimM["<< k << "]: " << nFSimM[k] << endl; // DEBUG
+					cout << "nFPatM["<< k << "]: " << nFPatM[k] << endl; // DEBUG
+					cout << "nCoinM["<< k << "]: " << nCoinM[k] << endl; // DEBUG
+					cout << "nFCoinM["<< k << "]: " << nFCoinM[k] << endl; // DEBUG
+				} // DEBUG
+				getchar(); // DEBUG
+			} // DEBUG
+#endif
 			// assign hitType
 			memset(hitType[j], -1, sizeof(hitType[j]));
 			for(int k = 0; k < 3; k++){ // loop over X-U-V
-				if(coinm[k] >= 6) hitType[j][k] = 1;
-				else if(coinm[k] < 6 && coinm[k] > 0){
-					if(!difm[k]) hitType[j][k] = 2;
-						else if(coinm[k] >= 3) hitType[j][k] = 3;
-						else hitType[j][k] = 4;
-				} // end else if
-				else hitType[j][k] = 5;
-			}
+#ifdef DEBUG
+				if(nFCoinM[k] == nFPatM[k] && nFPatM[k] == nFSimM[k] && nCoinM[k] != 6){ // DEBUG
+					cout << "\n\nindex: " << index << endl; // DEBUG
+					cout << "nFCoinM[k]: " << nFCoinM[k] << "\tnFPatM[k]: " << nFPatM[k] << endl; // DEBUG
+					getchar(); // DEBUG
+				} // DEBUG
+#endif
+				if(6 == nCoinM[k]) // -> Reconstructable
+					hitType[j][k] = 1; // no false hit in Trk_pat, perfectly recognized
+				if(nFCoinM[k] == nFPatM[k] && nFPatM[k] < nFSimM[k]) // -> Reconstructable
+					hitType[j][k] = 2; // no false hit in Trk_pat, partly recognized
+				if(nFCoinM[k] < nFPatM[k] && nFCoinM[k] >= 0.6*nFSimM[k]) // rough overlap
+					hitType[j][k] = 3; // has false hit in Trk_pat, but still abreast
+				// has same hit
+				if(nFCoinM[k] < nFPatM[k] && nFCoinM[k] < 0.6*nFSimM[k] && nFCoinM[k] >=1)
+					hitType[j][k] = 4; // has false hit in Trk_pat, usually not reconstructable
+				if(nFCoinM[k] < nFPatM[k] && 0 == nFCoinM[k]) // totally wrong
+					hitType[j][k] = 5; // irrelevant to the sim track
+#ifdef DEBUG
+				if(5 == hitType[j][k]){ // DEBUG
+					cout << "\nindex: " << index << endl; getchar(); // DEBUG
+				} // DEBUG
+#endif
+			} // end loop over XUV
+#ifdef DEBUG
+			if(0 <= index){ // DEBUG
+				cout << "\x1b[36;1m__________^&*#$%^&*$%&*!#^$&*__________\x1b[0m" << endl; // DEBUG
+				cout << "hitType[j][0]: " << hitType[j][0] << endl; // DEBUG
+				cout << "hitType[j][1]: " << hitType[j][1] << endl; // DEBUG
+				cout << "hitType[j][2]: " << hitType[j][2] << endl; getchar(); // DEBUG
+			} // DEBUG
+#endif
 			// any type of tracks messes, the 3D track resconstruction would not succeed.
 			if(hitType[j][0] == -1 || hitType[j][1] == -1 || hitType[j][2] == -1)
 				hitType3D[j] = -1;
@@ -468,9 +588,9 @@ void TASimulation::Evaluate(const string &rootfile){
 		} // end for over j(3D tracks)
 		cout << "Index " << i << " processed.\r" << flush;
 		treeEff->Fill();
-		nTrackPerEvent += nTrack;
+		nTrkPerEv += n3DtrSim;
 	} // end for over i
-	nTrackPerEvent /= n;
+	nTrkPerEv /= n;
 
 	cout << "\n\n\033[31;1m________________\033[32;1m";
 	cout << "PROGRAM EVALUTATION RESULT DISPLAY";
@@ -478,35 +598,43 @@ void TASimulation::Evaluate(const string &rootfile){
 	cout << "Track Count:\n";
 	cout << "Track Type 1 - Perfectly Recognized;\n";
 	cout << "Track Type 2 - Imcomplete Pattern;\n";
-	cout << "Track Type 3 - Flawed Pattern:\n";
-	cout << "Track Type 4 - Damaged Pattern:\n";
-	cout << "Track Type 5 - All Miss:\n";
-	cout << "Type   " << setw(7) << 1 << setw(7) << 2 << setw(7) << 3 << setw(7) << 4 << setw(7) << 5 << endl;
+	cout << "Track Type 3 - Flawed Pattern;\n";
+	cout << "Track Type 4 - Damaged Pattern;\n";
+	cout << "Track Type 5 - All Miss.\n";
+	cout << "Type   " << setw(9) << 1 << setw(9) << 2 << setw(9) << 3 << setw(9) << 4 << setw(9) << 5 << endl;
 	cout << " X     \033[32;1m";
 	for(int i = 1; i < 6; i++)
-		cout << setw(7) << hitTypeCntX[i];
+		cout << setw(9) << hitTypeCntX[i];
 	cout << "\033[0m\n U     \033[32;1m";
 	for(int i = 1; i < 6; i++)
-		cout << setw(7) << hitTypeCntU[i];
+		cout << setw(9) << hitTypeCntU[i];
 	cout << "\033[0m\n V     \033[32;1m";
 	for(int i = 1; i < 6; i++)
-		cout << setw(7) << hitTypeCntV[i];
+		cout << setw(9) << hitTypeCntV[i];
 	cout << "\033[0m\n 3D    \033[32;1m";
 	for(int i = 1; i < 6; i++)
-		cout << setw(7) << hitTypeCnt3D[i];
+		cout << setw(9) << hitTypeCnt3D[i];
 	cout << "\033[0m\n";
 	cout << "<f>: " << double(hitTypeCnt3D[1] + hitTypeCnt3D[2]) / n << endl;
-	cout << "Efficiency: <f>/<n>: " << double(hitTypeCnt3D[1] + hitTypeCnt3D[2]) / n / nTrackPerEvent << endl;
+	double eff = double(hitTypeCnt3D[1] + hitTypeCnt3D[2]) / n / nTrkPerEv;
+	cout << "Efficiency: <f>/<n>: " << eff << endl;
 	cout << "n3DtrTot: " << n3DtrTot << endl;
 	cout << "Purity: " << double(hitTypeCnt3D[1]) / n3DtrTot << endl;
-	cout << "PurityX: " << double(hitTypeCntX[1]) / (n3DtrTot+typeMinusCnt[0]) << endl;
-	cout << "PurityU: " << double(hitTypeCntU[1]) / (n3DtrTot+typeMinusCnt[1]) << endl;
-	cout << "PurityV: " << double(hitTypeCntV[1]) / (n3DtrTot+typeMinusCnt[2]) << endl;
+	cout << "PurityX: " << double(hitTypeCntX[1]) / n3DtrTot << endl;
+	cout << "PurityU: " << double(hitTypeCntU[1]) / n3DtrTot << endl;
+	cout << "PurityV: " << double(hitTypeCntV[1]) / n3DtrTot << endl;
 	cout << "Ungrouped tracks count : " << endl;
 	cout << "typeMinusCntX: " << typeMinusCnt[0];
 	cout << "\ttypeMinusCntU: " << typeMinusCnt[1];
 	cout << "\ttypeMinusCntV: " << typeMinusCnt[2] << endl;
+	cout << "cntEXproj: " << cntEXproj << "\tcntCXproj: " << cntCXproj << endl;
+	cout << "\033[36;1mEfficiency: <f>/<n>: " << eff << "\033[0m\n";
+	cout << "\033[36;1m3D Purity: " << double(hitTypeCnt3D[1]) / n3DtrTot << "\033[0m\n";
+	cout << "\033[36;1mXproj Purity: " << double(cntEXproj) / cntCXproj << "\033[0m\n";
+	cout << "\n\n\033[33;1mDONE\033[0m\n\n";
 
+	const char dir[] = "EvalPatReg";
+	if(!f->FindObjectAny(dir)) f->mkdir(dir); f->cd(dir);
 	h00->Write("", TObject::kOverwrite);
 	h01->Write("", TObject::kOverwrite);
 	h02->Write("", TObject::kOverwrite);

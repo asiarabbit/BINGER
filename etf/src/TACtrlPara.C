@@ -50,7 +50,8 @@ bool TACtrlPara::TimeThre(double t){ return t > -40. && t < 350.; }
 double TACtrlPara::Beta(){ return 0.5; } // central beam energy
 // threshold for chi per dot, to eliminate false combinations. 4.0
 double TACtrlPara::ChiThrePD(){ return 2.5; }
-int TACtrlPara::Vicinity(){ return 4; } // used in discerning multiple tracks, unit: cell
+int TACtrlPara::Vicinity(){ return 1; } // used in discerning multiple tracks, unit: cell
+int TACtrlPara::StripTolerance(){ return 1; } // used in discerning multiple tracks, unit: strip
 // TATrack::kBFGSFit; // kNormalFit: 0; kBFGSFit: 1 kIterFit: 2
 int TACtrlPara::FitMethod(){ return 1; }
 // only effective if input fit method is kNormalFit

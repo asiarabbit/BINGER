@@ -42,6 +42,7 @@ public:
 	// threshold for chi per dot, to eliminate false combinations. 4.0
 	static double ChiThrePD();
 	static int Vicinity(); // used in discerning multiple tracks, unit: cell
+	static int StripTolerance(); // used in discerning multiple tracks, unit: strip
 	// TATrack::kBFGSFit; // kNormalFit: 0; kBFGSFit: 1 kIterFit: 2
 	static int FitMethod();
 	// only effective if input fit method is kNormalFit
