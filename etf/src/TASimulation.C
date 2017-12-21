@@ -142,26 +142,27 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 	int totalTrackCnt = 0, failCnt = 0;
 	bool isValid = false; // isValid: if the track pass through all the active area.
 	TAPopMsg::Info("TASimulation", "GenerateSim: %d events would be simulated. The simulation data would be stored in created rootfile %s", run, rootfile);
+	int ntrkTL = 0, ntrkTR = 0;
 	while(index < run){
 //		nTrack = int(rdm.Uniform(maxNTrack) + 1.); // 1,2,...,maxNTrack uniform distribution
 		nTrack = maxNTrack;
-		// select MWDC array; the initial settings are for MWDC array R
-		TAMWDCArray *dcArr = dcArrR; isDCArrR = true;
-		TAAnodePara *par = (TAAnodePara *)dcArrR->GetMWDC(0)->GetAnode(1, 1, 50)->GetPara(); // DEBUG
-		const double (*efficiency)[6] = efficiencyT[1];
-		short dcArrOpt = short(rdm.Uniform(1.)+0.5); // fifty-fifty
-		if(0 == kFixDCArr) dcArrOpt = 0; // MWDC array L
-		if(1 == kFixDCArr) dcArrOpt = 1; // MWDC array R
-		if(0 == dcArrOpt){ // MWDC array L
-			dcArr = dcArrL; isDCArrR = false;
-			efficiency = efficiencyT[0];
-		}
-		beta_t = beta[dcArrOpt];
-		if(!dcArr) continue;
-		// average phi of the three MWDCs for an MWDC array
-		const double phiAvrg = dcArr->GetPhiAvrg();
-		TATOFWall *tofw = dcArr->GetTOFWall();
 		for(int i = 0; i < nTrack; i++){ // loop over tracks
+			// select MWDC array; the initial settings are for MWDC array R
+			TAMWDCArray *dcArr = dcArrR; isDCArrR = true;
+			const double (*efficiency)[6] = efficiencyT[1];
+			short dcArrOpt = short(rdm.Uniform(1.)+0.5); // fifty-fifty
+			if(0 == kFixDCArr) dcArrOpt = 0; // MWDC array L
+			if(1 == kFixDCArr) dcArrOpt = 1; // MWDC array R
+			if(0 == dcArrOpt){ // MWDC array L
+				dcArr = dcArrL; isDCArrR = false;
+				efficiency = efficiencyT[0];
+			}
+			beta_t = beta[dcArrOpt];
+			if(!dcArr) continue;
+			// average phi of the three MWDCs for an MWDC array
+			const double phiAvrg = dcArr->GetPhiAvrg();
+			TATOFWall *tofw = dcArr->GetTOFWall();
+
 			isValid = true; totalTrackCnt++;
 			for(int i = 0; i < 3; i++) for(int j = 0; j < 6; j++){
 				d[i][j] = 1E200; nu[i][j] = -1;
@@ -228,6 +229,8 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 			static double stripWidth = tofw->GetStrip(0)->GetStripPara()->GetWidth();
 			if(dmin > 0.5*stripWidth) isValid = false; // missed the TOF wall
 			if(!isValid){ i--; failCnt++; continue; } // choose random track again
+			if(0 == dcArrOpt) ntrkTL++;
+			if(1 == dcArrOpt) ntrkTR++;
 			// firedStripId/8: PXI module #; j%8: strip # in certain module.
 			// one strip occupies 4 channels. 0-1-2-3: UV-UH-DV-DH
 			// fill the fired TOFWall strip, a series of temporary variables are defined
@@ -313,6 +316,7 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 	} // end while
 	cout << "\n\n";
 	cout << "\033[1m" << totalTrackCnt << "\033[0m tracks have been sampled, \033[1m" << failCnt << "\033[0m attempts failed (out of detecting area).\n";
+	cout << "\033[33;1mntrkTL: " << ntrkTL << "\tntrkTR: " << ntrkTR << "\033[0m\n";
 	cout << "\033[1m" << totalTrackCnt - failCnt << "\033[0m tracks are saved in treeData.\n";
 	treeData->Write("", TObject::kOverwrite);
 	treeTrackSim->Write("", TObject::kOverwrite);
@@ -415,7 +419,7 @@ void TASimulation::Evaluate(const string &rootfile){
 		} // end if
 		n3Dtr = n3DtrXUV[0]; n3DtrTot += n3Dtr;
 #ifdef DEBUG
-		if(0 <= index){ // DEBUG
+		if(12 <= index){ // DEBUG
 			cout << "\nntr: " << ntr << "\tn3DtrSim: " << n3DtrSim << endl; // DEBUG
 			cout << "n3Dtr: " << n3Dtr << "\tn3DtrTot: " << n3DtrTot << endl; getchar(); // DEBUG
 		} // DEBUG
@@ -427,9 +431,9 @@ void TASimulation::Evaluate(const string &rootfile){
 			// the optimal set for the current 3D Trk
 			int nFSimM = 0, nFPatM = 0, nFCoinM = 0, nCoinM = 0;
 			int scorem = -1; // optimal store to estimate track overlap
+			bool isDCArrR_ = bool((type[j]/10)%10);
 			for(int k = 0; k < n3DtrSim; k++){ // loop over simulated 3-D tracks
-				bool isDCArrR_ = bool((type[j]/10)%10);
-				if(isDCArrR_ != isDCArrRSimAr[j]) continue; // not in the same MWDC array
+				if(isDCArrR_ != isDCArrRSimAr[k]) continue; // not in the same MWDC array
 				int score = 0; // score marking track overlap
 				// number of fired anode layers per track X
 				int nFSim = 0, nFPat = 0, nFCoin = 0, nCoin = 0; // Simulation, patReg; Coincidence
@@ -452,9 +456,11 @@ void TASimulation::Evaluate(const string &rootfile){
 			cntCXproj++;
 			if(6 == nCoinM) cntEXproj++; // -> Reconstructable
 #ifdef DEBUG
-			cout << "cntCXproj: " << cntCXproj << "\tcntEXproj: " << cntEXproj << endl; // DEBUG
-			cout << "scorem: " << scorem << endl; // DEBUG
-			getchar(); // DEBUG
+			if(12 <= index){ // DEBUG
+				cout << "cntCXproj: " << cntCXproj << "\tcntEXproj: " << cntEXproj << endl; // DEBUG
+				cout << "scorem: " << scorem << "\tisDCArrR_: " << isDCArrR_ << endl; // DEBUG
+				getchar(); // DEBUG
+			} // DEBUG
 #endif
 		} // end for over TrkProjs
 		for(int j = 0; j < n3Dtr; j++){
@@ -462,9 +468,9 @@ void TASimulation::Evaluate(const string &rootfile){
 			// optimal number of fired anode layers per track; Simulation, patReg; Coincidence; [XUV]
 			int nFSimM[3]{}, nFPatM[3]{}, nFCoinM[3]{}, nCoinM[3]{}; // Sim, patReg; Coin, FCoin
 			int scorem = -1; // optimal store to estimate track overlap
+			bool isDCArrR_ = bool((type[trkId[j][0]]/10)%10);
 			for(int k = 0; k < n3DtrSim; k++){ // loop over simulated 3-D tracks
-				bool isDCArrR_ = bool((type[trkId[j][0]]/10)%10);
-//				if(0 <= index){ // DEBUG
+//				if(12 <= index){ // DEBUG
 //					cout << "index: " << index << endl; // DEBUG
 //					cout << "trkId[j][0]: " << trkId[j][0] << endl; // DEBUG
 //					cout << "trkId[j][1]: " << trkId[j][1] << endl; // DEBUG
@@ -473,7 +479,7 @@ void TASimulation::Evaluate(const string &rootfile){
 //					cout << "isDCArrRSimAr[j]: " << isDCArrRSimAr[j] << "\tisDCArrR_: " << isDCArrR_ << endl; // DEBUG
 //					getchar(); // DEBUG
 //				} // DEBUG
-				if(isDCArrR_ != isDCArrRSimAr[j]) continue; // not in the same MWDC array
+				if(isDCArrR_ != isDCArrRSimAr[k]) continue; // not in the same MWDC array
 				int score = 0; // score marking track overlap
 				// number of fired anode layers per track [XUV]
 				int nFSim[3]{}, nFPat[3]{}, nFCoin[3]{}, nCoin[3]{}; // Sim, patReg; Coin, FCoin
@@ -481,7 +487,7 @@ void TASimulation::Evaluate(const string &rootfile){
 					for(int l = 0; l < 6; l++){ // loop over six anode layers over three DCs
 						if(-1 != nuSimAr[k][m][l]) nFSim[m]++;
 #ifdef DEBUG
-						if(0 <= index){ // DEBUG
+						if(12 <= index){ // DEBUG
 							cout << "nu[trkId[j][m]][l]: " << nu[trkId[j][m]][l]; // DEBUG
 							cout << "\tnuSimAr[k][m][l]: " << nuSimAr[k][m][l] << endl; // DEBUG
 						} // DEBUG
@@ -495,7 +501,7 @@ void TASimulation::Evaluate(const string &rootfile){
 					score += nFCoin[m];
 				} // end loop over m
 #ifdef DEBUG
-				if(0 <= index){ // DEBUG
+				if(12 <= index){ // DEBUG
 					cout << "\033[33;1m________ index: "<< index; // DEBUG
 					cout << "\tj: " << j << "\tk: " << k << "\033[0m\n"; // DEBUG
 					for(int k = 0; k < 3; k++){ // DEBUG
@@ -505,7 +511,7 @@ void TASimulation::Evaluate(const string &rootfile){
 						cout << "nFCoin["<< k << "]: " << nFCoin[k] << endl; // DEBUG
 					} // DEBUG
 				} // DEBUG
-				if(0 <= index){ // DEBUG
+				if(12 <= index){ // DEBUG
 					cout << "score: " << score << "\tscorem: " << scorem << endl; // DEBUG
 					getchar(); // DEBUG
 				} // DEBUG
@@ -520,7 +526,7 @@ void TASimulation::Evaluate(const string &rootfile){
 				}
 			} // end loop over simulated 3-D tracks
 #ifdef DEBUG
-			if(0 <= index){ // DEBUG
+			if(12 <= index){ // DEBUG
 				for(int k = 0; k < 3; k++){ // DEBUG
 					cout << "nFSimM["<< k << "]: " << nFSimM[k] << endl; // DEBUG
 					cout << "nFPatM["<< k << "]: " << nFPatM[k] << endl; // DEBUG
@@ -558,7 +564,7 @@ void TASimulation::Evaluate(const string &rootfile){
 #endif
 			} // end loop over XUV
 #ifdef DEBUG
-			if(0 <= index){ // DEBUG
+			if(12 <= index){ // DEBUG
 				cout << "\x1b[36;1m__________^&*#$%^&*$%&*!#^$&*__________\x1b[0m" << endl; // DEBUG
 				cout << "hitType[j][0]: " << hitType[j][0] << endl; // DEBUG
 				cout << "hitType[j][1]: " << hitType[j][1] << endl; // DEBUG
@@ -627,6 +633,7 @@ void TASimulation::Evaluate(const string &rootfile){
 	cout << "typeMinusCntX: " << typeMinusCnt[0];
 	cout << "\ttypeMinusCntU: " << typeMinusCnt[1];
 	cout << "\ttypeMinusCntV: " << typeMinusCnt[2] << endl;
+	cout << "n3DtrTot: " << n3DtrTot << endl;
 	cout << "cntEXproj: " << cntEXproj << "\tcntCXproj: " << cntCXproj << endl;
 	cout << "\033[36;1mEfficiency: <f>/<n>: " << eff << "\033[0m\n";
 	cout << "\033[36;1m3D Purity: " << double(hitTypeCnt3D[1]) / n3DtrTot << "\033[0m\n";

@@ -42,18 +42,20 @@ using std::ios_base;
 using std::cin;
 
 TAT0CalibDCArr::TAT0CalibDCArr(const string &rootfile, TAMWDCArray *dcArr)
-		: fROOTFile(rootfile){
-	fDCArr = dcArr;
+		: fROOTFile(rootfile), fDCArr(dcArr){
 }
 TAT0CalibDCArr::~TAT0CalibDCArr(){}
 
 void TAT0CalibDCArr::Refine_DTHisto(bool isCalib){
 	if(!fDCArr) TAPopMsg::Error("TAT0CalibDCArr", "Refine_DTHisto: MWDC array pointer is null");
+	if(!strcmp(fROOTFile.c_str(), ""))
+		TAPopMsg::Error("TAT0CalibDCArr", "Refine_DTHisto: ROOT file name is empty");
 	Refine_DTHisto(fROOTFile, fDCArr, isCalib);
 }
 void TAT0CalibDCArr::Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, bool isCalib){
 	TAPopMsg::Info("TAT0CalibDCArr", "Refine_DTHisto: Input rootfile name: %s", rootfile.c_str());
 	const double phiAvrg = dcArr->GetPhiAvrg(); // average of phi over the three MWDCs
+	const bool LRTAG = bool(dcArr->GetUID()-3); // 3: L; 4: R
 
 	// read the track tree
 	const int ntrMax = 200, ntrMax3D = ntrMax / 3;
@@ -101,14 +103,13 @@ void TAT0CalibDCArr::Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, 
 
 	// fill the histograms //
 	const int n = treeTrack->GetEntries();
-	int n3DtrXUV[3]{}, n3Dtr, cntTrk = 0, cntSec = 0;
-	int trkId[ntrMax3D][3]; // track id [3D track id][XUV]
+	int cntTrk = 0, cntSec = 0;
 	cout << "Totally " << n << " data sections\n";
 	for(int i = 0; i < n; i++){ // loop over data section
 		treeTrack->GetEntry(i);
 		// identify 3-D tracks
-		memset(n3DtrXUV, 0, sizeof(n3DtrXUV));
-		memset(trkId, -1, sizeof(trkId));
+		int n3DtrXUV[3]{}, n3Dtr = 0; bool isDCArrR[ntrMax3D]{};
+		int trkId[ntrMax3D][3]; memset(trkId, -1, sizeof(trkId)); // track id [3D track id][XUV]
 		// loop over grouped track projections
 		for(int j = 0; j < ntr; j++) if(-1 != id[j]){
 			for(int k = 0; k < 3; k++){ // loop over X-U-V track types
@@ -123,7 +124,9 @@ void TAT0CalibDCArr::Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, 
 		} // end if
 		n3Dtr = n3DtrXUV[0];
 		// // // ^^^^^^^ circulation over 3-D tracks in one data section ^^^^^^^ // // //
-		for(int jj = 0; jj < n3Dtr; jj++){ // loop over 3D tracks in a data section.
+		for(int jj = 0; jj < n3Dtr; jj++){ // loop over 3D tracks in a data section
+			isDCArrR[jj] = bool(type[trkId[jj][0]]/10%10); // 0: L; 1: R
+			if(LRTAG != isDCArrR[jj]) continue;
 			int nFX = 0, nFU = 0, nFV = 0; // fired anode layers in 
 			for(int j = 0; j < 6; j++){ // count effective measurements
 				if(nu[trkId[jj][0]][j] != -1) nFX++;
@@ -169,8 +172,7 @@ void TAT0CalibDCArr::Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, 
 	
 	sprintf(name, "T0Cali0-%s", dcArr->GetName().c_str());
 	sprintf(title, "%s/histo", name);
-	if(!f->FindObjectAny(name)) f->mkdir(title); // store drift time histograms
-	f->cd(title);
+	if(!f->FindObjectAny(name)) f->mkdir(title); f->cd(title); // store drift time histograms
 	for(int i = 0; i < 3; i++) for(int j = 0; j < 3; j++) for(int m = 0; m < 2; m++)
 	for(int k = 0; k < 96; k++) if(hdt[i][j][m][k]){
 		if(isCalib) hdt[i][j][m][k]->Write("", TObject::kOverwrite);

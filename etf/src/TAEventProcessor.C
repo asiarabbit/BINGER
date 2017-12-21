@@ -159,14 +159,13 @@ void TAEventProcessor::SetPeriod(int index0, int index1){
 	GetRawDataProcessor()->SetPeriod(index0, index1);
 }
 void TAEventProcessor::Configure(){ // create detectors
-	SetSTRROOTFile("STR.root"); // space-time relations for MWDCs
-
-	static bool isCalled = false;
-	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
-	if(isCalled){
-//		TAPopMsg::Warn("TAEventProcessor", "Configurte: has been called once.");i
+	static bool isCalled = false; // make sure that no matter how many times called,
+	if(isCalled){ // configure function would only be implemented once
+//		TAPopMsg::Warn("TAEventProcessor", "Configurte: has been called once.");
 		return;
 	}
+	SetSTRROOTFile("STR.root"); // space-time relations for MWDCs
+	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
 	// note that the detector UID has to be equal to the array detList subscript
 	detList[0] = new TAT0_0("T0_0", "T0_0@Mid-RIBLL2", 0);
 	detList[1] = new TAT0_1("T0_1", "T0_1@End-RIBLL2", 1);
@@ -260,8 +259,12 @@ void TAEventProcessor::Analyze(){
 	// assign and output beta and index
 	vector<tTrack *> &track_ls = GetTrackList();
 	int index = GetEntryList()[0]->index;
+	const int n3DTrkR = dcArrR->GetN3DTrack(); // number of 3D tracks in DCArrR
 	for(tTrack *&t: track_ls){
 		t->index = index;
+		// rearrange trkid to make it global and unique
+		if(0 == t->type/10%10) // MWDCArray L
+			if(-1 != t->id) t->id += n3DTrkR;
 #ifdef DEBUG
 		t->show(); // DEBUG
 #endif
@@ -356,6 +359,7 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	f->Close(); delete f;
 //	delete treeTrack;
 } // end of member function Run
+//#define DEBUG
 // correct drift time and refit with the update
 void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const double *tof2, const double *taHitX){
 	// XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX //
@@ -369,12 +373,11 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 	static TAMWDCArray *dcArrV[2] = {(TAMWDCArray*)decv[3], (TAMWDCArray*)decv[4]};
 	// identify 3D tracks and start track refinement
 	static const int ntrMax = 200, ntr3DMax = ntrMax/3;
-	bool isDCArrR[ntr3DMax];
-	int n3DtrXUV[3]{}, cntTrk = 0, cntSec = 0;
+	bool isDCArrR[ntr3DMax]{};
+	int n3DtrXUV[3]{};
 	int trkId[ntr3DMax][3]; memset(trkId, -1, sizeof(trkId)); // track id [3D track id][XUV]
 	// loop over grouped track projections
 	for(int j = 0; j < ntr; j++) if(-1 != tl[j]->id){
-		isDCArrR[j] = bool((tl[j]->type/10)%10); // 0: L; 1: R
 		for(int k = 0; k < 3; k++){ // loop over X-U-V track types
 			if(tl[j]->type%10 == k){
 				trkId[tl[j]->id][k] = j;
@@ -388,6 +391,7 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 	n3Dtr = n3DtrXUV[0];
 	// // // ^^^^^^^ circulation over 3-D tracks in one data section ^^^^^^^ // // //
 	for(int jj = 0; jj < n3Dtr; jj++){ // loop over 3D tracks in a data section
+		isDCArrR[jj] = bool(tl[trkId[jj][0]]->type/10%10); // 0: L; 1: R
 		int nFX = 0, nFU = 0, nFV = 0; // fired anode layers in 
 		for(int j = 0; j < 6; j++){ // count effective measurements
 			if(tl[trkId[jj][0]]->nu[j] != -1) nFX++;
@@ -399,8 +403,8 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 		double Ag[nF][3]{}, ag[nF][3]{}, rr[nF]{}; // rr: drift distance in XUV form
 		double anodeId[nF][2]{}; // [0]: fired anode layer id: 0-17; [1]: nu
 		double trkVec[4]{}; // track slope
-		TAMWDCArray *dcArr = dcArrV[isDCArrR[trkId[jj][0]]];
-		double phiAvrg = dcArr->GetPhiAvrg();
+		TAMWDCArray *dcArr = dcArrV[isDCArrR[jj]];
+		const double phiAvrg = dcArr->GetPhiAvrg();
 		trkVec[0] = tl[trkId[jj][0]]->k; // k1
 		trkVec[2] = tl[trkId[jj][0]]->b; // b1
 		trkVec[1] = TAMath::kUV_Y(phiAvrg, tl[trkId[jj][1]]->k, tl[trkId[jj][2]]->k); // k2
@@ -416,20 +420,24 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 					TAAnodePara *anoPar = (TAAnodePara*)ano->GetPara();
 					anoPar->GetGlobalCenter(Ag[tmp]); anoPar->GetGlobalDirection(ag[tmp]);
 					unsigned uid = ano->GetUID();
+#ifdef DEBUG
+					cout << "j: " << j << endl; // DEBUG
+					cout << "Before correction,\n"; // DEBUG
+					cout << "trk->t[j]: " << trk->t[j] << endl; // DEBUG
+					cout << "trk->r[j]: " << trk->r[j] << endl; // DEBUG
+#endif
 					// t = T_tof + T_wire + T_drift + T0
 					// substract T_wire and T_tof from the time measurement
-//					cout << "j: " << j << endl; // DEBUG
-//					cout << "Before correction,\n"; // DEBUG
-//					cout << "trk->t[j]: " << trk->t[j] << endl; // DEBUG
-//					cout << "trk->r[j]: " << trk->r[j] << endl; // DEBUG
 					trk->t[j] -= TACtrlPara::T_tofDCtoTOFW(uid) - TACtrlPara::T_wireMean(uid); // recover the rough correction of time of flight from DC to TOF wall for a refined one
 					double beta_t[2] = {0.5, 0.6}; // DEBUG // for simulation test XXX XXX XXX
-					dcArr->DriftTimeCorrection(trk->t[j], trk->r[j], anodeId[tmp], trkVec, trk->firedStripId, beta_t[isDCArrR[trkId[jj][0]]]); // trk->beta
+					dcArr->DriftTimeCorrection(trk->t[j], trk->r[j], anodeId[tmp], trkVec, trk->firedStripId, beta_t[isDCArrR[jj]]); // trk->beta
 					rr[tmp] = trk->r[j];
-//					cout << "After correction,\n";
-//					cout << "trk->t[j]: " << trk->t[j] << endl; // DEBUG
-//					cout << "trk->r[j]: " << trk->r[j] << endl; // DEBUG
-//					getchar(); // DEBUG
+#ifdef DEBUG
+					cout << "After correction,\n";
+					cout << "trk->t[j]: " << trk->t[j] << endl; // DEBUG
+					cout << "trk->r[j]: " << trk->r[j] << endl; // DEBUG
+					getchar(); // DEBUG
+#endif
 					tmp++;
 				} // end if
 			} // end for over j

@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2017/12/17, SUN Yazhou.										     //
+// Last modified: 2017/12/21, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -188,13 +188,14 @@ void TAMWDCArray::TrackMerger(){ // assembly projections to 3-D tracks.
 	getchar(); // DEBUG
 #endif
 
-	if(fTrackList[0].size() <= 0){ // X tracks are indispensable.
+	if(fTrackList[0].size() <= 0 || // X tracks are indispensable.
+		// no U or V tracks are found, no 3D tracks would be matched
+		0 == fTrackList[1].size() || 0 == fTrackList[2].size()){
 		fTrackList[1].clear();
 		fTrackList[2].clear();
+		fN3DTrk = 0;
 		return;
 	} // end if
-	// no U or V tracks are found, no 3D tracks would be matched
-	if(0 == fTrackList[1].size() || 0 == fTrackList[2].size()) return;
 
 	bool BINGO = false; // X, U, V are projections of the same one 3-D straight track.
 	int id = -1; // 3-D track identifier
@@ -324,6 +325,8 @@ void TAMWDCArray::TrackMerger(){ // assembly projections to 3-D tracks.
 	cout << "____________________________________________" << endl; getchar(); // DEBUG
 //	for(TATrack &x : fTrackList[0]) x.Show(); // DEBUG
 #endif
+	// number of 3D tracks in the data section; used for global 3DTrk identification
+	fN3DTrk = id + 1;
 } // end of function TrackFilter().
 /// select the best U and V track according to compare(), and clean up unmatched tracks. ///
 // n: number of 3D tracks
@@ -504,6 +507,7 @@ void TAMWDCArray::Initialize(){
 		if(fMWDC[i]) fMWDC[i]->Initialize();
 		fTrackList[i].clear();
 	}
+	fN3DTrk = 0;
 	if(fTOFWall) fTOFWall->Initialize();
 
 	for(vector<TATrack *> &trls : fTrackList){

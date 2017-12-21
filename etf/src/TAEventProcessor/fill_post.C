@@ -94,6 +94,9 @@
 				short layerOption = k%2+1; // 1: X(U,V)1; 2: X(U,V)2
 				nu[j][k] = tra->nu[k];
 				t[j][k] = tra->t[k];
+				w[j][k] = tra->w[k];
+				r[j][k] = tra->r[k];
+				chi[j][k] = tra->chi[k];
 				hdt[dcArrId][dcId][dcType]->Fill(tra->t[k]);
 				// TOT of DC signals
 				if(nu[j][k] >= 0){
@@ -103,9 +106,6 @@
 					sfe16Id[j][k] = ((TAAnodePara*)ano->GetPara())->GetSFE16Id();
 				} // end if
 				else TOT_DC[j][k] = -9999.;
-				w[j][k] = tra->w[k];
-				r[j][k] = tra->r[k];
-				chi[j][k] = tra->chi[k];
 			} // end for over k
 			TOT_DC_Avrg[j] = tra->dcTOTAvrg();
 			index = tra->index; // indexes are the same in the loop.
@@ -143,12 +143,20 @@
 			yp3D[jj][0] = pid3DIf[jj].angTaOut[0]; yp3D[jj][1] = pid3DIf[jj].angTaOut[1];
 			trkLenT3D[jj] = pid3DIf[jj].trkLenT;
 		} // end for over 3D tracks
+		// update drift time and drift distance
+		for(int j = 0; j < ntr; j++){
+			tTrack *&tra = track_ls[j];
+			for(int k = 0; k < 6; k++){
+				t[j][k] = tra->t[k];
+				r[j][k] = tra->r[k];
+			}
+		}
 		treePID3D->Fill();
 		for(TTree *&tree : objLsTree) tree->Fill();
 
 		if(0) vis->FillHitMap();
 		static int jj = 0;
-		if(jj < 50){
+		if(0) if(jj < 50){
 			jj++;
 			static int i0 = 0;
 			if(0 == i0){ // to make sure that this block would only be carried out once

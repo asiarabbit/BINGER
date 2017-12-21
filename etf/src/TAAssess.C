@@ -84,15 +84,15 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 	// default is for DCArrR
 	char topdir[64]; short lrtag = 11; const int ndir = 8;
 	sprintf(topdir, "assess%dR", runid);
-	char dir[ndir][64] = {"misc", "dt", "rt", "drt", "rr", "3Drt", "3Ddrt", "3Drr"};
-	for(int i = ndir; i--;) sprintf(dir[i], "%s%d", dir[i], runid);
+	char dir[ndir][64] = {"misc", "rt", "drt", "dt", "rr", "3Drt", "3Ddrt", "3Drr"};
+	for(int i = 0; i < ndir; i++) sprintf(dir[i], "%s%d", dir[i], runid);
 	TAMWDCArray *dcArr = dcArrR;
 	if(!isDCArrR){
 		sprintf(topdir, "assess%dL", runid); lrtag = 10;
 		dcArr = dcArrL; for(int i = ndir; i--;) strcat(dir[i], "L");
 	}
 	const short LRTAG = lrtag; // type/10: 10 -> dcArrL; 11 -> dcArrR
-	cout << "The results would be stored in ROOT file directory \"" << topdir << "\"\n";
+	cout << "The results would be stored in ROOT file directory \"\033[36;1m" << topdir << "\"\n\033[0m";
 	if(f->FindObjectAny(topdir))
 		TAPopMsg::Warn("TAAssess", "EvalDCArr: directory %s alrady exists. Assess0 may have been implemented", topdir);
 	else f->mkdir(topdir);
@@ -326,32 +326,39 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 	for(int i = 0; i < n; i++){ // loop over data sections
 		treeTrack->GetEntry(i);
 		// identify 3-D tracks //
-		int n3DtrXUV[3]{}, n3Dtr, trkId[ntrMax3D][3]; // track id [3D track id][XUV]
+		int n3DtrXUV[3]{}, n3DtrXUVT[3]{}; // DC L or R; DC L and R
+		int n3Dtr, n3DtrT, trkId[ntrMax3D][3]{}; // track id [3D track id][XUV]
+		memset(trkId, -1, sizeof(trkId));
 		for(int j = 0; j < ntr; j++) if(-1 != id[j]){ // loop over tracks in one event
-			if(LRTAG != type[j]/10) continue; // DCArrL or DCArrR
 			for(int k = 0; k < 3; k++){ // loop over X-U-V track types
 				if(type[j]%10 == k){
 					trkId[id[j]][k] = j;
-					n3DtrXUV[k]++;
+					n3DtrXUVT[k]++;
+					if(LRTAG == type[j]/10) n3DtrXUV[k]++;
 				}
 			} // end loop over X-U-V tracks types
 		} // end loop over tracks in one event
 		if(n3DtrXUV[0] != n3DtrXUV[1] || n3DtrXUV[0] != n3DtrXUV[2])
 			TAPopMsg::Error("TAAssess", "EvalDCArr3D: This is odd... track projections of X, U and V are not consistent: n3DtrX: %d, n3DtrU: %d, n3DtrV: %d", n3DtrXUV[0], n3DtrXUV[1], n3DtrXUV[2]);
-		n3Dtr = n3DtrXUV[0]; n3DtrTot += n3Dtr; n3DtrPerSec[n3Dtr]++;
+		if(n3DtrXUVT[0] != n3DtrXUVT[1] || n3DtrXUVT[0] != n3DtrXUVT[2])
+			TAPopMsg::Error("TAAssess", "EvalDCArr3D: This is odd... track projections of X, U and V are not consistent: n3DtrXT: %d, n3DtrUT: %d, n3DtrVT: %d", n3DtrXUVT[0], n3DtrXUVT[1], n3DtrXUVT[2]);
+		n3Dtr = n3DtrXUV[0]; n3DtrTot += n3Dtr; n3DtrPerSec[n3Dtr]++; n3DtrT = n3DtrXUVT[0];
+//		cout << "n3DtrT: " << n3DtrT << endl; // DEBUG
 //		cout << "n3Dtr: " << n3Dtr << "\ttype[0]: " << type[0] << endl; getchar(); // DEBUG
 		// cache the last value of array ntrTot
 		int ntrTot_pre[3] = {ntrTot[0], ntrTot[1], ntrTot[2]};
-		for(int j = 0; j < ntr; j++) if(type[j]/10 == LRTAG) ntrTot[type[j]%10]++;
+		for(int j = 0; j < ntr; j++) if(LRTAG == type[j]/10) ntrTot[type[j]%10]++;
 		for(int j = 0; j < 3; j++) ntrPerSec[j][ntrTot[j]-ntrTot_pre[j]]++; // [XUV][ntrPerSec]
 		// loop over 3D tracks //
-		for(int jj = 0; jj < n3Dtr; jj++){ // loop over 3D tracks in a data section
-			int nFXUV[3]{}; // fired anode layers in a data section
-			bool BINGO = false;
-			double eM = 10.; // xMiss3D limit
+		for(int jj = 0; jj < n3DtrT; jj++){ // loop over 3D tracks in a data section
+//			cout << "LRTAG: " << LRTAG << "\ttype[trkId[jj][0]]/10: " << type[trkId[jj][0]]/10 << endl; getchar(); // DEBUG
+			if(LRTAG != type[trkId[jj][0]]/10) continue; // not the required MWDC array
+			// check 3D match quality
+			bool BINGO = false; const double eM = 10.; // xMiss3D limit
 			if(fabs(xMiss3D[trkId[jj][0]][0]) < eM && fabs(xMiss3D[trkId[jj][0]][1]) < eM && fabs(xMiss3D[trkId[jj][0]][2]) < eM){ BINGO = true; effTot++; } // a valid 3D track
 			if(!BINGO) continue;
 			// count effective measurements
+			int nFXUV[3]{}; // fired anode layers in a data section
 			for(int j = 0; j < 3; j++){ // loop over XUV
 				for(int k = 0; k < 6; k++) // loop over DC0-X1X2-DC1-X1X2-DC2-X1X2
 					if(-1 != nu[trkId[jj][j]][k]){ nFXUV[j]++; if(BINGO) eff[k/2][j][k%2]++; }
@@ -470,6 +477,9 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 			} // end for over three DCs
 		} // end for over track projections
 		if(hasXUV[0] && hasXUV[1] && hasXUV[2]) hasAllCnt++;
+		if(hasXUV[0] && !hasXUV[1] && hasXUV[2]){ // DEBUG
+			cout << "\nindex: " << index << "\ti: " << i << endl; getchar(); // DEBUG
+		} // DEBUG
 		for(int j = 3; j--;) if(hasXUV[j]) hasXUVCnt[j]++;
 		cout << "Data section " << i << " processed.\r" << flush;
 	} // end loop over data sections
@@ -492,11 +502,14 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 	// print some information to the screen
 	cout << "\n\nhasXCnt: \033[1m" << hasXUVCnt[0];
 	cout << "\t\033[0mhasUCnt: \033[1m" << hasXUVCnt[1];
-	cout << "\t\033[0mhasVCnt: \033[1m" << hasXUVCnt[2];
-	cout << "\n\nhasAllCnt: \033[1m" << hasAllCnt;
-	cout << "\033[0m\tTotal 3D track count: \033[1m" << effTot;
-	cout << "\033[0m\nCoincidence Success rate: \033[1m";
-	cout << double(effTot) / hasXUVCnt[0] << "\033[0m\n";
+	cout << "\t\033[0mhasVCnt: \033[1m" << hasXUVCnt[2] << "\n\033[0m";
+	cout << "\nXTrkCnt: \033[1m" << ntrTot[0];
+	cout << "\t\033[0mUTrkCnt: \033[1m" << ntrTot[1];
+	cout << "\t\033[0mVTrkCnt: \033[1m" << ntrTot[2] << endl;
+	cout << "\nhasAllCnt: \033[1m" << hasAllCnt;
+	cout << "\033[0m\tTotal 3D track count: \033[1m" << n3DtrTot;
+	cout << "\033[0m\nMatch Success rate (n3DtrTot/ntrTot): \033[1m";
+	cout << double(n3DtrTot) / ntrTot[0] << "\033[0m\n";
 	cout << "\n__________ software efficiency __________________\n";
 	cout.setf(std::ios_base::fixed);
 	cout << setw(14) << "DC0" << setw(12) << "DC1" << setw(12) << "DC2" << endl;

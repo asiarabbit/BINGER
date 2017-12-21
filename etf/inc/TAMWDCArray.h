@@ -56,6 +56,7 @@ public:
 	void DriftTimeCorrection(double &t, double &r, const double *a, const double *p, int firedStripId, double beta); // beta: particle speed; kl: track slope
 	// a method dedicated for TAVisual::Fill()
 	void FillTrack(TGraph *gTrack, TGraph *gTrack_R) const;
+	int GetN3DTrack() const{ return fN3DTrk; }
 
 	virtual void Initialize() override;
 	// get the channel that belongs to this with uid
@@ -82,6 +83,7 @@ protected:
 	TATOFWall *fTOFWall; // the TOF wall
 	// projection of 3-D track to normal planes of [X-U-V] anode layers
 	vector<TATrack *> fTrackList[3];
+	int fN3DTrk; // number of 3D tracks
 	double fPhiAvrg; // average of phis of the three MWDCs
 	double fDsquareThresholdPerDot; // as the name indicates
 	static const double kPropagationSpeed; // mm/ns electric signal travel speed along wires

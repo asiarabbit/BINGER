@@ -25,3 +25,6 @@ target_link_libraries(eval ${ROOT_LIBRARIES} libetf)
 add_executable(ass assess.C)
 target_link_libraries(ass ${ROOT_LIBRARIES} libetf)
 
+add_executable(t0 t0cali.C)
+target_link_libraries(t0 ${ROOT_LIBRARIES} libetf)
+

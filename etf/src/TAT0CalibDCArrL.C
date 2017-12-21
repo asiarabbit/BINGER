@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2017/11/19, SUN Yazhou.										     //
+// Last modified: 2017/12/21, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -19,9 +19,15 @@
 
 #include "TAT0CalibDCArrL.h"
 #include "TAMWDCArrayL.h"
+#include "TAParaManager.h"
+#include "TAPopMsg.h"
 
 TAT0CalibDCArrL::TAT0CalibDCArrL(const string &rootfile, TAMWDCArrayL *dcArrL)
 		: TAT0CalibDCArr(rootfile, dcArrL){
+	if(!fDCArr){
+		fDCArr = (TAMWDCArray*)TAParaManager::Instance()->GetDetList()[3];
+		if(!fDCArr) TAPopMsg::Error("TAT0CalibDCArrL", "TAT0CaliDCArrL: DC array from TAParaManager is null. TAEventProcessor::Configure() not run yet?");
+	}
 }
 TAT0CalibDCArrL::~TAT0CalibDCArrL(){}
 
