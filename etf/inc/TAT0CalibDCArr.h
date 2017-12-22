@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2017/11/17, SUN Yazhou.										     //
+// Last modified: 2017/12/21, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -32,17 +32,20 @@ public:
 	
 	void SetROOTFile(const string &rootfile){ fROOTFile = rootfile; }
 	void SetMWDCArray(TAMWDCArray *dcArr){ fDCArr = dcArr; }
+	void SetHasCorrected(bool opt = true){ fHasCorrected = opt; }
+	bool HasCorrected() const{ return fHasCorrected; }
 	// generate T0 calibration text files
 	virtual void Refine_DTHisto(bool isCalib = true);
 	virtual void GenerateCalibFile(bool isShowFit = false);
 	// isCalib: whether to store hdt histos and generate calibration file
-	static void Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, bool isCalib = true);
+	static void Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, bool hasCorrected = true, bool isCalib = true);
 	// isShowFit: whether to show the fitting graphs
 	static void GenerateCalibFile(const string &rootfile, TAMWDCArray *dcArr, bool isShowFit = false);
 protected:
 	static double Fermi_Dirac_Function(double *x, double *p); // used to fit the drfit time spectrum.
 	string fROOTFile;
 	TAMWDCArray *fDCArr;
+	bool fHasCorrected; // whether T_tof and T_wire have been corrected for from drift time in PatReg
 };
 
 #endif

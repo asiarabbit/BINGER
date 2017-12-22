@@ -41,8 +41,10 @@ using std::setw;
 using std::ios_base;
 using std::cin;
 
+#define DEBUG
+
 TAT0CalibDCArr::TAT0CalibDCArr(const string &rootfile, TAMWDCArray *dcArr)
-		: fROOTFile(rootfile), fDCArr(dcArr){
+		: fROOTFile(rootfile), fDCArr(dcArr), fHasCorrected(true){
 }
 TAT0CalibDCArr::~TAT0CalibDCArr(){}
 
@@ -50,9 +52,9 @@ void TAT0CalibDCArr::Refine_DTHisto(bool isCalib){
 	if(!fDCArr) TAPopMsg::Error("TAT0CalibDCArr", "Refine_DTHisto: MWDC array pointer is null");
 	if(!strcmp(fROOTFile.c_str(), ""))
 		TAPopMsg::Error("TAT0CalibDCArr", "Refine_DTHisto: ROOT file name is empty");
-	Refine_DTHisto(fROOTFile, fDCArr, isCalib);
+	Refine_DTHisto(fROOTFile, fDCArr, HasCorrected(), isCalib);
 }
-void TAT0CalibDCArr::Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, bool isCalib){
+void TAT0CalibDCArr::Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, bool hasCorrected, bool isCalib){
 	TAPopMsg::Info("TAT0CalibDCArr", "Refine_DTHisto: Input rootfile name: %s", rootfile.c_str());
 	const double phiAvrg = dcArr->GetPhiAvrg(); // average of phi over the three MWDCs
 	const bool LRTAG = bool(dcArr->GetUID()-3); // 3: L; 4: R
@@ -149,12 +151,25 @@ void TAT0CalibDCArr::Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, 
 						int dcType = l; // 0-1-2: X-U-V
 						int layerType = j % 2 + 1; // 1-2: anodeL1-anode L2
 						int NU = nu[trkId[jj][l]][j];
-						// t = T_tof + T_wire + T_drift + T0
-						// substract T_wire and T_tof from the time measurement
-						TAAnode *ano = dcArr->GetMWDC(DCid)->GetAnode(dcType, layerType, NU);
-						unsigned uid = ano->GetUID();
-						t[trkId[jj][l]][j] -= TACtrlPara::T_tofDCtoTOFW(uid) - TACtrlPara::T_wireMean(uid); // recover the rough correction of time of flight from DC to TOF wall for a refined one.
-						dcArr->DriftTimeCorrection(t[trkId[jj][l]][j], r[trkId[jj][l]][j], anodeId[tmp], trkVec, firedStripId[trkId[jj][l]], beta2[trkId[jj][l]]);
+						if(!hasCorrected){ // T_tof and T_wire has been corrected in PatReg
+							// t = T_tof + T_wire + T_drift + T0
+							// substract T_wire and T_tof from the time measurement
+							TAAnode *ano = dcArr->GetMWDC(DCid)->GetAnode(dcType, layerType, NU);
+							unsigned uid = ano->GetUID();
+#ifdef DEBUG
+							cout << "j: " << j << endl; // DEBUG
+							cout << "Before correction: t[trkId[jj][l]][j]: "; // DEBUG
+							cout << t[trkId[jj][l]][j] << endl; // DEBUG
+							cout << "beta2[trkId[jj][l]]: " << beta2[trkId[jj][l]] << endl; // DEBUG
+#endif
+							t[trkId[jj][l]][j] -= TACtrlPara::T_tofDCtoTOFW(uid) - TACtrlPara::T_wireMean(uid); // recover the rough correction of time of flight from DC to TOF wall for a refined one.
+							double beta_t[2] = {0.5, 0.6}; // for simulation test only XXX XXX XXX
+							dcArr->DriftTimeCorrection(t[trkId[jj][l]][j], r[trkId[jj][l]][j], anodeId[tmp], trkVec, firedStripId[trkId[jj][l]], beta_t[isDCArrR[jj]]); // beta2[trkId[jj][l]]
+#ifdef DEBUG
+							cout << "After correction: t[trkId[jj][l]][j]: "; // DEBUG
+							cout << t[trkId[jj][l]][j] << endl; getchar(); // DEBUG
+#endif
+						} // end if(!fHasCorrected)
 						if(isCalib && hdt[DCid][dcType][layerType-1][NU]){
 							hdt[DCid][dcType][layerType-1][NU]->Fill(t[trkId[jj][l]][j]);
 						}
@@ -169,17 +184,23 @@ void TAT0CalibDCArr::Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, 
 		treeTrackT->Fill();
 	} // end for over i
 	f->cd("/"); treeTrackT->Write("", TObject::kOverwrite);
-	
+
 	sprintf(name, "T0Cali0-%s", dcArr->GetName().c_str());
 	sprintf(title, "%s/histo", name);
 	if(!f->FindObjectAny(name)) f->mkdir(title); f->cd(title); // store drift time histograms
+	cout << endl;
 	for(int i = 0; i < 3; i++) for(int j = 0; j < 3; j++) for(int m = 0; m < 2; m++)
 	for(int k = 0; k < 96; k++) if(hdt[i][j][m][k]){
-		if(isCalib) hdt[i][j][m][k]->Write("", TObject::kOverwrite);
+		if(isCalib){
+			hdt[i][j][m][k]->Write("", TObject::kOverwrite);
+			cout << "Writing Histo \033[34;1m" << i << " " << j << " " << m << " " << k << "\033[0m";
+			cout << "\tPlease wait..." << "\r" << flush;
+		}
 		delete hdt[i][j][m][k]; hdt[i][j][m][k] = nullptr;
 	}
 	cout << "Totally \033[1m" << cntSec << " \033[0m data sections and  \033[1m" << cntTrk << " \033[0m 3D tracks have been processed.\n";
 	f->Close(); delete f;
+	cout << "\033[33;1m\n\nDONE\n\n\033[0m";
 } // end of member function Refine_DTHisto
 
 void TAT0CalibDCArr::GenerateCalibFile(bool isShowFit){

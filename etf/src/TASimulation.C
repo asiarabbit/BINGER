@@ -61,18 +61,20 @@ TASimulation::~TASimulation(){}
 
 // generate simualtion data based on the current experiment setup, including
 // spacial layout, detector efficiency, and detector structure.
-void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx){
+void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, const string &simFile){
 	char rootfile[64];
-	GenerateSim(run, nTrkPerEvEx, effEx, rootfile, fDetList);
+	GenerateSim(run, nTrkPerEvEx, effEx, rootfile, fDetList, simFile);
 	fROOTFile = rootfile;
 }
 // simfile: name of the rootfile containing the simulation data
-void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *simFile, DetArr_t *detList){
+void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *simFile, DetArr_t *detList, const string &simrootfilename){
 	const int maxNTrack = nTrkPerEvEx; // number of tracks per event
 	const double eff = effEx; // tracking efficiency of a certain anode plane
 
 	string sys_time = TAPopMsg::time0(true); // used in rootfile name
 	char rootfile[64]; strcpy(rootfile, "SIM.root"); // (sys_time+"_SIM.root").c_str()
+	// use extra sim-rootfile name
+	if(strcmp(simrootfilename.c_str(), "")) strcpy(rootfile, simrootfilename.c_str());
 	strncpy(simFile, rootfile, sizeof(simFile));
 	TFile *f = new TFile(rootfile, "RECREATE");
 	// treeData: raw data; each entry is a data channel

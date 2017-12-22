@@ -17,6 +17,8 @@ int main(int argc, char *argv[]){
 	const char dir[2][64] = {"pion_2017Oct", "beamTest_2016Nov"};
 	ep->SetConfigExpDir(dir[1]); ep->Configure();
 	TAT0CalibDCArr *t0 = new TAT0CalibDCArrR(argv[1]);
-	t0->Refine_DTHisto(true); t0->GenerateCalibFile(true);
+	t0->SetHasCorrected(true);
+	t0->Refine_DTHisto(true);
+//	t0->GenerateCalibFile(true);
 }
 

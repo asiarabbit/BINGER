@@ -18,8 +18,9 @@ int main(int argc, char *argv[]){
 	const char dir[2][64] = {"pion_2017Oct", "beamTest_2016Nov"};
 	ep->SetConfigExpDir(dir[1]); ep->Configure();
 	TASimulation *sim = new TASimulation();
-	sim->SetFixDCArr(-1); sim->SetIsDebug(0); // MWDC array L or R only
-	sim->GenerateSim(100, nTrkPerEv, eff);
+	sim->SetFixDCArr(1); sim->SetIsDebug(0); // MWDC array L or R only
+	if(argc >= 3) sim->GenerateSim(120000, nTrkPerEv, eff, argv[3]);
+	else sim->GenerateSim(120000, nTrkPerEv, eff);
 
 	return 0;
 }

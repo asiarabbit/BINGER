@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2017/12/12, SUN Yazhou.										     //
+// Last modified: 2017/12/22, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -34,12 +34,12 @@ public:
 
 	// generate simulation data based on the current experiment setup
 	// run: event count; nTrkPerEvEx: number of tracks per event; effEx: detector efficiency
-	virtual void GenerateSim(int run, int nTrkPerEvEx, double effEx);
+	virtual void GenerateSim(int run, int nTrkPerEvEx, double effEx, const string &simFile = "");
 	virtual void Evaluate();
 	void SetFixDCArr(short opt){ kFixDCArr = opt; }
 	void SetIsDebug(bool opt){ kIsDebug = opt; }
 	// simfile: name of the rootfile containing the simulation data
-	static void GenerateSim(int run, int nTrkPerEvEx, double effEx, char *simFile, DetArr_t *detList);
+	static void GenerateSim(int run, int nTrkPerEvEx, double effEx, char *simFile, DetArr_t *detList, const string &simrootfilename = "");
 	// evaluate the performance of pattern recognition code
 	static void Evaluate(const string &rootfile);
 	// time to trig of T0_1 signal. unit: clock cycle (25 ns)
