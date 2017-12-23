@@ -46,11 +46,13 @@ public:
 	void AddChPara(TAChPara *chpar);
 	const unsigned *UIDList() const{ return fUIDList; }
 	unsigned GetUID(int chId) const;
+	// to tell if calibration files of a speficied type exist
+	bool Exist(const short type) const; // used in aterwards calibraion procedures
 	static const int MAX_CH_NUM = 20000; // maximum number of channels
 	static const int UID_DUMMY = 999999999; // dummy uid for channels with unknown channel ids
 protected:
 	// read the cofig files and register them in a text file
-	void RegisterConfigFiles(const char *basePath);
+	void RegisterConfigFiles(const char *basePath) const;
 	// destruct those detectors that are not commissioned in the current experiment
 	void Clean(); // by telling the status of channel id of the detector' units.
 	static int FileType(const char *fname); // tell file type by suffix

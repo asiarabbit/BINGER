@@ -18,7 +18,7 @@ int main(int argc, char *argv[]){
 	ep->SetConfigExpDir(dir[1]); ep->Configure();
 	TAT0CalibDCArr *t0 = new TAT0CalibDCArrR(argv[1]);
 	t0->SetHasCorrected(true);
-	t0->Refine_DTHisto(true);
-//	t0->GenerateCalibFile(true);
+	t0->Refine_DTHisto(true); t0->GenerateCalibFile(false);
+	
 }
 

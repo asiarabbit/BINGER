@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/14.															     //
-// Last modified: 2017/12/19, SUN Yazhou.										     //
+// Last modified: 2017/12/23, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -22,6 +22,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <vector>
+#include <unistd.h>
 
 // ROOT include
 #include "TH1F.h"
@@ -78,6 +79,8 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 		TAPopMsg::Error("TAAssess", "EvalDCArr: Both MWDC arrays are null. TAEventProcessor::Configure() not run yet?");
 
 	cout << "Input rootfile: " << rootfile << endl;
+	if(0 != access(rootfile.c_str(), F_OK))
+		TAPopMsg::Error("TAAssess", "EvalDCArr: Input rootfile %s doesn't exist", rootfile.c_str());
 	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
 	TTree *treeTrack = (TTree*)f->Get("treeTrack");
 	if(!treeTrack) TAPopMsg::Error("TAAssess", "EvalDCArr: treeTrack is nullptr");
@@ -85,6 +88,8 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 	char topdir[64]; short lrtag = 11; const int ndir = 8;
 	sprintf(topdir, "assess%dR", runid);
 	char dir[ndir][64] = {"misc", "rt", "drt", "dt", "rr", "3Drt", "3Ddrt", "3Drr"};
+	// XXX: slick use of sprintf; ATTENTION: sprintf is an iterator for self-assignment;
+	// dir[i] must be the 1st par in the code below, or dir would be altered to 1st-par firstly
 	for(int i = 0; i < ndir; i++) sprintf(dir[i], "%s%d", dir[i], runid);
 	TAMWDCArray *dcArr = dcArrR;
 	if(!isDCArrR){

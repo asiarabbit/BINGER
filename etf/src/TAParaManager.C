@@ -100,6 +100,26 @@ void TAParaManager::AddChPara(TAChPara *chpar){
 	fChParaList.push_back(chpar);
 }
 
+bool TAParaManager::Exist(const short type_) const{
+	// read the cofig files and register them in config/content (a text file)
+	string configPath = TACtrlPara::Instance()->ConfigExpDir();
+	string content = configPath+"/content"; // file containing the file list
+	RegisterConfigFiles(configPath.c_str());
+
+	ifstream ff(content.c_str());
+	if(!ff.is_open()){
+		TAPopMsg::Error("TAParaManager", "Exist: read %s error", content.c_str());
+	}
+	char fname[512];
+	while(ff.getline(fname, sizeof(fname))){
+		if('#' == fname[0]) continue; // commentary line
+		if(0 == strlen(fname)) continue; // blank line
+
+		int type = FileType(fname);
+		if(type_ == type) return true;
+	} // end external while
+	return false;
+}
 // Every value whatsoever has a UID. This is the utmost principle of para management.
 void TAParaManager::ReadParameters(){
 	int cntNull = 0;
@@ -151,10 +171,17 @@ void TAParaManager::ReadParameters(){
 
 
 
-
-
+// skip spaces and tabs, return subscript of the valid char
+inline int skipCrap(const char *s){
+	int tmp = 0;
+	while(1){
+		char c = s[tmp++];
+		if(' ' != c && '\t' != c) break;
+	}
+	return tmp - 1;
+}
 // read the cofig files and register them in a text file
-void TAParaManager::RegisterConfigFiles(const char *basePath){
+void TAParaManager::RegisterConfigFiles(const char *basePath) const{
 # ifdef VERBOSE
 	TAPopMsg::Info("TAParaManager", "RegisterConfigFiles: The config file dir is %s", basePath);
 #endif
@@ -242,7 +269,8 @@ void TAParaManager::AssignChId(const char *fname){
 	int linecnt = 0; // the current line number
 	while(cf.getline(line, sizeof(line))){
 		linecnt++;
-		if('#' == line[0]) continue; // commentary line
+		int tmp = skipCrap(line);
+		if('#' == line[tmp] || '\0' == line[tmp]) continue; // commentary line
 		if(0 == strlen(line)) continue; // blank line
 
 		double value, UID;
@@ -282,7 +310,8 @@ void TAParaManager::AssignDetPos(const char *fname){
 	int linecnt = 0; // the current line number
 	while(cf.getline(line, sizeof(line))){
 		linecnt++;
-		if('#' == line[0]) continue; // commentary line
+		int tmp = skipCrap(line);
+		if('#' == line[tmp] || '\0' == line[tmp]) continue; // commentary line
 		if(0 == strlen(line)) continue; // blank line
 		double value[6], UID; // value[6]: x, y, z, phi, theta, psi
 		sscanf(line, "%lg %lg %lg %lg %lg %lg %lg", &value[0], &value[1],
@@ -353,7 +382,8 @@ void TAParaManager::AssignT0(const char *fname){
 	int linecnt = 0; // the current line number
 	while(cf.getline(line, sizeof(line))){
 		linecnt++;
-		if('#' == line[0]) continue; // commentary line
+		int tmp = skipCrap(line);
+		if('#' == line[tmp] || '\0' == line[tmp]) continue; // commentary line
 		if(0 == strlen(line)) continue; // blank line
 		double value, UID;
 		sscanf(line, "%lg %lg", &value, &UID);
@@ -361,10 +391,17 @@ void TAParaManager::AssignT0(const char *fname){
 		unsigned uid = unsigned(UID);
 		short detId = uid & 0x3F; // first section of UID, 6 bits
 		short subDetId = (uid>>6) & 0x7; // second section of UID for TAMWDCArray objects, 3 bits
+//		cout << "fname: " << fname << endl; // DEBUG
+//		cout << "line: " << line << endl; // DEBUG
+//		cout << "\tuid: " << uid << "\tvalue: " << value << endl; // DEBUG
+//		cout << "detId: " << detId << "\tsubDetId: " << subDetId << endl; // DEBUG
 		TAChPara *chPara = nullptr;
 		if(fDetList[detId]) chPara = fDetList[detId]->GetChannel(uid)->GetPara();
 		if(chPara){
+//			cout << chPara->GetName() << endl; // DEBUG
+//			cout << chPara->GetDelay() << endl; // DEBUG
 			chPara->AppendDelay(value);
+//			cout << chPara->GetDelay() << endl; getchar(); // DEBUG
 		}
 		else TAPopMsg::Warn("TAParaManager",
 			"AssignT0: homeless T0: %s: line %d", fname, linecnt);
@@ -386,7 +423,8 @@ void TAParaManager::AssignSTRCor(const char *fname){
 	int linecnt = 0; // the current line number
 	while(cf.getline(line, sizeof(line))){
 		linecnt++;
-		if('#' == line[0]) continue; // commentary line
+		int tmp = skipCrap(line);
+		if('#' == line[tmp] || '\0' == line[tmp]) continue; // commentary line
 		if(0 == strlen(line)) continue; // blank line
 		// read header of an STRCor item: anode UID, angle_#, valid_bin_cnt
 		double UID, angle_No, va_bin_cnt;

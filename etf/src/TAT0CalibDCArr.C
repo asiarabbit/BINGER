@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2017/11/18, SUN Yazhou.										     //
+// Last modified: 2017/12/23, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -20,6 +20,8 @@
 #include <cstdlib>
 #include <cmath>
 #include <fstream>
+#include <cstring>
+#include <unistd.h>
 
 // ROOT include
 #include "TFile.h"
@@ -34,6 +36,7 @@
 #include "TAAnode.h"
 #include "TAMath.h"
 #include "TACtrlPara.h"
+#include "TAParaManager.h"
 
 using std::flush;
 using std::ofstream;
@@ -55,6 +58,8 @@ void TAT0CalibDCArr::Refine_DTHisto(bool isCalib){
 	Refine_DTHisto(fROOTFile, fDCArr, HasCorrected(), isCalib);
 }
 void TAT0CalibDCArr::Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, bool hasCorrected, bool isCalib){
+	if(isCalib && TAParaManager::Instance()->Exist(2))
+		TAPopMsg::Error("TAT0CalibDCArr", "GenerateCalibFile: T0 Calibration files already exist in config/[experiment]/T0, which should be deleted firsly. Are you sure to continue?");
 	TAPopMsg::Info("TAT0CalibDCArr", "Refine_DTHisto: Input rootfile name: %s", rootfile.c_str());
 	const double phiAvrg = dcArr->GetPhiAvrg(); // average of phi over the three MWDCs
 	const bool LRTAG = bool(dcArr->GetUID()-3); // 3: L; 4: R
@@ -63,6 +68,8 @@ void TAT0CalibDCArr::Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, 
 	const int ntrMax = 200, ntrMax3D = ntrMax / 3;
 	int ntr, index, type[ntrMax], id[ntrMax], nu[ntrMax][6], firedStripId[ntrMax];
 	double t[ntrMax][6], r[ntrMax][6], k[ntrMax], b[ntrMax], beta2[ntrMax], TOF[ntrMax];
+	if(0 != access(rootfile.c_str(), F_OK))
+		TAPopMsg::Error("TAT0CalibDCArr", "Refine_DTHisto: Input rootfile %s doesn't exist", rootfile.c_str());
 	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
 	if(!f->FindObjectAny("treeTrack")){
 		TAPopMsg::Error("TASTRCalibDCArr", "Refine_DTHisto: treeTrack not found in input rootfile");
@@ -191,7 +198,7 @@ void TAT0CalibDCArr::Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, 
 	cout << endl;
 	for(int i = 0; i < 3; i++) for(int j = 0; j < 3; j++) for(int m = 0; m < 2; m++)
 	for(int k = 0; k < 96; k++) if(hdt[i][j][m][k]){
-		if(isCalib){
+		if(isCalib && hdt[i][j][m][k]->GetEntries() > 2000.){
 			hdt[i][j][m][k]->Write("", TObject::kOverwrite);
 			cout << "Writing Histo \033[34;1m" << i << " " << j << " " << m << " " << k << "\033[0m";
 			cout << "\tPlease wait..." << "\r" << flush;
@@ -208,6 +215,8 @@ void TAT0CalibDCArr::GenerateCalibFile(bool isShowFit){
 	GenerateCalibFile(fROOTFile, fDCArr, isShowFit);
 }
 void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcArr, bool isShowFit){
+	if(TAParaManager::Instance()->Exist(2))
+		TAPopMsg::Error("TAT0CalibDCArr", "GenerateCalibFile: T0 Calibration files already exist in config/[experiment]/T0, which should be deleted firsly. Are you sure to continue?");
 	TAPopMsg::Info("TAT0CalibDCArr", "GenerateCalibFile: Input rootfile name: %s", rootfile.c_str());
 	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
 	char name[128], title[128];
@@ -221,26 +230,31 @@ void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcAr
 	// T0 is the offset due to the electronics chain from the preamplifier to the TDC input
 	double T0 = 0., sigma_t0 = 0., chi2 = 0.; // results from TH1F::Fit(...) method.
 	int sigma_t0_cnt = 0; double sigma_t0_sum = 0; // for calculate the mean value of sigma_t0
-	int anodeId[4]{}; // [0-3]: [i,j,m,k] [DC#][XUV][1,2][80]
+	int anodeId[4]{}, uid; // [0-3]: [i,j,m,k] [DC#][XUV][1,2][80]
 	TTree *treeT0 = new TTree("treeT0", "T0 of DC Anodes");
 	treeT0->Branch("anodeId", anodeId, "anodeId[4]/I");
 	treeT0->Branch("T0", &T0, "T0/D");
 	treeT0->Branch("sigma_t0", &sigma_t0, "sigma_t0/D");
+	treeT0->Branch("uid", &uid);
 	TH1F *hT0 = new TH1F("hT0", "T0 Distribution Over Aondes Before T0 Correction", 501, -25.05, 25.05);
 
-	char xuv[] = "XUV";
+	char xuv[] = "XUV", strdir[] = "STRCorrection", mkstrdir[64] = "mkdir ";
+	strcat(mkstrdir, strdir);
+	// create a new directory to store STR correction files
+	if(0 != access(strdir, F_OK)) system(mkstrdir);
 	// Generate the calibration file
 	cout << "\33[34;1mUPDATING T0 FILE...\033[0m" << endl;
-	sprintf(name, "%s_.002", dcArr->GetName());
+	sprintf(name, "%s/%s_.002", strdir, dcArr->GetName().c_str());
 	ofstream outFile(name);
 	outFile.setf(ios_base::fixed, ios_base::floatfield);
 	outFile.precision(3);
 	// descriptive file header
 	outFile << "###############################################################################\n";
-	outFile << "# Time offset calibration file for MWDC sense wires - Generation Time: ";
+	outFile << "# Time offset calibration file for MWDC sense wires\n";
+	outFile << "# Generation Time: ";
 	outFile << TAPopMsg::time0() << endl;
 	outFile << "# This calibraiton file is automatically generated for " << dcArr->GetName() << endl;
-	outFile << "# by class TAT0CalibDCArr using drift time histogram fitting ";
+	outFile << "# by class TAT0CalibDCArr using drift time histogram fitting\n";
 	outFile << "# (Ref. NIM A 488. 1-2, p51-73 (2002)).\n";
 	outFile << "#\n";
 	outFile << "# File format: T0 UID. unit: ns\n";
@@ -250,7 +264,7 @@ void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcAr
 	TF1 *fd = new TF1("fd", Fermi_Dirac_Function, -50., 70., 5);
 	fd->SetParName(2, "T0"); fd->SetParName(3, "sigma_t0");
 	fd->SetParameter(2, 0.); fd->SetParLimits(2, -20., 20.); // T0, unit: ns
-	fd->SetParameter(3, 0.1); fd->SetParLimits(3, 0.005, 20.); // sigm_t_0, unit: ns
+	fd->SetParameter(3, 0.01); fd->SetParLimits(3, 0.005, 20.); // sigm_t_0, unit: ns
 	for(int i = 0; i < 3; i++){ // loop over DCs
 		outFile << "#################### This is MWDC " << i << " #######################\n";
 		for(int j = 0; j < 3; j++){ // loop over X-U-V
@@ -264,6 +278,7 @@ void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcAr
 					T0 = 0.; sigma_t0 = 0.; chi2 = 0.;
 					anodeId[0] = i; anodeId[1] = j; anodeId[2] = m; anodeId[3] = k;
 					const int nn = hdt->GetEntries();
+//					printf("i: %d, j: %d, m: %d, k: %d, hdt: %s, n: %f\n", i,j,m,k,hdt->GetName(), hdt->GetEntries()); cout << "name: " << name << endl; getchar(); // DEBUG
 					if(nn >= 800){ // the statistics is enough.
 						fd->SetParameter(2, 0.); fd->SetParameter(3, 0.1);
 						if(isShowFit) hdt->Fit(fd, "QR");
@@ -271,6 +286,7 @@ void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcAr
 						chi2 = fd->GetChisquare();
 						T0 = fd->GetParameter("T0");
 						sigma_t0 = fd->GetParameter("sigma_t0");
+//						cout << "T0: " << T0 << "\tsigma_t0: " << sigma_t0 << endl; getchar(); // DEBUG
 						// to get rid of the bad T0s by estimating sigma_t0
 						sigma_t0_cnt++; sigma_t0_sum += sigma_t0;
 						double mean_t = sigma_t0_sum/sigma_t0_cnt;
@@ -299,9 +315,10 @@ void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcAr
 					cout << "Fitting historgrams of anode \033[1m" << i << " ";
 					cout << j << " " << m << setw(3) << k << "\033[0m\r" << flush;
 					TAAnode *ano = dcArr->GetMWDC(i)->GetAnode(j, m+1, k);
-					outFile << T0 << setw(10) << ano->GetUID() << endl;
+					uid = ano->GetUID();
+					outFile << setw(6) << T0 << setw(10) << uid << endl;
 					treeT0->Fill();
-					if(T0 != 0) hT0->Fill(T0);
+					if(0. != T0) hT0->Fill(T0);
 //					cout << "Mark 1\n"; getchar(); // DEBUG
 					if(isShowFit) hdt->Write("", TObject::kOverwrite);
 					else hdt->~TH1F();
@@ -325,8 +342,14 @@ void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcAr
 	f->Close(); delete f;
 } // end of member function GenerateCalibFile
 
+
+// p[4] has the same function of p[0], and has been remvoed. 2017_1223_1054
+//double TAT0CalibDCArr::Fermi_Dirac_Function(double *x, double *p){
+//	return p[0] * exp(-p[1]*x[0]) / (1 + exp(-(x[0]-p[2]) / p[3])); // p[2] represents T0.
+//}
+
 double TAT0CalibDCArr::Fermi_Dirac_Function(double *x, double *p){
-	double fd_core = exp(-p[1]*(x[0]-p[4])) / (1 + exp(-(x[0]-p[2]) / p[3])); // p[2] represents T0.
+	double fd_core = exp(-p[1]*x[0]) / (1 + exp(-(x[0]-p[2]) / p[3])); // p[2] represents T0.
 	return p[0] * fd_core;
 } // end of definition of Fermi_Dirac_Function
 

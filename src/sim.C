@@ -20,7 +20,7 @@ int main(int argc, char *argv[]){
 	TASimulation *sim = new TASimulation();
 	sim->SetFixDCArr(1); sim->SetIsDebug(0); // MWDC array L or R only
 	if(argc >= 3) sim->GenerateSim(120000, nTrkPerEv, eff, argv[3]);
-	else sim->GenerateSim(120000, nTrkPerEv, eff);
+	else sim->GenerateSim(420000, nTrkPerEv, eff);
 
 	return 0;
 }

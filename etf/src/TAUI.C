@@ -110,7 +110,7 @@ void TAUI::PromptHelp(bool isVerbose){
 	exit(1);
 }
 
-void TAUI::Run(){
+void TAUI::Go(){
 	if(fIndex0 >= fIndex1)
 		TAPopMsg::Error("TAUI", "Run: index0 %d is not smaller than index1 %d", fIndex0, fIndex1);
 	switch(fAnaDepth){

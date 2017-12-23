@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/11/27.															     //
-// Last modified: 2017/11/27, SUN Yazhou.										     //
+// Last modified: 2017/12/22, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -25,8 +25,7 @@ class TAUI : public TAEventProcessor{
 public:
 	static TAUI *Instance();
 	void GetOpt(int argc, char *argv[]);
-	using TAEventProcessor::Run;
-	void Run(); // analyze, call the TAEventProcessor::Run(...)
+	void Go(); // analyze, call the TAEventProcessor::Run(...)
 
 	virtual ~TAUI();
 protected:

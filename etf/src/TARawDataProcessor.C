@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2017/10/10, SUN Yazhou.										     //
+// Last modified: 2017/10/30, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -52,12 +52,15 @@ TARawDataProcessor *TARawDataProcessor::Instance(){
 TARawDataProcessor::~TARawDataProcessor(){}
 
 void TARawDataProcessor::SetDataFileName(const string &name, int runId){
-	fDataFile = name;
 	// retrieve the file name from a path+name string
 	char tmp[64]; strcpy(tmp, name.c_str());
 	sprintf(tmp, "%s_%d", basename(tmp), runId);
-	fROOTFile = tmp;
-	fROOTFile += ".root";
+	if(!strcmp(tmp, ""))
+		TAPopMsg::Error("TARawDataProcessor", "SetDataFileName: Input data file is empty");
+	if(0 != access(name.c_str(), F_OK))
+		TAPopMsg::Error("TARawDataProcessor", "SetDataFileName: %s doesn't exist", name.c_str());
+	fDataFile = name;
+	fROOTFile = tmp; fROOTFile += ".root";
 //	TAPopMsg::Debug("TARawDataProcessor", "SetDataFileName: fROOTFile: %s", fROOTFile.c_str());
 }
 void TARawDataProcessor::SetPeriod(int index0, int index1){
@@ -71,9 +74,7 @@ inline double rand0_5(){ return rand()*1./RAND_MAX; } // bin smoothing, import f
 
 // read offline binary data file and store them in a tree and a rootfile.
 int TARawDataProcessor::ReadOffline(){
-	if(!strcmp(fDataFile.c_str(), ""))
-		TAPopMsg::Warn("TARawDataProcessor", "ReadOffline: Input binary data file is null.");
-	if(0 == access(fROOTFile.c_str(), 0)) return -1; // file already exists. Function has been called.
+	if(0 == access(fROOTFile.c_str(), F_OK)) return -1; // file already exists
 
 	static const double H_BLIP = 25. / pow(2., 8.);
 	static const double V_BLIP = 25. / pow(2., 10.);

@@ -11,7 +11,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/13.															     //
-// Last modified: 2017/12/13, SUN Yazhou.										     //
+// Last modified: 2017/12/22, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -22,6 +22,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <libgen.h>
+#include <unistd.h>
 
 // ROOT include
 #include "TFile.h"
@@ -291,6 +292,8 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	}
 	else printf("\033[32;1m  Analyzing event#%d to event#%d from rootfile   %s\n\033[0m", id0, id1, rootfile.c_str());
 //	return;
+	if(0 != access(rootfile.c_str(), F_OK))
+		TAPopMsg::Error("TAEventProcessor", "Run: %s doesn't exist", rootfile.c_str());
 	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
 	TTree *treeData = (TTree*)f->Get("treeData");
 	if(!treeData) TAPopMsg::Error("TAEventProcessor", "Run: Obtained treeData is null pointer");

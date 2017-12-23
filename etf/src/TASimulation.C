@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2017/12/20, SUN Yazhou.										     //
+// Last modified: 2017/12/23, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -21,6 +21,7 @@
 #include <iomanip>
 #include <ctime>
 #include <cmath>
+#include <unistd.h>
 
 // ROOT include
 #include "TTree.h"
@@ -338,6 +339,8 @@ void TASimulation::Evaluate(){
 
 void TASimulation::Evaluate(const string &rootfile){
 	TAPopMsg::Info("TASimulation", "Evaluate: rootfile to be evaluted is >> %s", rootfile.c_str());
+	if(0 != access(rootfile.c_str(), F_OK))
+		TAPopMsg::Error("TASimulation", "Evaluate: Input rootfile %s doesn't exist", rootfile.c_str());
 	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
 	if(!f->FindObjectAny("treeTrackSim"))
 		TAPopMsg::Error("TASimulation", "Evaluate: treeTrackSim is not found in the rootfile");

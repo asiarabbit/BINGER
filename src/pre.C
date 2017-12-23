@@ -9,7 +9,7 @@ int main(int argc, char *argv[]){
 	usr->SetConfigExpDir(dir[1]); // path of config files - chId, layout, etc.
 	usr->SetMagneticIntensity(0.24835); // unit: Telsa 0.24835 1.456
 //	usr->Silent(); // don't show TAPopMsg::Info() printings
-	usr->Run();
+	usr->Go();
 	return 0;
 }
 
