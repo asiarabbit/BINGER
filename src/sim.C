@@ -19,8 +19,7 @@ int main(int argc, char *argv[]){
 	ep->SetConfigExpDir(dir[1]); ep->Configure();
 	TASimulation *sim = new TASimulation();
 	sim->SetFixDCArr(1); sim->SetIsDebug(0); // MWDC array L or R only
-	if(argc >= 3) sim->GenerateSim(120000, nTrkPerEv, eff, argv[3]);
-	else sim->GenerateSim(420000, nTrkPerEv, eff);
+	sim->GenerateSim(10, nTrkPerEv, eff, argv[3]);
 
 	return 0;
 }

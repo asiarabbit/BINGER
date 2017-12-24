@@ -38,6 +38,7 @@ public:
 	static TAParaManager *Instance();
 	virtual ~TAParaManager();
 	void ReadParameters(); // read all the parameters required
+	void UpdateSTRCorrection() const; // using the current STR-correction table, for STRCali
 	double GetPhysConst(const char *name) const;
 	ArrDet_t &GetDetList(){ return fDetList; }
 	vector<TAChPara *> &GetChParaList(){ return fChParaList; }
@@ -62,10 +63,10 @@ protected:
 
 	// assignment functions: read parameters from given file
 	void AssignChId(const char *fname); // channel id
-	void AssignDetPos(const char *fname); // Detector Position set
-	void AssignT0(const char *fname); // T0, including DC anode T0 and plastic scintillator T0
-	void AssignSTRCor(const char *fname); // spatial time relation correction table
-	void AssignSTR(); // spatial time relation extract from rootfile
+	void AssignDetPos(const char *fname) const; // Detector Position set
+	void AssignT0(const char *fname) const; // T0, including DC anode T0 and plastic scintillator T0
+	void AssignSTRCor(const char *fname) const; // spatial time relation correction table
+	void AssignSTR() const; // spatial time relation extract from rootfile
 
 	static TAParaManager *kInstance;
 	vector<TAParameter *> fPhysConst; // physics constants

@@ -120,6 +120,15 @@ bool TAParaManager::Exist(const short type_) const{
 	} // end external while
 	return false;
 }
+// skip spaces and tabs, return subscript of the valid char
+inline int skipCrap(const char *s){
+	int tmp = 0;
+	while(1){
+		char c = s[tmp++];
+		if(' ' != c && '\t' != c) break;
+	}
+	return tmp - 1;
+}
 // Every value whatsoever has a UID. This is the utmost principle of para management.
 void TAParaManager::ReadParameters(){
 	int cntNull = 0;
@@ -130,6 +139,8 @@ void TAParaManager::ReadParameters(){
 	}
 	// read the cofig files and register them in config/content (a text file)
 	string configPath = TACtrlPara::Instance()->ConfigExpDir();
+	if(0 != access(configPath.c_str(), F_OK))
+		TAPopMsg::Error("TAParaManager", "ReadParameters: Folder %s doesn't exist", configPath.c_str());
 	string content = configPath+"/content"; // file containing the file list
 	RegisterConfigFiles(configPath.c_str());
 
@@ -139,7 +150,8 @@ void TAParaManager::ReadParameters(){
 	}
 	char fname[512];
 	while(ff.getline(fname, sizeof(fname))){
-		if('#' == fname[0]) continue; // commentary line
+		int tmp = skipCrap(fname);
+		if('#' == fname[tmp] || '\0' == fname[tmp]) continue; // commentary line
 		if(0 == strlen(fname)) continue; // blank line
 
 		int type = FileType(fname);
@@ -166,20 +178,44 @@ void TAParaManager::ReadParameters(){
 	// FIXME: this function is a flawed function, may not be used.
 //	Clean(); // by telling the status of channel id of the detector units.
 }
-
-
-
-
-
-// skip spaces and tabs, return subscript of the valid char
-inline int skipCrap(const char *s){
-	int tmp = 0;
-	while(1){
-		char c = s[tmp++];
-		if(' ' != c && '\t' != c) break;
+void TAParaManager::UpdateSTRCorrection() const{
+	int cntNull = 0;
+	for(auto p : fDetList) if(!p) cntNull++;
+	if(fDetList.size() == cntNull){
+		TAPopMsg::Warn("TAParaManager", "UpdateSTRCorrection: fDetList is empty");
+		return;
 	}
-	return tmp - 1;
+	// read the cofig files and register them in config/content (a text file)
+	string configPath = TACtrlPara::Instance()->ConfigExpDir();
+	string content = configPath+"/content"; // file containing the file list
+	if(0 != access(content.c_str(), F_OK))
+		TAPopMsg::Error("TAParaManager", "UpdateSTRCorrection: %s doesn't exist. Has TAParaManager::Configure() not run yet?", content.c_str());
+//	RegisterConfigFiles(configPath.c_str());
+
+	ifstream ff(content.c_str());
+	if(!ff.is_open()){
+		TAPopMsg::Error("TAParaManager", "UpdateSTRCorrection: read %s error", content.c_str());
+	}
+	char fname[512];
+	while(ff.getline(fname, sizeof(fname))){
+		int tmp = skipCrap(fname);
+		if('#' == fname[tmp] || '\0' == fname[tmp]) continue; // commentary line
+		if(0 == strlen(fname)) continue; // blank line
+
+		int type = FileType(fname);
+		switch(type){
+			case 2: // T0
+				AssignT0(fname); break;
+			case 3: // STR Correction
+				AssignSTRCor(fname); break;
+			default: break;
+		} // end switch
+	} // end external while
 }
+
+
+
+
 // read the cofig files and register them in a text file
 void TAParaManager::RegisterConfigFiles(const char *basePath) const{
 # ifdef VERBOSE
@@ -303,7 +339,7 @@ void TAParaManager::AssignChId(const char *fname){
 } // end member function AssignChId
 // Detector Position set
 // file format: x	y	z	phi	theta	psi		UID
-void TAParaManager::AssignDetPos(const char *fname){
+void TAParaManager::AssignDetPos(const char *fname) const{
 	ifstream cf(fname);
 	if(!cf.is_open()) TAPopMsg::Error("TAParaManager", "AssignDetPos: read %s error", fname);
 	char line[512];
@@ -355,7 +391,7 @@ void TAParaManager::AssignDetPos(const char *fname){
 	} // end for over i
 } // end member function AssignDetPos
 // STR extraction from root file
-void TAParaManager::AssignSTR(){
+void TAParaManager::AssignSTR() const{
 	static TACtrlPara *ctrlpara = TACtrlPara::Instance();
 
 	TAMWDCArray	*dcArr[2]; // MWDC array L and R
@@ -375,7 +411,7 @@ void TAParaManager::AssignSTR(){
 	} // end loop over two DC arrays
 } // end member function AssignSTR
 // T0, including DC anode T0 and plastic scintillator T0
-void TAParaManager::AssignT0(const char *fname){
+void TAParaManager::AssignT0(const char *fname) const{
 	ifstream cf(fname);
 	if(!cf.is_open()) TAPopMsg::Error("TAParaManager", "AssignT0: read %s error", fname);
 	char line[512];
@@ -416,7 +452,7 @@ void TAParaManager::AssignT0(const char *fname){
 // 0 3 7
 // 0.23 -0.25 0.45
 // spatial time relation correction table
-void TAParaManager::AssignSTRCor(const char *fname){
+void TAParaManager::AssignSTRCor(const char *fname) const{
 	ifstream cf(fname);
 	if(!cf.is_open()) TAPopMsg::Error("TAParaManager", "AssignSTRCor: read %s error", fname);
 	char line[2048];

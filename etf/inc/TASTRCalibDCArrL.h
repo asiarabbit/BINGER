@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2017/11/19, SUN Yazhou.										     //
+// Last modified: 2017/12/23, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -25,7 +25,7 @@ class TAMWDCArrayL;
 class TASTRCalibDCArrL : public TASTRCalibDCArr{
 public:
 	TASTRCalibDCArrL(const string &rootfile = "", TAMWDCArrayL *dcArrL = nullptr);
-	virtual ~TASTRCalibDCArrL() = 0;
+	virtual ~TASTRCalibDCArrL();
 protected:
 };
 

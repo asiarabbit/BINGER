@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/25.															     //
-// Last modified: 2017/12/17, SUN Yazhou.										     //
+// Last modified: 2017/12/23, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -36,7 +36,7 @@ double TAMath::norm(const double *p, int len){
 	}
 	return sqrt(norm);
 }
-// |p0-p1|
+// |p0-p1|, len=3
 double TAMath::L(const double *p0, const double *p1, int len){
 	double p[3] = {p0[0] - p1[0], p0[1] - p1[1], p0[2] - p1[2]};
 	return norm(p, len);
@@ -45,6 +45,28 @@ double TAMath::L(const double *p0, const double *p1, int len){
 double TAMath::VecAng3D(const double *a, const double *b){
 	// cosA = a*b / (|a||b|)
 	return acos( (a[0]*b[0]+a[1]*b[1]+a[2]*b[2]) / (norm(a,3)*norm(b,3)) );
+}
+// well, this is an anyhow specialised function written specifically to calculate alpha-angle
+// as usual, a, b is dire-vec of trk and anode, v.s. angAxis is the dire-vec of X(xuv)-axis
+// the ratiocination process is written in math/3DTrkProjVecWhole.m
+double TAMath::AlphaAngle3D(const double *b, const double *ag, const double *agAxis){
+	const double k1 = b[0]/b[2], k2 = b[1]/b[2]; // {b0,b1,b2} => {k1, k2, 1}
+	const double bpr[3] = { // b of track projection
+		(ag[1]*ag[1]+ag[2]*ag[2])*k1 - ag[0]*(ag[2]+ag[1]*k2),
+		(ag[0]*ag[0]+ag[2]*ag[2])*k2 - ag[1]*(ag[2]+ag[0]*k1),
+		(ag[0]      -ag[2]*k1)*ag[0] + ag[1]*(ag[1]-ag[2]*k2)
+	};
+//	cout << "ag[0]: " << ag[0] << "\tag[1]: " << ag[1]; // DEBUG
+//	cout << "\tag[2]: " << ag[2] << endl; // DEBUG
+//	cout << "b[0]: " << b[0] << "\tb[1]: " << b[1]; // DEBUG
+//	cout << "\tb[2]: " << b[2] << endl; // DEBUG
+//	cout << "agAxis[0]: " << agAxis[0] << "\tagAxis[1]: " << agAxis[1]; // DEBUG
+//	cout << "\tagAxis[2]: " << agAxis[2] << endl; // DEBUG
+//	getchar(); // DEBUG
+//	cout << "bpr[0]: " << bpr[0] << "\tbpr[1]: " << bpr[1]; // DEBUG
+//	cout << "\tbpr[2]: " << bpr[2] << endl; // DEBUG
+//	cout << "|bpr|: " << norm(bpr) << endl; // DEBUG
+	return VecAng3D(bpr, agAxis) - Pi() / 2.;
 }
 
 // the triangle defined by (p0, p1, O). return the angle O: coordinate origin

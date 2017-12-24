@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/25.															     //
-// Last modified: 2017/11/19, SUN Yazhou.										     //
+// Last modified: 2017/12/23, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -35,6 +35,10 @@ public:
 	static double norm(const double *p, int len = 3); // length of the vector, len: vector dimension
 	static double L(const double *p0, const double *p1, int len = 3); // |p0-p1|
 	static double VecAng3D(const double *a, const double *b); // angle between two 3D vectors <a, b>
+	// well, this is an anyhow specialised function written specifically to calculate alpha-angle
+	// as usual, a, b is dire-vec of trk and anode, v.s. angAxis is the dire-vec of X(xuv)-axis
+	// the ratiocination process is written in math/3DTrkProjVecWhole.m
+	static double AlphaAngle3D(const double *b, const double *ag, const double *agAxis);
 
 	static double acceptance(const double *p0, const double *p1);
 	/////////////////////// TAMWDCARRAY 3D TRACK PROJRECTION TRANSFORMATION ///////////////////////

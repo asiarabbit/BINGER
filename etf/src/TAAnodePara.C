@@ -144,12 +144,12 @@ void TAAnodePara::SetGlobalProjection(const double *proj){
 void TAAnodePara::SetSTRCorArr(const int *vaBinNumArr, 
 		const double *strCorArr, int angle_no, int va_bin_cnt){
 	if(angle_no > kSTRCorAngleNBins){
-		TAPopMsg::Warn(GetName().c_str(), "SetSTRCorArr: angle_no out of range. angle_no: %d",
+		TAPopMsg::Error(GetName().c_str(), "SetSTRCorArr: angle_no out of range. angle_no: %d",
 			 angle_no);
 		return;
 	}
 	if(va_bin_cnt > kSTRCorRNBins){
-		TAPopMsg::Warn(GetName().c_str(), "SetSTRCorArr: va_bin_cnt out of range. valid_bin_cnt: %d",
+		TAPopMsg::Error(GetName().c_str(), "SetSTRCorArr: va_bin_cnt out of range. valid_bin_cnt: %d",
 			 va_bin_cnt);
 		return;
 	}

@@ -112,9 +112,11 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 	const double zDC[3] = {dcPar[0]->GetZ(), dcPar[1]->GetZ(), dcPar[2]->GetZ()};
 	// The x-axis of xX, xU, xV, to calculate angle-alpha
 	const double al[3][3] = {{1., 0., 0.}, {-sqrt(3.), 1., 0.}, {sqrt(3.), 1., 0.}}; // X-U-V
-	double agAxis[3][3][3]{}; // [DC][XUV][xyz]; 
-	for(int i = 3; i--;) for(int j = 3; j--;) // i: DC0-1-2; j: X-U-V
+	double ag[3][3][3]{}, agAxis[3][3][3]{}; // [DC][XUV][xyz];
+	for(int i = 3; i--;) for(int j = 3; j--;){ // i: DC0-1-2; j: X-U-V
 		dcArr->GetMWDC(i)->GetDetPara()->GetGlobalRotation(al[j], agAxis[i][j]);
+		dcArr->GetMWDC(i)->GetAnode(j, 1, 0)->GetAnodePara()->GetGlobalDirection(ag[i][j]);
+	}
 
 	// read the track tree
 	const int ntrMax = 200, ntrMax3D = ntrMax / 3;
@@ -241,7 +243,8 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 	TH2F *hdrt04 = new TH2F("hdrt04", "Distribution of Residual and Drift Time for DC0X1Anode40;t [ns];dr [mm]", 500, -100., 400., 800, -4.0, 4.0);
 	objLs[2].push_back(hdrt04);
 	TH2F *hdrt04_3D = new TH2F("hdrt04_3D", "Distribution of Residual and Drift Time for DC0X1Anode40(3D tracks);t [ns];dr [mm]", 500, -100., 400., 800, -4.0, 4.0);
-	objLs[6].push_back(hdrt04_3D);
+	objLs[6].push_back(hdrt04_3D);	// The x-axis of xX, xU, xV, to calculate angle-alpha
+
 	TH2F *hdrt04_STR[nAng]{};
 	TH2F *hdrt04_3D_STR[nAng]{};
 	for(int i = 0; i < nAng; i++){
@@ -397,7 +400,20 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 				const double b[3] = {k1_3D[jj], k2_3D[jj], 1.}; // track direction vector
 				double alpha[3][3]{}; // angle between track projection and drift cell; [DC][XUV]
 				for(int j = 0; j < 3; j++){ // loop over XUV
-					for(int k = 3; k--;) alpha[k][j] = TAMath::VecAng3D(b, agAxis[k][j]) - Pi / 2.;
+					// alpha-angle: track projection to normal plane of sense wires
+					for(int k = 3; k--;){ // v.s. the detector-local z-axis
+						alpha[k][j] = TAMath::AlphaAngle3D(b, ag[k][j], agAxis[k][j]);
+//						double a1 = TAMath::VecAng3D(b, agAxis[k][j]) - Pi / 2.; // DEBUG
+//						double a2 = alpha[k][j]; // DEBUG
+//						cout << "a1: " << a1  << "\ta2: " << a2 << endl; getchar(); // DEBUG
+//						if(fabs(a1)<1.*DEGREE){ // DEBUG
+//							cout << "a1: " << a1  << "\ta2: " << a2 << endl; getchar(); // DEBUG
+//						} // DEBUG
+//						double c1[3] = {0,0,1}, c2[3] = {0,1,0}, c3[3] = {1,0,0}; // DEBUG
+//						cout << "alpha: " << TAMath::AlphaAngle3D(c1,c2,c3) << endl; // DEBUG
+//						getchar(); // DEBUG
+					} // end for
+//					cout << "alpha[0][0]: " << alpha[0][0] << endl; getchar(); // DEBUG
 					const int it = trkId[jj][j]; // id of track projections
 					for(int k = 0; k < 6; k++){ // loop over DC0-X1X2-DC1-X1X2-DC2-X1X2
 						const int dcId = k / 2;

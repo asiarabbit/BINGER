@@ -92,7 +92,7 @@ double TAAnode::GetDriftTime(double &weight) const{
 	double driftTime = GetData()->GetLeadingTime() - GetPara()->GetDelay() - tof;
 	// weight: for weighted addition of chi to chi2
 	if(TACtrlPara::IsDriftTimeQtCorrection())
-		((TAAnodePara*)GetPara())->DriftTimeQtCorrection(driftTime, GetTOT(), weight);
+		GetAnodePara()->DriftTimeQtCorrection(driftTime, GetTOT(), weight);
 	else weight = 1.; // the default weight value.
 	return driftTime;
 } // end of function GetDriftTime().
@@ -128,7 +128,7 @@ double TAAnode::GetDriftTime(double rr, double k){ // k is the track slope
 	} // end for over l
 //	cout << "tm: " << tm << endl; // DEBUG
 //	cout << "(298. - tm)*((r-4.999)/2.072): " << (298. - tm)*((rr-4.999)/2.072) << endl; // DEBUG
-	if(rr >= 4.999) tm += (298. - tm)*((rr-4.999)/2.072); // 2.072 = 5*sqrt(2)-4.999
+	if(rr >= 4.999) tm += (298. - tm) * ((rr - 4.999) / 2.072); // 2.072 = 5*sqrt(2)-4.999
 //	cout << "tm: " << tm << endl; getchar(); // DEBUG
 	return tm;
 } // end function GetDriftTime
@@ -136,28 +136,29 @@ double TAAnode::GetDriftTime(double rr, double k){ // k is the track slope
 
 double TAAnode::GetDriftDistance(double dt, double k){
 	int type[6]{}; TAUIDParser::DNS(type, GetUID());
-	int id = ((TAAnodePara*)GetPara())->GetSTRid(k, type[2]);
+	int id = GetAnodePara()->GetSTRid(k, type[2]);
 	return GetDriftDistance(dt, id);
 } // end of function GetDriftDistance().
 double TAAnode::GetDriftDistance(double dt, int STR_id){ // k is the track slope
-	double r_base = ((TAAnodePara*)GetPara())->GetSTR(STR_id)->Eval(dt); // the base drift distance
+	double r_base = GetAnodePara()->GetSTR(STR_id)->Eval(dt); // the base drift distance
 	double r_correct = GetDriftDistanceCorrection(r_base, STR_id); // the anode-specific drift distance corection, determined by STR autocalibration
 	r_correct = GetDriftDistanceCorrection(r_base+r_correct, STR_id); // so the drift distance bin would be more accurate.
 	double r = r_base + r_correct;
 	return r > 0. ? r : 0.;
 } // end of function GetDriftDistance
 double TAAnode::GetDriftDistanceCorrection(double r, int STR_id) const{
-	const double *pcor = ((TAAnodePara*)GetPara())->GetSTRCorrection(STR_id);
+	const double *pcor = GetAnodePara()->GetSTRCorrection(STR_id);
 	if(r < 0. || r >= TAAnodePara::kSTRCorRMax) return 0.;
 	else{
 		int DT = TAAnodePara::GetDriftDistanceBinNumber(r);
+//		if(0)
 		if(0 == DT){ // the zero bin is void to avoid bias, so the STR correction value of this bin has to be extrapolated.
 			return pcor[1];
 		}
 		double k = (r - (DT + 0.5) * TAAnodePara::kSTRCorRStep) / TAAnodePara::kSTRCorRStep; // DEBUG
 		if(k < 0.) k = 0.;
 		// TODO: to be completed with more advanced interpolation method
-		// such as (Newton interpolation.)
+		// such as (Newton interpolation)
 		return pcor[DT] * (1. - k) + pcor[DT + 1] * k;
 	} // end else
 } // end of function GetDriftDistanceCorrection

@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2017/12/16, SUN Yazhou.										     //
+// Last modified: 2017/12/23, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -20,6 +20,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <fstream>
+#include <unistd.h>
 
 // ROOT include
 #include "TFile.h"
@@ -42,7 +43,7 @@ using std::ofstream;
 using std::setw;
 using std::ios_base;
 
-const int TASTRCalibDCArr::nr = TAAnodePara::kSTRCorRNBins;
+constexpr int TASTRCalibDCArr::nr = TAAnodePara::kSTRCorRNBins;
 const double TASTRCalibDCArr::rmx = TAAnodePara::kSTRCorRMax;
 const int TASTRCalibDCArr::nAng = TAAnodePara::kSTRCorAngleNBins;
 const double TASTRCalibDCArr::rstep = TAAnodePara::kSTRCorRStep;
@@ -54,18 +55,31 @@ TASTRCalibDCArr::TASTRCalibDCArr(const string &rootfile, TAMWDCArray *dcArr)
 TASTRCalibDCArr::~TASTRCalibDCArr(){}
 
 // histogram chi and write down the histograms
-void TASTRCalibDCArr::ChiHistogramming(){
+// is3D: whether to use 3D chi to fill the histograms
+void TASTRCalibDCArr::ChiHistogramming(bool is3D){
 	if(!fDCArr) TAPopMsg::Error("TASTRCalibDCArr", "ChiHistogramming: MWDC array pointer is null");
-	ChiHistogramming(fROOTFile, fDCArr, fIsBigStatistics);
+	ChiHistogramming(fROOTFile, fDCArr, is3D, fIsBigStatistics);
 }
-void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcArr, bool isBigSta){
-	TAPopMsg::Info("TASTRCalibDCArr", "ChiHistogramming: number of drift distance bins for STR auto-calibration %f; Maximum drift distance: %f", nr, rmx);
-	TAPopMsg::Info("TASTRCalibDCArr", "ChiHistogramming: Input rootfile name: %s", rootfile);
+// is3D: whether to use 3D chi to fill the histograms
+void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcArr, bool is3D, bool isBigSta){
+	if(0 != access(rootfile.c_str(), F_OK))
+		TAPopMsg::Error("TASTRCalibDCArr", "ChiHistogramming: Input rootfile %s doesn't exist", rootfile.c_str());
+	TAPopMsg::Info("TASTRCalibDCArr", "ChiHistogramming: Input rootfile name: %s", rootfile.c_str());
+	TAPopMsg::Info("TASTRCalibDCArr", "ChiHistogramming: number of drift distance bins for STR auto-calibration %d; Maximum drift distance: %f", nr, rmx);
 	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
-	if(!f->FindObjectAny("treeTrack")){
+	if(!f->FindObjectAny("treeTrack"))
 		TAPopMsg::Error("TASTRCalibDCArr", "ChiHistogramming: treeTrack not found in input rootfile");
+	if(is3D && !f->FindObjectAny("treePID3D"))
+		TAPopMsg::Error("TASTRCalibDCArr", "ChiHistogramming: 3D chi histogramming is required, yet treePID3D is not found");
+	TAParaManager::Instance()->UpdateSTRCorrection(); // keep up-to-date with the newest calibration
+	const bool LRTAG = bool(dcArr->GetUID()-3); // 3: L; 4: R
+	// The x-axis of xX, xU, xV, to calculate angle-alpha
+	const double al[3][3] = {{1., 0., 0.}, {-sqrt(3.), 1., 0.}, {sqrt(3.), 1., 0.}}; // X-U-V
+	double ag[3][3][3]{}, agAxis[3][3][3]{}; // [DC][XUV][xyz];
+	for(int i = 3; i--;) for(int j = 3; j--;){ // i: DC0-1-2; j: X-U-V
+		dcArr->GetMWDC(i)->GetDetPara()->GetGlobalRotation(al[j], agAxis[i][j]);
+		dcArr->GetMWDC(i)->GetAnode(j, 1, 0)->GetAnodePara()->GetGlobalDirection(ag[i][j]);
 	}
-	TAParaManager::Instance()->ReadParameters(); // keep up-to-date with the newest calibration
 
 	const int ntrMax = 200, ntrMax3D = ntrMax / 3;
 	int ntr, index, type[ntrMax], id[ntrMax], nu[ntrMax][6];
@@ -84,6 +98,22 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 	treeTrack->SetBranchAddress("id", id); // 3-D track id
 	treeTrack->SetBranchAddress("xMiss3D", xMiss3D);
 
+	double Chi3D[ntrMax3D], chi2_3D[ntrMax3D], chi3D[ntrMax3D][18];
+	// x=k1*z+b1; y=k2*z+b2;
+	double k1_3D[ntrMax3D], b1_3D[ntrMax3D], k2_3D[ntrMax3D], b2_3D[ntrMax3D];
+	TTree *treePID3D = (TTree*)f->Get("treePID3D"); // storing 3D tracking and 3D-PID information
+	if(is3D && treePID3D){
+		treeTrack->AddFriend(treePID3D);
+		treePID3D->SetBranchAddress("Chi", Chi3D);
+		treePID3D->SetBranchAddress("chi2", chi2_3D);
+		treePID3D->SetBranchAddress("chi", chi3D); // residuum [x6->u6->v6]
+		treePID3D->SetBranchAddress("k1", k1_3D);
+		treePID3D->SetBranchAddress("b1", b1_3D);
+		treePID3D->SetBranchAddress("k2", k2_3D);
+		treePID3D->SetBranchAddress("b2", b2_3D);
+	}
+
+/////////////////////////// Chi histogramming begins ///////////////////////////////////////
 	// create TH2F objects for the STR correction fittings //
 	TH2F *hRDCSTRCor[3][3][2][96][nAng]{0}; // [DC#][XUV][Layer][nu][STR_id]
 	TH2F *hRDCSTR_RT[3][3][2][96][nAng]{0}; // [DC#][XUV][Layer][nu][STR_id] r-t 2D graph
@@ -95,11 +125,11 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 				for(int k = 0; k < nAnodePerLayer; k++){ // loop over anodes per layer
 					for(int l = 0; l < nAng; l++){
 						sprintf(name, "hRDCSTRCor_%d_%d_%d_%d_%d", i, j, m, k, l);
-						sprintf(title, "%s - r-dr Relation;r/mm;dr/mm", name);
+						sprintf(title, "%s - r-dr Relation;r [mm];dr [mm]", name);
 						hRDCSTRCor[i][j][m][k][l] = new TH2F(name, title, nr, 0., rmx, 300, -4.0, 4.0);
 						sprintf(name, "hRDCSTR_RT_%d_%d_%d_%d_%d", i, j, m, k, l);
-						sprintf(title, "%s - t-r Relation;t/ns;r/mm", name);
-						hRDCSTR_RT[i][j][m][k][l] = new TH2F(name, title, 35, 0., 280., 800, -0.5, 7.5);
+						sprintf(title, "%s - t-r Relation;t [ns];r [mm]", name);
+						hRDCSTR_RT[i][j][m][k][l] = new TH2F(name, title, nr, 0., rmx, 800, -0.5, 7.5);
 					} // end for over i
 				} // end for over k
 			} // end for over m
@@ -109,60 +139,126 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 	const int n = treeTrack->GetEntries();
 	int nTrk = 0;
 	cout << "Totally " << n << " data sections\n";
-	for(int i = 0; i < n; i++){ // loop over data sections.
+	for(int i = 0; i < n; i++){ // loop over data sections
 		treeTrack->GetEntry(i);
-		for(int j = 0; j < ntr; j++){ // loop over tracks in a data section.
-			int dcType = type[j]%10; // X-U-V
-			if(id[j] == -1) continue; // not a successful match
-			if(Chi[j] > 0.9) continue; // nasty tracks
-			nTrk++;
-			for(int l = 0; l < 6; l++){
-				if(nu[j][l] != -1){
-					// rc: distance of anode to track
-					double tt = t[j][l], dr = chi[j][l], rr = r[j][l];
-					double rc = rr+dr;
-					int DCid = l/2, NU = nu[j][l];
-					TAAnode *ano = dcArr->GetMWDC(DCid)->GetAnode(dcType, l%2, NU);
-					int STRid = ((TAAnodePara*)ano->GetPara())->GetSTRid(kl[j], dcType);
-					if(isBigSta){
-						hRDCSTRCor[DCid][dcType][l%2][NU][STRid]->Fill(rr, dr);
-						hRDCSTR_RT[DCid][dcType][l%2][NU][STRid]->Fill(tt, rc);
+		if(!is3D){
+			for(int j = 0; j < ntr; j++){ // loop over tracks in a data section
+				bool isDCArrR = bool(type[j]/10%10); // 0: L; 1: R
+				if(LRTAG != isDCArrR) continue;
+				int dcType = type[j]%10; // X-U-V
+//				if(-1 == id[j]) continue; // not a successful match
+				if(Chi[j] > 0.9) continue; // nasty tracks
+				nTrk++;
+				for(int l = 0; l < 6; l++){
+					if(nu[j][l] != -1){
+						// rc: distance of anode to track
+						const double tt = t[j][l], dr = chi[j][l], rr = r[j][l];
+						const double rc = rr+dr;
+						const int DCid = l/2, NU = nu[j][l];
+						TAMWDC *dc = dcArr->GetMWDC(DCid);
+						TAAnodePara *anoPar = dc->GetAnode(dcType, l%2+1, NU)->GetAnodePara();
+						const int STRid = anoPar->GetSTRid(kl[j], dcType);
+						const short nAnodePerLayer = dc->GetNAnodePerLayer();
+						if(isBigSta){
+							hRDCSTRCor[DCid][dcType][l%2][NU][STRid]->Fill(rr, dr);
+							hRDCSTR_RT[DCid][dcType][l%2][NU][STRid]->Fill(tt, rc);
+						} // end if
+						else{ // every hit is shared by all anodes in the layer
+							for(int k = 0; k < nAnodePerLayer; k++){
+								hRDCSTRCor[DCid][dcType][l%2][k][STRid]->Fill(rr, dr);
+								hRDCSTR_RT[DCid][dcType][l%2][k][STRid]->Fill(tt, rc);
+							} // end for over anodes in a sense wire layer
+						} // end else
 					} // end if
-					else{ // STRCor implemented layer by layer
-						for(int k = 0; k < 80; k++){
-							hRDCSTRCor[DCid][dcType][l%2][k][STRid]->Fill(rr, dr);
-							hRDCSTR_RT[DCid][dcType][l%2][k][STRid]->Fill(tt, rc);
-						}
-					} // end else
-				} // end if
+				} // end for over j
 			} // end for over j
-		} // end for over j
+		} // end of if(!is3D)
+		else if(treePID3D){ // using chi from 3D tracks
+			// identify 3-D tracks
+			int n3DtrXUV[3]{}, n3Dtr = 0;
+			int trkId[ntrMax3D][3]; memset(trkId, -1, sizeof(trkId)); // track id [3D track id][XUV]
+			// loop over grouped track projections
+			for(int j = 0; j < ntr; j++) if(-1 != id[j]){
+				for(int k = 0; k < 3; k++){ // loop over X-U-V track types
+					if(type[j]%10 == k){
+						trkId[id[j]][k] = j;
+						n3DtrXUV[k]++;
+					}
+				} // end loop over X-U-V track types
+			} // end for over j and if
+			if(n3DtrXUV[0] != n3DtrXUV[1] || n3DtrXUV[0] != n3DtrXUV[2]){
+				TAPopMsg::Error("TASTRCaliDCArr", "ChiHistogramming: This is odd... track projections of X, U and V are not consistent: n3DtrX: %d, n3DtrU: %d, n3DtrV: %d, ntr: %d", n3DtrXUV[0], n3DtrXUV[1], n3DtrXUV[2], ntr);
+			} // end if
+			n3Dtr = n3DtrXUV[0];
+			// // // ^^^^^^^ circulation over 3-D tracks in one data section ^^^^^^^ // // //
+			for(int jj = 0; jj < n3Dtr; jj++){ // loop over 3D tracks in a data section
+				bool isDCArrR = bool(type[trkId[jj][0]]/10%10); // 0: L; 1: R
+				if(LRTAG != isDCArrR) continue;
+				if(Chi3D[jj] > 0.9) continue; // nasty tracks
+				const double b[3] = {k1_3D[jj], k2_3D[jj], 1.}; // track direction vector
+				double alpha[3][3]{}; // angle between track projection and drift cell; [DC][XUV]
+				for(int j = 0; j < 3; j++){ // loop over X-U-V
+					// alpha-angle: track projection to normal plane of sense wires
+					for(int k = 3; k--;) // v.s. the detector-local z-axis
+						alpha[k][j] = TAMath::AlphaAngle3D(b, ag[k][j], agAxis[k][j]);
+//					cout << "alpha[0][0]: " << alpha[0][0] << endl; getchar(); // DEBUG
+					const int it = trkId[jj][j]; // id of track projections
+					for(int k = 0; k < 6; k++){ // loop over DC0X1X2-DC1X1X2-DC2X1X2
+						const int DCid = k/2, NU = nu[it][k];
+						if(-1 == NU) continue;
+						const short nAnodePerLayer = dcArr->GetMWDC(DCid)->GetNAnodePerLayer();
+						const double tt = t[it][k], rr = r[it][k], dr = chi3D[jj][j*6+k];
+						const double rc = rr+dr;
+						const int STRid = TAAnodePara::GetSTRid(alpha[DCid][j]);
+						if(isBigSta){
+							hRDCSTRCor[DCid][j][k%2][NU][STRid]->Fill(rr, dr);
+							hRDCSTR_RT[DCid][j][k%2][NU][STRid]->Fill(tt, rc);
+						} // end if
+						else{ // every hit is shared by all anodes in the layer
+							for(int l = 0; l < nAnodePerLayer; l++){
+								hRDCSTRCor[DCid][j][k%2][l][STRid]->Fill(rr, dr);
+								hRDCSTR_RT[DCid][j][k%2][l][STRid]->Fill(tt, rc);
+							} // end for over anodes in a sense wire layer
+						} // end else
+					} // end loop over 6 sense wire layers for a sense wire type
+				} // end loop over X-U-V
+			} // end loop over 3D tracks
+		} // end else
 		cout << "Processing data section " << i << "\r" << flush;
 	} // end for over i
-	cout << nTrk / 3 << " 3D tracks has been adopted for STR correction.\n";
+//	cout << nTrk / 3 << " 3D tracks has been adopted for STR correction.\n";
 
 	sprintf(name, "STRCali-%s", dcArr->GetName().c_str());
 	sprintf(title, "%s/histo", name);
 	if(!f->FindObjectAny(name)) f->mkdir(title); // store drift time histograms
-	f->cd(title);
+	f->cd(title); cout << endl;
 	for(int i = 0; i < 3; i++) for(int j = 0; j < 3; j++) for (int m = 0; m < 2; m++)
-	for(int k = 0; k < 96; k++) for(int s = 0; s < nAng; s++) if(hRDCSTRCor[i][j][m][k][s])
-	if(hRDCSTRCor[i][j][m][k][s]->GetEntries() > 5000.){
-		hRDCSTRCor[i][j][m][k][s]->Write("", TObject::kOverwrite);
-		hRDCSTR_RT[i][j][m][k][s]->Write("", TObject::kOverwrite);
-	}
+	for(int k = 0; k < 96; k++) for(int s = 0; s < nAng; s++) if(hRDCSTRCor[i][j][m][k][s]){
+		if(hRDCSTRCor[i][j][m][k][s]->GetEntries() > 5000.){
+			hRDCSTRCor[i][j][m][k][s]->Write("", TObject::kOverwrite);
+			hRDCSTR_RT[i][j][m][k][s]->Write("", TObject::kOverwrite);
+			cout << "Writing Histo \033[34;1m" << i << " " << j << " " << m;
+			cout << " " << k << " " << s << "\033[0m";
+			cout << "   \tPlease wait..." << "\r" << flush;
+		} // end innter if
+	} // end outer if
+	cout << "\n\nCurrent directory in rootfile is "; f->pwd();
 	cout << "\n\n\033[33;1mDONE\033[0m\n\n"; // DEBUG
+	sleep(1);
 	f->Close(); delete f;
 } // end of member function ChiHistogramming
 
 // read the chi histograms and fit them to get the mean, which would be used as
 // the correction of the initial STRs
-void TASTRCalibDCArr::GenerateSTRCorFile(){
+// round: the iteration id
+void TASTRCalibDCArr::GenerateSTRCorFile(int round){
 	if(!fDCArr) TAPopMsg::Error("TASTRCalibDCArr", "GenerateCalibFile: MWDC array pointer is null");
-	GenerateCalibFile(fROOTFile, fDCArr);
+	GenerateCalibFile(fROOTFile, fDCArr, round);
 }
 void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcArr, int round){
 	TAPopMsg::Info("TASTRCalibDCArr", "GenerateCalibFile: Input rootfile name: %s, STR auto-calibration round id: %d", rootfile.c_str(), round);
+	if(0 != access(rootfile.c_str(), F_OK))
+		TAPopMsg::Error("TASTRCalibDCArr", "GenerateCalibFile: Input rootfile %s doesn't exist", rootfile.c_str());
 	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
 	char name[128], title[128], xuv[] = "XUV";
 	sprintf(name, "STRCali-%s", dcArr->GetName().c_str());
@@ -202,28 +298,32 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 		TAPopMsg::Error("TASTRCalibDCArr", "GenerateCalibFile: nAng or nr is too small: nAng: %d, nr: %d", nAng, nr);
 	TTree *treeSigma = new TTree("treeSigma", "Spatial Resolution and STR Correction");
 	treeSigma->Branch("anodeId", anodeId, "anodeId[4]/I");
-	treeSigma->Branch("sigma", sigma_tree, "sigma[6][60]/D");
-	treeSigma->Branch("mean", mean_tree, "mean[6][60]/D");
+	treeSigma->Branch("sigma", sigma_tree, "sigma[6][60]/D"); // XXX: same as below
+	treeSigma->Branch("mean", mean_tree, "mean[6][60]/D"); // XXX: array dimension equals to (nAng,nr)
 	// for filling r-sigma graph
 	double sigma_g[3][3][nr]{};
 	int sigma_g_cnt[3][3][nr]{};
 
 	// Generate the calibration file
+	char strdir[] = "STRCorrection", mkstrdir[64] = "mkdir ";
+	strcat(mkstrdir, strdir);
+	// create a new directory to store STR correction files
+	if(0 != access(strdir, F_OK)) system(mkstrdir);
 	cout << "\33[34;1mUPDATING STRCorrection FILE...\033[0m" << endl;
-	sprintf(name, "%s_.003", dcArr->GetName());
+	sprintf(name, "%s/%s_.003", strdir, dcArr->GetName().c_str());
 	ofstream outFile(name);
 	outFile.setf(ios_base::fixed, ios_base::floatfield);
 	outFile.precision(3);
 	// descriptive file header
 	outFile << "###############################################################################\n";
-	outFile << "# Space Time Relation (STR) calibration file for MWDC sense wires";
-	outFile << " - Generation Time: " << TAPopMsg::time0() << endl;
+	outFile << "# Space Time Relation (STR) calibration file for MWDC sense wires\n";
+	outFile << "# Generation Time: " << TAPopMsg::time0() << endl;
 	outFile << "# This calibraiton file is automatically generated for " << dcArr->GetName() << endl;
-	outFile << "# by class TASTRCalibDCArr by fitting track fitting residues ";
+	outFile << "# by class TASTRCalibDCArr by fitting track fitting residues\n";
 	outFile << "# (Ref. NIM A 488. 1-2, p51-73 (2002)).\n";
 	outFile << "#\n";
 	outFile << "# File format is as follows (three lines per each anode):\n";
-	outFile << "# Info: anode_UID angle_No valid_bin_cnt";
+	outFile << "# Info: anode_UID angle_No valid_bin_cnt\n";
 	outFile << "# STR_correction_drift_time_bin_array\n";
 	outFile << "# STR_correction_array\n";
 	outFile << "#\n";
@@ -242,19 +342,19 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 					double strCor[nAng][nr]{}, strCorSigma[nAng][nr]{};
 					TAAnode *ano = dcArr->GetMWDC(i)->GetAnode(j, m+1, k);
 					for(int str_id = 0; str_id < nAng; str_id++){
-						sprintf(name, "STRCali/histo/hRDCSTRCor_%d_%d_%d_%d_%d", i, j, m, k, str_id);
+						sprintf(name, "/STRCali-%s/histo/hRDCSTRCor_%d_%d_%d_%d_%d", dcArr->GetName().c_str(), i, j, m, k, str_id);
 						TH2F *h2 = h2void;
-						if(f->Get(name)) h2 = (TH2F*)f->Get(name);
+						if(!(h2 = (TH2F*)f->Get(name))) continue;
 						int valid_bin_cnt = 0; // valid drift distance bin number
 						int valid_bin_array[nr]; // valid bin number array
 						for(int l = 0; l < nr; l++){ // loop over drift distance bins
 							// get the projection of the l-th channal along X axis,
-							// from which mean and sigma would be estimated.
+							// from which mean and sigma would be estimated
 							// project the l-th bin in X-axis to Y axis
 							TH1D *hpro = h2->ProjectionY("hpro", l+1, l+1);
-							int npro = hpro->GetEntries();
-							if(0) if(0 == l) npro = 0; // the first bin is biased.
-							if(npro < 500){ // stastics is too small
+							double npro = hpro->GetEntries();
+							if(0) if(0 == l) npro = 0; // the first bin is biased
+							if(npro < 500.){ // stastics is too small
 								strCor[str_id][l] = 0.;
 								strCorSigma[str_id][l] = 0.;
 							}
@@ -273,21 +373,21 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 								if((mean > -0.4 && mean < 0.4) && (sigma < 1.2 && sigma > 0.)){
 									strCor[str_id][l] = mean;
 									strCorSigma[str_id][l] = sigma;
-									// more statistics brings about more weight in the sigma average.
-									sigma_g[i][j][l] += sigma * npro; // [DC][XUV]
-									sigma_g_cnt[i][j][l] += npro; // [DC][XUV]
+									// more statistics brings about more weight in the sigma average
+									sigma_g[i][j][l] += sigma * npro; // [DC][XUV][rbin]
+									sigma_g_cnt[i][j][l] += npro; // [DC][XUV][rbin]
 									valid_bin_array[valid_bin_cnt++] = l;
 								}
-//								if(j == 1) strCor[str_id][l] = 0.; // U tracks are too nasty to be trusted.
+//								if(j == 1) strCor[str_id][l] = 0.; // U tracks are too nasty to be trusted
 							} // end else
 							mean_tree[str_id][l] = strCor[str_id][l];
 							sigma_tree[str_id][l] = strCorSigma[str_id][l];
-							// iterative correction, so it's addition, not replacement.
+							// iterative correction, so it's increment, not replacement
 							strCor[str_id][l] +=
-								((TAAnodePara*)ano->GetPara())->GetSTRCorrection(str_id)[l];
+								ano->GetAnodePara()->GetSTRCorrection(str_id)[l];
 							delete hpro; hpro = nullptr; // destruct the object and free the memory
-							cout << "Processing bin of " << i << " " << j << " " << m << " " << k << " ";
-							cout << str_id << " " << l << "\r" << flush;
+							cout << "Processing bin of " << i << " " << j << " " << m;
+							cout << " " << k << " " << str_id << " " << l << "\r" << flush;
 						} // end for over l
 						outFile << "Info: " << setw(10) << ano->GetUID() << " ";
 						outFile << setw(5) << str_id << " " << setw(5) << valid_bin_cnt << endl;

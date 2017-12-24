@@ -5,12 +5,12 @@
 #
 # Created Time: 2017/10/18
 # Author: SUN Yazhou, asia.rabbit@163.com
-# Last Modified: 2017/10/21, SUN Yazhou
+# Last Modified: 2017/12/23, SUN Yazhou
 ##################################################################################################
 
 find_package(ROOT REQUIRED)
-include_directories(${ROOT_INCLUDE_DIRS}) # header path
-include_directories(${PROJECT_SOURCE_DIR}/etf/inc) # header path
+include_directories(${ROOT_INCLUDE_DIRS}) # ROOT header path
+include_directories(${PROJECT_SOURCE_DIR}/etf/inc) # BINGER header path
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 
 add_executable(pre pre.C)
@@ -27,4 +27,7 @@ target_link_libraries(ass ${ROOT_LIBRARIES} libetf)
 
 add_executable(t0 t0cali.C)
 target_link_libraries(t0 ${ROOT_LIBRARIES} libetf)
+
+add_executable(str strcali.C)
+target_link_libraries(str ${ROOT_LIBRARIES} libetf)
 

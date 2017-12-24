@@ -32,10 +32,11 @@ public:
 	void SetROOTFile(const string &rootfile){ fROOTFile = rootfile; }
 	void SetMWDCArray(TAMWDCArray *dcArr){ fDCArr = dcArr; }
 	void SetIsBigStatistics(bool opt){ fIsBigStatistics = opt; }
-	virtual void ChiHistogramming();
-	virtual void GenerateSTRCorFile();
+	bool IsBigStatistics() const{ return fIsBigStatistics; }
+	virtual void ChiHistogramming(bool is3D); // is3D: whether to use 3D chi to fill the histograms
+	virtual void GenerateSTRCorFile(int round = 0);
 	// isBigData: whether or not the data statistics is enough
-	static void ChiHistogramming(const string &rootfile, TAMWDCArray *dcArr, bool isBigSta = true);
+	static void ChiHistogramming(const string &rootfile, TAMWDCArray *dcArr, bool is3D, bool isBigSta = true);
 	// round: STR auto-calibration round
 	static void GenerateCalibFile(const string &rootfile, TAMWDCArray *dcArr, int round = 0);
 protected:

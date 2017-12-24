@@ -218,6 +218,8 @@ void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcAr
 	if(TAParaManager::Instance()->Exist(2))
 		TAPopMsg::Error("TAT0CalibDCArr", "GenerateCalibFile: T0 Calibration files already exist in config/[experiment]/T0, which should be deleted firsly. Are you sure to continue?");
 	TAPopMsg::Info("TAT0CalibDCArr", "GenerateCalibFile: Input rootfile name: %s", rootfile.c_str());
+	if(0 != access(rootfile.c_str(), F_OK))
+		TAPopMsg::Error("TAT0CalibDCArr", "GenerateCalibFile: Input rootfile %s doesn't exist", rootfile.c_str());
 	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
 	char name[128], title[128];
 	sprintf(name, "T0Cali0-%s", dcArr->GetName().c_str());
@@ -238,7 +240,7 @@ void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcAr
 	treeT0->Branch("uid", &uid);
 	TH1F *hT0 = new TH1F("hT0", "T0 Distribution Over Aondes Before T0 Correction", 501, -25.05, 25.05);
 
-	char xuv[] = "XUV", strdir[] = "STRCorrection", mkstrdir[64] = "mkdir ";
+	char xuv[] = "XUV", strdir[] = "T0Calibration", mkstrdir[64] = "mkdir ";
 	strcat(mkstrdir, strdir);
 	// create a new directory to store STR correction files
 	if(0 != access(strdir, F_OK)) system(mkstrdir);
@@ -251,8 +253,7 @@ void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcAr
 	// descriptive file header
 	outFile << "###############################################################################\n";
 	outFile << "# Time offset calibration file for MWDC sense wires\n";
-	outFile << "# Generation Time: ";
-	outFile << TAPopMsg::time0() << endl;
+	outFile << "# Generation Time: " << TAPopMsg::time0() << endl;
 	outFile << "# This calibraiton file is automatically generated for " << dcArr->GetName() << endl;
 	outFile << "# by class TAT0CalibDCArr using drift time histogram fitting\n";
 	outFile << "# (Ref. NIM A 488. 1-2, p51-73 (2002)).\n";
