@@ -168,6 +168,7 @@
 				hSiPMPlaBarrHitPos->Fill(strId, str->GetHitPosition());
 				// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
 				timeToTrigSipmBarr = str->GetTime(0., 300., 600.);
+				hsipmBarrToTrig->Fill(strId, timeToTrigSipmBarr);
 				if(tRef != -9999.){
 					timeToTRefSipmBarr = timeToTrigSipmBarr - tRef;
 					hsipmBarrToTRef->Fill(strId, timeToTRefSipmBarr);

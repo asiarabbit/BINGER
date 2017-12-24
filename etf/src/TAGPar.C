@@ -59,40 +59,40 @@ TAGPar::TAGPar() : fParVec{0}{
 	// $$$$$ time to trigger range $$$$$ //
 	// ---- PARAMETER 0 --- //
 	p = new TAParameter("T0_1ToTrigLBUV", "T0_1ToTrigLBUV");
-	p->SetValue(950.); fParVec[0] = p; p = nullptr;
+	p->SetValue(450.); fParVec[0] = p; p = nullptr;
 	// ---- PARAMETER 1 --- //
 	p = new TAParameter("T0_1ToTrigHBUV", "T0_1ToTrigHBUV");
-	p->SetValue(1400.); fParVec[1] = p; p = nullptr;
+	p->SetValue(620.); fParVec[1] = p; p = nullptr;
 	// ---- PARAMETER 2 --- //
 	p = new TAParameter("T0_1ToTrigLBDV", "T0_1ToTrigLBDV");
-	p->SetValue(950.); fParVec[2] = p; p = nullptr;
+	p->SetValue(450.); fParVec[2] = p; p = nullptr;
 	// ---- PARAMETER 3 --- //
 	p = new TAParameter("T0_1ToTrigHBDV", "T0_1ToTrigHBDV");
-	p->SetValue(1400.); fParVec[3] = p; p = nullptr;
+	p->SetValue(620.); fParVec[3] = p; p = nullptr;
 	// ---- PARAMETER 4 --- //
 	p = new TAParameter("T0_1DelayAvrg", "T0_1DelayAvrg");
-	p->SetValue(-343.7); fParVec[4] = p; p = nullptr;
+	p->SetValue(0.); fParVec[4] = p; p = nullptr;
 	// ---- PARAMETER 5 --- //
 	p = new TAParameter("tofwToTrigLB", "tofwToTrigLB");
-	p->SetValue(1000.); fParVec[5] = p; p = nullptr;
+	p->SetValue(300.); fParVec[5] = p; p = nullptr;
 	// ---- PARAMETER 6 --- //
 	p = new TAParameter("tofwToTrigHB", "tofwToTrigHB");
-	p->SetValue(1360.); fParVec[6] = p; p = nullptr;
+	p->SetValue(700.); fParVec[6] = p; p = nullptr;
 	// ---- PARAMETER 7 --- //
 	p = new TAParameter("dcToTrigLB", "dcToTrigLB");
-	p->SetValue(1000.); fParVec[7] = p; p = nullptr;
+	p->SetValue(450.); fParVec[7] = p; p = nullptr;
 	// ---- PARAMETER 8 --- //
 	p = new TAParameter("dcToTrigHB", "dcToTrigHB");
-	p->SetValue(1700.); fParVec[8] = p; p = nullptr;
+	p->SetValue(920.); fParVec[8] = p; p = nullptr;
 	// ---- PARAMETER 9 --- //
 	p = new TAParameter("sipmPlaArrToTrigLB", "sipmPlaArrToTrigLB");
 	p->SetValue(200.); fParVec[9] = p; p = nullptr;
 	// ---- PARAMETER 10 --- //
 	p = new TAParameter("sipmPlaArrToTrigHB", "sipmPlaArrToTrigHB");
-	p->SetValue(650.); fParVec[10] = p; p = nullptr;
+	p->SetValue(750.); fParVec[10] = p; p = nullptr;
 	// ---- PARAMETER 11 --- //
 	p = new TAParameter("sipmPlaBarrToTrigLB", "sipmPlaBarrToTrigLB");
-	p->SetValue(200.); fParVec[11] = p; p = nullptr;
+	p->SetValue(250.); fParVec[11] = p; p = nullptr;
 	// ---- PARAMETER 12 --- //
 	p = new TAParameter("sipmPlaBarrToTrigHB", "sipmPlaBarrToTrigHB");
 	p->SetValue(700.); fParVec[12] = p; p = nullptr;
@@ -100,88 +100,88 @@ TAGPar::TAGPar() : fParVec{0}{
 	// $ DCL0-2 $ //
 	// ---- PARAMETER 13 --- //
 	p = new TAParameter("HVDCL0X", "HVDCL0X");
-	p->SetValue(0); fParVec[13] = p; p = nullptr;
+	p->SetValue(3); fParVec[13] = p; p = nullptr;
 	// ---- PARAMETER 14 --- //
 	p = new TAParameter("HVDCL0U", "HVDCL0U");
-	p->SetValue(0); fParVec[14] = p; p = nullptr;
+	p->SetValue(-1); fParVec[14] = p; p = nullptr;
 	// ---- PARAMETER 15 --- //
 	p = new TAParameter("HVDCL0V", "HVDCL0V");
-	p->SetValue(0); fParVec[15] = p; p = nullptr;
+	p->SetValue(3); fParVec[15] = p; p = nullptr;
 	// ---- PARAMETER 16 --- //
 	p = new TAParameter("HVDCL1X", "HVDCL1X");
-	p->SetValue(0); fParVec[16] = p; p = nullptr;
+	p->SetValue(2); fParVec[16] = p; p = nullptr;
 	// ---- PARAMETER 17 --- //
 	p = new TAParameter("HVDCL1U", "HVDCL1U");
-	p->SetValue(0); fParVec[17] = p; p = nullptr;
+	p->SetValue(2); fParVec[17] = p; p = nullptr;
 	// ---- PARAMETER 18 --- //
 	p = new TAParameter("HVDCL1V", "HVDCL1V");
-	p->SetValue(0); fParVec[18] = p; p = nullptr;
+	p->SetValue(2); fParVec[18] = p; p = nullptr;
 	// ---- PARAMETER 19 --- //
 	p = new TAParameter("HVDCL2X", "HVDCL2X");
-	p->SetValue(0); fParVec[19] = p; p = nullptr;
+	p->SetValue(4); fParVec[19] = p; p = nullptr;
 	// ---- PARAMETER 20 --- //
 	p = new TAParameter("HVDCL2U", "HVDCL2U");
-	p->SetValue(0); fParVec[20] = p; p = nullptr;
+	p->SetValue(4); fParVec[20] = p; p = nullptr;
 	// ---- PARAMETER 21 --- //
+	p = new TAParameter("HVDCL2V", "HVDCR2V");
+	p->SetValue(4); fParVec[21] = p; p = nullptr;
 	// $ DCR0-2 $ //
-	p = new TAParameter("HVDCR2V", "HVDCR2V");
-	p->SetValue(0); fParVec[21] = p; p = nullptr;
 	// ---- PARAMETER 22 --- //
 	p = new TAParameter("HVDCR0X", "HVDCR0X");
-	p->SetValue(0); fParVec[22] = p; p = nullptr;
+	p->SetValue(3); fParVec[22] = p; p = nullptr;
 	// ---- PARAMETER 23 --- //
 	p = new TAParameter("HVDCR0U", "HVDCR0U");
-	p->SetValue(0); fParVec[23] = p; p = nullptr;
+	p->SetValue(-1); fParVec[23] = p; p = nullptr;
 	// ---- PARAMETER 24 --- //
 	p = new TAParameter("HVDCR0V", "HVDCR0V");
-	p->SetValue(0); fParVec[24] = p; p = nullptr;
+	p->SetValue(3); fParVec[24] = p; p = nullptr;
 	// ---- PARAMETER 25 --- //
 	p = new TAParameter("HVDCR1X", "HVDCR1X");
-	p->SetValue(0); fParVec[25] = p; p = nullptr;
+	p->SetValue(3); fParVec[25] = p; p = nullptr;
 	// ---- PARAMETER 26 --- //
 	p = new TAParameter("HVDCR1U", "HVDCR1U");
-	p->SetValue(0); fParVec[26] = p; p = nullptr;
+	p->SetValue(3); fParVec[26] = p; p = nullptr;
 	// ---- PARAMETER 27 --- //
 	p = new TAParameter("HVDCR1V", "HVDCR1V");
-	p->SetValue(0); fParVec[27] = p; p = nullptr;
+	p->SetValue(3); fParVec[27] = p; p = nullptr;
 	// ---- PARAMETER 28 --- //
 	p = new TAParameter("HVDCR2X", "HVDCR2X");
-	p->SetValue(0); fParVec[28] = p; p = nullptr;
+	p->SetValue(3); fParVec[28] = p; p = nullptr;
 	// ---- PARAMETER 29 --- //
 	p = new TAParameter("HVDCR2U", "HVDCR2U");
-	p->SetValue(0); fParVec[29] = p; p = nullptr;
+	p->SetValue(3); fParVec[29] = p; p = nullptr;
 	// ---- PARAMETER 30 --- //
 	p = new TAParameter("HVDCR2V", "HVDCR2V");
-	p->SetValue(0); fParVec[30] = p; p = nullptr;
+	p->SetValue(3); fParVec[30] = p; p = nullptr;
 	// $$$$$ Exp visualization Canvas Size (unit: mm) $$$$$ //
 	// ---- PARAMETER 31 --- //
 	p = new TAParameter("L-DownstreamMag", "L-DownstreamMag");
-	p->SetValue(10000.); fParVec[31] = p; p = nullptr;
+	p->SetValue(5000.); fParVec[31] = p; p = nullptr;
 	// ---- PARAMETER 32 --- //
 	p = new TAParameter("W-DownstreamMag", "W-DownstreamMag");
 	p->SetValue(3000.); fParVec[32] = p; p = nullptr;
 	// ---- PARAMETER 33 --- //
 	p = new TAParameter("T0_1UV_delay", "T0_1UV_delay");
-	p->SetValue(-2.7); fParVec[33] = p; p = nullptr; // -2.7 for beamTest2016
+	p->SetValue(0.); fParVec[33] = p; p = nullptr; // -2.7 for beamTest2016
 	// $$$$$ T_tofDCToTOFWall
 	// ---- PARAMETER 34 --- //
 	p = new TAParameter("T_tofDCtoTOFWLX", "T_tofDCtoTOFWLX");
-	p->SetValue(7.4); fParVec[34] = p; p = nullptr; // -2.7 for beamTest2016
+	p->SetValue(6.6); fParVec[34] = p; p = nullptr; // -2.7 for beamTest2016
 	// ---- PARAMETER 35 --- //
 	p = new TAParameter("T_tofDCtoTOFWLU", "T_tofDCtoTOFWLU");
-	p->SetValue(4.8); fParVec[35] = p; p = nullptr; // -2.7 for beamTest2016
+	p->SetValue(4.1); fParVec[35] = p; p = nullptr; // -2.7 for beamTest2016
 	// ---- PARAMETER 36 --- //
 	p = new TAParameter("T_tofDCtoTOFWLV", "T_tofDCtoTOFWLV");
-	p->SetValue(2.0); fParVec[36] = p; p = nullptr; // -2.7 for beamTest2016
+	p->SetValue(1.4); fParVec[36] = p; p = nullptr; // -2.7 for beamTest2016
 	// ---- PARAMETER 37 --- //
 	p = new TAParameter("T_tofDCtoTOFWRX", "T_tofDCtoTOFWRX");
-	p->SetValue(33.4); fParVec[37] = p; p = nullptr; // -2.7 for beamTest2016
+	p->SetValue(8.5); fParVec[37] = p; p = nullptr; // -2.7 for beamTest2016
 	// ---- PARAMETER 38 --- //
 	p = new TAParameter("T_tofDCtoTOFWRU", "T_tofDCtoTOFWRU");
-	p->SetValue(23.7); fParVec[38] = p; p = nullptr; // -2.7 for beamTest2016
+	p->SetValue(5.5); fParVec[38] = p; p = nullptr; // -2.7 for beamTest2016
 	// ---- PARAMETER 39 --- //
 	p = new TAParameter("T_tofDCtoTOFWRV", "T_tofDCtoTOFWRV");
-	p->SetValue(16.9); fParVec[39] = p; p = nullptr; // -2.7 for beamTest2016
+	p->SetValue(2.2); fParVec[39] = p; p = nullptr; // -2.7 for beamTest2016
 	
 }
 

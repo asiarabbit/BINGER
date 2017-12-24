@@ -124,8 +124,9 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 
 				if(nu[i] >= 0){
 					LAYER[gGOOD++] = i;
-					x[i] = ((TAAnodePara*)MWDC[i/2]->GetAnode(dcType, i%2+1, nu[i])->GetPara())->GetProjectionX();
-					z[i] = ((TAAnodePara*)MWDC[i/2]->GetAnode(dcType, i%2+1, nu[i])->GetPara())->GetProjectionZ();
+					TAAnodePara *pa = MWDC[i/2]->GetAnode(dcType, i%2+1, nu[i])->GetAnodePara();
+					x[i] = pa->GetProjectionX();
+					z[i] = pa->GetProjectionZ();
 #ifdef DEBUG_MAP
 					cout << std::fixed << std::setprecision(9);
 					cout << "\tx[" << i << "] = " << x[i] << ";" << endl; // DEBUG
@@ -152,6 +153,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 //			getchar(); // DEBUG
 #endif
 			if(d2 < d2Thre * nFiredAnodeLayer){ // a track candidate
+//				cout << endl << "d2/nFiredAnodeLayer: " << d2/nFiredAnodeLayer; getchar(); // DEBUG
 #ifdef DEBUG_MAP
 				cout << "\033[31;1mBINGO!\033[0m" << endl; // DEBUG
 				getchar(); // DEBUG
@@ -185,7 +187,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 					for(int i = 0; i < 6; i++){ // DC0X1-X2-DC1X1-X2-DC2X1-X2
 						if(nu[i] >= 0){
 							TAAnode *ano = MWDC[i/2]->GetAnode(dcType, i % 2 + 1, nu[i]);
-							((TAAnodeData*)ano->GetData())->SetTOF(TOF);
+							ano->GetAnodeData()->SetTOF(TOF);
 							// assign weight at the same time
 							t[i] = ano->GetDriftTime(weight[i]);
 //							cout << "TOF: " << TOF << endl;

@@ -95,7 +95,7 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 	// note that B and b are both in global reference
 	double B[3]{}, b[3]{}; // bx, by and Bx, By are to be assigned with random nums
 	double k1, k2, b1, b2; // x=k1z+b1; y=k2z+b2;
-	double beta[2] = {0.5, 0.6}, beta_t; // beta of incident particle [DCArrL-R]
+	double beta[2] = {0.45, 0.6}, beta_t; // beta of incident particle [DCArrL-R]
 	// -16*25 = -400., so that timeToTrig would within the right range
 	int bunchId = -kT0_1TimeToTrigNCycle; // T0_1 starts from 0.
 	treeData->Branch("index", &index, "index/I"); // run id
@@ -272,7 +272,7 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 //				cout << "anoPar->GetDelay(): " << anoPar->GetDelay(); getchar(); // DEBUG
 				leadingTime[0] = T_drift + T_wire - T_tof + T0;
 				if(kIsDebug){ // DEBUG
-					cout << ano->GetName() << endl; // DEBUG
+					cout << "\033[33;1m" << ano->GetName() << "\033[0m\n"; // DEBUG
 					cout << "nu: " << nu[j][k] << "\tchId: " << chId << endl; // DEBUG
 					cout << "b[0]: " << b[0] << "\tb[1]: " << b[1] << "\tb[2]: " << b[2] << endl; // DEBUG
 					cout << "B[0]: " << B[0] << "\tB[1]: " << B[1] << "\tB[2]: " << B[2] << endl; // DEBUG

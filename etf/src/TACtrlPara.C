@@ -45,11 +45,11 @@ bool TACtrlPara::Is3DTracking(){ return kIs3DTracking; }
 // 5: half a DC cell, given all kinds of errors
 double TACtrlPara::Get3DCoincideWindow(){ return 10.; }
 // used in map() as the averaged d2 over fired anodes. D2 <= nFiredAnodeLayer * D2Thre()   (PerDot)
-double TACtrlPara::D2Thre(){ return 30.; } // for eliminating falsely fired andoes. BINGO unit: mm^2
+double TACtrlPara::D2Thre(){ return 17.; } // for eliminating falsely fired andoes. BINGO unit: mm^2
 bool TACtrlPara::TimeThre(double t){ return t > -40. && t < 350.; }
 double TACtrlPara::Beta(){ return 0.5; } // central beam energy
 // threshold for chi per dot, to eliminate false combinations. 4.0
-double TACtrlPara::ChiThrePD(){ return 3.; }
+double TACtrlPara::ChiThrePD(){ return 2.; }
 int TACtrlPara::Vicinity(){ return 1; } // used in discerning multiple tracks, unit: cell
 int TACtrlPara::StripTolerance(){ return 0; } // used in discerning multiple tracks, unit: strip
 // TATrack::kBFGSFit; // kNormalFit: 0; kBFGSFit: 1 kIterFit: 2
@@ -71,7 +71,7 @@ double TACtrlPara::DsquareThresholdPerDot(unsigned uid){
 	int type[6]{}; TAUIDParser::DNS(type, uid);
 	if(3 != type[0] && 4 != type[0])
 		TAPopMsg::Error("TACtrlPara", "GetTOFWallStripDelay: Not an MWDC array");
-	static double d2Thre[2] = {50., 50.};
+	static double d2Thre[2] = {30., 30.};
 	return d2Thre[type[0] - 3];
 }
 // calculate the minmum deviation of a track off the fired strips in a TOF wall
@@ -186,8 +186,8 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 			const int hv = HVopt[type[0]-3][type[1]][type[2]];
 			if(hv >= nHV) TAPopMsg::Error("TACtrlPara", "AssignSTR: hv id too large: hv: %d", hv);
 		for(int i = 0; i < nAngBin; i++){
-			// XXX: RTDumb -> 1000V, facilitate simulation
-			if(hv < 0) para->SetSTR(rt[0][i], i); // rtDumb, rt[0][i]
+			// XXX: RTDumb -> 1300V, facilitate simulation
+			if(hv < 0) para->SetSTR(rt[2][i], i); // rtDumb, rt[0][i]
 			else para->SetSTR(rt[hv][i], i);
 		}
 	}
@@ -197,8 +197,8 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 TACtrlPara::TACtrlPara() : kIsCoarseFit(false), kIs3DTracking(false){
 	// for TATOFWall::GetTime().
 	// count of strips from a fired strips to the fitted track. TATOFWall.C
-	kNStripStrayMinR = -0.8, kNStripStrayMaxR = 0.8; // -0.95, 0.20
-	kNStripStrayMinL = -0.8, kNStripStrayMaxL = 0.8; // -0.90, 0.65
+	kNStripStrayMinR = -0.6, kNStripStrayMaxR = 0.6; // -0.95, 0.20
+	kNStripStrayMinL = -0.6, kNStripStrayMaxL = 0.6; // -0.90, 0.65
 
 	//---------  for pattern recognition -------------------//
 	// for map function

@@ -9,7 +9,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/29.															     //
-// Last modified: 2017/11/24, SUN Yazhou.										     //
+// Last modified: 2017/12/24, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -156,7 +156,7 @@
 
 		if(0) vis->FillHitMap();
 		static int jj = 0;
-		if(0) if(jj < 50){
+		if(jj < 50){
 			jj++;
 			static int i0 = 0;
 			if(0 == i0){ // to make sure that this block would only be carried out once

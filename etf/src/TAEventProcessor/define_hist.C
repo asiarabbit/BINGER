@@ -138,7 +138,7 @@
 	objLs[4].push_back(hSiPMPlaBarrHitPos);
 
 	// $$$$$$$$$$$$$$$$$$$$$$$$$$$$ PID spectrum $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ //
-	TH1F *hpoz = new TH1F("hpoz", "Momentum over Z;p/z MeV/c", 5000, -1000., 4000.);
+	TH1F *hpoz = new TH1F("hpoz", "Momentum over Z;p/z MeV/c", 1000, -1000., 4000.);
 	TH1F *haoz = new TH1F("haoz", "Mass(u) over Z;aoz", 500, -5.0, 5.0);
 	TH1F *htof2 = new TH1F("htof2", "Time of Flight from T0_1 to TOFWall;tof2/ns", 500, -20., 100.);
 	TH1F *hbeta2 = new TH1F("hbeta2", "beta from from T0_1 to TOFWall;beta2", 500, -0.5, 1.3);
@@ -155,6 +155,7 @@
 	TH2F *htof2sipmArr = new TH2F("htof2sipmArr", "htof2sipmArr;stripId;tof2/ns", 13, -1.5, 11.5, 500, -300., 500.);
 	TH2F *hsipmArrToTrig = new TH2F("hsipmArrToTrig", "hsipmArrToTrig;stripId;timeToTrig/ns", 13, -1.5, 11.5, 4000, -500., 2000.);
 	TH2F *hsipmArrToTRef = new TH2F("hsipmArrToTRef", "hsipmArrToTRef;stripId;timeToTRef/ns", 13, -1.5, 11.5, 3000, -500., 1500.);
+	TH2F *hsipmBarrToTrig = new TH2F("hsipmBarrToTrig", "hsipmBarrToTrig;stripId;timeToTrig/ns", 27, -1.5, 25.5, 3000, -500., 2000.);
 	TH2F *hsipmBarrToTRef = new TH2F("hsipmBarrToTRef", "hsipmBarrToTRef;stripId;timeToTRef/ns", 27, -1.5, 25.5, 3000, -500., 1500.);
 	TH2F *hT0_1ToTrigUV = new TH2F("hT0_1ToTrigUV", "hT0_1ToTrigUV;edgeNumId;timeToTrig/ns", 13, -1.5, 11.5, 4000, -2000., 2000.);
 	TH2F *hT0_1ToTrigDV = new TH2F("hT0_1ToTrigDV", "hT0_1ToTrigDV;edgeNumId;timeToTrig/ns", 13, -1.5, 11.5, 4000, -2000., 2000.);
@@ -167,7 +168,7 @@
 	objLs[6].push_back(hT0_1ToTrigUV); objLs[6].push_back(hT0_1ToTrigDV);
 	objLs[6].push_back(hTOFWToTrigUV[0]); objLs[6].push_back(hTOFWToTrigUV[1]);
 	objLs[7].push_back(hsipmArrToTRef); objLs[7].push_back(hsipmBarrToTRef);
-	
+	objLs[6].push_back(hsipmBarrToTrig);
 
 	int cnt_timeToTrig_T0_1UV = 0, cnt_timeToTrig_T0_1DV = 0;
 	int cntTRef = 0;

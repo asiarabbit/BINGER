@@ -58,7 +58,7 @@ void TARawDataProcessor::SetDataFileName(const string &name, int runId){
 	if(!strcmp(tmp, ""))
 		TAPopMsg::Error("TARawDataProcessor", "SetDataFileName: Input data file is empty");
 	if(0 != access(name.c_str(), F_OK))
-		TAPopMsg::Error("TARawDataProcessor", "SetDataFileName: %s doesn't exist", name.c_str());
+		TAPopMsg::Error("TARawDataProcessor", "SetDataFileName: %s doesn't exist.\n\tFor data files in the current directory, please add './' in front of the data files' name;\n\tFor data files in ../data/, relative or absolute path to the files is not necessary", name.c_str());
 	fDataFile = name;
 	fROOTFile = tmp; fROOTFile += ".root";
 //	TAPopMsg::Debug("TARawDataProcessor", "SetDataFileName: fROOTFile: %s", fROOTFile.c_str());
@@ -74,7 +74,10 @@ inline double rand0_5(){ return rand()*1./RAND_MAX; } // bin smoothing, import f
 
 // read offline binary data file and store them in a tree and a rootfile.
 int TARawDataProcessor::ReadOffline(){
-	if(0 == access(fROOTFile.c_str(), F_OK)) return -1; // file already exists
+	if(0 == access(fROOTFile.c_str(), F_OK)){
+		TAPopMsg::Warn("TARawDataProcessor", "ReadOffline: %s exist. BINGER would use the current ROOTFile. RawData => ROOT file transformation would be skipped", fROOTFile.c_str());
+		return -1; // file already exists
+	}
 
 	static const double H_BLIP = 25. / pow(2., 8.);
 	static const double V_BLIP = 25. / pow(2., 10.);
