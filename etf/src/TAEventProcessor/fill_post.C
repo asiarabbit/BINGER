@@ -83,7 +83,7 @@
 					aoz[j] = pid->GetAoZ(); aozdmin[j] = pid->GetChi();
 					beta2[j] = pid->GetBeta(); poz[j] = pid->GetPoZ(); // MeV/c
 					pid->GetTargetExitAngle(yp[j]); trkLenT[j] = pid->GetTotalTrackLength();
-					if(aozdmin[j] > 0.5 || -9999. == aoz[j]) cntaozWrong++;
+					if(aozdmin[j] > 0.1 || -9999. == aoz[j]) cntaozWrong++;
 //					cout << "aozdmin[j]: " << aozdmin[j] << endl; getchar(); // DEBUG
 					cntaoz++;
 				}

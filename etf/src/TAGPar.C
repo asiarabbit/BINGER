@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/13.															     //
-// Last modified: 2017/12/16, SUN Yazhou.										     //
+// Last modified: 2017/12/26, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -45,12 +45,20 @@ void TAGPar::ShowPar(unsigned int id) const{
 	cout << "\tValue: " << Val(id) << endl;
 	getchar();
 }
-const TAParameter *TAGPar::Par(unsigned int id) const{
+TAParameter *TAGPar::Parameter(unsigned int id) const{
 	if(id >= kSIZE) TAPopMsg::Error("TAGPar", "Par: input id exceeds the maximum parameter array size. M_SIZE: %d", kSIZE);
 	if(!fParVec[id]) TAPopMsg::Error("TAGPar", "Par: required pointer is null");
 	return fParVec[id];
 }
+const TAParameter *TAGPar::Par(unsigned int id) const{
+	return Parameter(id);
+}
 
+short TAGPar::GetNParameter() const{
+	int n = 0;
+	for(TAParameter *p : fParVec) if(p) n++;
+	return n;
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // the instructor
@@ -182,9 +190,7 @@ TAGPar::TAGPar() : fParVec{0}{
 	// ---- PARAMETER 39 --- //
 	p = new TAParameter("T_tofDCtoTOFWRV", "T_tofDCtoTOFWRV");
 	p->SetValue(2.2); fParVec[39] = p; p = nullptr; // -2.7 for beamTest2016
-	
 }
-
 
 
 

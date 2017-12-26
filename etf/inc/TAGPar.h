@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/12.															     //
-// Last modified: 2017/12/12, SUN Yazhou.										     //
+// Last modified: 2017/12/26, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -23,6 +23,7 @@
 using std::array;
 
 class TAParameter;
+class TAParaManager;
 
 class TAGPar{
 public:
@@ -32,8 +33,11 @@ public:
 	double Val(unsigned int id) const;
 	const TAParameter *Par(unsigned int id) const;
 	void ShowPar(unsigned int id) const;
+	short GetNParameter() const;
+	friend TAParaManager;
 protected:
 	TAGPar();
+	TAParameter *Parameter(unsigned int id) const; // for modify the parameters
 	static TAGPar *fInstance;
 	static constexpr int kSIZE = 1000;
 	array<TAParameter *, kSIZE> fParVec;

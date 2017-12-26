@@ -49,7 +49,7 @@ double TACtrlPara::D2Thre(){ return 17.; } // for eliminating falsely fired ando
 bool TACtrlPara::TimeThre(double t){ return t > -40. && t < 350.; }
 double TACtrlPara::Beta(){ return 0.5; } // central beam energy
 // threshold for chi per dot, to eliminate false combinations. 4.0
-double TACtrlPara::ChiThrePD(){ return 2.; }
+double TACtrlPara::ChiThrePD(){ return 3.; }
 int TACtrlPara::Vicinity(){ return 1; } // used in discerning multiple tracks, unit: cell
 int TACtrlPara::StripTolerance(){ return 0; } // used in discerning multiple tracks, unit: strip
 // TATrack::kBFGSFit; // kNormalFit: 0; kBFGSFit: 1 kIterFit: 2

@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/14.															     //
-// Last modified: 2017/12/23, SUN Yazhou.										     //
+// Last modified: 2017/12/26, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -147,7 +147,9 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 	// x=k1*z+b1; y=k2*z+b2;
 	double k1_3D[ntrMax3D], b1_3D[ntrMax3D], k2_3D[ntrMax3D], b2_3D[ntrMax3D];
 	TTree *treePID3D = (TTree*)f->Get("treePID3D"); // storing 3D tracking and 3D-PID information
+	bool is3D = false; // if using 3D tracks
 	if(treePID3D){
+		is3D = (bool)treePID3D->GetEntries();
 		treeTrack->AddFriend(treePID3D);
 		treePID3D->SetBranchAddress("Chi", Chi3D);
 		treePID3D->SetBranchAddress("chi2", chi2_3D);
@@ -394,7 +396,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 //				cout << "\txMiss3D: " << xMiss3D[trkId[jj][0]][k] << endl; getchar(); // DEBUG
 			} // end loop over DCs
 			// 3D statistics
-			if(treePID3D){ // if 3D tracking has been implemented
+			if(is3D){ // if 3D tracking has been implemented
 				hChi_3D->Fill(Chi3D[jj]);
 				hchi2_3D->Fill(chi2_3D[jj]);
 				const double b[3] = {k1_3D[jj], k2_3D[jj], 1.}; // track direction vector
@@ -446,7 +448,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 						} // end if(ang > ..)
 					} // end for over MWDCs
 				} // end loop over XUV
-			} // end if(treePID3D)
+			} // end if(is3D)
 		} // end loop over 3D tracks
 		bool hasXUV[3]{}; // whether the data section has X, U or V track projections
 		for(int j = 0; j < ntr; j++){ // end for over track projections
@@ -531,17 +533,28 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 	cout << "\033[0m\tTotal 3D track count: \033[1m" << n3DtrTot;
 	cout << "\033[0m\nMatch Success rate (n3DtrTot/ntrTot): \033[1m";
 	cout << double(n3DtrTot) / ntrTot[0] << "\033[0m\n";
-	cout << "\n__________ software efficiency __________________\n";
+	cout << "\n\033[31;1m_______________ \033[32;1msoftware efficiency ";
+	cout << "\033[31;1m__________________\033[0m\n\n";
 	cout.setf(std::ios_base::fixed);
 	cout << setw(14) << "DC0" << setw(12) << "DC1" << setw(12) << "DC2" << endl;
-	for(int i = 0; i < 3; i++) for(int j = 0; j < 2; j++){
+	for(int i = 0; i < 3; i++) for(int j = 0; j < 2; j++){ // loop over XUV - LAYER1-2
 		cout << xuv[i] << j + 1;
-		cout << setw(13) << "\033[32;1m" << double(eff[0][i][j]) / effTot;
-		cout << setw(12) << double(eff[1][i][j]) / effTot;
-		cout << setw(12) << double(eff[2][i][j]) / effTot << "\033[0m\n";
+		double effDC0 = eff[0][i][j], effDC1 = eff[1][i][j], effDC2 = eff[2][i][j];
+		if(0 == effTot){ effDC0 = 0; effDC1 = 0; effDC2 = 0; }
+		else{ effDC0 /= effTot; effDC1 /= effTot; effDC2 /= effTot; }
+		if(!n3DtrTot && 0 == i){ // only calculate X efficiencies
+			const double n = double(ntrTot[0]);
+			effDC0 = heff->GetBinContent(6+0*2+j) / n;
+			effDC1 = heff->GetBinContent(6+1*2+j) / n;
+			effDC2 = heff->GetBinContent(6+2*2+j) / n;
+		}
+		cout << setw(13) << "\033[32;1m" << effDC0;
+		cout << setw(12) << effDC1;
+		cout << setw(12) << effDC2 << "\033[0m\n";
+		if(j%2 == 1) cout << endl;
 	}
 	cout << "\n\n\033[33;1mDONE\033[0m\n\n";
-	f->Close();
+	f->Close(); delete f;
 } // end of member function EvalDCArr3D
 
 

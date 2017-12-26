@@ -35,6 +35,7 @@
 #include "TAMWDC.h"
 #include "TAMWDCArray.h"
 #include "TATOFWall.h"
+#include "TAGPar.h"
 
 //#define VERBOSE // show TAPopMsg::Info() information
 
@@ -164,6 +165,8 @@ void TAParaManager::ReadParameters(){
 				AssignT0(fname); break;
 			case 3: // STR Correction
 				AssignSTRCor(fname); break;
+			case 4: // Global parameters
+				AssignGPar(fname); break;
 			default: break;
 		} // end switch
 	} // end external while
@@ -285,7 +288,7 @@ void TAParaManager::Clean(){
 // 0: channel id; 1: detector position; 2: T0; 3: STR cor
 int TAParaManager::FileType(const char *fname){
 	int size = strlen(fname);
-	static const char *type[] = {".000", ".001", ".002", ".003"};
+	static const char *type[] = {".000", ".001", ".002", ".003", ".004"};
 	const int n = sizeof(type) / sizeof(const char *);
 	for(int i = 0; i < n; i++){
 		int sufLen = strlen(type[i]);
@@ -515,7 +518,25 @@ void TAParaManager::AssignSTRCor(const char *fname) const{
 		delete [] vaBinNumArr;
 	} // end internal while
 }
+// read global parameters from text config files for user input
+// the config files are suffixed with .004, and stored in config/[exp]/control/
+// file format: paraId value
+void TAParaManager::AssignGPar(const char *fname) const{
+	TAGPar *gp = TAGPar::Instance();
+	ifstream cf(fname);
+	if(!cf.is_open()) TAPopMsg::Error("TAParaManager", "AssignGPar: read %s error", fname);
+	char line[512];
+	int linecnt = 0; // the current line number
+	while(cf.getline(line, sizeof(line))){
+		linecnt++;
+		int tmp = skipCrap(line);
+		if('#' == line[tmp] || '\0' == line[tmp]) continue; // commentary line
+		if(0 == strlen(line)) continue; // blank line
+		double paId, value;
+		sscanf(line, "%lg %lg", &paId, &value);
 
-
-
+		unsigned id = unsigned(paId);
+		gp->Parameter(id)->SetValue(value);
+	} // end while
+}
 

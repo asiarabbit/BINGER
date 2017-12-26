@@ -98,7 +98,7 @@ double TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId
 	double ddmin[2]{}; // quality estimator
 	double aoz, aozc = 1., d2; // aozc: the central aoz
 	double span = 3.; // search scope, aozc-span ~ aozc+span
-	int ln = 1, n = 60; if(!isPrecise){ n = 30; }
+	int ln = 1, n = 60; if(!isPrecise){ n = 25; }
 	for(int iter = 0; iter < 2; iter++){ // iteration to refine beta1
 		if(1 == iter){
 			// reset search domin, narrow the scope and coodinate the center

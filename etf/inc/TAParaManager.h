@@ -67,6 +67,7 @@ protected:
 	void AssignT0(const char *fname) const; // T0, including DC anode T0 and plastic scintillator T0
 	void AssignSTRCor(const char *fname) const; // spatial time relation correction table
 	void AssignSTR() const; // spatial time relation extract from rootfile
+	void AssignGPar(const char *fname) const; // user input control parameters
 
 	static TAParaManager *kInstance;
 	vector<TAParameter *> fPhysConst; // physics constants
