@@ -537,6 +537,10 @@ void TAParaManager::AssignGPar(const char *fname) const{
 
 		unsigned id = unsigned(paId);
 		gp->Parameter(id)->SetValue(value);
+//		cout << "id: " << id << "\tvalue: " << value << endl; // DEBUG
+//		gp->ShowPar(id); getchar(); // DEBUG
 	} // end while
 }
+
+
 

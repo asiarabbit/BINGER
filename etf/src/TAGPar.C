@@ -43,7 +43,6 @@ double TAGPar::Val(unsigned int id) const{
 void TAGPar::ShowPar(unsigned int id) const{
 	cout << "ParName: " << Par(id)->GetName();
 	cout << "\tValue: " << Val(id) << endl;
-	getchar();
 }
 TAParameter *TAGPar::Parameter(unsigned int id) const{
 	if(id >= kSIZE) TAPopMsg::Error("TAGPar", "Par: input id exceeds the maximum parameter array size. M_SIZE: %d", kSIZE);
@@ -63,6 +62,7 @@ short TAGPar::GetNParameter() const{
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // the instructor
 TAGPar::TAGPar() : fParVec{0}{
+	// XXX: NOTE THAT values set here would be overwritten by the values given in confi fils
 	TAParameter *p = nullptr; // a temporary variable
 	// $$$$$ time to trigger range $$$$$ //
 	// ---- PARAMETER 0 --- //
@@ -173,22 +173,22 @@ TAGPar::TAGPar() : fParVec{0}{
 	p->SetValue(0.); fParVec[33] = p; p = nullptr; // -2.7 for beamTest2016
 	// $$$$$ T_tofDCToTOFWall
 	// ---- PARAMETER 34 --- //
-	p = new TAParameter("T_tofDCtoTOFWLX", "T_tofDCtoTOFWLX");
+	p = new TAParameter("T_tofDC0toTOFWLX", "T_tofDC0toTOFWLX");
 	p->SetValue(6.6); fParVec[34] = p; p = nullptr; // -2.7 for beamTest2016
 	// ---- PARAMETER 35 --- //
-	p = new TAParameter("T_tofDCtoTOFWLU", "T_tofDCtoTOFWLU");
+	p = new TAParameter("T_tofDC1toTOFWLU", "T_tofDC1toTOFWLU");
 	p->SetValue(4.1); fParVec[35] = p; p = nullptr; // -2.7 for beamTest2016
 	// ---- PARAMETER 36 --- //
-	p = new TAParameter("T_tofDCtoTOFWLV", "T_tofDCtoTOFWLV");
+	p = new TAParameter("T_tofDC2toTOFWLV", "T_tofDC2toTOFWLV");
 	p->SetValue(1.4); fParVec[36] = p; p = nullptr; // -2.7 for beamTest2016
 	// ---- PARAMETER 37 --- //
-	p = new TAParameter("T_tofDCtoTOFWRX", "T_tofDCtoTOFWRX");
+	p = new TAParameter("T_tofDC0toTOFWRX", "T_tofDC0toTOFWRX");
 	p->SetValue(8.5); fParVec[37] = p; p = nullptr; // -2.7 for beamTest2016
 	// ---- PARAMETER 38 --- //
-	p = new TAParameter("T_tofDCtoTOFWRU", "T_tofDCtoTOFWRU");
+	p = new TAParameter("T_tofDC1toTOFWRU", "T_tofDC1toTOFWRU");
 	p->SetValue(5.5); fParVec[38] = p; p = nullptr; // -2.7 for beamTest2016
 	// ---- PARAMETER 39 --- //
-	p = new TAParameter("T_tofDCtoTOFWRV", "T_tofDCtoTOFWRV");
+	p = new TAParameter("T_tofDC2toTOFWRV", "T_tofDC2toTOFWRV");
 	p->SetValue(2.2); fParVec[39] = p; p = nullptr; // -2.7 for beamTest2016
 }
 
