@@ -129,7 +129,7 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 						hRDCSTRCor[i][j][m][k][l] = new TH2F(name, title, nr, 0., rmx, 300, -4.0, 4.0);
 						sprintf(name, "hRDCSTR_RT_%d_%d_%d_%d_%d", i, j, m, k, l);
 						sprintf(title, "%s - t-r Relation;t [ns];r [mm]", name);
-						hRDCSTR_RT[i][j][m][k][l] = new TH2F(name, title, nr, 0., rmx, 800, -0.5, 7.5);
+						hRDCSTR_RT[i][j][m][k][l] = new TH2F(name, title, 35, 0., 280., 300, -0.5, 7.);
 					} // end for over i
 				} // end for over k
 			} // end for over m
@@ -209,6 +209,8 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 						const short nAnodePerLayer = dcArr->GetMWDC(DCid)->GetNAnodePerLayer();
 						const double tt = t[it][k], rr = r[it][k], dr = chi3D[jj][j*6+k];
 						const double rc = rr+dr;
+//						cout << "tt: " << tt << endl; // DEBUG
+//						cout << "rc: " << rc << "\trr: " << rr << "\tdr: " << dr << endl; getchar(); // DEBUG
 						const int STRid = TAAnodePara::GetSTRid(alpha[DCid][j]);
 						if(isBigSta){
 							hRDCSTRCor[DCid][j][k%2][NU][STRid]->Fill(rr, dr);
@@ -233,18 +235,21 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 	if(!f->FindObjectAny(name)) f->mkdir(title); // store drift time histograms
 	f->cd(title); cout << endl;
 	for(int i = 0; i < 3; i++) for(int j = 0; j < 3; j++) for (int m = 0; m < 2; m++)
-	for(int k = 0; k < 96; k++) for(int s = 0; s < nAng; s++) if(hRDCSTRCor[i][j][m][k][s]){
-		if(hRDCSTRCor[i][j][m][k][s]->GetEntries() > 5000.){
-			hRDCSTRCor[i][j][m][k][s]->Write("", TObject::kOverwrite);
-			hRDCSTR_RT[i][j][m][k][s]->Write("", TObject::kOverwrite);
-			cout << "Writing Histo \033[34;1m" << i << " " << j << " " << m;
-			cout << " " << k << " " << s << "\033[0m";
-			cout << "   \tPlease wait..." << "\r" << flush;
-		} // end innter if
-	} // end outer if
+	for(int k = 0; k < 96; k++) for(int s = 0; s < nAng; s++){
+		if(hRDCSTRCor[i][j][m][k][s]){
+			if(hRDCSTRCor[i][j][m][k][s]->GetEntries() > 5000.){
+				hRDCSTRCor[i][j][m][k][s]->Write("", TObject::kOverwrite);
+				hRDCSTR_RT[i][j][m][k][s]->Write("", TObject::kOverwrite);
+				cout << "Writing Histo \033[34;1m" << i << " " << j << " " << m;
+				cout << " " << k << " " << s << "\033[0m";
+				cout << "   \tPlease wait..." << "\r" << flush;
+			} // end innter if
+		} // end outer if
+		delete hRDCSTRCor[i][j][m][k][s]; hRDCSTRCor[i][j][m][k][s] = nullptr;
+		delete hRDCSTR_RT[i][j][m][k][s]; hRDCSTR_RT[i][j][m][k][s] = nullptr;
+	} // end the great loop
 	cout << "\n\nCurrent directory in rootfile is "; f->pwd();
 	cout << "\n\n\033[33;1mDONE\033[0m\n\n"; // DEBUG
-	sleep(1);
 	f->Close(); delete f;
 } // end of member function ChiHistogramming
 
@@ -334,7 +339,7 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 		for(int j = 0; j < 3; j++){ // loop over X-U-V
 			outFile << "#----- " << xuv[j] << " -----#\n";
 			for(int m = 0; m < 2; m++){ // loop over layer 1 and layer 2
-				outFile << "\t# layer " << m + 1 << "\n";
+				outFile << "\n" << "\t# layer " << m + 1;
 				const int nAnodePerLayer = dcArr->GetMWDC(i)->GetNAnodePerLayer();
 				for(int k = 0; k < nAnodePerLayer; k++){ // loop over anodes per layer
 					anodeId[0] = i; anodeId[1] = j; anodeId[2] = m; anodeId[3] = k;
@@ -354,49 +359,50 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 							TH1D *hpro = h2->ProjectionY("hpro", l+1, l+1);
 							double npro = hpro->GetEntries();
 							if(0) if(0 == l) npro = 0; // the first bin is biased
-							if(npro < 500.){ // stastics is too small
+							if(npro < 200.){ // stastics is too small
 								strCor[str_id][l] = 0.;
 								strCorSigma[str_id][l] = 0.;
+								continue;
+							} // end if
+							// mean, unit: mm
+							fgaus->SetParameter(1, 0.);
+							fgaus->SetParLimits(1, -1., 1.);
+							// sigma, unit: mm
+							fgaus->SetParameter(2, 0.2);
+							fgaus->SetParLimits(2, 0., 1.);
+							hpro->Fit(fgaus, "NQR"); // 
+							double mean = fgaus->GetParameter("Mean");
+							double sigma = fgaus->GetParameter("Sigma");
+							hmean[i][j]->Fill(mean); hmeanTot->Fill(mean);
+							hsigma[i][j]->Fill(sigma); hsigmaTot->Fill(sigma);
+//							cout << "mean: " << mean << "\tsigma: " << sigma << endl; getchar(); // DEBUG
+							if((mean > -0.4 && mean < 0.4) && (sigma < 1.2 && sigma > 0.)){
+								strCor[str_id][l] = mean;
+								strCorSigma[str_id][l] = sigma;
+								// more statistics brings about more weight in the sigma average
+								sigma_g[i][j][l] += sigma * npro; // [DC][XUV][rbin]
+								sigma_g_cnt[i][j][l] += npro; // [DC][XUV][rbin]
+								valid_bin_array[valid_bin_cnt++] = l;
 							}
-							else{
-								// mean, unit: mm
-								fgaus->SetParameter(1, 0.);
-								fgaus->SetParLimits(1, -1., 1.);
-								// sigma, unit: mm
-								fgaus->SetParameter(2, 0.2);
-								fgaus->SetParLimits(2, 0., 1.);
-								hpro->Fit(fgaus, "NQR");
-								double mean = fgaus->GetParameter("Mean");
-								double sigma = fgaus->GetParameter("Sigma");
-								hmean[i][j]->Fill(mean); hmeanTot->Fill(mean);
-								hsigma[i][j]->Fill(sigma); hsigmaTot->Fill(sigma);
-								if((mean > -0.4 && mean < 0.4) && (sigma < 1.2 && sigma > 0.)){
-									strCor[str_id][l] = mean;
-									strCorSigma[str_id][l] = sigma;
-									// more statistics brings about more weight in the sigma average
-									sigma_g[i][j][l] += sigma * npro; // [DC][XUV][rbin]
-									sigma_g_cnt[i][j][l] += npro; // [DC][XUV][rbin]
-									valid_bin_array[valid_bin_cnt++] = l;
-								}
-//								if(j == 1) strCor[str_id][l] = 0.; // U tracks are too nasty to be trusted
-							} // end else
+//							if(j == 1) strCor[str_id][l] = 0.; // U tracks are too nasty to be trusted
 							mean_tree[str_id][l] = strCor[str_id][l];
 							sigma_tree[str_id][l] = strCorSigma[str_id][l];
 							// iterative correction, so it's increment, not replacement
 							strCor[str_id][l] +=
 								ano->GetAnodePara()->GetSTRCorrection(str_id)[l];
-							delete hpro; hpro = nullptr; // destruct the object and free the memory
 							cout << "Processing bin of " << i << " " << j << " " << m;
 							cout << " " << k << " " << str_id << " " << l << "\r" << flush;
+							delete hpro; hpro = nullptr; // destruct the object and free the memory
 						} // end for over l
 						outFile << "Info: " << setw(10) << ano->GetUID() << " ";
 						outFile << setw(5) << str_id << " " << setw(5) << valid_bin_cnt << endl;
 						for(int l = 0; l < valid_bin_cnt; l++) // output valid_bin_array
-							outFile << setw(5) << valid_bin_array[l] << " ";
+							outFile << valid_bin_array[l] << " " << setw(5);
 						outFile << endl;
 						for(int l = 0; l < valid_bin_cnt; l++) // output STR correction array
-							outFile << setw(5) << strCor[str_id][l] << " ";
+							outFile << strCor[str_id][valid_bin_array[l]] << " " << setw(5);
 						outFile << endl;
+						delete h2; h2 = nullptr;
 					} // loop over STR id
 					treeSigma->Fill();
 					outFile << endl;

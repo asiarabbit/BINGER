@@ -17,7 +17,11 @@ int main(int argc, char *argv[]){
 	const char dir[2][64] = {"pion_2017Oct", "beamTest_2016Nov"};
 	ep->SetConfigExpDir(dir[1]); ep->Configure();
 	TAT0CalibDCArr *t0 = new TAT0CalibDCArrR(argv[1]);
+	// if T_tof and T_wire has been corrected for in pattern recognition stage
 	t0->SetHasCorrected(true);
+	// isCalib: whether to store hdt histos and generate calibration file
+	// virtual void Refine_DTHisto(bool isCalib = true);
+	// virtual void GenerateCalibFile(bool isShowFit = false);
 	t0->Refine_DTHisto(true); t0->GenerateCalibFile(false);
 }
 

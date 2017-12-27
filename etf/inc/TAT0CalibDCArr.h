@@ -32,6 +32,7 @@ public:
 	
 	void SetROOTFile(const string &rootfile){ fROOTFile = rootfile; }
 	void SetMWDCArray(TAMWDCArray *dcArr){ fDCArr = dcArr; }
+	// if T_tof and T_wire has been corrected for in pattern recognition stage
 	void SetHasCorrected(bool opt = true){ fHasCorrected = opt; }
 	bool HasCorrected() const{ return fHasCorrected; }
 	// generate T0 calibration text files

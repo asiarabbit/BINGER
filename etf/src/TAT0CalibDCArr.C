@@ -216,7 +216,7 @@ void TAT0CalibDCArr::GenerateCalibFile(bool isShowFit){
 }
 void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcArr, bool isShowFit){
 	if(TAParaManager::Instance()->Exist(2))
-		TAPopMsg::Error("TAT0CalibDCArr", "GenerateCalibFile: T0 Calibration files already exist in config/[experiment]/T0, which should be deleted firsly. Are you sure to continue?");
+		TAPopMsg::Error("TAT0CalibDCArr", "GenerateCalibFile: T0 Calibration files already exist in config/[experiment]/T0, which should be deleted first. Are you sure to continue?");
 	TAPopMsg::Info("TAT0CalibDCArr", "GenerateCalibFile: Input rootfile name: %s", rootfile.c_str());
 	if(0 != access(rootfile.c_str(), F_OK))
 		TAPopMsg::Error("TAT0CalibDCArr", "GenerateCalibFile: Input rootfile %s doesn't exist", rootfile.c_str());

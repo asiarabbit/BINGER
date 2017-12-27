@@ -171,7 +171,7 @@ void TAParaManager::ReadParameters(){
 			default: break;
 		} // end switch
 	} // end external while
-	cout << "Precision: " << gp->Val(48) << endl; getchar(); // DEBUG
+//	cout << "Precision: " << gp->Val(48) << endl; getchar(); // DEBUG
 
 	// extract TF1 objects from rootfiles as STRs
 	AssignSTR(); // XXX: should be implemented after TAGPar

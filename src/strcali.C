@@ -18,6 +18,6 @@ int main(int argc, char *argv[]){
 	ep->SetConfigExpDir(dir[1]); ep->Configure();
 	TASTRCalibDCArrR *str = new TASTRCalibDCArrR(argv[1]);
 	str->SetIsBigStatistics(true); // mark if the statistics is enough, then fill behavior would vary
-//	str->ChiHistogramming(true); // true: using 3D cali; false: using trk-proj cali
+	str->ChiHistogramming(true); // true: using 3D cali; false: using trk-proj cali
 	str->GenerateSTRCorFile(0);
 }
