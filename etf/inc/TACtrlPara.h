@@ -38,7 +38,6 @@ public:
 	static double D2Thre(); // for eliminating falsely fired andoes. unit: mm^2
 	static double DsquareThresholdPerDot(unsigned uid);
 	static bool TimeThre(double t); // if time is within set range
-	static double Beta(); // central beam energy, used in simulation currently
 	// threshold for chi per dot, to eliminate false combinations. 4.0
 	static double ChiThrePD();
 	static int Vicinity(); // used in discerning multiple tracks, unit: cell
@@ -79,10 +78,6 @@ private:
 
 	bool kIsCoarseFit; // true then only iterative fit would be used
 	bool kIs3DTracking; // whether or not to implement 3D tracking
-	// for TATOFWall::GetTime().
-	// count of strips from a fired strips to the fitted track. TATOFWall.C
-	double kNStripStrayMinR, kNStripStrayMaxR; // -0.95, 0.20 // DCArrayR
-	double kNStripStrayMinL, kNStripStrayMaxL; // -0.90, 0.65 // DCArrayL
 
 	//---------  for pattern recognition -------------------//
 	// for map function

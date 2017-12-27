@@ -46,6 +46,7 @@ using std::ifstream;
 using std::ofstream;
 
 TAParaManager *TAParaManager::kInstance = nullptr;
+static TAGPar *gp = TAGPar::Instance();
 
 // not to be called from outside the class
 TAParaManager::TAParaManager() : fDetList{0}{
@@ -170,9 +171,10 @@ void TAParaManager::ReadParameters(){
 			default: break;
 		} // end switch
 	} // end external while
+	cout << "Precision: " << gp->Val(48) << endl; getchar(); // DEBUG
 
 	// extract TF1 objects from rootfiles as STRs
-	AssignSTR();
+	AssignSTR(); // XXX: should be implemented after TAGPar
 
 # ifdef VERBOSE
 	TAPopMsg::Info("TAParaManager", "ReadParameters: Parameters has been read and assigned~ \033[33;1m:)\033[0m");
@@ -395,6 +397,7 @@ void TAParaManager::AssignDetPos(const char *fname) const{
 } // end member function AssignDetPos
 // STR extraction from root file
 void TAParaManager::AssignSTR() const{
+	if(!gp->HasRead()) TAPopMsg::Error("TAParaManager", "AssignSTR: Global Parameters in TAGPar have not been assigned with values read from config files");
 	static TACtrlPara *ctrlpara = TACtrlPara::Instance();
 
 	TAMWDCArray	*dcArr[2]; // MWDC array L and R
@@ -522,7 +525,6 @@ void TAParaManager::AssignSTRCor(const char *fname) const{
 // the config files are suffixed with .004, and stored in config/[exp]/control/
 // file format: paraId value
 void TAParaManager::AssignGPar(const char *fname) const{
-	TAGPar *gp = TAGPar::Instance();
 	ifstream cf(fname);
 	if(!cf.is_open()) TAPopMsg::Error("TAParaManager", "AssignGPar: read %s error", fname);
 	char line[512];
@@ -540,6 +542,7 @@ void TAParaManager::AssignGPar(const char *fname) const{
 //		cout << "id: " << id << "\tvalue: " << value << endl; // DEBUG
 //		gp->ShowPar(id); getchar(); // DEBUG
 	} // end while
+	gp->SetHasRead(true);
 }
 
 

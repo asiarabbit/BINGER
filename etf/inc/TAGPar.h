@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/12.															     //
-// Last modified: 2017/12/26, SUN Yazhou.										     //
+// Last modified: 2017/12/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -35,12 +35,15 @@ public:
 	void ShowPar(unsigned int id) const;
 	short GetNParameter() const;
 	friend TAParaManager;
+	bool HasRead() const{ return fHasRead; }
 protected:
 	TAGPar();
 	TAParameter *Parameter(unsigned int id) const; // for modify the parameters
+	void SetHasRead(bool opt){ fHasRead = opt; }
 	static TAGPar *fInstance;
 	static constexpr int kSIZE = 1000;
 	array<TAParameter *, kSIZE> fParVec;
+	bool fHasRead; // has read the config file(s) or not
 };
 
 #endif

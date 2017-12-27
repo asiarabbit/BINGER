@@ -46,7 +46,7 @@ void TAGPar::ShowPar(unsigned int id) const{
 }
 TAParameter *TAGPar::Parameter(unsigned int id) const{
 	if(id >= kSIZE) TAPopMsg::Error("TAGPar", "Par: input id exceeds the maximum parameter array size. M_SIZE: %d", kSIZE);
-	if(!fParVec[id]) TAPopMsg::Error("TAGPar", "Par: required pointer is null");
+	if(!fParVec[id]) TAPopMsg::Error("TAGPar", "Par: required pointer is null, id: %d", id);
 	return fParVec[id];
 }
 const TAParameter *TAGPar::Par(unsigned int id) const{
@@ -61,7 +61,7 @@ short TAGPar::GetNParameter() const{
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // the instructor
-TAGPar::TAGPar() : fParVec{0}{
+TAGPar::TAGPar() : fParVec{0}, fHasRead(false){
 	// XXX: NOTE THAT values set here would be overwritten by the values given in confi fils
 	TAParameter *p = nullptr; // a temporary variable
 	// $$$$$ time to trigger range $$$$$ //
@@ -170,30 +170,66 @@ TAGPar::TAGPar() : fParVec{0}{
 	p->SetValue(3000.); fParVec[32] = p; p = nullptr;
 	// ---- PARAMETER 33 --- //
 	p = new TAParameter("T0_1UV_delay", "T0_1UV_delay");
-	p->SetValue(0.); fParVec[33] = p; p = nullptr; // -2.7 for beamTest2016
+	p->SetValue(0.); fParVec[33] = p; p = nullptr;
 	// $$$$$ T_tofDCToTOFWall
 	// ---- PARAMETER 34 --- //
 	p = new TAParameter("T_tofDC0toTOFWLX", "T_tofDC0toTOFWLX");
-	p->SetValue(6.6); fParVec[34] = p; p = nullptr; // -2.7 for beamTest2016
+	p->SetValue(6.6); fParVec[34] = p; p = nullptr;
 	// ---- PARAMETER 35 --- //
 	p = new TAParameter("T_tofDC1toTOFWLU", "T_tofDC1toTOFWLU");
-	p->SetValue(4.1); fParVec[35] = p; p = nullptr; // -2.7 for beamTest2016
+	p->SetValue(4.1); fParVec[35] = p; p = nullptr;
 	// ---- PARAMETER 36 --- //
 	p = new TAParameter("T_tofDC2toTOFWLV", "T_tofDC2toTOFWLV");
-	p->SetValue(1.4); fParVec[36] = p; p = nullptr; // -2.7 for beamTest2016
+	p->SetValue(1.4); fParVec[36] = p; p = nullptr;
 	// ---- PARAMETER 37 --- //
 	p = new TAParameter("T_tofDC0toTOFWRX", "T_tofDC0toTOFWRX");
-	p->SetValue(8.5); fParVec[37] = p; p = nullptr; // -2.7 for beamTest2016
+	p->SetValue(8.5); fParVec[37] = p; p = nullptr;
 	// ---- PARAMETER 38 --- //
 	p = new TAParameter("T_tofDC1toTOFWRU", "T_tofDC1toTOFWRU");
-	p->SetValue(5.5); fParVec[38] = p; p = nullptr; // -2.7 for beamTest2016
+	p->SetValue(5.5); fParVec[38] = p; p = nullptr;
 	// ---- PARAMETER 39 --- //
 	p = new TAParameter("T_tofDC2toTOFWRV", "T_tofDC2toTOFWRV");
-	p->SetValue(2.2); fParVec[39] = p; p = nullptr; // -2.7 for beamTest2016
+	p->SetValue(2.2); fParVec[39] = p; p = nullptr;
+	// $$$$$$$$$$ Parameters owned by class TACtrlPara $$$$$$$$$$$$$$$ //
+	// ---- PARAMETER 40 --- //
+	p = new TAParameter("3DCoincideWindow", "3DCoincideWindow");
+	p->SetValue(10.); fParVec[40] = p; p = nullptr;
+	// ---- PARAMETER 41 --- //
+	p = new TAParameter("D2Thre", "D2Thre");
+	p->SetValue(17.); fParVec[41] = p; p = nullptr;
+	// ---- PARAMETER 42 --- //
+	p = new TAParameter("TimeThreLB", "TimeThreLB");
+	p->SetValue(-40.); fParVec[42] = p; p = nullptr;
+	// ---- PARAMETER 43 --- //
+	p = new TAParameter("TimeThreHB", "TimeThreHB");
+	p->SetValue(350.); fParVec[43] = p; p = nullptr;
+	// ---- PARAMETER 44 --- //
+	p = new TAParameter("ChiThrePD", "ChiThrePD");
+	p->SetValue(3.); fParVec[44] = p; p = nullptr;
+	// ---- PARAMETER 45 --- //
+	p = new TAParameter("Vicinity", "Vicinity");
+	p->SetValue(2); fParVec[45] = p; p = nullptr;
+	// ---- PARAMETER 46 --- //
+	p = new TAParameter("StripTolerance", "StripTolerance");
+	p->SetValue(1); fParVec[46] = p; p = nullptr;
+	// ---- PARAMETER 47 --- //
+	p = new TAParameter("FitMethod", "FitMethod");
+	p->SetValue(1); fParVec[47] = p; p = nullptr;
+	// ---- PARAMETER 48 --- //
+	p = new TAParameter("Precision", "Precision");
+	p->SetValue(2); fParVec[48] = p; p = nullptr;
+	// ---- PARAMETER 49 --- //
+	p = new TAParameter("NStripStrayMinL", "NStripStrayMinL");
+	p->SetValue(-0.8); fParVec[49] = p; p = nullptr;
+	// ---- PARAMETER 50 --- //
+	p = new TAParameter("NStripStrayMaxL", "NStripStrayMaxL");
+	p->SetValue(0.8); fParVec[50] = p; p = nullptr;
+	// ---- PARAMETER 51 --- //
+	p = new TAParameter("NStripStrayMinR", "NStripStrayMinR");
+	p->SetValue(-0.8); fParVec[51] = p; p = nullptr;
+	// ---- PARAMETER 52 --- //
+	p = new TAParameter("NStripStrayMaxR", "NStripStrayMaxR");
+	p->SetValue(0.8); fParVec[52] = p; p = nullptr;
 }
-
-
-
-
 
 
