@@ -43,7 +43,7 @@ using std::ofstream;
 using std::setw;
 using std::ios_base;
 
-constexpr int TASTRCalibDCArr::nr = TAAnodePara::kSTRCorRNBins;
+const int TASTRCalibDCArr::nr = TAAnodePara::kSTRCorRNBins;
 const double TASTRCalibDCArr::rmx = TAAnodePara::kSTRCorRMax;
 const int TASTRCalibDCArr::nAng = TAAnodePara::kSTRCorAngleNBins;
 const double TASTRCalibDCArr::rstep = TAAnodePara::kSTRCorRStep;
@@ -301,10 +301,13 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 	double sigma_tree[nAng][nr], mean_tree[nAng][nr];
 	if(nAng > 6 || nr > 60)
 		TAPopMsg::Error("TASTRCalibDCArr", "GenerateCalibFile: nAng or nr is too small: nAng: %d, nr: %d", nAng, nr);
+	int nAng_tree = nAng, nr_tree = nr;
 	TTree *treeSigma = new TTree("treeSigma", "Spatial Resolution and STR Correction");
 	treeSigma->Branch("anodeId", anodeId, "anodeId[4]/I");
-	treeSigma->Branch("sigma", sigma_tree, "sigma[6][60]/D"); // XXX: same as below
-	treeSigma->Branch("mean", mean_tree, "mean[6][60]/D"); // XXX: array dimension equals to (nAng,nr)
+	treeSigma->Branch("nAng", &nAng_tree);
+	treeSigma->Branch("nr", &nr_tree);
+	treeSigma->Branch("sigma", sigma_tree, "sigma[nAng][nr]/D");
+	treeSigma->Branch("mean", mean_tree, "mean[nAng][nr]/D");
 	// for filling r-sigma graph
 	double sigma_g[3][3][nr]{};
 	int sigma_g_cnt[3][3][nr]{};
@@ -337,9 +340,9 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 	for(int i = 0; i < 3; i++){ // loop over DCs
 		outFile << "#################### This is MWDC " << i << " #######################\n";
 		for(int j = 0; j < 3; j++){ // loop over X-U-V
-			outFile << "#----- " << xuv[j] << " -----#\n";
+			outFile << "\n#----- " << xuv[j] << " -----#\n";
 			for(int m = 0; m < 2; m++){ // loop over layer 1 and layer 2
-				outFile << "\n" << "\t# layer " << m + 1;
+				outFile << "\n\t# layer " << m + 1;
 				const int nAnodePerLayer = dcArr->GetMWDC(i)->GetNAnodePerLayer();
 				for(int k = 0; k < nAnodePerLayer; k++){ // loop over anodes per layer
 					anodeId[0] = i; anodeId[1] = j; anodeId[2] = m; anodeId[3] = k;
@@ -394,24 +397,21 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 							cout << " " << k << " " << str_id << " " << l << "\r" << flush;
 							delete hpro; hpro = nullptr; // destruct the object and free the memory
 						} // end for over l
-						outFile << "Info: " << setw(10) << ano->GetUID() << " ";
-						outFile << setw(5) << str_id << " " << setw(5) << valid_bin_cnt << endl;
-						for(int l = 0; l < valid_bin_cnt; l++) // output valid_bin_array
-							outFile << valid_bin_array[l] << " " << setw(5);
-						outFile << endl;
-						for(int l = 0; l < valid_bin_cnt; l++) // output STR correction array
-							outFile << strCor[str_id][valid_bin_array[l]] << " " << setw(5);
-						outFile << endl;
 						delete h2; h2 = nullptr;
+						if(0 == valid_bin_cnt) continue; // empty correction
+						outFile << "\nInfo: " << setw(10) << ano->GetUID() << " ";
+						outFile << setw(7) << str_id << " " << setw(5) << valid_bin_cnt << endl;
+						for(int l = 0; l < valid_bin_cnt; l++) // output valid_bin_array
+							outFile << valid_bin_array[l] << setw(7);
+						outFile << "\n";
+						for(int l = 0; l < valid_bin_cnt; l++) // output STR correction array
+							outFile << strCor[str_id][valid_bin_array[l]] << setw(7);
+						outFile << "\n";
 					} // loop over STR id
 					treeSigma->Fill();
-					outFile << endl;
 				} // end for over k
-				outFile << endl;
 			} // end for over m
-			outFile << endl;
 		} // end of for over j
-		outFile << endl;
 	} // end of for over i
 	outFile << endl;
 	outFile.close();

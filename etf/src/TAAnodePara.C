@@ -143,7 +143,7 @@ void TAAnodePara::SetGlobalProjection(const double *proj){
 
 void TAAnodePara::SetSTRCorArr(const int *vaBinNumArr, 
 		const double *strCorArr, int angle_no, int va_bin_cnt){
-	if(angle_no > kSTRCorAngleNBins){
+	if(angle_no >= kSTRCorAngleNBins){
 		TAPopMsg::Error(GetName().c_str(), "SetSTRCorArr: angle_no out of range. angle_no: %d",
 			 angle_no);
 		return;
@@ -153,8 +153,10 @@ void TAAnodePara::SetSTRCorArr(const int *vaBinNumArr,
 			 va_bin_cnt);
 		return;
 	}
-	if(va_bin_cnt < kSTRCorRNBins / 3) return; // statistics is too low.
-	
+//	cout << "This is TAAnodePara. Period." << endl; getchar(); // DEBUG
+//	cout << "va_bin_cnt: " << va_bin_cnt << "\tangle_no: " << angle_no << endl; getchar(); // DEBUG
+	if(va_bin_cnt < 5) return; // statistics is too low.
+
 	double *p = new double[kSTRCorRNBins];
 	memset(p, 0, kSTRCorRNBins * sizeof(double));
 	for(int i = 0; i < va_bin_cnt; i++){
@@ -164,6 +166,9 @@ void TAAnodePara::SetSTRCorArr(const int *vaBinNumArr,
 		p[vaBinNumArr[i]] = strCorArr[i];
 	} // the assignment is complete. :)
 	fSTRCorArr[angle_no] = p;
+//	for(int i = 0; i < kSTRCorRNBins; i++){ // DEBUG
+//		cout << "fSTRCorArr[angle_no][" << i << "]: " << fSTRCorArr[angle_no][i] << endl; getchar(); // DEBUG
+//	} // DEBUG
 }
 
 int TAAnodePara::GetSFE16Id() const{
@@ -173,7 +178,7 @@ int TAAnodePara::GetCableId() const{
 	return fUID & 0x3FFF;
 } // the first 14 LSBs
 
-double TAAnodePara::GetSpatialResolution(double r, double k) const{ // smeared and delayed.
+double TAAnodePara::GetSpatialResolution(double r, double k) const{ // smeared and delayed
 	if(r < 0.5) return 0.2; // .3
 	else return 0.2; // .2
 } // end of member function GetSpatialResolution(...)

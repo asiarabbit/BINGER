@@ -118,7 +118,7 @@ void TAUI::Go(){
 		case 1: SetIsTracking(true); SetIsPID(false);  CoarseFit(true); break;
 		case 2: SetIsTracking(true); SetIsPID(false); break;
 		case 3: SetIsTracking(true); SetIsPID(true); break;
-		case 4: SetIs3DTracking(true); SetIsPID(false);  CoarseFit(true); break;
+		case 4: SetIs3DTracking(true); SetIsPID(false); CoarseFit(true); break;
 		case 5: SetIs3DTracking(true); SetIsPID(false); break;
 		case 6: SetIs3DTracking(true); SetIsPID(true); break;
 		default: SetIsTracking(false); SetIsPID(false);

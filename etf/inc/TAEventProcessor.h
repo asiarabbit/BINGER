@@ -11,7 +11,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/13.															     //
-// Last modified: 2017/11/14, SUN Yazhou.										     //
+// Last modified: 2017/12/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -66,6 +66,7 @@ public:
 	void SetIsPID(bool opt = true){ fIsPID = opt; }
 	void SetIsTracking(bool opt = true){ fIsTracking = opt; }
 	void SetIs3DTracking(bool opt = true);
+	bool Is3DTracking() const;
 	bool IsPID() const{ return fIsPID; }
 	bool IsTracking() const{ return fIsTracking; }
 	void Verbose(bool opt = true){ TAPopMsg::Verbose(opt); } // true or null: verbose; false: succinct

@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/11/27.															     //
-// Last modified: 2017/12/22, SUN Yazhou.										     //
+// Last modified: 2017/12/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -26,6 +26,7 @@ public:
 	static TAUI *Instance();
 	void GetOpt(int argc, char *argv[]);
 	void Go(); // analyze, call the TAEventProcessor::Run(...)
+	const char *GetROOTFile() const{ return fROOTFile; }
 
 	virtual ~TAUI();
 protected:

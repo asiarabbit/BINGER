@@ -433,7 +433,7 @@ void TAParaManager::AssignT0(const char *fname) const{
 		unsigned uid = unsigned(UID);
 		short detId = uid & 0x3F; // first section of UID, 6 bits
 		short subDetId = (uid>>6) & 0x7; // second section of UID for TAMWDCArray objects, 3 bits
-//		cout << "fname: " << fname << endl; // DEBUG
+//		cout << "fname: " << fname << endl; getchar(); // DEBUG
 //		cout << "line: " << line << endl; // DEBUG
 //		cout << "\tuid: " << uid << "\tvalue: " << value << endl; // DEBUG
 //		cout << "detId: " << detId << "\tsubDetId: " << subDetId << endl; // DEBUG
@@ -468,12 +468,15 @@ void TAParaManager::AssignSTRCor(const char *fname) const{
 		int tmp = skipCrap(line);
 		if('#' == line[tmp] || '\0' == line[tmp]) continue; // commentary line
 		if(0 == strlen(line)) continue; // blank line
+//		cout << "line: " << line << endl; // DEBUG
 		// read header of an STRCor item: anode UID, angle_#, valid_bin_cnt
 		double UID, angle_No, va_bin_cnt;
 		char info[6]; strncpy(info, line, 5);
 		if(!strcmp(info, "Info:")){ // info line
-			sscanf(info, "%*s %lg %lg %lg", &UID, &angle_No, &va_bin_cnt);
+			sscanf(line, "%*s %lg %lg %lg", &UID, &angle_No, &va_bin_cnt);
 		}
+//		cout << "UID: " << UID << "\tangle_No:  " << angle_No << "\tva_bin_cnt: " << va_bin_cnt << endl; getchar(); // DEBUG
+		if(0. == va_bin_cnt) continue; // empty
 
 		// get the channel matching the UID
 		unsigned uid = unsigned(UID);
@@ -483,12 +486,13 @@ void TAParaManager::AssignSTRCor(const char *fname) const{
 		if((3 == detId || 4 == detId) && subDetId < 3){ // MWDC
 			if(fDetList[detId]) ano = (TAAnode*)fDetList[detId]->GetChannel(uid);
 		}
+//		cout << "ano->GetName(): " << ano->GetName() << endl; getchar(); // DEBUG
 		if(!ano){
 			TAPopMsg::Warn("TAParaManager",
 				"AssignSTRCor: homeless STR correction parameter array: %s: line %d", fname, linecnt);
 			// skip the wrong lines
-			cf.getline(line, sizeof(line));
-			cf.getline(line, sizeof(line));
+			cf.getline(line, sizeof(line)); linecnt++;
+			cf.getline(line, sizeof(line)); linecnt++;
 			continue;
 		}
 		// read the correction parameters
@@ -501,6 +505,8 @@ void TAParaManager::AssignSTRCor(const char *fname) const{
 			if(!(cf >> VaBinNumArr[i]))
 				TAPopMsg::Error("TAManager", "AssignSTRCor: file format error 2: line %d", linecnt);
 			vaBinNumArr[i] =  (int)VaBinNumArr[i];
+//			cout << "i: " << i << "\tvaBinNumArr[i]: " << vaBinNumArr[i]; // DEBUG
+//			cout << "\tVaBinNumArr[i]: " << VaBinNumArr[i]; getchar(); // DEBUG
 			i++;
 		}
 		while(cf.get() != '\n') continue; // skip the rest of the line
@@ -510,12 +516,14 @@ void TAParaManager::AssignSTRCor(const char *fname) const{
 		while(i < va_bin_cnt){
 			if(!(cf >> STRCorArr[i]))
 				TAPopMsg::Error("TAManager", "AssignSTRCor: file format error 1: line %d", linecnt);
+//			cout << "i: " << i << "\tSTRCorArr[i]: " << STRCorArr[i]; // DEBUG
+//			getchar(); // DEBUG
 			i++;
 		}
 		while(cf.get() != '\n') continue; // skip the rest of the line
 		linecnt++;
 		// assign the STR correction data.
-		((TAAnodePara*)ano->GetPara())->SetSTRCorArr(vaBinNumArr, STRCorArr, (int)angle_No, (int)va_bin_cnt);
+		ano->GetAnodePara()->SetSTRCorArr(vaBinNumArr, STRCorArr, (int)angle_No, (int)va_bin_cnt);
 		delete [] STRCorArr;
 		delete [] VaBinNumArr;
 		delete [] vaBinNumArr;

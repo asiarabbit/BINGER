@@ -11,7 +11,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/13.															     //
-// Last modified: 2017/12/22, SUN Yazhou.										     //
+// Last modified: 2017/12/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -132,6 +132,9 @@ TAPID *TAEventProcessor::GetPID() const{
 TAGPar *TAEventProcessor::GetGPar() const{
 	if(!fGPar) TAPopMsg::Error("TAEventProcessor", "GetGPar(): pointer is null.");
 	return fGPar;
+}
+bool TAEventProcessor::Is3DTracking() const{
+	return GetCtrlPara()->Is3DTracking();
 }
 void TAEventProcessor::SetConfigExpDir(const string &dir){
 	GetCtrlPara()->SetConfigExpDir("../config/"+dir);

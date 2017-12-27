@@ -19,9 +19,10 @@ int main(int argc, char *argv[]){
 	TAT0CalibDCArr *t0 = new TAT0CalibDCArrR(argv[1]);
 	// if T_tof and T_wire has been corrected for in pattern recognition stage
 	t0->SetHasCorrected(true);
-	// isCalib: whether to store hdt histos and generate calibration file
 	// virtual void Refine_DTHisto(bool isCalib = true);
+	// isCalib: whether to store hdt histos and generate calibration file
+	t0->Refine_DTHisto(true);
 	// virtual void GenerateCalibFile(bool isShowFit = false);
-	t0->Refine_DTHisto(true); t0->GenerateCalibFile(false);
+	t0->GenerateCalibFile(false);
 }
 
