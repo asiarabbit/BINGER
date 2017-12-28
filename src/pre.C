@@ -24,8 +24,9 @@ int main(int argc, char *argv[]){
 	usr->SetMagneticIntensity(0.24835); // unit: Telsa 0.24835 1.456
 //	usr->Silent(); // don't show TAPopMsg::Info() printings
 	usr->Configure();
-//	usr->Go(); // pattern recognition, track fit, and particle identification
+	usr->Go(); // pattern recognition, track fit, and particle identification
 
+//	return 0;
 	// 3D tracking has to be implemented for calibration procedures to work
 	if(usr->Is3DTracking() && hasCalibrated) return 0;
 

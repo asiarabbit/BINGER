@@ -37,8 +37,8 @@
 
 		// assign TOT_T0
 		tRef = -9999.;
-		static const double T0_1_delayAvrg = T0_1->GetDelay();
-		static const double T0_1_delayUV = T0_1->GetUV()->GetPara()->GetDelay();
+		const double T0_1_delayAvrg = T0_1->GetDelay();
+//		const double T0_1_delayUV = T0_1->GetUV()->GetPara()->GetDelay();
 		const int nUVLEdge_T0_1 = T0_1->GetUV()->GetData()->GetNLeadingEdge();
 		const int nDVLEdge_T0_1 = T0_1->GetDV()->GetData()->GetNLeadingEdge();
 		// T0_1 UV validity check
