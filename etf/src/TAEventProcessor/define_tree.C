@@ -8,7 +8,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/21.															     //
-// Last modified: 2017/11/26, SUN Yazhou.										     //
+// Last modified: 2017/12/28, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -42,7 +42,7 @@
 	double TOF_T1; // time tag of T1 plastic scintillator, beside the target.
 	double tRef; // T reference -> ~ 500+-100 to trigger
 	TTree *treeTrack = new TTree("treeTrack", "pattern recognition tracks");
-	treeTrack->SetAutoSave(1e4);
+//	treeTrack->SetAutoSave(1e7);
 	treeTrack->Branch("index", &index, "index/I");
 	treeTrack->Branch("bunchId", &bunchId, "bunchId/I");
 	treeTrack->Branch("tRef", &tRef, "tRef/D");
@@ -87,7 +87,7 @@
 	int multiSipmArr_post, hitIdLsSipmArr_post[10];
 	double uvlTLsSipmArr_pre[10]; // uvl: up, Very high resl, leading edge
 	TTree *treeSiPMPlaArr = new TTree("treeSiPMPlaArr", "SiPM Plastic Scintillator Bar Array Statistics");
-	treeSiPMPlaArr->SetAutoSave(1e5);
+//	treeSiPMPlaArr->SetAutoSave(1e7);
 	treeSiPMPlaArr->Branch("index", &index, "index/I");
 	treeSiPMPlaArr->Branch("multi_pre", &multiSipmArr_pre, "multi_pre/I");
 	treeSiPMPlaArr->Branch("multi_post", &multiSipmArr_post, "multi_post/I");
@@ -101,7 +101,7 @@
 	short hitStaLsSipmBarr_pre[24]; double uvlTLsSipmBarr_pre[24], dvlTLsSipmBarr_pre[24];
 	double timeToTrigSipmBarr, timeToTRefSipmBarr;
 	TTree *treeSiPMPlaBarr = new TTree("treeSiPMPlaBarr", "SiPM Plastic Scintillator Strip Barrel Statistics");
-	treeSiPMPlaBarr->SetAutoSave(1e5);
+//	treeSiPMPlaBarr->SetAutoSave(1e7);
 	treeSiPMPlaBarr->Branch("index", &index, "index/I");
 	treeSiPMPlaBarr->Branch("tRef", &tRef, "tRef/D");
 	treeSiPMPlaBarr->Branch("timeToTrig", &timeToTrigSipmBarr, "timeToTrig/D");
@@ -122,7 +122,7 @@
 	treeTOFW[0] = new TTree("treeTOFWL", "TOF Wall (L) Statistics");
 	treeTOFW[1] = new TTree("treeTOFWR", "TOF Wall (R) Statistics");
 	for(int i = 2; i--;){
-		treeTOFW[i]->SetAutoSave(1e5);
+//		treeTOFW[i]->SetAutoSave(1e7);
 		treeTOFW[i]->Branch("index", &index, "index/I");
 		treeTOFW[i]->Branch("multi_pre", multiTOFW_pre+i, "multi_pre/I");
 		treeTOFW[i]->Branch("multi_post", multiTOFW_post+i, "multi_post/I");
@@ -144,7 +144,7 @@
 	double yp3D[n3DtrMax][2], poz3D[n3DtrMax], trkLenT3D[n3DtrMax];
 	t3DTrkInfo trk3DIf[n3DtrMax]; t3DPIDInfo pid3DIf[n3DtrMax];
 	TTree *treePID3D = new TTree("treePID3D", "PID using 3D Tracking and Refinement");
-	treePID3D->SetAutoSave(1e5);
+//	treePID3D->SetAutoSave(1e7);
 	treePID3D->Branch("index", &index, "index/I");
 	treePID3D->Branch("n3Dtr", &n3Dtr, "n3Dtr/I");
 	treePID3D->Branch("isDCArrR", isDCArrR, "isDCArrR[n3Dtr]/O");
