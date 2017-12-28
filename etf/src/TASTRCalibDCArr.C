@@ -261,7 +261,7 @@ void TASTRCalibDCArr::GenerateSTRCorFile(int round){
 	GenerateCalibFile(fROOTFile, fDCArr, round);
 }
 void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcArr, int round){
-	TAPopMsg::Info("TASTRCalibDCArr", "GenerateCalibFile: Input rootfile name: %s, STR auto-calibration round id: %d", rootfile.c_str(), round);
+	TAPopMsg::Info("TASTRCalibDCArr", "GenerateCalibFile: Input rootfile name: %s, STR auto-calibration round id: %d, MWDC Array Name: %s", rootfile.c_str(), round, dcArr->GetName().c_str());
 	if(0 != access(rootfile.c_str(), F_OK))
 		TAPopMsg::Error("TASTRCalibDCArr", "GenerateCalibFile: Input rootfile %s doesn't exist", rootfile.c_str());
 	TFile *f = new TFile(rootfile.c_str(), "UPDATE");

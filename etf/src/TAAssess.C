@@ -99,7 +99,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 	const short LRTAG = lrtag; // type/10: 10 -> dcArrL; 11 -> dcArrR
 	cout << "The results would be stored in ROOT file directory \"\033[36;1m" << topdir << "\"\n\033[0m";
 	if(f->FindObjectAny(topdir))
-		TAPopMsg::Warn("TAAssess", "EvalDCArr: directory %s alrady exists. Assess0 may have been implemented", topdir);
+		TAPopMsg::Warn("TAAssess", "EvalDCArr: directory %s alrady exists. Assess0 may have been implemented.\nStill, you can re-assess the tracking result anyway. Only extra time would be the cost", topdir);
 	else f->mkdir(topdir);
 	f->cd(topdir);
 
