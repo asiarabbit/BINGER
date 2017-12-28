@@ -82,7 +82,7 @@ TAEventProcessor::TAEventProcessor(const string &datafile, int runId)
 	fPID = TAPID::Instance();
 	fGPar = TAGPar::Instance();
 	TAPopMsg::Verbose(false); // TAPopMsg::Silent();
-	SetDataFile(datafile, runId);
+	if(strcmp("", datafile.c_str())) SetDataFile(datafile, runId);
 }
 TAEventProcessor::~TAEventProcessor(){
 	if(fRawDataProcessor){
@@ -170,6 +170,9 @@ void TAEventProcessor::Configure(){ // create detectors
 	}
 	SetSTRROOTFile("STR.root"); // space-time relations for MWDCs
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
+	// read the global parameters array first; type: 004
+	const short nignore = 4, typeignore[nignore] = {0, 1, 2, 3};
+	GetParaManager()->ReadParameters(nignore, typeignore);
 	// note that the detector UID has to be equal to the array detList subscript
 	detList[0] = new TAT0_0("T0_0", "T0_0@Mid-RIBLL2", 0);
 	detList[1] = new TAT0_1("T0_1", "T0_1@End-RIBLL2", 1);
@@ -448,8 +451,8 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 				} // end if
 			} // end for over j
 		} // end for over l
-		// fit the track with the new drift time and drift distance // DEBUG
 
+		// fit the track with the new drift time and drift distance // DEBUG
 //		cout << "Before correction,\n"; // DEBUG
 //		cout << "k1: " << trkVec[0] << "\tk2: " << trkVec[1] << "\tb1: " << trkVec[2] << "\tb2: " << trkVec[3] << endl; // DEBUG
 		TAMath::BFGS4(Ag, ag, trkVec, rr, nF);
@@ -479,6 +482,15 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 //		cout << "chi2: " << trk3DIf[jj].chi2 << endl; // DEBUG
 //		cout << "Chi: " << trk3DIf[jj].Chi << endl; // DEBUG
 //		cout << "tof2: " << trk3DIf[jj].tof2 << endl; getchar(); // DEBUG
+
+		// calculate TOF hit position
+		double p2[3]{}; // p2: fired strip projection
+		TAPlaStrip *strip = dcArr->GetTOFWall()->GetStrip(tl[trkId[jj][0]]->firedStripId);
+		strip->GetStripPara()->GetGlobalProjection(p2); // retrieve fired strip projection
+		p2[1] = trkVec[1] * p2[2] + trkVec[3]; // y = k2 z + b2;
+//		p2[0] = trkVec[0] * p2[2] + trkVec[2]; // x = k1 z + b1;
+		trk3DIf[jj].TOF_posY_refine = p2[1];
+		trk3DIf[jj].TOF_posY = strip->GetHitPosition();
 	} // end for over jj
 } // end of member function RefineTracks
 // refine PID using the refined 3D track information

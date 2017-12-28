@@ -9,7 +9,7 @@ using std::endl;
 
 int main(int argc, char *argv[]){
 	if(argc < 3){
-		cout << "./sim <nTrkPerEv> <eff%> (eff: 0~100). 2 Parameters have to be given\n";
+		cout << "./sim <nTrkPerEv> <eff%> (eff: 0~100) <rootfilename>. 3 Parameters have to be given\n";
 		exit(1);
 	}
 	int nTrkPerEv = atoi(argv[1]); double eff = atoi(argv[2])/100.;
@@ -19,7 +19,7 @@ int main(int argc, char *argv[]){
 	ep->SetConfigExpDir(dir[0]); ep->Configure();
 	TASimulation *sim = new TASimulation();
 	sim->SetFixDCArr(-1); sim->SetIsDebug(0); // MWDC array L or R only
-	sim->GenerateSim(10, nTrkPerEv, eff, argv[3]);
+	sim->GenerateSim(1000, nTrkPerEv, eff, argv[3]);
 
 	return 0;
 }

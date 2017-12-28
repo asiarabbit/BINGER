@@ -131,11 +131,12 @@ inline int skipCrap(const char *s){
 	}
 	return tmp - 1;
 }
-// Every value whatsoever has a UID. This is the utmost principle of para management.
-void TAParaManager::ReadParameters(){
+// Every value whatsoever has a UID. This is the utmost principle of para management
+// types in typeIgnore[NIgnore] would be ignored
+void TAParaManager::ReadParameters(const short NIgnore, const short *typeIgnore){
 	int cntNull = 0;
 	for(auto p : fDetList) if(!p) cntNull++;
-	if(fDetList.size() == cntNull){
+	if(fDetList.size() == cntNull && NIgnore <= 0){
 		TAPopMsg::Warn("TAParaManager", "ReadParameters: fDetList is empty");
 		return;
 	}
@@ -157,6 +158,10 @@ void TAParaManager::ReadParameters(){
 		if(0 == strlen(fname)) continue; // blank line
 
 		int type = FileType(fname);
+		bool isIgnore = false;
+		for(int i = 0; i < NIgnore; i++)
+			if(typeIgnore[i] == type) isIgnore = true;
+		if(isIgnore) continue;
 		switch(type){
 			case 0: // channel id
 				AssignChId(fname); break;
@@ -183,39 +188,10 @@ void TAParaManager::ReadParameters(){
 	// FIXME: this function is a flawed function, may not be used.
 //	Clean(); // by telling the status of channel id of the detector units.
 }
-void TAParaManager::UpdateSTRCorrection() const{
-	int cntNull = 0;
-	for(auto p : fDetList) if(!p) cntNull++;
-	if(fDetList.size() == cntNull){
-		TAPopMsg::Warn("TAParaManager", "UpdateSTRCorrection: fDetList is empty");
-		return;
-	}
-	// read the cofig files and register them in config/content (a text file)
-	string configPath = TACtrlPara::Instance()->ConfigExpDir();
-	string content = configPath+"/content"; // file containing the file list
-	if(0 != access(content.c_str(), F_OK))
-		TAPopMsg::Error("TAParaManager", "UpdateSTRCorrection: %s doesn't exist. Has TAParaManager::Configure() not run yet?", content.c_str());
-//	RegisterConfigFiles(configPath.c_str());
-
-	ifstream ff(content.c_str());
-	if(!ff.is_open()){
-		TAPopMsg::Error("TAParaManager", "UpdateSTRCorrection: read %s error", content.c_str());
-	}
-	char fname[512];
-	while(ff.getline(fname, sizeof(fname))){
-		int tmp = skipCrap(fname);
-		if('#' == fname[tmp] || '\0' == fname[tmp]) continue; // commentary line
-		if(0 == strlen(fname)) continue; // blank line
-
-		int type = FileType(fname);
-		switch(type){
-			case 2: // T0
-				AssignT0(fname); break;
-			case 3: // STR Correction
-				AssignSTRCor(fname); break;
-			default: break;
-		} // end switch
-	} // end external while
+void TAParaManager::UpdateSTRCorrection(){
+	// read T0 and STR correction calibration constants
+	const short nignore = 3, typeignore[nignore] = {0, 1, 4};
+	ReadParameters(nignore, typeignore);
 }
 
 
@@ -547,6 +523,7 @@ void TAParaManager::AssignGPar(const char *fname) const{
 
 		unsigned id = unsigned(paId);
 		gp->Parameter(id)->SetValue(value);
+		gp->Parameter(id)->SetUID(UID_DUMMY+paId);
 //		cout << "id: " << id << "\tvalue: " << value << endl; // DEBUG
 //		gp->ShowPar(id); getchar(); // DEBUG
 	} // end while

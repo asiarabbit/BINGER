@@ -26,7 +26,7 @@ int main(int argc, char *argv[]){
 	usr->Configure();
 	usr->Go(); // pattern recognition, track fit, and particle identification
 
-//	return 0;
+	return 0;
 	// 3D tracking has to be implemented for calibration procedures to work
 	if(usr->Is3DTracking() && hasCalibrated) return 0;
 

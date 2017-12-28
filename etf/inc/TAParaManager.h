@@ -37,8 +37,10 @@ public:
 
 	static TAParaManager *Instance();
 	virtual ~TAParaManager();
-	void ReadParameters(); // read all the parameters required
-	void UpdateSTRCorrection() const; // using the current STR-correction table, for STRCali
+	// read all the parameters required
+	// types in typeIgnore[NIgnore] would be ignored
+	void ReadParameters(const short NIgnore = -1, const short *typeIgnore = nullptr);
+	void UpdateSTRCorrection(); // using the current STR-correction table, for STRCali
 	double GetPhysConst(const char *name) const;
 	ArrDet_t &GetDetList(){ return fDetList; }
 	vector<TAChPara *> &GetChParaList(){ return fChParaList; }
@@ -50,6 +52,7 @@ public:
 	// to tell if calibration files of a speficied type exist
 	bool Exist(const short type) const; // used in aterwards calibraion procedures
 	static const int MAX_CH_NUM = 20000; // maximum number of channels
+	// UINT_MAX: 4,294,967,295   999,999,999
 	static const int UID_DUMMY = 999999999; // dummy uid for channels with unknown channel ids
 protected:
 	// read the cofig files and register them in a text file

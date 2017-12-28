@@ -491,8 +491,8 @@ double TAMWDCArray::GetDistanceOfFlight(const double *b, const double *B, int nu
 	TAMath::GetHitPoint(b, B, ag, p1, p0);
 	// Get the z and x coordinate of the fired strip
 	GetTOFWall()->GetStrip(firedStripId)->GetStripPara()->GetGlobalProjection(p2);
-	// more accurate, calculated from the track function.
 	p2[1] = B[1] + b[1] * (p2[2]-B[2])/b[2];
+	// more accurate x, calculated from the track function
 	p2[0] = B[0] + b[0] * (p2[2]-B[2])/b[2];
 
 	double dd = TAMath::L(p0, p2, 3);

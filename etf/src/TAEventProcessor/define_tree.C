@@ -42,7 +42,7 @@
 	double TOF_T1; // time tag of T1 plastic scintillator, beside the target.
 	double tRef; // T reference -> ~ 500+-100 to trigger
 	TTree *treeTrack = new TTree("treeTrack", "pattern recognition tracks");
-	treeTrack->SetAutoSave(1e7);
+	treeTrack->SetAutoSave(1e4);
 	treeTrack->Branch("index", &index, "index/I");
 	treeTrack->Branch("bunchId", &bunchId, "bunchId/I");
 	treeTrack->Branch("tRef", &tRef, "tRef/D");
@@ -71,9 +71,9 @@
 	treeTrack->Branch("chi2", chi2, "chi2[ntr]/D"); // sum of chi^2
 	treeTrack->Branch("Chi", Chi, "Chi[ntr]/D"); // sqrt(chi2/nFiredAnodeLayer)
 	treeTrack->Branch("TOF", TOF, "TOF[ntr]/D");
-	treeTrack->Branch("tof2", tof2, "tof2[ntr]/D");
+	treeTrack->Branch("tof2", tof2, "tof2[ntr]/D"); // tof from T0_1 to TOFW
 	treeTrack->Branch("taHitX", taHitX, "taHitX[ntr]/D");
-	treeTrack->Branch("beta2", beta2, "beta2[ntr]/D");
+	treeTrack->Branch("beta2", beta2, "beta2[ntr]/D"); // beta from T0_1 to TOFW
 	treeTrack->Branch("TOTUV", TOTUV, "TOTUV[ntr]/D"); // time over threshold, up side, V
 	treeTrack->Branch("TOTUH", TOTUH, "TOTUH[ntr]/D"); // time over threshold, up side, H
 	treeTrack->Branch("TOTDV", TOTDV, "TOTDV[ntr]/D"); // time over threshold, down side, V
@@ -82,13 +82,12 @@
 	treeTrack->Branch("firedStripId", firedStripId, "firedStripId[ntr]/I");
 	treeTrack->Branch("sipmArrStripId", sipmArrStripId, "sipmArrStripId[ntr]/I");
 	treeTrack->Branch("nStripStray", nStripStray, "nStripStray[ntr]/D"); // distance of track to fired TOF Wall strip center
-	objLsTree.push_back(treeTrack);
 
 	int multiSipmArr_pre,  hitIdLsSipmArr_pre[10];
 	int multiSipmArr_post, hitIdLsSipmArr_post[10];
 	double uvlTLsSipmArr_pre[10]; // uvl: up, Very high resl, leading edge
 	TTree *treeSiPMPlaArr = new TTree("treeSiPMPlaArr", "SiPM Plastic Scintillator Bar Array Statistics");
-	treeSiPMPlaArr->SetAutoSave(1e7);
+	treeSiPMPlaArr->SetAutoSave(1e5);
 	treeSiPMPlaArr->Branch("index", &index, "index/I");
 	treeSiPMPlaArr->Branch("multi_pre", &multiSipmArr_pre, "multi_pre/I");
 	treeSiPMPlaArr->Branch("multi_post", &multiSipmArr_post, "multi_post/I");
@@ -102,7 +101,7 @@
 	short hitStaLsSipmBarr_pre[24]; double uvlTLsSipmBarr_pre[24], dvlTLsSipmBarr_pre[24];
 	double timeToTrigSipmBarr, timeToTRefSipmBarr;
 	TTree *treeSiPMPlaBarr = new TTree("treeSiPMPlaBarr", "SiPM Plastic Scintillator Strip Barrel Statistics");
-	treeSiPMPlaBarr->SetAutoSave(1e7);
+	treeSiPMPlaBarr->SetAutoSave(1e5);
 	treeSiPMPlaBarr->Branch("index", &index, "index/I");
 	treeSiPMPlaBarr->Branch("tRef", &tRef, "tRef/D");
 	treeSiPMPlaBarr->Branch("timeToTrig", &timeToTrigSipmBarr, "timeToTrig/D");
@@ -123,7 +122,7 @@
 	treeTOFW[0] = new TTree("treeTOFWL", "TOF Wall (L) Statistics");
 	treeTOFW[1] = new TTree("treeTOFWR", "TOF Wall (R) Statistics");
 	for(int i = 2; i--;){
-		treeTOFW[i]->SetAutoSave(1e7);
+		treeTOFW[i]->SetAutoSave(1e5);
 		treeTOFW[i]->Branch("index", &index, "index/I");
 		treeTOFW[i]->Branch("multi_pre", multiTOFW_pre+i, "multi_pre/I");
 		treeTOFW[i]->Branch("multi_post", multiTOFW_post+i, "multi_post/I");
@@ -139,11 +138,13 @@
 	bool isDCArrR[n3DtrMax];
 	double Chi3D[n3DtrMax], chi2_3D[n3DtrMax], chi3D[n3DtrMax][18];
 	double k1[n3DtrMax], b1[n3DtrMax], k2[n3DtrMax], b2[n3DtrMax]; // x=k1*z+b1; y=k2*z+b2;
+	// hit position in TOFW strip, rough and refine
+	double TOF_posY[n3DtrMax], TOF_posY_refine[n3DtrMax]; // refine: calculate through 3D trks
 	double aoz3D[n3DtrMax], aozdmin3D[n3DtrMax], beta2_3D[n3DtrMax];
 	double yp3D[n3DtrMax][2], poz3D[n3DtrMax], trkLenT3D[n3DtrMax];
 	t3DTrkInfo trk3DIf[n3DtrMax]; t3DPIDInfo pid3DIf[n3DtrMax];
 	TTree *treePID3D = new TTree("treePID3D", "PID using 3D Tracking and Refinement");
-	treePID3D->SetAutoSave(1e7);
+	treePID3D->SetAutoSave(1e5);
 	treePID3D->Branch("index", &index, "index/I");
 	treePID3D->Branch("n3Dtr", &n3Dtr, "n3Dtr/I");
 	treePID3D->Branch("isDCArrR", isDCArrR, "isDCArrR[n3Dtr]/O");
@@ -154,6 +155,8 @@
 	treePID3D->Branch("b1", b1, "b1[n3Dtr]/D");
 	treePID3D->Branch("k2", k2, "k2[n3Dtr]/D");
 	treePID3D->Branch("b2", b2, "b2[n3Dtr]/D");
+	treePID3D->Branch("TOF_posY", TOF_posY, "TOF_posY[n3Dtr]/D"); // rough TOF hit postion
+	treePID3D->Branch("TOF_posY_refine", TOF_posY_refine, "TOF_posY_refine[n3Dtr]/D");
 	// 3D PID result using the same PID method
 	treePID3D->Branch("aoz", aoz3D, "aoz[n3Dtr]/D");
 	treePID3D->Branch("aozdmin", aozdmin3D, "aozdmin[n3Dtr]/D");

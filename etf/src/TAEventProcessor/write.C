@@ -8,7 +8,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/21.															     //
-// Last modified: 2017/11/28, SUN Yazhou.										     //
+// Last modified: 2017/12/28, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -23,11 +23,17 @@
 		for(TObject *&b : objLs[i]) if(b) b->Write("", TObject::kOverwrite);
 	}
 	f->cd("/"); for(TTree *&tree : objLsTree) tree->Write("", TObject::kOverwrite);
+	treeTrack->Write("", TObject::kOverwrite);
 	treePID3D->Write("", TObject::kOverwrite);
 
 	for(auto &objls : objLs) for(TObject *&obj : objls){
 		delete obj; obj = nullptr;
 	}
+	for(TTree *&tree : objLsTree){
+		delete tree; tree = nullptr;
+	}
+	delete treeTrack; treeTrack = nullptr;
+	delete treePID3D; treePID3D = nullptr;
 
 	if(!f->FindObjectAny("VISUAL")) f->mkdir("VISUAL");
 	f->cd("VISUAL");

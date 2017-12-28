@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/11/23.															     //
-// Last modified: 2017/11/23, SUN Yazhou.										     //
+// Last modified: 2017/12/28, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -18,6 +18,10 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 
 #include "t3DPIDInfo.h"
+
+t3DPIDInfo::t3DPIDInfo(){
+	initialize();
+}
 
 void t3DPIDInfo::initialize(){
 	aoz = -9999.; aozdmin = -9999.;

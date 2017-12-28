@@ -323,6 +323,7 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 	cout << "\033[1m" << totalTrackCnt - failCnt << "\033[0m tracks are saved in treeData.\n";
 	treeData->Write("", TObject::kOverwrite);
 	treeTrackSim->Write("", TObject::kOverwrite);
+	delete treeTrackSim; delete treeData;
 
 	f->Close(); delete f;
 	cout << "\033[32;1mSIMULATION COMPELETE. Data has been stored in " << rootfile << "\033[0m\n\n";

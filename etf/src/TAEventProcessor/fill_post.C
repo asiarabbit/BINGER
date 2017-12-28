@@ -33,9 +33,9 @@
 
 			const short dcArrId = (type[j]/10)%10; // 0: dcArrL; 1: dcArrR
 			if(0 != dcArrId && 1 != dcArrId)
-				TAPopMsg::Error("TAEvPro", "Run: invalid dcArrId: %d", dcArrId);
+				TAPopMsg::Error("TAEventProcessor", "Run: invalid dcArrId: %d", dcArrId);
 			const int dcType = type[j]%10; // [0-1-2]: [X-U-V]
-			if(firedStripId[j] >= 0){
+			if(type[j]%10 == 0 && firedStripId[j] >= 0){ // X trk
 				TAPlaStrip *strip = tofw[dcArrId]->GetStrip(firedStripId[j]);
 				TOTUV[j] = strip->GetUV()->GetTOT(); TOTUH[j] = strip->GetUH()->GetTOT();
 				TOTDV[j] = strip->GetDV()->GetTOT(); TOTDH[j] = strip->GetDH()->GetTOT();
@@ -138,10 +138,13 @@
 			memcpy(chi3D[jj], trk3DIf[jj].chi, sizeof(chi3D[jj]));
 			k1[jj] = trk3DIf[jj].k1; k2[jj] = trk3DIf[jj].k2;
 			b1[jj] = trk3DIf[jj].b1; b2[jj] = trk3DIf[jj].b2;
+			TOF_posY[jj] = trk3DIf[jj].TOF_posY; // hit Y position in TOFW strips, calculated via
+			TOF_posY_refine[jj] = trk3DIf[jj].TOF_posY_refine; // dt or 3D trks
 			aoz3D[jj] = pid3DIf[jj].aoz; aozdmin3D[jj] = pid3DIf[jj].aozdmin;
 			beta2_3D[jj] = pid3DIf[jj].beta2; poz3D[jj] = pid3DIf[jj].poz;
 			yp3D[jj][0] = pid3DIf[jj].angTaOut[0]; yp3D[jj][1] = pid3DIf[jj].angTaOut[1];
 			trkLenT3D[jj] = pid3DIf[jj].trkLenT;
+			hTOFWHitPosCmp[isDCArrR[jj]]->Fill(TOF_posY[jj], TOF_posY_refine[jj]+600.); // 600=1200/2
 		} // end for over 3D tracks
 		// update drift time and drift distance
 		for(int j = 0; j < ntr; j++){

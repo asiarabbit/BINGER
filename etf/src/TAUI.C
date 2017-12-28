@@ -122,6 +122,8 @@ void TAUI::Go(){
 		case 5: SetIs3DTracking(true); SetIsPID(false); break;
 		case 6: SetIs3DTracking(true); SetIsPID(true); break;
 		default: SetIsTracking(false); SetIsPID(false);
+			TAPopMsg::Error("TAUI", "Go: Allowed value for anaDepth is 0 - 6");
+			PromptHelp(true);
 	}
 	if(strcmp(fDataFile, "") && !strcmp(fROOTFile, "")) SetDataFile(fDataFile, fRunId);
 

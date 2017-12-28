@@ -10,13 +10,14 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/29.															     //
-// Last modified: 2017/12/13, SUN Yazhou.										     //
+// Last modified: 2017/12/28, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
+//#define DEBUG
 
 		///////////////////// OUTPUT THE ANALYSIS RESULT //////////////////////////////////////////
 		// daq statistics //
@@ -38,12 +39,17 @@
 		// assign TOT_T0
 		tRef = -9999.;
 		const double T0_1_delayAvrg = T0_1->GetDelay();
-//		const double T0_1_delayUV = T0_1->GetUV()->GetPara()->GetDelay();
 		const int nUVLEdge_T0_1 = T0_1->GetUV()->GetData()->GetNLeadingEdge();
 		const int nDVLEdge_T0_1 = T0_1->GetDV()->GetData()->GetNLeadingEdge();
 		// T0_1 UV validity check
 		for(int j = 0; j < nUVLEdge_T0_1; j++){
 			double time = T0_1->GetUV()->GetTime(j) - T0_1_delayAvrg;
+#ifdef DEBUG
+			cout << "time: " << time; // DEBUG
+			cout << "T0_1->GetUV()->GetTime(j): " << T0_1->GetUV()->GetTime(j) << endl; // DEBUG
+			cout << "\ttimeToTrigLowBoundUV: " << timeToTrigLowBoundUV; // DEBUG
+			cout << "\ttimeToTrigHighBoundUV: " << timeToTrigHighBoundUV; getchar(); // DEBUG
+#endif
 			hT0_1ToTrigUV->Fill(j, time);
 			if(time > timeToTrigLowBoundUV && time < timeToTrigHighBoundUV){
 				cnt_timeToTrig_T0_1UV++; break;
@@ -53,8 +59,11 @@
 		for(int j = 0; j < nDVLEdge_T0_1; j++){
 			double time = T0_1->GetDV()->GetTime(j) - T0_1_delayAvrg;
 			hT0_1ToTrigDV->Fill(j, time);
-//			cout << "time: " << time << "\ttimeToTrigLowBoundDV: " << timeToTrigLowBoundDV;
-//			cout << "\ttimeToTrigHighBoundDV: " << timeToTrigHighBoundDV << endl; getchar(); // DEBUG
+#ifdef DEBUG
+			cout << "time: " << time; // DEBUG
+			cout << "\ttimeToTrigLowBoundDV: " << timeToTrigLowBoundDV; // DEBUG
+			cout << "\ttimeToTrigHighBoundDV: " << timeToTrigHighBoundDV; getchar(); // DEBUG
+#endif
 			if(time > timeToTrigLowBoundDV && time < timeToTrigHighBoundDV){
 //				cout << "cnt_timeToTrig_T0_1DV: " << cnt_timeToTrig_T0_1DV << endl; getchar(); // DEBUG
 				cnt_timeToTrig_T0_1DV++; break;
@@ -79,12 +88,16 @@
 			tRef = (timeUV_T0_1 + timeDV_T0_1) / 2.;
 			cntTRef++;
 		}
-//		if(!(tRef > timeToTrigHighBoundUV || tRef < timeToTrigLowBoundUV)){
-//			cout << "\n\nnl: " << nUVLEdge_T0_1 << "\tnDVLEdge_T0_1: " << nDVLEdge_T0_1 << endl; // DEBUG
-//			cout << "timeUV_T0_1: " << timeUV_T0_1 << "\ttimeDV_T0_1: " << timeDV_T0_1 << endl; // DEBUG
-//			cout << "dmin_T0_1: " << dmin_T0_1 << "\ttRef: " << tRef << endl; // DEBUG
-//			T0_1->GetUV()->GetData()->Show(); T0_1->GetDV()->GetData()->Show(); getchar(); // DEBUG
-//		}
+#ifdef DEBUG
+		const double T0_1_delayUV = T0_1->GetUV()->GetPara()->GetDelay();
+		cout << "T0_1_delayAvrg: " << T0_1_delayAvrg << "\tT0_1_delayUV: " << T0_1_delayUV << endl; getchar(); // DEBUG
+		if(!(tRef > timeToTrigHighBoundUV || tRef < timeToTrigLowBoundUV)){
+			cout << "\n\nnl: " << nUVLEdge_T0_1 << "\tnDVLEdge_T0_1: " << nDVLEdge_T0_1 << endl; // DEBUG
+			cout << "timeUV_T0_1: " << timeUV_T0_1 << "\ttimeDV_T0_1: " << timeDV_T0_1 << endl; // DEBUG
+			cout << "dmin_T0_1: " << dmin_T0_1 << "\ttRef: " << tRef << endl; // DEBUG
+			T0_1->GetUV()->GetData()->Show(); T0_1->GetDV()->GetData()->Show(); getchar(); // DEBUG
+		}
+#endif
 
 		TOF_T1 = T0_1->GetTime();
 		TOT_T0[0] = T0_0->GetUV()->GetTOT(); TOT_T0[1] = T0_0->GetUH()->GetTOT();
