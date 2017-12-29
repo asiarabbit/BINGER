@@ -28,15 +28,15 @@
 
 # Detector time to trig range: to select signals belonging to the same one particle in an event
 # T0_1ToTrigLBUV
-0   1740.
+0   1041.
 # T0_1ToTrigHBUV
-1   1800.
+1   1102.
 # T0_1ToTrigLBDV
-2   1740.
+2   1041.
 # T0_1ToTrigHBDV
-3   1800.
+3   1102.
 # T0_1DelayAvrg: average delay for T0_1, applying to both UV and DV
-4   -343.7
+4   353.4
 # tofwToTrigLB
 5   1110.
 # tofwToTrigHB
@@ -161,6 +161,9 @@
 51 -0.8
 # NStripStrayMaxR
 52 0.8
+
+# T0_0Delay: average delay for T0_0, UV
+53   489.409
 
 
 

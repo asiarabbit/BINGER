@@ -71,7 +71,7 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 		TAPopMsg::Error("TASTRCalibDCArr", "ChiHistogramming: treeTrack not found in input rootfile");
 	if(is3D && !f->FindObjectAny("treePID3D"))
 		TAPopMsg::Error("TASTRCalibDCArr", "ChiHistogramming: 3D chi histogramming is required, yet treePID3D is not found");
-	TAParaManager::Instance()->UpdateSTRCorrection(); // keep up-to-date with the newest calibration
+//	TAParaManager::Instance()->UpdateSTRCorrection(); // keep up-to-date with the newest calibration
 	const bool LRTAG = bool(dcArr->GetUID()-3); // 3: L; 4: R
 	// The x-axis of xX, xU, xV, to calculate angle-alpha
 	const double al[3][3] = {{1., 0., 0.}, {-sqrt(3.), 1., 0.}, {sqrt(3.), 1., 0.}}; // X-U-V
@@ -441,6 +441,7 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 
 	cout << "\n\n\033[33;1mDONE\033[0m\n\n";
 	f->Close(); delete f;
+	TAParaManager::Instance()->UpdateSTRCorrection(); // keep up-to-date with the newest calibration
 } // end of member function GenerateCalibFile
 
 

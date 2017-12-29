@@ -42,9 +42,8 @@ void TAUI::GetOpt(int argc, char *argv[]){
 	int ch;
 //	opterr = 0;
 	if(1 == argc) PromptHelp();
-	while((ch = getopt(argc, argv, ":r:i:f:d::u::m::hv")) != -1){
+	while((ch = getopt(argc, argv, ":i:f:d::u::m::hv")) != -1){
 		switch(ch){
-			case 'r': strcpy(fROOTFile, optarg); break;
 			case 'i': fIndex0 = atoi(optarg); break;
 			case 'f': fIndex1 = atoi(optarg); break;
 			case 'd': fAnaDepth = 2; if(optarg) fAnaDepth = atoi(optarg); break;
@@ -55,8 +54,14 @@ void TAUI::GetOpt(int argc, char *argv[]){
 			default: PromptHelp();
 		}
 	}
-	if(argv[optind]) strcpy(fDataFile, argv[optind]);
-	
+	// operand without an option dash would be pushed to the end of the input array
+	if(argv[optind]){
+		if(!strcmp(argv[optind]+strlen(argv[optind])-4, ".dat"))
+			strcpy(fDataFile, argv[optind]);
+		else if(!strcmp(argv[optind]+strlen(argv[optind])-5, ".root"))
+			strcpy(fROOTFile, argv[optind]);
+	}
+
 	// input file name validity check
 	if(strcmp(fROOTFile, "") && strcmp(fDataFile, ""))
 		TAPopMsg::Error("TAUI", "GetOpt: The data file and root file are designated at the same time, which is conflicting.\n\t(The rootfile ought be generated from the datafile.)");
@@ -83,7 +88,7 @@ void TAUI::GetOpt(int argc, char *argv[]){
 void TAUI::PromptHelp(bool isVerbose){
 	cout << "\n          ----------------- USER MANUL ----------------\n";
 	cout << "Usage:\n";
-	cout << "\t./pre <datafile | -\033[1mr\033[0m rootfile>" ;
+	cout << "\t./pre <datafile or rootfile>" ;
 	cout << "[-\033[1mi\033[0m index0] [-\033[1mf\033[0m index1]\n";
 	cout << "\t\t[-\033[1md\033[0manalyze-depth] ";
 	cout << "[-\033[1mm\033[0mevent-length-limit] [-\033[1mu\033[0mrunId]\n";
@@ -93,7 +98,6 @@ void TAUI::PromptHelp(bool isVerbose){
 
 	cout << endl;
 	cout << "\t[datafile]: \n\t\traw binary datafile\n";
-	cout << "\t[-r <rootfile>]: \n\t\traw rootfile\n";
 	cout << "\t[-i <index0>] [-f <index1>]: \n\t\tindex range of events to be analysed.\n";
 	cout << "\t\ti-initial, f-final. All events are chosen by default.\n";
 	cout << "\t[-d[<depth>]]: \n\t\tanalyze depth:\n";
