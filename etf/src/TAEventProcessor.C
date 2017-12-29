@@ -260,6 +260,10 @@ void TAEventProcessor::Analyze(){
 			beta /= c0;
 		}
 	}
+//	cout << "t0_0: " << t0_0 << endl; // DEBUG
+//	cout << "t0_1: " << t0_1 << endl; // DEBUG
+//	cout << "t0_1 - t0_0: " << t0_1 - t0_0 << endl; // DEBUG
+//	cout << "beta: " << beta << endl; getchar(); // DEBUG
 	// pattern recognition and rough fit for particle tracking
 	if(dcArrL){ dcArrL->Map(); dcArrL->AssignTracks(fTrackList); }
 	if(dcArrR){ dcArrR->Map(); dcArrR->AssignTracks(fTrackList); }
@@ -438,7 +442,7 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 					// t = T_tof + T_wire + T_drift + T0
 					// substract T_wire and T_tof from the time measurement
 					trk->t[j] -= TACtrlPara::T_tofDCtoTOFW(uid) - TACtrlPara::T_wireMean(uid); // recover the rough correction of time of flight from DC to TOF wall for a refined one
-					double beta_t[2] = {0.5, 0.6}; // for simulation test only XXX XXX XXX
+					double beta_t[2] = {0.5, 0.68}; // for simulation test only XXX XXX XXX
 					dcArr->DriftTimeCorrection(trk->t[j], trk->r[j], anodeId[tmp], trkVec, trk->firedStripId, beta_t[isDCArrR[jj]]); // trk->beta
 					rr[tmp] = trk->r[j];
 #ifdef DEBUG
@@ -489,8 +493,10 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 		strip->GetStripPara()->GetGlobalProjection(p2); // retrieve fired strip projection
 		p2[1] = trkVec[1] * p2[2] + trkVec[3]; // y = k2 z + b2;
 //		p2[0] = trkVec[0] * p2[2] + trkVec[2]; // x = k1 z + b1;
-		trk3DIf[jj].TOF_posY_refine = p2[1];
+		trk3DIf[jj].TOF_posY_refine = p2[1]+600.;
 		trk3DIf[jj].TOF_posY = strip->GetHitPosition();
+//		cout << "TOF_posY: " << trk3DIf[jj].TOF_posY << endl; // DEBUG
+//		cout << "TOF_posY_refine: " << trk3DIf[jj].TOF_posY_refine << endl; getchar(); // DEBUG
 	} // end for over jj
 } // end of member function RefineTracks
 // refine PID using the refined 3D track information

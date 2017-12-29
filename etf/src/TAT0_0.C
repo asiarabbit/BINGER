@@ -20,6 +20,9 @@
 #include "TAPopMsg.h"
 #include "TAT0_0.h"
 #include "TAChannel.h"
+#include "TAGPar.h"
+
+static const TAGPar *gp = TAGPar::Instance();
 
 TAT0_0::TAT0_0(const string &name, const string &title, unsigned uid)
 		: TAStuff(name, title, uid), fUV(nullptr), fUH(nullptr){
@@ -81,7 +84,7 @@ void TAT0_0::Configure(){
 	}
 	fUV = new TAChannel(fName+"->UV", fTitle+"->UV", fUID+(0<<6));
 	fUH = new TAChannel(fName+"->UH", fTitle+"->UH", fUID+(1<<6));
-	fDelay = 646.03; // using TOF start as the delay reference, calibrated with beam test Nov., 2016
+	fDelay = gp->Val(53); // using TOF start as the delay reference
 
 	// print user-defined configurations
 	TAPopMsg::ConfigInfo(GetName().c_str(), "Configure: \nfDelay: %f\n", fDelay);

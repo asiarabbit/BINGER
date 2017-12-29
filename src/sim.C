@@ -16,9 +16,10 @@ int main(int argc, char *argv[]){
 	cout << "\033[33;1mnTrkPerEv: " << nTrkPerEv << "\teff: " << eff*100. << "%\033[0m\n";
 	TAEventProcessor *ep = TAEventProcessor::Instance();
 	const char dir[2][64] = {"pion_2017Oct", "beamTest_2016Nov"};
-	ep->SetConfigExpDir(dir[0]); ep->Configure();
+	ep->SetConfigExpDir(dir[1]); ep->Configure();
 	TASimulation *sim = new TASimulation();
-	sim->SetFixDCArr(-1); sim->SetIsDebug(0); // MWDC array L or R only
+	sim->SetFixDCArr(1); sim->SetIsDebug(1); // MWDC array L or R only
+	sim->SetBeta(0.5, 0.65); // DCArrL, DCArrR
 	sim->GenerateSim(1000, nTrkPerEv, eff, argv[3]);
 
 	return 0;

@@ -138,7 +138,7 @@
 	bool isDCArrR[n3DtrMax];
 	double Chi3D[n3DtrMax], chi2_3D[n3DtrMax], chi3D[n3DtrMax][18];
 	double k1[n3DtrMax], b1[n3DtrMax], k2[n3DtrMax], b2[n3DtrMax]; // x=k1*z+b1; y=k2*z+b2;
-	// hit position in TOFW strip, rough and refine
+	// hit position in TOFW strip, rough and refine, from Down End to up end (0-1200).
 	double TOF_posY[n3DtrMax], TOF_posY_refine[n3DtrMax]; // refine: calculate through 3D trks
 	double aoz3D[n3DtrMax], aozdmin3D[n3DtrMax], beta2_3D[n3DtrMax];
 	double yp3D[n3DtrMax][2], poz3D[n3DtrMax], trkLenT3D[n3DtrMax];

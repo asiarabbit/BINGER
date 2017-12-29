@@ -9,7 +9,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/29.															     //
-// Last modified: 2017/12/24, SUN Yazhou.										     //
+// Last modified: 2017/12/29, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -144,7 +144,7 @@
 			beta2_3D[jj] = pid3DIf[jj].beta2; poz3D[jj] = pid3DIf[jj].poz;
 			yp3D[jj][0] = pid3DIf[jj].angTaOut[0]; yp3D[jj][1] = pid3DIf[jj].angTaOut[1];
 			trkLenT3D[jj] = pid3DIf[jj].trkLenT;
-			hTOFWHitPosCmp[isDCArrR[jj]]->Fill(TOF_posY[jj], TOF_posY_refine[jj]+600.); // 600=1200/2
+			hTOFWHitPosCmp[isDCArrR[jj]]->Fill(TOF_posY[jj], TOF_posY_refine[jj]); // 600=1200/2
 		} // end for over 3D tracks
 		// update drift time and drift distance
 		for(int j = 0; j < ntr; j++){
@@ -154,6 +154,7 @@
 				r[j][k] = tra->r[k];
 			}
 		} // end for over tracks
+		treeTrack->Fill();
 		treePID3D->Fill();
 		for(TTree *&tree : objLsTree) tree->Fill();
 

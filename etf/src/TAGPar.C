@@ -230,6 +230,10 @@ TAGPar::TAGPar() : fParVec{0}, fHasRead(false){
 	// ---- PARAMETER 52 --- //
 	p = new TAParameter("NStripStrayMaxR", "NStripStrayMaxR");
 	p->SetValue(0.8); fParVec[52] = p; p = nullptr;
+
+	// ---- PARAMETER 53 --- //
+	p = new TAParameter("T0_0Delay", "T0_0Delay");
+	p->SetValue(-853.716); fParVec[53] = p; p = nullptr;
 }
 
 

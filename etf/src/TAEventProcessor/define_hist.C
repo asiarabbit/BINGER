@@ -35,6 +35,8 @@
 //	TAAnode *ano = dc[1][1]->GetAnodeL1(1, 58); // DEBUG
 //	cout << ano->GetDriftDistance(70., 0) << endl; getchar(); // DEBUG
 
+//	cout << "T0_0->GetName(): " << T0_0->GetName() << endl; // DEBUG
+//	cout << "T0_0->UV: " << T0_0->GetUV()->GetPara()->GetChannelId() << endl; getchar(); // DEBUG
 	// to select the trigger-generating particle
 	// (204., 857.)->pion2017; (1350., 1500.)->beamTest2016
 	const double timeToTrigLowBoundUV = gpar->Val(0), timeToTrigHighBoundUV = gpar->Val(1);
@@ -76,6 +78,7 @@
 	TH1F *hTOFWFiredDist[2], *hDCFiredDist[2][3][3]; // [dcArrL-R], [dcArrL-R][DC0-1-2][X-U-V];
 	TH2F *hTOFWToTRef[2]; TH1F *hDCToTRef[2][3][3]; // [dcArrL-R], [dcArrL-R][DC0-1-2][X-U-V];
 	TH1F *hTOFWMulti[2], *hDCMulti[2][3][3][2]; // [dcArrL-R], [dcArrL-R][DC0-1-2][X-U-V][1,2];
+	// PosCmp: hit position in TOFW strip, rough and refine, from Down End to up end (0-1200).
 	TH2F *hTOFWHitPos[2], *hTOFWHitPosCmp[2]; // [dcArrL-R], Cmp: posY calculated via dt v.s. 3D trks
 	TH1F *hdt[2][3][3]; // [dcArrL-R][DC0-1-2][X-U-V]
 	for(int i = 0; i < 2; i++){ // loop over MWDC arrays
@@ -161,11 +164,11 @@
 	TH2F *hsipmArrToTRef = new TH2F("hsipmArrToTRef", "hsipmArrToTRef;stripId;timeToTRef [ns]", 13, -1.5, 11.5, 3000, -500., 1500.);
 	TH2F *hsipmBarrToTrig = new TH2F("hsipmBarrToTrig", "hsipmBarrToTrig;stripId;timeToTrig [ns]", 27, -1.5, 25.5, 3000, -500., 2000.);
 	TH2F *hsipmBarrToTRef = new TH2F("hsipmBarrToTRef", "hsipmBarrToTRef;stripId;timeToTRef [ns]", 27, -1.5, 25.5, 3000, -500., 1500.);
-	TH2F *hT0_1ToTrigUV = new TH2F("hT0_1ToTrigUV", "hT0_1ToTrigUV;edgeNumId;timeToTrig [ns]", 13, -1.5, 11.5, 4000, -2000., 2000.);
-	TH2F *hT0_1ToTrigDV = new TH2F("hT0_1ToTrigDV", "hT0_1ToTrigDV;edgeNumId;timeToTrig [ns]", 13, -1.5, 11.5, 4000, -2000., 2000.);
+	TH2F *hT0_1ToTrigUV = new TH2F("hT0_1ToTrigUV", "hT0_1ToTrigUV;edgeNumId;timeToTrig [ns]", 13, -1.5, 11.5, 4000, -2000., 3000.);
+	TH2F *hT0_1ToTrigDV = new TH2F("hT0_1ToTrigDV", "hT0_1ToTrigDV;edgeNumId;timeToTrig [ns]", 13, -1.5, 11.5, 4000, -2000., 3000.);
 	TH2F *hTOFWToTrigUV[2];
-	hTOFWToTrigUV[0] = new TH2F("hLTOFWToTrigUV", "hLTOFWToTrigUV;edgeNumId;timeToTrig [ns]", 13, -1.5, 11.5, 4000, -2000., 2000.);
-	hTOFWToTrigUV[1] = new TH2F("hRTOFWToTrigUV", "hRTOFWToTrigUV;edgeNumId;timeToTrig [ns]", 13, -1.5, 11.5, 4000, -2000., 2000.);
+	hTOFWToTrigUV[0] = new TH2F("hLTOFWToTrigUV", "hLTOFWToTrigUV;edgeNumId;timeToTrig [ns]", 13, -1.5, 11.5, 4000, -2000., 3000.);
+	hTOFWToTrigUV[1] = new TH2F("hRTOFWToTrigUV", "hRTOFWToTrigUV;edgeNumId;timeToTrig [ns]", 13, -1.5, 11.5, 4000, -2000., 3000.);
 	TH2F *hDCToTrig = new TH2F("hDCToTrig", "hDCToTrig;edgeNumId;timeToTrig [ns]", 13, -1.5, 11.5, 8000, -4000., 6000.);
 	objLs[6].push_back(htof2sipmArr); objLs[6].push_back(hsipmArrToTrig);
 	objLs[6].push_back(hTOF_T1_pos); objLs[6].push_back(hDCToTrig);
