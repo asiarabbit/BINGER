@@ -61,7 +61,9 @@ protected:
 	void Clean(); // by telling the status of channel id of the detector' units.
 	static int FileType(const char *fname); // tell file type by suffix
 	// read all the files under a designated file
-	static int ReadFileList(const char *basePath, std::ofstream &configFileList);
+	// isAddHeader: ReadFileList may be called several times from without, then isAddHeader should be
+	// activated to distinguish itself from calling within
+	static int ReadFileList(const char *basePath, std::ofstream &configFileList, bool isAddHeader = false);
 	TAParaManager(); // not to be called from outside the class
 
 	// assignment functions: read parameters from given file

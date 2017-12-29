@@ -205,18 +205,19 @@ void TAParaManager::RegisterConfigFiles(const char *basePath) const{
 	char fname[512]; // file name
 	sprintf(fname, "%s/content", basePath);
 	ofstream configFileList(fname); // output the file list to file
-	ReadFileList(basePath, configFileList);
+	ReadFileList(basePath, configFileList, true);
 	configFileList.close();
 # ifdef VERBOSE
 	TAPopMsg::Info("TAParaManager", "RegisterConfigFiles: %s/content has been updated.", basePath);
 #endif
 }
-int TAParaManager::ReadFileList(const char *basePath, ofstream &configFileList){
+int TAParaManager::ReadFileList(const char *basePath, ofstream &configFileList, bool isAddHeader){
 	DIR *dir;
 	dirent *ptr;
 	char base[1024], fname[1024];
 	static int cnt = 0;
-	if(cnt == 0){ // so that only one such remark would be printed into file
+	if(isAddHeader) cnt = 0;
+	if(0 == cnt){ // so that only one such remark would be printed into file
 		configFileList << "################################################################\n";
 		configFileList << "# BINGER Config File List: " << basePath << endl;
 		configFileList << "# Automatically generated config file. DO NOT EDIT!" << endl;
