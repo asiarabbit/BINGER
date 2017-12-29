@@ -17,6 +17,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 
 
+
+
 		///////////////////// OUTPUT THE TRACKING RESULT //////////////////////////////////////////
 		ntr = track_ls.size() < ntrMax ? track_ls.size() : ntrMax;
 		// TAVisual::Fill //
@@ -133,17 +135,24 @@
 //		cout << "n3Dtr: " << n3Dtr << endl; getchar(); // DEBUG
 		// assignment for the filling of treePID3D
 		for(int jj = 0; jj < n3Dtr; jj++){
-			isDCArrR[jj] = trk3DIf[jj].isDCArrR;
-			Chi3D[jj] = trk3DIf[jj].Chi; chi2_3D[jj] = trk3DIf[jj].chi2;
-			memcpy(chi3D[jj], trk3DIf[jj].chi, sizeof(chi3D[jj]));
-			k1[jj] = trk3DIf[jj].k1; k2[jj] = trk3DIf[jj].k2;
-			b1[jj] = trk3DIf[jj].b1; b2[jj] = trk3DIf[jj].b2;
-			TOF_posY[jj] = trk3DIf[jj].TOF_posY; // hit Y position in TOFW strips, calculated via
-			TOF_posY_refine[jj] = trk3DIf[jj].TOF_posY_refine; // dt or 3D trks
-			aoz3D[jj] = pid3DIf[jj].aoz; aozdmin3D[jj] = pid3DIf[jj].aozdmin;
-			beta2_3D[jj] = pid3DIf[jj].beta2; poz3D[jj] = pid3DIf[jj].poz;
-			yp3D[jj][0] = pid3DIf[jj].angTaOut[0]; yp3D[jj][1] = pid3DIf[jj].angTaOut[1];
-			trkLenT3D[jj] = pid3DIf[jj].trkLenT;
+			const t3DTrkInfo &t = trk3DIf[jj];
+			const t3DPIDInfo &p = pid3DIf[jj];
+			// 3D trk
+			isDCArrR[jj] = t.isDCArrR;
+			Chi3D[jj] = t.Chi; chi2_3D[jj] = t.chi2;
+			memcpy(chi3D[jj], t.chi, sizeof(chi3D[jj]));
+			k1[jj] = t.k1; k2[jj] = t.k2; b1[jj] = t.b1; b2[jj] = t.b2;
+			TOF_posY[jj] = t.TOF_posY; // hit Y position in TOFW strips, calculated via
+			TOF_posY_refine[jj] = t.TOF_posY_refine; // dt or 3D trks
+			firedStripId3D[jj] = t.firedStripId; tof2_3D[jj] = t.tof2;
+//			cout << "t.firedStripId: " << t.firedStripId << endl; // DEBUG
+//			cout << "t.tof2: " << t.tof2 << endl; // DEBUG
+//			getchar(); // DEBUG
+			// 3D trk PID
+			aoz3D[jj] = p.aoz; aozdmin3D[jj] = p.aozdmin;
+			beta2_3D[jj] = p.beta2; poz3D[jj] = p.poz;
+			yp3D[jj][0] = p.angTaOut[0]; yp3D[jj][1] = p.angTaOut[1];
+			trkLenT3D[jj] = p.trkLenT;
 			hTOFWHitPosCmp[isDCArrR[jj]]->Fill(TOF_posY[jj], TOF_posY_refine[jj]); // 600=1200/2
 		} // end for over 3D tracks
 		// update drift time and drift distance

@@ -81,7 +81,6 @@
 				timeUV_T0_1 = tmpuv; timeDV_T0_1 = tmpdv;
 			}
 		}
-
 		dmin_T0_1 = timeUV_T0_1 - timeDV_T0_1;
 		hTOF_T1_pos->Fill(dmin_T0_1);
 		if(dmin_T0_1 > -20. && dmin_T0_1 < 60.){
@@ -98,6 +97,19 @@
 			T0_1->GetUV()->GetData()->Show(); T0_1->GetDV()->GetData()->Show(); getchar(); // DEBUG
 		}
 #endif
+		// calculate beta in RIBLL2 //
+		// Time of Flight and beam energy measurement in RIBLL2
+		static const double L = 25.88 * 1000.; // the length of RIBLL2
+		double tof1 = -9999.; // time of flight in RIBLL2
+		if(-9999. != tRef && T0_0 && T0_1){
+			const double t0_0 = T0_0->GetTime(tRef, 100., 180.);
+			if(-9999. != t0_0){
+				tof1 = tRef - t0_0;
+				beta = L / tof1 / c0;
+//				cout << "index: " << index << "\ttof1: " << tof1 << endl; // DEBUG
+//				cout << "beta: " << beta << endl; getchar(); // DEBUG
+			}
+		}
 
 		TOF_T1 = T0_1->GetTime();
 		TOT_T0[0] = T0_0->GetUV()->GetTOT(); TOT_T0[1] = T0_0->GetUH()->GetTOT();

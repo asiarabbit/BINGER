@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2017/11/30, SUN Yazhou.										     //
+// Last modified: 2017/12/29, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -46,8 +46,8 @@ double TAT0_0::GetDelay() const{
 	return fDelay;
 }
 // get TOF time
-double TAT0_0::GetTime() const{
-	return GetUV()->GetLeadingTime() - GetDelay();
+double TAT0_0::GetTime(double t0, double t1, double t2) const{
+	return GetUV()->GetLT(t0,t1,t2) - GetDelay();
 }
 // return up end of the strip, HPTDC very high resolution mode.
 TAChannel *TAT0_0::GetUV() const{

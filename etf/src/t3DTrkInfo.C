@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/11/23.															     //
-// Last modified: 2017/12/28, SUN Yazhou.										     //
+// Last modified: 2017/12/29, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -30,7 +30,7 @@ void t3DTrkInfo::initialize(){
 	TOF_posY = -9999.; TOF_posY_refine = -9999.;
 	for(double &x : chi) x = -9999.;
 	chi2 = -9999.; Chi = -9999.;
-	isDCArrR = true;
+	isDCArrR = true; firedStripId = -1;
 }
 
 

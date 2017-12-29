@@ -19,7 +19,7 @@
 	int ntr = 0; // number of track projections in a data section(3*3D track)
 	int index; // data section index
 	int bunchId; // trigger time
-	double beta; // particle speed
+	double beta; // particle speed in RIBLL2
 	const int ntrMax = 200;
 	int type[ntrMax], gGOOD[ntrMax]; // type: XUV; gGOOD: nFiredAnodePerLayer, ==2 specially...
 	int id[ntrMax]; // tracks with the same track Id and different track type are projections of the same 3-D track.
@@ -140,6 +140,8 @@
 	double k1[n3DtrMax], b1[n3DtrMax], k2[n3DtrMax], b2[n3DtrMax]; // x=k1*z+b1; y=k2*z+b2;
 	// hit position in TOFW strip, rough and refine, from Down End to up end (0-1200).
 	double TOF_posY[n3DtrMax], TOF_posY_refine[n3DtrMax]; // refine: calculate through 3D trks
+	// 3D counterpart of treeTrack
+	int firedStripId3D[n3DtrMax]; double tof2_3D[n3DtrMax];
 	double aoz3D[n3DtrMax], aozdmin3D[n3DtrMax], beta2_3D[n3DtrMax];
 	double yp3D[n3DtrMax][2], poz3D[n3DtrMax], trkLenT3D[n3DtrMax];
 	t3DTrkInfo trk3DIf[n3DtrMax]; t3DPIDInfo pid3DIf[n3DtrMax];
@@ -157,6 +159,8 @@
 	treePID3D->Branch("b2", b2, "b2[n3Dtr]/D");
 	treePID3D->Branch("TOF_posY", TOF_posY, "TOF_posY[n3Dtr]/D"); // rough TOF hit postion
 	treePID3D->Branch("TOF_posY_refine", TOF_posY_refine, "TOF_posY_refine[n3Dtr]/D");
+	treePID3D->Branch("firedStripId", firedStripId3D, "firedStripId3D[n3Dtr]/I");
+	treePID3D->Branch("tof2", tof2_3D, "tof2_3D[n3Dtr]/D");
 	// 3D PID result using the same PID method
 	treePID3D->Branch("aoz", aoz3D, "aoz[n3Dtr]/D");
 	treePID3D->Branch("aozdmin", aozdmin3D, "aozdmin[n3Dtr]/D");

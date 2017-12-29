@@ -244,26 +244,9 @@ void TAEventProcessor::Analyze(){
 	if(!IsTracking()) return;
 
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
-	static TAT0_0 *T0_0 = (TAT0_0*)detList[0];
-	static TAT0_1 *T0_1 = (TAT0_1*)detList[1];
-	static TASiPMPlaArray *sipmArr = (TASiPMPlaArray*)detList[2];
 	static TAMWDCArrayL *dcArrL = (TAMWDCArrayL*)detList[3];
 	static TAMWDCArrayR *dcArrR = (TAMWDCArrayR*)detList[4];
 
-	// Time of Flight and beam energy measurement
-	double beta = -1., t0_0 = -9999., t0_1 = -9999.;
-	if(T0_0 && T0_1){
-		t0_0 = T0_0->GetTime(); t0_1 = T0_1->GetTime();
-		double L = 25.88 * 1000.;
-		if(t0_0 != -9999. && t0_1 != -9999.){
-			beta = L / (t0_1 - t0_0);
-			beta /= c0;
-		}
-	}
-//	cout << "t0_0: " << t0_0 << endl; // DEBUG
-//	cout << "t0_1: " << t0_1 << endl; // DEBUG
-//	cout << "t0_1 - t0_0: " << t0_1 - t0_0 << endl; // DEBUG
-//	cout << "beta: " << beta << endl; getchar(); // DEBUG
 	// pattern recognition and rough fit for particle tracking
 	if(dcArrL){ dcArrL->Map(); dcArrL->AssignTracks(fTrackList); }
 	if(dcArrR){ dcArrR->Map(); dcArrR->AssignTracks(fTrackList); }
@@ -476,12 +459,13 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 				} // end if
 			} // end for over j
 		} // end for over l
+		const int it = trkId[jj][0];
 		trk3DIf[jj].Chi = sqrt(trk3DIf[jj].chi2/(nF-4));
 		trk3DIf[jj].k1 = trkVec[0]; trk3DIf[jj].b1 = trkVec[2];
 		trk3DIf[jj].k2 = trkVec[1]; trk3DIf[jj].b2 = trkVec[3];
 		trk3DIf[jj].isDCArrR = isDCArrR[jj];
-		trk3DIf[jj].tof2 = tof2[trkId[jj][0]];
-		trk3DIf[jj].taHitX = taHitX[trkId[jj][0]];
+		trk3DIf[jj].tof2 = tof2[it];
+		trk3DIf[jj].taHitX = taHitX[it];
 //		cout << "isDCArrR: " << trk3DIf[jj].isDCArrR << endl; // DEBUG
 //		cout << "chi2: " << trk3DIf[jj].chi2 << endl; // DEBUG
 //		cout << "Chi: " << trk3DIf[jj].Chi << endl; // DEBUG
@@ -489,7 +473,8 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 
 		// calculate TOF hit position
 		double p2[3]{}; // p2: fired strip projection
-		TAPlaStrip *strip = dcArr->GetTOFWall()->GetStrip(tl[trkId[jj][0]]->firedStripId);
+		trk3DIf[jj].firedStripId = tl[it]->firedStripId;
+		TAPlaStrip *strip = dcArr->GetTOFWall()->GetStrip(tl[it]->firedStripId);
 		strip->GetStripPara()->GetGlobalProjection(p2); // retrieve fired strip projection
 		p2[1] = trkVec[1] * p2[2] + trkVec[3]; // y = k2 z + b2;
 //		p2[0] = trkVec[0] * p2[2] + trkVec[2]; // x = k1 z + b1;

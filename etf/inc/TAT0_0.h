@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2017/10/11, SUN Yazhou.										     //
+// Last modified: 2017/12/29, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -31,7 +31,10 @@ public:
 
 	short GetFiredStatus(); // 0: not fired; 4: fired; -2: not assigned
 	double GetDelay() const;
-	double GetTime() const; // get TOF time
+	// t0, t1 and t2 are set for choosing ch->GetLT over edges
+	// (ch->GetLT-t0) within t1 and t2 is chosen
+	// t0, t1 and t2 using default values, choose the 1st edge
+	double GetTime(double t0 = -9999., double t1 = -9999., double t2 = -9999.) const; // get TOF time
 	TAChannel *GetUV() const; // return up end of the strip, HPTDC very high resolution mode
 	TAChannel *GetUH() const; // return up end of the strip, HPTDC high resolution mode
 	void SetDelay(double delay){ fDelay = delay; }
