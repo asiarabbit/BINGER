@@ -1,0 +1,166 @@
+##################################################################################################
+# Data Analysis Code Project for the External Target Facility, CSR-HIRFL, @IMP
+# Specifically for: pion_2017Oct	20171029_0002.dat
+#
+# User input global parameters for specific experiments or data taking
+# Users are not allowed to changed parameter ids, or there could be dire consequences
+# Lines starting with '#' would be ignored
+#
+# File format follows the pattern below:
+# parameter_id parameter_value
+#
+# Created Time: 2017/12/26
+# Author: SUN Yazhou, asia.rabbit@163.com
+# Last Modified: 2017/12/26, SUN Yazhou
+##################################################################################################
+
+# time unit: ns; length unit: mm;
+
+# T0_1: TOF start plastic scintillaotr before the targe
+# dc: DC, drift chamber; tofw: TOFW, TOF Wall;
+# L: DC array closer to CSRe; R: the other DCArray
+# sipmPlaArr: SiPM-Coupled Plastic scintillator strip Array placed before the target
+# sipmPlaBarr: SiPM-Coupled Plastic Scintillator strip Barrel enveloping the target area
+
+# [detector]ToTrig: time to trig range for [detector]: (LB, HB)
+# Low Bound: LB; High Bound: HB; U: Up end; D: Down end;
+# H: high resolution mode channel; V: very high resolution mode channel
+
+# Detector time to trig range: to select signals belonging to the same one particle in an event
+# T0_1ToTrigLBUV
+0   450.
+# T0_1ToTrigHBUV
+1   620.
+# T0_1ToTrigLBDV
+2   450.
+# T0_1ToTrigHBDV
+3   620.
+# T0_1DelayAvrg: average delay for T0_1, applying to both UV and DV
+4   0.
+# tofwToTrigLB
+5   300.
+# tofwToTrigHB
+6   700.
+# dcToTrigLB
+7   450.
+# dcToTrigHB
+8   920.
+# sipmPlaArrToTrigLB
+9   200.
+# sipmPlaArrToTrigHB
+10  750.
+# sipmPlaBarrToTrigLB
+11  250.
+# sipmPlaBarrToTrigHB
+12  700.
+
+# DC sense wire high voltage (HV) #
+# Note that only a selected set of HVs are simulated by Garfield to get STRs,
+# the HV thus can not be set continuously nor unlimitedly.
+# HVs can only be set according to the given options:
+# HV (V):		900 1000 1300 1350 1500
+# HV option:	0   1    2    3    4
+# HV option should be set to -1 when no HV is applied
+# HVDCR0X: HVs for X sense wires of DC0 from DCArray-R
+# MWDC array L
+# HVDCL0X
+13  3
+# HVDCL0U
+14  -1
+# HVDCL0V
+15  3
+# HVDCL1X
+16  2
+# HVDCL1U
+17  2
+# HVDCL1V
+18  2
+# HVDCL2X
+19  4
+# HVDCL2U
+20  4
+# HVDCL2V
+21  4
+# MWDC array R
+# HVDCR0X
+22  3
+# HVDCR0U
+23  -1
+# HVDCR0V
+24  3
+# HVDCR1X
+25  3
+# HVDCR1U
+26  3
+# HVDCR1V
+27  3
+# HVDCR2X
+28  3
+# HVDCR2U
+29  3
+# HVDCR2V
+30  3
+
+# Experiment visualization canvas size
+# used for the size of event visualization
+# L: length; W: width; center of the Magnet is used as the origin, then the canvas is limited as:
+# (-W, W)       0                 (L, W)
+#
+#
+#
+# (-W,-W) 	    0                 (L,-W)
+# L-DownstreamMag: L downstream the dipole magnet
+# L-DownstreamMag
+31  5000.
+# W-DownstreamMag
+32  3000.
+
+# T0_1UV_delay
+33  0.
+
+# T_tof: time of flight: used to correct drift time
+# T_tofDC0toTOFWLX: T_tof from X sense wires of DC0 to TOFW, for MWDC arrayL
+# T_tofDC0toTOFWLX
+34  6.6
+# T_tofDC0toTOFWLU
+35  4.1
+# T_tofDC0toTOFWLV
+36  1.4
+# T_tofDC0toTOFWRX
+37  8.5
+# T_tofDC0toTOFWRU
+38  5.5
+# T_tofDC0toTOFWRV
+39  2.2
+
+# Parameters owned by class TACtrlPara
+# 3DCoincideWindow
+40 10.
+# D2Thre
+41 17.
+# TimeThreLB
+42 -40.
+# TimeThreHB
+43 350.
+# ChiThrePD
+44 3.
+# Vicinity
+45 2
+# StripTolerance
+46 1
+# FitMethod => kNormalFit: 0; kBFGSFit: 1 kIterFit: 2
+47 1
+# Precision => allowed value: -2, -1, 0, 1, 2, 3, increasing depth
+48 2
+# nstripstray unit: /(strip width)
+# NStripStrayMinL
+49 -0.8
+# NStripStrayMaxL
+50 0.8
+# NStripStrayMinR
+51 -0.8
+# NStripStrayMaxR
+52 0.8
+
+
+

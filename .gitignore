@@ -37,6 +37,15 @@
 # raw binary data files
 *.data
 
+# channelId config files
+*.000
+#calibration files
+*.002
+*.003
+# text files || content
+*.txt
+content
+
 # ignore directories
 build/
 doc/
@@ -44,5 +53,4 @@ misc/*
 !misc/tools/
 Lab/
 data/
-config/
 
