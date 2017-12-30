@@ -73,6 +73,9 @@ int main(int argc, char *argv[]){
 		usr->Go(); // reimplement the pattern recognition, track fit, and particle identification
 //		getchar(); // DEBUG
 	} // end for over STR iteration
+	delete str[0]; delete str[1];
+	delete t0[0]; delete t0[1];
+	delete usr;
 
 	return 0;
 } // end of the main function

@@ -100,7 +100,7 @@ double TAMWDCArray::GetPhiAvrg(){
 	return fPhiAvrg;
 }
 
-void TAMWDCArray::AssignTracks(vector<tTrack *> &track_ls){ // assig tracks
+void TAMWDCArray::AssignTracks(vector<tTrack *> &track_ls){ // assign tracks
 	if(!fTrackList[0].size()) return; // no tracks to assign
 	int type[6]{}; TAUIDParser::DNS(type, GetUID());
 	tTrack *ptrack_t = nullptr; // a temporary variable
@@ -505,13 +505,12 @@ double TAMWDCArray::GetDistanceOfFlight(const double *b, const double *B, int nu
 void TAMWDCArray::Initialize(){
 	for(int i = 0; i < 3; i++){
 		if(fMWDC[i]) fMWDC[i]->Initialize();
-		fTrackList[i].clear();
 	}
 	fN3DTrk = 0;
 	if(fTOFWall) fTOFWall->Initialize();
 
 	for(vector<TATrack *> &trls : fTrackList){
-		for(TATrack *tr : trls){
+		for(TATrack *&tr : trls){
 			if(tr){
 				delete tr;
 				tr = nullptr;

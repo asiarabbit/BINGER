@@ -441,7 +441,7 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 
 	cout << "\n\n\033[33;1mDONE\033[0m\n\n";
 	f->Close(); delete f;
-	TAParaManager::Instance()->UpdateSTRCorrection(); // keep up-to-date with the newest calibration
+//	TAParaManager::Instance()->UpdateSTRCorrection(); // keep up-to-date with the newest calibration
 } // end of member function GenerateCalibFile
 
 

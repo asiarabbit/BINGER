@@ -20,7 +20,6 @@
 	TAPID *pid = GetPID();
 	TAGPar *gpar = GetGPar();
 	// detector pointers
-	vector<tTrack *> &track_ls = GetTrackList();
 	TAParaManager::ArrDet_t &dec_vec = GetParaManager()->GetDetList();
 	TAT0_0 *T0_0 = (TAT0_0*)dec_vec[0];
 	TAT0_1 *T0_1 = (TAT0_1*)dec_vec[1];

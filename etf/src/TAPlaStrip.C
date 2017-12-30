@@ -97,6 +97,11 @@ double TAPlaStrip::GetTime(double t0, double t1, double t2) const{ // get hit ti
 	TAPlaStripPara *pa = GetStripPara();
 	if(-9999. == time){ // not assigned
 		double tt = GetUV()->GetLT(t0,t1,t2)+GetDV()->GetLT(t0,t1,t2);
+//		cout << GetName() << endl; // DEBUG
+//		GetUV()->GetData()->Show(); // DEBUG
+//		cout << "GetUV()->GetLT(t0,t1,t2): " << GetUV()->GetLT(t0,t1,t2) << endl; // DEBUG
+//		cout << "GetDV()->GetLT(t0,t1,t2): " << GetDV()->GetLT(t0,t1,t2) << endl; // DEBUG
+//		getchar(); // DEBUG
 		short sta = GetFiredStatus();
 		if(4 == sta || 
 		3 == sta

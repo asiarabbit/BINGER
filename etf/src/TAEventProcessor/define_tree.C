@@ -16,11 +16,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 
 	vector<TTree *> objLsTree; // a vector to manage tree pointers
-	int ntr = 0; // number of track projections in a data section(3*3D track)
-	int index; // data section index
 	int bunchId; // trigger time
 	double beta; // particle speed in RIBLL2
-	const int ntrMax = 200;
 	int type[ntrMax], gGOOD[ntrMax]; // type: XUV; gGOOD: nFiredAnodePerLayer, ==2 specially...
 	int id[ntrMax]; // tracks with the same track Id and different track type are projections of the same 3-D track.
 	int nu[ntrMax][6], sfe16Id[ntrMax][6]; // fired anode id, SFE16 chip id
@@ -82,6 +79,7 @@
 	treeTrack->Branch("firedStripId", firedStripId, "firedStripId[ntr]/I");
 	treeTrack->Branch("sipmArrStripId", sipmArrStripId, "sipmArrStripId[ntr]/I");
 	treeTrack->Branch("nStripStray", nStripStray, "nStripStray[ntr]/D"); // distance of track to fired TOF Wall strip center
+	objLsTree.push_back(treeTrack);
 
 	int multiSipmArr_pre,  hitIdLsSipmArr_pre[10];
 	int multiSipmArr_post, hitIdLsSipmArr_post[10];
@@ -168,6 +166,7 @@
 	treePID3D->Branch("angTaOut", yp3D, "angTaOut[n3Dtr][2]/D"); // out angle at the target hit point
 	treePID3D->Branch("trkLenT", trkLenT3D, "trkLenT[n3Dtr]/D");
 	treePID3D->Branch("poz", poz3D, "poz[n3Dtr]/D"); // MeV/c
+	objLsTree.push_back(treePID3D);
 
 
 

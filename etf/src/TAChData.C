@@ -40,7 +40,7 @@ double TAChData::GetLeadingTime(int n) const{
 		return -9999.;
 	}
 	if(-9999. == fLeadingTime[0])
-		TAPopMsg::Error(GetName().c_str(), "GetLeadingTime: Leading time array is null.");
+		TAPopMsg::Error(GetName().c_str(), "GetLeadingTime: Leading time array is null");
 	return fLeadingTime[n];
 }
 // t0, t1 and t2 are set for choosing ch->GetLT over edges
@@ -71,9 +71,10 @@ double TAChData::GetLT(double t0, double t1, double t2) const{
 			t2 = tmp;
 		}
 		for(int i = 0; i < nl; i++){
-			tmp = GetLeadingTime(i) - t0;
+			double t = GetLeadingTime(i);
+			tmp = t - t0;
 			if(tmp > t1 && tmp < t2){
-				lt = tmp;
+				lt = t;
 				break;
 			}
 		}
@@ -118,7 +119,7 @@ bool TAChData::Assign(tEntry *entry){
 		fIs_V = entry->is_V;
 		fEventIndex = entry->index;
 		strcpy(entry->name, GetName().c_str());
-		
+
 		return true;
 	}
 

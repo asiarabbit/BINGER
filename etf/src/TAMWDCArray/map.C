@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2017/11/30, SUN Yazhou.										     //
+// Last modified: 2017/12/30, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -49,20 +49,19 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 	int nAnodePerLayer1 = MWDC[1]->GetNAnodePerLayer();
 	int nAnodePerLayer2 = MWDC[2]->GetNAnodePerLayer();
 
-	TATrack nullTrack("newTrack", "Particle Track-ASIA.SUN"); // initial instantiation for newTrack
-	TATrack *newTrack = nullptr; // a temporary variable
+	// the live track for the current hit combination
+	TATrack newTrack("newTrack", "Particle Track-ASIA.SUN");
+	newTrack.SetFitMethod(clp->FitMethod());
+	if(clp->FitMethod() == TATrack::kNormalFit){
+		newTrack.SetFitPrecision(clp->Precision());
+		newTrack.SetFitRotationCenter(MWDC[1]->GetDetPara()->GetZ(), MWDC[1]->GetDetPara()->GetX());
+	}
+	newTrack.SetDsquareThresholdPerDot(GetDsquareThresholdPerDot());
 	char tail[64] = ""; // for naming newTrack
 	char type; // MWDC type: V, X, or U.
 	if(dcType == 0) type = 'X';
 	else if(dcType == 1) type = 'U';
 	else if(dcType == 2) type = 'V';
-	nullTrack.SetFitMethod(clp->FitMethod());
-	if(clp->FitMethod() == TATrack::kNormalFit){
-		nullTrack.SetFitPrecision(clp->Precision());
-		nullTrack.SetFitRotationCenter(MWDC[1]->GetDetPara()->GetZ(), MWDC[1]->GetDetPara()->GetX());
-	}
-	nullTrack.SetDsquareThresholdPerDot(GetDsquareThresholdPerDot());
-	nullTrack.SetTitle("Particle Track Object-ASIA.SUN");
 	int nu[6]{}; // the counterpart of TAMWDCArray::fNu;
 	int gGOOD = -1, LAYER[6] = {-1, -1, -1, -1, -1, -1};
 	int overlapTrackCnt = 0; // for special use.
@@ -158,7 +157,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 				cout << "\033[31;1mBINGO!\033[0m" << endl; // DEBUG
 				getchar(); // DEBUG
 #endif
-				newTrack = new TATrack(nullTrack); // create a new track
+				bool isBadTrack = false; // whether the current track is bad
 				overlapTrackCnt = 0;
 ////				cout << "track.size(): " << track.size() << endl; // DEBUG
 //				getchar(); // DEBUG
@@ -180,17 +179,20 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 					cout << "nstripStray: " << nstripStray << endl; // DEBUG
 					getchar(); // DEBUG
 #endif
-					if(-9999. == TOF) goto END; // no corresponding fired TOF strips are found for the X track. So the validity of this track is also futile.
+					if(-9999. == TOF){ // no corresponding fired TOF strips are found for the X track
+						isBadTrack = true; // So the validity of this track is also futile
+						continue;
+					}
 				} // end if
 				// Assign drift time array and drift distance array.
 				if(0 == dcType){
 					for(int i = 0; i < 6; i++){ // DC0X1-X2-DC1X1-X2-DC2X1-X2
 						if(nu[i] >= 0){
-							TAAnode *ano = MWDC[i/2]->GetAnode(dcType, i % 2 + 1, nu[i]);
+							TAAnode *ano = MWDC[i/2]->GetAnode(dcType, i%2+1, nu[i]);
 							ano->GetAnodeData()->SetTOF(TOF);
 							// assign weight at the same time
 							t[i] = ano->GetDriftTime(weight[i]);
-//							cout << "TOF: " << TOF << endl;
+//							cout << "TOF: " << TOF << endl; // DEBUG
 //							cout << "1, t[i]: " << t[i] << endl; getchar(); // DEBUG
 							// roughly correct time of flight from DC to TOF wall.
 							unsigned uid = ano->GetUID();
@@ -212,41 +214,41 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 				// test the validity of drift time for X tracks
 				if(0 == dcType) for(double tt : t){
 					if(-9999. != tt && !clp->TimeThre(tt))
-						goto END;
+						isBadTrack = true;
 				} // end loop over drift time
+				if(isBadTrack) continue;
 				// Assign newTrack
-				newTrack->SetData(x, z, t, r, kl, bl, d2, gGOOD, nu, LAYER, weight);
-				newTrack->SetTOF(TOF, firedStripId, nstripStray);
+				newTrack.SetData(x, z, t, r, kl, bl, d2, gGOOD, nu, LAYER, weight);
+				newTrack.SetTOF(TOF, firedStripId, nstripStray);
 
 				// NOTE that this function would trigger TATrack::Fit() so as to increase // DEBUG
 //				cout << "We're going to implement FIT function\n"; getchar(); // DEBUG
-				newTrack->GetChi(chi);
-//				if(newTrack->fIsDEBUG) newTrack->Show(); // DEBUG
+				newTrack.GetChi(chi);
+//				if(newTrack.fIsDEBUG) newTrack.Show(); // DEBUG
 
 #ifdef DEBUG_MAP
-				cout << "newTrack->GetChi(): " << newTrack->GetChi() << endl; // DEBUG
+				cout << "newTrack.GetChi(): " << newTrack.GetChi() << endl; // DEBUG
 				for(double cc : chi) cout << "cc: " << cc << endl; // DEBUG
-				newTrack->Show(); // DEBUG
+				newTrack.Show(); // DEBUG
 #endif
 				if(0 == dcType){
-//					cout << "newTrack->GetChi(): " << newTrack->GetChi() << endl; getchar(); // DEBUG
+//					cout << "newTrack.GetChi(): " << newTrack.GetChi() << endl; getchar(); // DEBUG
 //					cout << "clp->ChiThre(): " << clp->ChiThre() << endl; getchar(); // DEBUG
-					if(fabs(newTrack->GetChi()) > clp->ChiThre()) goto END;
+					if(fabs(newTrack.GetChi()) > clp->ChiThre()){
+						isBadTrack = true; continue;
+					}
 					for(double cc : chi){
 //						cout << "cc: " << cc << endl; getchar(); // DEBUG
 //						cout << "clp->ChiThrePD(): " << clp->ChiThrePD() << endl; getchar(); // DEBUG
-						if(-9999. != cc && fabs(cc) > clp->ChiThrePD()) goto END;
+						if(-9999. != cc && fabs(cc) > clp->ChiThrePD()) isBadTrack = true;
 					} // end for
+					if(isBadTrack) continue;
 				} // end if
 				// system burden. // DEBUG
 				for(int k = 0; k < track.size(); k++){ // check if two tracks derive from the same one.
-#ifdef DEBUG_MAP
-					cout << "Mark 1" << endl; // DEBUG
-					getchar(); // DEBUG
-#endif
 					// 0: the two tracks are different; 1: newTrack is defeated by  oldTrack;
 					// 2: newTrack defeats oldTrack->
-					overlap = compare(newTrack, track.at(k), dcType, cmpShow); // compare the two tracks, and mark the obsolete ones.
+					overlap = compare(&newTrack, track.at(k), dcType, cmpShow); // compare the two tracks, and mark the obsolete ones.
 					if(cmpShow){ // DEBUG
 						TAPopMsg::Debug(GetName().c_str(), "map: overlap: %d", overlap); // DEBUG
 					} // DEBUG
@@ -257,8 +259,9 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 				} // end for over k
 				// eliminate the obsolete tracks
 				for(int k = 0; k < track.size(); k++){
-					if(!strcmp(track[k]->GetName().c_str(), "OBSOLETE")){
-						delete track[k]; track.erase(track.begin()+k); // erase track.at(k)
+					if(!strcmp(track[k]->GetName().c_str(), "OBSOLETE")){ // overlap == 2
+						delete track[k]; track[k] = nullptr;
+						track.erase(track.begin()+k); // erase track.at(k)
 						k--;
 					} // end if
 				} // end for over k
@@ -270,20 +273,21 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 				if(cmpShow){ // DEBUG
 					TAPopMsg::Debug(GetName().c_str(), "map: Before pushback, track.size(): %d", track.size());
 				} // end if // DEBUG
-				if(overlap != 1){ // new track accepted.
-					newTrack->SetName(GetName());
+				if(overlap != 1){ // new track accepted
+					newTrack.SetName(GetName());
 					sprintf(tail, "->Track%c_%d", type, track.size());
-					newTrack->AppendName(tail);
-					track.push_back(newTrack);
-					newTrack = nullptr;
+					newTrack.AppendName(tail);
+					track.push_back(new TATrack(newTrack));
+#ifdef DEBUG_MAP
+					cout << "track.size(): " << track.size(); // DEBUG
+					track[0]->Show(); getchar(); // DEBUG
+#endif
 				}
 
 				if(cmpShow){ // DEBUG
 					TAPopMsg::Debug(GetName().c_str(), "map: After pushback, track.size(): %d", track.size());
 				} // end if // DEBUG
 //				if(track.size() >= 4) return true;
-				END:
-				if(newTrack) delete newTrack;
 			} // end if(Dsquare is smaller than the set threshold)
 	} // end of DC2-X2 for
 	} // end of DC2-X1 for
@@ -342,7 +346,7 @@ int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, int dcType, bool 
 				} // end if
 				else{
 					oldTrack->SetName("OBSOLETE");
-					return 2; // oldTrack is nasty.
+					return 2; // oldTrack is nasty
 				} // end else
 			} // end if(dcType == 0)
 			else return 0; // a conclusion cannot be reached yet for U or V tracks
@@ -392,7 +396,7 @@ int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, int dcType, bool 
 			} // end if(nu_temp[i] >= 0)
 		} // end for over i
 		if(nstripDeviation <= stripTolerance){
-			oldTrack->SetName("OBSOLETE"); // OBSOLETE marks the track to be eliminated.
+			oldTrack->SetName("OBSOLETE"); // OBSOLETE marks the track to be eliminated
 			return 2;
 		} // end if
 		else{

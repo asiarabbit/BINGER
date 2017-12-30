@@ -20,8 +20,6 @@
 
 
 		///////////////////// OUTPUT THE TRACKING RESULT //////////////////////////////////////////
-		ntr = track_ls.size() < ntrMax ? track_ls.size() : ntrMax;
-		// TAVisual::Fill //
 		if(ntr > ntrMax){
 			TAPopMsg::Warn("TAEventProcessor", "Run: ntr is larger than ntrMax: secLen: %d  index: %d", entry_t.channelId, index);
 		}
@@ -125,13 +123,11 @@
 					if(-9999. != TOT_DC_Avrg[j]) hdcTOT_vs_poz->Fill(poz[j], TOT_DC_Avrg[j]);
 				}
 			}
-			cntTrk++;
-			if(id[j] != -1) cnt3DTrk++;
 		} // end for over j
 		// correct drift time and refit with the update, together with pareticle identification //
 //		for(auto &t : trk3DIf) t.initialize(); for(auto &t : pid3DIf) t.initialize();
-		RefineTracks(n3Dtr, trk3DIf, tof2, taHitX);
-		RefinePID(n3Dtr, trk3DIf, pid3DIf);
+		if(ntr >= 3) RefineTracks(n3Dtr, trk3DIf, tof2, taHitX);
+		if(n3Dtr > 0) RefinePID(n3Dtr, trk3DIf, pid3DIf);
 //		cout << "n3Dtr: " << n3Dtr << endl; getchar(); // DEBUG
 		// assignment for the filling of treePID3D
 		for(int jj = 0; jj < n3Dtr; jj++){
@@ -163,8 +159,6 @@
 				r[j][k] = tra->r[k];
 			}
 		} // end for over tracks
-		treeTrack->Fill();
-		treePID3D->Fill();
 		for(TTree *&tree : objLsTree) tree->Fill();
 
 		if(0) vis->FillHitMap();
@@ -181,13 +175,6 @@
 		} // end if
 		// stop filling the curved track in the dipole magnet
 		else TAPID::Instance()->SetCurveGraph(nullptr);
-
-
-		if(index % 1 == 0){
-			cout << "Processing idx " << index << " dataSec " << cntSec;
-			cout << " trk " << cntTrk << " 3Dtrk " << cnt3DTrk / 3;
-			cout << " naoz " << cntaoz << " naozBad " << cntaozWrong << "\r" << flush; // cntaozWrong
-		}
 
 
 

@@ -23,8 +23,6 @@
 		for(TObject *&b : objLs[i]) if(b) b->Write("", TObject::kOverwrite);
 	}
 	f->cd("/"); for(TTree *&tree : objLsTree) tree->Write("", TObject::kOverwrite);
-	treeTrack->Write("", TObject::kOverwrite);
-	treePID3D->Write("", TObject::kOverwrite);
 
 	for(auto &objls : objLs) for(TObject *&obj : objls){
 		delete obj; obj = nullptr;
@@ -32,8 +30,6 @@
 	for(TTree *&tree : objLsTree){
 		delete tree; tree = nullptr;
 	}
-	delete treeTrack; treeTrack = nullptr;
-	delete treePID3D; treePID3D = nullptr;
 
 	if(!f->FindObjectAny("VISUAL")) f->mkdir("VISUAL");
 	f->cd("VISUAL");

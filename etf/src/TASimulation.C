@@ -55,7 +55,7 @@ static const double Pi = TAMath::Pi();
 short TASimulation::kFixDCArr = -1;
 bool TASimulation::kIsDebug = false;
 
-TASimulation::TASimulation(DetArr_t *detList) : fDetList(detList), fBeta{0.5, 0.6}{
+TASimulation::TASimulation(DetArr_t *detList) : fDetList(detList), fBeta{0.5, 0.68}{
 	if(!fDetList) fDetList = &TAParaManager::Instance()->GetDetList();
 }
 TASimulation::~TASimulation(){}

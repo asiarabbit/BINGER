@@ -65,6 +65,7 @@ using std::endl;
 using std::flush;
 
 //#define DEBUG
+#define GO // do the filling of ROOT objects
 //#define VERBOSE // show TAPopMsg::Info() information
 
 TAEventProcessor* TAEventProcessor::fInstance = nullptr;
@@ -249,12 +250,14 @@ void TAEventProcessor::Analyze(){
 
 	// pattern recognition and rough fit for particle tracking
 	if(dcArrL){ dcArrL->Map(); dcArrL->AssignTracks(fTrackList); }
-	if(dcArrR){ dcArrR->Map(); dcArrR->AssignTracks(fTrackList); }
+	if(dcArrR){
+		dcArrR->Map();
+		dcArrR->AssignTracks(fTrackList);
+	}
 	// assign and output beta and index
-	vector<tTrack *> &track_ls = GetTrackList();
 	int index = GetEntryList()[0]->index;
 	const int n3DTrkR = dcArrR->GetN3DTrack(); // number of 3D tracks in DCArrR
-	for(tTrack *&t: track_ls){
+	for(tTrack *&t: fTrackList){
 		t->index = index;
 		// rearrange trkid to make it global and unique
 		if(0 == t->type/10%10) // MWDCArray L
@@ -264,11 +267,13 @@ void TAEventProcessor::Analyze(){
 #endif
 	} // end for over tracks
 } // end of member function Analyze
-inline void correctCycleClear(double &x, double bunchIdTime){
+inline void correctCycleClear(double &x, const double bunchIdTime){
+//	cout << "0.x: " << x << endl; getchar(); // DEBUG
 	if(-9999. != x){
 		x -= bunchIdTime;
 		if(x < 0.) x += 51200.;
 	}
+//	cout << "1.x: " << x << endl; getchar(); // DEBUG
 }
 // the overall data analysis routine
 // (id0, id1): index range for analysis; secLenLim: event length limit; rawrtfile: raw rootfile
@@ -300,29 +305,35 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	treeData->SetBranchAddress("is_V", &entry_t.is_V);
 	treeData->SetBranchAddress("bunchId", &entry_t.bunchId);
 	vector<tEntry *> &entry_ls = GetEntryList();
+	vector<tTrack *> &track_ls = GetTrackList();
+
 	// read rootfile and assembly each event
+	const int n = treeData->GetEntries();
+	int cntTrk = 0, cnt3DTrk = 0; // ntr: n trk per event
+	int cntaozWrong = 0, cntaoz = 0;
+	int i = 0, index, cntSec = 0;
+	int ntr = 0; // number of track projections in a data section(3*3D track)
+	const int ntrMax = 200; // maximum number of track projections in an event
+#ifdef GO
 	#include "TAEventProcessor/define_hist.C" // define histograms of interest
 	#include "TAEventProcessor/define_tree.C" // define the track tree
-
-	const int n = treeData->GetEntries();
-	int cntTrk = 0, cnt3DTrk = 0;
-	int cntaozWrong = 0, cntaoz = 0;
-	int i = 0; int cntSec = 0;
+#endif
 	while(i < n){
-		Initialize(); // clear everything from last data section.
-		// assign all entries in a sec to fEntryList for processing.
+		Initialize(); // clear everything from last data section
+		// assign all entries in a sec to fEntryList for processing
 		while(1){
 			entry_t.initialize();
 			treeData->GetEntry(i++);
 			if(-2 != entry_t.index){ // index == -2 marks end of one data section
+				entry_ls.push_back(new tEntry(entry_t));
 				index = entry_t.index;
-				tEntry *pEntry_t = new tEntry(entry_t);
-				entry_ls.push_back(pEntry_t);
 			}
 			else break;
 		} // entry assignment for the data section complete
 		// correct time from cycle-clear
-		const double bunchIdTime = (entry_t.bunchId & 0x7FF) * 25.;
+		double bunchIdTime = (abs(entry_t.bunchId) & 0x7FF) * 25.;
+		if(entry_t.bunchId < 0) bunchIdTime *= -1.;
+//		cout << "bunchIdTime: " << bunchIdTime << endl; getchar(); // DEBUG
 		for(tEntry *t : entry_ls){
 //			t->show(); // DEBUG
 			for(double &x : t->leadingTime) correctCycleClear(x, bunchIdTime);
@@ -337,13 +348,27 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 ///		cout << "\n\nindex: " << index << endl; // DEBUG
 		Assign(); // *** assign entries in fEntryList *** //
 //		for(auto &t : entry_ls) cout << t->name << "\t" << t->channelId << endl; getchar(); // DEBUG
+//		for(auto &t : entry_ls) t->show(); getchar(); // DEBUG
+#ifdef GO
 		#include "TAEventProcessor/fill_pre.C" // fill hists and trees before tracking
+#endif
 		// *** recognize patterns and assign raw tracks to fTrackList *** //
 		Analyze();
+		ntr = track_ls.size() < ntrMax ? track_ls.size() : ntrMax;
+		for(int j = 0; j < ntr; j++){ cntTrk++; if(track_ls[j]->id != -1) cnt3DTrk++; }
+#ifdef GO
 		#include "TAEventProcessor/fill_post.C" // fill hists and trees after tracking
+#endif
 		cntSec++;
+		if(index % 1 == 0){
+			cout << "Processing idx " << index << " dataSec " << cntSec;
+			cout << " trk " << cntTrk << " 3Dtrk " << cnt3DTrk / 3;
+			cout << " naoz " << cntaoz << " naozBad " << cntaozWrong << "\r" << flush; // cntaozWrong
+		}
 	} // end while over treeData entries
-	#include "TAEventProcessor/write.C" // write all the ROOT objects necessary.
+#ifdef GO
+	#include "TAEventProcessor/write.C" // write all the ROOT objects necessary
+#endif
 
 	cout << "\n\n";
 	cout << "Totally \033[33;1m" << cntSec << "\033[0m sections ";
@@ -363,7 +388,7 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 	// XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX //
 //		TAPopMsg::Warn("TAEventProcessor", "RefineTracks: PID is not on, so beta is unavailable");
 	vector<tTrack *> &tl = GetTrackList();
-	const int ntr = tl.size(); if(!ntr) return;
+	const int ntr = tl.size(); if(ntr <= 0) return;
 
 	static TAParaManager::ArrDet_t &decv = GetParaManager()->GetDetList();
 	static TAMWDCArray *dcArrV[2] = {(TAMWDCArray*)decv[3], (TAMWDCArray*)decv[4]};
@@ -425,7 +450,7 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 					// t = T_tof + T_wire + T_drift + T0
 					// substract T_wire and T_tof from the time measurement
 					trk->t[j] -= TACtrlPara::T_tofDCtoTOFW(uid) - TACtrlPara::T_wireMean(uid); // recover the rough correction of time of flight from DC to TOF wall for a refined one
-					double beta_t[2] = {0.5, 0.68}; // for simulation test only XXX XXX XXX
+					double beta_t[2] = {0.5, 0.6}; // for simulation test only XXX XXX XXX
 					dcArr->DriftTimeCorrection(trk->t[j], trk->r[j], anodeId[tmp], trkVec, trk->firedStripId, beta_t[isDCArrR[jj]]); // trk->beta
 					rr[tmp] = trk->r[j];
 #ifdef DEBUG
@@ -486,7 +511,7 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 } // end of member function RefineTracks
 // refine PID using the refined 3D track information
 void TAEventProcessor::RefinePID(const int n3Dtr, const t3DTrkInfo *trk3DIf, t3DPIDInfo *pid3DIf){
-	if(!IsPID()) return; // PID is not desired
+	if(!IsPID() || n3Dtr <= 0) return; // PID is not desired
 	TAPID *pid = GetPID();
 	for(int i = 0; i < n3Dtr; i++) if(-9999. != trk3DIf[i].taHitX){
 		const t3DTrkInfo &t = trk3DIf[i]; t3DPIDInfo &pi = pid3DIf[i];
