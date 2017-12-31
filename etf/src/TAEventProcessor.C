@@ -450,7 +450,7 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 					// t = T_tof + T_wire + T_drift + T0
 					// substract T_wire and T_tof from the time measurement
 					trk->t[j] -= TACtrlPara::T_tofDCtoTOFW(uid) - TACtrlPara::T_wireMean(uid); // recover the rough correction of time of flight from DC to TOF wall for a refined one
-					double beta_t[2] = {0.5, 0.6}; // for simulation test only XXX XXX XXX
+					double beta_t[2] = {0.5, 0.68}; // for simulation test only XXX XXX XXX
 					dcArr->DriftTimeCorrection(trk->t[j], trk->r[j], anodeId[tmp], trkVec, trk->firedStripId, beta_t[isDCArrR[jj]]); // trk->beta
 					rr[tmp] = trk->r[j];
 #ifdef DEBUG

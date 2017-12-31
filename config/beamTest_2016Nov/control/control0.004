@@ -1,6 +1,6 @@
 ##################################################################################################
 # Data Analysis Code Project for the External Target Facility, CSR-HIRFL, @IMP
-# Specifically for: beamTest_2016Nov	SIM1.root
+# Specifically for: beamTest_2016Nov	SIM.root
 #
 # User input global parameters for specific experiments or data taking
 # Users are not allowed to changed parameter ids, or there could be dire consequences
@@ -121,17 +121,17 @@
 # T_tof: time of flight: used to correct drift time
 # T_tofDC0toTOFWLX: T_tof from X sense wires of DC0 to TOFW, for MWDC arrayL
 # T_tofDC0toTOFWLX
-34  6.6
+34  7.8
 # T_tofDC0toTOFWLU
-35  4.1
+35  5.0
 # T_tofDC0toTOFWLV
-36  1.4
+36  2.1
 # T_tofDC0toTOFWRX
-37  33.4
+37  30.0
 # T_tofDC0toTOFWRU
-38  23.7
+38  20.9
 # T_tofDC0toTOFWRV
-39  16.9
+39  15.1
 
 # Parameters owned by class TACtrlPara
 # 3DCoincideWindow

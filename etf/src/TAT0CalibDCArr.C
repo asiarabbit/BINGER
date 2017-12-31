@@ -196,9 +196,10 @@ void TAT0CalibDCArr::Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, 
 	sprintf(title, "%s/histo", name);
 	if(!f->FindObjectAny(name)) f->mkdir(title); f->cd(title); // store drift time histograms
 	cout << endl;
-	for(int i = 0; i < 3; i++) for(int j = 0; j < 3; j++) for(int m = 0; m < 2; m++)
+	if(isCalib) for(int i = 0; i < 3; i++) for(int j = 0; j < 3; j++) for(int m = 0; m < 2; m++)
 	for(int k = 0; k < 96; k++) if(hdt[i][j][m][k]){
-		if(isCalib && hdt[i][j][m][k]->GetEntries() > 2000.){
+//		if(hdt[i][j][m][k]->GetEntries() > 2000.)
+		{
 			hdt[i][j][m][k]->Write("", TObject::kOverwrite);
 			cout << "Writing Histo \033[34;1m" << i << " " << j << " " << m << " " << k << "\033[0m";
 			cout << "\tPlease wait..." << "\r" << flush;
