@@ -8,8 +8,9 @@ using std::cout;
 using std::endl;
 
 int main(int argc, char *argv[]){
-	if(argc < 3){
-		cout << "./sim <nTrkPerEv> <eff%> (eff: 0~100) <rootfilename>. 3 Parameters have to be given\n";
+	if(argc < 4){
+		cout << "./sim <nTrkPerEv> <eff%> (eff: 0~100) <rootfilename>.\n";
+		cout << "3 Parameters have to be given\n";
 		exit(1);
 	}
 	int nTrkPerEv = atoi(argv[1]); double eff = atoi(argv[2])/100.;
@@ -19,8 +20,8 @@ int main(int argc, char *argv[]){
 	ep->SetConfigExpDir(dir[1]); ep->Configure();
 	TASimulation *sim = new TASimulation();
 	sim->SetFixDCArr(1); sim->SetIsDebug(1); // MWDC array L or R only
-	sim->SetBeta(0.5, 0.65); // DCArrL, DCArrR
-	sim->GenerateSim(1000, nTrkPerEv, eff, argv[3]);
+	sim->SetBeta(0.5, 0.68); // DCArrL, DCArrR
+	sim->GenerateSim(125000, nTrkPerEv, eff, argv[3]);
 
 	return 0;
 }

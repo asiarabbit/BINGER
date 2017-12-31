@@ -26,7 +26,7 @@ int main(int argc, char *argv[]){
 	usr->Configure();
 	usr->Go(); // pattern recognition, track fit, and particle identification
 
-	return 0;
+//	return 0;
 	// 3D tracking has to be implemented for calibration procedures to work
 	if(usr->Is3DTracking() && hasCalibrated) return 0;
 
@@ -51,7 +51,7 @@ int main(int argc, char *argv[]){
 		t0[i]->Refine_DTHisto(true);
 		// virtual void GenerateCalibFile(bool isShowFit = false);
 		t0[i]->GenerateCalibFile(false);
-		sprintf(cmd, "mv T0Calibration/*.002 %s/T0/", usr->GetCtrlPara()->ConfigExpDir());
+		sprintf(cmd, "cp T0Calibration/*.002 %s/T0/", usr->GetCtrlPara()->ConfigExpDir());
 		system(cmd);
 //		getchar(); // DEBUG
 	} // end loop over MWDC arrays
@@ -66,7 +66,7 @@ int main(int argc, char *argv[]){
 			str[j]->SetIsBigStatistics(true); // see header file of TASTRCalibDCArr for details
 			str[j]->ChiHistogramming(true); // true: using 3D cali; false: using trk-proj cali
 			str[j]->GenerateSTRCorFile(i); // i: round number, i.e. the iteration id
-			sprintf(cmd, "mv STRCorrection/*.003 %s/STR_cor/", usr->GetCtrlPara()->ConfigExpDir());
+			sprintf(cmd, "cp STRCorrection/*.003 %s/STR_cor/", usr->GetCtrlPara()->ConfigExpDir());
 			system(cmd);
 //			getchar(); // DEBUG
 		} // end for over MWDC arrays
