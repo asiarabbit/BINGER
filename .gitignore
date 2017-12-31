@@ -47,10 +47,11 @@
 content
 
 # ignore directories
-build/
+build/*
 doc/
 misc/*
-!misc/tools/
+!misc/tools/Garfield/
+!build/*.sh
 Lab/
 data/
 
