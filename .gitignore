@@ -47,7 +47,7 @@
 content
 
 # ignore directories
-build/
+build/*
 doc/
 misc/*
 !misc/tools/Garfield/
