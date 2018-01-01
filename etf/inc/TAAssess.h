@@ -9,10 +9,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/14.															     //
-// Last modified: 2017/12/19, SUN Yazhou.										     //
+// Last modified: 2018/1/1, SUN Yazhou.										  	     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -36,15 +36,13 @@ public:
 
 	// assess tracking results of MWDC array L and MWDC array R
 	void SetROOTFile(const string &file){ fROOTFile = file; }
-	void SetRunId(int run){ fRunId = abs(run); }
-	virtual void EvalDCArr(bool isDCArrR = true, int runId = 0);
-	static void EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArrR = true, unsigned short runid = 0);
+	virtual void EvalDCArr(unsigned short runId = 0, bool isDCArrR = true);
+	static void EvalDCArr(const string &rootfile, DetArr_t *detList, unsigned short runid = 0, bool isDCArrR = true);
 protected:
 	static TAAssess *fInstance;
 	TAAssess();
 	DetArr_t *fDetList;
 	string fROOTFile;
-	unsigned short fRunId; // run Id, to avoid overwriting
 };
 	
 #endif

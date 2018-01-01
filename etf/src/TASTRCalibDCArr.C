@@ -66,7 +66,7 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 		TAPopMsg::Error("TASTRCalibDCArr", "ChiHistogramming: Input rootfile %s doesn't exist", rootfile.c_str());
 	TAPopMsg::Info("TASTRCalibDCArr", "ChiHistogramming: Input rootfile name: %s", rootfile.c_str());
 	TAPopMsg::Info("TASTRCalibDCArr", "ChiHistogramming: number of drift distance bins for STR auto-calibration %d; Maximum drift distance: %f", nr, rmx);
-	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
+	TFile *f = new TFile(rootfile.c_str());
 	if(!f->FindObjectAny("treeTrack"))
 		TAPopMsg::Error("TASTRCalibDCArr", "ChiHistogramming: treeTrack not found in input rootfile");
 	if(is3D && !f->FindObjectAny("treePID3D"))
@@ -126,10 +126,10 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 					for(int l = 0; l < nAng; l++){
 						sprintf(name, "hRDCSTRCor_%d_%d_%d_%d_%d", i, j, m, k, l);
 						sprintf(title, "%s - r-dr Relation;r [mm];dr [mm]", name);
-						hRDCSTRCor[i][j][m][k][l] = new TH2F(name, title, nr, 0., rmx, 300, -4.0, 4.0);
+						hRDCSTRCor[i][j][m][k][l] = new TH2F(name, title, nr, 0., rmx, 300, -3.0, 3.0);
 						sprintf(name, "hRDCSTR_RT_%d_%d_%d_%d_%d", i, j, m, k, l);
 						sprintf(title, "%s - t-r Relation;t [ns];r [mm]", name);
-						hRDCSTR_RT[i][j][m][k][l] = new TH2F(name, title, 35, 0., 280., 300, -0.5, 7.);
+						hRDCSTR_RT[i][j][m][k][l] = new TH2F(name, title, 35, 0., 280., 100, -0.5, 5.5);
 					} // end for over i
 				} // end for over k
 			} // end for over m
@@ -230,14 +230,15 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 	} // end for over i
 //	cout << nTrk / 3 << " 3D tracks has been adopted for STR correction.\n";
 
+	TFile *fw = new TFile(("assess"+rootfile).c_str(), "UPDATE");
 	sprintf(name, "STRCali-%s", dcArr->GetName().c_str());
 	sprintf(title, "%s/histo", name);
-	if(!f->FindObjectAny(name)) f->mkdir(title); // store drift time histograms
-	f->cd(title); cout << endl;
+	if(!fw->FindObjectAny(name)) fw->mkdir(title); // store drift time histograms
+	fw->cd(title); cout << endl;
 	for(int i = 0; i < 3; i++) for(int j = 0; j < 3; j++) for (int m = 0; m < 2; m++)
 	for(int k = 0; k < 96; k++) for(int s = 0; s < nAng; s++){
 		if(hRDCSTRCor[i][j][m][k][s]){
-			if(hRDCSTRCor[i][j][m][k][s]->GetEntries() > 5000.){
+			if(hRDCSTRCor[i][j][m][k][s]->GetEntries() > 1500.){
 				hRDCSTRCor[i][j][m][k][s]->Write("", TObject::kOverwrite);
 				hRDCSTR_RT[i][j][m][k][s]->Write("", TObject::kOverwrite);
 				cout << "Writing Histo \033[34;1m" << i << " " << j << " " << m;
@@ -248,9 +249,9 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 		delete hRDCSTRCor[i][j][m][k][s]; hRDCSTRCor[i][j][m][k][s] = nullptr;
 		delete hRDCSTR_RT[i][j][m][k][s]; hRDCSTR_RT[i][j][m][k][s] = nullptr;
 	} // end the great loop
-	cout << "\n\nCurrent directory in rootfile is "; f->pwd();
 	cout << "\n\n\033[33;1mDONE\033[0m\n\n"; // DEBUG
-	f->Close(); delete f;
+	fw->Close(); delete fw; fw = nullptr;
+	f->Close(); delete f; f = nullptr;
 } // end of member function ChiHistogramming
 
 // read the chi histograms and fit them to get the mean, which would be used as
@@ -264,19 +265,13 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 	TAPopMsg::Info("TASTRCalibDCArr", "GenerateCalibFile: Input rootfile name: %s, STR auto-calibration round id: %d, MWDC Array Name: %s", rootfile.c_str(), round, dcArr->GetName().c_str());
 	if(0 != access(rootfile.c_str(), F_OK))
 		TAPopMsg::Error("TASTRCalibDCArr", "GenerateCalibFile: Input rootfile %s doesn't exist", rootfile.c_str());
-	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
+	TFile *f = new TFile(("assess"+rootfile).c_str(), "UPDATE");
 	char name[128], title[128], xuv[] = "XUV";
 	sprintf(name, "STRCali-%s", dcArr->GetName().c_str());
 	sprintf(title, "%s/histo", name); // directory storing drift time histograms
 	if(!f->FindObjectAny(name)){
 		TAPopMsg::Error("TASTRCalibDCArr", "GenerateCalibFile: Directory %s doesn't exist. Maybe TASTRCalibDCArr::ChiHistogramming(...) hasn't been run yet.", name);
 	}
-	f->cd(title);
-	// make directory to store calibration results
-	char dir[64]; // directory to store results of the auto-calibration round
-	sprintf(dir, "%s/round_%d", name, round);
-	cout << "dir: " << dir << endl;
-	if(!f->cd(dir)) f->mkdir(dir);
 
 	TH1F *hmeanTot = new TH1F("hmeanTot", "hmeanTot", 500, -0.8, 0.8);
 	TH1F *hsigmaTot = new TH1F("hsigmaTot", "hsigmaTot", 500, 0., 1.5);
@@ -350,7 +345,7 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 					double strCor[nAng][nr]{}, strCorSigma[nAng][nr]{};
 					TAAnode *ano = dcArr->GetMWDC(i)->GetAnode(j, m+1, k);
 					for(int str_id = 0; str_id < nAng; str_id++){
-						sprintf(name, "/STRCali-%s/histo/hRDCSTRCor_%d_%d_%d_%d_%d", dcArr->GetName().c_str(), i, j, m, k, str_id);
+						sprintf(name, "STRCali-%s/histo/hRDCSTRCor_%d_%d_%d_%d_%d", dcArr->GetName().c_str(), i, j, m, k, str_id);
 						TH2F *h2 = h2void;
 						if(!(h2 = (TH2F*)f->Get(name))) continue;
 						int valid_bin_cnt = 0; // valid drift distance bin number
@@ -362,7 +357,7 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 							TH1D *hpro = h2->ProjectionY("hpro", l+1, l+1);
 							double npro = hpro->GetEntries();
 							if(0) if(0 == l) npro = 0; // the first bin is biased
-							if(npro < 200.){ // stastics is too small
+							if(npro < 150.){ // stastics is too small
 								strCor[str_id][l] = 0.;
 								strCorSigma[str_id][l] = 0.;
 								continue;
@@ -395,9 +390,9 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 								ano->GetAnodePara()->GetSTRCorrection(str_id)[l];
 							cout << "Processing bin of " << i << " " << j << " " << m;
 							cout << " " << k << " " << str_id << " " << l << "\r" << flush;
-							delete hpro; hpro = nullptr; // destruct the object and free the memory
+							if(hpro) delete hpro; hpro = nullptr;
 						} // end for over l
-						delete h2; h2 = nullptr;
+						if(h2) delete h2; h2 = nullptr;
 						if(0 == valid_bin_cnt) continue; // empty correction
 						outFile << "\nInfo: " << setw(10) << ano->GetUID() << " ";
 						outFile << setw(7) << str_id << " " << setw(5) << valid_bin_cnt << endl;
@@ -428,20 +423,36 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 		gsigmaTot->SetPoint(l, rstep*(l+0.5), sigmaTot[l]/sigmaTot_cnt[l]);
 
 	// write //
-	f->cd(dir); // stores sigma, mean and treeSgima
+	// make directory to store calibration results
+	char dir[64], subdir[64]; // directory to store results of the auto-calibration round
+	sprintf(subdir, "round_%d", round);
+	sprintf(dir, "%s/%s", name, subdir);
+	cout << "dir: " << dir << endl;
+	if(!f->FindObjectAny(subdir)) f->mkdir(dir); f->cd(dir); // stores sigma, mean and treeSgima
 	for(int i = 0; i < 3; i++) for(int j = 0; j < 3; j++){
 		hmean[i][j]->Write("", TObject::kOverwrite);
 		hsigma[i][j]->Write("", TObject::kOverwrite);
 		gsigma[i][j]->Write("", TObject::kOverwrite);
 	}
 	hmeanTot->Write("", TObject::kOverwrite);
-	hsigmaTot->Write("", TObject::kOverwrite);
+	hsigmaTot->Write("", TObject::kOverwrite); 
 	gsigmaTot->Write("", TObject::kOverwrite);
 	treeSigma->Write("", TObject::kOverwrite);
+	// free memory
+	for(int i = 0; i < 3; i++) for(int j = 0; j < 3; j++){
+		delete hmean[i][j]; hmean[i][j] = nullptr;
+		delete hsigma[i][j]; hsigma[i][j] = nullptr;
+		delete gsigma[i][j]; gsigma[i][j] = nullptr;
+	}
+	delete hmeanTot; hmeanTot = nullptr;
+	delete hsigmaTot; hsigmaTot = nullptr;
+	delete gsigmaTot; gsigmaTot = nullptr;
+	delete treeSigma; treeSigma = nullptr;
+	if(h2void) delete h2void; h2void = nullptr;
+	f->Close(); delete f; f = nullptr;
+//	TAParaManager::Instance()->UpdateSTRCorrection(); // keep up-to-date with the newest calibration
 
 	cout << "\n\n\033[33;1mDONE\033[0m\n\n";
-	f->Close(); delete f;
-//	TAParaManager::Instance()->UpdateSTRCorrection(); // keep up-to-date with the newest calibration
 } // end of member function GenerateCalibFile
 
 

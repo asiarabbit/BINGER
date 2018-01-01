@@ -16,8 +16,8 @@ int main(int argc, char *argv[]){
 	const char dir[2][64] = {"pion_2017Oct", "beamTest_2016Nov"};
 	ep->SetConfigExpDir(dir[1]); ep->Configure();
 	TAAssess *ass = TAAssess::Instance();
-	ass->SetROOTFile(argv[1]); ass->SetRunId(atoi(argv[3]));
-	ass->EvalDCArr(bool(atoi(argv[2])));
+	ass->SetROOTFile(argv[1]);
+	ass->EvalDCArr(atoi(argv[3]), bool(atoi(argv[2])));
 
 	return 0;
 }
