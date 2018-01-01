@@ -10,10 +10,10 @@ using std::endl;
 
 int main(int argc, char *argv[]){
 	if(argc < 3){
-		cout << "./str <rootfile> DCArrOption. rootfile name and dcArrOption (0: L, 1: R) have to be provided\n";
+		cout << "./str <rootfile> <DCArrOption>.\nrootfile name and dcArrOption (0: L, 1: R) have to be provided\n";
 		exit(1);
 	}
-	bool isDCArrR = bool(atoi(argv[3]));
+	bool isDCArrR = bool(atoi(argv[2]));
 	TAEventProcessor *ep = TAEventProcessor::Instance();
 	const char dir[2][64] = {"pion_2017Oct", "beamTest_2016Nov"};
 	ep->SetConfigExpDir(dir[1]); ep->Configure();

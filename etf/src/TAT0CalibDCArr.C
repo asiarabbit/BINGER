@@ -30,6 +30,7 @@
 #include "TF1.h"
 
 #include "TAPopMsg.h"
+#include "TACtrlPara.h"
 #include "TAT0CalibDCArr.h"
 #include "TAMWDCArray.h"
 #include "TAMWDC.h"
@@ -58,8 +59,11 @@ void TAT0CalibDCArr::Refine_DTHisto(bool isCalib){
 	Refine_DTHisto(fROOTFile, fDCArr, HasCorrected(), isCalib);
 }
 void TAT0CalibDCArr::Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, bool hasCorrected, bool isCalib){
-	if(isCalib && TAParaManager::Instance()->Exist(2))
-		TAPopMsg::Error("TAT0CalibDCArr", "GenerateCalibFile: T0 Calibration files already exist in config/[experiment]/T0, which should be deleted firsly. Are you sure to continue?");
+	if(isCalib && TAParaManager::Instance()->Exist(2)){
+//		TAPopMsg::Error("TAT0CalibDCArr", "GenerateCalibFile: T0 Calibration files already exist in config/[experiment]/T0, which should be deleted firsly. Are you sure to continue?");
+		char cmd[128]; sprintf(cmd, "rm %s/T0/*", TACtrlPara::Instance()->ConfigExpDir());
+		system(cmd);
+	}
 	TAPopMsg::Info("TAT0CalibDCArr", "Refine_DTHisto: Input rootfile name: %s", rootfile.c_str());
 	const double phiAvrg = dcArr->GetPhiAvrg(); // average of phi over the three MWDCs
 	const bool LRTAG = bool(dcArr->GetUID()-3); // 3: L; 4: R
@@ -190,15 +194,17 @@ void TAT0CalibDCArr::Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, 
 		cntSec++;
 		treeTrackT->Fill();
 	} // end for over i
-	f->cd("/"); treeTrackT->Write("", TObject::kOverwrite);
+	cout << "Totally \033[1m" << cntSec << " \033[0m data sections and  \033[1m" << cntTrk << " \033[0m 3D tracks have been processed.\n";
 
+	// write //
+	TFile *fw = new TFile(("assess"+rootfile).c_str(), "UPDATE");
 	sprintf(name, "T0Cali0-%s", dcArr->GetName().c_str());
 	sprintf(title, "%s/histo", name);
-	if(!f->FindObjectAny(name)) f->mkdir(title); f->cd(title); // store drift time histograms
+	if(!fw->FindObjectAny(name)) fw->mkdir(title); fw->cd(title); // store drift time histograms
 	cout << endl;
 	if(isCalib) for(int i = 0; i < 3; i++) for(int j = 0; j < 3; j++) for(int m = 0; m < 2; m++)
 	for(int k = 0; k < 96; k++) if(hdt[i][j][m][k]){
-//		if(hdt[i][j][m][k]->GetEntries() > 2000.)
+		if(hdt[i][j][m][k]->GetEntries() > 1000.)
 		{
 			hdt[i][j][m][k]->Write("", TObject::kOverwrite);
 			cout << "Writing Histo \033[34;1m" << i << " " << j << " " << m << " " << k << "\033[0m";
@@ -206,8 +212,10 @@ void TAT0CalibDCArr::Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, 
 		}
 		delete hdt[i][j][m][k]; hdt[i][j][m][k] = nullptr;
 	}
-	cout << "Totally \033[1m" << cntSec << " \033[0m data sections and  \033[1m" << cntTrk << " \033[0m 3D tracks have been processed.\n";
-	f->Close(); delete f;
+	f->cd("/"); treeTrackT->Write("", TObject::kOverwrite);
+	delete treeTrackT; treeTrackT = nullptr;
+	fw->Close(); delete fw; fw = nullptr;
+	f->Close(); delete f; f = nullptr;
 	cout << "\033[33;1m\n\nDONE\n\n\033[0m";
 } // end of member function Refine_DTHisto
 
@@ -216,15 +224,18 @@ void TAT0CalibDCArr::GenerateCalibFile(bool isShowFit){
 	GenerateCalibFile(fROOTFile, fDCArr, isShowFit);
 }
 void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcArr, bool isShowFit){
-	if(TAParaManager::Instance()->Exist(2))
-		TAPopMsg::Error("TAT0CalibDCArr", "GenerateCalibFile: T0 Calibration files already exist in config/[experiment]/T0, which should be deleted first. Are you sure to continue?");
+	if(TAParaManager::Instance()->Exist(2)){
+//		TAPopMsg::Error("TAT0CalibDCArr", "GenerateCalibFile: T0 Calibration files already exist in config/[experiment]/T0, which should be deleted first. Are you sure to continue?");
+		char cmd[128]; sprintf(cmd, "rm %s/T0/*", TACtrlPara::Instance()->ConfigExpDir());
+		system(cmd);
+	}
 	TAPopMsg::Info("TAT0CalibDCArr", "GenerateCalibFile: Input rootfile name: %s, MWDC Array Name: %s", rootfile.c_str(), dcArr->GetName().c_str());
 	if(0 != access(rootfile.c_str(), F_OK))
 		TAPopMsg::Error("TAT0CalibDCArr", "GenerateCalibFile: Input rootfile %s doesn't exist", rootfile.c_str());
-	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
+	TFile *f = new TFile(("assess"+rootfile).c_str(), "UPDATE");
 	char name[128], title[128];
 	sprintf(name, "T0Cali0-%s", dcArr->GetName().c_str());
-	sprintf(title, "%s/histo", name); // directory storing drift time histograms
+	sprintf(title, "/%s/histo", name); // directory storing drift time histograms
 	if(!f->FindObjectAny(name)){
 		TAPopMsg::Error("TAT0CalibDCArr", "GenerateCalibFile: Directory %s doesn't exist. Maybe TAT0CalibDCArr::Refine_DTHisto(...) hasn't been run yet.", name);
 	}
@@ -334,14 +345,16 @@ void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcAr
 	outFile << endl;
 	outFile.close();
 
-	f->cd(("T0Cali0-"+dcArr->GetName()).c_str());
-	treeT0->Write("", TObject::kOverwrite);
-	hT0->Write("", TObject::kOverwrite);
 	cout << "\n\n\033[33;1mhT0->GetMean(): " << hT0->GetMean();
 	cout << "\thT0->GetRMS(): " << hT0->GetRMS() << endl;
 	cout << "\nDONE\033[0m\n\n";
-	sleep(1);
-	f->Close(); delete f;
+
+	// write //
+	treeT0->Write("", TObject::kOverwrite);
+	hT0->Write("", TObject::kOverwrite);
+	delete hT0; hT0 = nullptr;
+	delete treeT0; treeT0 = nullptr;
+	f->Close(); delete f; f = nullptr;
 } // end of member function GenerateCalibFile
 
 

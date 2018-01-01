@@ -9,10 +9,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/14.															     //
-// Last modified: 2017/12/26, SUN Yazhou.										     //
+// Last modified: 2018/1/1, SUN Yazhou.										  	     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -59,16 +59,15 @@ TAAssess *TAAssess::Instance(){
 	if(!fInstance) fInstance = new TAAssess();
 	return fInstance;
 }
-TAAssess::TAAssess() : fDetList(0), fRunId(0){
+TAAssess::TAAssess() : fDetList(0){
 	if(!fDetList) fDetList = &TAParaManager::Instance()->GetDetList();
 }
 TAAssess::~TAAssess(){}
 
-void TAAssess::EvalDCArr(bool isDCArrR, int runId){
-	SetRunId(runId);
-	EvalDCArr(fROOTFile, fDetList, isDCArrR, fRunId);
+void TAAssess::EvalDCArr(unsigned short runId, bool isDCArrR){
+	EvalDCArr(fROOTFile, fDetList, runId, isDCArrR);
 }
-void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArrR, unsigned short runid){
+void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, unsigned short runid, bool isDCArrR){
 	if(!strcmp("", rootfile.c_str()))
 		TAPopMsg::Error("TAAssess", "EvalDCArr: rootfile name is empty");
 	if(!detList)
@@ -81,7 +80,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 	cout << "Input rootfile: " << rootfile << endl;
 	if(0 != access(rootfile.c_str(), F_OK))
 		TAPopMsg::Error("TAAssess", "EvalDCArr: Input rootfile %s doesn't exist", rootfile.c_str());
-	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
+	TFile *f = new TFile(rootfile.c_str());
 	TTree *treeTrack = (TTree*)f->Get("treeTrack");
 	if(!treeTrack) TAPopMsg::Error("TAAssess", "EvalDCArr: treeTrack is nullptr");
 	// default is for DCArrR
@@ -97,11 +96,6 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 		dcArr = dcArrL; for(int i = ndir; i--;) strcat(dir[i], "L");
 	}
 	const short LRTAG = lrtag; // type/10: 10 -> dcArrL; 11 -> dcArrR
-	cout << "The results would be stored in ROOT file directory \"\033[36;1m" << topdir << "\"\n\033[0m";
-	if(f->FindObjectAny(topdir))
-		TAPopMsg::Warn("TAAssess", "EvalDCArr: directory %s alrady exists. Assess0 may have been implemented.\nStill, you can re-assess the tracking result anyway. Only extra time would be the cost", topdir);
-	else f->mkdir(topdir);
-	f->cd(topdir);
 
 	// DC parameters
 	const double phiAvrg = dcArr->GetPhiAvrg();
@@ -516,12 +510,6 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 	} // end for over X-U-V
 	for(int i = 0; i < 10; i++) hntrPerSec3D->SetBinContent(i+2, n3DtrPerSec[i]);
 
-	// write //
-	for(int i = 0; i < ndir; i++){
-		char s[128]; sprintf(s, "%s/%s", topdir, dir[i]);
-		if(!f->FindObjectAny(dir[i])) f->mkdir(s); f->cd(s);
-		for(TObject *&b : objLs[i]) if(b) b->Write("", TObject::kOverwrite);
-	}
 	// print some information to the screen
 	cout << "\n\nhasXCnt: \033[1m" << hasXUVCnt[0];
 	cout << "\t\033[0mhasUCnt: \033[1m" << hasXUVCnt[1];
@@ -554,7 +542,25 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, bool isDCArr
 		if(j%2 == 1) cout << endl;
 	}
 	cout << "\n\n\033[33;1mDONE\033[0m\n\n";
-	f->Close(); delete f;
+
+	// write //
+	char s[128];
+	cout << "The results would be stored in ROOT file directory \"\033[36;1m" << topdir << "\"\n\033[0m";
+//	if(!f->FindObjectAny(topdir)) f->mkdir(topdir); f->cd(topdir);
+	
+	TFile *fw = new TFile(("assess"+rootfile).c_str(), "UPDATE");
+	fw->mkdir(topdir); fw->cd(topdir);
+	for(int i = 0; i < ndir; i++){
+		sprintf(s, "%s/%s", topdir, dir[i]);
+		if(!fw->FindObjectAny(dir[i])) fw->mkdir(s); fw->cd(s);
+		for(TObject *&b : objLs[i]) if(b){
+			b->Write("", TObject::kOverwrite);
+		}
+		objLs[i].clear();
+	}
+	for(auto &ls : objLs) for(auto &b : ls) if(b) delete b;
+	fw->Close(); delete fw; fw = nullptr;
+	f->Close(); delete f; f = nullptr;
 } // end of member function EvalDCArr3D
 
 
