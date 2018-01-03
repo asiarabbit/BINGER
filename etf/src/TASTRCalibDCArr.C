@@ -8,10 +8,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2017/12/23, SUN Yazhou.										     //
+// Last modified: 2018/1/3, SUN Yazhou.											     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -28,6 +28,7 @@
 #include "TH1F.h"
 #include "TH2F.h"
 #include "TGraph.h"
+#include "TF1.h"
 
 #include "TAPopMsg.h"
 #include "TASTRCalibDCArr.h"
@@ -125,10 +126,10 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 				for(int k = 0; k < nAnodePerLayer; k++){ // loop over anodes per layer
 					for(int l = 0; l < nAng; l++){
 						sprintf(name, "hRDCSTRCor_%d_%d_%d_%d_%d", i, j, m, k, l);
-						sprintf(title, "%s - r-dr Relation;r [mm];dr [mm]", name);
+						sprintf(title, "%s - dr-DCA Relation;DCA [mm];dr [mm]", name);
 						hRDCSTRCor[i][j][m][k][l] = new TH2F(name, title, nr, 0., rmx, 300, -3.0, 3.0);
 						sprintf(name, "hRDCSTR_RT_%d_%d_%d_%d_%d", i, j, m, k, l);
-						sprintf(title, "%s - t-r Relation;t [ns];r [mm]", name);
+						sprintf(title, "%s - DCA-t Relation;t [ns];DCA [mm]", name);
 						hRDCSTR_RT[i][j][m][k][l] = new TH2F(name, title, 35, 0., 280., 100, -0.5, 5.5);
 					} // end for over i
 				} // end for over k
@@ -160,12 +161,12 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 						const int STRid = anoPar->GetSTRid(kl[j], dcType);
 						const short nAnodePerLayer = dc->GetNAnodePerLayer();
 						if(isBigSta){
-							hRDCSTRCor[DCid][dcType][l%2][NU][STRid]->Fill(rr, dr);
+							hRDCSTRCor[DCid][dcType][l%2][NU][STRid]->Fill(rc, dr);
 							hRDCSTR_RT[DCid][dcType][l%2][NU][STRid]->Fill(tt, rc);
 						} // end if
 						else{ // every hit is shared by all anodes in the layer
 							for(int k = 0; k < nAnodePerLayer; k++){
-								hRDCSTRCor[DCid][dcType][l%2][k][STRid]->Fill(rr, dr);
+								hRDCSTRCor[DCid][dcType][l%2][k][STRid]->Fill(rc, dr);
 								hRDCSTR_RT[DCid][dcType][l%2][k][STRid]->Fill(tt, rc);
 							} // end for over anodes in a sense wire layer
 						} // end else
@@ -213,12 +214,12 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 //						cout << "rc: " << rc << "\trr: " << rr << "\tdr: " << dr << endl; getchar(); // DEBUG
 						const int STRid = TAAnodePara::GetSTRid(alpha[DCid][j]);
 						if(isBigSta){
-							hRDCSTRCor[DCid][j][k%2][NU][STRid]->Fill(rr, dr);
+							hRDCSTRCor[DCid][j][k%2][NU][STRid]->Fill(rc, dr);
 							hRDCSTR_RT[DCid][j][k%2][NU][STRid]->Fill(tt, rc);
 						} // end if
 						else{ // every hit is shared by all anodes in the layer
 							for(int l = 0; l < nAnodePerLayer; l++){
-								hRDCSTRCor[DCid][j][k%2][l][STRid]->Fill(rr, dr);
+								hRDCSTRCor[DCid][j][k%2][l][STRid]->Fill(rc, dr);
 								hRDCSTR_RT[DCid][j][k%2][l][STRid]->Fill(tt, rc);
 							} // end for over anodes in a sense wire layer
 						} // end else
@@ -238,7 +239,7 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 	for(int i = 0; i < 3; i++) for(int j = 0; j < 3; j++) for (int m = 0; m < 2; m++)
 	for(int k = 0; k < 96; k++) for(int s = 0; s < nAng; s++){
 		if(hRDCSTRCor[i][j][m][k][s]){
-			if(hRDCSTRCor[i][j][m][k][s]->GetEntries() > 1500.){
+			if(hRDCSTRCor[i][j][m][k][s]->GetEntries() > 2000.){
 				hRDCSTRCor[i][j][m][k][s]->Write("", TObject::kOverwrite);
 				hRDCSTR_RT[i][j][m][k][s]->Write("", TObject::kOverwrite);
 				cout << "Writing Histo \033[34;1m" << i << " " << j << " " << m;
@@ -260,6 +261,7 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 void TASTRCalibDCArr::GenerateSTRCorFile(int round){
 	if(!fDCArr) TAPopMsg::Error("TASTRCalibDCArr", "GenerateCalibFile: MWDC array pointer is null");
 	GenerateCalibFile(fROOTFile, fDCArr, round);
+	PostEval(round);
 }
 void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcArr, int round){
 	TAPopMsg::Info("TASTRCalibDCArr", "GenerateCalibFile: Input rootfile name: %s, STR auto-calibration round id: %d, MWDC Array Name: %s", rootfile.c_str(), round, dcArr->GetName().c_str());
@@ -368,13 +370,17 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 							// sigma, unit: mm
 							fgaus->SetParameter(2, 0.2);
 							fgaus->SetParLimits(2, 0., 1.);
-							hpro->Fit(fgaus, "NQR"); // 
+							// fit range
+							double span = 1.5*hpro->GetRMS();
+							span = span < 1.5 ? span : 1.5;
+							fgaus->SetRange(-span, span);
+							hpro->Fit(fgaus, "NQR"); // no printings, no draw, fit within range
 							double mean = fgaus->GetParameter("Mean");
 							double sigma = fgaus->GetParameter("Sigma");
 							hmean[i][j]->Fill(mean); hmeanTot->Fill(mean);
 							hsigma[i][j]->Fill(sigma); hsigmaTot->Fill(sigma);
 //							cout << "mean: " << mean << "\tsigma: " << sigma << endl; getchar(); // DEBUG
-							if((mean > -0.4 && mean < 0.4) && (sigma < 1.2 && sigma > 0.)){
+							if((mean > -0.4 && mean < 0.4) && (sigma < 0.8 && sigma > 0.)){
 								strCor[str_id][l] = mean;
 								strCorSigma[str_id][l] = sigma;
 								// more statistics brings about more weight in the sigma average
@@ -424,10 +430,10 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 
 	// write //
 	// make directory to store calibration results
+	f->cd("/");
 	char dir[64], subdir[64]; // directory to store results of the auto-calibration round
 	sprintf(subdir, "round_%d", round);
-	sprintf(dir, "%s/%s", name, subdir);
-	cout << "dir: " << dir << endl;
+	sprintf(dir, "STRCali-%s/%s", dcArr->GetName().c_str(), subdir);
 	if(!f->FindObjectAny(subdir)) f->mkdir(dir); f->cd(dir); // stores sigma, mean and treeSgima
 	for(int i = 0; i < 3; i++) for(int j = 0; j < 3; j++){
 		hmean[i][j]->Write("", TObject::kOverwrite);
@@ -455,6 +461,72 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 	cout << "\n\n\033[33;1mDONE\033[0m\n\n";
 } // end of member function GenerateCalibFile
 
+// evaluation done after Eval event by event
+void TASTRCalibDCArr::PostEval(int round){
+	char s[128]; strcpy(s, ("assess"+fROOTFile).c_str());
+	PostEval(s, fDCArr, round); // s: rootfile containing the required drt 2D spectra
+}
+void TASTRCalibDCArr::PostEval(const string &rootfile, const TAMWDCArray *dcArr, int round){
+	char dcArrName[64]; strcpy(dcArrName, dcArr->GetName().c_str());
+	TAPopMsg::Info("TASTRCalibDCArr", "PostEval: input rootfile name: %s, dcArr: %s", rootfile.c_str(), dcArrName);
+	if(0 != access(rootfile.c_str(), F_OK))
+		TAPopMsg::Error("TASTRCalibDCArr", "PostEval: Input rootfile %s doesn't exist", rootfile.c_str());
+	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
+	char name[128]; // name: TH2F name - dr-DCA
+	sprintf(name, "STRCali-%s/histo/hRDCSTRCor_0_0_0_40_3", dcArrName); // DC#-XUV-LAYER-NU
+	TH2F *h2 = (TH2F*)f->Get(name);
+	if(!h2) TAPopMsg::Error("TASTRCalibDCArr", "PostEval: %s doesn't exist", name);
+	TH1D *hprojx = h2->ProjectionX();
+	TF1 *fgaus = new TF1("fgaus", "gaus", -4., 4.);
+	TGraph *gSigma = new TGraph(); // DCA-sigma for MWDC resolution estimation
+	TGraph *gMean = new TGraph(); // DCA-dr for STR correction
+	char title[128];
+	sprintf(title, "Saptial Resolution v.s. DCA (%s);DCA [mm];\\sigma~[mm]", h2->GetName());
+	gSigma->SetNameTitle("gSigma_4", title); gSigma->SetMarkerStyle(22);
+	sprintf(title, "STR Correction v.s. Drift Distance(%s);DCA [mm];<dr> [mm]");
+	gMean->SetNameTitle("gMean_4", title); gMean->SetMarkerStyle(22);
+	int gSigma_cnt = 0, gMean_cnt = 0;
+	const int n = h2->GetNbinsX(), nn = n;
+	for(int i = 0; i < nn; i++){
+		TH1D *hproj = h2->ProjectionY("hproj", i+1, i+1);
+//		cout << "hproj->GetEntries(): " << hproj->GetEntries() << endl; // DEBUG
+//		getchar(); // DEBUG
+		if(hproj->GetEntries() < 100) continue;
+		// mean, unit: mm
+		fgaus->SetParameter(1, 0.);
+		fgaus->SetParLimits(1, -1., 1.);
+		// sigma, unit: mm
+		fgaus->SetParameter(2, 0.2);
+		fgaus->SetParLimits(2, 0., 1.);
+		// fit range
+		double span = 1.5*hproj->GetRMS();
+		span = span < 1.5 ? span : 1.5;
+		fgaus->SetRange(-span, span);
+		hproj->Fit(fgaus, "NQR"); // 
+		const double mean = fgaus->GetParameter("Mean");
+		const double sigma = fgaus->GetParameter("Sigma");
+		if(!((mean > -0.4 && mean < 0.4) && (sigma < 0.8 && sigma > 0.)))
+			continue;
+		double rm = hprojx->GetBinCenter(i+1);
+		gSigma->SetPoint(gSigma_cnt++, rm, sigma);
+		gMean->SetPoint(gMean_cnt++, rm, mean);
+	} // end for over i
+
+	char subdir[64]; sprintf(subdir, "round_%d", round);
+	sprintf(name, "STRCali-%s/%s", dcArrName, subdir);
+	if(!f->FindObjectAny(subdir))
+		TAPopMsg::Error("TASTRCaliDCArr", "PostEval: directory %s not found", name);
+	f->cd(name);
+	if(gSigma->GetN()) gSigma->Write("", TObject::kOverwrite);
+	else TAPopMsg::Warn("TASTRCaliDCArr", "PostEval: gSigma has no data");
+	if(gMean->GetN()) gMean->Write("", TObject::kOverwrite);
+	else TAPopMsg::Warn("TASTRCaliDCArr", "PostEval: gMean has no data");
+
+	delete fgaus; fgaus = nullptr; delete gSigma; gSigma = nullptr;
+	delete gMean; gMean = nullptr; f->Close(); delete f; f = nullptr;
+
+	cout << "\033[33;1m\n\nDONE\n\n\033[0m";
+}
 
 
 
