@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/14.															     //
-// Last modified: 2018/1/1, SUN Yazhou.										  	     //
+// Last modified: 2018/1/2, SUN Yazhou.										  	     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -224,7 +224,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, unsigned sho
 		sprintf(name, "hdrt02_3D_%d", i);
 		sprintf(title, "Distribution of Residual and Drift Time for 3D Tracks in %c Sense Wires;t [ns];dr [mm]", xuv[i]);
 		hdrt02_3D[i] = new TH2F(name, title, 500, -100., 400., 800, -4.0, 4.0);
-		objLs[6].push_back(hdrt02[i]);
+		objLs[6].push_back(hdrt02_3D[i]);
 		for(int j = 0; j < 3; j++){ // loop over DCs
 			sprintf(name, "hdrt03_%d_%d", i, j);
 			sprintf(title, "Distribution of Residual and Drift Time for %c-Tracks-DC%d", xuv[i], j);
@@ -544,12 +544,13 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, unsigned sho
 	cout << "\n\n\033[33;1mDONE\033[0m\n\n";
 
 	// write //
-	char s[128];
+	
 	cout << "The results would be stored in ROOT file directory \"\033[36;1m" << topdir << "\"\n\033[0m";
 //	if(!f->FindObjectAny(topdir)) f->mkdir(topdir); f->cd(topdir);
-	
-	TFile *fw = new TFile(("assess"+rootfile).c_str(), "UPDATE");
-	fw->mkdir(topdir); fw->cd(topdir);
+	char s[128]; strcpy(s, ("assess"+rootfile).c_str());
+	if(0 == runid && 0 == access(s, F_OK)) system(("rm "+string(s)).c_str());
+	TFile *fw = new TFile(s, "UPDATE");
+	if(!fw->FindObjectAny(topdir)) fw->mkdir(topdir); fw->cd(topdir);
 	for(int i = 0; i < ndir; i++){
 		sprintf(s, "%s/%s", topdir, dir[i]);
 		if(!fw->FindObjectAny(dir[i])) fw->mkdir(s); fw->cd(s);
@@ -562,8 +563,6 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, unsigned sho
 	fw->Close(); delete fw; fw = nullptr;
 	f->Close(); delete f; f = nullptr;
 } // end of member function EvalDCArr3D
-
-
 
 
 
