@@ -34,7 +34,7 @@ void TAPopMsg::Info(const char *cname, const char *fmt, ...){
 	va_list arg_ptr;
 	va_start(arg_ptr, fmt);
 	char msg[1024], omsg[1024];
-	sprintf(msg, "  BINGER-Info: \033[32;1m[%s]\033[0m %s\n", cname, fmt);
+	sprintf(msg, "  BINGER-Info: \033[32;1m[%s]\033[33;1m %s\n\033[0m", cname, fmt);
 	vsprintf(omsg, msg, arg_ptr);
 	va_end(arg_ptr);
 	cout << omsg;

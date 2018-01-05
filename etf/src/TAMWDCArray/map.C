@@ -12,7 +12,7 @@
 // Last modified: 2017/12/30, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -34,7 +34,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 	if(track.size() != 0) track.clear();
 
 	bool cmpShow = false; // function compare debug
-	// GetDsquareThresholdPerDot(); // stores the minimum of Dsquares of  all the combinations.
+	// GetDsquareThresholdPerDot(); // stores the minimum of Dsquares of all the combinations
 	double d2Thre = clp->D2Thre();
 
 	double z[6] = {-9999., -9999., -9999., -9999., -9999., -9999.};
@@ -165,14 +165,16 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 				if(0 == dcType){ // MWDC_X
 					// get the lt time (t0) of the DC that is closest to the TOFWall,
 					// edges of TOFW would be compared to t0 for the suitable one
-					int lid = LAYER[nFiredAnodeLayer-1]; // id of the fired DC anode layer
+					int lid = LAYER[nFiredAnodeLayer-1]; // id of the last fired DC anode layer
 					TAAnode *ano = MWDC[lid/2]->GetAnode(dcType, lid%2+1, nu[lid]);
 					double t0 = ano->GetTime();
 					unsigned uid = ano->GetUID();
-					double delta = clp->T_tofDCtoTOFW(uid) - clp->T_wireMean(uid); // minor correction
-					// -10 ~ 150: speculated drift time zone
+					const double delta = clp->T_tofDCtoTOFW(uid) - clp->T_wireMean(uid); // minor correction
+					// -20 ~ 250: speculated drift time zone
+					// 0+t_wire+t_drift=t_DC; 0+t_tof=t_TOF;
+					// t_TOF-t_DC=(t_tof-t_wire) - t_drift; => delta-t_drift;
 					// (as small and correct as possible while inclusive)
-					double t1 = delta-150., t2 = delta+10.; // the range borders
+					const double t1 = delta-250., t2 = delta+20.; // the range borders
 					TOF = GetTOFWall()->GetTime(kl, bl, nstripStray, firedStripId, t0, t1, t2);
 #ifdef DEBUG_MAP
 					cout << "firedStripId: " << firedStripId << endl; // DEBUG

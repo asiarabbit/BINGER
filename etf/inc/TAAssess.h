@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/14.															     //
-// Last modified: 2018/1/1, SUN Yazhou.										  	     //
+// Last modified: 2018/1/5, SUN Yazhou.										  	     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -36,8 +36,11 @@ public:
 
 	// assess tracking results of MWDC array L and MWDC array R
 	void SetROOTFile(const string &file){ fROOTFile = file; }
-	virtual void EvalDCArr(unsigned short runId = 0, bool isDCArrR = true);
-	static void EvalDCArr(const string &rootfile, DetArr_t *detList, unsigned short runid = 0, bool isDCArrR = true);
+	virtual void EvalDCArr(int runId = 0, bool isDCArrR = true);
+	static void EvalDCArr(const string &rootfile, DetArr_t *detList, int runid = 0, bool isDCArrR = true);
+	// evaluation done after Eval event by event
+	virtual void PostEval(int round = 0);
+	static bool PostEval(const string &rootfile, int round = 0, bool isDCArrR = true, bool is3D = true);
 protected:
 	static TAAssess *fInstance;
 	TAAssess();

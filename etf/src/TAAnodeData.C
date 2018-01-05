@@ -3,14 +3,14 @@
 //																				     //
 // BINGER/inc/etf/TAAnodeData.C														 //
 //   TAAnodeData.C -- source file for class TAAnodeData								 //
-//   Introduction: derived from TAAnodeData, embodiment of DC anodes.
+//   Introduction: derived from TAAnodeData, embodiment of DC anodes.				 //
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/30.															     //
 // Last modified: 2017/10/15, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 

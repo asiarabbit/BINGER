@@ -31,7 +31,8 @@
 	TATOFWall *tofw[2] = {dcArr[0]->GetTOFWall(), dcArr[1]->GetTOFWall()};
 	TAMWDC *dc[2][3]{0};
 	for(int i = 2; i--;) for(int j = 3; j--;) dc[i][j] = dcArr[i]->GetMWDC(j);
-//	TAAnode *ano = dc[1][1]->GetAnodeL1(1, 58); // DEBUG
+	TAAnode *ano = dc[1][1]->GetAnodeL1(1, 58); // DEBUG
+//	cout << ano->GetAnodePara()->GetSTR(0)->GetTitle() << endl; getchar(); // DEBUG
 //	cout << ano->GetDriftDistance(70., 0) << endl; getchar(); // DEBUG
 
 //	cout << "T0_0->GetName(): " << T0_0->GetName() << endl; // DEBUG

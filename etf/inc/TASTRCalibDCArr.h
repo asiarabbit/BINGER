@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2018/1/3, SUN Yazhou.											     //
+// Last modified: 2018/1/5, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -39,9 +39,6 @@ public:
 	static void ChiHistogramming(const string &rootfile, TAMWDCArray *dcArr, bool is3D, bool isBigSta = true);
 	// round: STR auto-calibration round
 	static void GenerateCalibFile(const string &rootfile, TAMWDCArray *dcArr, int round = 0);
-	// evaluation done after Eval event by event
-	virtual void PostEval(int round = 0);
-	static void PostEval(const string &rootfile, const TAMWDCArray *dcArr, int round = 0);
 protected:
 	// parameters for STR correction binning, from class TAAnodePara
 	static const int nr; // number of dirft distance bins
