@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2018/1/3, SUN Yazhou.											     //
+// Last modified: 2018/1/5, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -261,7 +261,6 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 void TASTRCalibDCArr::GenerateSTRCorFile(int round){
 	if(!fDCArr) TAPopMsg::Error("TASTRCalibDCArr", "GenerateCalibFile: MWDC array pointer is null");
 	GenerateCalibFile(fROOTFile, fDCArr, round);
-	PostEval(round);
 }
 void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcArr, int round){
 	TAPopMsg::Info("TASTRCalibDCArr", "GenerateCalibFile: Input rootfile name: %s, STR auto-calibration round id: %d, MWDC Array Name: %s", rootfile.c_str(), round, dcArr->GetName().c_str());
@@ -460,75 +459,5 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 
 	cout << "\n\n\033[33;1mDONE\033[0m\n\n";
 } // end of member function GenerateCalibFile
-
-// evaluation done after Eval event by event
-void TASTRCalibDCArr::PostEval(int round){
-	char s[128]; strcpy(s, ("assess"+fROOTFile).c_str());
-	PostEval(s, fDCArr, round); // s: rootfile containing the required drt 2D spectra
-}
-void TASTRCalibDCArr::PostEval(const string &rootfile, const TAMWDCArray *dcArr, int round){
-	char dcArrName[64]; strcpy(dcArrName, dcArr->GetName().c_str());
-	TAPopMsg::Info("TASTRCalibDCArr", "PostEval: input rootfile name: %s, dcArr: %s", rootfile.c_str(), dcArrName);
-	if(0 != access(rootfile.c_str(), F_OK))
-		TAPopMsg::Error("TASTRCalibDCArr", "PostEval: Input rootfile %s doesn't exist", rootfile.c_str());
-	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
-	char name[128]; // name: TH2F name - dr-DCA
-	sprintf(name, "STRCali-%s/histo/hRDCSTRCor_0_0_0_40_3", dcArrName); // DC#-XUV-LAYER-NU
-	TH2F *h2 = (TH2F*)f->Get(name);
-	if(!h2) TAPopMsg::Error("TASTRCalibDCArr", "PostEval: %s doesn't exist", name);
-	TH1D *hprojx = h2->ProjectionX();
-	TF1 *fgaus = new TF1("fgaus", "gaus", -4., 4.);
-	TGraph *gSigma = new TGraph(); // DCA-sigma for MWDC resolution estimation
-	TGraph *gMean = new TGraph(); // DCA-dr for STR correction
-	char title[128];
-	sprintf(title, "Saptial Resolution v.s. DCA (%s);DCA [mm];\\sigma~[mm]", h2->GetName());
-	gSigma->SetNameTitle("gSigma_4", title); gSigma->SetMarkerStyle(22);
-	sprintf(title, "STR Correction v.s. Drift Distance(%s);DCA [mm];<dr> [mm]");
-	gMean->SetNameTitle("gMean_4", title); gMean->SetMarkerStyle(22);
-	int gSigma_cnt = 0, gMean_cnt = 0;
-	const int n = h2->GetNbinsX(), nn = n;
-	for(int i = 0; i < nn; i++){
-		TH1D *hproj = h2->ProjectionY("hproj", i+1, i+1);
-//		cout << "hproj->GetEntries(): " << hproj->GetEntries() << endl; // DEBUG
-//		getchar(); // DEBUG
-		if(hproj->GetEntries() < 100) continue;
-		// mean, unit: mm
-		fgaus->SetParameter(1, 0.);
-		fgaus->SetParLimits(1, -1., 1.);
-		// sigma, unit: mm
-		fgaus->SetParameter(2, 0.2);
-		fgaus->SetParLimits(2, 0., 1.);
-		// fit range
-		double span = 1.5*hproj->GetRMS();
-		span = span < 1.5 ? span : 1.5;
-		fgaus->SetRange(-span, span);
-		hproj->Fit(fgaus, "NQR"); // 
-		const double mean = fgaus->GetParameter("Mean");
-		const double sigma = fgaus->GetParameter("Sigma");
-		if(!((mean > -0.4 && mean < 0.4) && (sigma < 0.8 && sigma > 0.)))
-			continue;
-		double rm = hprojx->GetBinCenter(i+1);
-		gSigma->SetPoint(gSigma_cnt++, rm, sigma);
-		gMean->SetPoint(gMean_cnt++, rm, mean);
-	} // end for over i
-
-	char subdir[64]; sprintf(subdir, "round_%d", round);
-	sprintf(name, "STRCali-%s/%s", dcArrName, subdir);
-	if(!f->FindObjectAny(subdir))
-		TAPopMsg::Error("TASTRCaliDCArr", "PostEval: directory %s not found", name);
-	f->cd(name);
-	if(gSigma->GetN()) gSigma->Write("", TObject::kOverwrite);
-	else TAPopMsg::Warn("TASTRCaliDCArr", "PostEval: gSigma has no data");
-	if(gMean->GetN()) gMean->Write("", TObject::kOverwrite);
-	else TAPopMsg::Warn("TASTRCaliDCArr", "PostEval: gMean has no data");
-
-	delete fgaus; fgaus = nullptr; delete gSigma; gSigma = nullptr;
-	delete gMean; gMean = nullptr; f->Close(); delete f; f = nullptr;
-
-	cout << "\033[33;1m\n\nDONE\n\n\033[0m";
-}
-
-
-
 
 

@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/14.															     //
-// Last modified: 2018/1/2, SUN Yazhou.										  	     //
+// Last modified: 2018/1/5, SUN Yazhou.										  	     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -64,18 +64,20 @@ TAAssess::TAAssess() : fDetList(0){
 }
 TAAssess::~TAAssess(){}
 
-void TAAssess::EvalDCArr(unsigned short runId, bool isDCArrR){
-	EvalDCArr(fROOTFile, fDetList, runId, isDCArrR);
+void TAAssess::EvalDCArr(int round, bool isDCArrR){
+	EvalDCArr(fROOTFile, fDetList, round, isDCArrR);
+	PostEval(round); // analyze hrt_04_sample for evaluation of recursive STR correction
 }
-void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, unsigned short runid, bool isDCArrR){
+void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, bool isDCArrR){
 	if(!strcmp("", rootfile.c_str()))
 		TAPopMsg::Error("TAAssess", "EvalDCArr: rootfile name is empty");
 	if(!detList)
 		TAPopMsg::Error("TAAssess", "EvalDCArr: Detector List pointer detList is null");
-	TAMWDCArray *dcArrL = (TAMWDCArray*)(*detList)[3];
-	TAMWDCArray *dcArrR = (TAMWDCArray*)(*detList)[4];
-	if(!dcArrL && !dcArrR)
-		TAPopMsg::Error("TAAssess", "EvalDCArr: Both MWDC arrays are null. TAEventProcessor::Configure() not run yet?");
+	TAMWDCArray *dcArrAr[2] = {(TAMWDCArray*)(*detList)[3], (TAMWDCArray*)(*detList)[4]};
+	if(!dcArrAr[0] && !dcArrAr[1])
+		TAPopMsg::Error("TAAssess", "EvalDCArr: Both DCArr is null. TAEventProcesssor::Configure not run yet?");
+	TAMWDCArray *dcArr = dcArrAr[isDCArrR];
+	if(!dcArr) TAPopMsg::Error("TAAssess", "EvalDCArr: Required DCArr is null");
 
 	cout << "Input rootfile: " << rootfile << endl;
 	if(0 != access(rootfile.c_str(), F_OK))
@@ -84,18 +86,14 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, unsigned sho
 	TTree *treeTrack = (TTree*)f->Get("treeTrack");
 	if(!treeTrack) TAPopMsg::Error("TAAssess", "EvalDCArr: treeTrack is nullptr");
 	// default is for DCArrR
-	char topdir[64]; short lrtag = 11; const int ndir = 8;
-	sprintf(topdir, "assess%dR", runid);
+	const short LRTAG = 10 + isDCArrR; // type/10: 10 -> dcArrL; 11 -> dcArrR
+	const int ndir = 8;
 	char dir[ndir][64] = {"misc", "rt", "drt", "dt", "rr", "3Drt", "3Ddrt", "3Drr"};
+	char topdir[64], lr[] = "LR";
+	sprintf(topdir, "assess%d%c", runid, lr[isDCArrR]);
 	// XXX: slick use of sprintf; ATTENTION: sprintf is an iterator for self-assignment;
 	// dir[i] must be the 1st par in the code below, or dir would be altered to 1st-par firstly
-	for(int i = 0; i < ndir; i++) sprintf(dir[i], "%s%d", dir[i], runid);
-	TAMWDCArray *dcArr = dcArrR;
-	if(!isDCArrR){
-		sprintf(topdir, "assess%dL", runid); lrtag = 10;
-		dcArr = dcArrL; for(int i = ndir; i--;) strcat(dir[i], "L");
-	}
-	const short LRTAG = lrtag; // type/10: 10 -> dcArrL; 11 -> dcArrR
+	for(int i = 0; i < ndir; i++) sprintf(dir[i], "%s%d%c", dir[i], runid, lr[isDCArrR]);
 
 	// DC parameters
 	const double phiAvrg = dcArr->GetPhiAvrg();
@@ -253,6 +251,9 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, unsigned sho
 		hdrt04_3D_STR[i] = new TH2F(name, title, 500, -100., 400., 800, -4.0, 4.0);
 		objLs[6].push_back(hdrt04_3D_STR[i]);
 	}
+	TH2F *hdrt04_sample = new TH2F("hdrt04_sample", "dr-DCA Spectra - for STRCor Evaluation;DCA [mm];dr [mm]", 60, 0., 5.5, 800, -4.0, 4.0);
+	TH2F *hdrt04_3D_sample = new TH2F("hdrt04_3D_sample", "dr-DCA Spectra (3D) - for STRCor Evaluation;DCA [mm];dr [mm]", 60, 0., 5.5, 800, -4.0, 4.0);
+	objLs[2].push_back(hdrt04_sample); objLs[6].push_back(hdrt04_3D_sample);
 	TH1F *hSTRid = new TH1F("hSTRid", "STR id Distribution;STRid", nAng+3, -1.5, nAng+1.5);
 	TH1F *hntrTot = new TH1F("hntrTot", "Total Track Count;nSec-X-U-V-3D", 8, -2.5, 5.5); // -10123
 	objLs[0].push_back(hSTRid); objLs[0].push_back(hntrTot);
@@ -292,14 +293,14 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, unsigned sho
 			sprintf(title, "t_{X1} v.s. t_{X2} for Vertical %c Tracks for MWDC%d;t_{X1} [ns];t_{X2} [ns]", xuv[i], j);
 			htt[i][j] = new TH2F(name, title, 500, -100., 400., 500, -100., 400.);
 			sprintf(name, "hrr%c%d", xuv[i], j);
-			sprintf(title, "t_{X1} v.s. t_{X2} for Vertical %c Tracks for MWDC%d;r_{X1} [mm];r_{X2} [mm]", xuv[i], j);
+			sprintf(title, "r_{X1} v.s. r_{X2} for Vertical %c Tracks for MWDC%d;r_{X1} [mm];r_{X2} [mm]", xuv[i], j);
 			hrr[i][j] = new TH2F(name, title, 500, -0.2, 6., 500., -0.2, 6.);
 			objLs[4].push_back(htt[i][j]); objLs[4].push_back(hrr[i][j]);
 			sprintf(name, "htt_3D_%c%d", xuv[i], j);
 			sprintf(title, "t_{X1} v.s. t_{X2} for Vertical 3D %c Tracks for MWDC%d;t_{X1} [ns];t_{X2} [ns]", xuv[i], j);
 			htt_3D[i][j] = new TH2F(name, title, 500, -100., 400., 500, -100., 400.);
 			sprintf(name, "hrr_3D_%c%d", xuv[i], j);
-			sprintf(title, "t_{X1} v.s. t_{X2} for Vertical 3D %c Tracks for MWDC%d;r_{X1} [mm];r_{X2} [mm]", xuv[i], j);
+			sprintf(title, "r_{X1} v.s. r_{X2} for Vertical 3D %c Tracks for MWDC%d;r_{X1} [mm];r_{X2} [mm]", xuv[i], j);
 			hrr_3D[i][j] = new TH2F(name, title, 500, -0.2, 6., 500., -0.2, 6.);
 			objLs[7].push_back(htt_3D[i][j]); objLs[7].push_back(hrr_3D[i][j]);
 			sprintf(name, "Hdt_DC%d%c", i, xuv[j]);
@@ -430,6 +431,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, unsigned sho
 								hdrt04_3D->Fill(tt, dr);
 								hrt04_3D_STR[STRid]->Fill(tt, rc);
 								hdrt04_3D_STR[STRid]->Fill(tt, dr);
+								hdrt04_3D_sample->Fill(rc, dr);
 							} // end inner if
 						}
 					} // end loop over six sense wire layers for one type
@@ -473,6 +475,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, unsigned sho
 						hdrt04->Fill(tt, dr);
 						hrt04_STR[STRid]->Fill(tt, rc);
 						hdrt04_STR[STRid]->Fill(tt, dr);
+						hdrt04_sample->Fill(rc, dr);
 					} // end inner if
 				} // end if(nu[j][l] != -1)
 				if(-1 != nu[j][l]) hdt[dcId][dcType]->Fill(t[j][l]);
@@ -548,7 +551,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, unsigned sho
 	cout << "The results would be stored in ROOT file directory \"\033[36;1m" << topdir << "\"\n\033[0m";
 //	if(!f->FindObjectAny(topdir)) f->mkdir(topdir); f->cd(topdir);
 	char s[128]; strcpy(s, ("assess"+rootfile).c_str());
-	if(0 == runid && 0 == access(s, F_OK)) system(("rm "+string(s)).c_str());
+//	if(0 == runid && 0 == access(s, F_OK)) system(("rm "+string(s)).c_str());
 	TFile *fw = new TFile(s, "UPDATE");
 	if(!fw->FindObjectAny(topdir)) fw->mkdir(topdir); fw->cd(topdir);
 	for(int i = 0; i < ndir; i++){
@@ -563,6 +566,88 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, unsigned sho
 	fw->Close(); delete fw; fw = nullptr;
 	f->Close(); delete f; f = nullptr;
 } // end of member function EvalDCArr3D
+
+// evaluation done after Eval event by event
+void TAAssess::PostEval(int round){
+	if(!strcmp("", fROOTFile.c_str()))
+		TAPopMsg::Error("TAAssess", "PostEval: rootfile name is empty");
+	TAPopMsg::Info("TAAssess", "PostEval: Input rootfile: %s", fROOTFile.c_str());
+	if(0 != access(fROOTFile.c_str(), F_OK))
+		TAPopMsg::Error("TAAssess", "PostEval: Input rootfile %s doesn't exist", fROOTFile.c_str());
+
+	bool success0 = PostEval("assess"+fROOTFile, round, true, true);
+	bool success1 = PostEval("assess"+fROOTFile, round, true, false);
+	bool success2 = PostEval("assess"+fROOTFile, round, false, true);
+	bool success3 = PostEval("assess"+fROOTFile, round, false, false);
+	if(!success0 && !success1 && !success2 && !success3)
+		TAPopMsg::Info("TAAssess", "PostEval: No eligible hrt_04_sample is found whatsoever and wheresoever");
+}
+bool TAAssess::PostEval(const string &rootfile, int round, bool isDCArrR, bool is3D){
+	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
+	char name[128], lr[] = "LR", dir[64]; // name: TH2F name - dr-DCA
+	if(is3D){
+		sprintf(dir, "assess%d%c/3Ddrt%d%c", round, lr[isDCArrR], round, lr[isDCArrR]);
+		sprintf(name, "%s/hdrt04_3D_sample", dir);
+	}
+	else{
+		sprintf(dir, "assess%d%c/drt%d%c", round, lr[isDCArrR], round, lr[isDCArrR]);
+		sprintf(name, "%s/hdrt04_sample", dir);
+	}
+	TH2F *h2 = (TH2F*)f->Get(name);
+	if(!h2){
+//		TAPopMsg::Error("TAAssess", "PostEval: %s doesn't exist", name);
+		return false;
+	}
+	TH1D *hprojx = h2->ProjectionX();
+	TF1 *fgaus = new TF1("fgaus", "gaus", -4., 4.);
+	TGraph *gSigma = new TGraph(); // DCA-sigma for MWDC resolution estimation
+	TGraph *gMean = new TGraph(); // DCA-dr for STR correction
+	char title[] = "Saptial Resolution v.s. DCA;DCA [mm];\\sigma~[mm]";
+	gSigma->SetNameTitle("gSigma_4", title); gSigma->SetMarkerStyle(22);
+	sprintf(title, "STR Correction v.s. Drift Distance(%s);DCA [mm];<dr> [mm]");
+	gMean->SetNameTitle("gMean_4", title); gMean->SetMarkerStyle(22);
+	int gSigma_cnt = 0, gMean_cnt = 0;
+	const int n = h2->GetNbinsX(), nn = n;
+	for(int i = 0; i < nn; i++){
+		TH1D *hproj = h2->ProjectionY("hproj", i+1, i+1);
+//		cout << "hproj->GetEntries(): " << hproj->GetEntries() << endl; // DEBUG
+//		getchar(); // DEBUG
+		if(hproj->GetEntries() < 100) continue;
+		// mean, unit: mm
+		fgaus->SetParameter(1, 0.);
+		fgaus->SetParLimits(1, -1., 1.);
+		// sigma, unit: mm
+		fgaus->SetParameter(2, 0.2);
+		fgaus->SetParLimits(2, 0., 1.);
+		// fit range
+		double span = 1.5*hproj->GetRMS();
+		span = span < 1.5 ? span : 1.5;
+		fgaus->SetRange(-span, span);
+		hproj->Fit(fgaus, "NQR"); // 
+		const double mean = fgaus->GetParameter("Mean");
+		const double sigma = fgaus->GetParameter("Sigma");
+		if(!((mean > -0.4 && mean < 0.4) && (sigma < 0.8 && sigma > 0.)))
+			continue;
+		double rm = hprojx->GetBinCenter(i+1);
+		gSigma->SetPoint(gSigma_cnt++, rm, sigma);
+		gMean->SetPoint(gMean_cnt++, rm, mean);
+	} // end for over i
+
+	f->cd(dir);
+	if(gSigma->GetN()) gSigma->Write("", TObject::kOverwrite);
+	else TAPopMsg::Warn("TAAssess", "PostEval: gSigma has no data");
+	if(gMean->GetN()) gMean->Write("", TObject::kOverwrite);
+	else TAPopMsg::Warn("TAAssess", "PostEval: gMean has no data");
+
+	delete fgaus; fgaus = nullptr; delete gSigma; gSigma = nullptr;
+	delete gMean; gMean = nullptr; f->Close(); delete f; f = nullptr;
+
+	cout << "\033[33;1m\n\nDONE\n\n\033[0m";
+
+	return true;
+}
+
+
 
 
 

@@ -75,7 +75,7 @@ inline double rand0_5(){ return rand()*1./RAND_MAX; } // bin smoothing, import f
 // read offline binary data file and store them in a tree and a rootfile.
 int TARawDataProcessor::ReadOffline(){
 	if(0 == access(fROOTFile.c_str(), F_OK)){
-		TAPopMsg::Warn("TARawDataProcessor", "ReadOffline: %s exist. BINGER would use the current ROOTFile. RawData => ROOT file transformation would be skipped", fROOTFile.c_str());
+		TAPopMsg::Info("TARawDataProcessor", "ReadOffline: %s exist. BINGER would use the current ROOTFile. RawData => ROOT file transformation would be skipped", fROOTFile.c_str());
 		return -1; // file already exists
 	}
 

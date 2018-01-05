@@ -8,10 +8,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/9.															     //
-// Last modified: 2017/10/9, SUN Yazhou.										     //
+// Last modified: 2018/1/4, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -19,6 +19,7 @@ double TAMath::iterativeFit(const double *x, const double *y, const double *r, d
 //	cout << "Welcome, this is IterFit." << endl; getchar(); // DEBUG
 	double kl, bl, d2, d2_tmp;
 	d2 = Dsquare(x, y, kl, bl, gGOOD, LAYER, d2PerDot); // set the iteration origin - kl and bl
+//	kL = kl; bL = bl; return d2; // DEBUG
 //	cout << "the 0-th iteration, kl: " << kl << "\tbl: " << bl << endl; getchar(); // DEBUG
 	double xd; // abscissa of the foot point
 	// the updated position considering the drift distance
