@@ -49,7 +49,10 @@ double TACtrlPara::Get3DCoincideWindow(){ return gp->Val(40); }
 double TACtrlPara::D2Thre(){ return gp->Val(41); }
 bool TACtrlPara::TimeThre(double t){ return t > gp->Val(42) && t < gp->Val(43); }
 // threshold for chi per dot, to eliminate false combinations. 4.0
-double TACtrlPara::ChiThrePD(){ return gp->Val(44); }
+double TACtrlPara::ChiThrePD(){
+	if(IsCoarseFit()) return 5.;
+	return gp->Val(44);
+}
 int TACtrlPara::Vicinity(){ return gp->Val(45); } // used in discerning multiple tracks, unit: cell
 int TACtrlPara::StripTolerance(){ return gp->Val(46); } // used in discerning multi-trks, unit: strip
 // TATrack::kBFGSFit; // kNormalFit: 0; kBFGSFit: 1 kIterFit: 2
@@ -201,6 +204,7 @@ TACtrlPara::TACtrlPara() : kIsCoarseFit(false), kIs3DTracking(false){
 	kDriftTimeQtCorrectionWeight = 6.0;
 	// threshold for chi. (sqrt(chi2 / nFiredAnodeLayer)) unit: mm map.C 1.0 1.5
 	kChiThre = 0.9 * ChiThrePD() * (IsDriftTimeQtCorrection() ? kDriftTimeQtCorrectionWeight : 1.);
+	kChiThre = 0.9; // more strict
 
 	kDataFile = ""; // for extra use
 	// 20161123_2247.dat.root merged.root 20161125_2046.dat.root merged_M.root _SIM.root -- the clip board

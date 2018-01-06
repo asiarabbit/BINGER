@@ -66,7 +66,6 @@ TAAssess::~TAAssess(){}
 
 void TAAssess::EvalDCArr(int round, bool isDCArrR){
 	EvalDCArr(fROOTFile, fDetList, round, isDCArrR);
-	PostEval(round); // analyze hrt_04_sample for evaluation of recursive STR correction
 }
 void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, bool isDCArrR){
 	if(!strcmp("", rootfile.c_str()))
@@ -310,8 +309,8 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 		} // end loop over DCs
 	} // end loop over XUV
 	TH1F *hnF3D = new TH1F("hnF3D", "Number of All Fired Anode Layers Per 3D Track;nF", 22, -1.5, 20.5);
-	TH1F *h3DMissxTotPre = new TH1F("h3DMissxTotPre", "x Deviation in 3D Coincidence at z of all MWDCs (Pre-Correction)", 50000, -100., 100.);
-	TH1F *h3DMissxTotPost = new TH1F("h3DMissxTotPost", "x Deviation in 3D Coincidence at z of all MWDCs (Post-Correction)", 50000, -100., 100.);
+	TH1F *h3DMissxTotPre = new TH1F("h3DMissxTotPre", "x Deviation in 3D Coincidence at z of all MWDCs (Pre-Correction)", 500, -100., 100.);
+	TH1F *h3DMissxTotPost = new TH1F("h3DMissxTotPost", "x Deviation in 3D Coincidence at z of all MWDCs (Post-Correction)", 500, -100., 100.);
 	TH1F *hXMag = new TH1F("hXMag", "x at the Entrance of the Magnetic Field", 1000, -500., 500.);
 	TH1F *hYMag = new TH1F("hYMag", "y at the Entrance of the Magnetic Field", 500, -250., 250.);
 	objLs[0].push_back(hnF3D); objLs[0].push_back(h3DMissxTotPre); objLs[0].push_back(h3DMissxTotPost);
@@ -621,8 +620,10 @@ bool TAAssess::PostEval(const string &rootfile, int round, bool isDCArrR, bool i
 		fgaus->SetParLimits(2, 0., 1.);
 		// fit range
 		double span = 1.5*hproj->GetRMS();
+		
 		span = span < 1.5 ? span : 1.5;
 		fgaus->SetRange(-span, span);
+		
 		hproj->Fit(fgaus, "NQR"); // 
 		const double mean = fgaus->GetParameter("Mean");
 		const double sigma = fgaus->GetParameter("Sigma");

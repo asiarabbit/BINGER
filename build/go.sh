@@ -36,13 +36,13 @@ pre
 
 
 ############# CALIBRATION #############################
-./t0 $file $isDCArrR
-pre
-./ass $file $isDCArrR 0
-for i in $(seq 1 4); do
-	echo "STRCor loop $i, DCArr Option: $isDCArrR"
-    ./str $file $isDCArrR $i
-    pre
-    ./ass $file $isDCArrR $i
-done
-echo "Accomplished"
+#./t0 $file $isDCArrR
+#pre
+#./ass $file $isDCArrR 0
+#for i in $(seq 1 4); do
+#	echo "STRCor loop $i, DCArr Option: $isDCArrR"
+#    ./str $file $isDCArrR $i
+#    pre
+#    ./ass $file $isDCArrR $i
+#done
+#echo "Accomplished"

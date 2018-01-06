@@ -230,7 +230,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 
 #ifdef DEBUG_MAP
 				cout << "newTrack.GetChi(): " << newTrack.GetChi() << endl; // DEBUG
-				for(double cc : chi) cout << "cc: " << cc << endl; // DEBUG
+				for(double cc : chi) cout << "cc: " << cc << endl; getchar(); // DEBUG
 				newTrack.Show(); // DEBUG
 #endif
 				if(0 == dcType){

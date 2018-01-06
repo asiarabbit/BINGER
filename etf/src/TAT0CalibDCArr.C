@@ -56,6 +56,8 @@ void TAT0CalibDCArr::Refine_DTHisto(bool isCalib){
 	if(!fDCArr) TAPopMsg::Error("TAT0CalibDCArr", "Refine_DTHisto: MWDC array pointer is null");
 	if(!strcmp(fROOTFile.c_str(), ""))
 		TAPopMsg::Error("TAT0CalibDCArr", "Refine_DTHisto: ROOT file name is empty");
+	// if T_tof and T_wire has been corrected for in pattern recognition stage
+	SetHasCorrected(true);
 	Refine_DTHisto(fROOTFile, fDCArr, HasCorrected(), isCalib);
 }
 void TAT0CalibDCArr::Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, bool hasCorrected, bool isCalib){
@@ -233,11 +235,11 @@ void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcAr
 	if(0 != access(rootfile.c_str(), F_OK))
 		TAPopMsg::Error("TAT0CalibDCArr", "GenerateCalibFile: Input rootfile %s doesn't exist", rootfile.c_str());
 	TFile *f = new TFile(("assess"+rootfile).c_str(), "UPDATE");
-	char name[128], title[128];
-	sprintf(name, "T0Cali0-%s", dcArr->GetName().c_str());
-	sprintf(title, "/%s/histo", name); // directory storing drift time histograms
-	if(!f->FindObjectAny(name)){
-		TAPopMsg::Error("TAT0CalibDCArr", "GenerateCalibFile: Directory %s doesn't exist. Maybe TAT0CalibDCArr::Refine_DTHisto(...) hasn't been run yet.", name);
+	char name[128], title[128], topdir[64];
+	sprintf(topdir, "T0Cali0-%s", dcArr->GetName().c_str());
+	sprintf(title, "%s/histo", topdir); // directory storing drift time histograms
+	if(!f->FindObjectAny(topdir)){
+		TAPopMsg::Error("TAT0CalibDCArr", "GenerateCalibFile: Directory %s doesn't exist. Maybe TAT0CalibDCArr::Refine_DTHisto(...) hasn't been run yet.", topdir);
 	}
 	f->cd(title);
 
@@ -276,7 +278,7 @@ void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcAr
 	// prepare the fd function
 	TF1 *fd = new TF1("fd", Fermi_Dirac_Function, -50., 70., 5);
 	fd->SetParName(2, "T0"); fd->SetParName(3, "sigma_t0");
-	fd->SetParameter(2, 0.); fd->SetParLimits(2, -20., 20.); // T0, unit: ns
+	fd->SetParameter(2, 0.); fd->SetParLimits(2, -30., 30.); // T0, unit: ns
 	fd->SetParameter(3, 0.01); fd->SetParLimits(3, 0.005, 20.); // sigm_t_0, unit: ns
 	for(int i = 0; i < 3; i++){ // loop over DCs
 		outFile << "#################### This is MWDC " << i << " #######################\n";
@@ -294,6 +296,9 @@ void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcAr
 //					printf("i: %d, j: %d, m: %d, k: %d, hdt: %s, n: %f\n", i,j,m,k,hdt->GetName(), hdt->GetEntries()); cout << "name: " << name << endl; getchar(); // DEBUG
 					if(nn >= 800){ // the statistics is enough.
 						fd->SetParameter(2, 0.); fd->SetParameter(3, 0.1);
+						const double hdtmx = hdt->GetMaximum();
+						fd->SetParameter(0, 0.9*hdtmx);
+						fd->SetParLimits(0, 0.1*hdtmx, 2.*hdtmx);
 						if(isShowFit) hdt->Fit(fd, "QR");
 						else hdt->Fit(fd, "NQR");
 						chi2 = fd->GetChisquare();
@@ -350,6 +355,7 @@ void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcAr
 	cout << "\nDONE\033[0m\n\n";
 
 	// write //
+	f->cd(topdir);
 	treeT0->Write("", TObject::kOverwrite);
 	hT0->Write("", TObject::kOverwrite);
 	delete hT0; hT0 = nullptr;

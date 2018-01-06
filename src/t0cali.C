@@ -20,8 +20,6 @@ int main(int argc, char *argv[]){
 	TAT0CalibDCArr *t0 = nullptr;
 	if(isDCArrR) t0 = new TAT0CalibDCArrR(argv[1]);
 	else t0 = new TAT0CalibDCArrL(argv[1]);
-	// if T_tof and T_wire has been corrected for in pattern recognition stage
-	t0->SetHasCorrected(true);
 	// virtual void Refine_DTHisto(bool isCalib = true);
 	// isCalib: whether to store hdt histos and generate calibration file
 	t0->Refine_DTHisto(true);
@@ -29,7 +27,6 @@ int main(int argc, char *argv[]){
 	t0->GenerateCalibFile(false);
 	// adopt the calibration
 	char cmd[128];
-	sprintf(cmd, "mv T0Calibration/*.002 %s/T0/", ep->GetCtrlPara()->ConfigExpDir());
-	system(cmd);
+//	sprintf(cmd, "mv T0Calibration/*.002 %s/T0/", ep->GetCtrlPara()->ConfigExpDir()); system(cmd);
 }
 
