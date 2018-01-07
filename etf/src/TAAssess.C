@@ -424,7 +424,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 							hrt03_3D[j][dcId]->Fill(tt, rc);
 							hdrt03_3D[j][dcId]->Fill(tt, dr);
 
-							if(0 == j || 0 == k || 40 == nu[j][k]){
+							if(0 == j && 0 == k && 40 == nu[j][k]){
 								const int STRid = TAAnodePara::GetSTRid(alpha[dcId][j]);
 								hrt04_3D->Fill(tt, rc);
 								hdrt04_3D->Fill(tt, dr);
@@ -469,7 +469,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 					hrt03[dcType][dcId]->Fill(tt, rc);
 					hdrt03[dcType][dcId]->Fill(tt, dr);
 
-					if(0 == dcType || 0 == l || 40 == nu[j][l]){
+					if(0 == dcType && 0 == l && 40 == nu[j][l]){
 						hrt04->Fill(tt, rc);
 						hdrt04->Fill(tt, dr);
 						hrt04_STR[STRid]->Fill(tt, rc);
@@ -579,7 +579,9 @@ void TAAssess::PostEval(int round){
 	bool success2 = PostEval("assess"+fROOTFile, round, false, true);
 	bool success3 = PostEval("assess"+fROOTFile, round, false, false);
 	if(!success0 && !success1 && !success2 && !success3)
-		TAPopMsg::Info("TAAssess", "PostEval: No eligible hrt_04_sample is found whatsoever and wheresoever");
+		TAPopMsg::Info("TAAssess", "PostEval: No eligible hrt_04_sample is found whatsoever and wheresoever\n");
+	else
+		cout << "\033[33;1m\n\nDONE\n\n\033[0m";
 }
 bool TAAssess::PostEval(const string &rootfile, int round, bool isDCArrR, bool is3D){
 	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
@@ -597,13 +599,16 @@ bool TAAssess::PostEval(const string &rootfile, int round, bool isDCArrR, bool i
 //		TAPopMsg::Error("TAAssess", "PostEval: %s doesn't exist", name);
 		return false;
 	}
+	TAPopMsg::Info("TAAssess", "PostEval: isDCArrR: %d, is3D: %d", isDCArrR, is3D);
 	TH1D *hprojx = h2->ProjectionX();
 	TF1 *fgaus = new TF1("fgaus", "gaus", -4., 4.);
 	TGraph *gSigma = new TGraph(); // DCA-sigma for MWDC resolution estimation
 	TGraph *gMean = new TGraph(); // DCA-dr for STR correction
-	char title[] = "Saptial Resolution v.s. DCA;DCA [mm];\\sigma~[mm]";
+	char title[128] = "Saptial Resolution v.s. DCA;DCA [mm];\\sigma~[mm]";
+	if(is3D) strcpy(title, "Saptial Resolution v.s. DCA (3D);DCA [mm];\\sigma~[mm]");
 	gSigma->SetNameTitle("gSigma_4", title); gSigma->SetMarkerStyle(22);
-	sprintf(title, "STR Correction v.s. Drift Distance(%s);DCA [mm];<dr> [mm]");
+	strcpy(title, "STR Correction v.s. Drift Distance;DCA [mm];<dr> [mm]");
+	if(is3D) strcpy(title, "STR Correction v.s. Drift Distance (3D);DCA [mm];<dr> [mm]");
 	gMean->SetNameTitle("gMean_4", title); gMean->SetMarkerStyle(22);
 	int gSigma_cnt = 0, gMean_cnt = 0;
 	const int n = h2->GetNbinsX(), nn = n;
@@ -620,11 +625,10 @@ bool TAAssess::PostEval(const string &rootfile, int round, bool isDCArrR, bool i
 		fgaus->SetParLimits(2, 0., 1.);
 		// fit range
 		double span = 1.5*hproj->GetRMS();
-		
 		span = span < 1.5 ? span : 1.5;
-		fgaus->SetRange(-span, span);
-		
-		hproj->Fit(fgaus, "NQR"); // 
+		const double mm = hproj->GetMean();
+		fgaus->SetRange(mm-span, mm+span);
+		hproj->Fit(fgaus, "NQR"); // Fit the son of a bitch
 		const double mean = fgaus->GetParameter("Mean");
 		const double sigma = fgaus->GetParameter("Sigma");
 		if(!((mean > -0.4 && mean < 0.4) && (sigma < 0.8 && sigma > 0.)))
@@ -642,8 +646,6 @@ bool TAAssess::PostEval(const string &rootfile, int round, bool isDCArrR, bool i
 
 	delete fgaus; fgaus = nullptr; delete gSigma; gSigma = nullptr;
 	delete gMean; gMean = nullptr; f->Close(); delete f; f = nullptr;
-
-	cout << "\033[33;1m\n\nDONE\n\n\033[0m";
 
 	return true;
 }

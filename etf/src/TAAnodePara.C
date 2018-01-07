@@ -7,10 +7,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/24.															     //
-// Last modified: 2017/11/27, SUN Yazhou.										     //
+// Last modified: 2018/1/6, SUN Yazhou.											     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -184,7 +184,10 @@ double TAAnodePara::GetSpatialResolution(double r, double k) const{ // smeared a
 } // end of member function GetSpatialResolution(...)
 void TAAnodePara::DriftTimeQtCorrection(double &driftTime, double TOT, double &weight){
 	TAPopMsg::Debug("TAAnodePara", "DriftTimeQtCorrection: is being called."); // DEBUG
-	if(TOT < 250. || TOT > 1000.) return; // very probable noise
+	if(TOT < 250. || TOT > 1000.){
+		weight = 1.;
+		return; // very probable noise
+	}
 	if(TOT < 300.){ // the fomula can be invalid
 		driftTime += -9.89;
 		weight = TACtrlPara::Instance()->DriftTimeQtCorrectionWeight() * 0.8; // because the correction for low TOT is relatively not accurate.

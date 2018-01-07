@@ -11,7 +11,7 @@
 // Last modified: 2017/11/20, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -203,8 +203,7 @@ TACtrlPara::TACtrlPara() : kIsCoarseFit(false), kIs3DTracking(false){
 
 	kDriftTimeQtCorrectionWeight = 6.0;
 	// threshold for chi. (sqrt(chi2 / nFiredAnodeLayer)) unit: mm map.C 1.0 1.5
-	kChiThre = 0.9 * ChiThrePD() * (IsDriftTimeQtCorrection() ? kDriftTimeQtCorrectionWeight : 1.);
-	kChiThre = 0.9; // more strict
+	kChiThre = 0.6 * ChiThrePD() * (IsDriftTimeQtCorrection() ? kDriftTimeQtCorrectionWeight : 1.);
 
 	kDataFile = ""; // for extra use
 	// 20161123_2247.dat.root merged.root 20161125_2046.dat.root merged_M.root _SIM.root -- the clip board

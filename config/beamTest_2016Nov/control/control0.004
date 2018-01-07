@@ -135,7 +135,7 @@
 
 # Parameters owned by class TACtrlPara
 # 3DCoincideWindow
-40 200.
+40 10.
 # D2Thre
 41 17.
 # TimeThreLB

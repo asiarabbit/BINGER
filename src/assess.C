@@ -18,7 +18,7 @@ int main(int argc, char *argv[]){
 	TAAssess *ass = TAAssess::Instance();
 	ass->SetROOTFile(argv[1]);
 	const int round = atoi(argv[3]);
-//	ass->EvalDCArr(round, bool(atoi(argv[2])));
+	ass->EvalDCArr(round, bool(atoi(argv[2])));
 	ass->PostEval(round); // analyze hrt_04_sample for evaluation of recursive STR correction
 
 	return 0;
