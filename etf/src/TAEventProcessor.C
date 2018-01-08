@@ -171,7 +171,8 @@ void TAEventProcessor::Configure(){ // create detectors
 //		TAPopMsg::Warn("TAEventProcessor", "Configurte: has been called once.");
 		return;
 	}
-	SetSTRROOTFile("STR.root"); // space-time relations for MWDCs
+	// STR_spline.root || STR_stiff.root
+	SetSTRROOTFile("STR_spline.root"); // space-time relations for MWDCs
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
 	// read the global parameters array first; type: 004
 	const short nignore = 4, typeignore[nignore] = {0, 1, 2, 3};

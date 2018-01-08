@@ -31,21 +31,12 @@ make -j8
 
 ############# TRACKING ################################
 pre
-mv $file mergeNoT0.root
-./t0 mergeNoT0.root 1
-./ass mergeNoT0.root $isDCArrR -1
-
-pre
-cp $file mergeWithT0.root
-./t0 mergeWithT0.root 1
+./t0 $file $isDCArrR
 ./ass $file $isDCArrR 0
 #######################################################
 
 
 ############# CALIBRATION #############################
-#./t0 $file $isDCArrR
-#pre
-./ass $file $isDCArrR 0
 for i in $(seq 1 4); do
 	echo "__________________________STRCor loop $i, DCArr Option: $isDCArrR_______________________________"
     ./str $file $isDCArrR $i
@@ -53,3 +44,10 @@ for i in $(seq 1 4); do
     ./ass $file $isDCArrR $i
 done
 echo "Accomplished"
+
+
+
+
+
+
+

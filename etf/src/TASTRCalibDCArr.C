@@ -357,8 +357,9 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 							// project the l-th bin in X-axis to Y axis
 							TH1D *hpro = h2->ProjectionY("hpro", l+1, l+1);
 							double npro = hpro->GetEntries();
+							const double rms = hpro->GetRMS();
 							if(0) if(0 == l) npro = 0; // the first bin is biased
-							if(npro < 200.){ // stastics is too small
+							if(npro < 200. || rms > 0.45){ // stastics is too small
 								strCor[str_id][l] = 0.;
 								strCorSigma[str_id][l] = 0.;
 								continue;
@@ -380,7 +381,7 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 							hmean[i][j]->Fill(mean); hmeanTot->Fill(mean);
 							hsigma[i][j]->Fill(sigma); hsigmaTot->Fill(sigma);
 //							cout << "mean: " << mean << "\tsigma: " << sigma << endl; getchar(); // DEBUG
-							if((mean > -0.4 && mean < 0.4) && (sigma < 0.8 && sigma > 0.)){
+							if((mean > -0.4 && mean < 0.4) && (sigma < 0.7 && sigma > 0.)){
 								strCor[str_id][l] = mean;
 								strCorSigma[str_id][l] = sigma;
 								// more statistics brings about more weight in the sigma average

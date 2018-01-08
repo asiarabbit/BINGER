@@ -48,10 +48,10 @@ double TAMath::VecAng3D(const double *a, const double *b){
 }
 // well, this is an anyhow specialised function written specifically to calculate alpha-angle
 // as usual, a, b is dire-vec of trk and anode, v.s. angAxis is the dire-vec of X(xuv)-axis
-// the ratiocination process is written in math/3DTrkProjVecWhole.m
+// the ratiocination process is written in misc/tools/math/3DTrkProjVecWhole.m
 double TAMath::AlphaAngle3D(const double *b, const double *ag, const double *agAxis){
 	const double k1 = b[0]/b[2], k2 = b[1]/b[2]; // {b0,b1,b2} => {k1, k2, 1}
-	const double bpr[3] = { // b of track projection
+	const double bpr[3] = { // b of track projection => bpr
 		(ag[1]*ag[1]+ag[2]*ag[2])*k1 - ag[0]*(ag[2]+ag[1]*k2),
 		(ag[0]*ag[0]+ag[2]*ag[2])*k2 - ag[1]*(ag[2]+ag[0]*k1),
 		(ag[0]      -ag[2]*k1)*ag[0] + ag[1]*(ag[1]-ag[2]*k2)
@@ -66,7 +66,7 @@ double TAMath::AlphaAngle3D(const double *b, const double *ag, const double *agA
 //	cout << "bpr[0]: " << bpr[0] << "\tbpr[1]: " << bpr[1]; // DEBUG
 //	cout << "\tbpr[2]: " << bpr[2] << endl; // DEBUG
 //	cout << "|bpr|: " << norm(bpr) << endl; // DEBUG
-	return VecAng3D(bpr, agAxis) - Pi() / 2.;
+	return Pi() / 2. - VecAng3D(bpr, agAxis);
 }
 
 // the triangle defined by (p0, p1, O). return the angle O: coordinate origin

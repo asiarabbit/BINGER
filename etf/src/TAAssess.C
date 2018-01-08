@@ -317,6 +317,8 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 	objLs[0].push_back(hXMag); objLs[0].push_back(hYMag);
 	TH1F *heff = new TH1F("heff", "MWDC efficiency - Number of X-U-V Tracks;X:Tot-DC0(X1-X2)-DC1-DC2--U--V", 30, -2.5, 27.5);
 	objLs[0].push_back(heff);
+	TH1F *hr_ = new TH1F("hr_", "hr_", 500, -6.5, 6.5); // a temporary histogram for testing
+	objLs[0].push_back(hr_);
 ///////////////////////////////////////// END OF THE HISTOGRAM DEFINITION //////////////////////////
 
 
@@ -413,6 +415,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 					const int it = trkId[jj][j]; // id of track projections
 					for(int k = 0; k < 6; k++){ // loop over DC0-X1X2-DC1-X1X2-DC2-X1X2
 						const int dcId = k / 2;
+						const int STRid = TAAnodePara::GetSTRid(alpha[dcId][j]);
 						if(-1 != nu[it][k]){
 							const double tt = t[it][k], dr = chi3D[jj][j*6+k];
 							const double rc = r[it][k] + dr;
@@ -425,7 +428,6 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 							hdrt03_3D[j][dcId]->Fill(tt, dr);
 
 							if(0 == j && 0 == k && 40 == nu[j][k]){
-								const int STRid = TAAnodePara::GetSTRid(alpha[dcId][j]);
 								hrt04_3D->Fill(tt, rc);
 								hdrt04_3D->Fill(tt, dr);
 								hrt04_3D_STR[STRid]->Fill(tt, rc);
@@ -434,6 +436,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 							} // end inner if
 						}
 					} // end loop over six sense wire layers for one type
+					hr_->Fill(alpha[2][0]/DEGREE);
 					for(int k = 0; k < 3; k++){ // loop over MWDCs
 						if(alpha[k][j] > -1. * DEGREE && alpha[k][j] < 1. * DEGREE){
 							if(nu[it][2*k] >= 30 && nu[it][2*k] <= 50){
@@ -487,7 +490,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 			double ang0 = atan(k[j]), ang = ang0;
 			for(int l = 0; l < 3; l++){ // loop over three DCs
 				if(0 == dcType) ang = ang0 - phiDC[l] + 0. * DEGREE;
-				if(ang > -1. * DEGREE && ang < 1. * DEGREE){
+				if(ang > -2. * DEGREE && ang < 1. * DEGREE){
 					if(nu[j][2*l] >= 30 && nu[j][2*l] <= 50){
 						htt[dcType][l]->Fill(t[j][2*l], t[j][2*l+1]);
 						hrr[dcType][l]->Fill(r[j][2*l], r[j][2*l+1]);
