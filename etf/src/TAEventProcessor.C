@@ -11,14 +11,15 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/13.															     //
-// Last modified: 2017/12/27, SUN Yazhou.										     //
+// Last modified: 2018/1/6, SUN Yazhou.											     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
+#include <iomanip>
 #include <cstdlib>
 #include <cstring>
 #include <libgen.h>
@@ -63,6 +64,7 @@
 using std::cout;
 using std::endl;
 using std::flush;
+using std::setw;
 
 //#define DEBUG
 #define GO // do the filling of ROOT objects
@@ -169,7 +171,8 @@ void TAEventProcessor::Configure(){ // create detectors
 //		TAPopMsg::Warn("TAEventProcessor", "Configurte: has been called once.");
 		return;
 	}
-	SetSTRROOTFile("STR.root"); // space-time relations for MWDCs
+	// STR_spline.root || STR_stiff.root
+	SetSTRROOTFile("STR_spline.root"); // space-time relations for MWDCs
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
 	// read the global parameters array first; type: 004
 	const short nignore = 4, typeignore[nignore] = {0, 1, 2, 3};
@@ -278,6 +281,7 @@ inline void correctCycleClear(double &x, const double bunchIdTime){
 // the overall data analysis routine
 // (id0, id1): index range for analysis; secLenLim: event length limit; rawrtfile: raw rootfile
 void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtfile){
+	secLenLim = secLenLim < 2000 ? secLenLim : 2000; // 2000 word (7.8KiB) is the event length limit
 	Configure(); // prepare ETF setup
 	if(id0 >= id1)
 		TAPopMsg::Error("TAEventProcessor", "Run: index0 %d is not smaller than index1 %d", id0, id1);
@@ -318,6 +322,9 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	#include "TAEventProcessor/define_hist.C" // define histograms of interest
 	#include "TAEventProcessor/define_tree.C" // define the track tree
 #endif
+	cout << std::left;
+	cout << setw(10) << "index" << setw(10) << "nEv" << setw(10) << "trkX" << setw(10) << "totTrk";
+	cout << setw(10) << "3Dtrk" << setw(10) << "naoz" << setw(10) << "naozBad" << endl;
 	while(i < n){
 		Initialize(); // clear everything from last data section
 		// assign all entries in a sec to fEntryList for processing
@@ -361,11 +368,15 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 #endif
 		cntSec++;
 		if(index % 1 == 0){
-			cout << "Processing idx " << index << " dataSec " << cntSec;
-			cout << " trk " << cntTrk << " 3Dtrk " << cnt3DTrk / 3;
-			cout << " naoz " << cntaoz << " naozBad " << cntaozWrong << "\r" << flush; // cntaozWrong
+			cout << setw(10) << index << setw(10) << cntSec << setw(10) << cntTrk - (cnt3DTrk/3)*2;
+			cout << setw(10) << cntTrk << setw(10) << cnt3DTrk / 3;
+			cout << setw(10) << cntaoz << setw(10) << cntaozWrong << "\r" << flush;
+//			cout << "idx " << index << " nEv/trkX " << cntSec << "/";
+//			cout << cntTrk - (cnt3DTrk/3)*2 << " totTrk " << cntTrk << " 3Dtrk " << cnt3DTrk / 3;
+//			cout << " naoz " << cntaoz << " naozBad " << cntaozWrong << "\r" << flush; // cntaozWrong
 		}
 	} // end while over treeData entries
+	cout << std::right;
 #ifdef GO
 	#include "TAEventProcessor/write.C" // write all the ROOT objects necessary
 #endif

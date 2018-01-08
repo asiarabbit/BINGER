@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/9.															     //
-// Last modified: 2018/1/4, SUN Yazhou.										     //
+// Last modified: 2018/1/4, SUN Yazhou.										  	     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -42,7 +42,7 @@ double TAMath::iterativeFit(const double *x, const double *y, const double *r, d
 		d2_tmp = d2;
 		d2 = Dsquare(xNew, yNew, kl, bl, gGOOD, LAYER, d2PerDot); // update kl and bl
 //		cout << "fabs((d2_tmp - d2) / d2): " << fabs((d2_tmp - d2) / d2) << endl;
-		if(fabs((d2_tmp - d2) / d2) < 0.003 && i > 0) break;
+		if(fabs((d2_tmp - d2) / d2) < 0.001 && i > 0) break;
 
 //		cout << "the " << i << "-th iteration, kl: " << kl << "\tbl: " << bl << endl; getchar(); // DEBUG
 	} // end for over i

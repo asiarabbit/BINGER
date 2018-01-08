@@ -357,8 +357,9 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 							// project the l-th bin in X-axis to Y axis
 							TH1D *hpro = h2->ProjectionY("hpro", l+1, l+1);
 							double npro = hpro->GetEntries();
+							const double rms = hpro->GetRMS();
 							if(0) if(0 == l) npro = 0; // the first bin is biased
-							if(npro < 150.){ // stastics is too small
+							if(npro < 200. || rms > 0.45){ // stastics is too small
 								strCor[str_id][l] = 0.;
 								strCorSigma[str_id][l] = 0.;
 								continue;
@@ -372,14 +373,15 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 							// fit range
 							double span = 1.5*hpro->GetRMS();
 							span = span < 1.5 ? span : 1.5;
-							fgaus->SetRange(-span, span);
+							const double mm = hpro->GetMean();
+							fgaus->SetRange(mm-span, mm+span);
 							hpro->Fit(fgaus, "NQR"); // no printings, no draw, fit within range
 							double mean = fgaus->GetParameter("Mean");
 							double sigma = fgaus->GetParameter("Sigma");
 							hmean[i][j]->Fill(mean); hmeanTot->Fill(mean);
 							hsigma[i][j]->Fill(sigma); hsigmaTot->Fill(sigma);
 //							cout << "mean: " << mean << "\tsigma: " << sigma << endl; getchar(); // DEBUG
-							if((mean > -0.4 && mean < 0.4) && (sigma < 0.8 && sigma > 0.)){
+							if((mean > -0.4 && mean < 0.4) && (sigma < 0.7 && sigma > 0.)){
 								strCor[str_id][l] = mean;
 								strCorSigma[str_id][l] = sigma;
 								// more statistics brings about more weight in the sigma average
@@ -440,7 +442,7 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 		gsigma[i][j]->Write("", TObject::kOverwrite);
 	}
 	hmeanTot->Write("", TObject::kOverwrite);
-	hsigmaTot->Write("", TObject::kOverwrite); 
+	hsigmaTot->Write("", TObject::kOverwrite);
 	gsigmaTot->Write("", TObject::kOverwrite);
 	treeSigma->Write("", TObject::kOverwrite);
 	// free memory

@@ -11,7 +11,7 @@
 // Last modified: 2017/12/21, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -176,11 +176,11 @@ bool TAMWDCArray::Compatible(double k, double b, double ku, double bu, double kv
 void TAMWDCArray::TrackMerger(){ // assembly projections to 3-D tracks.
 #ifdef DEBUG
 	cout << "\033[32;1m" << GetName() << "\033[0m" << endl; // DEBUG
-	cout << "This is TAMWDCArray::TrackFilter():" << endl; // DEBUG
+	cout << "This is TAMWDCArray::TrackMerger():" << endl; // DEBUG
 	cout << "____________________________________________" << endl; getchar(); // DEBUG
-	for(TATrack *&x : fTrackList[0]) x->Show(); // DEBUG
-	for(TATrack *&u : fTrackList[1]) u->Show(); // DEBUG
-	for(TATrack *&v : fTrackList[2]) v->Show(); // DEBUG
+//	for(TATrack *&x : fTrackList[0]) x->Show(); // DEBUG
+//	for(TATrack *&u : fTrackList[1]) u->Show(); // DEBUG
+//	for(TATrack *&v : fTrackList[2]) v->Show(); // DEBUG
 	cout << "____________________________________________" << endl; getchar(); // DEBUG
 	cout << "\n\n\033[33;1m____________________________________________\n\033[0m"; // DEBUG
 	cout << "x.size(): " << fTrackList[0].size(); cout << "\tu.size(): " << fTrackList[1].size(); // DEBUG
@@ -272,8 +272,8 @@ void TAMWDCArray::TrackMerger(){ // assembly projections to 3-D tracks.
 					cout << "v->GetChi(): " << v->GetChi() << endl; // DEBUG
 					cout << "ctrlPara->ChiThre(): " << ctrlPara->ChiThre() << endl; // DEBUG
 					cout << "badTrk: " << badTrk << endl; getchar(); // DEBUG
-#endif
 					if(badTrk) continue; // nasty combination
+#endif
 					if(fabs(u->GetChi()) > ctrlPara->ChiThre()) continue; // nasty combination
 					if(fabs(v->GetChi()) > ctrlPara->ChiThre()) continue; // nasty combination
 					double chi[6]{};
@@ -303,7 +303,7 @@ void TAMWDCArray::TrackMerger(){ // assembly projections to 3-D tracks.
 					cout << "\tb1: " << x->GetIntercept() << endl; // DEBUG
 					cout << "k2: " << k2 << "\tb2: " << b2; // DEBUG
 					cout << "\tid: " << id << endl; // DEBUG
-					x->Show(); u->Show(); v->Show(); getchar(); // DEBUG
+//					x->Show(); u->Show(); v->Show(); getchar(); // DEBUG
 #endif
 				} // end if
 			} // end of loop over track v
@@ -323,8 +323,8 @@ void TAMWDCArray::TrackMerger(){ // assembly projections to 3-D tracks.
 	for(TATrack *x : fTrackList[1]) x->Show(); // DEBUG
 	for(TATrack *x : fTrackList[2]) x->Show(); // DEBUG
 	cout << "____________________________________________" << endl; getchar(); // DEBUG
-//	for(TATrack &x : fTrackList[0]) x.Show(); // DEBUG
 #endif
+//	for(TATrack &x : fTrackList[0]) x.Show(); // DEBUG
 	// number of 3D tracks in the data section; used for global 3DTrk identification
 	fN3DTrk = id + 1;
 } // end of function TrackFilter().

@@ -66,7 +66,6 @@ TAAssess::~TAAssess(){}
 
 void TAAssess::EvalDCArr(int round, bool isDCArrR){
 	EvalDCArr(fROOTFile, fDetList, round, isDCArrR);
-	PostEval(round); // analyze hrt_04_sample for evaluation of recursive STR correction
 }
 void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, bool isDCArrR){
 	if(!strcmp("", rootfile.c_str()))
@@ -310,14 +309,16 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 		} // end loop over DCs
 	} // end loop over XUV
 	TH1F *hnF3D = new TH1F("hnF3D", "Number of All Fired Anode Layers Per 3D Track;nF", 22, -1.5, 20.5);
-	TH1F *h3DMissxTotPre = new TH1F("h3DMissxTotPre", "x Deviation in 3D Coincidence at z of all MWDCs (Pre-Correction)", 50000, -100., 100.);
-	TH1F *h3DMissxTotPost = new TH1F("h3DMissxTotPost", "x Deviation in 3D Coincidence at z of all MWDCs (Post-Correction)", 50000, -100., 100.);
+	TH1F *h3DMissxTotPre = new TH1F("h3DMissxTotPre", "x Deviation in 3D Coincidence at z of all MWDCs (Pre-Correction)", 500, -100., 100.);
+	TH1F *h3DMissxTotPost = new TH1F("h3DMissxTotPost", "x Deviation in 3D Coincidence at z of all MWDCs (Post-Correction)", 500, -100., 100.);
 	TH1F *hXMag = new TH1F("hXMag", "x at the Entrance of the Magnetic Field", 1000, -500., 500.);
 	TH1F *hYMag = new TH1F("hYMag", "y at the Entrance of the Magnetic Field", 500, -250., 250.);
 	objLs[0].push_back(hnF3D); objLs[0].push_back(h3DMissxTotPre); objLs[0].push_back(h3DMissxTotPost);
 	objLs[0].push_back(hXMag); objLs[0].push_back(hYMag);
 	TH1F *heff = new TH1F("heff", "MWDC efficiency - Number of X-U-V Tracks;X:Tot-DC0(X1-X2)-DC1-DC2--U--V", 30, -2.5, 27.5);
 	objLs[0].push_back(heff);
+	TH1F *hr_ = new TH1F("hr_", "hr_", 500, -6.5, 6.5); // a temporary histogram for testing
+	objLs[0].push_back(hr_);
 ///////////////////////////////////////// END OF THE HISTOGRAM DEFINITION //////////////////////////
 
 
@@ -414,6 +415,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 					const int it = trkId[jj][j]; // id of track projections
 					for(int k = 0; k < 6; k++){ // loop over DC0-X1X2-DC1-X1X2-DC2-X1X2
 						const int dcId = k / 2;
+						const int STRid = TAAnodePara::GetSTRid(alpha[dcId][j]);
 						if(-1 != nu[it][k]){
 							const double tt = t[it][k], dr = chi3D[jj][j*6+k];
 							const double rc = r[it][k] + dr;
@@ -425,8 +427,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 							hrt03_3D[j][dcId]->Fill(tt, rc);
 							hdrt03_3D[j][dcId]->Fill(tt, dr);
 
-							if(0 == j || 0 == k || 40 == nu[j][k]){
-								const int STRid = TAAnodePara::GetSTRid(alpha[dcId][j]);
+							if(0 == j && 0 == k && 40 == nu[j][k]){
 								hrt04_3D->Fill(tt, rc);
 								hdrt04_3D->Fill(tt, dr);
 								hrt04_3D_STR[STRid]->Fill(tt, rc);
@@ -435,6 +436,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 							} // end inner if
 						}
 					} // end loop over six sense wire layers for one type
+					hr_->Fill(alpha[2][0]/DEGREE);
 					for(int k = 0; k < 3; k++){ // loop over MWDCs
 						if(alpha[k][j] > -1. * DEGREE && alpha[k][j] < 1. * DEGREE){
 							if(nu[it][2*k] >= 30 && nu[it][2*k] <= 50){
@@ -470,7 +472,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 					hrt03[dcType][dcId]->Fill(tt, rc);
 					hdrt03[dcType][dcId]->Fill(tt, dr);
 
-					if(0 == dcType || 0 == l || 40 == nu[j][l]){
+					if(0 == dcType && 0 == l && 40 == nu[j][l]){
 						hrt04->Fill(tt, rc);
 						hdrt04->Fill(tt, dr);
 						hrt04_STR[STRid]->Fill(tt, rc);
@@ -488,7 +490,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 			double ang0 = atan(k[j]), ang = ang0;
 			for(int l = 0; l < 3; l++){ // loop over three DCs
 				if(0 == dcType) ang = ang0 - phiDC[l] + 0. * DEGREE;
-				if(ang > -1. * DEGREE && ang < 1. * DEGREE){
+				if(ang > -2. * DEGREE && ang < 1. * DEGREE){
 					if(nu[j][2*l] >= 30 && nu[j][2*l] <= 50){
 						htt[dcType][l]->Fill(t[j][2*l], t[j][2*l+1]);
 						hrr[dcType][l]->Fill(r[j][2*l], r[j][2*l+1]);
@@ -580,7 +582,9 @@ void TAAssess::PostEval(int round){
 	bool success2 = PostEval("assess"+fROOTFile, round, false, true);
 	bool success3 = PostEval("assess"+fROOTFile, round, false, false);
 	if(!success0 && !success1 && !success2 && !success3)
-		TAPopMsg::Info("TAAssess", "PostEval: No eligible hrt_04_sample is found whatsoever and wheresoever");
+		TAPopMsg::Info("TAAssess", "PostEval: No eligible hrt_04_sample is found whatsoever and wheresoever\n");
+	else
+		cout << "\033[33;1m\n\nDONE\n\n\033[0m";
 }
 bool TAAssess::PostEval(const string &rootfile, int round, bool isDCArrR, bool is3D){
 	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
@@ -598,13 +602,16 @@ bool TAAssess::PostEval(const string &rootfile, int round, bool isDCArrR, bool i
 //		TAPopMsg::Error("TAAssess", "PostEval: %s doesn't exist", name);
 		return false;
 	}
+	TAPopMsg::Info("TAAssess", "PostEval: isDCArrR: %d, is3D: %d", isDCArrR, is3D);
 	TH1D *hprojx = h2->ProjectionX();
 	TF1 *fgaus = new TF1("fgaus", "gaus", -4., 4.);
 	TGraph *gSigma = new TGraph(); // DCA-sigma for MWDC resolution estimation
 	TGraph *gMean = new TGraph(); // DCA-dr for STR correction
-	char title[] = "Saptial Resolution v.s. DCA;DCA [mm];\\sigma~[mm]";
+	char title[128] = "Saptial Resolution v.s. DCA;DCA [mm];\\sigma~[mm]";
+	if(is3D) strcpy(title, "Saptial Resolution v.s. DCA (3D);DCA [mm];\\sigma~[mm]");
 	gSigma->SetNameTitle("gSigma_4", title); gSigma->SetMarkerStyle(22);
-	sprintf(title, "STR Correction v.s. Drift Distance(%s);DCA [mm];<dr> [mm]");
+	strcpy(title, "STR Correction v.s. Drift Distance;DCA [mm];<dr> [mm]");
+	if(is3D) strcpy(title, "STR Correction v.s. Drift Distance (3D);DCA [mm];<dr> [mm]");
 	gMean->SetNameTitle("gMean_4", title); gMean->SetMarkerStyle(22);
 	int gSigma_cnt = 0, gMean_cnt = 0;
 	const int n = h2->GetNbinsX(), nn = n;
@@ -622,8 +629,9 @@ bool TAAssess::PostEval(const string &rootfile, int round, bool isDCArrR, bool i
 		// fit range
 		double span = 1.5*hproj->GetRMS();
 		span = span < 1.5 ? span : 1.5;
-		fgaus->SetRange(-span, span);
-		hproj->Fit(fgaus, "NQR"); // 
+		const double mm = hproj->GetMean();
+		fgaus->SetRange(mm-span, mm+span);
+		hproj->Fit(fgaus, "NQR"); // Fit the son of a bitch
 		const double mean = fgaus->GetParameter("Mean");
 		const double sigma = fgaus->GetParameter("Sigma");
 		if(!((mean > -0.4 && mean < 0.4) && (sigma < 0.8 && sigma > 0.)))
@@ -641,8 +649,6 @@ bool TAAssess::PostEval(const string &rootfile, int round, bool isDCArrR, bool i
 
 	delete fgaus; fgaus = nullptr; delete gSigma; gSigma = nullptr;
 	delete gMean; gMean = nullptr; f->Close(); delete f; f = nullptr;
-
-	cout << "\033[33;1m\n\nDONE\n\n\033[0m";
 
 	return true;
 }

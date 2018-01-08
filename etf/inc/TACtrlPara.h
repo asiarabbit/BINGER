@@ -11,7 +11,7 @@
 // Last modified: 2017/10/9, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,7 +39,7 @@ public:
 	static double DsquareThresholdPerDot(unsigned uid);
 	static bool TimeThre(double t); // if time is within set range
 	// threshold for chi per dot, to eliminate false combinations. 4.0
-	static double ChiThrePD();
+	double ChiThrePD();
 	static int Vicinity(); // used in discerning multiple tracks, unit: cell
 	static int StripTolerance(); // used in discerning multiple tracks, unit: strip
 	// TATrack::kBFGSFit; // kNormalFit: 0; kBFGSFit: 1 kIterFit: 2

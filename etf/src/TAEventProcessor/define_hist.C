@@ -8,10 +8,10 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/21.															     //
-// Last modified: 2017/10/25, SUN Yazhou.										     //
+// Last modified: 2018/1/6, SUN Yazhou.											     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -176,6 +176,10 @@
 	objLs[6].push_back(hTOFWToTrigUV[0]); objLs[6].push_back(hTOFWToTrigUV[1]);
 	objLs[7].push_back(hsipmArrToTRef); objLs[7].push_back(hsipmBarrToTRef);
 	objLs[6].push_back(hsipmBarrToTrig);
+
+	TGraph *gTrkEff = new TGraph();
+	gTrkEff->SetNameTitle("gTrkEff", "index - Tracking Efficiency diagram;event index;3D Efficiency");
+	objLs[0].push_back(gTrkEff);
 
 	int cnt_timeToTrig_T0_1UV = 0, cnt_timeToTrig_T0_1DV = 0;
 	int cntTRef = 0;

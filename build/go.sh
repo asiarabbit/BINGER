@@ -31,18 +31,23 @@ make -j8
 
 ############# TRACKING ################################
 pre
-./ass $file $isDCArrR -1
+./t0 $file $isDCArrR
+./ass $file $isDCArrR 0
 #######################################################
 
 
 ############# CALIBRATION #############################
-./t0 $file $isDCArrR
-pre
-./ass $file $isDCArrR 0
 for i in $(seq 1 4); do
-	echo "STRCor loop $i, DCArr Option: $isDCArrR"
+	echo "__________________________STRCor loop $i, DCArr Option: $isDCArrR_______________________________"
     ./str $file $isDCArrR $i
     pre
     ./ass $file $isDCArrR $i
 done
 echo "Accomplished"
+
+
+
+
+
+
+
