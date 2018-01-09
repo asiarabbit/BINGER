@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/12.															     //
-// Last modified: 2017/12/27, SUN Yazhou.										     //
+// Last modified: 2018/1/8, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -34,7 +34,7 @@ public:
 	const TAParameter *Par(unsigned int id) const;
 	void ShowPar(unsigned int id) const;
 	short GetNParameter() const;
-	friend TAParaManager;
+	friend class TAParaManager;
 	bool HasRead() const{ return fHasRead; }
 protected:
 	TAGPar();

@@ -8,10 +8,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/6.															     //
-// Last modified: 2017/11/20, SUN Yazhou.										     //
+// Last modified: 2018/1/8, SUN Yazhou.											     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -63,7 +63,7 @@ public:
 	virtual TAStuff *GetChannel(unsigned uid) const override;
 	virtual void Info() const;
 
-	friend TASimulation;
+	friend class TASimulation;
 protected:
 	// copmare two tracks
 	// 0: the two tracks are different; 1: newTrack is defeated by  oldTrack;

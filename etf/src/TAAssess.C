@@ -436,7 +436,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 							} // end inner if
 						}
 					} // end loop over six sense wire layers for one type
-					hr_->Fill(alpha[2][0]/DEGREE);
+//					hr_->Fill(alpha[2][0]/DEGREE);
 					for(int k = 0; k < 3; k++){ // loop over MWDCs
 						if(alpha[k][j] > -1. * DEGREE && alpha[k][j] < 1. * DEGREE){
 							if(nu[it][2*k] >= 30 && nu[it][2*k] <= 50){
@@ -490,6 +490,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 			double ang0 = atan(k[j]), ang = ang0;
 			for(int l = 0; l < 3; l++){ // loop over three DCs
 				if(0 == dcType) ang = ang0 - phiDC[l] + 0. * DEGREE;
+				if(0 == dcType && 1 == l) hr_->Fill(ang/DEGREE);
 				if(ang > -2. * DEGREE && ang < 1. * DEGREE){
 					if(nu[j][2*l] >= 30 && nu[j][2*l] <= 50){
 						htt[dcType][l]->Fill(t[j][2*l], t[j][2*l+1]);
