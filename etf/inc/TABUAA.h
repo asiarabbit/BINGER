@@ -11,7 +11,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2016/10/15, transported: 2018/1/9.									     //
-// Last modified: 2018/1/9, SUN Yazhou.											     //
+// Last modified: 2018/1/10, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -31,7 +31,7 @@ struct tVME_event;
 
 class TABUAA{
 public:
-	TABUAA(const string &datafile); // the default constructor.
+	TABUAA(const string &datafile, const string &rootfile = ""); // the default constructor.
 	~TABUAA(); // the destructor.
 
 	void ReadOffline();
@@ -73,20 +73,17 @@ public:
 
 	void SetTOF1PXI(double tof1pxi);
 	void SetROOTFile(TFile *f);
-
-	// close rootfile
-	void CloseFile();
-
 	// initiazlie function
 	void Initialize();
 
-	private:
+private:
 	static void analyze(const int *data, tVME_event &event);
 
 	TTree *fVME; // point to the data tree.
 	tVME_event fEvent; // considered as corresponding to one particle.
 	string fDatafile; // raw binary data file
-	TFile *fROOTFile;
+	string fROOTFileName; // root file name
+	TFile *fROOTFile; // root file pointer
 	bool fIsPileUp;
 	bool fIsVeto[2];
 	bool fIsMWPCMiss[3]; // [MWPC0-1-2]: if the MWPC misses the particle

@@ -22,6 +22,7 @@
 #include <iostream>
 #include <libgen.h> // basename function
 #include <climits>
+#include <ctime>
 
 #include "TFile.h"
 #include "TTree.h"
@@ -165,6 +166,7 @@ int TARawDataProcessor::ReadOffline(){
 	fBunchIdMisAlignCnt = 0;
 	fEventCnt = 0;
 	while(1){
+		srand(time(0)); // set random seed
 		// read section head
 		if(fread(&sec_h, sizeof(section_head), 1, fp) <= 0) break; // read secion_head
 		index = sec_h.index; // read section index

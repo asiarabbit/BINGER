@@ -7,7 +7,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2016/11/15, transported: 2018/1/9.									     //
-// Last modified: 2018/1/9, SUN Yazhou.											     //
+// Last modified: 2018/1/10, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -35,9 +35,11 @@ void TABUAA::ReadOffline(){
 	tVME_block block; // temporarily stores block information.
 	tVME_event event; // temporarily stores event information.
 
-	string rootfile = fDatafile + "_vme.root";
+	string rootfile;
+	if(strcmp(fROOTFileName.c_str(), "")) rootfile = fROOTFileName;
+	else rootfile = fDatafile+"_vme.root";
 	if(access(rootfile.c_str(), 0) == 0) return; // file already exists.
-
+	
 	TFile* f = new TFile(rootfile.c_str(),"RECREATE");
 
 	TTree *vme = new TTree("vme", "VME Data for External Target Facility");

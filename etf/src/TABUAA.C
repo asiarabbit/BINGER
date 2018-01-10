@@ -23,6 +23,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <unistd.h> // for access function
+#include <ctime>
 
 // ROOT includes
 #include "TFile.h"
@@ -31,6 +32,7 @@
 #include "readVME.h"
 #include "TABUAA.h"
 #include "TAMath.h"
+#include "TAPopMsg.h"
 
 using std::cout;
 using std::endl;
@@ -40,14 +42,13 @@ constexpr double Pi = TAMath::Pi();
 constexpr double DEGREE = TAMath::DEGREE();
 inline double rand0_5(){ return rand()*1./RAND_MAX; } // bin smoothing
 
-TABUAA::TABUAA(const string &datafile): fDatafile(datafile){
+TABUAA::TABUAA(const string &datafile, const string &rootfile)
+	 : fDatafile(datafile), fROOTFileName(rootfile){
 	fROOTFile = NULL;
 	fVME = NULL;
 	Initialize();
 } // end of the default constructor.
-TABUAA::~TABUAA(){
-	CloseFile();
-} // the destructor.
+TABUAA::~TABUAA(){} // the destructor.
 #include "TABUAA/read.C" // definition of TABUAA::ReadOffline()
 #include "TABUAA/VMEAnalyze.C" // read one block
 
@@ -88,6 +89,7 @@ void TABUAA::Assign(int entryId){ // assign member variables.
 	fIsAssigned = true;
 } // end of function Assign
 void TABUAA::Analyze(){
+	srand(time(0));
 	if(!fIsAssigned){
 		cout << "TABUAA::Analyze: fEvent is not assigned." << endl;
 		getchar();
@@ -339,17 +341,13 @@ TTree *TABUAA::GetTreeVME(){
 	return fVME;
 } // end of function GetTreeVME
 double TABUAA::GetQDC(int i, int j) const{
-	return fEvent.qdc[abs(i%3)][abs(j%32)] * 1. + rand0_5();
+	const double qdc = fEvent.qdc[abs(i%3)][abs(j%32)];
+	if(-9999. == qdc) return -9999.;
+	return qdc + rand0_5();
 } // end of the member function
 
 void TABUAA::SetTOF1PXI(double tof1pxi){ fTOF1PXI = tof1pxi; }
 void TABUAA::SetROOTFile(TFile *f){ fROOTFile = f; }
-
-// close root file
-void TABUAA::CloseFile(){
-	if(fROOTFile) fROOTFile->Close();
-	delete fROOTFile; fROOTFile = nullptr;
-} // end function CloseFile.
 
 
 void TABUAA::Initialize(){

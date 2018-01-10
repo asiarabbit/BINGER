@@ -157,6 +157,8 @@ void TAEventProcessor::SetSTRROOTFile(const string &file){
 	GetCtrlPara()->SetSTRROOTFile(STRFile);
 }
 void TAEventProcessor::SetDataFile(const string &datafile, int runId){
+	if(!strcmp("", datafile.c_str()))
+		TAPopMsg::Error("TAEventProcessor", "SetDataFile: Input datafile name is empty");
 	const char c = datafile.c_str()[0];
 	if('/' == c || '.' == c) // data file with its path specified
 		GetRawDataProcessor()->SetDataFileName(datafile, runId);

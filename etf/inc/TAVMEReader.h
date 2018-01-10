@@ -7,7 +7,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/1/9.															     //
-// Last modified: 2018/1/9, SUN Yazhou.											     //
+// Last modified: 2018/1/10, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -26,13 +26,13 @@ public:
 	TAVMEReader(const string &datafile = "");
 	virtual ~TAVMEReader();
 	virtual void ReadVME();
-	void SetDatafile(const string &datafile);
+	void SetDataFile(const string &datafile);
 	// match vme and PXI data tree event by event
 	virtual void Match(const string &PXIROOTFile);
-	static void ReadVME(const string &vmeDatafile);
+	static void ReadVME(const string &vmeDataFile, const string &vmerootfile);
 	static void Match(const string &PXIROOTFile, const string &VMEROOTFile);
 private:
-	string fDatafile;
+	string fDataFile;
 	string fROOTFile;
 };
 

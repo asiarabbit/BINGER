@@ -7,7 +7,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/1/9.															     //
-// Last modified: 2018/1/9, SUN Yazhou.											     //
+// Last modified: 2018/1/10, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -19,6 +19,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
+#include <unistd.h>
+#include <libgen.h>
 
 // ROOT includes
 #include "TFile.h"
@@ -36,25 +38,38 @@ using std::cout;
 using std::endl;
 using std::flush;
 
-TAVMEReader::TAVMEReader(const string &datafile)
-	 : fDatafile(datafile){
-	if(strcmp("", fDatafile.c_str())) fROOTFile = fDatafile+"_vme.root";
+TAVMEReader::TAVMEReader(const string &datafile){
+	SetDataFile(datafile);
 }
 TAVMEReader::~TAVMEReader(){}
 
-void TAVMEReader::SetDatafile(const string &datafile){
-	fDatafile = datafile;
-	if(strcmp("", fDatafile.c_str())) fROOTFile = fDatafile+"_vme.root";
+void TAVMEReader::SetDataFile(const string &datafile){
+	if(!strcmp("", datafile.c_str()))
+		TAPopMsg::Error("TAVMEReader", "SetDataFile: Input datafile name is empty");
+	const char c = datafile.c_str()[0];
+	if('/' == c || '.' == c) // data file with its path specified
+		fDataFile = datafile;
+	else fDataFile = "../data/"+datafile;
+	if(strcmp("", fDataFile.c_str())){
+		char tmp[64]; strcpy(tmp, fDataFile.c_str());
+		fROOTFile = basename(tmp)+string("_vme.root");
+	}
 }
 void TAVMEReader::ReadVME(){
-	ReadVME(fDatafile);
+	if(!strcmp(fDataFile.c_str(), ""))
+		TAPopMsg::Error("TAVMEReader", "ReadVME: vmedatafile name is empty");
+	ReadVME(fDataFile, fROOTFile);
 }
 void TAVMEReader::Match(const string &PXIROOTFile){
+	if(!strcmp(PXIROOTFile.c_str(), ""))
+		TAPopMsg::Error("TAVMEReader", "Match: PXIROOTFile name is empty");
 	Match(fROOTFile, PXIROOTFile);
 }
 
-void TAVMEReader::ReadVME(const string &vmeDatafile){
-	TAPopMsg::Info("TAVMEReader", "VME data file to be processed: %s", vmeDatafile);
+void TAVMEReader::ReadVME(const string &vmeDatafile, const string &vmerootfile){
+	if(0 != access(vmeDatafile.c_str(), F_OK))
+		TAPopMsg::Error("TAVMEReader", "ReadVME: vme data file %s not found or doesn't exist.\nNote that data files are NOT supposed to be placed in build (very possibly the current) directory", vmeDatafile.c_str());
+	TAPopMsg::Info("TAVMEReader", "ReadVME: VME data file to be processed: %s", vmeDatafile.c_str());
 
 	// postion relative to the target
 	const double Z_PL1 = -818.3; // z position of PL1 detector
@@ -65,31 +80,31 @@ void TAVMEReader::ReadVME(const string &vmeDatafile){
 	//Define Histograms and a tree
 	TH1F *hzin  = new TH1F("zin" ,"Z in ",500, -1.5, 20.);
 	TH1F *hzout = new TH1F("zout","Z out",500, -1.5, 20.);
-	TH1F *htof  = new TH1F("tof" ,"Z in ",1000, 128., 133.);
-	TH2F *hpi   = new TH2F("pi","TOF dEin",500, 120., 160., 500, 1., 20.);
-	TH2F *hpid   = new TH2F("pid", "Z vs A;A;Z", 2001, 1., 45.5, 2001, 1.05, 20.05);
+	TH1F *htof  = new TH1F("tof" ,"ToF in ",1000, 128., 133.);
+	TH2F *hpi   = new TH2F("pi","TOF dEin",700, 120., 160., 700, 1., 30.);
+	TH2F *hpid   = new TH2F("pid", "Z vs A;A;Z", 700, 1., 60, 700, 1.05, 30.05);
 	TH1F *hthetaIn = new TH1F("thetaIn", "Theta Before Target", 700, -20, 20);
 	TH1F *hthetaOut = new TH1F("thetaOut", "Theta After Target", 700, -20, 20);
 	TH1F *hAIn  = new TH1F("hAIn", "A of Beam In;A", 2001, 10.05, 45.05);
-	TH2F *hTargetXY = new TH2F("hTargetXY", "Target Position;X/mm;Y/mm", 610, -30.5, 30.5, 610, -30.5, 30.5);
+	TH2F *hTargetXY = new TH2F("hTargetXY", "Target Position;X [mm];Y [mm]", 610, -30.5, 30.5, 610, -30.5, 30.5);
 	objLs.push_back(hzin); objLs.push_back(hzout); objLs.push_back(htof);
 	objLs.push_back(hpid); objLs.push_back(hthetaIn); objLs.push_back(hthetaOut);
 	objLs.push_back(hAIn); objLs.push_back(hTargetXY); objLs.push_back(hpi);
-	TH1F *hTargetX = new TH1F("hTargetX", "Target Position;X/mm", 610, -30.5, 30.5);
-	TH1F *hTargetY = new TH1F("hTargetY", "Target Position;Y/mm", 610, -30.5, 30.5);
-	TH1F *hQDC_PL1L = new TH1F("hQDC_PL1L", "hQDC_PL1L", 20000, -10000., 10000.);
-	TH1F *hQDC_PL1R = new TH1F("hQDC_PL1R", "hQDC_PL1R", 20000, -10000., 10000.);
-	TH1F *hQDC_PL2L = new TH1F("hQDC_PL2L", "hQDC_PL2L", 20000, -10000., 10000.);
-	TH1F *hQDC_PL2R = new TH1F("hQDC_PL2R", "hQDC_PL2R", 20000, -10000., 10000.); // 500, -10., 1000.);
+	TH1F *hTargetX = new TH1F("hTargetX", "Target Position;X [mm]", 610, -30.5, 30.5);
+	TH1F *hTargetY = new TH1F("hTargetY", "Target Position;Y [mm]", 610, -30.5, 30.5);
+	TH1F *hQDC_PL1L = new TH1F("hQDC_PL1L", "hQDC_PL1L;Q [channel]", 500, 100., 2500.);
+	TH1F *hQDC_PL1R = new TH1F("hQDC_PL1R", "hQDC_PL1R;Q [channel]", 500, 100., 2500.);
+	TH1F *hQDC_PL2L = new TH1F("hQDC_PL2L", "hQDC_PL2L;Q [channel]", 500, 775., 795.);
+	TH1F *hQDC_PL2R = new TH1F("hQDC_PL2R", "hQDC_PL2R;Q [channel]", 500, 724., 734.);
 	objLs.push_back(hTargetX); objLs.push_back(hTargetY);
 	objLs.push_back(hQDC_PL1L); objLs.push_back(hQDC_PL1R);
 	objLs.push_back(hQDC_PL2L); objLs.push_back(hQDC_PL2R);
 	TH1F *hX_PL1 = new TH1F("hX_PL1", "x of the Hit Position in PL1", 500, -100., 100.);
 	TH1F *hX_PL2 = new TH1F("hX_PL2", "x of the Hit Position in PL2", 500, -100., 100.);
-	TH2F *hDTvsQ_PL1 = new TH2F("hDTvsQ_PL1", "Timing Error v.s. Integrated Charge of the Signal - PL1", 800, 0.057, 0.0574, 800, 128.5, 132.9);
-	TH2F *hDTvsQ_PL2 = new TH2F("hDTvsQ_PL2", "Timing Error v.s. Integrated Charge of the Signal - PL2", 800, 0.052, 0.058, 800, 128.5, 132.9);
-	TH2F *hDTvsX_PL1 = new TH2F("hDCvsX_PL1", "Timing Error v.s. Hit x Position - PL1", 800, -30., 30., 800, 128.5, 132.9);
-	TH2F *hDTvsX_PL2 = new TH2F("hDCvsX_PL2", "Timing Error v.s. Hit x Position - PL2", 800, -80., 80., 2400, 129.7, 131.7);
+	TH2F *hDTvsQ_PL1 = new TH2F("hDTvsQ_PL1", "Timing Error v.s. Integrated Charge of the Signal - PL1;(Q1*Q2)^0.25 a.u.;tof [ns]", 800, 0.015, 0.06, 800, 128.5, 132.9);
+	TH2F *hDTvsQ_PL2 = new TH2F("hDTvsQ_PL2", "Timing Error v.s. Integrated Charge of the Signal - PL2;(Q1*Q2)^0.25 a.u.;tof [ns]", 800, 0.036, 0.037, 800, 128.5, 132.9);
+	TH2F *hDTvsX_PL1 = new TH2F("hDTvsX_PL1", "Timing Error v.s. Hit x Position - PL1;x [mm];tof [ns]", 800, -30., 30., 800, 125.5, 132.9);
+	TH2F *hDTvsX_PL2 = new TH2F("hDTvsX_PL2", "Timing Error v.s. Hit x Position - PL2;x [mm];tof [ns]", 800, -80., 80., 2400, 125.7, 131.7);
 	objLs.push_back(hDTvsQ_PL1); objLs.push_back(hDTvsQ_PL2);
 	objLs.push_back(hDTvsX_PL1); objLs.push_back(hDTvsX_PL2);
 	TTree *treeVME = new TTree("treeVME", "tree for VME readouts");
@@ -121,14 +136,13 @@ void TAVMEReader::ReadVME(const string &vmeDatafile){
 	treeVME->Branch("X_PL[2]", X_PL, "X_PL[2]/D"); // x of hit position in PL detectors
 	objLs.push_back(treeVME);
 
-	TABUAA *bua = new TABUAA(vmeDatafile);
+	TABUAA *bua = new TABUAA(vmeDatafile, vmerootfile);
 	bua->ReadOffline(); // create, fill and write the vme tree in a created rootfile
-	string vmerootfile = vmeDatafile + "_vme.root";
 	TFile *file = new TFile(vmerootfile.c_str(), "UPDATE");
 	bua->SetROOTFile(file); // attach the vme tree in the rootfile
 
 	TTree *vme = bua->GetTreeVME();
-	int n = vme->GetEntries();
+	const int n = vme->GetEntries();
 	cout << n << " entries in the raw VME tree.\n"; // DEBUG
 
 	for(int i = 0; i < n; i++){
@@ -147,27 +161,42 @@ void TAVMEReader::ReadVME(const string &vmeDatafile){
 		XP[0] = bua->GetX1(); XP[1] = bua->GetX2(); XP[2] = bua->GetX3();
 		YP[0] = bua->GetY1(); YP[1] = bua->GetY2(); YP[2] = bua->GetY3();
 		// QDC information of the plastic scintillators
-		Q_PL[0] = bua->GetQDC(0, 5); hQDC_PL1L->Fill(Q_PL[0]); // PL1L
-		Q_PL[1] = bua->GetQDC(0, 7); hQDC_PL1R->Fill(Q_PL[1]); // PL1R
-		Q_PL[2] = bua->GetQDC(0, 17); hQDC_PL2L->Fill(Q_PL[2]); // PL1L
-		Q_PL[3] = bua->GetQDC(0, 19); hQDC_PL2R->Fill(Q_PL[3]); // PL1R
+		Q_PL[0] = bua->GetQDC(0, 4); Q_PL[1] = bua->GetQDC(0, 6);
+		if(-9999. != Q_PL[0]) hQDC_PL1L->Fill(Q_PL[0]); // PL1L
+		if(-9999. != Q_PL[1]) hQDC_PL1R->Fill(Q_PL[1]); // PL1R
+		Q_PL[2] = bua->GetQDC(0, 17); Q_PL[3] = bua->GetQDC(0, 19);
+		if(-9999. != Q_PL[2]) hQDC_PL2L->Fill(Q_PL[2]); // PL2L
+		if(-9999. != Q_PL[3]) hQDC_PL2R->Fill(Q_PL[3]); // PL2R
+		X_PL[0] = Z_PL1*tan(thetaIn) + TaX; hX_PL1->Fill(X_PL[0]); // x of the hit position on PL1
+		X_PL[1] = Z_PL2*tan(thetaIn) + TaX; hX_PL2->Fill(X_PL[1]); // x of the hit position on PL2
+		// tof-Q correction, mean of QDC: the formula is from BUAA's essay
+		double qmv0 = -9999., qmv1 = -9999.;
+		if(-9999 != Q_PL[0] && -9999 != Q_PL[1]){
+			qmv0 = pow(Q_PL[0]*Q_PL[1], -0.25); // averaged Q variable
+			hDTvsQ_PL1->Fill(qmv0, tof);
+		}
+		if(-9999 != Q_PL[2] && -9999 != Q_PL[3]){
+			qmv1 = pow(Q_PL[2]*Q_PL[3], -0.25); // averaged Q variable
+			hDTvsQ_PL2->Fill(qmv1, tof);
+		}
+		// 
+		hDTvsX_PL1->Fill(X_PL[0], tof);
+		hDTvsX_PL2->Fill(X_PL[1], tof);
 #ifdef DEBUG
 		cout << "Q_PL[0]: " << Q_PL[0] << endl; // DEBUG
 		cout << "Q_PL[1]: " << Q_PL[1] << endl; // DEBUG
 		cout << "Q_PL[2]: " << Q_PL[2] << endl; // DEBUG
 		cout << "Q_PL[3]: " << Q_PL[3] << endl; // DEBUG
+		cout << "X_PL[0]: " << X_PL[0] << endl; // DEBUG
+		cout << "X_PL[1]: " << X_PL[1] << endl; // DEBUG
+		cout << "QM_PL1: " << qmv0 << endl; // DEBUG
+		cout << "QM_PL2: " << qmv1 << endl; // DEBUG
 		getchar(); // DEBUG
 #endif
-		X_PL[0] = Z_PL1*tan(thetaIn) + TaX; hX_PL1->Fill(X_PL[0]); // x of the hit position on PL1
-		X_PL[1] = Z_PL2*tan(thetaIn) + TaX; hX_PL2->Fill(X_PL[1]); // x of the hit position on PL2
-		hDTvsQ_PL1->Fill(pow(Q_PL[0]*Q_PL[1], -0.25), tof); // the formula is from BUAA's essay
-		hDTvsQ_PL2->Fill(pow(Q_PL[2]*Q_PL[3], -0.25), tof);
-		hDTvsX_PL1->Fill(X_PL[0], tof);
-		hDTvsX_PL2->Fill(X_PL[1], tof);
 
 		treeVME->Fill();
-		if(!isVeto[1] // adc pile up
-		 && !isPileUp // particle deviating too much from the neutral beam line
+		if(!isVeto[1] // particle deviating too much from the neutral beam line
+		 && !isPileUp // adc pile up
 		 ){
 //			cout << "Pile Up occurred." << endl; // DEBUG
 //			getchar(); // DEBUG
@@ -198,12 +227,21 @@ void TAVMEReader::ReadVME(const string &vmeDatafile){
 	cout << "\n\n\033[33;1mDONE\n\n\033[0m";
 }
 
+// match vme and PXI data tree event by event
 void TAVMEReader::Match(const string &PXIROOTFile, const string &VMEROOTFile){
+	if(!strcmp(PXIROOTFile.c_str(), ""))
+		TAPopMsg::Error("TAVMEReader", "Match: PXIROOTFile name is empty");
+	if(0 != access(PXIROOTFile.c_str(), F_OK))
+		TAPopMsg::Error("TAVMEReader", "Match: %s doesn't exist", PXIROOTFile.c_str());
+	if(0 != access(VMEROOTFile.c_str(), F_OK))
+		TAPopMsg::Error("TAVMEReader", "Match: %s doesn't exist", VMEROOTFile.c_str());
+	vector<TObject *> objLs; // to write and destory ROOT objects
 	TFile *fvme = new TFile(VMEROOTFile.c_str());
 	TFile *fpxi = new TFile(PXIROOTFile.c_str(), "update");
 	TTree *treeVME = (TTree*)fvme->Get("treeVME");
 	TTree *treeTrack = (TTree*)fpxi->Get("treeTrack");
 	TTree *treeVME_M = new TTree("treeVME_M", "Matched VME tree with treeTrack");
+	objLs.push_back(treeVME_M);
 	int index, sca2;
 	double beta; // variables to extracted from treeTrack
 	// variables to be extracted from treeVME_M. In fact it is all of them.
@@ -239,7 +277,7 @@ void TAVMEReader::Match(const string &PXIROOTFile, const string &VMEROOTFile){
 	treeVME_M->Branch("phiOut", &phiOut, "phiOut/D");
 	treeVME_M->Branch("zin", &zin, "zin/D");
 	treeVME_M->Branch("zout", &zout, "zout/D");
-	treeVME_M->Branch("tof1VME", &tof, "tof1VME/D"); // tof over the 25.88m flight.
+	treeVME_M->Branch("tof1VME", &tof, "tof1VME/D"); // tof over the 25.88m flight
 	treeVME_M->Branch("Ain", &Ain, "Ain/D");
 	treeVME_M->Branch("XP", XP, "XP[3]/D");
 	treeVME_M->Branch("YP", YP, "YP[3]/D");
@@ -250,10 +288,11 @@ void TAVMEReader::Match(const string &PXIROOTFile, const string &VMEROOTFile){
 	treeVME_M->Branch("isFutile", &isFutile, "isFutile/O");
 
 	// for VME-PXI alignment test
-	TH2F *hTOFInVMEvsTOFInPXI  = new TH2F("hTOFInVMEvsTOFInPXI", "hTOFIn-VME vs TOFIn-PXI of Beam In;TOFIn-VME/ns;TOFIn-PXI/ns", 800, 120., 165., 800, 120., 165.);
-	TH2F *hEvIndexTimeDevi = new TH2F("hEvIndexTimeDevi", "Event Index v.s. TOF1 Deviation;event index;dt/ns", 2000, 0., 42000., 500, -20., 30.);
-	TH2F *hLminusR_VMEvsPXI = new TH2F("hLminusR_VMEvsPXI", "hLminusR_VME vs PXI;L-R_VME/channel;L-R_PXI/ns", 80, 2190.5, 2270.5, 48, 2.2, 3.4);
+	TH2F *hTOFInVMEvsTOFInPXI  = new TH2F("hTOFInVMEvsTOFInPXI", "hTOFIn-VME vs TOFIn-PXI of Beam In;TOFIn-VME [ns];TOFIn-PXI [ns]", 800, 120., 165., 800, 120., 165.);
+	TH2F *hEvIndexTimeDevi = new TH2F("hEvIndexTimeDevi", "Event Index v.s. TOF1 Deviation;event index;dt [ns]", 2000, 0., 42000., 500, -20., 30.);
+	TH2F *hLminusR_VMEvsPXI = new TH2F("hLminusR_VMEvsPXI", "hLminusR_VME vs PXI;L-R_VME [channel];L-R_PXI [ns]", 80, 2190.5, 2270.5, 48, 2.2, 3.4);
 	TH1F *hdd = new TH1F("hdd", "Difference of Trigger Indices between PXI and VME data;PXI;VME", 2001, -1000.5, 1000.5);
+	objLs.push_back(hEvIndexTimeDevi); objLs.push_back(hLminusR_VMEvsPXI); objLs.push_back(hdd);
 
 	const int n = treeTrack->GetEntries();
 	const int vmeN = treeVME->GetEntries();
@@ -271,35 +310,42 @@ void TAVMEReader::Match(const string &PXIROOTFile, const string &VMEROOTFile){
 	int cntFutile = 0; // futile entries count 
 	for(int i = 0; i < n; i++){
 		treeTrack->GetEntry(i);
-		double tofInPXI = 86.32638784 / beta; // 25.88 * 1000. / (beta*c0)
+		const double tofInPXI = 86.32638784 / beta; // 25.88 * 1000. / (beta*c0)
 		isFutile = true;
 		if(vme_i >= vmeN) break; // end of treeVME reached
 		vme_i = index - vme_offset;
 		treeVME->GetEntry(vme_i);
 		
 		// // error map // //
-		// to trace the trigger error along events, exclusive to specific data file.
+		// to trace the trigger error along events, exclusive to specific data file
 		if(sca2 >= 82478) sca2 -= 1;
 		if(sca2 >= 91288) sca2 -= 1;
+		// --> 006
+//		if(sca2 >= 168762) sca2 -= 1;
+//		if(sca2 >= 178658) sca2 -= 1;
+		// 006 <--
+		// --> 009
+//		if(sca2 >= 68140) sca2 -= 1;
+		// 009 <--
 		// // error map // //
 		
 		
-		int dd = sca2 - 1 - index;
+		const int dd = sca2 - 1 - index;
 //		cout << "\nsca2: " << sca2 << "\tindex: " << index << endl; getchar(); // DEBUG
 		hdd->Fill(dd);
-		if(dd != 0){ // DEBUG
+		if(0 != dd){ // DEBUG
 #ifdef DEBUG
-			cout << endl << endl;
-			cout << "i: " << i << endl;
-			cout << "index: " << index << endl;
-			cout << "sca2: " << sca2 << endl;
+			cout << endl << endl; // DEBUG
+			cout << "i: " << i << endl; // DEBUG
+			cout << "index: " << index << endl; // DEBUG
+			cout << "sca2: " << sca2 << endl; // DEBUG
 			cout << "\n\033[33;1mdd: " << dd << "\n\033[0m"; // DEBUG
 			getchar(); // DEBUG
 #endif
 		} // end if // DEBUG
-		// the maximum normal dd caused by abnormal scaler increments or trigger loss.
-		int ddNormal = 10;
-		if(dd != 0 && fabs(dd) <= ddNormal){ // trigger loss confirmed
+		// the maximum normal dd caused by abnormal scaler increments or trigger loss
+		const int ddNormal = 10;
+		if(0 != dd && fabs(dd) <= ddNormal){ // trigger loss confirmed
 			cout << "\n\033[33;1m_____________________\033[0m\n"; // DEBUG
 			cout << "\033[32;1mvme_offset: " << vme_offset << endl; // DEBUG
 			cout << "sca2: " << sca2 << endl; // DEBUG
@@ -313,7 +359,7 @@ void TAVMEReader::Match(const string &PXIROOTFile, const string &VMEROOTFile){
 			treeVME_M->Fill(); // this entry is futile, only filled to match PXI entry
 		} // end if
 		else {
-			if(dd == 0){
+			if(0 == dd){
 				cntAlignment++; // event alignment success
 //				if(sca2 < 100000)
 					isFutile = false;
@@ -327,16 +373,16 @@ void TAVMEReader::Match(const string &PXIROOTFile, const string &VMEROOTFile){
 		cout << "Processing PXI index " << index << " and VME entry id " << vme_i << "\r" << flush;
 	} // end for over i
 
-	treeVME_M->Write("", TObject::kOverwrite);
-	hTOFInVMEvsTOFInPXI->Write("", TObject::kOverwrite);
-	hEvIndexTimeDevi->Write("", TObject::kOverwrite);
-	hdd->Write("", TObject::kOverwrite);
-
-	fvme->Close();
-	fpxi->Close();
+	for(TObject *&b : objLs){
+		b->Write("", TObject::kOverwrite); delete b; b = nullptr;
+	}
+	fvme->Close(); delete fvme; fvme = nullptr;
+	fpxi->Close(); delete fpxi; fpxi = nullptr;
 	
 	cout << "\033[33;1mCount of successfully matched events between PXI and VME data: " << cntAlignment << "\n\033[0m";
 	cout << "\033[33;1mFutile count: " << cntFutile << "\n\033[0m";
+	
+	cout << "\n\n\033[33;1mDONE\033[0m\n\n";
 }
 
 
