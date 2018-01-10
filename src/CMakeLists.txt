@@ -5,7 +5,7 @@
 #
 # Created Time: 2017/10/18
 # Author: SUN Yazhou, asia.rabbit@163.com
-# Last Modified: 2017/12/23, SUN Yazhou
+# Last Modified: 2018/1/10, SUN Yazhou
 ##################################################################################################
 
 find_package(ROOT REQUIRED)
@@ -30,4 +30,7 @@ target_link_libraries(t0 ${ROOT_LIBRARIES} libetf)
 
 add_executable(str strcali.C)
 target_link_libraries(str ${ROOT_LIBRARIES} libetf)
+
+add_executable(vme vme.C)
+target_link_libraries(vme ${ROOT_LIBRARIES} libetf)
 

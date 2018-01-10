@@ -278,7 +278,7 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 	TH1F *hsigmaTot = new TH1F("hsigmaTot", "hsigmaTot", 500, 0., 1.5);
 	TH2F *h2void = new TH2F("h2void", "h2void", nr, 0., rmx, 800, -4.0, 4.0); // for slick use
 	TGraph *gsigmaTot = new TGraph();
-	gsigmaTot->SetNameTitle("gsigmaTot", "Drift Distance v.s. Spatial Resolution;r/mm;\\sigma/mm");
+	gsigmaTot->SetNameTitle("gsigmaTot", "Drift Distance v.s. Spatial Resolution;r [mm];\\sigma~[mm]");
 	TH1F *hmean[3][3], *hsigma[3][3]; // [DC#][XUV]
 	TGraph *gsigma[3][3]; // [DC#][XUV]
 	for(int i = 0; i < 3; i++) for(int j = 0; j < 3; j++){
@@ -287,7 +287,7 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 		sprintf(name, "hsigma_DC%d_%c", i, xuv[j]);
 		hsigma[i][j] = new TH1F(name, name, 500, 0., 1.5);
 		sprintf(name, "gsigma_DC%d_%c", i, xuv[j]);
-		sprintf(title, "Drift Distance v.s. Spatial Resolution- DC%d %c;r/mm;\\sigma/mm", i, xuv[j]);
+		sprintf(title, "Drift Distance v.s. Spatial Resolution- DC%d %c;r [mm];\\sigma~[mm]", i, xuv[j]);
 		gsigma[i][j] = new TGraph();
 		gsigma[i][j]->SetNameTitle(name, title);
 	}
@@ -359,7 +359,7 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 							double npro = hpro->GetEntries();
 							const double rms = hpro->GetRMS();
 							if(0) if(0 == l) npro = 0; // the first bin is biased
-							if(npro < 200. || rms > 0.45){ // stastics is too small
+							if(npro < 200. || rms > 0.5){ // stastics is too small or STRcor nasty
 								strCor[str_id][l] = 0.;
 								strCorSigma[str_id][l] = 0.;
 								continue;

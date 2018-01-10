@@ -8,10 +8,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/9.															     //
-// Last modified: 2017/11/25, SUN Yazhou.										     //
+// Last modified: 2018/1/8, SUN Yazhou.											     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -38,7 +38,7 @@ public:
 	void SetVeff(double veff){ fVeff = veff; }
 	void AppendDelay(double delay){ fDelay += delay; }
 	void SetGlobalProjection(const double *Ag);
-	friend TAPlaStrip;
+	friend class TAPlaStrip;
 protected:
 	void SetDelay(double delay){ fDelay = delay; } // should be called with caution
 	double fWidth; // width of a stip

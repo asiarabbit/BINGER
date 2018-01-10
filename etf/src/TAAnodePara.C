@@ -183,7 +183,7 @@ double TAAnodePara::GetSpatialResolution(double r, double k) const{ // smeared a
 	else return 0.2; // .2
 } // end of member function GetSpatialResolution(...)
 void TAAnodePara::DriftTimeQtCorrection(double &driftTime, double TOT, double &weight){
-	TAPopMsg::Debug("TAAnodePara", "DriftTimeQtCorrection: is being called."); // DEBUG
+//	TAPopMsg::Debug("TAAnodePara", "DriftTimeQtCorrection: is being called."); // DEBUG
 	if(TOT < 250. || TOT > 1000.){
 		weight = 1.;
 		return; // very probable noise

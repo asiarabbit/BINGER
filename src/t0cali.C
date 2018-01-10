@@ -1,4 +1,5 @@
 // t0cali.C -- fit the T0 constants
+// Created: 2017/12/1, Lasted modified: 2018/1/1, Author: SUN Yazhou
 #include <iostream>
 #include <cstdlib>
 #include "TAEventProcessor.h"

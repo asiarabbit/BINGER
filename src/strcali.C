@@ -1,4 +1,5 @@
 // strcali.C -- Space-Time Relation Self-Calibration
+// Created: 2017/12/1, Lasted modified: 2018/1/1, Author: SUN Yazhou
 #include <iostream>
 #include <cstdlib>
 #include "TAEventProcessor.h"
@@ -21,7 +22,7 @@ int main(int argc, char *argv[]){
 	if(isDCArrR) str = new TASTRCalibDCArrR(argv[1]);
 	else str = new TASTRCalibDCArrL(argv[1]);
 	str->SetIsBigStatistics(true); // mark if the statistics is enough, then fill behavior would vary
-	str->ChiHistogramming(false); // true: using 3D cali; false: using trk-proj cali
+	str->ChiHistogramming(true); // true: using 3D cali; false: using trk-proj cali
 	str->GenerateSTRCorFile(round);
 	// adopt the calibration
 	char cmd[128];
