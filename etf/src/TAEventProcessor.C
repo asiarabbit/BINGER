@@ -173,7 +173,7 @@ void TAEventProcessor::Configure(){ // create detectors
 //		TAPopMsg::Warn("TAEventProcessor", "Configurte: has been called once.");
 		return;
 	}
-	// STR_spline.root || STR_stiff.root
+	// STR_spline.root || STR_stiff.root || STR_aaa900.root
 	SetSTRROOTFile("STR_spline.root"); // space-time relations for MWDCs
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
 	// read the global parameters array first; type: 004
@@ -339,6 +339,7 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 			}
 			else break;
 		} // entry assignment for the data section complete
+		if(0 == entry_ls.size()) continue; // empty event
 		// correct time from cycle-clear
 		double bunchIdTime = (abs(entry_t.bunchId) & 0x7FF) * 25.;
 		if(entry_t.bunchId < 0) bunchIdTime *= -1.;

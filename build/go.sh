@@ -23,7 +23,7 @@ wait
 if [ -f $file ]; then
     rm $file
 fi
-hadd $file 2016112*.root
+hadd $file 2016112[5-6]*.dat_0.root
 }
 
 
@@ -36,15 +36,16 @@ hadd $file 2016112*.root
 make -j8
 
 ############# TRACKING ################################
-#pre
-#./t0 $file $isDCArrR
-#./ass $file $isDCArrR 0
+pre
+exit
+./t0 $file $isDCArrR
+./ass $file $isDCArrR 0
 #######################################################
 
 
 ############# CALIBRATION #############################
 for i in $(seq 4 4); do
-	echo "__________________________STRCor loop $i, DCArr Option: $isDCArrR_______________________________"
+	echo "_____ STRCor loop $i, DCArr Option: $isDCArrR _______"
     ./str $file $isDCArrR $i
     pre
     ./ass $file $isDCArrR $i

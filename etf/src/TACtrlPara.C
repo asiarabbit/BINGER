@@ -33,12 +33,13 @@ TACtrlPara *TACtrlPara::Instance(){
 	return kInstance;
 }
 TACtrlPara::~TACtrlPara(){
-	if(!kInstance) delete kInstance;
-	kInstance = nullptr;
+	if(kInstance){
+		delete kInstance; kInstance = nullptr;
+	}
 }
 
 bool TACtrlPara::IsCheckBunchIdAlignment(){ return true; }
-bool TACtrlPara::IsDriftTimeQtCorrection(){ return true; }
+bool TACtrlPara::IsDriftTimeQtCorrection(){ return false; }
 bool TACtrlPara::IsCoarseFit(){ return kIsCoarseFit; }
 bool TACtrlPara::Is3DTracking(){ return kIs3DTracking; }
 // tolerance window for 3D coincidence test of X U and V track projections
@@ -74,7 +75,7 @@ double TACtrlPara::DsquareThresholdPerDot(unsigned uid){
 	int type[6]{}; TAUIDParser::DNS(type, uid);
 	if(3 != type[0] && 4 != type[0])
 		TAPopMsg::Error("TACtrlPara", "GetTOFWallStripDelay: Not an MWDC array");
-	static double d2Thre[2] = {30., 30.};
+	static double d2Thre[2] = {25., 25.};
 	return d2Thre[type[0] - 3];
 }
 // calculate the minmum deviation of a track off the fired strips in a TOF wall
