@@ -320,7 +320,7 @@ void TAVMEReader::Match(const string &VMEROOTFile, const string &PXIROOTFile){
 	int cntAlignment = 0; // number of successfully aligned triggers between PXI and VME data
 	int cntFutile = 0; // futile entries count
 	// {168762, 178658}: 006; {68140}: 009;
-	const int errormap[] = {}; // {82478, 91288}: 11232237.001;
+	const int errormap[] = {82478, 91288}; // {82478, 91288}: 11232237.001;
 	for(int i = 0; i < n; i++){
 		treeTrack->GetEntry(i);
 		const double tofInPXI = 86.32638784 / beta; // 25.88 * 1000. / (beta*c0)

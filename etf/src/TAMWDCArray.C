@@ -173,7 +173,7 @@ bool TAMWDCArray::Compatible(double k, double b, double ku, double bu, double kv
 	return true;
 }
 
-void TAMWDCArray::TrackMerger(){ // assembly projections to 3-D tracks.
+void TAMWDCArray::TrackMerger(){ // assembly projections to 3-D tracks
 #ifdef DEBUG
 	cout << "\033[32;1m" << GetName() << "\033[0m" << endl; // DEBUG
 	cout << "This is TAMWDCArray::TrackMerger():" << endl; // DEBUG

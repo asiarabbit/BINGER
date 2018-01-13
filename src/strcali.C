@@ -22,10 +22,13 @@ int main(int argc, char *argv[]){
 	if(isDCArrR) str = new TASTRCalibDCArrR(argv[1]);
 	else str = new TASTRCalibDCArrL(argv[1]);
 	str->SetIsBigStatistics(true); // mark if the statistics is enough, then fill behavior would vary
-	str->ChiHistogramming(true); // true: using 3D cali; false: using trk-proj cali
+	str->ChiHistogramming(false); // true: using 3D cali; false: using trk-proj cali
 	str->GenerateSTRCorFile(round);
 	// adopt the calibration
 	char cmd[128];
 	sprintf(cmd, "mv STRCorrection/*.003 %s/STR_cor/", ep->GetCtrlPara()->ConfigExpDir());
 	system(cmd);
+	
+	delete str; str = nullptr;
+	return 0;
 }

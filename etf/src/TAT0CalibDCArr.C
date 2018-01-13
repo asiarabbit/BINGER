@@ -294,7 +294,7 @@ void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcAr
 					anodeId[0] = i; anodeId[1] = j; anodeId[2] = m; anodeId[3] = k;
 					const int nn = hdt->GetEntries();
 //					printf("i: %d, j: %d, m: %d, k: %d, hdt: %s, n: %f\n", i,j,m,k,hdt->GetName(), hdt->GetEntries()); cout << "name: " << name << endl; getchar(); // DEBUG
-					if(nn >= 800){ // the statistics is enough.
+					if(nn >= 800){ // the statistics is enough
 						fd->SetParameter(2, 0.); fd->SetParameter(3, 0.1);
 						const double hdtmx = hdt->GetMaximum();
 						fd->SetParameter(0, 0.9*hdtmx);
