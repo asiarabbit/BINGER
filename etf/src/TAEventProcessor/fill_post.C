@@ -40,8 +40,35 @@
 				TOTUV[j] = strip->GetUV()->GetTOT(); TOTUH[j] = strip->GetUH()->GetTOT();
 				TOTDV[j] = strip->GetDV()->GetTOT(); TOTDH[j] = strip->GetDH()->GetTOT();
 			}
-			// particle identification //
+			// track information
+			const double &kl = k[j]; // to distinguish slope k from incremental k below
+			for(int k = 0; k < 6; k++){ // loop over anode layers
+				short dcId = k/2; // DC[0-1-2]
+				short layerOption = k%2+1; // 1: X(U,V)1; 2: X(U,V)2
+				nu[j][k] = tra->nu[k];
+				t[j][k] = tra->t[k];
+				w[j][k] = tra->w[k];
+				r[j][k] = tra->r[k];
+				chi[j][k] = tra->chi[k];
+				hdt[dcArrId][dcId][dcType]->Fill(tra->t[k]);
+				// TOT of DC signals
+				if(nu[j][k] >= 0){
+					TAMWDC *dc = dcArr[dcArrId]->GetMWDC(dcId);
+					TAAnode *ano = dc->GetAnode(dcType, layerOption, nu[j][k]);
+					TOT_DC[j][k] = tra->dcTOT[k] = ano->GetTOT();
+					sfe16Id[j][k] = ((TAAnodePara*)ano->GetPara())->GetSFE16Id();
+					chit[j][k] = ano->GetDriftTime(r[j][k]+chi[j][k], kl) - t[j][k];
+				} // end if
+				else{
+					TOT_DC[j][k] = -9999.; chit[j][k] = -9999.;
+					sfe16Id[j][k] = -1;
+				}
+			} // end for over k
+			TOT_DC_Avrg[j] = tra->dcTOTAvrg();
+			index = tra->index; // indexes are the same in the loop.
+			tra->beta = beta2[j];
 
+			// particle identification //
 			int ii = 0; taHitX[j] = -9999.; tof2[j] = -9999.; sipmArrStripId[j] = -1;
 			int priority = 0, priorityM = 1000; // to select the optimal fired sipmArr strip time
 			if(sipmArr->GetNFiredStrip() >= 1){
@@ -73,7 +100,6 @@
 			if(tRef != -9999. && firedStripId[j] >= 0){
 				tof2[j] = tofw[dcArrId]->GetStripTime(firedStripId[j], tRef, 9., 40.) - tRef;
 			}
-
 			yp[j][0] = -9999.; yp[j][1] = -9999.; trkLenT[j] -9999.;
 			aoz[j] = -9999.; aozdmin[j] = -9999.; beta2[j] = -1.;
 			if(0 == dcType && tof2[j] > 0. && -9999. != taHitX[j]){ // X tracks
@@ -88,29 +114,6 @@
 					cntaoz++;
 				}
 			} // end the lengthy if
-			// track information
-			for(int k = 0; k < 6; k++){ // loop over anode layers
-				short dcId = k/2; // DC[0-1-2]
-				short layerOption = k%2+1; // 1: X(U,V)1; 2: X(U,V)2
-				nu[j][k] = tra->nu[k];
-				t[j][k] = tra->t[k];
-				w[j][k] = tra->w[k];
-				r[j][k] = tra->r[k];
-				chi[j][k] = tra->chi[k];
-				hdt[dcArrId][dcId][dcType]->Fill(tra->t[k]);
-				// TOT of DC signals
-				if(nu[j][k] >= 0){
-					TAMWDC *dc = dcArr[dcArrId]->GetMWDC(dcId);
-					TAAnode *ano = dc->GetAnode(dcType, layerOption, nu[j][k]);
-					TOT_DC[j][k] = tra->dcTOT[k] = ano->GetTOT();
-					sfe16Id[j][k] = ((TAAnodePara*)ano->GetPara())->GetSFE16Id();
-				} // end if
-				else TOT_DC[j][k] = -9999.;
-			} // end for over k
-			TOT_DC_Avrg[j] = tra->dcTOTAvrg();
-			index = tra->index; // indexes are the same in the loop.
-			tra->beta = beta2[j];
-			// pid fill //
 			if(-9999. != tof2[j]) htof2->Fill(tof2[j]);
 			if(beta2[j] >= 0.) hbeta2->Fill(beta2[j]);
 			if(-9999. != TOT_DC_Avrg[j]) hdcTOT->Fill(TOT_DC_Avrg[j]);
@@ -124,6 +127,7 @@
 				}
 			}
 		} // end for over j
+
 		// correct drift time and refit with the update, together with pareticle identification //
 //		for(auto &t : trk3DIf) t.initialize(); for(auto &t : pid3DIf) t.initialize();
 		if(ntr >= 3) RefineTracks(n3Dtr, trk3DIf, tof2, taHitX);
@@ -141,6 +145,7 @@
 			TOF_posY[jj] = t.TOF_posY; // hit Y position in TOFW strips, calculated via
 			TOF_posY_refine[jj] = t.TOF_posY_refine; // dt or 3D trks
 			firedStripId3D[jj] = t.firedStripId; tof2_3D[jj] = t.tof2;
+			dcTOTAvrg3D[jj] = t.dcTOTAvrg;
 //			cout << "t.firedStripId: " << t.firedStripId << endl; // DEBUG
 //			cout << "t.tof2: " << t.tof2 << endl; // DEBUG
 //			getchar(); // DEBUG
@@ -149,7 +154,7 @@
 			beta2_3D[jj] = p.beta2; poz3D[jj] = p.poz;
 			yp3D[jj][0] = p.angTaOut[0]; yp3D[jj][1] = p.angTaOut[1];
 			trkLenT3D[jj] = p.trkLenT;
-			hTOFWHitPosCmp[isDCArrR[jj]]->Fill(TOF_posY[jj], TOF_posY_refine[jj]); // 600=1200/2
+			hTOFWHitPosCmp[isDCArrR[jj]]->Fill(TOF_posY[jj], TOF_posY_refine[jj]);
 		} // end for over 3D tracks
 		// update drift time and drift distance
 		for(int j = 0; j < ntr; j++){

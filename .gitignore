@@ -52,6 +52,7 @@ doc/
 misc/*
 !misc/tools/Garfield/
 !build/*.sh
-Lab/
+!build/*.C
+La/
 data/
 

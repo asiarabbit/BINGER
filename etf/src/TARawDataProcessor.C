@@ -188,12 +188,12 @@ int TARawDataProcessor::ReadOffline(){
 			// To see if the event is a vacant event, which only has a section head and  a fragment head.
 			if(frag_h[0].data_len == 0){
 				cout << "This event has no data! frag_h[0].data_len == 0.";
-				cout << " Framgent Number: " << frag_nu << endl;
+				cout << " frag_nu: " << frag_nu << "\tindex: " << index << endl;
 				Is_vacant = 1;
 			}
 		} // end if(frag_nu > 0)
 		else{
-			cout << "This event has no data!" << endl;
+			cout << "This event has no data!" << "\tindex: " << index << endl;
 			Is_vacant = 1;
 		}
 

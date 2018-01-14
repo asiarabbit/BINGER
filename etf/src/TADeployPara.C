@@ -8,10 +8,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/12.															     //
-// Last modified: 2017/10/20, SUN Yazhou.										     //
+// Last modified: 2018/1/13, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -81,7 +81,7 @@ double TADeployPara::GetTOFWallDelayAvrg(unsigned uid) const{
 	if(3 != type[0] && 4 != type[0])
 		TAPopMsg::Error("TADeployPara", "GetTOFWallDelayAvrg: Not an MWDC array");
 
-	static double ccDelayAvrg_TOFWall[2] = {2.33, -4.67};
+	const double ccDelayAvrg_TOFWall[2] = {2.33, -4.67};
 	return ccDelayAvrg_TOFWall[type[0] - 3]; // [0-1]: DCArr[L-R]
 }
 double TADeployPara::GetMWDCDelay(unsigned uid) const{
@@ -91,8 +91,8 @@ double TADeployPara::GetMWDCDelay(unsigned uid) const{
 	if(type[1] >= 3)
 		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an MWDC");
 
-	double offset0[2] = {15.33, 10.33}; // delay between TOFWall and DCs
-	double delay = GetTOFWallDelayAvrg(uid) + offset0[type[0] - 3];
+	const double offset0[2] = {20.8, 9.}; // from FEE to HPTDC
+	double delay = offset0[type[0] - 3];
 	delay += -TACtrlPara::Instance()->T_wireMean(uid);
 	return delay;
 }

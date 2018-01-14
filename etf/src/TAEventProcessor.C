@@ -167,13 +167,14 @@ void TAEventProcessor::SetDataFile(const string &datafile, int runId){
 void TAEventProcessor::SetPeriod(int index0, int index1){
 	GetRawDataProcessor()->SetPeriod(index0, index1);
 }
-void TAEventProcessor::Configure(){ // create detectors
+// create detectors
+void TAEventProcessor::Configure(){
 	static bool isCalled = false; // make sure that no matter how many times called,
 	if(isCalled){ // configure function would only be implemented once
 //		TAPopMsg::Warn("TAEventProcessor", "Configurte: has been called once.");
 		return;
 	}
-	// STR_spline.root || STR_stiff.root
+	// STR_spline.root || STR_stiff.root || STR_aaa900.root
 	SetSTRROOTFile("STR_spline.root"); // space-time relations for MWDCs
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
 	// read the global parameters array first; type: 004
@@ -339,6 +340,7 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 			}
 			else break;
 		} // entry assignment for the data section complete
+		if(0 == entry_ls.size()) continue; // empty event
 		// correct time from cycle-clear
 		double bunchIdTime = (abs(entry_t.bunchId) & 0x7FF) * 25.;
 		if(entry_t.bunchId < 0) bunchIdTime *= -1.;
@@ -509,17 +511,43 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 //		cout << "Chi: " << trk3DIf[jj].Chi << endl; // DEBUG
 //		cout << "tof2: " << trk3DIf[jj].tof2 << endl; getchar(); // DEBUG
 
-		// calculate TOF hit position
+		//// calculate TOF hit position ////
 		double p2[3]{}; // p2: fired strip projection
 		trk3DIf[jj].firedStripId = tl[it]->firedStripId;
 		TAPlaStrip *strip = dcArr->GetTOFWall()->GetStrip(tl[it]->firedStripId);
 		strip->GetStripPara()->GetGlobalProjection(p2); // retrieve fired strip projection
 		p2[1] = trkVec[1] * p2[2] + trkVec[3]; // y = k2 z + b2;
 //		p2[0] = trkVec[0] * p2[2] + trkVec[2]; // x = k1 z + b1;
-		trk3DIf[jj].TOF_posY_refine = p2[1]+600.;
+		trk3DIf[jj].TOF_posY_refine = p2[1]+600.; // 600.=1200./2. [0-1-2]: [x-y-z]
 		trk3DIf[jj].TOF_posY = strip->GetHitPosition();
 //		cout << "TOF_posY: " << trk3DIf[jj].TOF_posY << endl; // DEBUG
 //		cout << "TOF_posY_refine: " << trk3DIf[jj].TOF_posY_refine << endl; getchar(); // DEBUG
+		//// Get averaged TOT of DC signals ////
+		// calculate averaged TOT over all the hit anode layers
+		double TOTAvrgtmp = 0.; int TOTcnt = 0;
+		// get the average, temporary, for the following filtering
+		for(int j = 0; j < 3; j++){ // loop over XUV
+			const int it = trkId[jj][j]; // trk id
+			for(int k = 0; k < 6; k++){ // loop over six anode layers in the  three MWDCs
+				if(tl[it]->dcTOT[k] >= 250.){
+					TOTAvrgtmp += tl[it]->dcTOT[k]; TOTcnt++;
+				}
+			} // end for over k
+		} // end for voer XUV
+		if(0 == TOTcnt) continue;
+		TOTAvrgtmp /= TOTcnt; // the temporary average
+		TOTcnt = 0; trk3DIf[jj].dcTOTAvrg = 0.; // initialization for average update
+		for(int j = 0; j < 3; j++){ // loop over XUV
+			const int it = trkId[jj][j]; // trk id
+			for(int k = 0; k < 6; k++){ // loop over six anode layers in the  three MWDCs
+				if(tl[it]->dcTOT[k] >= TOTAvrgtmp*0.6){ // or it is deemed as noise
+					trk3DIf[jj].dcTOTAvrg += tl[it]->dcTOT[k]; TOTcnt++;
+				}
+			} // end for over k
+		} // end for voer XUV
+		if(0 == TOTcnt) trk3DIf[jj].dcTOTAvrg = -9999.; // failed
+		else trk3DIf[jj].dcTOTAvrg /= TOTcnt; // the updated average
+
 	} // end for over jj
 } // end of member function RefineTracks
 // refine PID using the refined 3D track information

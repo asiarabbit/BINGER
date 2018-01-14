@@ -70,6 +70,18 @@ void TAVMEReader::ReadVME(const string &vmeDatafile, const string &vmerootfile){
 	if(0 != access(vmeDatafile.c_str(), F_OK))
 		TAPopMsg::Error("TAVMEReader", "ReadVME: vme data file %s not found or doesn't exist.\nNote that data files are NOT supposed to be placed in build (very possibly the current) directory", vmeDatafile.c_str());
 	TAPopMsg::Info("TAVMEReader", "ReadVME: VME data file to be processed: %s", vmeDatafile.c_str());
+	if(!strcmp("", vmerootfile.c_str()))
+		TAPopMsg::Error("TAVMEReader", "ReadVME: Input rootfile name is empty");
+	TFile *file = nullptr; // the vmerootfile pointer
+	if(strcmp(vmerootfile.c_str(), "") && 0 == access(vmerootfile.c_str(), F_OK)){ // rootfile exists
+		TAPopMsg::Info("TAVMEReader", "ReadVME: VME ROOT file %s already exists. Exiting...", vmerootfile.c_str());
+		file = new TFile(vmerootfile.c_str(), "UPDATE");
+		if(file->Get("treeVME")) return; // the function has been implemented once
+	}
+	TABUAA *bua = new TABUAA(vmeDatafile, vmerootfile);
+	bua->ReadOffline(); // create, fill and write the vme tree in a created rootfile
+	file = new TFile(vmerootfile.c_str(), "UPDATE");
+	bua->SetROOTFile(file); // attach the vme tree in the rootfile
 
 	// postion relative to the target
 	const double Z_PL1 = -818.3; // z position of PL1 detector
@@ -135,11 +147,6 @@ void TAVMEReader::ReadVME(const string &vmeDatafile, const string &vmerootfile){
 	treeVME->Branch("Q_PL[4]", Q_PL, "Q_PL[4]/D");
 	treeVME->Branch("X_PL[2]", X_PL, "X_PL[2]/D"); // x of hit position in PL detectors
 	objLs.push_back(treeVME);
-
-	TABUAA *bua = new TABUAA(vmeDatafile, vmerootfile);
-	bua->ReadOffline(); // create, fill and write the vme tree in a created rootfile
-	TFile *file = new TFile(vmerootfile.c_str(), "UPDATE");
-	bua->SetROOTFile(file); // attach the vme tree in the rootfile
 
 	TTree *vme = bua->GetTreeVME();
 	const int n = vme->GetEntries();
@@ -228,26 +235,30 @@ void TAVMEReader::ReadVME(const string &vmeDatafile, const string &vmerootfile){
 }
 
 // match vme and PXI data tree event by event
-void TAVMEReader::Match(const string &PXIROOTFile, const string &VMEROOTFile){
+void TAVMEReader::Match(const string &VMEROOTFile, const string &PXIROOTFile){
 	if(!strcmp(PXIROOTFile.c_str(), ""))
 		TAPopMsg::Error("TAVMEReader", "Match: PXIROOTFile name is empty");
 	if(0 != access(PXIROOTFile.c_str(), F_OK))
 		TAPopMsg::Error("TAVMEReader", "Match: %s doesn't exist", PXIROOTFile.c_str());
 	if(0 != access(VMEROOTFile.c_str(), F_OK))
 		TAPopMsg::Error("TAVMEReader", "Match: %s doesn't exist", VMEROOTFile.c_str());
+	TAPopMsg::Info("TAVMEReader", "Match: Input PXIROOTFile is %s", PXIROOTFile.c_str());
 	vector<TObject *> objLs; // to write and destory ROOT objects
 	TFile *fvme = new TFile(VMEROOTFile.c_str());
 	TFile *fpxi = new TFile(PXIROOTFile.c_str(), "update");
 	TTree *treeVME = (TTree*)fvme->Get("treeVME");
 	TTree *treeTrack = (TTree*)fpxi->Get("treeTrack");
+	if(!treeVME) TAPopMsg::Error("TAVMEReader", "Match: extracted treeVME is null pointer");
+	if(!treeTrack) TAPopMsg::Error("TAVMEReader", "Match: extracted treeTrack is null pointer");
 	TTree *treeVME_M = new TTree("treeVME_M", "Matched VME tree with treeTrack");
 	objLs.push_back(treeVME_M);
 	int index, sca2;
 	double beta; // variables to extracted from treeTrack
 	// variables to be extracted from treeVME_M. In fact it is all of them.
-	double TaX, TaY, thetaIn, phiIn, thetaOut, phiOut, zin, zout, tof, Ain;
+	double TaX, TaY, thetaIn, phiIn, thetaOut, phiOut, tof, Ain;
+	double zin, dEin, zout, dEout;
 	double XP[3], YP[3]; // positions read from the three MWPCs [MWPC0-1-2]
-	bool isVeto[2], isPileUp, isMWPCMiss[3], isFutile; // isFutile: mark fuitle VME entries.
+	bool isVeto[2], isPileUp, isMWPCMiss[3], isFutile; // isFutile: mark fuitle VME entries
 	treeTrack->SetBranchAddress("index", &index);
 	treeTrack->SetBranchAddress("beta", &beta); // to calculate tof1PXI
 
@@ -259,7 +270,9 @@ void TAVMEReader::Match(const string &PXIROOTFile, const string &VMEROOTFile){
 	treeVME->SetBranchAddress("thetaOut", &thetaOut);
 	treeVME->SetBranchAddress("phiOut", &phiOut);
 	treeVME->SetBranchAddress("zin", &zin);
+	treeVME->SetBranchAddress("dEin", &dEin);
 	treeVME->SetBranchAddress("zout", &zout);
+	treeVME->SetBranchAddress("dEout", &dEout);
 	treeVME->SetBranchAddress("tof1VME", &tof); // tof over the 25.88m flight
 	treeVME->SetBranchAddress("Ain", &Ain);
 	treeVME->SetBranchAddress("XP", XP);
@@ -276,7 +289,9 @@ void TAVMEReader::Match(const string &PXIROOTFile, const string &VMEROOTFile){
 	treeVME_M->Branch("thetaOut", &thetaOut, "thetaOut/D");
 	treeVME_M->Branch("phiOut", &phiOut, "phiOut/D");
 	treeVME_M->Branch("zin", &zin, "zin/D");
+	treeVME_M->Branch("dEin", &dEin, "dEin/D");
 	treeVME_M->Branch("zout", &zout, "zout/D");
+	treeVME_M->Branch("dEout", &dEout, "dEout/D");
 	treeVME_M->Branch("tof1VME", &tof, "tof1VME/D"); // tof over the 25.88m flight
 	treeVME_M->Branch("Ain", &Ain, "Ain/D");
 	treeVME_M->Branch("XP", XP, "XP[3]/D");
@@ -288,11 +303,12 @@ void TAVMEReader::Match(const string &PXIROOTFile, const string &VMEROOTFile){
 	treeVME_M->Branch("isFutile", &isFutile, "isFutile/O");
 
 	// for VME-PXI alignment test
-	TH2F *hTOFInVMEvsTOFInPXI  = new TH2F("hTOFInVMEvsTOFInPXI", "hTOFIn-VME vs TOFIn-PXI of Beam In;TOFIn-VME [ns];TOFIn-PXI [ns]", 800, 120., 165., 800, 120., 165.);
-	TH2F *hEvIndexTimeDevi = new TH2F("hEvIndexTimeDevi", "Event Index v.s. TOF1 Deviation;event index;dt [ns]", 2000, 0., 42000., 500, -20., 30.);
+	TH2F *hTOFInVMEvsTOFInPXI  = new TH2F("hTOFInVMEvsTOFInPXI", "hTOFIn-VME vs TOFIn-PXI of Beam In;TOFIn-VME [ns];TOFIn-PXI [ns]", 800, 120., 180., 800, 120., 180.);
+	TH2F *hEvIndexTimeDevi = new TH2F("hEvIndexTimeDevi", "Event Index v.s. TOF1 Deviation;event index;dt [ns]", 2000, 0., 200000., 5000, -10., 10.);
 	TH2F *hLminusR_VMEvsPXI = new TH2F("hLminusR_VMEvsPXI", "hLminusR_VME vs PXI;L-R_VME [channel];L-R_PXI [ns]", 80, 2190.5, 2270.5, 48, 2.2, 3.4);
 	TH1F *hdd = new TH1F("hdd", "Difference of Trigger Indices between PXI and VME data;PXI;VME", 2001, -1000.5, 1000.5);
-	objLs.push_back(hEvIndexTimeDevi); objLs.push_back(hLminusR_VMEvsPXI); objLs.push_back(hdd);
+	objLs.push_back(hEvIndexTimeDevi); objLs.push_back(hLminusR_VMEvsPXI);
+	objLs.push_back(hdd); objLs.push_back(hTOFInVMEvsTOFInPXI);
 
 	const int n = treeTrack->GetEntries();
 	const int vmeN = treeVME->GetEntries();
@@ -305,9 +321,11 @@ void TAVMEReader::Match(const string &PXIROOTFile, const string &VMEROOTFile){
 	} // end if
 
 	int vme_i = -1; // the entry id of VME data tree
-	int vme_offset = 0; // the difference between VME and PXI synchronization.
+	int vme_offset = 0; // triggers sent from PXI but missed by VME
 	int cntAlignment = 0; // number of successfully aligned triggers between PXI and VME data
-	int cntFutile = 0; // futile entries count 
+	int cntFutile = 0; // futile entries count
+	// {168762, 178658}: 006; {68140}: 009;
+	const int errormap[] = {82478, 91288}; // {82478, 91288}: 11232237.001;
 	for(int i = 0; i < n; i++){
 		treeTrack->GetEntry(i);
 		const double tofInPXI = 86.32638784 / beta; // 25.88 * 1000. / (beta*c0)
@@ -315,23 +333,9 @@ void TAVMEReader::Match(const string &PXIROOTFile, const string &VMEROOTFile){
 		if(vme_i >= vmeN) break; // end of treeVME reached
 		vme_i = index - vme_offset;
 		treeVME->GetEntry(vme_i);
-		
-		// // error map // //
-		// to trace the trigger error along events, exclusive to specific data file
-		if(sca2 >= 82478) sca2 -= 1;
-		if(sca2 >= 91288) sca2 -= 1;
-		// --> 006
-//		if(sca2 >= 168762) sca2 -= 1;
-//		if(sca2 >= 178658) sca2 -= 1;
-		// 006 <--
-		// --> 009
-//		if(sca2 >= 68140) sca2 -= 1;
-		// 009 <--
-		// // error map // //
-		
-		
+		for(const int &a : errormap) if(sca2 >= a) sca2 -= 1; // compensate for sca2 overjump
+//		sca2 += 1; // uncomment for 20161125.004
 		const int dd = sca2 - 1 - index;
-//		cout << "\nsca2: " << sca2 << "\tindex: " << index << endl; getchar(); // DEBUG
 		hdd->Fill(dd);
 		if(0 != dd){ // DEBUG
 #ifdef DEBUG
@@ -350,21 +354,19 @@ void TAVMEReader::Match(const string &PXIROOTFile, const string &VMEROOTFile){
 			cout << "\033[32;1mvme_offset: " << vme_offset << endl; // DEBUG
 			cout << "sca2: " << sca2 << endl; // DEBUG
 			cout << "PXI index: " << index << "\n\033[0m"; // DEBUG
-			if(dd != 1){
-				cout << "dd: " << dd << endl;
-				getchar(); // DEBUG
+			if(1 != dd){
+				cout << "\033[36;1m************ dd: " << dd << " ****************\033[0m\n";
 			} // end if
-			vme_offset += dd;
-			cntFutile++;
+			vme_offset += dd; cntFutile++;
 			treeVME_M->Fill(); // this entry is futile, only filled to match PXI entry
 		} // end if
-		else {
+		else{
 			if(0 == dd){
 				cntAlignment++; // event alignment success
-//				if(sca2 < 100000)
+				if(sca2 < 100000)
 					isFutile = false;
 			} // end if
-//			if(sca2 >= 80000) // && sca2 < 10000000) // 
+			if(sca2 >= 0 && sca2 < 100000)
 				hTOFInVMEvsTOFInPXI->Fill(tof, tofInPXI);
 //			isFutile = true;
 			treeVME_M->Fill();
@@ -378,7 +380,8 @@ void TAVMEReader::Match(const string &PXIROOTFile, const string &VMEROOTFile){
 	}
 	fvme->Close(); delete fvme; fvme = nullptr;
 	fpxi->Close(); delete fpxi; fpxi = nullptr;
-	
+
+	cout << "\nPXI entries: " << n << "\tVME entries: " << vmeN << endl;
 	cout << "\033[33;1mCount of successfully matched events between PXI and VME data: " << cntAlignment << "\n\033[0m";
 	cout << "\033[33;1mFutile count: " << cntFutile << "\n\033[0m";
 	

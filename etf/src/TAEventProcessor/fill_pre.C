@@ -106,6 +106,7 @@
 			if(-9999. != t0_0){
 				tof1 = tRef - t0_0;
 				beta = L / tof1 / c0;
+//				cout << "t0_0: " << t0_0 << "\ttRef: " << tRef << endl; // DEBUG
 //				cout << "index: " << index << "\ttof1: " << tof1 << endl; // DEBUG
 //				cout << "beta: " << beta << endl; getchar(); // DEBUG
 			}
