@@ -26,7 +26,8 @@
 	double aoz[ntrMax], aozdmin[ntrMax], poz[ntrMax]; // aoz
 	double yp[ntrMax][2]; // dx/dz; dy/dz, on the target hit position
 	// w: weight for weight addition of chi to chi2
-	double chi[ntrMax][6], chi2[ntrMax], Chi[ntrMax], w[ntrMax][6];
+	// chit: drift time error suggested by fitted tracks
+	double chi[ntrMax][6], chi2[ntrMax], Chi[ntrMax], w[ntrMax][6], chit[ntrMax][6];
 	double TOF[ntrMax], nStripStray[ntrMax], xMiss3D[ntrMax][3];
 	// beta2: w.r.t. tof2, trkLenT: total track length from the target to the TOF wall
 	double beta2[ntrMax], trkLenT[ntrMax];
@@ -68,6 +69,7 @@
 	treeTrack->Branch("chi2", chi2, "chi2[ntr]/D"); // sum of chi^2
 	treeTrack->Branch("Chi", Chi, "Chi[ntr]/D"); // sqrt(chi2/nFiredAnodeLayer)
 	treeTrack->Branch("TOF", TOF, "TOF[ntr]/D");
+	treeTrack->Branch("chit", chit, "chit[ntr][6]/D"); // drift time error suggested by fitted tracks
 	treeTrack->Branch("tof2", tof2, "tof2[ntr]/D"); // tof from T0_1 to TOFW
 	treeTrack->Branch("taHitX", taHitX, "taHitX[ntr]/D");
 	treeTrack->Branch("beta2", beta2, "beta2[ntr]/D"); // beta from T0_1 to TOFW
@@ -139,7 +141,8 @@
 	// hit position in TOFW strip, rough and refine, from Down End to up end (0-1200).
 	double TOF_posY[n3DtrMax], TOF_posY_refine[n3DtrMax]; // refine: calculate through 3D trks
 	// 3D counterpart of treeTrack
-	int firedStripId3D[n3DtrMax]; double tof2_3D[n3DtrMax];
+	int firedStripId3D[n3DtrMax];
+	double tof2_3D[n3DtrMax], dcTOTAvrg3D[n3DtrMax];
 	double aoz3D[n3DtrMax], aozdmin3D[n3DtrMax], beta2_3D[n3DtrMax];
 	double yp3D[n3DtrMax][2], poz3D[n3DtrMax], trkLenT3D[n3DtrMax];
 	t3DTrkInfo trk3DIf[n3DtrMax]; t3DPIDInfo pid3DIf[n3DtrMax];
@@ -157,12 +160,13 @@
 	treePID3D->Branch("b2", b2, "b2[n3Dtr]/D");
 	treePID3D->Branch("TOF_posY", TOF_posY, "TOF_posY[n3Dtr]/D"); // rough TOF hit postion
 	treePID3D->Branch("TOF_posY_refine", TOF_posY_refine, "TOF_posY_refine[n3Dtr]/D");
-	treePID3D->Branch("firedStripId", firedStripId3D, "firedStripId3D[n3Dtr]/I");
-	treePID3D->Branch("tof2", tof2_3D, "tof2_3D[n3Dtr]/D");
+	treePID3D->Branch("firedStripId", firedStripId3D, "firedStripId[n3Dtr]/I");
+	treePID3D->Branch("tof2", tof2_3D, "tof2[n3Dtr]/D");
+	treePID3D->Branch("TOT_DC_Avrg", dcTOTAvrg3D, "TOT_DC_Avrg[n3Dtr]/D");
 	// 3D PID result using the same PID method
 	treePID3D->Branch("aoz", aoz3D, "aoz[n3Dtr]/D");
 	treePID3D->Branch("aozdmin", aozdmin3D, "aozdmin[n3Dtr]/D");
-	treePID3D->Branch("beta2_3D", beta2_3D, "beta2_3D[n3Dtr]/D");
+	treePID3D->Branch("beta2", beta2_3D, "beta2[n3Dtr]/D");
 	treePID3D->Branch("angTaOut", yp3D, "angTaOut[n3Dtr][2]/D"); // out angle at the target hit point
 	treePID3D->Branch("trkLenT", trkLenT3D, "trkLenT[n3Dtr]/D");
 	treePID3D->Branch("poz", poz3D, "poz[n3Dtr]/D"); // MeV/c

@@ -184,9 +184,9 @@ double TAAnodePara::GetSpatialResolution(double r, double k) const{ // smeared a
 } // end of member function GetSpatialResolution(...)
 void TAAnodePara::DriftTimeQtCorrection(double &driftTime, double TOT, double &weight){
 //	TAPopMsg::Debug("TAAnodePara", "DriftTimeQtCorrection: is being called."); // DEBUG
-	if(TOT < 250. || TOT > 1000.){
+	if(TOT < 250. || TOT > 1000. || driftTime > 300.){
 		weight = 1.;
-		return; // very probable noise
+		return; // very probable noise or correction is of little meaning
 	}
 	if(TOT < 300.){ // the fomula can be invalid
 		driftTime += -9.89;

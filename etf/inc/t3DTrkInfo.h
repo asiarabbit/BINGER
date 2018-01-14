@@ -10,10 +10,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/11/23.															     //
-// Last modified: 2017/12/29, SUN Yazhou.										     //
+// Last modified: 2018/1/14, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -26,8 +26,10 @@ struct t3DTrkInfo{
 	int firedStripId;
 	double TOF_posY, TOF_posY_refine; // hit Y position in TOFW strip, rough and refine (dt or 3Dtrk)
 	double chi[18], chi2, Chi;
+	// time over threshold of DC signals, indicator of dE/dx
+	double dcTOTAvrg; // averaged over all hit anode layers for a 3D track (maximum: 18)
 	bool isDCArrR;
-	
+
 	t3DTrkInfo();
 	void initialize();
 };
