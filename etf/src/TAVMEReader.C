@@ -255,7 +255,8 @@ void TAVMEReader::Match(const string &VMEROOTFile, const string &PXIROOTFile){
 	int index, sca2;
 	double beta; // variables to extracted from treeTrack
 	// variables to be extracted from treeVME_M. In fact it is all of them.
-	double TaX, TaY, thetaIn, phiIn, thetaOut, phiOut, zin, zout, tof, Ain;
+	double TaX, TaY, thetaIn, phiIn, thetaOut, phiOut, tof, Ain;
+	double zin, dEin, zout, dEout;
 	double XP[3], YP[3]; // positions read from the three MWPCs [MWPC0-1-2]
 	bool isVeto[2], isPileUp, isMWPCMiss[3], isFutile; // isFutile: mark fuitle VME entries
 	treeTrack->SetBranchAddress("index", &index);
@@ -269,7 +270,9 @@ void TAVMEReader::Match(const string &VMEROOTFile, const string &PXIROOTFile){
 	treeVME->SetBranchAddress("thetaOut", &thetaOut);
 	treeVME->SetBranchAddress("phiOut", &phiOut);
 	treeVME->SetBranchAddress("zin", &zin);
+	treeVME->SetBranchAddress("dEin", &dEin);
 	treeVME->SetBranchAddress("zout", &zout);
+	treeVME->SetBranchAddress("dEout", &dEout);
 	treeVME->SetBranchAddress("tof1VME", &tof); // tof over the 25.88m flight
 	treeVME->SetBranchAddress("Ain", &Ain);
 	treeVME->SetBranchAddress("XP", XP);
@@ -286,7 +289,9 @@ void TAVMEReader::Match(const string &VMEROOTFile, const string &PXIROOTFile){
 	treeVME_M->Branch("thetaOut", &thetaOut, "thetaOut/D");
 	treeVME_M->Branch("phiOut", &phiOut, "phiOut/D");
 	treeVME_M->Branch("zin", &zin, "zin/D");
+	treeVME_M->Branch("dEin", &dEin, "dEin/D");
 	treeVME_M->Branch("zout", &zout, "zout/D");
+	treeVME_M->Branch("dEout", &dEout, "dEout/D");
 	treeVME_M->Branch("tof1VME", &tof, "tof1VME/D"); // tof over the 25.88m flight
 	treeVME_M->Branch("Ain", &Ain, "Ain/D");
 	treeVME_M->Branch("XP", XP, "XP[3]/D");

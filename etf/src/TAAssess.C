@@ -525,7 +525,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 	cout << "\t\033[0mVTrkCnt: \033[1m" << ntrTot[2] << endl;
 	cout << "\nhasAllCnt: \033[1m" << hasAllCnt;
 	cout << "\033[0m\tTotal 3D track count: \033[1m" << n3DtrTot;
-	cout << "\033[0m\nMatch Success rate (n3DtrTot/ntrTot): \033[1m";
+	cout << "\033[0m\nMatch Success rate (n3DtrTot/ntrTotX): \033[1m";
 	cout << double(n3DtrTot) / ntrTot[0] << "\033[0m\n";
 	cout << "\n\033[31;1m_______________ \033[32;1msoftware efficiency ";
 	cout << "\033[31;1m__________________\033[0m\n\n";

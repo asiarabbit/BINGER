@@ -39,7 +39,7 @@ TACtrlPara::~TACtrlPara(){
 }
 
 bool TACtrlPara::IsCheckBunchIdAlignment(){ return true; }
-bool TACtrlPara::IsDriftTimeQtCorrection(){ return false; }
+bool TACtrlPara::IsDriftTimeQtCorrection(){ return true; }
 bool TACtrlPara::IsCoarseFit(){ return kIsCoarseFit; }
 bool TACtrlPara::Is3DTracking(){ return kIs3DTracking; }
 // tolerance window for 3D coincidence test of X U and V track projections

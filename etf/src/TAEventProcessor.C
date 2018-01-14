@@ -167,7 +167,8 @@ void TAEventProcessor::SetDataFile(const string &datafile, int runId){
 void TAEventProcessor::SetPeriod(int index0, int index1){
 	GetRawDataProcessor()->SetPeriod(index0, index1);
 }
-void TAEventProcessor::Configure(){ // create detectors
+// create detectors
+void TAEventProcessor::Configure(){
 	static bool isCalled = false; // make sure that no matter how many times called,
 	if(isCalled){ // configure function would only be implemented once
 //		TAPopMsg::Warn("TAEventProcessor", "Configurte: has been called once.");

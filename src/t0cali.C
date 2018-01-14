@@ -28,7 +28,7 @@ int main(int argc, char *argv[]){
 	t0->GenerateCalibFile(false);
 	// adopt the calibration
 	char cmd[128];
-	sprintf(cmd, "mv T0Calibration/*.002 %s/T0/", ep->GetCtrlPara()->ConfigExpDir()); system(cmd);
+//	sprintf(cmd, "mv T0Calibration/*.002 %s/T0/", ep->GetCtrlPara()->ConfigExpDir()); system(cmd);
 
 	delete t0; t0 = nullptr;	
 	return 0;

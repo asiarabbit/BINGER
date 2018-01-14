@@ -34,9 +34,10 @@ hadd $file 2016112[5-6]*.dat_0.root
 make -j8
 ############# TRACKING ################################
 pre
-#exit
+exit
 ############# T0 Calibration ##########################
 ./t0 $file $isDCArrR
+pre
 ./ass $file $isDCArrR 0
 #######################################################
 
