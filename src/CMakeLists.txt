@@ -34,3 +34,6 @@ target_link_libraries(str ${ROOT_LIBRARIES} libetf)
 add_executable(vme vme.C)
 target_link_libraries(vme ${ROOT_LIBRARIES} libetf)
 
+add_executable(pid3 pid3.C)
+target_link_libraries(pid3 ${ROOT_LIBRARIES})
+

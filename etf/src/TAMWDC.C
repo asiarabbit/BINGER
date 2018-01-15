@@ -117,7 +117,7 @@ void TAMWDC::GetAnodeCenterPosition(int dcType, int layerOption, int anodeId, do
 	}
 	if(TAMWDC::kV == type){
 		// + 4. -> DEBUG
-		p_local[0] = (x0 + 10. * n - 4. + 4. * l) * cos(30. * degree); // x V(l+1) 
+		p_local[0] = (x0 + 10. * n - 4. + 4. * l) * cos(30. * degree); // x V(l+1), unique from X U
 		p_local[1] = p_local[0] * tan(30. * degree); // y
 		p_local[2] = 10. * l + 40.8; // z
 	}

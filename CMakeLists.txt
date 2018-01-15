@@ -12,7 +12,7 @@ cmake_minimum_required(VERSION 3.6)
 set(PROJECT_NAME BINGER)
 project(${PROJECT_NAME})
 
-#add_compile_options(-g) # for gdb debugging
+add_compile_options(-g) # for gdb debugging
 
 add_subdirectory(etf) # library path
 add_subdirectory(src) # user-defined source file path

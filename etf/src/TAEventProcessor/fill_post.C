@@ -130,6 +130,7 @@
 
 		// correct drift time and refit with the update, together with pareticle identification //
 //		for(auto &t : trk3DIf) t.initialize(); for(auto &t : pid3DIf) t.initialize();
+		n3Dtr = 0;
 		if(ntr >= 3) RefineTracks(n3Dtr, trk3DIf, tof2, taHitX);
 		if(n3Dtr > 0) RefinePID(n3Dtr, trk3DIf, pid3DIf);
 //		cout << "n3Dtr: " << n3Dtr << endl; getchar(); // DEBUG
