@@ -163,6 +163,8 @@
 52 0.8
 # T0_0Delay
 53 -207.
+# dcTOTNoiseLevel unit: ns, DC TOT exceeding it would be invalidized
+54 250.
 
 
 

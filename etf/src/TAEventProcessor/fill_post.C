@@ -65,7 +65,7 @@
 				}
 			} // end for over k
 			TOT_DC_Avrg[j] = tra->dcTOTAvrg();
-			index = tra->index; // indexes are the same in the loop.
+			index = tra->index; // indexes are the same in the loop
 			tra->beta = beta2[j];
 
 			// particle identification //
@@ -130,6 +130,7 @@
 
 		// correct drift time and refit with the update, together with pareticle identification //
 //		for(auto &t : trk3DIf) t.initialize(); for(auto &t : pid3DIf) t.initialize();
+		n3Dtr = 0;
 		if(ntr >= 3) RefineTracks(n3Dtr, trk3DIf, tof2, taHitX);
 		if(n3Dtr > 0) RefinePID(n3Dtr, trk3DIf, pid3DIf);
 //		cout << "n3Dtr: " << n3Dtr << endl; getchar(); // DEBUG
@@ -162,7 +163,9 @@
 			for(int k = 0; k < 6; k++){
 				t[j][k] = tra->t[k];
 				r[j][k] = tra->r[k];
+				TOT_DC[j][k] = tra->dcTOT[k]; // update TOT
 			}
+			TOT_DC_Avrg[j] = tra->dcTOTAvrg(); // update TOTAvrg
 		} // end for over tracks
 		for(TTree *&tree : objLsTree) tree->Fill();
 		gTrkEff->SetPoint(cntSec, cntSec, cnt3DTrk/3./cntTrk);
