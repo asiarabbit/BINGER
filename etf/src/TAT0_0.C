@@ -47,7 +47,7 @@ double TAT0_0::GetDelay() const{
 }
 // get TOF time
 double TAT0_0::GetTime(double t0, double t1, double t2) const{
-	return GetUV()->GetLT(t0,t1,t2) - GetDelay();
+	return GetUV()->GetLT(t0+GetDelay(),t1,t2) - GetDelay();
 }
 // return up end of the strip, HPTDC very high resolution mode.
 TAChannel *TAT0_0::GetUV() const{

@@ -225,7 +225,8 @@ int main(){
 				hr_avg->Fill(r_avg[0]);
 				hPIDPXI->Fill(tof2[0], TOT_DC_avg[0]);
 				for(int j = 0; j < 3; j++) for(int k = 0; k < 6; k++)
-				if(TOT_DC[trkId[j][jj]][k] >= 0.){ // 250.
+//				if(TOT_DC[trkId[j][jj]][k] >= 0.)
+				{ // 250.
 					int jt = trkId[j][jj]; // track id
 					hsqrtTOTvsChi->Fill(chi[jt][k], sqrt(TOT_DC[jt][k]));
 					hTOTvsChi->Fill(chi[jt][k], TOT_DC[jt][k]);
@@ -233,6 +234,9 @@ int main(){
 
 					hsqrtTOTvsChit->Fill(chit[jt][k], sqrt(TOT_DC[jt][k]));
 					hTOTvsChit->Fill(chit[jt][k], TOT_DC[jt][k]);
+					cout << "index: " << index << endl; // DEBUG
+					cout << "TOT_DC: " << TOT_DC[jt][k] << endl; // DEBUG
+					getchar(); // DEBUG
 					hTOTavrgvsChit->Fill(chit[jt][k], TOT_DC_avg[0]);
 					// {10.7, 11.5, 133.7, 136.5}; // Ne23 OK
 					// {11.5, 13.3, 133.0, 135.4}; // Na25 OK

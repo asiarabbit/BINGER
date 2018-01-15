@@ -11,7 +11,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/13.															     //
-// Last modified: 2018/1/14, SUN Yazhou.										     //
+// Last modified: 2018/1/15, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -529,7 +529,7 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 		for(int j = 0; j < 3; j++){ // loop over XUV
 			const int it = trkId[jj][j]; // trk id
 			for(int k = 0; k < 6; k++){ // loop over six anode layers in the  three MWDCs
-				if(tl[it]->dcTOT[k] >= 250.){
+				if(tl[it]->dcTOT[k] >= GetGPar()->Val(54)){
 					TOTAvrgtmp += tl[it]->dcTOT[k]; TOTcnt++;
 				}
 			} // end for over k
@@ -540,9 +540,12 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 		for(int j = 0; j < 3; j++){ // loop over XUV
 			const int it = trkId[jj][j]; // trk id
 			for(int k = 0; k < 6; k++){ // loop over six anode layers in the  three MWDCs
+//				cout << "j: " << j << "\tk: " << k << endl; // DEBUG
+//				cout << "TOTAvrgtmp: " << TOTAvrgtmp << "\ttl[it]->dcTOT[k]: " << tl[it]->dcTOT[k] << endl; getchar(); // DEBUG
 				if(tl[it]->dcTOT[k] >= TOTAvrgtmp*0.6){ // or it is deemed as noise
 					trk3DIf[jj].dcTOTAvrg += tl[it]->dcTOT[k]; TOTcnt++;
 				}
+				else tl[it]->dcTOT[k] = -9999.; // 2018-01-15, slick, rule out noise-like TOTs
 			} // end for over k
 		} // end for voer XUV
 		if(0 == TOTcnt) trk3DIf[jj].dcTOTAvrg = -9999.; // failed

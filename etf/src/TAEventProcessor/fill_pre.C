@@ -73,7 +73,7 @@
 		double timeUV_T0_1 = -9999., timeDV_T0_1 = -9999., dmin_T0_1 = 1E200;
 		for(int j = 0; j < nUVLEdge_T0_1; j++){
 			double tmpuv = T0_1->GetUV()->GetTime(j) - T0_1_delayAvrg;
-			double tmpdv = T0_1->GetDV()->GetLT(tmpuv) - T0_1_delayAvrg;
+			double tmpdv = T0_1->GetDV()->GetLT(tmpuv+T0_1_delayAvrg) - T0_1_delayAvrg; // 
 			double tmpdt = fabs(tmpuv - tmpdv);
 			if(tmpuv > timeToTrigHighBoundUV || tmpuv < timeToTrigLowBoundUV) tmpdt += 20.;
 			if(tmpdt < dmin_T0_1){
@@ -81,7 +81,6 @@
 				timeUV_T0_1 = tmpuv; timeDV_T0_1 = tmpdv;
 			}
 		}
-		dmin_T0_1 = timeUV_T0_1 - timeDV_T0_1;
 		hTOF_T1_pos->Fill(dmin_T0_1);
 		if(dmin_T0_1 > -20. && dmin_T0_1 < 60.){
 			tRef = (timeUV_T0_1 + timeDV_T0_1) / 2.;
@@ -99,10 +98,11 @@
 #endif
 		// calculate beta in RIBLL2 //
 		// Time of Flight and beam energy measurement in RIBLL2
+		beta = -1.; // initialization
 		static const double L = 25.88 * 1000.; // the length of RIBLL2
 		double tof1 = -9999.; // time of flight in RIBLL2
-		if(-9999. != tRef && T0_0 && T0_1){
-			const double t0_0 = T0_0->GetTime(tRef, 100., 180.);
+		if(-9999. != tRef){
+			const double t0_0 = T0_0->GetTime(tRef, -180., -100.);
 			if(-9999. != t0_0){
 				tof1 = tRef - t0_0;
 				beta = L / tof1 / c0;

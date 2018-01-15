@@ -234,6 +234,14 @@ TAGPar::TAGPar() : fParVec{0}, fHasRead(false){
 	// ---- PARAMETER 53 --- //
 	p = new TAParameter("T0_0Delay", "T0_0Delay");
 	p->SetValue(-853.716); fParVec[53] = p; p = nullptr;
+	// ---- PARAMETER 54 --- //
+	p = new TAParameter("dcTOTNoiseLevel", "dcTOTNoiseLevel");
+	p->SetValue(250.); fParVec[54] = p; p = nullptr; // this value is for beam test
 }
+
+
+
+
+
 
 

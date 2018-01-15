@@ -65,7 +65,7 @@
 				}
 			} // end for over k
 			TOT_DC_Avrg[j] = tra->dcTOTAvrg();
-			index = tra->index; // indexes are the same in the loop.
+			index = tra->index; // indexes are the same in the loop
 			tra->beta = beta2[j];
 
 			// particle identification //
@@ -163,7 +163,9 @@
 			for(int k = 0; k < 6; k++){
 				t[j][k] = tra->t[k];
 				r[j][k] = tra->r[k];
+				TOT_DC[j][k] = tra->dcTOT[k]; // update TOT
 			}
+			TOT_DC_Avrg[j] = tra->dcTOTAvrg(); // update TOTAvrg
 		} // end for over tracks
 		for(TTree *&tree : objLsTree) tree->Fill();
 		gTrkEff->SetPoint(cntSec, cntSec, cnt3DTrk/3./cntTrk);
