@@ -1,5 +1,4 @@
 #!/bin/bash
-#generate simulation data
 rawfile=20171030_1608.dat
 file=${rawfile}".root"
 nev=967854
@@ -11,9 +10,9 @@ sleep 0; ./pre -d5 $rawfile -i`expr $dn \* 0` -f`expr $dn \* 1` -u0 &
 sleep 3; ./pre -d5 $rawfile -i`expr $dn \* 1` -f`expr $dn \* 2` -u1 &
 sleep 6; ./pre -d5 $rawfile -i`expr $dn \* 2` -f`expr $dn \* 3` -u2 &
 wait
-sleep 3; ./pre -d5 $rawfile -i`expr $dn \* 3` -f`expr $dn \* 4` -u3 &
-sleep 6; ./pre -d5 $rawfile -i`expr $dn \* 4` -f`expr $dn \* 5` -u4 &
-sleep 9; ./pre -d5 $rawfile -i`expr $dn \* 5` -f`expr $dn \* 7` -u5 &
+sleep 0; ./pre -d5 $rawfile -i`expr $dn \* 3` -f`expr $dn \* 4` -u3 &
+sleep 3; ./pre -d5 $rawfile -i`expr $dn \* 4` -f`expr $dn \* 5` -u4 &
+sleep 6; ./pre -d5 $rawfile -i`expr $dn \* 5` -f`expr $dn \* 7` -u5 &
 wait
 if [ -f $file ]; then
     rm $file

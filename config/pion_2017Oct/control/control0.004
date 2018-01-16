@@ -1,6 +1,6 @@
 ##################################################################################################
 # Data Analysis Code Project for the External Target Facility, CSR-HIRFL, @IMP
-# Specifically for: pion_2017Oct	20171030_1608.dat
+# Specifically for: pion_2017Oct	20171030_1608.dat noMag
 #
 # User input global parameters for specific experiments or data taking
 # Users are not allowed to changed parameter ids, or there could be dire consequences
@@ -11,7 +11,7 @@
 #
 # Created Time: 2017/12/26
 # Author: SUN Yazhou, asia.rabbit@163.com
-# Last Modified: 2018/1/15, SUN Yazhou
+# Last Modified: 2018/1/16, SUN Yazhou
 ##################################################################################################
 
 # time unit: ns; length unit: mm;
@@ -28,31 +28,31 @@
 
 # Detector time to trig range: to select signals belonging to the same one particle in an event
 # T0_1ToTrigLBUV
-0   300.
+0   250.
 # T0_1ToTrigHBUV
-1   550.
+1   600.
 # T0_1ToTrigLBDV
-2   300.
+2   250.
 # T0_1ToTrigHBDV
-3   550.
+3   600.
 # T0_1DelayAvrg: average delay for T0_1, applying to both UV and DV
 4   0.
 # tofwToTrigLB
 5   300.
 # tofwToTrigHB
-6   800.
+6   650.
 # dcToTrigLB
-7   450.
+7   400.
 # dcToTrigHB
-8   920.
+8   800.
 # sipmPlaArrToTrigLB
 9   200.
 # sipmPlaArrToTrigHB
 10  750.
 # sipmPlaBarrToTrigLB
-11  250.
+11  300.
 # sipmPlaBarrToTrigHB
-12  700.
+12  650.
 
 # DC sense wire high voltage (HV) #
 # Note that only a selected set of HVs are simulated by Garfield to get STRs,
@@ -93,7 +93,7 @@
 # HVDCR1U
 26  3
 # HVDCR1V
-27  3
+27  -1
 # HVDCR2X
 28  3
 # HVDCR2U
@@ -121,29 +121,29 @@
 # T_tof: time of flight: used to correct drift time
 # T_tofDC0toTOFWLX: T_tof from X sense wires of DC0 to TOFW, for MWDC arrayL
 # T_tofDC0toTOFWLX
-34  6.6
+34  8.3
 # T_tofDC0toTOFWLU
-35  4.1
+35  5.4
 # T_tofDC0toTOFWLV
-36  1.4
+36  2.3
 # T_tofDC0toTOFWRX
-37  8.5
+37  6.4
 # T_tofDC0toTOFWRU
-38  5.5
+38  4.0
 # T_tofDC0toTOFWRV
-39  2.2
+39  1.3
 
 # Parameters owned by class TACtrlPara
 # 3DCoincideWindow
-40 10.
+40 1e10
 # D2Thre
-41 17.
+41 57.
 # TimeThreLB
 42 -40.
 # TimeThreHB
 43 350.
 # ChiThrePD
-44 3.
+44 4.
 # Vicinity
 45 2
 # StripTolerance

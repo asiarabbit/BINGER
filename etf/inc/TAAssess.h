@@ -39,7 +39,7 @@ public:
 	virtual void EvalDCArr(int runId = 0, bool isDCArrR = true);
 	static void EvalDCArr(const string &rootfile, DetArr_t *detList, int runid = 0, bool isDCArrR = true);
 	// evaluation done after Eval event by event
-	virtual void PostEval(int round = 0);
+	virtual void PostEval(int round = 0, bool isDCArrR = true);
 	static bool PostEval(const string &rootfile, int round = 0, bool isDCArrR = true, bool is3D = true);
 protected:
 	static TAAssess *fInstance;

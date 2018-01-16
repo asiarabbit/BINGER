@@ -571,18 +571,16 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 } // end of member function EvalDCArr3D
 
 // evaluation done after Eval event by event
-void TAAssess::PostEval(int round){
+void TAAssess::PostEval(int round, bool isDCArrR){
 	if(!strcmp("", fROOTFile.c_str()))
 		TAPopMsg::Error("TAAssess", "PostEval: rootfile name is empty");
 	TAPopMsg::Info("TAAssess", "PostEval: Input rootfile: %s", fROOTFile.c_str());
 	if(0 != access(fROOTFile.c_str(), F_OK))
 		TAPopMsg::Error("TAAssess", "PostEval: Input rootfile %s doesn't exist", fROOTFile.c_str());
 
-	bool success0 = PostEval("assess"+fROOTFile, round, true, true);
-	bool success1 = PostEval("assess"+fROOTFile, round, true, false);
-	bool success2 = PostEval("assess"+fROOTFile, round, false, true);
-	bool success3 = PostEval("assess"+fROOTFile, round, false, false);
-	if(!success0 && !success1 && !success2 && !success3)
+	bool success0 = PostEval("assess"+fROOTFile, round, isDCArrR, true);
+	bool success1 = PostEval("assess"+fROOTFile, round, isDCArrR, false);
+	if(!success0 && !success1)
 		TAPopMsg::Info("TAAssess", "PostEval: No eligible hrt_04_sample is found whatsoever and wheresoever\n");
 	else
 		cout << "\033[33;1m\n\nDONE\n\n\033[0m";

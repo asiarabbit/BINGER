@@ -125,7 +125,7 @@ void TAVisual::Configure(){
 	fGChannel = new TGraph(); fGChannel->SetNameTitle("Channel", "Channel");
 	fGChannel->SetMarkerStyle(21); fGChannel->SetMarkerColor(4);
 
-	fH2HitMap = new TH2F("HitDistri", "HitDistri;Z/mm;X/mm", 300, 0., 3000., 400, -2000., 2000.);
+	fH2HitMap = new TH2F("HitDistri", "HitDistri;Z/mm;X/mm", 800, 0., L, 500, -W, W);
 	fHitMapData = new tHitMap[fAnodeArr.size()];
 	const int n = fAnodeArr.size();
 //	TAPopMsg::Debug("TAVisual", "Configure: Anode array size: %d", n); // DEBUG
