@@ -1,6 +1,6 @@
 ##################################################################################################
 # Data Analysis Code Project for the External Target Facility, CSR-HIRFL, @IMP
-# Specifically for: pion_2017Oct	20171030_1608.dat
+# Specifically for: pion_2017Oct	20171029_0002.dat
 #
 # User input global parameters for specific experiments or data taking
 # Users are not allowed to changed parameter ids, or there could be dire consequences
@@ -11,7 +11,7 @@
 #
 # Created Time: 2017/12/26
 # Author: SUN Yazhou, asia.rabbit@163.com
-# Last Modified: 2018/1/15, SUN Yazhou
+# Last Modified: 2017/12/26, SUN Yazhou
 ##################################################################################################
 
 # time unit: ns; length unit: mm;
@@ -28,19 +28,19 @@
 
 # Detector time to trig range: to select signals belonging to the same one particle in an event
 # T0_1ToTrigLBUV
-0   300.
+0   450.
 # T0_1ToTrigHBUV
-1   550.
+1   620.
 # T0_1ToTrigLBDV
-2   300.
+2   450.
 # T0_1ToTrigHBDV
-3   550.
+3   620.
 # T0_1DelayAvrg: average delay for T0_1, applying to both UV and DV
 4   0.
 # tofwToTrigLB
 5   300.
 # tofwToTrigHB
-6   800.
+6   700.
 # dcToTrigLB
 7   450.
 # dcToTrigHB

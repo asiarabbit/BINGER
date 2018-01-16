@@ -15,7 +15,7 @@ int main(int argc, char *argv[]){
 	}
 	TAEventProcessor *ep = TAEventProcessor::Instance();
 	const char dir[2][64] = {"pion_2017Oct", "beamTest_2016Nov"};
-	ep->SetConfigExpDir(dir[1]); ep->Configure();
+	ep->SetConfigExpDir(dir[0]); ep->Configure();
 	TAAssess *ass = TAAssess::Instance();
 	ass->SetROOTFile(argv[1]);
 	const int round = atoi(argv[3]);

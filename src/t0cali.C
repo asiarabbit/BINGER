@@ -17,7 +17,7 @@ int main(int argc, char *argv[]){
 	bool isDCArrR = bool(atoi(argv[2]));
 	TAEventProcessor *ep = TAEventProcessor::Instance();
 	const char dir[2][64] = {"pion_2017Oct", "beamTest_2016Nov"};
-	ep->SetConfigExpDir(dir[1]); ep->Configure();
+	ep->SetConfigExpDir(dir[0]); ep->Configure();
 	TAT0CalibDCArr *t0 = nullptr;
 	if(isDCArrR) t0 = new TAT0CalibDCArrR(argv[1]);
 	else t0 = new TAT0CalibDCArrL(argv[1]);
@@ -28,7 +28,7 @@ int main(int argc, char *argv[]){
 	t0->GenerateCalibFile(false);
 	// adopt the calibration
 	char cmd[128];
-//	sprintf(cmd, "mv T0Calibration/*.002 %s/T0/", ep->GetCtrlPara()->ConfigExpDir()); system(cmd);
+	sprintf(cmd, "mv T0Calibration/*.002 %s/T0/", ep->GetCtrlPara()->ConfigExpDir()); system(cmd);
 
 	delete t0; t0 = nullptr;	
 	return 0;
