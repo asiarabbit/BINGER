@@ -61,11 +61,6 @@ void TAT0CalibDCArr::Refine_DTHisto(bool isCalib){
 	Refine_DTHisto(fROOTFile, fDCArr, HasCorrected(), isCalib);
 }
 void TAT0CalibDCArr::Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, bool hasCorrected, bool isCalib){
-	if(isCalib && TAParaManager::Instance()->Exist(2)){
-//		TAPopMsg::Error("TAT0CalibDCArr", "GenerateCalibFile: T0 Calibration files already exist in config/[experiment]/T0, which should be deleted firsly. Are you sure to continue?");
-		char cmd[128]; sprintf(cmd, "rm %s/T0/*", TACtrlPara::Instance()->ConfigExpDir());
-		system(cmd);
-	}
 	TAPopMsg::Info("TAT0CalibDCArr", "Refine_DTHisto: Input rootfile name: %s", rootfile.c_str());
 	const double phiAvrg = dcArr->GetPhiAvrg(); // average of phi over the three MWDCs
 	const bool LRTAG = bool(dcArr->GetUID()-3); // 3: L; 4: R
@@ -226,11 +221,6 @@ void TAT0CalibDCArr::GenerateCalibFile(bool isShowFit){
 	GenerateCalibFile(fROOTFile, fDCArr, isShowFit);
 }
 void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcArr, bool isShowFit){
-	if(TAParaManager::Instance()->Exist(2)){
-//		TAPopMsg::Error("TAT0CalibDCArr", "GenerateCalibFile: T0 Calibration files already exist in config/[experiment]/T0, which should be deleted first. Are you sure to continue?");
-		char cmd[128]; sprintf(cmd, "rm %s/T0/*", TACtrlPara::Instance()->ConfigExpDir());
-		system(cmd);
-	}
 	TAPopMsg::Info("TAT0CalibDCArr", "GenerateCalibFile: Input rootfile name: %s, MWDC Array Name: %s", rootfile.c_str(), dcArr->GetName().c_str());
 	if(0 != access(rootfile.c_str(), F_OK))
 		TAPopMsg::Error("TAT0CalibDCArr", "GenerateCalibFile: Input rootfile %s doesn't exist", rootfile.c_str());
@@ -261,6 +251,13 @@ void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcAr
 	// Generate the calibration file
 	cout << "\33[34;1mUPDATING T0 FILE...\033[0m" << endl;
 	sprintf(name, "%s/%s_.002", strdir, dcArr->GetName().c_str());
+	// check that if the T0 config file already exists
+	// The T0 calibration should be implemented with the absence of the target T0 config files
+	if(TAParaManager::Instance()->Exist(2)){
+		TAPopMsg::Info("TAT0CalibDCArr", "GenerateCalibFile: T0 Calibration files already exist in config/[experiment]/T0:");
+		char cmd[128]; sprintf(cmd, "echo;echo ls %s/T0/*:; ls %s/T0/*;echo", TACtrlPara::Instance()->ConfigExpDir(), TACtrlPara::Instance()->ConfigExpDir());
+		system(cmd);
+	}
 	ofstream outFile(name);
 	outFile.setf(ios_base::fixed, ios_base::floatfield);
 	outFile.precision(3);

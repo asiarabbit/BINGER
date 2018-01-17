@@ -17,9 +17,10 @@ wait
 if [ -f $file ]; then
     rm $file
 fi
-hadd $file ${rawfile}"_[0-5].root"
-#if [ -f $rawfile"_[0-5].root" ]; then
-#    rm $rawfile"_[0-5].root"
+rootfile=${rawfile}"_[0-5].root"
+hadd $file $rootfile
+#if [ -f ${rawfile}"_0.root" ]; then
+#    rm $rootfile
 #fi
 }
 
@@ -31,9 +32,12 @@ hadd $file ${rawfile}"_[0-5].root"
 make -j8
 ############# TRACKING ################################
 pre
+./ass $file 0 -1
+./ass $file 1 -1
 #exit
 ############# T0 Calibration ##########################
 ./t0 $file 0
+./t0 $file 1
 pre
 ./ass $file 0 0
 ./ass $file 1 0

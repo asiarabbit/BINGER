@@ -38,6 +38,7 @@ public:
 	TObject *Agent(unsigned int id) const;
 	friend class TAParaManager;
 	bool HasRead() const{ return fHasRead; }
+	void Write(); // write Agent
 protected:
 	TAGPar();
 	TAParameter *Parameter(unsigned int id) const; // for modify the parameters

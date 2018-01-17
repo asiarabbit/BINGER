@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2017/12/21, SUN Yazhou.										     //
+// Last modified: 2018/1/16, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -17,6 +17,7 @@
 
 #include <iostream>
 #include <cstdlib>
+#include "TH1F.h" // ROOT include
 #include "TAMWDCArray.h"
 #include "TACtrlPara.h"
 #include "TAUIDParser.h"
@@ -36,6 +37,7 @@
 #include "TAChannel.h"
 #include "TAMath.h"
 #include "TAParaManager.h"
+#include "TAGPar.h"
 
 //#define DEBUG // DEBUG MODE
 
@@ -45,6 +47,7 @@ using std::endl;
 static TACtrlPara *ctrlPara = TACtrlPara::Instance();
 const double TAMWDCArray::kPropagationSpeed = 200.; // mm/ns
 const double DEGREE = TAMath::DEGREE();
+static TAGPar *gp = TAGPar::Instance();
 
 TAMWDCArray::TAMWDCArray(const string &name, const string &title, int uid)
 		: TAStuff(name, title, uid), fMWDC{0}, fTOFWall(0){
@@ -187,6 +190,10 @@ void TAMWDCArray::TrackMerger(){ // assembly projections to 3-D tracks
 	cout << "\tv.size(): " << fTrackList[2].size(); // DEBUG
 	getchar(); // DEBUG
 #endif
+	if(fTrackList[0].size() > 0){
+		((TH1F*)gp->Agent(0))->Fill(fTrackList[1].size()); // DEBUG
+		((TH1F*)gp->Agent(1))->Fill(fTrackList[2].size()); // DEBUG
+	}
 
 	if(fTrackList[0].size() <= 0 || // X tracks are indispensable.
 		// no U or V tracks are found, no 3D tracks would be matched

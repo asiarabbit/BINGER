@@ -8,10 +8,10 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/21.															     //
-// Last modified: 2017/12/28, SUN Yazhou.										     //
+// Last modified: 2018/1/16, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -34,6 +34,10 @@
 	if(!f->FindObjectAny("VISUAL")) f->mkdir("VISUAL");
 	f->cd("VISUAL");
 	vis->DrawHitMap();
+
+	if(!f->FindObjectAny("TGPar-Agent")) f->mkdir("TGPar-Agent");
+	f->cd("TGPar-Agent"); TAGPar::Instance()->Write();
+
 
 	cout << "\n";
 	cout << "cntTRefCoincide: " << cntTRef << endl;

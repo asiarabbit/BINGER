@@ -41,8 +41,12 @@ TAGPar::~TAGPar(){
 		delete p; p = nullptr;
 	}
 	for(TObject *&p : fAgentVec) if(p){
-		p->Write("", TObject::kOverwrite);
 		delete p; p = nullptr;
+	}
+}
+void TAGPar::Write(){
+	for(TObject *&p : fAgentVec) if(p){
+		p->Write("", TObject::kOverwrite);
 	}
 }
 

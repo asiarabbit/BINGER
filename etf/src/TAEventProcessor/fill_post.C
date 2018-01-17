@@ -168,7 +168,9 @@
 			TOT_DC_Avrg[j] = tra->dcTOTAvrg(); // update TOTAvrg
 		} // end for over tracks
 		for(TTree *&tree : objLsTree) tree->Fill();
-		gTrkEff->SetPoint(cntSec, cntSec, cnt3DTrk/3./cntTrk);
+		double eff3D = cnt3DTrk/3.;
+		if(0 == cntTrk) eff3D = 0.; else eff3D /= cntTrk;
+		gTrkEff->SetPoint(gTrkEff->GetN(), cntSec, eff3D);
 
 		if(0) vis->FillHitMap();
 		static int jj = 0;
