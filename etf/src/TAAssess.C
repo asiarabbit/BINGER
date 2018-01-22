@@ -642,9 +642,9 @@ bool TAAssess::PostEval(const string &rootfile, int round, bool isDCArrR, bool i
 
 	f->cd(dir);
 	if(gSigma->GetN()) gSigma->Write("", TObject::kOverwrite);
-	else TAPopMsg::Warn("TAAssess", "PostEval: gSigma has no data");
+	else TAPopMsg::Info("TAAssess", "PostEval: gSigma has no data");
 	if(gMean->GetN()) gMean->Write("", TObject::kOverwrite);
-	else TAPopMsg::Warn("TAAssess", "PostEval: gMean has no data");
+	else TAPopMsg::Info("TAAssess", "PostEval: gMean has no data");
 
 	delete fgaus; fgaus = nullptr; delete gSigma; gSigma = nullptr;
 	delete gMean; gMean = nullptr; f->Close(); delete f; f = nullptr;
