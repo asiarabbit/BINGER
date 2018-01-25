@@ -33,7 +33,7 @@ public:
 	// l: x = k1*z+b1; y = k2*z+b2; ki:(k1, k2); bi(b1, b2);
 	// tof2: from target to TOFWall; p[0-3]: k1-k2-b1-b2;
 	// particle transportation in the dipole magnet
-	virtual double Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId = 1, bool isPrecise = true);
+	virtual void Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId = 1, bool isPrecise = true);
 	using TAMagnet::FillGraphTrajectory;
 	void FillGraphTrajectory() const;
 	void SetCurveGraph(TGraph *gcurve){ fGCurve = gcurve; }

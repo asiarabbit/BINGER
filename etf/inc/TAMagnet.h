@@ -48,7 +48,7 @@ public:
 	// (y, yp): position coorinates and their first derivatives.
 	// note that z is the independent variable.
 	// fourth-order Runge-Kutta method is utilized to solve the differential equation.
-	// isTracking: whether to track the particle in the magnetic field or not
+	// isTracking: whether to store particle trajectories for showcase purposes
 	void TransportIon(double *y, double *yp, double zi, double zf, bool isTracking = false);
 	// assign B with the magnetic intensity vector at position p
 	void GetMagneticIntensity(double *B, const double *p);

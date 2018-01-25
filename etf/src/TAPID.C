@@ -54,7 +54,7 @@ TAPID::~TAPID(){}
 // tof2: from target to TOFWall, length2: from exit of magnetic field to hit TOFWall strip
 static double c0 = TAParaManager::Instance()->GetPhysConst("c0");
 // TaHit: target hit position
-double TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, bool isPrecise){
+void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, bool isPrecise){
 	if(0 != dcArrId && 1 != dcArrId) TAPopMsg::Error("TAPID", "Fly: dcArrId neither 0 nor 1 (which is supposed to be a boolean)");
 
 	const double h0 = GetIterationStep(), stepError = GetStepError();
@@ -89,7 +89,7 @@ double TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId
 	double beta = (trkL1+trkL2) / tof2 / c0;
 	if(beta < 0. || beta >= 1.){
 		fIsFlied = true;
-		return -9999.;
+		return;
 	}
 	// after the initial beta was estimated, trkL2 is assigned with l from pi(not pe) to TOFWall
 	trkL2 = // from exit of the magnetic field to TOF wall

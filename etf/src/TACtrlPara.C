@@ -38,7 +38,7 @@ TACtrlPara::~TACtrlPara(){
 	}
 }
 
-bool TACtrlPara::IsCheckBunchIdAlignment(){ return true; }
+bool TACtrlPara::IsCheckBunchIdAlignment(){ return false; }
 bool TACtrlPara::IsDriftTimeQtCorrection(){ return false; }
 bool TACtrlPara::IsCoarseFit(){ return kIsCoarseFit; }
 bool TACtrlPara::Is3DTracking(){ return kIs3DTracking; }

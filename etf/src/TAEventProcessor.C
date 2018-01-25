@@ -350,7 +350,8 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 			for(double &x : t->leadingTime) correctCycleClear(x, bunchIdTime);
 			for(double &x : t->trailingTime) correctCycleClear(x, bunchIdTime);
 		}
-		if(entry_t.channelId > secLenLim) continue; // index==2, then channelId stores secLen
+		if(entry_t.channelId > secLenLim) continue; // index==-2, then channelId stores secLen
+		if(entry_t.channelId < 0) continue; // bunchIdMisAlignment happened
 		if(index < id0){
 			cout << "Skipping Event index " << index << "\r" << flush;
 			continue;
