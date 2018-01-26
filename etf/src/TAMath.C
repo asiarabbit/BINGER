@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/25.															     //
-// Last modified: 2017/12/23, SUN Yazhou.										     //
+// Last modified: 2018/1/26, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -82,7 +82,7 @@ void TAMath::rotate(const double *pIn, double *pOut, const double *angIn){
 	double c1 = cos(angIn[0]), c2 = cos(angIn[1]), c3 = cos(angIn[2]);
 	pOut[0] = (c1*c3-s1*s2*s3)*  pIn[0] -c2*s3* pIn[1] +(c1*s2*s3+s1*c3)* pIn[2];
 	pOut[1] = (c1*s3+s1*s2*c3)*  pIn[0] +c2*c3* pIn[1] +(s1*s3-c1*s2*c3)* pIn[2];
-	pOut[2] = -s1*c2*            pIn[0] +s2*    pIn[1] +c1*c2*            pIn[2];	
+	pOut[2] = -s1*c2*            pIn[0] +s2*    pIn[1] +c1*c2*            pIn[2];
 }
 void TAMath::rotateOffset(const double *pIn, double *pOut, const double *angOff){
 	pOut[0] = pIn[0] -angOff[0]* pIn[1] +angOff[2]* pIn[2]; // x
@@ -140,7 +140,34 @@ void TAMath::GetHitPoint(const double *b, const double *B, const double *a, cons
 	hitpA[2] = a[2]*tt1+A[2];
 } // end of function GetHitPoint
 
+// solve particle trajectory in uniform magnetic field, with only Mag boundry, exit track
+// and target position known; returning the track radius of curvature in the magnetic field
+// input unit: mm; output unit: mm
+// x=kiz+bi, track before Target
+// result: [0-5]: [thetaDeflect, rho, ki, bi, zo, xo]
+// zMagOut->z2; zMagIn->z1; zTa->z0; xTa->x0
+void TAMath::UniformMagneticSolution(double k1, double b1, double z2, double z1, double z0, double x0, double *result){
+	double x2 = k1*z2+b1, x1;
+	#include "TAMath/uniformMagneticSolution.C" // solve x1, i.e. xMagIn
+	double ki = (x1 - x0)/(z1 - z0);
+	double bi = x0 - ki*z0;
+	double zh = (-b1 + bi)/(k1 - ki);
+	double xh = k1*zh + b1;
+	double dtheta = atan(k1) - atan(ki); // anti-clockwise deflection angle
+	double dd2 = (z2-zh)*(z2-zh)+(x2-xh)*(x2-xh); // P1Ph or PhP2 (pdf in misc/tools/math/UniBSolu)
+	double rho = sqrt(dd2)/tan(dtheta/2.);
+	double zo = (k1*ki*(x1 - x2 - ki*z1 + k1*z2))/(k1 - ki);
+	double xo = (-ki*x1 + ki*ki*z1 + k1*(x2 - k1*z2))/(k1 - ki);
+	
+	// output the result
+	result[0] = dtheta; result[1] = rho; result[2] = ki; result[3] = bi;
+	result[4] = zo; result[5] = xo;
+} // end of function UniformMagneticSolution
 
+double TAMath::Gamma(double beta){
+	if(beta < 0. || beta >= 1.) TAPopMsg::Error("TAMath", "Gamma: input beta invalid: %f", beta);
+	return 1./sqrt(1.-beta*beta);
+}
 
 // definitions for fit functions serving class TATrack.
 #include "TAMath/deviaFun.C" // Dsquare, minid2 - global functions.
@@ -148,4 +175,7 @@ void TAMath::GetHitPoint(const double *b, const double *B, const double *a, cons
 #include "TAMath/refinedFit.C" // refinedFit - TAMath member function.
 #include "TAMath/bfgs2.C" // refinedFitBFGS - TAMath member function.
 #include "TAMath/bfgs4.C" // BFGS4 - TAMath member function for 3D linear tracking
+
+
+
 

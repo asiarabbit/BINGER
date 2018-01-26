@@ -8,10 +8,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/23.															     //
-// Last modified: 2017/11/23, SUN Yazhou.										     //
+// Last modified: 2018/1/25, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -40,7 +40,7 @@
 TAPID *TAPID::fInstance = nullptr;
 
 TAPID::TAPID(const string &name, const string &title)
-	: TAMagnet(name, title), fGCurve(0){
+	: TAMagnet(name, title), fGCurve(0), fTOFWall{0}, fT0_1(0){
 	fIsFlied = true; Initialize(); fIsFlied = false;
 	fExB = -9999.;
 }
@@ -53,12 +53,13 @@ TAPID::~TAPID(){}
 // l: x = k1*z+b1; y = k2*z+b2; ki:(k1, k2); bi(b1, b2);
 // tof2: from target to TOFWall, length2: from exit of magnetic field to hit TOFWall strip
 static double c0 = TAParaManager::Instance()->GetPhysConst("c0");
+static double u0MeV = TAParaManager::Instance()->GetPhysConst("u0MeV");
 // TaHit: target hit position
-void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, bool isPrecise){
+void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, const int option){
 	if(0 != dcArrId && 1 != dcArrId) TAPopMsg::Error("TAPID", "Fly: dcArrId neither 0 nor 1 (which is supposed to be a boolean)");
 
 	const double h0 = GetIterationStep(), stepError = GetStepError();
-	if(!isPrecise){
+	if(0 == option){
 		SetIterationStep(h0*5.); // increment for z per step
 		SetStepErrorTolerance(stepError*5.); // truncation error for RK method
 	}
@@ -72,6 +73,7 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 	const double k1 = pOut[0], k2 = pOut[1], b1 = pOut[2], b2 = pOut[3];
 	// the central z coordinate of the target
 	static const double z0_TA = TADeployPara::Instance()->GetTargetZ0();
+	static const double z0_T0_1 = fT0_1->GetZ0();
 	double y0_SiPMArr = 0.; // hit position in the target
 	if(-9999. == x0TaHit) TAPopMsg::Error("TAPID", "GetAoQ: SiPM hit position not properly fired");
 	// 1050.: z border of the magnetic field.  (xi,yi,zi): initial point to start RK propogation.
@@ -82,27 +84,67 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 	double x_tofwHit = (b1*k_tofw - b_tofw*k1) / (k_tofw - k1);
 	double y_tofwHit = (b1 - b_tofw) * k2 / (k_tofw - k1) + b2;
 	double z_tofwHit = (b1 - b_tofw) / (k_tofw - k1);
+	// (xe, ye, ze): exit point from Mag, treated as at the boundry of the magnetic field
 	const double ze = 500., xe = k1*ze + b1, ye = k2*ze + b2;
-	double trkL1 = sqrt(xe*xe + ye*ye + ze*ze) - z0_TA; // track length in the Magnet
+	double trkL1 = sqrt(xe*xe + ye*ye + ze*ze); // half of the track in the Magnet
 	double trkL2 = // from exit of the magnetic field to TOF wall
 		sqrt(pow(x_tofwHit-xe, 2.) + pow(y_tofwHit-ye, 2.) + pow(z_tofwHit-ze, 2.));
-	double beta = (trkL1+trkL2) / tof2 / c0;
+	double beta = (trkL1+trkL2 - z0_T0_1) / tof2 / c0;
 	if(beta < 0. || beta >= 1.){
 		fIsFlied = true;
 		return;
 	}
-	// after the initial beta was estimated, trkL2 is assigned with l from pi(not pe) to TOFWall
+	// particle propagation in uniform magnetic field -- analytic solution exists
+	if(2 == option){
+		const double zMagIn = -500., zMagOut = ze;
+		const double xMagOut = k1*zMagOut+b1;
+		const double B = GetExB();
+		double result[6]{}, dtheta, rho, ki, bi; // dtheta: particle defelct angle by mag
+		double zo, xo; // (zo, xo): rotating center of the arc
+		TAMath::UniformMagneticSolution(k1, b1, zMagOut, zMagIn, z0_TA, x0TaHit, result);
+		dtheta = result[0]; rho = result[1]; ki = result[2]; bi = result[3];
+		zo = result[4]; xo = result[5];
+		const double d0 = (zMagIn-z0_T0_1)*sqrt(1+ki*ki); // from T0_1 to Mag
+		const double d1 = fabs(rho)*dtheta; // arc in the Mag
+		const double d2 = trkL2; // from Mag to TOF wall
+		fTotalTrackLength = d0 + d1 + d2;
+		fBeta = fTotalTrackLength / tof2 / c0;
+		fGamma = TAMath::Gamma(fBeta);
+		// 0.321840605 = e0/(u0*c0*1E6) SI unit
+		fAoZ = B * (rho/1000.) * 0.321840605 / (fBeta * fGamma);
+		fAoZdmin = 0.;
+		fAngleTaOut[0] = atan(ki); fAngleTaOut[1] = 0.;
+		fPoZ = fAoZ * fBeta * fGamma * u0MeV; // MeV/c
+		fIsFlied = true; // fIsflied should be assigned immediately after flying
+		// store the track
+		if(fGCurve){
+			fTrackVec.clear();
+			tra_t tra;
+			const double n = 2000;
+			for(int i = 0; i <= n; i++){
+				double ai = (1. - 2.*i/n)*TAMath::Pi();
+				double zi = zo+fabs(rho)*cos(ai);
+				double xi = xo+fabs(rho)*sin(ai);
+				tra.x = xi; tra.y = 0.; tra.z = zi; tra.rho = rho; tra.brho = rho*B;
+				fTrackVec.push_back(tra);
+			} // end for
+		} // end if(fGCurve)
+		return;
+	} // end if(2 == option)
+
+	// particle propagation in nonuniform magnetic field //
+	// after the initial beta was estimated, trkL2 is assigned with l from pi (not pe) to TOFWall
 	trkL2 = // from exit of the magnetic field to TOF wall
 		sqrt(pow(x_tofwHit-xi, 2.) + pow(y_tofwHit-yi, 2.) + pow(z_tofwHit-zi, 2.));
 
 	double ddmin[2]{}; // quality estimator
 	double aoz, aozc = 1., d2; // aozc: the central aoz
 	double span = 3.; // search scope, aozc-span ~ aozc+span
-	int ln = 1, n = 60; if(!isPrecise){ n = 25; }
+	int ln = 1, n = 60; if(0 == option){ n = 25; }
 	for(int iter = 0; iter < 2; iter++){ // iteration to refine beta1
 		if(1 == iter){
 			// reset search domin, narrow the scope and coodinate the center
-			n = 24; ln = 5; if(!isPrecise){ n = 10; ln = 3; }
+			n = 24; ln = 5; if(0 == option){ n = 10; ln = 3; }
 			span = 1.; aozc = fAoZ;
 			fAoZdmin = 9999.; // reset dmin
 		}
@@ -142,8 +184,8 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 		}
 	} // end iteration to refine beta
 	fIsFlied = true; // fIsflied should be assigned immediately after flying
-	fGamma = 1. / sqrt(1. - fBeta * fBeta);
-	fPoZ = fAoZ * fBeta * fGamma * 931.494; // MeV/c
+	fGamma = TAMath::Gamma(fBeta);
+	fPoZ = fAoZ * fBeta * fGamma * u0MeV; // MeV/c
 
 #ifdef DEBUG
 	cout << "___________________________________________________________\n";
@@ -163,7 +205,7 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 		FillGraphTrajectory();
 	}
 
-	if(!isPrecise){
+	if(0 == option){
 		// recover precision level setttings
 		SetIterationStep(h0); SetStepErrorTolerance(stepError);
 	}
@@ -211,7 +253,10 @@ double TAPID::GetTotalTrackLength() const{
 	if(!IsFlied()) TAPopMsg::Error("TAPID", "GetTotalTrackLength: Particle Not Flied");
 	return fTotalTrackLength;
 }
-
+double TAPID::GetExB() const{
+	if(-9999. == fExB) TAPopMsg::Warn("TAPID", "GetExB: fExB not assigned");
+	return fExB;
+}
 void TAPID::Configure(){
 	// assign the magnetic field table
 	string magFile = TACtrlPara::Instance()->ConfigExpDir();
@@ -221,7 +266,7 @@ void TAPID::Configure(){
 	LoadMagneticFieldFile(magFile.c_str());
 	double p0[3]{}, B0[3]{}; p0[1] = 90.; GetMagneticIntensity(B0, p0);
 	double B0m = TAMath::norm(B0);
-	if(-9999 != fExB) SetScale(fExB/B0m); // for extrapolation from B @1000A to B at other currents
+	SetScale(GetExB() / B0m); // for extrapolation from B @1000A to B at other currents
 //	cout << "fExB: " << fExB << "\tB0m: " << B0m << endl; // DEBUG
 //	cout << "fScale: " << fScale << endl; getchar(); // DEBUG
 	SetIterationStep(2E1); // increment for z per step
@@ -233,10 +278,13 @@ void TAPID::Configure(){
 	// assign TOF wall pionters
 	TAParaManager::ArrDet_t &dec_vec = TAParaManager::Instance()->GetDetList();
 	if(!dec_vec[3] && !dec_vec[4])
-		TAPopMsg::Error("TAPID", "constructor: MWDC arrays in paraManger are null. Consider to put this TOFWall pointer assignment in TAPID::Configure(), and put TAPID::Configure in the last of TAEventProcessor::Configure to lick the problem");
+		TAPopMsg::Error("TAPID", "Configure: MWDC arrays in paraManger are null. Consider to put this TOFWall pointer assignment in TAPID::Configure(), and put TAPID::Configure in the last of TAEventProcessor::Configure to lick the problem");
+	if(!dec_vec[1])
+		TAPopMsg::Error("TAPID", "Configure: T0_1 in paraManager is null. Note that detector construction should be implemented prior to the current function in TAEventProcessor::Configure");
 	TAMWDCArray *dcArr[2]{0};
 	dcArr[0] = (TAMWDCArray*)dec_vec[3]; fTOFWall[0] = dcArr[0]->GetTOFWall(); // dc array L
 	dcArr[1] = (TAMWDCArray*)dec_vec[4]; fTOFWall[1] = dcArr[1]->GetTOFWall(); // dc array R
+	fT0_1 = (TAT0_1*)dec_vec[1];
 
 //	p0[0] = 0.; p0[1] = 00.; p0[2] = 0.;
 	GetMagneticIntensity(B0, p0); B0m = TAMath::norm(B0);

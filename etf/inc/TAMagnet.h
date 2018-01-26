@@ -79,6 +79,9 @@ public:
 	static const int kClassic = 0;
 	static const int kNystrom = 1;
 
+protected:
+	vector<tra_t> fTrackVec; // to trace the particle in the magnetic field: (x, y, z, rho)
+
 private:
 	// 2nd order derivative: f0(x;y0,y1;yp0,yp1), f0(x;y0,y1;yp0,yp1) // y'=z; z'=g(x,y,z);
 	// substantially this is the relativistic dynamic equation itself, under Lorentz force.
@@ -116,9 +119,6 @@ private:
 	int fRKMethod; // classic or Nystrom
 	double fTrackLength; // as the name indicates
 	bool fEnableEnergyLoss; // if calculating energy loss along the particle tracjectory.
-
-	vector<tra_t> fTrackVec; // to trace the particle in the magnetic field: (x, y, z, rho)
-
 }; // end of class TAMagnet
 
 #endif
