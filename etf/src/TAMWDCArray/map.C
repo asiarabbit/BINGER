@@ -247,7 +247,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 					if(isBadTrack) continue;
 				} // end if
 				// system burden. // DEBUG
-				for(int k = 0; k < track.size(); k++){ // check if two tracks derive from the same one.
+				for(unsigned k = 0; k < track.size(); k++){ // check if two tracks derive from the same one.
 					// 0: the two tracks are different; 1: newTrack is defeated by  oldTrack;
 					// 2: newTrack defeats oldTrack->
 					overlap = compare(&newTrack, track.at(k), dcType, cmpShow); // compare the two tracks, and mark the obsolete ones.
@@ -260,7 +260,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 					if(1 == overlap) break; // newTrack is part of oldTrack, and is dropped.
 				} // end for over k
 				// eliminate the obsolete tracks
-				for(int k = 0; k < track.size(); k++){
+				for(unsigned k = 0; k < track.size(); k++){
 					if(!strcmp(track[k]->GetName().c_str(), "OBSOLETE")){ // overlap == 2
 						delete track[k]; track[k] = nullptr;
 						track.erase(track.begin()+k); // erase track.at(k)
@@ -277,7 +277,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 				} // end if // DEBUG
 				if(overlap != 1){ // new track accepted
 					newTrack.SetName(GetName());
-					sprintf(tail, "->Track%c_%d", type, track.size());
+					sprintf(tail, "->Track%c_%lu", type, track.size());
 					newTrack.AppendName(tail);
 					track.push_back(new TATrack(newTrack));
 #ifdef DEBUG_MAP

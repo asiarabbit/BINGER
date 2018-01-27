@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2017/12/23, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -68,7 +68,7 @@ void TAT0CalibDCArr::Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, 
 	// read the track tree
 	const int ntrMax = 200, ntrMax3D = ntrMax / 3;
 	int ntr, index, type[ntrMax], id[ntrMax], nu[ntrMax][6], firedStripId[ntrMax];
-	double t[ntrMax][6], r[ntrMax][6], k[ntrMax], b[ntrMax], beta2[ntrMax], TOF[ntrMax];
+	double t[ntrMax][6], r[ntrMax][6], k[ntrMax], b[ntrMax], beta2[ntrMax];
 	if(0 != access(rootfile.c_str(), F_OK))
 		TAPopMsg::Error("TAT0CalibDCArr", "Refine_DTHisto: Input rootfile %s doesn't exist", rootfile.c_str());
 	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
@@ -197,7 +197,8 @@ void TAT0CalibDCArr::Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, 
 	TFile *fw = new TFile(("assess"+rootfile).c_str(), "UPDATE");
 	sprintf(name, "T0Cali0-%s", dcArr->GetName().c_str());
 	sprintf(title, "%s/histo", name);
-	if(!fw->FindObjectAny(name)) fw->mkdir(title); fw->cd(title); // store drift time histograms
+	if(!fw->FindObjectAny(name)) fw->mkdir(title);
+	fw->cd(title); // store drift time histograms
 	cout << endl;
 	if(isCalib) for(int i = 0; i < 3; i++) for(int j = 0; j < 3; j++) for(int m = 0; m < 2; m++)
 	for(int k = 0; k < 96; k++) if(hdt[i][j][m][k]){
@@ -305,8 +306,8 @@ void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcAr
 						// to get rid of the bad T0s by estimating sigma_t0
 						sigma_t0_cnt++; sigma_t0_sum += sigma_t0;
 						double mean_t = sigma_t0_sum/sigma_t0_cnt;
-						if(sigma_t0 > 3.*mean_t)
-						T0 = 0.; if(0) // abnormal
+						if(sigma_t0 > 3.*mean_t) T0 = 0.;
+						if(0) // abnormal
 						{
 							cout << "\n\ni: " << i << "\tj: " << j;
 							cout << "\tm: " << m << "\tk: " << k;

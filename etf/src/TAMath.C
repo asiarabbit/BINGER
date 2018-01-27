@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/25.															     //
-// Last modified: 2018/1/26, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -20,6 +20,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <cmath>
+#include <complex> //complex operation
 #include "TAMath.h"
 #include "TAPopMsg.h"
 #include "TACtrlPara.h"
@@ -27,6 +28,9 @@
 using std::cout;
 using std::endl;
 using std::setprecision;
+using std::complex;
+typedef complex<double> cdouble;
+
 
 // length of the vector, len: vector dimension
 double TAMath::norm(const double *p, int len){
@@ -146,22 +150,28 @@ void TAMath::GetHitPoint(const double *b, const double *B, const double *a, cons
 // x=kiz+bi, track before Target
 // result: [0-5]: [thetaDeflect, rho, ki, bi, zo, xo]
 // zMagOut->z2; zMagIn->z1; zTa->z0; xTa->x0
+struct tSolve{
+	double x1, ki, bi, zh, xh, dtheta, dd2, rho, zo, xo; // solution struct
+};
 void TAMath::UniformMagneticSolution(double k1, double b1, double z2, double z1, double z0, double x0, double *result){
-	double x2 = k1*z2+b1, x1;
+	double x2 = k1*z2+b1;
+	tSolve s[4]; // the equation is a 4-th order algebraic fraction, having 4 solutions
+	memset(s, 0, sizeof(s));
 	#include "TAMath/uniformMagneticSolution.C" // solve x1, i.e. xMagIn
-	double ki = (x1 - x0)/(z1 - z0);
-	double bi = x0 - ki*z0;
-	double zh = (-b1 + bi)/(k1 - ki);
-	double xh = k1*zh + b1;
-	double dtheta = atan(k1) - atan(ki); // anti-clockwise deflection angle
-	double dd2 = (z2-zh)*(z2-zh)+(x2-xh)*(x2-xh); // P1Ph or PhP2 (pdf in misc/tools/math/UniBSolu)
-	double rho = sqrt(dd2)/tan(dtheta/2.);
-	double zo = (k1*ki*(x1 - x2 - ki*z1 + k1*z2))/(k1 - ki);
-	double xo = (-ki*x1 + ki*ki*z1 + k1*(x2 - k1*z2))/(k1 - ki);
-	
-	// output the result
-	result[0] = dtheta; result[1] = rho; result[2] = ki; result[3] = bi;
-	result[4] = zo; result[5] = xo;
+	// solution validity check
+	int validCnt = 0;
+	for(int i = 0; i < 4; i++) if(-9999. != s[i].x1) validCnt++;
+	if(1 != validCnt){
+		for(int i = 0; i < 6; i++) result[i] = validCnt;
+		return;
+	} // end if(1 != validCnt)
+	for(int i = 0; i < 4; i++) if(-9999. == s[i].x1){
+		// output the result
+		result[0] = s[i].dtheta; result[1] = s[i].rho;
+		result[2] = s[i].ki; result[3] = s[i].bi;
+		result[4] = s[i].zo; result[5] = s[i].xo;
+		return;
+	}
 } // end of function UniformMagneticSolution
 
 double TAMath::Gamma(double beta){

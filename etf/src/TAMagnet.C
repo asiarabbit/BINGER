@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2017/10/22, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -44,7 +44,7 @@ TAMagnet::TAMagnet(const string &name, const string &title, unsigned uid)
 	fRKMethod = 1; fScale = 1.;
 	fh0 = 1E1; fStepError = 1E1;
 	fIsFileLoaded = false; fTrackLength = -9999.;
-	memset(fB, sizeof(fB), 0); fEnableEnergyLoss = false;
+	memset(fB, 0, sizeof(fB)); fEnableEnergyLoss = false;
 	fQoP = -9999.; fTrackVec.clear(); fAoZ = -9999.;
 	fOutOfRangeError = false; // out of the active volume of the magnet
 } // end of the default constructor

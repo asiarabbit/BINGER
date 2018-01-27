@@ -9,7 +9,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/29.															     //
-// Last modified: 2017/12/29, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -100,12 +100,12 @@
 			if(tRef != -9999. && firedStripId[j] >= 0){
 				tof2[j] = tofw[dcArrId]->GetStripTime(firedStripId[j], tRef, 9., 40.) - tRef;
 			}
-			yp[j][0] = -9999.; yp[j][1] = -9999.; trkLenT[j] -9999.;
+			yp[j][0] = -9999.; yp[j][1] = -9999.; trkLenT[j] = -9999.;
 			aoz[j] = -9999.; aozdmin[j] = -9999.; beta2[j] = -1.;
 			if(0 == dcType && tof2[j] > 0. && -9999. != taHitX[j]){ // X tracks
 				if(IsPID()){
 					double p[4] = {k[j], 0., b[j], 0.}; // {k1, k2, b1, b2}
-					pid->Fly(tof2[j], taHitX[j], p, dcArrId); // , false
+					pid->Fly(tof2[j], taHitX[j], p, dcArrId, 2); // , false
 					aoz[j] = pid->GetAoZ(); aozdmin[j] = pid->GetChi();
 					beta2[j] = pid->GetBeta(); poz[j] = pid->GetPoZ(); // MeV/c
 					pid->GetTargetExitAngle(yp[j]); trkLenT[j] = pid->GetTotalTrackLength();
@@ -174,7 +174,7 @@
 
 		if(0) vis->FillHitMap();
 		static int jj = 0;
-		if(jj < 5){
+		if(jj < 100){
 			jj++;
 			static int i0 = 0;
 			if(0 == i0){ // to make sure that this block would only be carried out once

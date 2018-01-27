@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2017/10/10, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -221,7 +221,7 @@ void TATrack::SetData(const double *x, const double *z, const double *t, const d
 
 void TATrack::SetDriftTime(const double *t, const double *w){ // as the name indicates
 	for(int i = 0; i < 6; i++){
-		if(fNu[i] > 0 && t[i] == -9999. || fNu[i] < 0 && t[i] != -9999.)
+		if((fNu[i] > 0 && -9999. == t[i]) || (fNu[i] < 0 && -9999. != t[i]))
 			TAPopMsg::Error(GetName().c_str(),
 				"SetDriftTime: t[%d] here contradicates with former assignment of array nu. fNu[%d]: %d - t[%d]: %f", i, i, fNu[i], i, t[i]);
 		fT[i] = t[i];
@@ -324,7 +324,8 @@ void TATrack::Fit(){
 	else if(kBFGSFit == fFitMethod) BFGSFit();
 	else IterFit();
 	// assign array fChi
-	for(double &xx : fChi) xx = -9999.; fChi2 = 0.;
+	for(double &xx : fChi) xx = -9999.;
+	fChi2 = 0.;
 //	fK = 0.225525; fB = -37.8764; // XXX XXX XXX XXX DEBUG DEBUG DEBUG XXX XXX XXX XXX
 	for(int i = 0; i < 6; i++){
 		if(fLAYER[i] != -1){
@@ -390,17 +391,23 @@ void TATrack::Show(){
 	cout << "NFiredAnodeLayer: " << GetNFiredAnodeLayer() << endl;
 	cout << "TOF: " << GetTOF() << endl;
 	cout << "Nu:" << endl;
-	for(int x: fNu) cout << x << "\t"; cout << endl;
+	for(int x: fNu) cout << x << "\t";
+	cout << endl;
 	cout << "Drift Time:" << endl;
-	for(double tt : fT) cout << tt << "\t"; cout << endl;
+	for(double tt : fT) cout << tt << "\t";
+	cout << endl;
 	cout << "Weight for each measurement:" << endl;
-	for(double w : fWeight) cout << w << "\t"; cout << endl;
+	for(double w : fWeight) cout << w << "\t";
+	cout << endl;
 	cout << "Drift Distance:" << endl;
-	for(double rr : fR) cout << rr << "\t"; cout << endl;
+	for(double rr : fR) cout << rr << "\t";
+	cout << endl;
 	cout << "fChi:" << endl;
-	for(double cc : fChi) cout << cc << "\t"; cout << endl;
+	for(double cc : fChi) cout << cc << "\t";
+	cout << endl;
 	cout << "x3DMiss:\n";
-	for(double x : fXMiss3D) cout << x << "\t"; cout << endl;
+	for(double x : fXMiss3D) cout << x << "\t";
+	cout << endl;
 	cout << "3D track Id: " << f3DId << endl;
 	cout << "firedStripId: " << GetFiredStripId() << endl;
 	cout << "nstripStray: " << GetNStripStray() << endl;

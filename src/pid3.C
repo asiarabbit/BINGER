@@ -58,7 +58,7 @@ int main(){
 
 	const int ntrMax = 200, ntrMax3D = ntrMax / 3;
 	int index, sca2, ntr, n3Dtr, type[ntrMax], id[ntrMax], SFE16Id[ntrMax][6], nu[ntrMax][6];
-	double Chi[ntrMax], xMiss3D[ntrMax][3], nStripStray[ntrMax]; // track quality
+	double Chi[ntrMax], xMiss3D[ntrMax][3]; // track quality
 	double TOF[ntrMax], TOF_T1; // TOF: TOF wall time tag; TOF_T1: time tag of scintillator T1
 	double t[ntrMax][6], TOT_DC[ntrMax][6], r[ntrMax][6], chi[ntrMax][6]; // Time over threshold for DC channels
 	double chit[ntrMax][6]; // chit: drift time error, suggested by fitted tracks
@@ -104,7 +104,7 @@ int main(){
 	treeVME_M->SetBranchAddress("isFutile", &isFutile);
 
 	// pid using a new formula
-	double brho = 6.0933; // brho of the RIBLL2, unit: mm
+//	double brho = 6.0933; // brho of the RIBLL2, unit: mm
 	TH2F *hTOTvsdEout = new TH2F("hTOTvsdEout", "TOT_DC v.s. dEout;dEout [channel];TOT [channel]", 800, 0., 2200., 800, 10., 1000.);
 	TH2F *hTOTvsZout = new TH2F("hTOTvsZout", "TOT_DC v.s. Zout;zout [channel];TOT [channel]", 800, 5., 20., 800, 10., 1000.);
 	TH2F *hsqrtTOTvsZout = new TH2F("hsqrtTOTvsZout", "sqrt(TOT_DC) v.s. Zout;zout [channel];\\sqrt{TOT} [channel]", 800, 5., 20., 800, 8., 20.);
@@ -120,8 +120,8 @@ int main(){
 	TH2F *hPIDPXI = new TH2F("hPIDPXI", "PID Uising Only PXI data;TOF [ns];TOT_DC [channel]", 2000, 57., 68., 2000, 10., 1000.);
 
 	const int n = treeTrack->GetEntries();
-	int cntMinus = 0; // anomaly count while calculating aozNew
-	int cntNormal = 0; // count of normally identified particles
+//	int cntMinus = 0; // anomaly count while calculating aozNew
+//	int cntNormal = 0; // count of normally identified particles
 	int trkId[3][ntrMax3D]; // track id [XUV] <-> 3D track id
 	bool isEntryGood = true;
 	for(int i = 0; i < n; i++){
@@ -275,7 +275,8 @@ int main(){
 	} // end for over i
 
 	const char *pid3dir = "PID3";
-	if(!f->FindObjectAny(pid3dir)) f->mkdir(pid3dir); f->cd(pid3dir);
+	if(!f->FindObjectAny(pid3dir)) f->mkdir(pid3dir);
+	f->cd(pid3dir);
 	hTOTvsdEout->Write("", TObject::kOverwrite);
 	hTOTvsZout->Write("", TObject::kOverwrite);
 	hsqrtTOTvsZout->Write("", TObject::kOverwrite);

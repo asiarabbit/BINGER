@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/3.															     //
-// Last modified: 2017/11/13, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -69,7 +69,8 @@ int TAMWDC::GetNFiredAnodePerLayer(int dcType, int layerOption) const{
 	return cnt;
 }
 TADCSuperLayer *TAMWDC::GetSLayer(int n) const{
-	if(n >= fSLayerArr.size())
+	if(n < 0) TAPopMsg::Error(GetName().c_str(), "GetSLayer: The input subscript is minus");
+	if(n >= (int)fSLayerArr.size())
 		TAPopMsg::Error(GetName().c_str(), "GetSLayer: The input subscript is too large: %d", n);
 	if(!fSLayerArr[n])
 		TAPopMsg::Error(GetName().c_str(), "GetSLayer: Super-layer#%d not assigend", n);
@@ -80,7 +81,8 @@ TAMWDCArray *TAMWDC::GetMotherDCArr() const{
 	return fMotherDCArr;
 }
 void TAMWDC::SetSLayer(int n, TADCSuperLayer *sl){
-	if(n >= fSLayerArr.size())
+	if(n < 0) TAPopMsg::Error(GetName().c_str(), "SetSLayer: The input subscript is minus");
+	if(n >= (int)fSLayerArr.size())
 		TAPopMsg::Error(GetName().c_str(), "SetSLayer: The input subscript is too large: %d", n);
 	if(!sl) TAPopMsg::Error(GetName().c_str(), "SetSLayer: The input pointer is null.");
 	fSLayerArr[n] = sl;

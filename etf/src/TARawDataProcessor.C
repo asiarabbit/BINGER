@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2017/10/30, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -350,6 +350,7 @@ int TARawDataProcessor::ReadOffline(){
 			}
 			if(length_last_ch != 1){
 				Is_Error = true;
+				if(Is_Error) TAPopMsg::Info("TARawDataProcessor", "ReadOffline: length_last_ch is not 1 word... index: %d, frag_num: %d", index, i);
 //				cout << "event " << index << " fragment " << i << ":" << endl;
 //				cout << "length_last_ch(words): " << (data_len - offset[va_ch_nu - 1]) / 4. << endl;
 //				cout << "va_ch_nu: " << va_ch_nu << endl;

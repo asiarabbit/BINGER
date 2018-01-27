@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/9.															     //
-// Last modified: 2017/10/9, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -23,7 +23,7 @@ double TAMath::refinedFit(const double *x, const double *y, const double *r, dou
 
 	// prepare for the refined fit
 	int i, j, ki; // temporary loop control variables
-	static int failedcnt = 0; // count of events obstinately difficult to resolve.
+//	static int failedcnt = 0; // count of events obstinately difficult to resolve.
 	double sigma = 150; // um;
 	double n_d2Thre = gGOOD;
 	if(gGOOD == 2) n_d2Thre = 4; // count of fired andoe layers.

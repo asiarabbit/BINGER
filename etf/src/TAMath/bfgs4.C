@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/9.															     //
-// Last modified: 2017/12/17, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -229,12 +229,13 @@ void Ak1(double (*Ak)[4], const double *dxk, const double *dgk){
 		Ak[2][0] * dgk[0] + Ak[2][1] * dgk[1] + Ak[2][2] * dgk[2] + Ak[2][3] * dgk[3],
 		Ak[3][0] * dgk[0] + Ak[3][1] * dgk[1] + Ak[3][2] * dgk[2] + Ak[3][3] * dgk[3]
 	};
-	double Ck[4][4]  = { // Ck = zk.zkT, Ckd: Ckdenominator = zkT.dgk
-		{zk[0] * zk[0], zk[0] * zk[1], zk[0] * zk[2], zk[0] * zk[3]},
-		{zk[1] * zk[0], zk[1] * zk[1], zk[1] * zk[2], zk[1] * zk[3]},
-		{zk[2] * zk[0], zk[2] * zk[1], zk[2] * zk[2], zk[2] * zk[3]},
-		{zk[3] * zk[0], zk[3] * zk[1], zk[3] * zk[2], zk[3] * zk[3]}
-	}, Ckd = zk[0] * dgk[0] + zk[1] * dgk[1] + zk[2] * dgk[2] + zk[3] * dgk[3];
+//	double Ck[4][4]  = { // Ck = zk.zkT, Ckd: Ckdenominator = zkT.dgk
+//		{zk[0] * zk[0], zk[0] * zk[1], zk[0] * zk[2], zk[0] * zk[3]},
+//		{zk[1] * zk[0], zk[1] * zk[1], zk[1] * zk[2], zk[1] * zk[3]},
+//		{zk[2] * zk[0], zk[2] * zk[1], zk[2] * zk[2], zk[2] * zk[3]},
+//		{zk[3] * zk[0], zk[3] * zk[1], zk[3] * zk[2], zk[3] * zk[3]}
+//	};
+	double Ckd = zk[0] * dgk[0] + zk[1] * dgk[1] + zk[2] * dgk[2] + zk[3] * dgk[3];
 
 	double xzk[4][4]; // xzk = dxk.zkT + zk.dxkT
 	for(int i = 0; i < 4; i++) for(int j = 0; j <= i; j++)

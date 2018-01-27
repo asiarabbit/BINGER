@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/22.															     //
-// Last modified: 2017/10/22, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -41,10 +41,10 @@ static const double z_Ta = TADeployPara::Instance()->GetTargetZ0(); // z of the 
 
 TAVisual *TAVisual::fInstance = nullptr;
 
-TAVisual::TAVisual() : fGAnodeDumb(0), fGAnodeFired(0), fGMagnet(0), fGPlaStrip(0),
-		fGPlaStripDumb(0), fGTrack(0), fGTrack_R(0), fGMainFrame(0), fHitMapData(0),
-		fGCurve(0), fGTarget(0), fGBeamline(0), fGLegend(0), 
-		fH2HitMap(0), fGChannel(0), fCanvas(0){
+TAVisual::TAVisual() : fGMainFrame(0), fGAnodeDumb(0), fGAnodeFired(0),
+		fGMagnet(0), fGPlaStrip(0), fGPlaStripDumb(0), fGChannel(0),
+		fGTrack(0), fGTrack_R(0), fGCurve(0), fGTarget(0), fGBeamline(0),
+		fGLegend(0), fH2HitMap(0), fHitMapData(0), fCanvas(0){
 	fAnodeArr.reserve(3000);
 	fPlaStripArr.reserve(80);
 	fChArr.reserve(10);

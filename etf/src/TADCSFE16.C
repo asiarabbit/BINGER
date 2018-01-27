@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/1.															     //
-// Last modified: 2017/10/12, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -38,8 +38,8 @@ int TADCSFE16::GetChipId() const{
 	return fChipId;
 }
 void TADCSFE16::SetAnode(int n, TAAnode *ano){
-	if(n >= fAnodeArr.size())
-		TAPopMsg::Error(GetName().c_str(), "SetAnode: The input sugscript is too large: %d", n);
+	if(n < 0 || (unsigned)n >= fAnodeArr.size())
+		TAPopMsg::Error(GetName().c_str(), "SetAnode: The input sugscript out of range: %d", n);
 	if(!ano) TAPopMsg::Error(GetName().c_str(), "SetAnode: The input pointer is null.");
 	fAnodeArr[n] = ano;
 }

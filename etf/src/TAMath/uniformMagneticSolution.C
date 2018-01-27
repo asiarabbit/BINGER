@@ -1,78 +1,54 @@
-x1 = (2*b1 + x0 + k1*z0 + k1*z1 + (-4*b1*b1 - x0*x0 - 
-        3*x2*x2 + 6*k1*x2*z0 - k1*k1*z0*z0 - 
-        2*k1*x0*(z0 - 2*z1) - 6*z0*z1 - 2*k1*k1*z0*z1 + 
-        3*z1*z1 - k1*k1*z1*z1 + 
-        2*b1*(x0 + 3*x2 - 2*k1*(z0 + z1)) + 6*z0*z2 - 3*z2*z2)/
-      pow(-8*pow(b1,3) + 6*b1*b1*x0 + 3*b1*x0*x0 - 
-        pow(x0,3) + 18*b1*b1*x2 - 18*b1*x0*x2 - 
-        9*b1*x2*x2 + 9*x0*x2*x2 - 12*b1*b1*k1*z0 - 
-        3*b1*k1*x0*z0 - 3*k1*x0*x0*z0 + 27*b1*k1*x2*z0 + 
-        9*k1*x0*x2*z0 - 18*k1*x2*x2*z0 - 
-        6*b1*k1*k1*z0*z0 - 3*k1*k1*x0*z0*z0 + 
-        9*k1*k1*x2*z0*z0 - pow(k1,3)*pow(z0,3) - 
-        12*b1*b1*k1*z1 + 15*b1*k1*x0*z1 + 6*k1*x0*x0*z1 + 
-        9*b1*k1*x2*z1 - 27*k1*x0*x2*z1 + 9*k1*x2*x2*z1 + 
-        9*b1*z0*z1 - 12*b1*k1*k1*z0*z1 - 9*x0*z0*z1 + 
-        3*k1*k1*x0*z0*z1 + 9*k1*k1*x2*z0*z1 - 
-        9*k1*z0*z0*z1 - 3*pow(k1,3)*z0*z0*z1 - 
-        18*b1*z1*z1 - 6*b1*k1*k1*z1*z1 + 
-        18*x0*z1*z1 + 6*k1*k1*x0*z1*z1 + 
-        9*k1*z0*z1*z1 - 3*pow(k1,3)*z0*z1*z1 - 
-        9*k1*pow(z1,3) - pow(k1,3)*pow(z1,3) - 9*b1*z0*z2 + 
-        9*x0*z0*z2 + 9*k1*z0*z0*z2 + 27*b1*z1*z2 - 27*x0*z1*z2 + 
-        9*k1*z0*z1*z2 - 9*b1*z2*z2 + 9*x0*z2*z2 - 
-        18*k1*z0*z2*z2 + 9*k1*z1*z2*z2 + 
-        sqrt(pow(-pow(2*b1 + x0 + k1*(z0 + z1),2) + 
-            3*(-x2*x2 + 2*b1*(x0 + x2) + 2*k1*x2*z0 + 2*k1*x0*z1 - 
-               2*z0*z1 + z1*z1 + 2*z0*z2 - z2*z2),3) + 
-          pow(8*pow(b1,3) + pow(x0,3) + 
-            3*k1*x0*x0*(z0 - 2*z1) - 
-            6*b1*b1*(x0 + 3*x2 - 2*k1*(z0 + z1)) - 
-            3*b1*(x0*x0 - 3*x2*x2 - 
-               2*k1*k1*z0*z0 - x0*(6*x2 + k1*(z0 - 5*z1)) + 
-               3*z0*z1 - 4*k1*k1*z0*z1 - 6*z1*z1 - 
-               2*k1*k1*z1*z1 + 3*k1*x2*(3*z0 + z1) - 
-               3*z0*z2 + 9*z1*z2 - 3*z2*z2) - 
-            3*x0*(3*x2*x2 + 3*k1*x2*(z0 - 3*z1) + 
-               k1*k1*(-z0*z0 + z0*z1 + 2*z1*z1) - 
-               3*(z1 - z2)*(z0 - 2*z1 + z2)) + 
-            k1*(9*x2*x2*(2*z0 - z1) - 9*k1*x2*z0*(z0 + z1) + 
-               k1*k1*pow(z0 + z1,3) + 
-               9*(z1 - z2)*(z0*z0 + z1*(z1 + z2) - z0*(z1 + 2*z2))),
-           2)),0.3333333333333333) - 
-     pow(-8*pow(b1,3) + 6*b1*b1*x0 + 3*b1*x0*x0 - 
-       pow(x0,3) + 18*b1*b1*x2 - 18*b1*x0*x2 - 9*b1*x2*x2 + 
-       9*x0*x2*x2 - 12*b1*b1*k1*z0 - 3*b1*k1*x0*z0 - 
-       3*k1*x0*x0*z0 + 27*b1*k1*x2*z0 + 9*k1*x0*x2*z0 - 
-       18*k1*x2*x2*z0 - 6*b1*k1*k1*z0*z0 - 
-       3*k1*k1*x0*z0*z0 + 9*k1*k1*x2*z0*z0 - 
-       pow(k1,3)*pow(z0,3) - 12*b1*b1*k1*z1 + 15*b1*k1*x0*z1 + 
-       6*k1*x0*x0*z1 + 9*b1*k1*x2*z1 - 27*k1*x0*x2*z1 + 
-       9*k1*x2*x2*z1 + 9*b1*z0*z1 - 12*b1*k1*k1*z0*z1 - 
-       9*x0*z0*z1 + 3*k1*k1*x0*z0*z1 + 9*k1*k1*x2*z0*z1 - 
-       9*k1*z0*z0*z1 - 3*pow(k1,3)*z0*z0*z1 - 
-       18*b1*z1*z1 - 6*b1*k1*k1*z1*z1 + 
-       18*x0*z1*z1 + 6*k1*k1*x0*z1*z1 + 
-       9*k1*z0*z1*z1 - 3*pow(k1,3)*z0*z1*z1 - 
-       9*k1*pow(z1,3) - pow(k1,3)*pow(z1,3) - 9*b1*z0*z2 + 
-       9*x0*z0*z2 + 9*k1*z0*z0*z2 + 27*b1*z1*z2 - 27*x0*z1*z2 + 
-       9*k1*z0*z1*z2 - 9*b1*z2*z2 + 9*x0*z2*z2 - 
-       18*k1*z0*z2*z2 + 9*k1*z1*z2*z2 + 
-       sqrt(pow(-pow(2*b1 + x0 + k1*(z0 + z1),2) + 
-           3*(-x2*x2 + 2*b1*(x0 + x2) + 2*k1*x2*z0 + 2*k1*x0*z1 - 
-              2*z0*z1 + z1*z1 + 2*z0*z2 - z2*z2),3) + 
-         pow(8*pow(b1,3) + pow(x0,3) + 
-           3*k1*x0*x0*(z0 - 2*z1) - 
-           6*b1*b1*(x0 + 3*x2 - 2*k1*(z0 + z1)) - 
-           3*b1*(x0*x0 - 3*x2*x2 - 
-              2*k1*k1*z0*z0 - x0*(6*x2 + k1*(z0 - 5*z1)) + 
-              3*z0*z1 - 4*k1*k1*z0*z1 - 6*z1*z1 - 
-              2*k1*k1*z1*z1 + 3*k1*x2*(3*z0 + z1) - 3*z0*z2 + 
-              9*z1*z2 - 3*z2*z2) - 
-           3*x0*(3*x2*x2 + 3*k1*x2*(z0 - 3*z1) + 
-              k1*k1*(-z0*z0 + z0*z1 + 2*z1*z1) - 
-              3*(z1 - z2)*(z0 - 2*z1 + z2)) + 
-           k1*(9*x2*x2*(2*z0 - z1) - 9*k1*x2*z0*(z0 + z1) + 
-              k1*k1*pow(z0 + z1,3) + 
-              9*(z1 - z2)*(z0*z0 + z1*(z1 + z2) - z0*(z1 + 2*z2))),
-          2)),0.3333333333333333))/3.;
+
+	s[0].x1 = x0 + k1*(z1-z0); // the denominator of the equation
+	{
+		// x1^3 + b x1^2 + c x1 + d = 0
+		double b = -2.*b1 - x0 - k1*(z0+z1);
+		double c = -x2*x2 + 2.*b1*(x0+x2) + 2.*k1*x2*z0 + z1*(2.*k1*x0-2.*z0+z1) + z2*(2.*z0-z2);
+		double d = -2.*b1*(x0*x2-(z0-z1)*(z1-z2)) +
+			x0*(x2*x2-2.*k1*x2*z1+(z1-z2)*(z1-z2)) - k1*(z0-z1)*(x2*x2-z1*z1+z2*z2);
+
+		// let x1 = y - b/3, then y^3 + py + q = 0
+		double p = c - b*b/3.;
+		double q = d + 2.*b*b*b/27. - b*c/3.;
+		
+
+		// solve y^3 + py + q = 0 using Cardeno's formula:
+		double qh = q/2., pt = p/3.;
+		cdouble Delta(qh*qh + pt*pt*pt, 0.);
+		cdouble sqrtDelta = sqrt(Delta);
+		cdouble omega(-1., Sqrt3());
+		cdouble cqh(qh,0.);
+
+		cdouble alphap = pow(-cqh + sqrtDelta, 1./3.);
+		cdouble alpham = pow(-cqh - sqrtDelta, 1./3.);
+
+		cdouble y[3];
+		y[0] = alphap + alpham;
+		y[1] = omega*alphap + omega*omega*alpham;
+		y[2] = omega*omega*alphap + omega*alpham;
+
+		// output the results
+		for(int i = 0; i < 3; i++){
+			if(fabs(y[i].imag()) < 1E-10)
+				s[i+1].x1 = y[i].real() - b/3.;
+			else s[i+1].x1 = -9999.;
+		} // end for over i
+	}
+	for(int i = 0; i < 4; i++){
+		if(fabs(s[i].x1) > 600.) s[i].x1 = -9999.; // out of Mag mouth (+-500)
+		if(-9999. == s[i].x1) continue;
+		s[i].ki = (s[i].x1 - x0)/(z1 - z0);
+		if(fabs(s[i].ki) > 3.){ s[i].x1 = -9999.; continue; }
+		s[i].bi = x0 - s[i].ki*z0;
+		s[i].zh = (-b1 + s[i].bi)/(k1 - s[i].ki);
+		s[i].xh = k1*s[i].zh + b1;
+		s[i].dtheta = atan(k1) - atan(s[i].ki); // anti-clockwise deflection angle
+		if(fabs(s[i].dtheta)/DEGREE() > 180.){ s[i].x1 = -9999.; continue; }
+		// P1Ph or PhP2 (pdf in misc/tools/math/UniBSolu)
+		s[i].dd2 = (z2-s[i].zh)*(z2-s[i].zh)+(x2-s[i].xh)*(x2-s[i].xh);
+		s[i].rho = sqrt(s[i].dd2)/tan(s[i].dtheta/2.);
+		if(fabs(s[i].rho) < 0.5 || fabs(s[i].rho) > 30.){ s[i].x1 = -9999.; continue; }
+		s[i].zo = (k1*s[i].ki*(s[i].x1 - x2 - s[i].ki*z1 + k1*z2))/(k1 - s[i].ki);
+		s[i].xo = (-s[i].ki*s[i].x1 + s[i].ki*s[i].ki*z1 + k1*(x2 - k1*z2))/(k1 - s[i].ki);
+	}
+

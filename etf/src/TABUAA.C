@@ -203,8 +203,6 @@ void TABUAA::Analyze(){
 	fY3 = coeYMWPC[2] * (Y2MWPC[2] - Y1MWPC[2] + rand0_5()) + ofstYMWPC[2];
 	double x3 = fX3, y3 = fY3;
 	double z3 = off_mwz[2]; // 160 + 27.5; // 104.68 + 27.5; // 30. - 2.5; // 160.; // 104.68; // 1494.58 - 1389.90;
-	double vectorInX[2] = {z2 - z1, x2 - x1};
-	double vectorInY[2] = {z2 - z1, y2 - y1};
 	double x0 = 0., y0 = 0., z0 = 0.; // target position.
 	x0 = (x1*z2-x2*z1)/(z2-z1); // target X coordinate
 	y0 = (y1*z2-y2*z1)/(z2-z1); // target Y coordinate

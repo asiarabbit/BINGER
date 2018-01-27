@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2018/1/18, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -397,9 +397,11 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 								ano->GetAnodePara()->GetSTRCorrection(str_id)[l];
 							cout << "Processing bin of " << i << " " << j << " " << m;
 							cout << " " << k << " " << str_id << " " << l << "\r" << flush;
-							if(hpro) delete hpro; hpro = nullptr;
+							if(hpro) delete hpro;
+							hpro = nullptr;
 						} // end for over l
-						if(h2) delete h2; h2 = nullptr;
+						if(h2) delete h2;
+						h2 = nullptr;
 						if(0 == valid_bin_cnt) continue; // empty correction
 						outFile << "\nInfo: " << setw(10) << ano->GetUID() << " ";
 						outFile << setw(7) << str_id << " " << setw(5) << valid_bin_cnt << endl;
@@ -435,7 +437,8 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 	char dir[64], subdir[64]; // directory to store results of the auto-calibration round
 	sprintf(subdir, "round%c%d", dcArr->GetName().c_str()[7], round); // DCArray[L-R]
 	sprintf(dir, "STRCali-%s/%s", dcArr->GetName().c_str(), subdir);
-	if(!f->FindObjectAny(subdir)) f->mkdir(dir); f->cd(dir); // stores sigma, mean and treeSgima
+	if(!f->FindObjectAny(subdir)) f->mkdir(dir);
+	f->cd(dir); // stores sigma, mean and treeSgima
 	for(int i = 0; i < 3; i++) for(int j = 0; j < 3; j++){
 		hmean[i][j]->Write("", TObject::kOverwrite);
 		hsigma[i][j]->Write("", TObject::kOverwrite);
@@ -455,7 +458,8 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 	delete hsigmaTot; hsigmaTot = nullptr;
 	delete gsigmaTot; gsigmaTot = nullptr;
 	delete treeSigma; treeSigma = nullptr;
-	if(h2void) delete h2void; h2void = nullptr;
+	if(h2void) delete h2void;
+	h2void = nullptr;
 	f->Close(); delete f; f = nullptr;
 //	TAParaManager::Instance()->UpdateSTRCorrection(); // keep up-to-date with the newest calibration
 

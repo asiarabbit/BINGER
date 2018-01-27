@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/26.															     //
-// Last modified: 2017/11/18, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -36,6 +36,7 @@
 #include "TAMWDCArray.h"
 #include "TATOFWall.h"
 #include "TAGPar.h"
+#include "TAUIDParser.h"
 
 //#define VERBOSE // show TAPopMsg::Info() information
 
@@ -135,9 +136,9 @@ inline int skipCrap(const char *s){
 // Every value whatsoever has a UID. This is the utmost principle of para management
 // types in typeIgnore[NIgnore] would be ignored
 void TAParaManager::ReadParameters(const short NIgnore, const short *typeIgnore){
-	int cntNull = 0;
+	unsigned cntNull = 0;
 	for(auto p : fDetList) if(!p) cntNull++;
-	if(fDetList.size() == cntNull && NIgnore <= 0){
+	if(fDetList.size() == cntNull && NIgnore <= 0){ // NIgnore > 0: after TAEvPro::Config.
 		TAPopMsg::Warn("TAParaManager", "ReadParameters: fDetList is empty");
 		return;
 	}
@@ -409,8 +410,9 @@ void TAParaManager::AssignT0(const char *fname) const{
 		sscanf(line, "%lg %lg", &value, &UID);
 
 		unsigned uid = unsigned(UID);
-		short detId = uid & 0x3F; // first section of UID, 6 bits
-		short subDetId = (uid>>6) & 0x7; // second section of UID for TAMWDCArray objects, 3 bits
+		int type[6]{};
+		TAUIDParser::DNS(type, UID);
+		short detId = type[0]; // first section of UID, 6 bits
 //		cout << "fname: " << fname << endl; getchar(); // DEBUG
 //		cout << "line: " << line << endl; // DEBUG
 //		cout << "\tuid: " << uid << "\tvalue: " << value << endl; // DEBUG

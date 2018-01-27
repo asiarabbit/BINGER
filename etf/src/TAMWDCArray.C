@@ -212,18 +212,18 @@ void TAMWDCArray::TrackMerger(){ // assembly projections to 3-D tracks
 	for(TATrack *&x : fTrackList[0]) x->marked = false;
 	for(TATrack *&u : fTrackList[1]) u->marked = false;
 	for(TATrack *&v : fTrackList[2]) v->marked = false;
-	for(int i = 0; i < fTrackList[0].size(); i++){ // loop over track X
+	for(unsigned i = 0; i < fTrackList[0].size(); i++){ // loop over track X
 		TATrack *&x = fTrackList[0][i];
 		bool isMatched = false; // whether the current X track finds its companies.
 //		cout << "x.marked: " << x.marked << endl; getchar(); // DEBUG
-		for(int j = 0; j < fTrackList[1].size(); j++){ // loop over track U
+		for(unsigned j = 0; j < fTrackList[1].size(); j++){ // loop over track U
 			TATrack *&u = fTrackList[1][j];
 //			u.Show(); // DEBUG
 //			cout << "u.marked: " << u.marked << endl; getchar(); // DEBUG
 			int id0 = id + 1; if(isMatched) id0 = id; // the current 3D track id
 			if(u->Get3DId() != -1 && u->Get3DId() < id0)
 				continue; // owned by previous Xes.
-			for(int k = 0; k < fTrackList[2].size(); k++){ // loop over track V
+			for(unsigned k = 0; k < fTrackList[2].size(); k++){ // loop over track V
 				TATrack *&v = fTrackList[2][k];
 //				v->Show(); // DEBUG
 //				cout << "v->marked: " << v->marked << endl; getchar(); // DEBUG
@@ -377,7 +377,7 @@ void TAMWDCArray::cleanUp(vector<TATrack *> &tr, const int n){
 //	cout << "HAHAHAHAHn: " << n << endl; // DEBUG
 //	for(TATrack &x : tr) cout << x.Get3DId() << ""; // DEBUG
 	// erase the unmatched and defeated tracks
-	for(int i = 0; i < tr.size(); i++){
+	for(unsigned i = 0; i < tr.size(); i++){
 		if(-1 == tr[i]->Get3DId()){
 			delete tr[i]; tr.erase(tr.begin()+i); // erase tr[k]
 			i--;

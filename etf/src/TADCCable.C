@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/1.															     //
-// Last modified: 2017/10/12, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -32,14 +32,14 @@ int TADCCable::GetCableId() const{
 	return fCableId;
 }
 TADCSFE16 *TADCCable::GetSFE16(int n) const{
-	if(n < 0 || n >= fSFE16Arr.size())
+	if(n < 0 || (unsigned)n >= fSFE16Arr.size())
 		TAPopMsg::Error(GetName().c_str(), "GetSFE16: The input subscript out of range: %d", n);
 	if(!fSFE16Arr[n]) TAPopMsg::Error(GetName().c_str(), "GetSFE16Id: SFE16 Chip#%d not assigend", n);
 	return fSFE16Arr[n];
 }
 void TADCCable::SetSFE16(int n, TADCSFE16 *sfe){
-	if(n >= fSFE16Arr.size())
-		TAPopMsg::Error(GetName().c_str(), "SetSFE16: The input subscript is too large: %d", n);
+	if(n < 0 || (unsigned)n >= fSFE16Arr.size())
+		TAPopMsg::Error(GetName().c_str(), "SetSFE16: The input subscript out of range: %d", n);
 	if(!sfe) TAPopMsg::Error(GetName().c_str(), "SetSFE16: The input pointer is null.");
 	fSFE16Arr[n] = sfe;
 }

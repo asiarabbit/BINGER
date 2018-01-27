@@ -7,7 +7,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/24.															     //
-// Last modified: 2017/12/16, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -19,7 +19,7 @@
 #include "TAParaManager.h"
 
 TAChPara::TAChPara(const string &name, const string &title, unsigned uid)
-			: TAParameter(name, title, uid), fChId(-2), fDelay(-9999.){
+			: TAParameter(name, title, uid), fDelay(-9999.), fChId(-2){
 	fDelay = 0.;
 	TAParaManager::Instance()->AddChPara(this);
 }

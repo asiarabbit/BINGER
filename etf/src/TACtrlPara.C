@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2017/11/20, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -170,7 +170,7 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 	static const int nAngBin = TAAnodePara::kSTRCorAngleNBins, nHV = 5;
 	// HV: 900V, 1000V, 1300V, 1350V, 1500V
 	static TF1 *rt[nHV][nAngBin]{0}; // [HVs] [six track-cell angle intervals]
-	static TF1 *rtDumb = (TF1*)f->Get("RTDumb"); // constant zero
+//	static TF1 *rtDumb = (TF1*)f->Get("RTDumb"); // constant zero
 	static int HV[nHV] = {900, 1000, 1300, 1350, 1500}; // V
 	static char name[64];
 	if(!rt[0][0]){

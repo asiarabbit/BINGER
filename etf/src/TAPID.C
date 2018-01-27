@@ -97,14 +97,17 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 	// particle propagation in uniform magnetic field -- analytic solution exists
 	if(2 == option){
 		const double zMagIn = -500., zMagOut = ze;
-		const double xMagOut = k1*zMagOut+b1;
 		const double B = GetExB();
-		double result[6]{}, dtheta, rho, ki, bi; // dtheta: particle defelct angle by mag
+		double result[6]{}, dtheta, rho, ki; // dtheta: particle defelct angle by mag
 		double zo, xo; // (zo, xo): rotating center of the arc
 		TAMath::UniformMagneticSolution(k1, b1, zMagOut, zMagIn, z0_TA, x0TaHit, result);
-		dtheta = result[0]; rho = result[1]; ki = result[2]; bi = result[3];
+		if(0. == result[0] && 0. == result[1] && 0. == result[2]){ // no eligible solution found
+			fIsFlied = true;
+			return;
+		}
+		dtheta = result[0]; rho = result[1]; ki = result[2];
 		zo = result[4]; xo = result[5];
-		const double d0 = (zMagIn-z0_T0_1)*sqrt(1+ki*ki); // from T0_1 to Mag
+		const double d0 = (zMagIn-z0_T0_1)*sqrt(1.+ki*ki); // from T0_1 to Mag
 		const double d1 = fabs(rho)*dtheta; // arc in the Mag
 		const double d2 = trkL2; // from Mag to TOF wall
 		fTotalTrackLength = d0 + d1 + d2;
@@ -137,7 +140,9 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 	trkL2 = // from exit of the magnetic field to TOF wall
 		sqrt(pow(x_tofwHit-xi, 2.) + pow(y_tofwHit-yi, 2.) + pow(z_tofwHit-zi, 2.));
 
+#ifdef DEBUG
 	double ddmin[2]{}; // quality estimator
+#endif
 	double aoz, aozc = 1., d2; // aozc: the central aoz
 	double span = 3.; // search scope, aozc-span ~ aozc+span
 	int ln = 1, n = 60; if(0 == option){ n = 25; }
@@ -163,7 +168,9 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 				if(d2 < fAoZdmin){
 					fAoZdmin = d2; fAoZ = aoz; fBeta = beta;
 					fTotalTrackLength = GetTrackLength() + trkL2;
+#ifdef DEBUG
 					ddmin[0] = dd[0]; ddmin[1] = dd[1];
+#endif
 					memcpy(fAngleTaOut, yp, sizeof(fAngleTaOut));
 				} // end if
 				if(fAoZdmin < 1E-2) break;
@@ -184,6 +191,7 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 		}
 	} // end iteration to refine beta
 	fIsFlied = true; // fIsflied should be assigned immediately after flying
+	if(9999. == fAoZdmin) return; // PID failure
 	fGamma = TAMath::Gamma(fBeta);
 	fPoZ = fAoZ * fBeta * fGamma * u0MeV; // MeV/c
 

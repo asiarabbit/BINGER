@@ -370,7 +370,8 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 					if(-1 != nu[trkId[jj][j]][k]){ nFXUV[j]++; if(BINGO) eff[k/2][j][k%2]++; }
 			} // end loop over XUV
 			const int nF = nFXUV[0] + nFXUV[1] + nFXUV[2]; // number of measured points
-			for(int j = 0; j < 3; j++) hnF[j]->Fill(nFXUV[j]); hnF3D->Fill(nF);
+			for(int j = 0; j < 3; j++) hnF[j]->Fill(nFXUV[j]);
+			hnF3D->Fill(nF);
 			double p[4]; // [0-3]: k1, k2, b1, b2
 			p[0] = k[trkId[jj][0]]; // k1
 			p[2] = b[trkId[jj][0]]; // b1
@@ -556,10 +557,12 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 	char s[128]; strcpy(s, ("assess"+rootfile).c_str());
 //	if(0 == runid && 0 == access(s, F_OK)) system(("rm "+string(s)).c_str());
 	TFile *fw = new TFile(s, "UPDATE");
-	if(!fw->FindObjectAny(topdir)) fw->mkdir(topdir); fw->cd(topdir);
+	if(!fw->FindObjectAny(topdir)) fw->mkdir(topdir);
+	fw->cd(topdir);
 	for(int i = 0; i < ndir; i++){
 		sprintf(s, "%s/%s", topdir, dir[i]);
-		if(!fw->FindObjectAny(dir[i])) fw->mkdir(s); fw->cd(s);
+		if(!fw->FindObjectAny(dir[i])) fw->mkdir(s);
+		fw->cd(s);
 		for(TObject *&b : objLs[i]) if(b){
 			b->Write("", TObject::kOverwrite);
 		}

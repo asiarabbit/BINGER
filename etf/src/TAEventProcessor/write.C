@@ -8,7 +8,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/21.															     //
-// Last modified: 2018/1/16, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -19,7 +19,8 @@
 	char dir[8][64] = {"DaqStatistics", "FiredDistribution", "Multiplicity",
 		 "DriftTimeDist", "PlaScintHitPos", "PID", "MISC", "TimeToTRef"};
 	for(int i = 0; i < 8; i++){
-		if(!f->FindObjectAny(dir[i])) f->mkdir(dir[i]); f->cd(dir[i]);
+		if(!f->FindObjectAny(dir[i])) f->mkdir(dir[i]);
+		f->cd(dir[i]);
 		for(TObject *&b : objLs[i]) if(b) b->Write("", TObject::kOverwrite);
 	}
 	f->cd("/"); for(TTree *&tree : objLsTree) tree->Write("", TObject::kOverwrite);

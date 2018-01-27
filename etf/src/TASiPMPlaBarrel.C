@@ -49,11 +49,11 @@ void TASiPMPlaBarrel::Configure(){ //			    C
 			TAPlaStripPara *pra = str->GetStripPara();
 			pra->SetWidth(20.); pra->SetLength(300.);
 			pra->SetVeff(1200./7.8); pra->AppendDelay(1E-10); // -471.
-			str->GetDV()->GetPara()->AppendDelay(5.); // D: B(back) -> close to Magnet
-			str->GetDH()->GetPara()->AppendDelay(5.); // D: B(back) -> close to Magnet
+			str->GetDV()->GetPara()->AppendDelay(delay); // D: B(back) -> close to Magnet
+			str->GetDH()->GetPara()->AppendDelay(delay); // D: B(back) -> close to Magnet
 			if(stripId >= 15 && stripId <= 22){ // 3m signal wire -> add 5ns delay
-				str->GetUV()->GetPara()->AppendDelay(5.); // U: F(front) -> far from Magnet
-				str->GetUH()->GetPara()->AppendDelay(5.); // U: F(front) -> far from Magnet
+				str->GetUV()->GetPara()->AppendDelay(delay); // U: F(front) -> far from Magnet
+				str->GetUH()->GetPara()->AppendDelay(delay); // U: F(front) -> far from Magnet
 			}
 			fStripArr.push_back(str);
 		} // end for over j
