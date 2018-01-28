@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/23.															     //
-// Last modified: 2018/1/25, SUN Yazhou.										     //
+// Last modified: 2018/1/28, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -89,7 +89,8 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 	double trkL1 = sqrt(xe*xe + ye*ye + ze*ze); // half of the track in the Magnet
 	double trkL2 = // from exit of the magnetic field to TOF wall
 		sqrt(pow(x_tofwHit-xe, 2.) + pow(y_tofwHit-ye, 2.) + pow(z_tofwHit-ze, 2.));
-	double beta = (trkL1+trkL2 - z0_T0_1) / tof2 / c0;
+	double totalTrackLength_t = trkL1+trkL2 - z0_T0_1;
+	double beta = totalTrackLength_t / tof2 / c0;
 	if(beta < 0. || beta >= 1.){
 		fIsFlied = true;
 		return;
@@ -108,7 +109,7 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 		dtheta = result[0]; rho = result[1]; ki = result[2];
 		zo = result[4]; xo = result[5];
 		const double d0 = (zMagIn-z0_T0_1)*sqrt(1.+ki*ki); // from T0_1 to Mag
-		const double d1 = fabs(rho)*dtheta; // arc in the Mag
+		const double d1 = rho*dtheta; // arc in the Mag
 		const double d2 = trkL2; // from Mag to TOF wall
 		fTotalTrackLength = d0 + d1 + d2;
 		fBeta = fTotalTrackLength / tof2 / c0;
@@ -306,7 +307,7 @@ void TAPID::Initialize(){
 	fAoZ = -9999.; fAoZdmin = 9999.;
 	fBeta = -1.; fGamma = -1.; fPoZ = -9999.;
 	fAngleTaOut[0] = -9999.; fAngleTaOut[1] = -9999.;
-	fTotalTrackLength = -9999;
+	fTotalTrackLength = -9999; fIsFlied = false;
 }
 
 

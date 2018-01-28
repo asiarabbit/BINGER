@@ -155,21 +155,21 @@ struct tSolve{
 };
 void TAMath::UniformMagneticSolution(double k1, double b1, double z2, double z1, double z0, double x0, double *result){
 	double x2 = k1*z2+b1;
-	tSolve s[4]; // the equation is a 4-th order algebraic fraction, having 4 solutions
+	tSolve s[3]; // the equation is of 4-th order, having 4 solutions, one is dropped
 	memset(s, 0, sizeof(s));
 	#include "TAMath/uniformMagneticSolution.C" // solve x1, i.e. xMagIn
 	// solution validity check
 	int validCnt = 0;
-	for(int i = 0; i < 4; i++) if(-9999. != s[i].x1) validCnt++;
+	for(const tSolve &t : s) if(-9999. != t.x1) validCnt++;
 	if(1 != validCnt){
 		for(int i = 0; i < 6; i++) result[i] = validCnt;
 		return;
 	} // end if(1 != validCnt)
-	for(int i = 0; i < 4; i++) if(-9999. == s[i].x1){
+	for(const tSolve &t : s) if(-9999. != t.x1){
 		// output the result
-		result[0] = s[i].dtheta; result[1] = s[i].rho;
-		result[2] = s[i].ki; result[3] = s[i].bi;
-		result[4] = s[i].zo; result[5] = s[i].xo;
+		result[0] = t.dtheta; result[1] = t.rho;
+		result[2] = t.ki; result[3] = t.bi;
+		result[4] = t.zo; result[5] = t.xo;
 		return;
 	}
 } // end of function UniformMagneticSolution
