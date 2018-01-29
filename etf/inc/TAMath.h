@@ -62,6 +62,15 @@ public:
 	// the closest point of two skew lines -> hitpA: hit point on lA: (a, A)
 	// B, b: track point and track vector; A, a: anode point and track vector;
 	static void GetHitPoint(const double *b, const double *B, const double *a, const double *A, double *hitpA);
+	// solve particle trajectory in uniform magnetic field, with only Mag boundry, exit track
+	// and target position known; returning the track radius of curvature in the magnetic field
+	// input unit: mm; output unit: mm
+	// x=kiz+bi, track before Target; (zo, xo): rotating center of the arc
+	// result: [0-5]: [thetaDeflect, rho, ki, bi, zo, xo]
+	static void UniformMagneticSolution(double k1, double b1, double zMagOut, double zMagIn, double zTa, double xTa, double *result);
+	static double Gamma(double beta);
+	static double BetaGamma(double beta){ return Gamma(beta) * beta; }
+	static double GammaBeta(double beta){ return BetaGamma(beta); }
 
 	///////////////////// TATRACK MINIMIZATION & LSM FUNCTIONS /////////////////////////////
 	// minimization and Least Squares Method functions, serving TATrack track fitting

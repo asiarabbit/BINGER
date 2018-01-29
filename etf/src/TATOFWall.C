@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/9.															     //
-// Last modified: 2017/10/9, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -39,7 +39,7 @@ TATOFWall::~TATOFWall(){
 }
 
 TAPlaStrip *TATOFWall::GetStrip(int stripId) const{
-	if(stripId < 0 || stripId >= fStripArr.size())
+	if(stripId < 0 || (unsigned)stripId >= fStripArr.size())
 		TAPopMsg::Error(GetName().c_str(), "GetStrip: stripId out of range: %d", stripId);
 	return fStripArr[stripId];
 }

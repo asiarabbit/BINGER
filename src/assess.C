@@ -15,12 +15,13 @@ int main(int argc, char *argv[]){
 	}
 	TAEventProcessor *ep = TAEventProcessor::Instance();
 	const char dir[2][64] = {"pion_2017Oct", "beamTest_2016Nov"};
-	ep->SetConfigExpDir(dir[1]); ep->Configure();
+	ep->SetConfigExpDir(dir[0]); ep->Configure();
 	TAAssess *ass = TAAssess::Instance();
 	ass->SetROOTFile(argv[1]);
 	const int round = atoi(argv[3]);
-	ass->EvalDCArr(round, bool(atoi(argv[2])));
-	ass->PostEval(round); // analyze hrt_04_sample for evaluation of recursive STR correction
+	bool isDCArrR = bool(atoi(argv[2]));
+	ass->EvalDCArr(round, isDCArrR);
+	ass->PostEval(round, isDCArrR); // analyze hrt_04_sample for STRcor assess
 
 	return 0;
 }

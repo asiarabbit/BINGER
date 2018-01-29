@@ -72,7 +72,7 @@ protected:
 	TLegend *fGLegend; // to show some text in the graph
 
 	TH2F *fH2HitMap;
-	tHitMap *fHitMapData; // array for the function value to fG2HitMap
+	tHitMap *fHitMapData; // array for the function value to fH2HitMap
 	TCanvas *fCanvas;
 };
 

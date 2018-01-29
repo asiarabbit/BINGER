@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/11.															     //
-// Last modified: 2017/11/30, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -113,7 +113,6 @@ double TASiPMPlaArray::GetHitX(){
 	if(-9999. == fHitX){
 		if(GetNFiredStrip() >= 1){
 			int i = 0;
-			int cnt = 0;
 			for(TAChannel *&ch : fUVArr){
 				if(ch->GetFiredStatus()){
 					fFiredStripId = i;

@@ -17,11 +17,11 @@ int main(int argc, char *argv[]){
 	bool isDCArrR = bool(atoi(argv[2])); int round = atoi(argv[3]);
 	TAEventProcessor *ep = TAEventProcessor::Instance();
 	const char dir[2][64] = {"pion_2017Oct", "beamTest_2016Nov"};
-	ep->SetConfigExpDir(dir[1]); ep->Configure();
+	ep->SetConfigExpDir(dir[0]); ep->Configure();
 	TASTRCalibDCArr *str = nullptr;
 	if(isDCArrR) str = new TASTRCalibDCArrR(argv[1]);
 	else str = new TASTRCalibDCArrL(argv[1]);
-	str->SetIsBigStatistics(true); // mark if the statistics is enough, then fill behavior would vary
+	str->SetIsBigStatistics(false); // mark if the statistics is enough, then fill behavior would vary
 	str->ChiHistogramming(false); // true: using 3D cali; false: using trk-proj cali
 	str->GenerateSTRCorFile(round);
 	// adopt the calibration

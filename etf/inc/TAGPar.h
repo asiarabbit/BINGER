@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/12.															     //
-// Last modified: 2018/1/8, SUN Yazhou.											     //
+// Last modified: 2018/1/16, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -22,6 +22,7 @@
 
 using std::array;
 
+class TObject; // ROOT class
 class TAParameter;
 class TAParaManager;
 
@@ -34,16 +35,21 @@ public:
 	const TAParameter *Par(unsigned int id) const;
 	void ShowPar(unsigned int id) const;
 	short GetNParameter() const;
+	TObject *Agent(unsigned int id) const;
 	friend class TAParaManager;
 	bool HasRead() const{ return fHasRead; }
+	void Write(); // write Agent
 protected:
 	TAGPar();
 	TAParameter *Parameter(unsigned int id) const; // for modify the parameters
+	void DefineParameters();
+	void DefineAgents();
 	void SetHasRead(bool opt){ fHasRead = opt; }
 	static TAGPar *fInstance;
-	static constexpr int kSIZE = 1000;
-	array<TAParameter *, kSIZE> fParVec;
+	enum {kParSIZE = 200, kAgentSIZE = 20};
+	array<TAParameter *, kParSIZE> fParVec;
 	bool fHasRead; // has read the config file(s) or not
+	array<TObject *, kAgentSIZE> fAgentVec; // agents in the Matrix, sneaking into codes for information
 };
 
 #endif

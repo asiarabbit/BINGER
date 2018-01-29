@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2018/1/5, SUN Yazhou.											     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -116,8 +116,8 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 
 /////////////////////////// Chi histogramming begins ///////////////////////////////////////
 	// create TH2F objects for the STR correction fittings //
-	TH2F *hRDCSTRCor[3][3][2][96][nAng]{0}; // [DC#][XUV][Layer][nu][STR_id]
-	TH2F *hRDCSTR_RT[3][3][2][96][nAng]{0}; // [DC#][XUV][Layer][nu][STR_id] r-t 2D graph
+	TH2F *hDCSTRCor[3][3][2][96][nAng]{0}; // [DC#][XUV][Layer][nu][STR_id]
+	TH2F *hDCSTR_RT[3][3][2][96][nAng]{0}; // [DC#][XUV][Layer][nu][STR_id] r-t 2D graph
 	char name[64], title[128];
 	for(int i = 0; i < 3; i++){ // loop over DCs
 		for(int j = 0; j < 3; j++){ // loop over X-U-V
@@ -125,12 +125,12 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 				const int nAnodePerLayer = dcArr->GetMWDC(i)->GetNAnodePerLayer();
 				for(int k = 0; k < nAnodePerLayer; k++){ // loop over anodes per layer
 					for(int l = 0; l < nAng; l++){
-						sprintf(name, "hRDCSTRCor_%d_%d_%d_%d_%d", i, j, m, k, l);
-						sprintf(title, "%s - dr-DCA Relation;DCA [mm];dr [mm]", name);
-						hRDCSTRCor[i][j][m][k][l] = new TH2F(name, title, nr, 0., rmx, 300, -3.0, 3.0);
-						sprintf(name, "hRDCSTR_RT_%d_%d_%d_%d_%d", i, j, m, k, l);
+						sprintf(name, "hDCSTRCor_%d_%d_%d_%d_%d", i, j, m, k, l);
+						sprintf(title, "%s - dr-DriftDistance Relation;r [mm];dr [mm]", name);
+						hDCSTRCor[i][j][m][k][l] = new TH2F(name, title, nr, 0., rmx, 300, -3.0, 3.0);
+						sprintf(name, "hDCSTR_RT_%d_%d_%d_%d_%d", i, j, m, k, l);
 						sprintf(title, "%s - DCA-t Relation;t [ns];DCA [mm]", name);
-						hRDCSTR_RT[i][j][m][k][l] = new TH2F(name, title, 35, 0., 280., 100, -0.5, 5.5);
+						hDCSTR_RT[i][j][m][k][l] = new TH2F(name, title, 35, 0., 280., 100, -0.5, 5.5);
 					} // end for over i
 				} // end for over k
 			} // end for over m
@@ -161,13 +161,13 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 						const int STRid = anoPar->GetSTRid(kl[j], dcType);
 						const short nAnodePerLayer = dc->GetNAnodePerLayer();
 						if(isBigSta){
-							hRDCSTRCor[DCid][dcType][l%2][NU][STRid]->Fill(rc, dr);
-							hRDCSTR_RT[DCid][dcType][l%2][NU][STRid]->Fill(tt, rc);
+							hDCSTRCor[DCid][dcType][l%2][NU][STRid]->Fill(rr, dr);
+							hDCSTR_RT[DCid][dcType][l%2][NU][STRid]->Fill(tt, rc);
 						} // end if
 						else{ // every hit is shared by all anodes in the layer
 							for(int k = 0; k < nAnodePerLayer; k++){
-								hRDCSTRCor[DCid][dcType][l%2][k][STRid]->Fill(rc, dr);
-								hRDCSTR_RT[DCid][dcType][l%2][k][STRid]->Fill(tt, rc);
+								hDCSTRCor[DCid][dcType][l%2][k][STRid]->Fill(rr, dr);
+								hDCSTR_RT[DCid][dcType][l%2][k][STRid]->Fill(tt, rc);
 							} // end for over anodes in a sense wire layer
 						} // end else
 					} // end if
@@ -214,13 +214,13 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 //						cout << "rc: " << rc << "\trr: " << rr << "\tdr: " << dr << endl; getchar(); // DEBUG
 						const int STRid = TAAnodePara::GetSTRid(alpha[DCid][j]);
 						if(isBigSta){
-							hRDCSTRCor[DCid][j][k%2][NU][STRid]->Fill(rc, dr);
-							hRDCSTR_RT[DCid][j][k%2][NU][STRid]->Fill(tt, rc);
+							hDCSTRCor[DCid][j][k%2][NU][STRid]->Fill(rr, dr);
+							hDCSTR_RT[DCid][j][k%2][NU][STRid]->Fill(tt, rc);
 						} // end if
 						else{ // every hit is shared by all anodes in the layer
 							for(int l = 0; l < nAnodePerLayer; l++){
-								hRDCSTRCor[DCid][j][k%2][l][STRid]->Fill(rc, dr);
-								hRDCSTR_RT[DCid][j][k%2][l][STRid]->Fill(tt, rc);
+								hDCSTRCor[DCid][j][k%2][l][STRid]->Fill(rr, dr);
+								hDCSTR_RT[DCid][j][k%2][l][STRid]->Fill(tt, rc);
 							} // end for over anodes in a sense wire layer
 						} // end else
 					} // end loop over 6 sense wire layers for a sense wire type
@@ -238,17 +238,17 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 	fw->cd(title); cout << endl;
 	for(int i = 0; i < 3; i++) for(int j = 0; j < 3; j++) for (int m = 0; m < 2; m++)
 	for(int k = 0; k < 96; k++) for(int s = 0; s < nAng; s++){
-		if(hRDCSTRCor[i][j][m][k][s]){
-			if(hRDCSTRCor[i][j][m][k][s]->GetEntries() > 2000.){
-				hRDCSTRCor[i][j][m][k][s]->Write("", TObject::kOverwrite);
-				hRDCSTR_RT[i][j][m][k][s]->Write("", TObject::kOverwrite);
+		if(hDCSTRCor[i][j][m][k][s]){
+			if(hDCSTRCor[i][j][m][k][s]->GetEntries() > 2000.){
+				hDCSTRCor[i][j][m][k][s]->Write("", TObject::kOverwrite);
+				hDCSTR_RT[i][j][m][k][s]->Write("", TObject::kOverwrite);
 				cout << "Writing Histo \033[34;1m" << i << " " << j << " " << m;
 				cout << " " << k << " " << s << "\033[0m";
 				cout << "   \tPlease wait..." << "\r" << flush;
 			} // end innter if
 		} // end outer if
-		delete hRDCSTRCor[i][j][m][k][s]; hRDCSTRCor[i][j][m][k][s] = nullptr;
-		delete hRDCSTR_RT[i][j][m][k][s]; hRDCSTR_RT[i][j][m][k][s] = nullptr;
+		delete hDCSTRCor[i][j][m][k][s]; hDCSTRCor[i][j][m][k][s] = nullptr;
+		delete hDCSTR_RT[i][j][m][k][s]; hDCSTR_RT[i][j][m][k][s] = nullptr;
 	} // end the great loop
 	cout << "\n\n\033[33;1mDONE\033[0m\n\n"; // DEBUG
 	fw->Close(); delete fw; fw = nullptr;
@@ -346,7 +346,7 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 					double strCor[nAng][nr]{}, strCorSigma[nAng][nr]{};
 					TAAnode *ano = dcArr->GetMWDC(i)->GetAnode(j, m+1, k);
 					for(int str_id = 0; str_id < nAng; str_id++){
-						sprintf(name, "STRCali-%s/histo/hRDCSTRCor_%d_%d_%d_%d_%d", dcArr->GetName().c_str(), i, j, m, k, str_id);
+						sprintf(name, "STRCali-%s/histo/hDCSTRCor_%d_%d_%d_%d_%d", dcArr->GetName().c_str(), i, j, m, k, str_id);
 						TH2F *h2 = h2void;
 						if(!(h2 = (TH2F*)f->Get(name))) continue;
 						int valid_bin_cnt = 0; // valid drift distance bin number
@@ -359,7 +359,7 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 							double npro = hpro->GetEntries();
 							const double rms = hpro->GetRMS();
 							if(0) if(0 == l) npro = 0; // the first bin is biased
-							if(npro < 200. || rms > 0.5){ // stastics is too small or STRcor nasty
+							if(npro < 200. || rms > 0.9){ // stastics is too small or STRcor nasty
 								strCor[str_id][l] = 0.;
 								strCorSigma[str_id][l] = 0.;
 								continue;
@@ -381,7 +381,7 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 							hmean[i][j]->Fill(mean); hmeanTot->Fill(mean);
 							hsigma[i][j]->Fill(sigma); hsigmaTot->Fill(sigma);
 //							cout << "mean: " << mean << "\tsigma: " << sigma << endl; getchar(); // DEBUG
-							if((mean > -0.4 && mean < 0.4) && (sigma < 0.7 && sigma > 0.)){
+							if((mean > -0.7 && mean < 0.7) && (sigma < 0.9 && sigma > 0.)){
 								strCor[str_id][l] = mean;
 								strCorSigma[str_id][l] = sigma;
 								// more statistics brings about more weight in the sigma average
@@ -397,9 +397,11 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 								ano->GetAnodePara()->GetSTRCorrection(str_id)[l];
 							cout << "Processing bin of " << i << " " << j << " " << m;
 							cout << " " << k << " " << str_id << " " << l << "\r" << flush;
-							if(hpro) delete hpro; hpro = nullptr;
+							if(hpro) delete hpro;
+							hpro = nullptr;
 						} // end for over l
-						if(h2) delete h2; h2 = nullptr;
+						if(h2) delete h2;
+						h2 = nullptr;
 						if(0 == valid_bin_cnt) continue; // empty correction
 						outFile << "\nInfo: " << setw(10) << ano->GetUID() << " ";
 						outFile << setw(7) << str_id << " " << setw(5) << valid_bin_cnt << endl;
@@ -433,9 +435,10 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 	// make directory to store calibration results
 	f->cd("/");
 	char dir[64], subdir[64]; // directory to store results of the auto-calibration round
-	sprintf(subdir, "round_%d", round);
+	sprintf(subdir, "round%c%d", dcArr->GetName().c_str()[7], round); // DCArray[L-R]
 	sprintf(dir, "STRCali-%s/%s", dcArr->GetName().c_str(), subdir);
-	if(!f->FindObjectAny(subdir)) f->mkdir(dir); f->cd(dir); // stores sigma, mean and treeSgima
+	if(!f->FindObjectAny(subdir)) f->mkdir(dir);
+	f->cd(dir); // stores sigma, mean and treeSgima
 	for(int i = 0; i < 3; i++) for(int j = 0; j < 3; j++){
 		hmean[i][j]->Write("", TObject::kOverwrite);
 		hsigma[i][j]->Write("", TObject::kOverwrite);
@@ -455,7 +458,8 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 	delete hsigmaTot; hsigmaTot = nullptr;
 	delete gsigmaTot; gsigmaTot = nullptr;
 	delete treeSigma; treeSigma = nullptr;
-	if(h2void) delete h2void; h2void = nullptr;
+	if(h2void) delete h2void;
+	h2void = nullptr;
 	f->Close(); delete f; f = nullptr;
 //	TAParaManager::Instance()->UpdateSTRCorrection(); // keep up-to-date with the newest calibration
 

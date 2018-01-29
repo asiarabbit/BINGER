@@ -7,7 +7,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/24.															     //
-// Last modified: 2018/1/6, SUN Yazhou.											     //
+// Last modified: 2018/1/27, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -29,7 +29,7 @@ const double TAAnodePara::kSTRCorAngleStep =
 const double TAAnodePara::kSTRCorArrDummy[TAAnodePara::kSTRCorRNBins]{0.};
 
 TAAnodePara::TAAnodePara(const string &name, const string &title, unsigned uid)
-		: TAChPara(name, title, uid), fMotherDC(0), fGlobalDirection(nullptr){
+		: TAChPara(name, title, uid), fGlobalDirection(nullptr), fMotherDC(0){
 	for(int i = 0; i < 3; i++){
 		fGlobalCenter[i] = -9999.;
 		fGlobalProjection[i] = -9999.;

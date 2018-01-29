@@ -100,8 +100,8 @@ double TAAnode::GetDriftTime(double &weight) const{
 // for generate simulation data //
 double TAAnode::GetDriftTime(double rr, double k){ // k is the track slope
 //	rr = 5.2273836; // DEBUG
-	double r = rr, dr = 0.; // for overflow treatment (drift cell radius = 5 mm)
-	if(rr >= 4.999){ r = 4.999; dr = rr - r; }
+	double r = rr; // for overflow treatment (drift cell radius = 5 mm)
+	if(rr >= 4.999){ r = 4.999; }
 	const int n = 100;
 	double span = 300.; // search scope, unit: ns
 	double t, tc = 60., tm = 0.; // ns

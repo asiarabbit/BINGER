@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/24.															     //
-// Last modified: 2017/9/25, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -25,7 +25,7 @@ public:
 	TAParameter(const string &name = "", const string &title = "", unsigned uid = 999999999);
 	virtual ~TAParameter();
 	double GetValue() const;
-	double SetValue(double value){ fValue = value; }
+	void SetValue(double value){ fValue = value; }
 protected:
 	double fValue;
 };

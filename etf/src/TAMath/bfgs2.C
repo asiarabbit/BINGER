@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/9.															     //
-// Last modified: 2017/10/9, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -45,7 +45,6 @@ double TAMath::refinedFitBFGS(const double *x, const double *y, const double *r,
 
 	const double dxM = 1E-5; // error control constant
 	const double gM = 1E-2; // error control constant
-	double fM = 1E200;
 	double d2 = 0.; // chi2
 	double xkm[2] = {0., 0.}; // the optimal xk set.
 	double dx = 1E200, g = 1E200; // dx = ||(xk1 - xk)||, g = ||(gk1)||
@@ -242,10 +241,11 @@ void Ak1(double (*Ak)[2], double *dxk, double *dgk){
 	double zk[2] = { // zk = Ak.dgk
 		Ak[0][0] * dgk[0] + Ak[0][1] * dgk[1], 
 		Ak[1][0] * dgk[0] + Ak[1][1] * dgk[1]};
-	double Ck[2][2]  = {
-		{zk[0] * zk[0], zk[0] * zk[1]},
-		{zk[1] * zk[0], zk[1] * zk[1]}
-	}, Ckd = zk[0] * dgk[0] + zk[1] * dgk[1]; // Ckdenominator
+//	double Ck[2][2]  = {
+//		{zk[0] * zk[0], zk[0] * zk[1]},
+//		{zk[1] * zk[0], zk[1] * zk[1]}
+//	};
+	double Ckd = zk[0] * dgk[0] + zk[1] * dgk[1]; // Ckdenominator
 	
 	double xzk[2][2] = { // xzk = x.zT + z.xT
 		{2. * dxk[0] * zk[0], dxk[0] * zk[1] + dxk[1] * zk[0]},

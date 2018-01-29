@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2016/11/15, transported: 2018/1/9.									     //
-// Last modified: 2018/1/9, SUN Yazhou.											     //
+// Last modified: 2018/1/27, SUN Yazhou.											 //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -22,7 +22,8 @@ void TABUAA::analyze(const int *data, tVME_event &ev){
 //	getchar(); // DEBUG
 
 	int chData; // each int in data. A temporary variable.
-	int slot, header, geo, cnt, chid, nums;
+	int slot, header, geo, chid, nums;
+//	int cnt = 0; // DEBUG
 	int id_v1290 = 0, id_v830 = 0, v830_shutdown = 0;
 	int pos = 0; // subscipt of array data.
 
@@ -71,7 +72,7 @@ void TABUAA::analyze(const int *data, tVME_event &ev){
 			} // end switch
 		} // end if
 		else if(header==2 && (slot==3||slot==4||slot==6||slot==7||slot==9||slot==11)){
-			if(header == 2) cnt = (chData >> 8) & 0x3F;
+//			if(header == 2) cnt = (chData >> 8) & 0x3F; // DEBUG
 //			cout << "cnt: " << cnt << endl; // DEBUG
 //			getchar(); // DEBUG
 		} // end if
@@ -90,7 +91,7 @@ void TABUAA::analyze(const int *data, tVME_event &ev){
 //			getchar(); // DEBUG
 		} // end if
 		else if(slot == 3 && id_v1290 == 1){
-			cnt = chData & 0xFFF;
+//			cnt = chData & 0xFFF; // DEBUG
 //			cout << "id_v1290, cnt: " << cnt << endl; // DEBUG
 //			getchar(); // DEBUG
 		} // end if

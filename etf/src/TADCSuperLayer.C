@@ -9,7 +9,7 @@
 //     																				 //
 // Author: SUN Yazhou, asia.rabbit@163.com.    										 //
 // Created: 2017/10/3.   														     //
-// Last modified: 2017/10/13, SUN Yazhou.     										 //
+// Last modified: 2018/1/27, SUN Yazhou.     										 //
 //     																				 //
 //     																				 //
 // Copyright (C) 2017, SUN Yazhou.     												 //
@@ -42,7 +42,7 @@ short TADCSuperLayer::GetNCable() const{
 	return fNCable;
 }
 TADCCable *TADCSuperLayer::GetCable(int n) const{
-	if(n < 0 || n >= fDCCableArr.size())
+	if(n < 0 || (unsigned)n >= fDCCableArr.size())
 		TAPopMsg::Error(GetName().c_str(), "GetCable: The input sugscript out of range: %d", n);
 	if(!fDCCableArr[n])
 		TAPopMsg::Error(GetName().c_str(), "GetCable: requested cable pointer is null");

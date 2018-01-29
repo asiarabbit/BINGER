@@ -11,7 +11,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/13.															     //
-// Last modified: 2018/1/15, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -73,8 +73,9 @@ using std::setw;
 TAEventProcessor* TAEventProcessor::fInstance = nullptr;
 
 TAEventProcessor::TAEventProcessor(const string &datafile, int runId)
-		: fRawDataProcessor(0), fParaManager(0), fCtrlPara(0),
-		fVisual(0), fPID(0), fGPar(0), fIsPID(true), fIsTracking(true){
+		: fIsPID(true), fIsTracking(true),
+		fRawDataProcessor(0), fParaManager(0), fCtrlPara(0),
+		fVisual(0), fPID(0), fGPar(0){
 	fEntryList.reserve(100);
 	fTrackList.reserve(50);
 
@@ -234,8 +235,10 @@ void TAEventProcessor::FillTrack(TGraph *gTrack, TGraph *gTrack_R) const{
 	for(int i = 2; i--;) dcArr[i]->FillTrack(gTrack, gTrack_R);
 }
 void TAEventProcessor::Initialize(){
-	for(tEntry *&t : fEntryList) if(t){ delete t; t = nullptr; } fEntryList.clear();
-	for(tTrack *&t : fTrackList) if(t){ delete t; t = nullptr; } fTrackList.clear();
+	for(tEntry *&t : fEntryList) if(t){ delete t; t = nullptr; }
+	fEntryList.clear();
+	for(tTrack *&t : fTrackList) if(t){ delete t; t = nullptr; }
+	fTrackList.clear();
 	
 	for(TADetUnion *&det : GetParaManager()->GetDetList()){
 		if(det) det->Initialize();
@@ -350,7 +353,8 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 			for(double &x : t->leadingTime) correctCycleClear(x, bunchIdTime);
 			for(double &x : t->trailingTime) correctCycleClear(x, bunchIdTime);
 		}
-		if(entry_t.channelId > secLenLim) continue; // index==2, then channelId stores secLen
+		if(entry_t.channelId > secLenLim) continue; // index==-2, then channelId stores secLen
+		if(entry_t.channelId < 0) continue; // bunchIdMisAlignment happened
 		if(index < id0){
 			cout << "Skipping Event index " << index << "\r" << flush;
 			continue;

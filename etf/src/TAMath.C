@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/25.															     //
-// Last modified: 2017/12/23, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -20,6 +20,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <cmath>
+#include <complex> //complex operation
 #include "TAMath.h"
 #include "TAPopMsg.h"
 #include "TACtrlPara.h"
@@ -27,6 +28,9 @@
 using std::cout;
 using std::endl;
 using std::setprecision;
+using std::complex;
+typedef complex<double> cdouble;
+
 
 // length of the vector, len: vector dimension
 double TAMath::norm(const double *p, int len){
@@ -82,7 +86,7 @@ void TAMath::rotate(const double *pIn, double *pOut, const double *angIn){
 	double c1 = cos(angIn[0]), c2 = cos(angIn[1]), c3 = cos(angIn[2]);
 	pOut[0] = (c1*c3-s1*s2*s3)*  pIn[0] -c2*s3* pIn[1] +(c1*s2*s3+s1*c3)* pIn[2];
 	pOut[1] = (c1*s3+s1*s2*c3)*  pIn[0] +c2*c3* pIn[1] +(s1*s3-c1*s2*c3)* pIn[2];
-	pOut[2] = -s1*c2*            pIn[0] +s2*    pIn[1] +c1*c2*            pIn[2];	
+	pOut[2] = -s1*c2*            pIn[0] +s2*    pIn[1] +c1*c2*            pIn[2];
 }
 void TAMath::rotateOffset(const double *pIn, double *pOut, const double *angOff){
 	pOut[0] = pIn[0] -angOff[0]* pIn[1] +angOff[2]* pIn[2]; // x
@@ -140,7 +144,40 @@ void TAMath::GetHitPoint(const double *b, const double *B, const double *a, cons
 	hitpA[2] = a[2]*tt1+A[2];
 } // end of function GetHitPoint
 
+// solve particle trajectory in uniform magnetic field, with only Mag boundry, exit track
+// and target position known; returning the track radius of curvature in the magnetic field
+// input unit: mm; output unit: mm
+// x=kiz+bi, track before Target
+// result: [0-5]: [thetaDeflect, rho, ki, bi, zo, xo]
+// zMagOut->z2; zMagIn->z1; zTa->z0; xTa->x0
+struct tSolve{
+	double x1, ki, bi, zh, xh, dtheta, dd2, rho, zo, xo; // solution struct
+};
+void TAMath::UniformMagneticSolution(double k1, double b1, double z2, double z1, double z0, double x0, double *result){
+	double x2 = k1*z2+b1;
+	tSolve s[3]; // the equation is of 4-th order, having 4 solutions, one is dropped
+	memset(s, 0, sizeof(s));
+	#include "TAMath/uniformMagneticSolution.C" // solve x1, i.e. xMagIn
+	// solution validity check
+	int validCnt = 0;
+	for(const tSolve &t : s) if(-9999. != t.x1) validCnt++;
+	if(1 != validCnt){
+		for(int i = 0; i < 6; i++) result[i] = validCnt;
+		return;
+	} // end if(1 != validCnt)
+	for(const tSolve &t : s) if(-9999. != t.x1){
+		// output the result
+		result[0] = t.dtheta; result[1] = t.rho;
+		result[2] = t.ki; result[3] = t.bi;
+		result[4] = t.zo; result[5] = t.xo;
+		return;
+	}
+} // end of function UniformMagneticSolution
 
+double TAMath::Gamma(double beta){
+	if(beta < 0. || beta >= 1.) TAPopMsg::Error("TAMath", "Gamma: input beta invalid: %f", beta);
+	return 1./sqrt(1.-beta*beta);
+}
 
 // definitions for fit functions serving class TATrack.
 #include "TAMath/deviaFun.C" // Dsquare, minid2 - global functions.
@@ -148,4 +185,7 @@ void TAMath::GetHitPoint(const double *b, const double *B, const double *a, cons
 #include "TAMath/refinedFit.C" // refinedFit - TAMath member function.
 #include "TAMath/bfgs2.C" // refinedFitBFGS - TAMath member function.
 #include "TAMath/bfgs4.C" // BFGS4 - TAMath member function for 3D linear tracking
+
+
+
 

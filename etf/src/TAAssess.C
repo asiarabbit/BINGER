@@ -370,7 +370,8 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 					if(-1 != nu[trkId[jj][j]][k]){ nFXUV[j]++; if(BINGO) eff[k/2][j][k%2]++; }
 			} // end loop over XUV
 			const int nF = nFXUV[0] + nFXUV[1] + nFXUV[2]; // number of measured points
-			for(int j = 0; j < 3; j++) hnF[j]->Fill(nFXUV[j]); hnF3D->Fill(nF);
+			for(int j = 0; j < 3; j++) hnF[j]->Fill(nFXUV[j]);
+			hnF3D->Fill(nF);
 			double p[4]; // [0-3]: k1, k2, b1, b2
 			p[0] = k[trkId[jj][0]]; // k1
 			p[2] = b[trkId[jj][0]]; // b1
@@ -556,10 +557,12 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 	char s[128]; strcpy(s, ("assess"+rootfile).c_str());
 //	if(0 == runid && 0 == access(s, F_OK)) system(("rm "+string(s)).c_str());
 	TFile *fw = new TFile(s, "UPDATE");
-	if(!fw->FindObjectAny(topdir)) fw->mkdir(topdir); fw->cd(topdir);
+	if(!fw->FindObjectAny(topdir)) fw->mkdir(topdir);
+	fw->cd(topdir);
 	for(int i = 0; i < ndir; i++){
 		sprintf(s, "%s/%s", topdir, dir[i]);
-		if(!fw->FindObjectAny(dir[i])) fw->mkdir(s); fw->cd(s);
+		if(!fw->FindObjectAny(dir[i])) fw->mkdir(s);
+		fw->cd(s);
 		for(TObject *&b : objLs[i]) if(b){
 			b->Write("", TObject::kOverwrite);
 		}
@@ -571,18 +574,16 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 } // end of member function EvalDCArr3D
 
 // evaluation done after Eval event by event
-void TAAssess::PostEval(int round){
+void TAAssess::PostEval(int round, bool isDCArrR){
 	if(!strcmp("", fROOTFile.c_str()))
 		TAPopMsg::Error("TAAssess", "PostEval: rootfile name is empty");
 	TAPopMsg::Info("TAAssess", "PostEval: Input rootfile: %s", fROOTFile.c_str());
 	if(0 != access(fROOTFile.c_str(), F_OK))
 		TAPopMsg::Error("TAAssess", "PostEval: Input rootfile %s doesn't exist", fROOTFile.c_str());
 
-	bool success0 = PostEval("assess"+fROOTFile, round, true, true);
-	bool success1 = PostEval("assess"+fROOTFile, round, true, false);
-	bool success2 = PostEval("assess"+fROOTFile, round, false, true);
-	bool success3 = PostEval("assess"+fROOTFile, round, false, false);
-	if(!success0 && !success1 && !success2 && !success3)
+	bool success0 = PostEval("assess"+fROOTFile, round, isDCArrR, true);
+	bool success1 = PostEval("assess"+fROOTFile, round, isDCArrR, false);
+	if(!success0 && !success1)
 		TAPopMsg::Info("TAAssess", "PostEval: No eligible hrt_04_sample is found whatsoever and wheresoever\n");
 	else
 		cout << "\033[33;1m\n\nDONE\n\n\033[0m";
@@ -644,9 +645,9 @@ bool TAAssess::PostEval(const string &rootfile, int round, bool isDCArrR, bool i
 
 	f->cd(dir);
 	if(gSigma->GetN()) gSigma->Write("", TObject::kOverwrite);
-	else TAPopMsg::Warn("TAAssess", "PostEval: gSigma has no data");
+	else TAPopMsg::Info("TAAssess", "PostEval: gSigma has no data");
 	if(gMean->GetN()) gMean->Write("", TObject::kOverwrite);
-	else TAPopMsg::Warn("TAAssess", "PostEval: gMean has no data");
+	else TAPopMsg::Info("TAAssess", "PostEval: gMean has no data");
 
 	delete fgaus; fgaus = nullptr; delete gSigma; gSigma = nullptr;
 	delete gMean; gMean = nullptr; f->Close(); delete f; f = nullptr;

@@ -32,18 +32,18 @@
 *.app
 
 # ROOT files
-*.root
+#*.root
 
 # raw binary data files
 *.data
 
 # channelId config files
-*.000
+#*.000
 #calibration files
 *.002
 *.003
 # text files || content
-*.txt
+#*.txt
 content
 
 # ignore directories
@@ -53,6 +53,5 @@ misc/*
 !misc/tools/Garfield/
 !build/*.sh
 !build/*.C
-La/
 data/
-
+!config/

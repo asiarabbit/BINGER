@@ -8,15 +8,20 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/13.															     //
-// Last modified: 2017/12/26, SUN Yazhou.										     //
+// Last modified: 2018/1/16, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
 #include <cstdlib>
+
+// ROOT include
+#include "TH1F.h"
+#include "TH2F.h"
+#include "TGraph.h"
 
 #include "TAGPar.h"
 #include "TAParameter.h"
@@ -35,6 +40,14 @@ TAGPar::~TAGPar(){
 	for(TAParameter *&p : fParVec) if(p){
 		delete p; p = nullptr;
 	}
+	for(TObject *&p : fAgentVec) if(p){
+		delete p; p = nullptr;
+	}
+}
+void TAGPar::Write(){
+	for(TObject *&p : fAgentVec) if(p){
+		p->Write("", TObject::kOverwrite);
+	}
 }
 
 double TAGPar::Val(unsigned int id) const{
@@ -45,7 +58,7 @@ void TAGPar::ShowPar(unsigned int id) const{
 	cout << "\tValue: " << Val(id) << endl;
 }
 TAParameter *TAGPar::Parameter(unsigned int id) const{
-	if(id >= kSIZE) TAPopMsg::Error("TAGPar", "Par: input id exceeds the maximum parameter array size. M_SIZE: %d", kSIZE);
+	if(id >= kParSIZE) TAPopMsg::Error("TAGPar", "Par: input id exceeds the maximum parameter array size. M_SIZE: %d", kParSIZE);
 	if(!fParVec[id]) TAPopMsg::Error("TAGPar", "Par: required pointer is null, id: %d", id);
 	return fParVec[id];
 }
@@ -59,9 +72,19 @@ short TAGPar::GetNParameter() const{
 	return n;
 }
 
+TObject *TAGPar::Agent(unsigned int id) const{
+	if(id >= kAgentSIZE) TAPopMsg::Error("TAGPar", "Agent: input id exceeds the maximum agent array size. M_SIZE: %d", kAgentSIZE);
+	if(!fAgentVec[id]) TAPopMsg::Error("TAGPar", "Agent: required pointer is null, id: %d", id);
+	return fAgentVec[id];
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // the instructor
 TAGPar::TAGPar() : fParVec{0}, fHasRead(false){
+	DefineParameters();
+	DefineAgents();
+}
+void TAGPar::DefineParameters(){
 	// XXX: NOTE THAT values set here would be overwritten by the values given in confi fils
 	TAParameter *p = nullptr; // a temporary variable
 	// $$$$$ time to trigger range $$$$$ //
@@ -237,9 +260,15 @@ TAGPar::TAGPar() : fParVec{0}, fHasRead(false){
 	// ---- PARAMETER 54 --- //
 	p = new TAParameter("dcTOTNoiseLevel", "dcTOTNoiseLevel");
 	p->SetValue(250.); fParVec[54] = p; p = nullptr; // this value is for beam test
+} // end of member function DefineParameters
+
+void TAGPar::DefineAgents(){
+	TObject *p = nullptr;
+	p = new TH1F("hUprojCnt", "Uproj Count Entering TrackerMeger", 13, -1.5, 11.5);
+	fAgentVec[0] = p; p = nullptr;
+	p = new TH1F("hVprojCnt", "Vproj Count Entering TrackerMeger", 13, -1.5, 11.5);
+	fAgentVec[1] = p; p = nullptr;
 }
-
-
 
 
 

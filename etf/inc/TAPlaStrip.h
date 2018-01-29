@@ -8,10 +8,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/30.															     //
-// Last modified: 2017/10/10, SUN Yazhou.										     //
+// Last modified: 2018/1/16, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -38,7 +38,7 @@ public:
 	// t0, t1 and t2 are set for choosing ch->GetLT over edges
 	// (ch->GetLT-t0) within t1 and t2 is chosen. 
 	// t0, t1 and t2 using default values, choose the 1st edge
-	double GetTime(double t0 = -9999., double t1 = -9999., double t2 = -9999.) const; // get TOF time
+	double GetTime(double t0 = -9999., double t1 = -9999., double t2 = -9999.); // get TOF time
 	TAChannel *GetUV() const; // return up end of the strip, HPTDC very high resolution mode.
 	TAChannel *GetUH() const; // return up end of the strip, HPTDC high resolution mode.
 	TAChannel *GetDV() const; // return down end of the strip, HPTDC very high resolution mode.
@@ -59,5 +59,6 @@ protected:
 	TAChannel *fDV; // Down end - Very high resolution mode channel
 	TAChannel *fDH; // Down end - High resolution mode
 	int fStripId; // strip serial id
+	double ft0, ft1, ft2; // used in GetTime(...) to mark the difference of them between two calls
 };
 #endif

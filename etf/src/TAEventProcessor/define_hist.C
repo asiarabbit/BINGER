@@ -8,7 +8,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/21.															     //
-// Last modified: 2018/1/6, SUN Yazhou.											     //
+// Last modified: 2018/1/27, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -31,7 +31,7 @@
 	TATOFWall *tofw[2] = {dcArr[0]->GetTOFWall(), dcArr[1]->GetTOFWall()};
 	TAMWDC *dc[2][3]{0};
 	for(int i = 2; i--;) for(int j = 3; j--;) dc[i][j] = dcArr[i]->GetMWDC(j);
-	TAAnode *ano = dc[1][1]->GetAnodeL1(1, 58); // DEBUG
+//	TAAnode *ano = dc[1][1]->GetAnodeL1(1, 58); // DEBUG
 //	cout << ano->GetAnodePara()->GetSTR(0)->GetTitle() << endl; getchar(); // DEBUG
 //	cout << ano->GetDriftDistance(70., 0) << endl; getchar(); // DEBUG
 

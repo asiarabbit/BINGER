@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/9.															     //
-// Last modified: 2017/11/29, SUN Yazhou.										     //
+// Last modified: 2018/1/16, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -31,7 +31,8 @@ TAPlaStrip::TAPlaStrip(const string &name, const string &title, unsigned uid)
 	fUV = nullptr; fUH = nullptr;
 	fDV = nullptr; fDH = nullptr;
 	fStripId = -1;
-	
+	ft0 = 0.; ft1 = 0.; ft2 = 0.;
+
 	TAVisual::Instance()->AddPlaStrip(this);
 }
 TAPlaStrip::~TAPlaStrip(){
@@ -92,11 +93,14 @@ int TAPlaStrip::GetFiredStatus() const{
 } // end function GetFiredStatus
 // t0, t1 and t2 are set for choosing ch->GetLT over edges
 // (ch->GetLT-t0) within t1 and t2 is chosen. t0, t1 and t2 using default values, choose the 1st edge
-double TAPlaStrip::GetTime(double t0, double t1, double t2) const{ // get hit time
+double TAPlaStrip::GetTime(double t0x, double t1x, double t2x){ // get hit time
 	double time = GetStripData()->GetTime();
 	TAPlaStripPara *pa = GetStripPara();
+	// the last calculated time should be updated if t0, t1, and t2 are not the same as before
+	if(!(ft0 == t0x && ft1 == t1x && ft2 == t2x)) time = -9999.;
 	if(-9999. == time){ // not assigned
-		double tt = GetUV()->GetLT(t0,t1,t2)+GetDV()->GetLT(t0,t1,t2);
+		ft0 = t0x; ft1 = t1x; ft2 = t2x;
+		double tt = GetUV()->GetLT(ft0,ft1,ft2)+GetDV()->GetLT(ft0,ft1,ft2);
 //		cout << GetName() << endl; // DEBUG
 //		GetUV()->GetData()->Show(); // DEBUG
 //		cout << "GetUV()->GetLT(t0,t1,t2): " << GetUV()->GetLT(t0,t1,t2) << endl; // DEBUG

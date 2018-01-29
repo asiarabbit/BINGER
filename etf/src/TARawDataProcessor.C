@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2017/10/30, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -110,7 +110,8 @@ int TARawDataProcessor::ReadOffline(){
 	int section_len;
 	int frag_nu; // fired fragment number in an event
 	bool Is_vacant = false; // a symbol indicating if an event is a vacant event
-	bool Is_Error = false; // a symbol indicating if the last channel of a fragment, which is supposed to store a group header, is longer than a sizeof(int).
+	bool Is_Error = false; // a symbol indicating if the last channel of a fragment, which is supposed to store a group header, is longer than a sizeof(int)
+	bool Is_BunchidMisAlign = false; // as the name indicates
 
 	// fragment head
 	int start_ch[frag_num_limit_per_event];
@@ -348,7 +349,8 @@ int TARawDataProcessor::ReadOffline(){
 				getchar();
 			}
 			if(length_last_ch != 1){
-				Is_Error = 1;
+				Is_Error = true;
+				if(Is_Error) TAPopMsg::Info("TARawDataProcessor", "ReadOffline: length_last_ch is not 1 word... index: %d, frag_num: %d", index, i);
 //				cout << "event " << index << " fragment " << i << ":" << endl;
 //				cout << "length_last_ch(words): " << (data_len - offset[va_ch_nu - 1]) / 4. << endl;
 //				cout << "va_ch_nu: " << va_ch_nu << endl;
@@ -382,7 +384,10 @@ int TARawDataProcessor::ReadOffline(){
 //			getchar(); // DEBUG
 			if(bunchID[0] != bunchID[ii] || eventID[0] != eventID[ii])
 			{
-				if(index >= fIndex0) fBunchIdMisAlignCnt++;
+				if(index >= fIndex0){
+					fBunchIdMisAlignCnt++;
+					Is_BunchidMisAlign = true;
+				}
 				if(this->fIsCheckBunchId){
 					cout << "\nEvent " << index << "_______________" << endl;
 					for(int i = 0; i < frag_nu; i++){
@@ -404,19 +409,20 @@ int TARawDataProcessor::ReadOffline(){
 		entry_temp.nl = 0;
 		entry_temp.nt = 0;
 		entry_temp.bunchId = bunchID[0];
+		if(Is_BunchidMisAlign) entry_temp.channelId = -2; // marking bunchId misalignment
 		if(index >= fIndex0) treeData->Fill();
 
 		if(frag_nu > 0) delete [] frag_h;
 
-		section_len = -1; Is_vacant = 0; Is_Error = 0;
+		section_len = -1; Is_vacant = false; Is_Error = false; Is_BunchidMisAlign = false;
 
 		cout << "Processing event index  " << index << "\r" << flush;
 	} // end while
-	
+
 	cout << endl << endl << "Total Event Count: " << endl;
 	cout << endl <<  "       \033[1m" << fEventCnt << "\033[0m        " << endl << endl;
 	cout << "\033[36;1mBunch ID misalignment count: " << fBunchIdMisAlignCnt << "\033[0m\n";
-	if(fBunchIdMisAlignCnt > 0) TAPopMsg::Error("TARawDataProcessor", "ReadOffLine: BunchId misalignment count happend %d times", fBunchIdMisAlignCnt);
+	if(fBunchIdMisAlignCnt > 0) TAPopMsg::Info("TARawDataProcessor", "ReadOffLine: BunchId misalignment count happend %d times", fBunchIdMisAlignCnt);
 
 	treeData->Write("", TObject::kOverwrite);
 	fclose(fp);

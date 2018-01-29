@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2017/12/23, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -76,7 +76,7 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 	char rootfile[64]; strcpy(rootfile, "SIM.root"); // (sys_time+"_SIM.root").c_str()
 	// use extra sim-rootfile name
 	if(strcmp(simrootfilename.c_str(), "")) strcpy(rootfile, simrootfilename.c_str());
-	strncpy(simFile, rootfile, sizeof(simFile));
+	strncpy(simFile, rootfile, sizeof(rootfile));
 	TFile *f = new TFile(rootfile, "RECREATE");
 	// treeData: raw data; each entry is a data channel
 	TTree *treeData = new TTree("treeData", "RAW SIMULATION DATA");
@@ -141,7 +141,6 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 		  {eff, eff, eff, eff, eff, eff}, // U
 		  {eff, eff, eff, eff, eff, eff} } // V
 	};
-	const double phi[3] = {0., -30. * DEGREE, 30. * DEGREE}; // X-U-V
 	int totalTrackCnt = 0, failCnt = 0;
 	bool isValid = false; // isValid: if the track pass through all the active area.
 	TAPopMsg::Info("TASimulation", "GenerateSim: %d events would be simulated. The simulation data would be stored in created rootfile %s", run, rootfile);
@@ -434,9 +433,8 @@ void TASimulation::Evaluate(const string &rootfile){
 		// check purity of Xproj
 		for(int j = 0; j< ntr; j++){
 			if(0 != type[j]%10) continue;
-			// number of fired anode layers per track; Sim, patReg; Coin; FCoin; [XUV]
 			// the optimal set for the current 3D Trk
-			int nFSimM = 0, nFPatM = 0, nFCoinM = 0, nCoinM = 0;
+			int nCoinM = 0; // coin: coincide
 			int scorem = -1; // optimal store to estimate track overlap
 			bool isDCArrR_ = bool((type[j]/10)%10);
 			for(int k = 0; k < n3DtrSim; k++){ // loop over simulated 3-D tracks
@@ -456,8 +454,6 @@ void TASimulation::Evaluate(const string &rootfile){
 				// select the best match in simulation for Trk_pat
 				if(score > scorem){
 					scorem = score;
-					nFSimM = nFSim; nFPatM = nFPat;
-					nCoinM = nCoin; nFCoinM = nFCoin;
 				} // end if(score > scorem)
 			} // end for over Sim tracks
 			cntCXproj++;
@@ -473,7 +469,8 @@ void TASimulation::Evaluate(const string &rootfile){
 		for(int j = 0; j < n3Dtr; j++){
 			// assign coin and dif
 			// optimal number of fired anode layers per track; Simulation, patReg; Coincidence; [XUV]
-			int nFSimM[3]{}, nFPatM[3]{}, nFCoinM[3]{}, nCoinM[3]{}; // Sim, patReg; Coin, FCoin
+			int nCoinM[3]{};
+			int nFSimM[3]{}, nFPatM[3]{}, nFCoinM[3]{}; // Sim, patReg; Coin, FCoin
 			int scorem = -1; // optimal store to estimate track overlap
 			bool isDCArrR_ = bool((type[trkId[j][0]]/10)%10);
 			for(int k = 0; k < n3DtrSim; k++){ // loop over simulated 3-D tracks
@@ -648,7 +645,8 @@ void TASimulation::Evaluate(const string &rootfile){
 	cout << "\n\n\033[33;1mDONE\033[0m\n\n";
 
 	const char dir[] = "EvalPatReg";
-	if(!f->FindObjectAny(dir)) f->mkdir(dir); f->cd(dir);
+	if(!f->FindObjectAny(dir)) f->mkdir(dir);
+	f->cd(dir);
 	h00->Write("", TObject::kOverwrite);
 	h01->Write("", TObject::kOverwrite);
 	h02->Write("", TObject::kOverwrite);

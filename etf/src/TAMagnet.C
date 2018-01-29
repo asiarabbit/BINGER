@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2017/10/22, SUN Yazhou.										     //
+// Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -29,6 +29,7 @@
 #include "TAParaManager.h"
 #include "TACtrlPara.h"
 #include "TAPopMsg.h"
+#include "TAMath.h"
 
 //#define VERBOSE // show TAPopMsg::Info() information
 
@@ -43,7 +44,7 @@ TAMagnet::TAMagnet(const string &name, const string &title, unsigned uid)
 	fRKMethod = 1; fScale = 1.;
 	fh0 = 1E1; fStepError = 1E1;
 	fIsFileLoaded = false; fTrackLength = -9999.;
-	memset(fB, sizeof(fB), 0); fEnableEnergyLoss = false;
+	memset(fB, 0, sizeof(fB)); fEnableEnergyLoss = false;
 	fQoP = -9999.; fTrackVec.clear(); fAoZ = -9999.;
 	fOutOfRangeError = false; // out of the active volume of the magnet
 } // end of the default constructor
@@ -64,7 +65,8 @@ void TAMagnet::TransportIon(double *y, double *yp, double zi, double zf, bool is
 
 	double x = zi, h = fh0 * direction; // set the iteration start and iteration step length	
 	// propagate the particle step by step
-	int i = 0; fTrackVec.clear(); tra_t tra;
+	int i = 0; tra_t tra;
+	if(isTracking) fTrackVec.clear();
 	double B[3], p[3]; // to extract B array
 //	cout << "Trans:while\n"; // DEBUG
 //	cout << "fOutOfRangeError: " << fOutOfRangeError << endl; getchar();  // DEBUG
@@ -516,8 +518,7 @@ void TAMagnet::SetQoP(double aoz, double beta, double V0, double tof2, double L,
 		exit(EXIT_FAILURE);
 	} // end if
 //	double k = 0.321840605; // SI unit      = e0/(u0*c0*1E6)
-	double gamma = 1./sqrt(1.-beta*beta);
-	fQoP = 0.321840605 / (aoz*beta*gamma);
+	fQoP = 0.321840605 / (aoz*TAMath::BetaGamma(beta));
 //	cout << "aoz: " << aoz << "\tbeta: " << beta << endl; // DEBUG
 
 	// for real time update of QoP because of dE

@@ -62,7 +62,7 @@ void TAT0_1::Configure(){
 		TAPopMsg::Warn(GetName().c_str(), "Configure: has been called once");
 		return; // Configure() has been called
 	}
-	SetZ0(-1150.6); // from this to 32Q02 unit: mm 20171026_2157, pionExp
+	SetZ0(-1177.5); // from this to 32Q02 unit: mm 20171026_2157, pionExp
 	fUV = new TAChannel(fName+"->UV", fName+"->UV", fUID+(0<<6)); fUV->SetSerialId(0);
 	fUH = new TAChannel(fName+"->UH", fName+"->UH", fUID+(1<<6)); fUV->SetSerialId(1);
 	fDV = new TAChannel(fName+"->DV", fName+"->DV", fUID+(2<<6)); fUV->SetSerialId(2);

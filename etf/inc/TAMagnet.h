@@ -48,7 +48,7 @@ public:
 	// (y, yp): position coorinates and their first derivatives.
 	// note that z is the independent variable.
 	// fourth-order Runge-Kutta method is utilized to solve the differential equation.
-	// isTracking: whether to track the particle in the magnetic field or not
+	// isTracking: whether to store particle trajectories for showcase purposes
 	void TransportIon(double *y, double *yp, double zi, double zf, bool isTracking = false);
 	// assign B with the magnetic intensity vector at position p
 	void GetMagneticIntensity(double *B, const double *p);
@@ -78,6 +78,9 @@ public:
 	// two kinds of Runge-Kutta method
 	static const int kClassic = 0;
 	static const int kNystrom = 1;
+
+protected:
+	vector<tra_t> fTrackVec; // to trace the particle in the magnetic field: (x, y, z, rho)
 
 private:
 	// 2nd order derivative: f0(x;y0,y1;yp0,yp1), f0(x;y0,y1;yp0,yp1) // y'=z; z'=g(x,y,z);
@@ -116,9 +119,6 @@ private:
 	int fRKMethod; // classic or Nystrom
 	double fTrackLength; // as the name indicates
 	bool fEnableEnergyLoss; // if calculating energy loss along the particle tracjectory.
-
-	vector<tra_t> fTrackVec; // to trace the particle in the magnetic field: (x, y, z, rho)
-
 }; // end of class TAMagnet
 
 #endif
