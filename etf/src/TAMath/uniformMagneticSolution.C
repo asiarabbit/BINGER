@@ -1,4 +1,5 @@
 
+//#define DEBUG_UNI
 //	s[0].x1 = x0 + k1*(z1-z0); // the denominator of the equation
 	{
 		// x1^3 + b x1^2 + c x1 + d = 0
@@ -47,9 +48,21 @@
 		// P1Ph or PhP2 (pdf in misc/tools/math/UniBSolu)
 		s[i].dd2 = (z2-s[i].zh)*(z2-s[i].zh)+(x2-s[i].xh)*(x2-s[i].xh);
 		s[i].rho = sqrt(s[i].dd2)/tan(s[i].dtheta/2.);
-		if(fabs(s[i].rho) < 500 || fabs(s[i].rho) > 100000.){ s[i].x1 = -9999.; continue; }
+		if(fabs(s[i].rho) < 500. || fabs(s[i].rho) > 100000.){ s[i].x1 = -9999.; continue; }
 		s[i].zo = (k1*(s[i].ki*(s[i].x1 - x2) + z1) - s[i].ki*z2) / (k1 - s[i].ki);
 		s[i].xo = (-s[i].ki*s[i].x1 + k1*x2 - z1 + z2) / (k1 - s[i].ki);
+#ifdef DEBUG_UNI
+		double zo = s[i].zo, xo = s[i].xo; // DEBUG
+		double zh = s[i].zh, xh = s[i].xh; // DEBUG
+		double x1 = s[i].x1; // DEBUG
+		double dd_1 = sqrt(pow((z1-zh), 2.)+pow((x1-xh), 2.)); // DEBUG
+		double dd_2 = sqrt(pow((z2-zh), 2.)+pow((x2-xh), 2.)); // DEBUG
+		double rho_1 = sqrt(pow((z1-zo), 2.)+pow((x1-xo), 2.)); // DEBUG
+		double rho_2 = sqrt(pow((z2-zo), 2.)+pow((x2-xo), 2.)); // DEBUG
+		cout << "dd_1: " << dd_1 << "\tdd_2: " << dd_2 << endl; // DEBUG
+		cout << "rho_1: " << rho_1 << "\trho_2: " << rho_2 << endl; // DEBUG
+		getchar(); // DEBUG
+#endif
 	}
 
 
