@@ -102,8 +102,12 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 		double result[6]{}, dtheta, rho, ki; // dtheta: particle defelct angle by mag
 		double zo, xo; // (zo, xo): rotating center of the arc
 		TAMath::UniformMagneticSolution(k1, b1, zMagOut, zMagIn, z0_TA, x0TaHit, result);
-		if(0. == result[0] && 0. == result[1] && 0. == result[2]){ // no eligible solution found
+		// no eligible solution found
+		if(result[0] == result[1] &&result[1] == result[2] &&result[2] == result[3]){
 			fIsFlied = true;
+			// every element of result was set to be the number of valid solutions (0, 2, or 3)
+//			cout << "\nresult[0]: " << result[0] << endl;
+//			cout << "fAoZdmin: " << fAoZdmin << endl; getchar(); // DEBUG
 			return;
 		}
 		dtheta = result[0]; rho = result[1]; ki = result[2];
@@ -113,6 +117,11 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 		const double d2 = trkL2; // from Mag to TOF wall
 		fTotalTrackLength = d0 + d1 + d2;
 		fBeta = fTotalTrackLength / tof2 / c0;
+		if(fBeta < 0. || fBeta >= 1.){ // bad beta, failed PID
+			fBeta = -1.; fTotalTrackLength = -9999.;
+			fIsFlied = true;
+			return;
+		}
 		fGamma = TAMath::Gamma(fBeta);
 		// 0.321840605 = e0/(u0*c0*1E6) SI unit
 		fAoZ = B * (rho/1000.) * 0.321840605 / (fBeta * fGamma);
@@ -192,6 +201,11 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 		}
 	} // end iteration to refine beta
 	fIsFlied = true; // fIsflied should be assigned immediately after flying
+	if(beta < 0. || beta >= 1.){ // bad beta, failed PID
+		fBeta = -1.; fTotalTrackLength = -9999.;
+		fAoZ = -9999.; fAoZdmin = 9999.;
+		return;
+	}
 	if(9999. == fAoZdmin) return; // PID failure
 	fGamma = TAMath::Gamma(fBeta);
 	fPoZ = fAoZ * fBeta * fGamma * u0MeV; // MeV/c
