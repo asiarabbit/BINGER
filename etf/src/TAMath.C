@@ -175,7 +175,10 @@ void TAMath::UniformMagneticSolution(double k1, double b1, double z2, double z1,
 } // end of function UniformMagneticSolution
 
 double TAMath::Gamma(double beta){
-	if(beta < 0. || beta >= 1.) TAPopMsg::Error("TAMath", "Gamma: input beta invalid: %f", beta);
+	if(beta < 0. || beta >= 1.){
+		TAPopMsg::Error("TAMath", "Gamma: input beta invalid: %f", beta);
+		return -1.;
+	}
 	return 1./sqrt(1.-beta*beta);
 }
 
