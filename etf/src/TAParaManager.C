@@ -423,6 +423,7 @@ void TAParaManager::AssignT0(const char *fname) const{
 //			cout << chPara->GetName() << endl; // DEBUG
 //			cout << chPara->GetDelay() << endl; // DEBUG
 			chPara->AppendDelay(value);
+//			cout << "value: " << value << endl; // DEBUG
 //			cout << chPara->GetDelay() << endl; getchar(); // DEBUG
 		}
 		else TAPopMsg::Warn("TAParaManager",

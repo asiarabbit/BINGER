@@ -1,5 +1,5 @@
 // assess.C -- assess the data analysis result
-// Created: 2017/12/1, Lasted modified: 2018/1/1, Author: SUN Yazhou
+// Created: 2017/12/1, Lasted modified: 2018/3/3, Author: SUN Yazhou
 #include <iostream>
 #include <cstdlib>
 #include "TAEventProcessor.h"
@@ -14,8 +14,7 @@ int main(int argc, char *argv[]){
 		exit(1);
 	}
 	TAEventProcessor *ep = TAEventProcessor::Instance();
-	const char dir[2][64] = {"pion_2017Oct", "beamTest_2016Nov"};
-	ep->SetConfigExpDir(dir[0]); ep->Configure();
+	ep->Configure();
 	TAAssess *ass = TAAssess::Instance();
 	ass->SetROOTFile(argv[1]);
 	const int round = atoi(argv[3]);

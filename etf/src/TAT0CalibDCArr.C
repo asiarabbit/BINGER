@@ -274,7 +274,7 @@ void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcAr
 	outFile << "#\n";
 	outFile << "###############################################################################\n\n";
 	// prepare the fd function
-	TF1 *fd = new TF1("fd", Fermi_Dirac_Function, -50., 70., 5);
+	TF1 *fd = new TF1("fd", Fermi_Dirac_Function, -20., 50., 5);
 	fd->SetParName(2, "T0"); fd->SetParName(3, "sigma_t0");
 	fd->SetParameter(2, 0.); fd->SetParLimits(2, -30., 30.); // T0, unit: ns
 	fd->SetParameter(3, 0.01); fd->SetParLimits(3, 0.005, 20.); // sigm_t_0, unit: ns
@@ -306,7 +306,7 @@ void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcAr
 						// to get rid of the bad T0s by estimating sigma_t0
 						sigma_t0_cnt++; sigma_t0_sum += sigma_t0;
 						double mean_t = sigma_t0_sum/sigma_t0_cnt;
-						if(sigma_t0 > 3.*mean_t) T0 = 0.;
+						if(sigma_t0 > 1.5*mean_t) T0 = 0.;
 						if(0) // abnormal
 						{
 							cout << "\n\ni: " << i << "\tj: " << j;

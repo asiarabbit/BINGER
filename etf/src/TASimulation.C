@@ -233,7 +233,7 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 			if(!isValid){ i--; failCnt++; continue; } // choose random track again
 			if(0 == dcArrOpt) ntrkTL++;
 			if(1 == dcArrOpt) ntrkTR++;
-			// firedStripId/8: PXI module #; j%8: strip # in certain module.
+			// firedStripId/8: PXI module #; j%8: strip # in certain module
 			// one strip occupies 4 channels. 0-1-2-3: UV-UH-DV-DH
 			// fill the fired TOFWall strip, a series of temporary variables are defined
 			TAPlaStrip *str = tofw->GetStrip(firedStripId);
@@ -575,7 +575,7 @@ void TASimulation::Evaluate(const string &rootfile){
 				cout << "hitType[j][2]: " << hitType[j][2] << endl; getchar(); // DEBUG
 			} // DEBUG
 #endif
-			// any type of tracks messes, the 3D track resconstruction would not succeed.
+			// any type of tracks messes, the 3D track resconstruction would not succeed
 			if(hitType[j][0] == -1 || hitType[j][1] == -1 || hitType[j][2] == -1)
 				hitType3D[j] = -1;
 			else if(hitType[j][0] == 1 && hitType[j][1] == 1 && hitType[j][2] == 1)
