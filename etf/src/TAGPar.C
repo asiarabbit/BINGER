@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/13.															     //
-// Last modified: 2018/1/16, SUN Yazhou.										     //
+// Last modified: 2018/3/3, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -67,7 +67,7 @@ const TAParameter *TAGPar::Par(unsigned int id) const{
 }
 
 short TAGPar::GetNParameter() const{
-	int n = 0;
+	short n = 0;
 	for(TAParameter *p : fParVec) if(p) n++;
 	return n;
 }

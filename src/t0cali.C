@@ -1,5 +1,5 @@
 // t0cali.C -- fit the T0 constants
-// Created: 2017/12/1, Lasted modified: 2018/1/1, Author: SUN Yazhou
+// Created: 2017/12/1, Lasted modified: 2018/3/3, Author: SUN Yazhou
 #include <iostream>
 #include <cstdlib>
 #include "TAEventProcessor.h"
@@ -16,8 +16,7 @@ int main(int argc, char *argv[]){
 	}
 	bool isDCArrR = bool(atoi(argv[2]));
 	TAEventProcessor *ep = TAEventProcessor::Instance();
-	const char dir[2][64] = {"pion_2017Oct", "beamTest_2016Nov"};
-	ep->SetConfigExpDir(dir[0]); ep->Configure();
+	ep->Configure();
 	TAT0CalibDCArr *t0 = nullptr;
 	if(isDCArrR) t0 = new TAT0CalibDCArrR(argv[1]);
 	else t0 = new TAT0CalibDCArrL(argv[1]);
@@ -25,7 +24,7 @@ int main(int argc, char *argv[]){
 	// isCalib: whether to store hdt histos and generate calibration file
 	t0->Refine_DTHisto(true);
 	// virtual void GenerateCalibFile(bool isShowFit = false);
-	t0->GenerateCalibFile(false);
+	t0->GenerateCalibFile(true);
 	// adopt the calibration
 	char cmd[128];
 	sprintf(cmd, "mv T0Calibration/*.002 %s/T0/", ep->GetCtrlPara()->ConfigExpDir()); system(cmd);

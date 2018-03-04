@@ -1,5 +1,5 @@
 // strcali.C -- Space-Time Relation Self-Calibration
-// Created: 2017/12/1, Lasted modified: 2018/1/1, Author: SUN Yazhou
+// Created: 2017/12/1, Lasted modified: 2018/3/3, Author: SUN Yazhou
 #include <iostream>
 #include <cstdlib>
 #include "TAEventProcessor.h"
@@ -16,8 +16,7 @@ int main(int argc, char *argv[]){
 	}
 	bool isDCArrR = bool(atoi(argv[2])); int round = atoi(argv[3]);
 	TAEventProcessor *ep = TAEventProcessor::Instance();
-	const char dir[2][64] = {"pion_2017Oct", "beamTest_2016Nov"};
-	ep->SetConfigExpDir(dir[0]); ep->Configure();
+	ep->Configure();
 	TASTRCalibDCArr *str = nullptr;
 	if(isDCArrR) str = new TASTRCalibDCArrR(argv[1]);
 	else str = new TASTRCalibDCArrL(argv[1]);

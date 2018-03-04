@@ -551,7 +551,6 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 	cout << "\n\n\033[33;1mDONE\033[0m\n\n";
 
 	// write //
-	
 	cout << "The results would be stored in ROOT file directory \"\033[36;1m" << topdir << "\"\n\033[0m";
 //	if(!f->FindObjectAny(topdir)) f->mkdir(topdir); f->cd(topdir);
 	char s[128]; strcpy(s, ("assess"+rootfile).c_str());
@@ -571,7 +570,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 	for(auto &ls : objLs) for(auto &b : ls) if(b) delete b;
 	fw->Close(); delete fw; fw = nullptr;
 	f->Close(); delete f; f = nullptr;
-} // end of member function EvalDCArr3D
+} // end of member function EvalDCArr
 
 // evaluation done after Eval event by event
 void TAAssess::PostEval(int round, bool isDCArrR){

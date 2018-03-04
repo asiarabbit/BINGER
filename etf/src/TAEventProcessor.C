@@ -11,7 +11,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/13.															     //
-// Last modified: 2018/1/27, SUN Yazhou.										     //
+// Last modified: 2018/3/3, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -73,7 +73,7 @@ using std::setw;
 TAEventProcessor* TAEventProcessor::fInstance = nullptr;
 
 TAEventProcessor::TAEventProcessor(const string &datafile, int runId)
-		: fIsPID(true), fIsTracking(true),
+		: fIsPID(false), fIsTracking(true),
 		fRawDataProcessor(0), fParaManager(0), fCtrlPara(0),
 		fVisual(0), fPID(0), fGPar(0){
 	fEntryList.reserve(100);
@@ -175,6 +175,10 @@ void TAEventProcessor::Configure(){
 //		TAPopMsg::Warn("TAEventProcessor", "Configurte: has been called once.");
 		return;
 	}
+	// select an experiment, to direct to a directory containing the exp config parameters
+	const char dir[2][64] = {"pion_2017Oct", "beamTest_2016Nov"};
+	TAPopMsg::Info("TAEventProcessor", "Configure: selected Exp Config Dir: %s", dir[1]);
+	SetConfigExpDir(dir[1]);
 	// STR_spline.root || STR_stiff.root || STR_aaa900.root
 	SetSTRROOTFile("STR_spline.root"); // space-time relations for MWDCs
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
@@ -195,7 +199,7 @@ void TAEventProcessor::Configure(){
 
 	// TAVisual::Configure can only be implemented AFTER all the other detectors are created.
 	GetVisual()->Configure();
-	GetPID()->Configure();
+	if(IsPID()) GetPID()->Configure();
 	// show some information
 	if(TAPopMsg::IsVerbose()){
 		((TAMWDCArray*)detList[3])->Info();
@@ -469,7 +473,7 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 					// t = T_tof + T_wire + T_drift + T0
 					// substract T_wire and T_tof from the time measurement
 					trk->t[j] -= TACtrlPara::T_tofDCtoTOFW(uid) - TACtrlPara::T_wireMean(uid); // recover the rough correction of time of flight from DC to TOF wall for a refined one
-					double beta_t[2] = {0.5, 0.68}; // for simulation test only XXX XXX XXX
+					double beta_t[2] = {0.5, 0.6}; // for simulation test only XXX XXX XXX
 					dcArr->DriftTimeCorrection(trk->t[j], trk->r[j], anodeId[tmp], trkVec, trk->firedStripId, beta_t[isDCArrR[jj]]); // trk->beta
 					rr[tmp] = trk->r[j];
 #ifdef DEBUG

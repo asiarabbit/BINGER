@@ -164,7 +164,8 @@
 
 # T0_0Delay: average delay for T0_0, UV
 53   489.409
-
+# dcTOTNoiseLevel unit: ns, DC TOT exceeding it would be invalidized
+54 70.
 
 
 
