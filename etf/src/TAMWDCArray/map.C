@@ -16,7 +16,7 @@
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-#define DEBUG_MAP
+//#define DEBUG_MAP
 
 static TACtrlPara *clp = TACtrlPara::Instance();
 // subordinate function of void Map();
