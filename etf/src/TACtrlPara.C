@@ -75,7 +75,7 @@ double TACtrlPara::DsquareThresholdPerDot(unsigned uid){
 	int type[6]{}; TAUIDParser::DNS(type, uid);
 	if(3 != type[0] && 4 != type[0])
 		TAPopMsg::Error("TACtrlPara", "GetTOFWallStripDelay: Not an MWDC array");
-	static double d2Thre[2] = {25., 25.};
+	static double d2Thre[2] = {40., 40.};
 	return d2Thre[type[0] - 3];
 }
 // calculate the minmum deviation of a track off the fired strips in a TOF wall

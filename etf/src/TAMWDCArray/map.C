@@ -16,7 +16,7 @@
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-//#define DEBUG_MAP
+#define DEBUG_MAP
 
 static TACtrlPara *clp = TACtrlPara::Instance();
 // subordinate function of void Map();
@@ -210,8 +210,10 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 					} // end for over i
 				} // end if(DCtype == X)
 #ifdef DEBUG_MAP
-				for(double tt: t) cout << "t: " << tt << endl; getchar(); // DEBUG
-				for(double rr: r) cout << "r: " << rr << endl; getchar(); // DEBUG
+				for(double tt: t) cout << "t: " << tt << endl;
+				getchar(); // DEBUG
+				for(double rr: r) cout << "r: " << rr << endl;
+				getchar(); // DEBUG
 #endif
 				// test the validity of drift time for X tracks
 				if(0 == dcType) for(double tt : t){
@@ -230,7 +232,8 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 
 #ifdef DEBUG_MAP
 				cout << "newTrack.GetChi(): " << newTrack.GetChi() << endl; // DEBUG
-				for(double cc : chi) cout << "cc: " << cc << endl; getchar(); // DEBUG
+				for(double cc : chi) cout << "cc: " << cc << endl;
+				getchar(); // DEBUG
 				newTrack.Show(); // DEBUG
 #endif
 				if(0 == dcType){
@@ -308,7 +311,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 	
 	return true;
 
-} // end of function bool Map(...).
+} // end of function bool Map(...)
 
 
 // Code Recycle: if(fabs((atan(kl) - atan(track.at(i).GetSlope())) / atan(kl)) > 10. / 5100.) // 10mm / 5100mm
