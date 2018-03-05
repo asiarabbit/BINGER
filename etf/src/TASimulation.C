@@ -454,6 +454,7 @@ void TASimulation::Evaluate(const string &rootfile){
 				// select the best match in simulation for Trk_pat
 				if(score > scorem){
 					scorem = score;
+					nCoinM = nCoin;
 				} // end if(score > scorem)
 			} // end for over Sim tracks
 			cntCXproj++;

@@ -316,6 +316,8 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 // 2: newTrack defeats oldTrack
 // Here tracks with good == 2 are despised and discriminated
 int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, int dcType, bool show){
+//	if(0 != dcType) return 0; // no conclusion could be reached for U(V)projs
+
 	int nstripDeviation = fabs(newTrack->GetFiredStripId() - oldTrack->GetFiredStripId());
 	const int &vicinity = clp->Vicinity();
 //	cout << "vicinity: " << vicinity << endl; getchar(); // DEBUG
