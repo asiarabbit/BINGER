@@ -1,10 +1,10 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 // Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
 //																				     //
-// BINGER/inc/etf/TAMath/bfgs.C														 //
+// BINGER/inc/etf/TAMath/bfgs4.C													 //
 //   bfgs4.C -- source file for method TAMath::BFGS4 and TAMath::dSkew				 //
 //   Introduction: BFGS algorithm for unrestrained multi-dimensional minimization	 //
-// problems. This is one is dedicated to four-dimension minmization, which can be 	 //
+// problems. This one is dedicated to four-dimension minmization, which can be 		 //
 // easily adapted to minimization of other dimensions. This function is dedicated 	 //
 // for 3-D linear tracking.															 //
 //																				     //
@@ -13,7 +13,7 @@
 // Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 

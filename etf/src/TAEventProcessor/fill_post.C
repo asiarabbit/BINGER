@@ -174,7 +174,7 @@
 
 		if(0) vis->FillHitMap();
 		static int jj = 0;
-		if(jj < 100){
+		if(jj < 100 && 5 == gGOOD[0]){
 			jj++;
 			static int i0 = 0;
 			if(0 == i0){ // to make sure that this block would only be carried out once

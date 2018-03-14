@@ -139,7 +139,7 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 
 		{ {eff, eff, eff, eff, eff, eff}, // X
 		  {eff, eff, eff, eff, eff, eff}, // U
-		  {eff, eff, eff, eff, eff, eff} } // V
+		  {eff, eff, 0.0, 0.0, eff, eff} } // V
 	};
 	int totalTrackCnt = 0, failCnt = 0;
 	bool isValid = false; // isValid: if the track pass through all the active area.
@@ -195,7 +195,7 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 					const int nAnodePerLayer = dc->GetNAnodePerLayer();
 					for(int l = 0; l < nAnodePerLayer; l++){ // loop over anodes per layer
 						double Ag[3];
-						((TAAnodePara*)dc->GetAnode(type, k%2+1, l)->GetPara())->GetGlobalCenter(Ag);
+						dc->GetAnode(type, k%2+1, l)->GetAnodePara()->GetGlobalCenter(Ag);
 						// (B->Ag).(ag×b)/|ag×b|, d of two skew 3-D lines
 						double d_t = TAMath::dSkew(Ag, ag, b, B);
 						if(d_t < d[type][layer]){
@@ -237,7 +237,7 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 			// one strip occupies 4 channels. 0-1-2-3: UV-UH-DV-DH
 			// fill the fired TOFWall strip, a series of temporary variables are defined
 			TAPlaStrip *str = tofw->GetStrip(firedStripId);
-			// 3.8961039 = 1200/(2.*veff) - scintillation transmission time veff: 1200/7.8
+			// 3.8961039 = 1200/(2.*veff) - scintillation transmission time veff: 1200./7.8
 			const double delay = tofw->GetDelay(firedStripId) + 3.9;
 			const double TOT_t[4] = {500., 2000., 500., 2000.}, preT_t[4] = {0., 100., 0., 100.};
 			const bool isV_t[4] = {true, false, true, false};
@@ -454,6 +454,7 @@ void TASimulation::Evaluate(const string &rootfile){
 				// select the best match in simulation for Trk_pat
 				if(score > scorem){
 					scorem = score;
+					nCoinM = nCoin;
 				} // end if(score > scorem)
 			} // end for over Sim tracks
 			cntCXproj++;

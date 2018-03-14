@@ -210,8 +210,10 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 					} // end for over i
 				} // end if(DCtype == X)
 #ifdef DEBUG_MAP
-				for(double tt: t) cout << "t: " << tt << endl; getchar(); // DEBUG
-				for(double rr: r) cout << "r: " << rr << endl; getchar(); // DEBUG
+				for(double tt: t) cout << "t: " << tt << endl;
+				getchar(); // DEBUG
+				for(double rr: r) cout << "r: " << rr << endl;
+				getchar(); // DEBUG
 #endif
 				// test the validity of drift time for X tracks
 				if(0 == dcType) for(double tt : t){
@@ -230,7 +232,8 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 
 #ifdef DEBUG_MAP
 				cout << "newTrack.GetChi(): " << newTrack.GetChi() << endl; // DEBUG
-				for(double cc : chi) cout << "cc: " << cc << endl; getchar(); // DEBUG
+				for(double cc : chi) cout << "cc: " << cc << endl;
+				getchar(); // DEBUG
 				newTrack.Show(); // DEBUG
 #endif
 				if(0 == dcType){
@@ -308,7 +311,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 	
 	return true;
 
-} // end of function bool Map(...).
+} // end of function bool Map(...)
 
 
 // Code Recycle: if(fabs((atan(kl) - atan(track.at(i).GetSlope())) / atan(kl)) > 10. / 5100.) // 10mm / 5100mm
@@ -316,6 +319,8 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 // 2: newTrack defeats oldTrack
 // Here tracks with good == 2 are despised and discriminated
 int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, int dcType, bool show){
+//	if(0 != dcType) return 0; // no conclusion could be reached for U(V)projs
+
 	int nstripDeviation = fabs(newTrack->GetFiredStripId() - oldTrack->GetFiredStripId());
 	const int &vicinity = clp->Vicinity();
 //	cout << "vicinity: " << vicinity << endl; getchar(); // DEBUG

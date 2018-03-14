@@ -44,7 +44,7 @@
 # dcToTrigLB
 7   1000.
 # dcToTrigHB
-8   1400.
+8   1600.
 # sipmPlaArrToTrigLB
 9   200.
 # sipmPlaArrToTrigHB
@@ -141,7 +141,7 @@
 # TimeThreLB
 42 -40.
 # TimeThreHB
-43 350.
+43 400.
 # ChiThrePD
 44 3.
 # Vicinity
