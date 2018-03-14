@@ -35,10 +35,10 @@ b2T==(Sqrt[3] (-bu+bv) Cos[\[Phi]]+(-2 bv ku+2 bu kv) Sin[\[Phi]])/(Sqrt[3] Cos[
 Rx[\[Theta]_]:={{1,0,0},{0,Cos[\[Theta]],-Sin[\[Theta]]},{0,Sin[\[Theta]],Cos[\[Theta]]}};
 Ry[\[Theta]_]:={{Cos[\[Theta]],0,Sin[\[Theta]]},{0,1,0},{-Sin[\[Theta]],0,Cos[\[Theta]]}}; (*note that z-x, not x-z, so the matrix is odd*)
 Rz[\[Theta]_]:={{Cos[\[Theta]],-Sin[\[Theta]],0},{Sin[\[Theta]],Cos[\[Theta]],0},{0,0,1}};
-R[\[Phi]_,\[Theta]_,\[Psi]_]:=Rz[\[Psi]].Rx[\[Theta]].Ry[\[Phi]]; (*\[Phi] goes first*)
+R[\[Phi]_,\[Theta]_,\[Psi]_]:=Ry[\[Phi]].Rx[\[Theta]].Rz[\[Psi]]; (*intrinsic rotation: yaw-pitch-roll*)
 R[\[Phi],\[Theta],\[Psi]] // MatrixForm
 R[\[Phi],0,0] // MatrixForm;
-R0[\[Phi]_,\[Theta]_,\[Psi]_]:=Ry[\[Psi]].Rz[\[Theta]].Ry[\[Phi]]; (*\[Phi] goes first*)
+R0[\[Phi]_,\[Theta]_,\[Psi]_]:=Ry[\[Psi]].Rz[\[Theta]].Ry[\[Phi]];
 R0[\[Phi],\[Theta],\[Psi]] // MatrixForm;
 r={353.,375,-85.9};
 R[0.398282,0,0].r

@@ -20,8 +20,8 @@ target_link_libraries(pre ${LIB_LIST})
 add_executable(sim sim.C)
 target_link_libraries(sim ${LIB_LIST})
 
-add_executable(eval eval.C)
-target_link_libraries(eval ${LIB_LIST})
+#add_executable(eval eval.C)
+#target_link_libraries(eval ${LIB_LIST})
 
 add_executable(ass assess.C)
 target_link_libraries(ass ${LIB_LIST})
@@ -32,9 +32,11 @@ target_link_libraries(t0 ${LIB_LIST})
 add_executable(str strcali.C)
 target_link_libraries(str ${LIB_LIST})
 
-add_executable(vme vme.C)
-target_link_libraries(vme ${LIB_LIST})
+#add_executable(vme vme.C)
+#target_link_libraries(vme ${LIB_LIST})
 
-add_executable(pid3 pid3.C)
-target_link_libraries(pid3 ${ROOT_LIBRARIES})
+#add_executable(pid3 pid3.C)
+#target_link_libraries(pid3 ${ROOT_LIBRARIES})
 
+add_executable(te test.C)
+target_link_libraries(te ${LIB_LIST})

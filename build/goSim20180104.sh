@@ -44,11 +44,13 @@ hadd $file SIM[0-7].root
 make -j8
 
 sim
-echo "sim data have been generated"
+#echo "sim data have been generated"
+#exit
 pre
 ./ass $file $isDCArrR 0
-./t0 $file $isDCArrR
+./str $file $isDCArrR 1
 exit
+#./t0 $file $isDCArrR
 #######################################################
 # calibration process #
 for i in $(seq 1 4); do

@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/25.															     //
-// Last modified: 2017/12/23, SUN Yazhou.										     //
+// Last modified: 2018/3/14, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -80,6 +80,7 @@ public:
 	static double minid2(const double *x, const double *y, const double *r, double k, double b, int gGOOD, const int *LAYER); // a global function
 	// distance between two skew lines
 	// Ag, B: a point on the line; ag, b: line vector; p[4] = {k1, k2, b1, b2};
+	// r: drift distance; nF: number of fired sense wire layers
 	static double dSkew(const double *ag, const double *Ag, const double *b, const double *B);
 	static double dSkew(const double *ag, const double *Ag, const double *p);
 	static double BFGS4(const double Ag[][3], const double ag[][3], double *p, const double *r, const int nF); // for 3D linear tracking
