@@ -139,7 +139,7 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 
 		{ {eff, eff, eff, eff, eff, eff}, // X
 		  {eff, eff, eff, eff, eff, eff}, // U
-		  {eff, eff, 0.0, 0.0, eff, eff} } // V
+		  {eff, eff, eff, eff, eff, eff} } // V
 	};
 	int totalTrackCnt = 0, failCnt = 0;
 	bool isValid = false; // isValid: if the track pass through all the active area.

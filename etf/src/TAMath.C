@@ -84,9 +84,14 @@ double TAMath::acceptance(const double *p0, const double *p1){
 void TAMath::rotate(const double *pIn, double *pOut, const double *angIn){
 	double s1 = sin(angIn[0]), s2 = sin(angIn[1]), s3 = sin(angIn[2]);
 	double c1 = cos(angIn[0]), c2 = cos(angIn[1]), c3 = cos(angIn[2]);
-	pOut[0] = (c1*c3+s1*s2*s3)*  pIn[0] +(c3*s1*s2-c1*s3)* pIn[1] +c2*s1* pIn[2];
-	pOut[1] = c2*s3*             pIn[0] +c2*c3*            pIn[1] -s2*    pIn[2];
-	pOut[2] = (c1*s2*s3-c3*s1)*  pIn[0] +(c1*c3*s2+s1*s3)* pIn[1] +c1*c2* pIn[2];
+
+	pOut[0] = (c1*c3-s1*s2*s3)*  pIn[0] -c2*s3* pIn[1] +(c1*s2*s3+s1*c3)* pIn[2];
+	pOut[1] = (c1*s3+s1*s2*c3)*  pIn[0] +c2*c3* pIn[1] +(s1*s3-c1*s2*c3)* pIn[2];
+	pOut[2] = -s1*c2*            pIn[0] +s2*    pIn[1] +c1*c2*            pIn[2];	
+
+//	pOut[0] = (c1*c3+s1*s2*s3)*  pIn[0] +(c3*s1*s2-c1*s3)* pIn[1] +c2*s1* pIn[2];
+//	pOut[1] = c2*s3*             pIn[0] +c2*c3*            pIn[1] -s2*    pIn[2];
+//	pOut[2] = (c1*s2*s3-c3*s1)*  pIn[0] +(c1*c3*s2+s1*s3)* pIn[1] +c1*c2* pIn[2];
 }
 void TAMath::rotateOffset(const double *pIn, double *pOut, const double *angOff){
 	pOut[0] = pIn[0] -angOff[0]* pIn[1] +angOff[2]* pIn[2]; // x
