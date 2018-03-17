@@ -43,7 +43,7 @@ hadd $file SIM[0-7].root
 # main action begins here
 make -j8
 
-sim
+#sim
 #echo "sim data have been generated"
 #exit
 pre
