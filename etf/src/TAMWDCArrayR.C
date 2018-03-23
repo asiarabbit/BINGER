@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10															     //
-// Last modified: 2017/10/10, SUN Yazhou.										     //
+// Last modified: 2017/3/18, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -21,7 +21,7 @@
 #include "TATOFWall.h"
 #include "TACtrlPara.h"
 
-TAMWDCArrayR::TAMWDCArrayR(const string &name, const string &title, int uid)
+TAMWDCArrayR::TAMWDCArrayR(const string &name, const string &title, unsigned uid)
 		: TAMWDCArray(name, title, uid){
 }
 TAMWDCArrayR::~TAMWDCArrayR(){}

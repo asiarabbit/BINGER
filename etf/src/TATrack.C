@@ -120,25 +120,25 @@ double TATrack::GetIntercept(){
 	if(!fIsFitted) Fit();
 
 	return fB;
-} // end of function GetIntercept.
+} // end of function GetIntercept
 void TATrack::GetNu(int *nu) const{
 	for(int i = 0; i < 6; i++) nu[i] = fNu[i];
 }
 void TATrack::GetLAYER(int *LAYER) const{
 	for(int i = 0; i < 6; i++) LAYER[i] = fLAYER[i];
-} // end of function GetLAYER.
+} // end of function GetLAYER
 void TATrack::GetZ(double *z) const{ // output array fZ
 	for(int i = 0; i < 6; i++) z[i] = fZ[i];
-} // end of function GetZ.
+} // end of function GetZ
 void TATrack::GetX(double *x) const{ // output array fX
 	for(int i = 0; i < 6; i++) x[i] = fX[i];
-} // end of function GetX.
+} // end of function GetX
 void TATrack::GetDriftTime(double *t) const{
 	for(int i = 0; i < 6; i++) t[i] = fT[i];
 } // end of function GetDriftTime()
 void TATrack::GetDriftDistance(double *r) const{
 	for(int i = 0; i < 6; i++) r[i] = fR[i];
-} // end of function GetDriftDistance()
+} // end of function GetDriftDistance() 
 void TATrack::GetChi(double *chi){ // output array fChi
 	if(!fIsAssigned){
 		TAPopMsg::Error(GetName().c_str(), "GetChi(double *): Data not assigned.");

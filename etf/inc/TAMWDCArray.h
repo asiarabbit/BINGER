@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/6.															     //
-// Last modified: 2018/1/8, SUN Yazhou.											     //
+// Last modified: 2018/3/21, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -35,8 +35,8 @@ struct tTrack;
 
 class TAMWDCArray : public TAStuff, public TADetUnion{
 public:
-	TAMWDCArray(const string &name = "", const string &title = "", int uid = 999999999);
-	virtual ~TAMWDCArray(); // abstract base class
+	TAMWDCArray(const string &name = "", const string &title = "", unsigned uid = 999999999);
+	virtual ~TAMWDCArray() = 0; // abstract base class
 
 	vector<TATrack *> &GetTrackList(int dcType);
 	TAMWDC *GetMWDC(int dcId) const; // get MWDC #dcId
@@ -47,7 +47,7 @@ public:
 	// Map function: have the fired wires filtered, sorted, and stored in TATrack objects
 	// for further fittings
 	virtual void Map();
-	// subordinate function of void Map();
+	// subordinate function of void Map()
 	virtual bool Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType);
 	virtual void AssignTracks(vector<tTrack *> &track_ls); // assign tracks to track list
 	void TrackMerger(); // assembly projections to 3-D tracks
@@ -61,13 +61,14 @@ public:
 	virtual void Initialize() override;
 	// get the channel that belongs to this with uid
 	virtual TAStuff *GetChannel(unsigned uid) const override;
-	virtual void Info() const;
+	virtual void Info() const; // print MWDC array information
 
 	friend class TASimulation;
 protected:
 	// copmare two tracks
-	// 0: the two tracks are different; 1: newTrack is defeated by  oldTrack;
-	// 2: newTrack defeats oldTrack.
+	// 0: the two tracks are different; 1: newTrack is defeated by  oldTrack
+	// 2: newTrack defeats oldTrack
+	// dcType: [0-1]: [X-Y]
 	static int compare(TATrack *newTrack, TATrack *oldTATrack, int dcType = 0, bool show = false);
 	static void cleanUp(vector<TATrack *> &tr, const int n);
 	// to see if track projections resolved from UV data is compatible with that from X data.
@@ -81,7 +82,7 @@ protected:
 
 	TAMWDC *fMWDC[3]; // three MWDCs in the MWDC array
 	TATOFWall *fTOFWall; // the TOF wall
-	// projection of 3-D track to normal planes of [X-U-V] anode layers
+	// projection of 3-D track to normal planes of [X-U-V] sense wire layers
 	vector<TATrack *> fTrackList[3];
 	int fN3DTrk; // number of 3D tracks
 	double fPhiAvrg; // average of phis of the three MWDCs

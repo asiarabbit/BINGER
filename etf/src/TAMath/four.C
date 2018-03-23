@@ -12,7 +12,7 @@
 // Last modified: 2017/10/9, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -26,7 +26,7 @@ double Dsquare4(const double *x, const double *y, double &k, double &b, const in
 	double increment = 0.; // a temporary variable.
 
 	/////////////////////----------------------- least square method ------------//////////////////////////////
-	int n = 6; // six anode layers
+	const int n = 6; // six anode layers
 	double punishment = 1E10; // individual anodes exceeding DsquThre would recieve a punishment in dsquare. See the code.
 	double k1m = 0., b1m = 0.;
 	double SUMx = 0., SUMy = 0., SUMxx = 0., SUMxy = 0.;
@@ -68,8 +68,7 @@ double Dsquare4(const double *x, const double *y, double &k, double &b, const in
 //	cout << "For the almost vertical line case, the least square method yield result as below: " << endl;
 //	cout << "kc = " << k1m << " bc = " << b1m << endl;
 
-	//////////////////////////-------------- the classcical method ---------------//////////////////////////////	
-	// here we use the central point of the two fired anodes in X1 and X2 plane in the two MWDCs selected above respectively.
+	//////////////////////////-------------- the classcical method ---------------//////////////////////////////
 	double x1 = x[LAYER[0]], y1 = y[LAYER[0]];
 	double x2 = x[LAYER[3]], y2 = y[LAYER[3]];
 	double k2m = 0., b2m = 0.;

@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/9.															     //
-// Last modified: 2017/10/10, SUN Yazhou.										     //
+// Last modified: 2018/3/22, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -38,13 +38,13 @@ public:
 	double GetChi(); // sqrt(chi2) / nFiredAnodeLayer
 	double GetSlope();
 	double GetIntercept();
-	void GetNu(int *nu) const; // output array fNu
-	void GetLAYER(int *LAYER) const; // output array fLAYER
-	void GetZ(double *z) const; // output array fZ
-	void GetX(double *x) const; // output array fX
-	void GetDriftTime(double *t) const; // output array fT
-	void GetDriftDistance(double *r) const; // output array fR
-	void GetChi(double *chi); // output array fChi
+	virtual void GetNu(int *nu) const; // output array fNu
+	virtual void GetLAYER(int *LAYER) const; // output array fLAYER
+	virtual void GetZ(double *z) const; // output array fZ
+	virtual void GetX(double *x) const; // output array fX
+	virtual void GetDriftTime(double *t) const; // output array fT
+	virtual void GetDriftDistance(double *r) const; // output array fR
+	virtual void GetChi(double *chi); // output array fChi
 	double GetTOF() const; // return fTOF;
 	double GetNStripStray() const; // return fNStripStray;
 	int GetFiredStripId() const; // return fFiredStripId;
@@ -55,7 +55,7 @@ public:
 	double GetDsquareThresholdPerDot() const;
 	int Get3DId() const{ return f3DId; }
 
-	bool IsAssigned() const; // to tell if the track is not assigned. return fIsAssigned.
+	bool IsAssigned() const; // to tell if the track is not assigned; return fIsAssigned
 	bool IsFitted() const; // to tell if the data has been fitted.
 
 	// the set functions
@@ -63,15 +63,15 @@ public:
 	// Other values would be the least fit precision.
 	void SetFitPrecision(int fitPrecision); // set calculation depth.
 	// x, z: fired anode position; r: drift distance
-	void SetData(const double *x, const double *z, const double *t, const double *r, double kL, double bL, double dsquare, int gGOOD, const int *nu, const int *LAYER, const double *weight);
-	void SetDriftTime(const double *t, const double *w = nullptr); // as the name indicates; w: weight
-	void SetDriftDistance(const double *r); // as the name indicates
+	virtual void SetData(const double *x, const double *z, const double *t, const double *r, double kL, double bL, double dsquare, int gGOOD, const int *nu, const int *LAYER, const double *weight);
+	virtual void SetDriftTime(const double *t, const double *w = nullptr); // as the name indicates; w: weight
+	virtual void SetDriftDistance(const double *r); // as the name indicates
 	void SetBeta(double beta){ fBeta = beta; }
 	double GetBeta() const{ return fBeta; }
 	void SetTOF(double TOF, int firedStripId, double nstripStray); // set fTOF;
 	void AssignTrack(tTrack *ptrack); // assign tTrack
 	void SetFitMethod(int method); // 0: normal fit; 1: BFGS fit
-	// for kNormalFit only. (xc, zc) is the perturbative rotating center of particle track line in an attempt to minimize chi2 and get the optimal combination of linear parameter set.
+	// for kNormalFit only. (xc, zc) is the perturbative rotating center of particle track line in an attempt to minimize chi2 and get the optimal combination of linear parameter set
 	void SetFitRotationCenter(double xc, double zc); // 0: normal fit; 1: BFGS fit
 	void SetDsquareThresholdPerDot(double threshold);
 	void Set3DId(int id){ f3DId = id; }
@@ -79,7 +79,7 @@ public:
 	// the fit method
 	void Fit();
 	// show information about the track
-	void Show();
+	virtual void Show();
 	// a method dedicated for TAVisual::Fill()
 	void FillTrack(TGraph *gTrack, TGraph *gTrack_R);
 
@@ -88,7 +88,7 @@ public:
 	static const int kNormalFit = 0;
 	static const int kBFGSFit = 1;
 	static const int kIterFit = 2;
-	bool marked; // for any possible use.
+	bool marked; // for any possible use
 	bool fIsDEBUG; // DEBUG
 	double fXMiss3D[3]; // 3D track coincidence test at z coordinates of the three DCs
 

@@ -9,14 +9,14 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/9.															     //
-// Last modified: 2018/1/27, SUN Yazhou.										     //
+// Last modified: 2018/3/22, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-static double fun(double *xk, double *par, int gGOOD, const int *LAYER);
+static double fun(const double *xk, const double *par, int gGOOD, const int *LAYER);
 static void funxy(double *xk, double *par, double *gk, int gGOOD, const int *LAYER);
 static void goldCut(double *xk, double *par, double *gk, int gGOOD, const int *LAYER);
 static void Ak1(double (*Ak)[2], double *dxk, double *dgk); // to refresh Ak
@@ -131,18 +131,19 @@ double TAMath::refinedFitBFGS(const double *x, const double *y, const double *r,
 } // end of function refinedFit
 
 
-double fun(double *xk, double *par, int gGOOD, const int *LAYER){
-	ii++; // DEBUG
-	double x[6], y[6], r[6];
-	for(int i = 0; i < 6; i++){
-		x[i] = par[i];
-		y[i] = par[6 + i];
-		r[i] = par[12 + i];
-	}
+double fun(const double *xk, const double *par, int gGOOD, const int *LAYER){
+//	ii++; // DEBUG
+//	double x[6], y[6], r[6];
+//	for(int i = 0; i < 6; i++){
+//		x[i] = par[i];
+//		y[i] = par[6 + i];
+//		r[i] = par[12 + i];
+//	}
 	 // k0 = par[18], b0 = par[19];
-	double kt = par[18] * (1. + xk[0]);
-	double bt = par[19] * (1. + xk[1]);
-	return TAMath::minid2(x, y, r, kt, bt, gGOOD, LAYER);
+//	double kt = par[18] * (1. + xk[0]);
+//	double bt = par[19] * (1. + xk[1]);
+//	return TAMath::minid2(x, y, r, kt, bt, gGOOD, LAYER);
+	return TAMath::minid2(par, par+6, par+12, par[18] * (1. + xk[0]), par[19] * (1. + xk[1]), gGOOD, LAYER);
 }
 // assign first partial derivatives of function fun to gk
 void funxy(double *xk, double *par, double *gk, int gGOOD, const int *LAYER){ // note that k0 = par[18], b0 = par[19];

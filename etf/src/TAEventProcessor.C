@@ -11,7 +11,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/13.															     //
-// Last modified: 2018/3/3, SUN Yazhou.										     //
+// Last modified: 2018/3/22, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -192,6 +192,8 @@ void TAEventProcessor::Configure(){
 	detList[3] = new TAMWDCArrayL("DCArrayL", "DCArrayL@Post-Magnet", 3);
 	detList[4] = new TAMWDCArrayR("DCArrayR", "DCArrayR@Post-Magnet", 4);
 	detList[5] = new TASiPMPlaBarrel("SiPMPlaBarrel", "SiPMPlaBarrel@Hug-Target", 5);
+	detList[6] = new TAMWDCArrayU("DCArrayU", "DCArrayU@Pre-Target", 6);
+	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7);
 	for(TADetUnion *&p : detList) if(p) p->Configure(); // build the detectors
 
 	// read all the parameters required and assign positiion parameters to every channel and alike
@@ -204,6 +206,8 @@ void TAEventProcessor::Configure(){
 	if(TAPopMsg::IsVerbose()){
 		((TAMWDCArray*)detList[3])->Info();
 		((TAMWDCArray*)detList[4])->Info();
+		((TAMWDCArray2*)detList[6])->Info();
+		((TAMWDCArray2*)detList[7])->Info();
 	}
 	isCalled = true; // has been called
 }
@@ -263,10 +267,7 @@ void TAEventProcessor::Analyze(){
 
 	// pattern recognition and rough fit for particle tracking
 	if(dcArrL){ dcArrL->Map(); dcArrL->AssignTracks(fTrackList); }
-	if(dcArrR){
-		dcArrR->Map();
-		dcArrR->AssignTracks(fTrackList);
-	}
+	if(dcArrR){ dcArrR->Map(); dcArrR->AssignTracks(fTrackList); }
 	// assign and output beta and index
 	int index = GetEntryList()[0]->index;
 	const int n3DTrkR = dcArrR->GetN3DTrack(); // number of 3D tracks in DCArrR
