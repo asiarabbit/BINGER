@@ -260,6 +260,48 @@ void TAGPar::DefineParameters(){
 	// ---- PARAMETER 54 --- //
 	p = new TAParameter("dcTOTNoiseLevel", "dcTOTNoiseLevel");
 	p->SetValue(250.); fParVec[54] = p; p = nullptr; // this value is for beam test
+
+	// tof -> DCArr U-D
+	// ---- PARAMETER 55 --- //
+	p = new TAParameter("T_tofDC0toTOFWUX", "T_tofDC0toTOFWUX");
+	p->SetValue(0.); fParVec[55] = p; p = nullptr;
+	// ---- PARAMETER 56 --- //
+	p = new TAParameter("T_tofDC1toTOFWUY", "T_tofDC1toTOFWUY");
+	p->SetValue(0.); fParVec[56] = p; p = nullptr;
+	// ---- PARAMETER 57 --- //
+	p = new TAParameter("T_tofDC0toTOFWDX", "T_tofDC0toTOFWDX");
+	p->SetValue(0.); fParVec[57] = p; p = nullptr;
+	// ---- PARAMETER 58 --- //
+	p = new TAParameter("T_tofDC1toTOFWDY", "T_tofDC1toTOFWDY");
+	p->SetValue(0.); fParVec[58] = p; p = nullptr;
+
+	// $$$$$ DC HV: 0,1,2,3,4: 900,1000,1300,1350,1500 $$$$$ //
+	// $ DCU0-1 $ //
+	// ---- PARAMETER 59 --- //
+	p = new TAParameter("HVDCU0X", "HVDCU0X");
+	p->SetValue(3); fParVec[59] = p; p = nullptr;
+	// ---- PARAMETER 60 --- //
+	p = new TAParameter("HVDCU0Y", "HVDCU0Y");
+	p->SetValue(3); fParVec[60] = p; p = nullptr;
+	// ---- PARAMETER 61 --- //
+	p = new TAParameter("HVDCU1X", "HVDCU1X");
+	p->SetValue(3); fParVec[61] = p; p = nullptr;
+	// ---- PARAMETER 62 --- //
+	p = new TAParameter("HVDCU1Y", "HVDCU1Y");
+	p->SetValue(3); fParVec[62] = p; p = nullptr;
+	// $ DCD0-1 $ //
+	// ---- PARAMETER 63 --- //
+	p = new TAParameter("HVDCD0X", "HVDCD0X");
+	p->SetValue(3); fParVec[63] = p; p = nullptr;
+	// ---- PARAMETER 64 --- //
+	p = new TAParameter("HVDCD0Y", "HVDCD0Y");
+	p->SetValue(3); fParVec[64] = p; p = nullptr;
+	// ---- PARAMETER 65 --- //
+	p = new TAParameter("HVDCD1X", "HVDCD1X");
+	p->SetValue(3); fParVec[65] = p; p = nullptr;
+	// ---- PARAMETER 66 --- //
+	p = new TAParameter("HVDCD1Y", "HVDCD1Y");
+	p->SetValue(3); fParVec[66] = p; p = nullptr;
 } // end of member function DefineParameters
 
 void TAGPar::DefineAgents(){

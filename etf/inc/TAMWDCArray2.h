@@ -43,6 +43,8 @@ public:
 	TAPlaStrip *GetPlaT0() const;
 	double GetDsquareThresholdPerDot() const{ return fDsquareThresholdPerDot; }
 	void SetDsquareThresholdPerDot(double d2Thre);
+	int GetNXTrack() const{ return fTrackList[0].size(); }
+	int GetNYTrack() const{ return fTrackList[1].size(); }
 	// Map function
 	virtual bool Map();
 	// subordinate function of void Map()

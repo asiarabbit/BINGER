@@ -12,7 +12,7 @@
 // Last modified: 2018/1/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -23,7 +23,8 @@
 		if(ntr > ntrMax){
 			TAPopMsg::Warn("TAEventProcessor", "Run: ntr is larger than ntrMax: secLen: %d  index: %d", entry_t.channelId, index);
 		}
-		for(int j = 0; j < ntr; j++){ // assign track_ls to treeTrack. loop over tracks
+		const int ntrT = track_ls.size();
+		for(int j = 0; j < ntrT; j++){ // assign track_ls to treeTrack. loop over tracks
 			tTrack *&tra = track_ls[j];
 			type[j] = tra->type; id[j] = tra->id;
 			k[j] = tra->k; b[j] = tra->b; TOF[j] = tra->TOF;
@@ -105,7 +106,7 @@
 			if(0 == dcType && tof2[j] > 0. && -9999. != taHitX[j]){ // X tracks
 				if(IsPID()){
 					double p[4] = {k[j], 0., b[j], 0.}; // {k1, k2, b1, b2}
-					pid->Fly(tof2[j], taHitX[j], p, dcArrId, 2); // , false
+					pid->Fly(tof2[j], taHitX[j], p, dcArrId, 2);
 					aoz[j] = pid->GetAoZ(); aozdmin[j] = pid->GetChi();
 					beta2[j] = pid->GetBeta(); poz[j] = pid->GetPoZ(); // MeV/c
 					pid->GetTargetExitAngle(yp[j]); trkLenT[j] = pid->GetTotalTrackLength();
@@ -133,6 +134,43 @@
 		n3Dtr = 0;
 		if(ntr >= 3) RefineTracks(n3Dtr, trk3DIf, tof2, taHitX);
 		if(n3Dtr > 0) RefinePID(n3Dtr, trk3DIf, pid3DIf);
+
+		/////////////////////// PID DOWNSTREAM THE TARGET ////////////////////////////////////////
+		// PID using tthe DC array downstream the target and the DC array downstream the dipole magnet
+		if(1 == ntrLs[3][0]){
+			if(1 == n3Dtr || (0 == n3Dtr && 1 == ntrLs[1][0])){
+				double pIn[4]{}, pOut[4]; // [0-1-2-3]: [k1, b1, k2, b2]
+				for(tTrack *&t : track_ls){
+					const int dcArrId = t->type / 10 % 10; // [0-1-2-3]: [L-R-U-D]
+					const int dcType = t->Type % 10;
+					// assign DCArrD trks //
+					if(3 == dcArrId && 0 == dcType){ // DCArrD
+						pIn[0] = t.k; pIn[1] = t.b;
+					} // end if(3 == dcArrId)
+					if(1 == ntrLs[3][1] && 3 == dcArrId && 0 == dcType){ // only one DY trk is found
+						pIn[2] = t.k; pIn[3] = t.b;
+					} // end if(1 == ntrLs[3][1])
+					// assign DCArrR trks //
+					if(0 == n3Dtr && 1 == ntrLs[1][0]){ // DCArrR, only one Xproj is found, no 3D trks
+						if(1 == dcArrId && 0 == dcType){
+							pOut[0] = t.k; pOut[1] = t.b;
+						} // end if(1 == dcArrId && 0 == dcType)
+					} // end if(0 == n3Dtr && 1 == ntrLs[1][0])
+				} // end for over tracks
+				if(1 == n3Dtr){
+					pOut[0] = trk3DIf[0].k1; pOut[1] = trk3DIf[0].b1;
+					pOut[2] = trk3DIf[0].k2; pOut[3] = trk3DIf[0].b2;
+				}
+				pid->Fly(-1., -9999., pOut, 1, 1, pIn);
+				aoz[0] = pid->GetAoZ(); aozdmin[0] = pid->GetChi();
+				beta2[0] = pid->GetBeta(); poz[0] = pid->GetPoZ(); // MeV/c
+				pid->GetTargetExitAngle(yp[0]); trkLenT[0] = pid->GetTotalTrackLength();
+				if(aozdmin[0] > 0.1 || -9999. == aoz[0]) cntaozWrong++;
+//				cout << "aozdmin[j]: " << aozdmin[j] << endl; getchar(); // DEBUG
+				cntaoz++;
+			} // end inner if
+		} // end the outer if
+		
 //		cout << "n3Dtr: " << n3Dtr << endl; getchar(); // DEBUG
 		// assignment for the filling of treePID3D
 		for(int jj = 0; jj < n3Dtr; jj++){

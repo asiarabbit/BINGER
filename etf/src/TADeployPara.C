@@ -37,10 +37,17 @@ TADeployPara* TADeployPara::Instance(){
 
 short TADeployPara::GetNDCCable(unsigned uid) const{
 	int type[6]{}; TAUIDParser::DNS(type, uid);
-	if(3 != type[0] && 4 != type[0])
-		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an MWDC array");
-	if(type[1] > 3) TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an MWDC");
-	return fNDCCable[type[0]-3][type[1]];
+	if(3 != type[0] && 4 != type[0] && 6 != type[0] && 7 != type[0])
+		TAPopMsg::Error("TADeployPara", "GetNDCCable: Not an MWDC array");
+	if(3 == type[0] && 4 == type[0]){ // MWDC Array L-R
+		if(type[1] > 2) TAPopMsg::Error("TADeployPara", "GetNDCCable: Not an MWDC");
+		return fNDCCable[type[0]-3][type[1]];
+	}
+	// there is only one cable for each SLayer in DCs arount the target
+	if(6 == type[0] && 7 == type[0]){
+		if(type[1] > 1) TAPopMsg::Error("TADeployPara", "GetNDCCable: Not an MWDC");
+		return 1;
+	}
 }
 short TADeployPara::GetNTOFWallStrip(unsigned uid) const{
 	return fNTOFWallStrip;

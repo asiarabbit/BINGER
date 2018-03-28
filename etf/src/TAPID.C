@@ -55,7 +55,7 @@ TAPID::~TAPID(){}
 static double c0 = TAParaManager::Instance()->GetPhysConst("c0");
 static double u0MeV = TAParaManager::Instance()->GetPhysConst("u0MeV");
 // TaHit: target hit position
-void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, const int option){
+void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, const int option, const double *pIn){
 	if(0 != dcArrId && 1 != dcArrId) TAPopMsg::Error("TAPID", "Fly: dcArrId neither 0 nor 1 (which is supposed to be a boolean)");
 
 	const double h0 = GetIterationStep(), stepError = GetStepError();
@@ -133,7 +133,7 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 		if(fGCurve){
 			fTrackVec.clear();
 			tra_t tra;
-			const double n = 2000;
+			const int n = 2000;
 			for(int i = 0; i <= n; i++){
 				double ai = (1. - 2.*i/n)*TAMath::Pi();
 				double zi = zo+fabs(rho)*cos(ai);
@@ -174,7 +174,18 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 				TransportIon(y, yp, zi, z0_TA);
 				if(IsOutOfRange()) continue; // ineligible aoz
 				double dd[2] = {y[0] - x0TaHit, y[1] - y0_SiPMArr};
-				d2 = sqrt(dd[0]*dd[0]); // + dd[1]*dd[1]; 2017.7.5 20:27
+				// use track slope information
+				if(!pIn){ // pIn[0-3]: {k1_Ta, b1_Ta, k2_Ta, b2_Ta}
+					dd[0] = yp[0] - pIn[0];
+					if(-9999. != pIn[2]) dd[1] = yp[1] - pIn[2];
+				}
+				d2 = sqrt(dd[0]*dd[0] + dd[1]*dd[1]); // ; 2017.7.5 20:27
+				// use track position information
+				if(0) if(!pIn){
+					double dp[2] = {y[0] - pIn[0]*z0_TA+pIn[1], y[1] - pIn[2]*z0_TA+pIn[3]};
+					if(-9999. == pIn[2]) dp[1] = 0.;
+					d2 += sqrt(dp[0]*dp[0]+dp[1]*dp[1]) * 0.5;
+				}
 				if(d2 < fAoZdmin){
 					fAoZdmin = d2; fAoZ = aoz; fBeta = beta;
 					fTotalTrackLength = GetTrackLength() + trkL2;

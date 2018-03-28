@@ -73,10 +73,15 @@ void TACtrlPara::GetNStripStrayRangeR(double &minR, double &maxR) const{
 // used in Dsquare() and refinedFit, BFGSFit, iterFit
 double TACtrlPara::DsquareThresholdPerDot(unsigned uid){
 	int type[6]{}; TAUIDParser::DNS(type, uid);
-	if(3 != type[0] && 4 != type[0])
-		TAPopMsg::Error("TACtrlPara", "GetTOFWallStripDelay: Not an MWDC array");
-	static double d2Thre[2] = {40., 40.};
-	return d2Thre[type[0] - 3];
+	if(3 != type[0] && 4 != type[0] && 6 != type[0] && 7 != type[0]){
+		TAPopMsg::Error("TACtrlPara", "DsquareThresholdPerDot: Not an MWDC array");
+		return -9999.;
+	}
+	static double d2Thre[4] = {40., 40., 40., 40.}; // MWDC Array L-R-U-D
+	int dcArrId = -9999;
+	if(3 == type[0] || 4 == type[0]) dcArrId = type[0] - 3; // 0-1: L-R
+	if(6 == type[0] || 7 == type[0]) dcArrId = type[0] - 6 + 2; // 2-3: U-D
+	return d2Thre[dcArrId];
 }
 // calculate the minmum deviation of a track off the fired strips in a TOF wall
 bool TACtrlPara::TOFWallStripStrayTest(double strayMin, unsigned uid) const{
@@ -93,33 +98,56 @@ bool TACtrlPara::TOFWallStripStrayTest(double strayMin, unsigned uid) const{
 }
 double TACtrlPara::T_tofDCtoTOFW(unsigned uid){
 	int type[6]{}; TAUIDParser::DNS(type, uid);
-	if(3 != type[0] && 4 != type[0])
+	if(3 != type[0] && 4 != type[0] && 6 != type[0] && 7 != type[0])
 		TAPopMsg::Error("TACtrlPara", "T_tofDCtoTOFW: Not an MWDC array");
-	if(type[1] >= 3)
-		TAPopMsg::Error("TACtrlPara", "T_tofDCtoTOFW: Not an MWDC");
+	// MWDC Array L-R
+	if(3 == type[0] || 4 == type[0]){
+		if(type[1] >= 3) TAPopMsg::Error("TACtrlPara", "T_tofDCtoTOFW: Not an MWDC");
+	}
+	// MWDC Array U-D
+	if(6 == type[0] || 7 == type[0]){
+		if(type[1] >= 2) TAPopMsg::Error("TACtrlPara", "T_tofDCtoTOFW: Not an MWDC");
+	}
 
 	// DC0-1-2, include [dcArr][DC]
-	const double ccT_tofDCtoTOFW[2][3] = {
+	const double ccT_tofDCtoTOFW[4][3] = { // [L-R-U-D][X-U-V or X-Y]
 		{gp->Val(34), gp->Val(35), gp->Val(36)}, // {7.4, 4.8, 2.0}, // beta = 0.5
-		{gp->Val(37), gp->Val(38), gp->Val(39)} // {6.4, 4.0, 1.4} // beta = 0.6
+		{gp->Val(37), gp->Val(38), gp->Val(39)}, // {6.4, 4.0, 1.4} // beta = 0.6
+		{gp->Val(55), gp->Val(56), 0.},
+		{gp->Val(57), gp->Val(58), 0.}
 	};
-	return ccT_tofDCtoTOFW[type[0]-3][type[1]];
+	int dcArrId = -9999;
+	if(3 == type[0] && 4 == type[0]) dcArrId = type[0] - 3; // 0-1: L-R
+	if(6 == type[0] && 7 == type[0]) dcArrId = type[0] - 6 + 2; // 2-3: U-D
+	return ccT_tofDCtoTOFW[dcArrId][type[1]];
 }
 double TACtrlPara::T_wireMean(unsigned uid){
 	int type[6]{}; TAUIDParser::DNS(type, uid);
-	if(3 != type[0] && 4 != type[0])
-		TAPopMsg::Error("TACtrlPara", "T_tofDCtoTOFW: Not an MWDC array");
-	if(type[1] >= 3)
-		TAPopMsg::Error("TACtrlPara", "T_tofDCtoTOFW: Not an MWDC");
-	if(type[2] >= 3)
-		TAPopMsg::Error("TACtrlPara", "T_tofDCtoTOFW: Not a valid MWDC type[XUV]");
+	if(3 != type[0] && 4 != type[0] && 6 != type[0] && 7 != type[0])
+		TAPopMsg::Error("TACtrlPara", "T_wireMean: Not an MWDC array");
+	// MWDC Array L-R
+	if(3 == type[0] || 4 == type[0]){
+		if(type[1] >= 3) TAPopMsg::Error("TACtrlPara", "T_wireMean: Not an MWDC");
+		if(type[2] >= 3) TAPopMsg::Error("TACtrlPara", "T_wireMean: Not a valid MWDC type[XUV]");
+	}
+	// MWDC Array U-D
+	if(6 == type[0] || 7 == type[0]){
+		if(type[1] >= 2) TAPopMsg::Error("TACtrlPara", "T_wireMean: Not an MWDC");
+		if(type[2] >= 2) TAPopMsg::Error("TACtrlPara", "T_wireMean: Not a valid MWDC type[XY]");
+	}
 
-	// [dcArr][DC012][XUV]
-	static const double ccT_wireMean[2][3][3] = 
-		{ {{1.5, 1.5, 1.5}, {1.5, 1.5, 1.5}, {1.5, 1.5, 1.5}},
-		  {{1.5, 1.5, 1.5}, {1.5, 1.5, 1.5}, {1.5, 1.5, 1.5}}
+	// [dcArrL-R][DC012 or DC01][XUV or XY]
+	static const double ccT_wireMean[4][3][3] = {
+		{{1.5, 1.5, 1.5}, {1.5, 1.5, 1.5}, {1.5, 1.5, 1.5}},
+		{{1.5, 1.5, 1.5}, {1.5, 1.5, 1.5}, {1.5, 1.5, 1.5}},
+		{{1.5, 1.5, 0.}, {1.5, 1.5, 0.}, {0., 0., 0.}},
+		{{1.5, 1.5, 0.}, {1.5, 1.5, 0.}, {0., 0., 0.}}
 		};
-	return ccT_wireMean[type[0]-3][type[1]][type[2]];
+
+	int dcArrId = -9999;
+	if(3 == type[0] || 4 == type[0]) dcArrId = type[0] - 3; // 0-1: L-R
+	if(6 == type[0] || 7 == type[0]) dcArrId = type[0] - 6 + 2; // 2-3: U-D
+	return ccT_wireMean[dcArrId][type[1]][type[2]];
 }
 
 
@@ -148,15 +176,24 @@ void TACtrlPara::SetSTRROOTFile(const string &file){
 }
 void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 	static TAGPar *gp = TAGPar::Instance();
-	const int HVopt[2][3][3] = { // [DCarrL-R][DC0-1-2][XUV]
+	const int HVopt[4][3][3] = { // [DCarrL-R-U-D][DC0-1-2 or 0-1][XUV or XY]
 		// -1: no HV is applied; 0-5 -> HV[0-5] array element
+		// DCArrL, DC0-1-2 - X-U-V
 		{ {(int)gp->Val(13), (int)gp->Val(14), (int)gp->Val(15)},
 		  {(int)gp->Val(16), (int)gp->Val(17), (int)gp->Val(18)},
-		  {(int)gp->Val(19), (int)gp->Val(20), (int)gp->Val(21)} }, // DCArrL, DC0-1-2 - X U V
-
+		  {(int)gp->Val(19), (int)gp->Val(20), (int)gp->Val(21)} },
+		// DCArrL, DC0-1-2 - X-U-V
 		{ {(int)gp->Val(22), (int)gp->Val(23), (int)gp->Val(24)},
 		  {(int)gp->Val(25), (int)gp->Val(26), (int)gp->Val(27)},
-		  {(int)gp->Val(28), (int)gp->Val(29), (int)gp->Val(30)} }, // DCArrL, DC0-1-2 - X U V
+		  {(int)gp->Val(28), (int)gp->Val(29), (int)gp->Val(30)} },
+		// DCArrU, DC0-1 - X-Y
+		{ {(int)gp->Val(59), (int)gp->Val(60), 				 -1},
+		  {(int)gp->Val(61), (int)gp->Val(62), 				 -1},
+		  {				 -1, 			   -1, 		 		 -1} },
+		// DCArrD, DC0-1 - X-Y
+		{ {(int)gp->Val(63), (int)gp->Val(64), 				 -1},
+		  {(int)gp->Val(65), (int)gp->Val(66), 				 -1},
+		  {				 -1, 			   -1, 		 		 -1} },
 	};
 
 /////////////////// THIS IS FOR EXP_PION_2017 ///////////////////////////////////////////
@@ -173,7 +210,7 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 //	static TF1 *rtDumb = (TF1*)f->Get("RTDumb"); // constant zero
 	static int HV[nHV] = {900, 1000, 1300, 1350, 1500}; // V
 	static char name[64];
-	if(!rt[0][0]){
+	if(!rt[0][0]){ // to make sure that this assignment will only be carried out once
 		for(int i = 0; i < nHV; i++){
 			for(int j = 0; j < nAngBin; j++){
 				sprintf(name, "%d/RT%d", HV[i], j);
@@ -184,7 +221,7 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 	} // end if not assigned
 	unsigned uid = para->GetUID();
 	int type[6]{}; TAUIDParser::DNS(type, uid);
-	if(3 == type[0] || 4 == type[0]){ // MWDC array
+	if(3 == type[0] || 4 == type[0]){ // MWDC array L-R
 			if(type[1] < 0 || type[1] > 2) TAPopMsg::Error("TACtrlPara", "AssignSTR: input anode para uid error: DCid: type[1]: %d", type[1]);
 			if(type[2] < 0 || type[2] > 2) TAPopMsg::Error("TACtrlPara", "AssignSTR: input anode para uid error: DCType: type[2]: %d", type[2]);
 			const int hv = HVopt[type[0]-3][type[1]][type[2]];
@@ -195,6 +232,17 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 			else para->SetSTR(rt[hv][i], i);
 		}
 	}
+	else if(6 == type[0] || 7 == type[0]){ // MWDC array U-D
+			if(type[1] < 0 || type[1] > 1) TAPopMsg::Error("TACtrlPara", "AssignSTR: input anode para uid error: DCid: type[1]: %d", type[1]);
+			if(type[2] < 0 || type[2] > 1) TAPopMsg::Error("TACtrlPara", "AssignSTR: input anode para uid error: DCType: type[2]: %d", type[2]);
+			const int hv = HVopt[type[0]-6][type[1]][type[2]];
+			if(hv >= nHV) TAPopMsg::Error("TACtrlPara", "AssignSTR: hv id too large: hv: %d", hv);
+		for(int i = 0; i < nAngBin; i++){
+			// XXX: RTDumb -> 1300V, facilitate simulation
+			if(hv < 0) para->SetSTR(rt[2][i], i); // rtDumb, rt[0][i]
+			else para->SetSTR(rt[hv][i], i);
+		}
+	}	
 	else TAPopMsg::Error("TACtrlPara", "AssignSTR: input anode para uid error: DCArrId: type[0]: %d", type[0]);
 } // end of member function AssignSTR
 

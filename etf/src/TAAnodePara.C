@@ -105,7 +105,7 @@ int TAAnodePara::GetSTRid(double k, int dcType) const{
 	if(dcType < 0 || dcType > 2)
 		TAPopMsg::Error(GetName().c_str(), "GetSTRid: invalid dcType: %d", dcType);
 	double theta, phi = GetMotherDC()->GetDetPara()->GetPhi();
-	if(TAMWDC::kX == dcType) theta = atan(k) - phi; // X
+	if(TAMWDC::kX == dcType || TAMWDC::kY == dcType) theta = atan(k) - phi; // X-Y
 	else theta = atan(k); // U or V
 	return GetSTRid(theta, GetName().c_str());
 } // end of function GetSTRid

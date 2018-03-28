@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/18.															     //
-// Last modified: 2018/3/22, SUN Yazhou.										     //
+// Last modified: 2018/3/23, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -37,7 +37,7 @@
 
 TAMWDCArray2::TAMWDCArray2(const string &name, const string &title, unsigned uid)
 		: TAStuff(name, title, uid), fMWDC{0}, fPlaT0(0){
-	// would be overwritten later in the derived classes 
+	// would be overwritten later in the derived classes
 	// using values from TACtrlPara::DsquareThresholdPerDot()
 	fDsquareThresholdPerDot = 100.;
 }
@@ -92,20 +92,20 @@ void TAMWDCArray2::AssignTracks(vector<tTrack2 *> &track_ls){ // assign tracks
 	int type[6]{}; TAUIDParser::DNS(type, GetUID());
 	tTrack2 *ptrack_t = nullptr; // a temporary variable
 	for(int l = 0; l < 2; l++){ // loop over X-Y
-		for(TATrack *x : fTrackList[l]){
+		for(TATrack2 *x : fTrackList[l]){
 //			x.SetFitRotationCenter(fMWDC[1]->GetZc(), fMWDC[1]->GetXc()); // DEBUG
 //			x.SetFitMethod(TATrack::kNormalFit); // DEBUG
 			ptrack_t = new tTrack2;
 			x->AssignTrack(ptrack_t);
 			// track type: 1[UD][XY] <=> 1[23][01]
-			ptrack_t->type = 100 + (type[0] - 3) * 10 + l;
+			ptrack_t->type = 100 + (type[0] - 4) * 10 + l; // [67]-4 -> [23]
 			track_ls.push_back(ptrack_t);
 		}
 	} // end for over l
 } // end of funtion AssignTracks
 
 #include "TAMWDCArray2/map.C" // definition of bool Map(TAMWDC **MWDC, vector<TATrack2> &track)
-void TAMWDCArray2::Map(){ // map the fired channels in one data section once and for all.
+void TAMWDCArray2::Map(){ // map the fired channels in one data section once and for all
 	Map(fMWDC, fTrackList[0], 0); // X
 	Map(fMWDC, fTrackList[1], 1); // Y
 } // end of function void Map()

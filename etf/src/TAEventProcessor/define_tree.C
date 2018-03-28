@@ -47,6 +47,7 @@
 	treeTrack->Branch("beta", &beta, "beta/D");
 	treeTrack->Branch("TOT_T0", TOT_T0, "TOT_T0[6]/D"); // see the comment above
 	treeTrack->Branch("ntr", &ntr, "ntr/I");
+	treeTrack->Branch("ntrLs", ntrLs, "ntrLs[4][3]/I"); // DCArr-L-R-U-D -- [XUV - XY]
 	treeTrack->Branch("nu", nu, "nu[ntr][6]/I");
 	treeTrack->Branch("SFE16Id", sfe16Id, "SFE16Id[ntr][6]/I");
 	treeTrack->Branch("gGOOD", gGOOD, "gGOOD[ntr]/I");

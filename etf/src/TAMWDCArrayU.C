@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/22.															     //
-// Last modified: 2018/3/22, SUN Yazhou.										     //
+// Last modified: 2018/3/28, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -17,7 +17,7 @@
 
 #include "TAMWDCArrayU.h"
 #include "TAPopMsg.h"
-#include "TAMWDC.h"
+#include "TAMWDCTaM.h"
 #include "TAPlaStrip.h"
 #include "TACtrlPara.h"
 
@@ -33,8 +33,8 @@ void TAMWDCArrayU::Configure(){
 		return; // Configure() has been called
 	}
 	SetDsquareThresholdPerDot(TACtrlPara::DsquareThresholdPerDot(fUID));
-	if(!fMWDC[0]) fMWDC[0] = new TAMWDC(fName+"->DC0", fTitle+"->DC0", fUID+(0<<6));
-	if(!fMWDC[1]) fMWDC[1] = new TAMWDC(fName+"->DC1", fTitle+"->DC1", fUID+(1<<6));
+	if(!fMWDC[0]) fMWDC[0] = new TAMWDCTaM(fName+"->DC0", fTitle+"->DC0", fUID+(0<<6));
+	if(!fMWDC[1]) fMWDC[1] = new TAMWDCTaM(fName+"->DC1", fTitle+"->DC1", fUID+(1<<6));
 	if(!fPlaT0) fPlaT0 = new TAPlaStrip(fName+"->PlaT0", fTitle+"->PlaT0", fUID+(2<<6));
 
 	for(int i = 2; i--;){

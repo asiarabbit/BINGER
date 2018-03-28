@@ -83,6 +83,8 @@ public:
 	// tof2: time of flight from target to TOFWall; taHitX: hit pos x in TA
 	virtual void RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const double *tof2, const double *taHitX);
 	virtual void RefinePID(const int n3Dtr, const t3DTrkInfo *trk3DIf, t3DPIDInfo *pid3DIf);
+	// ntrLs: 
+	void TracksAssembly(const t3DTrkInfo *trk3DIf, const int *ntrLs);
 	// a method dedicated for TAVisual::Fill()
 	void FillTrack(TGraph *gTrack, TGraph *gTrack_R) const;
 	// the overall data analysis routine

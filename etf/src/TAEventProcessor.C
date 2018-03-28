@@ -11,7 +11,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/13.															     //
-// Last modified: 2018/3/22, SUN Yazhou.										     //
+// Last modified: 2018/3/23, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -264,10 +264,14 @@ void TAEventProcessor::Analyze(){
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
 	static TAMWDCArrayL *dcArrL = (TAMWDCArrayL*)detList[3];
 	static TAMWDCArrayR *dcArrR = (TAMWDCArrayR*)detList[4];
+	static TAMWDCArrayL *dcArrU = (TAMWDCArrayL*)detList[6];
+	static TAMWDCArrayR *dcArrD = (TAMWDCArrayR*)detList[7];
 
 	// pattern recognition and rough fit for particle tracking
 	if(dcArrL){ dcArrL->Map(); dcArrL->AssignTracks(fTrackList); }
 	if(dcArrR){ dcArrR->Map(); dcArrR->AssignTracks(fTrackList); }
+	if(dcArrU){ dcArrU->Map(); dcArrU->AssignTracks(fTrackList); }
+	if(dcArrD){ dcArrD->Map(); dcArrD->AssignTracks(fTrackList); }
 	// assign and output beta and index
 	int index = GetEntryList()[0]->index;
 	const int n3DTrkR = dcArrR->GetN3DTrack(); // number of 3D tracks in DCArrR
@@ -327,7 +331,7 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	int cntTrk = 0, cnt3DTrk = 0; // ntr: n trk per event
 	int cntaozWrong = 0, cntaoz = 0;
 	int i = 0, index, cntSec = 0;
-	int ntr = 0; // number of track projections in a data section(3*3D track)
+	int ntr = 0, ntrLs[4][3]{}; // total N of TrkProjs; DCArr-L-R-U-D -- [XUV - XY]
 	const int ntrMax = 200; // maximum number of track projections in an event
 #ifdef GO
 	#include "TAEventProcessor/define_hist.C" // define histograms of interest
@@ -374,7 +378,18 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 #endif
 		// *** recognize patterns and assign raw tracks to fTrackList *** //
 		Analyze();
-		ntr = track_ls.size() < ntrMax ? track_ls.size() : ntrMax;
+		// assgin ntr variables
+		memset(ntrLs, 0, sizeof(ntrLs));
+		for(tTrack *&t : track_ls){
+			const int dcArrId = t->type / 10 % 10, dcType = t->Type % 10;
+			ntrLs[dcArrId][dcType]++;
+		}
+		ntr = 0;
+		for(tTrack *&t : track_ls){
+			const short dcArrId = t->type / 10 % 10; // dcArrId
+			if(0 == dcArrId || 1 == dcArrId) ntr++;
+		}
+		ntr = ntr < ntrMax ? ntr : ntrMax;
 		for(int j = 0; j < ntr; j++){ cntTrk++; if(track_ls[j]->id != -1) cnt3DTrk++; }
 #ifdef GO
 		#include "TAEventProcessor/fill_post.C" // fill hists and trees after tracking
@@ -578,6 +593,7 @@ void TAEventProcessor::RefinePID(const int n3Dtr, const t3DTrkInfo *trk3DIf, t3D
 		pi.trkLenT = pid->GetTotalTrackLength();
 	}
 }
+
 
 
 

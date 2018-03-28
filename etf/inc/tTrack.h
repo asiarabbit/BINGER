@@ -48,9 +48,10 @@ struct tTrack{ // struct of tracks.
 	double Z; // atomic number
 	double m; // atomic mass/MeV
 	tTrack(); // the default constructor
-	void initialize();
-	void show() const;
-	double dcTOTAvrg() const;
+	virtual void initialize();
+	virtual void show() const;
+	virtual double dcTOTAvrg() const;
+	virtual ~tTrack(){};
 };
 
 

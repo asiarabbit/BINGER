@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/22.															     //
-// Last modified: 2018/3/22, SUN Yazhou.										     //
+// Last modified: 2018/3/23, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -23,20 +23,7 @@
 using std::cout;
 using std::endl;
 
-tTrack2::tTrack2(){ initialize(); } // the default constructor
-void tTrack2::initialize(){
-	for(int i = 0; i < 4; i++){
-		nu[i] = -1; LAYER[i] = -1;
-		z[i] = -9999.; x[i] = -9999.;
-		t[i] = -9999.; r[i] = -9999.;
-		w[i] = 1.; chi[i] = -9999.;
-		dcTOT[i] = -9999.;
-	} // end for over i
-	TOF = -9999.;
-	k = -9999.; b = -9999.; gGOOD = -1; nFiredAnodeLayer = -1;
-	Chi = -9999.; id = -1; beta = -1.;
-	A = -9999.; Z = -9999.; m = -9999.;
-} // end of function initialize
+tTrack2::tTrack2() : tTrack(){} // the default constructor
 void tTrack2::show() const{
 	cout << "name: " << name << endl;
 	cout << "type: " << type << endl;
