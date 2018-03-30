@@ -32,8 +32,8 @@
 			firedStripId[j] = tra->firedStripId; nStripStray[j] = tra->nStripStray;			
 			memcpy(xMiss3D[j], tra->xMiss3D, sizeof(xMiss3D[j]));
 
-			const short dcArrId = (type[j]/10)%10; // 0: dcArrL; 1: dcArrR
-			if(0 != dcArrId && 1 != dcArrId)
+			const short dcArrId = (type[j]/10)%10; // 0: dcArrL; 1: dcArrR; 2: dcArrrU; 3: dcArrD
+			if(0 != dcArrId && 1 != dcArrId && 2 != dcArrId && 3 != dcArrId)
 				TAPopMsg::Error("TAEventProcessor", "Run: invalid dcArrId: %d", dcArrId);
 			const int dcType = type[j]%10; // [0-1-2]: [X-U-V]
 			if(type[j]%10 == 0 && firedStripId[j] >= 0){ // X trk
@@ -51,10 +51,16 @@
 				w[j][k] = tra->w[k];
 				r[j][k] = tra->r[k];
 				chi[j][k] = tra->chi[k];
-				hdt[dcArrId][dcId][dcType]->Fill(tra->t[k]);
+				const double dt = tra->t[k];
+				if(-9999. != dt){
+					if(0 == dcArrId || 1 == dcArrId) hdt[dcArrId][dcId][dcType]->Fill(dt);
+					if(2 == dcArrId || 3 == dcArrId) hdtTa[dcArrId][dcId][dcType]->Fill(dt);
+				} // end if
 				// TOT of DC signals
 				if(nu[j][k] >= 0){
-					TAMWDC *dc = dcArr[dcArrId]->GetMWDC(dcId);
+					TAMWDC *dc = nullptr;
+					if(0 == dcArrId || 1 == dcArrId) dc = dcArr[dcArrId]->GetMWDC(dcId);
+					if(2 == dcArrId || 3 == dcArrId) dc = dcArr2[dcArrId]->GetMWDC(dcId);
 					TAAnode *ano = dc->GetAnode(dcType, layerOption, nu[j][k]);
 					TOT_DC[j][k] = tra->dcTOT[k] = ano->GetTOT();
 					sfe16Id[j][k] = ((TAAnodePara*)ano->GetPara())->GetSFE16Id();

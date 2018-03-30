@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/13.															     //
-// Last modified: 2018/3/3, SUN Yazhou.										     //
+// Last modified: 2018/3/30, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -302,6 +302,14 @@ void TAGPar::DefineParameters(){
 	// ---- PARAMETER 66 --- //
 	p = new TAParameter("HVDCD1Y", "HVDCD1Y");
 	p->SetValue(3); fParVec[66] = p; p = nullptr;
+
+	// $$$$$ time to trigger range - for DCs around the target $$$$$ //
+	// ---- PARAMETER 67 --- //
+	p = new TAParameter("dcTaToTrigLB", "dcTaToTrigLB");
+	p->SetValue(450.); fParVec[67] = p; p = nullptr;
+	// ---- PARAMETER 68 --- //
+	p = new TAParameter("dcTaToTrigHB", "dcTaToTrigHB");
+	p->SetValue(920.); fParVec[68] = p; p = nullptr;
 } // end of member function DefineParameters
 
 void TAGPar::DefineAgents(){

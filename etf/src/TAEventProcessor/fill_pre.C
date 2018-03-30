@@ -122,7 +122,8 @@
 		hSiPMPlaArrMulti->Fill(sipmArr->GetNFiredStrip());
 		sipmArr->GetFiredStripArr(multiSipmArr_pre, hitIdLsSipmArr_pre, uvlTLsSipmArr_pre);
 		sipmBarr->GetFiredStripArr(multiSipmBarr_pre, hitIdLsSipmBarr_pre, hitStaLsSipmBarr_pre, uvlTLsSipmBarr_pre, dvlTLsSipmBarr_pre);
-		// detector performance statistics //
+		////////////// detector performance statistics //////////////
+		// the MWDC arrays downstream of the target //
 		for(int ii = 0; ii < 2; ii++){ // loop over MWDC arrays
 			tofw[ii]->GetFiredStripArr(multiTOFW_pre[ii], hitIdLsTOFW_pre[ii], hitStaLsTOFW_pre[ii], uvlTLsTOFW_pre[ii], dvlTLsTOFW_pre[ii]);
 			for(TAPlaStrip *&str : tofw[ii]->GetStripArr()){
@@ -168,6 +169,34 @@
 							}
 						} // end for over anode of one layer
 						hDCMulti[ii][j][k][l]->Fill(dc[ii][j]->GetNFiredAnodePerLayer(k, l+1));
+					} // end for over layer 1 and 2
+				} // end for over X-U-V
+			} // end for over DCs
+		} // end for over DC arrays
+
+		// MWDC arrays around the target //
+		for(int ii = 0; ii < 2; ii++){ // loop over MWDC arrays downstream of the target
+			for(int j = 0; j < 2; j++){ // loop over two MWDCs
+				for(int k = 0; k < 2; k++){ // loop over XY SLayers
+					for(int l = 0; l < 2; l++){ // loop over layer option (1, 2)
+						const int na = dc2[ii][j]->GetNAnodePerLayer();
+						for(int m = 0; m < na; m++){ // loop over anode per layer
+							TAAnode *ano = dc2[ii][j]->GetAnode(k, l + 1, m);
+							if(ano->GetFiredStatus()){
+								hDCTaFiredDist[ii][j][k]->Fill(l*na+m);
+								double dcToTrig = ano->GetTime();
+								if(tRef != -9999.) hDCTaToTRef[ii][j][k]->Fill(dcToTrig - tRef);
+//								if(0 == ii && 0 == k && 0 == j)
+								{
+									for(int i = 0; i < ano->GetData()->GetNLeadingEdge(); i++)
+									hDCTaToTrig->Fill(i, ano->GetTime(i));
+								}
+								// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
+								if(!(dcToTrig > gpar->Val(67) && dcToTrig < gpar->Val(68))) ano->GetData()->SetFiredStatus(false); // (340., 840.)->pion2017; (1000., 1400.)->beamTest2016
+//								if(1 == ii && 0 == j && 0 == k) ano->GetData()->SetFiredStatus(false);
+							}
+						} // end for over anode of one layer
+						hDCTaMulti[ii][j][k][l]->Fill(dc2[ii][j]->GetNFiredAnodePerLayer(k, l+1));
 					} // end for over layer 1 and 2
 				} // end for over X-U-V
 			} // end for over DCs

@@ -8,7 +8,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/21.															     //
-// Last modified: 2018/1/27, SUN Yazhou.											     //
+// Last modified: 2018/3/30, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -25,12 +25,16 @@
 	TAT0_1 *T0_1 = (TAT0_1*)dec_vec[1];
 	TASiPMPlaArray *sipmArr = (TASiPMPlaArray*)dec_vec[2];
 	TASiPMPlaBarrel *sipmBarr = (TASiPMPlaBarrel*)dec_vec[5];
-	TAMWDCArray *dcArr[2]{0};
+	TAMWDCArray *dcArr[2]{0}; // MWDC arrays downstream of the dipole magnet
+	TAMWDCArray2 *dcArr2[2]{0}; // MWDC arrays upstream of the dipole magnet
 	dcArr[0] = (TAMWDCArray*)dec_vec[3]; // dc array L
 	dcArr[1] = (TAMWDCArray*)dec_vec[4]; // dc array R
+	dcArr2[0] = (TAMWDCArray2*)dec_vec[6]; // dc array U
+	dcArr2[1] = (TAMWDCArray2*)dec_vec[7]; // dc array D
 	TATOFWall *tofw[2] = {dcArr[0]->GetTOFWall(), dcArr[1]->GetTOFWall()};
-	TAMWDC *dc[2][3]{0};
+	TAMWDC *dc[2][3]{0}, *dc2[2][2]{0}; // dc downstream and upstream of the dipole magnet
 	for(int i = 2; i--;) for(int j = 3; j--;) dc[i][j] = dcArr[i]->GetMWDC(j);
+	for(int i = 2; i--;) for(int j = 2; j--;) dc2[i][j] = dcArr2[i]->GetMWDC(j);
 //	TAAnode *ano = dc[1][1]->GetAnodeL1(1, 58); // DEBUG
 //	cout << ano->GetAnodePara()->GetSTR(0)->GetTitle() << endl; getchar(); // DEBUG
 //	cout << ano->GetDriftDistance(70., 0) << endl; getchar(); // DEBUG
@@ -164,12 +168,12 @@
 	TH2F *hsipmArrToTRef = new TH2F("hsipmArrToTRef", "hsipmArrToTRef;stripId;timeToTRef [ns]", 13, -1.5, 11.5, 3000, -500., 1500.);
 	TH2F *hsipmBarrToTrig = new TH2F("hsipmBarrToTrig", "hsipmBarrToTrig;stripId;timeToTrig [ns]", 27, -1.5, 25.5, 3000, -500., 2000.);
 	TH2F *hsipmBarrToTRef = new TH2F("hsipmBarrToTRef", "hsipmBarrToTRef;stripId;timeToTRef [ns]", 27, -1.5, 25.5, 3000, -500., 1500.);
-	TH2F *hT0_1ToTrigUV = new TH2F("hT0_1ToTrigUV", "hT0_1ToTrigUV;edgeNumId;timeToTrig [ns]", 13, -1.5, 11.5, 4000, -2000., 3000.);
-	TH2F *hT0_1ToTrigDV = new TH2F("hT0_1ToTrigDV", "hT0_1ToTrigDV;edgeNumId;timeToTrig [ns]", 13, -1.5, 11.5, 4000, -2000., 3000.);
+	TH2F *hT0_1ToTrigUV = new TH2F("hT0_1ToTrigUV", "hT0_1ToTrigUV;edgeNumId;timeToTrig [ns]", 7, -1.5, 5.5, 8000, -4000., 6000.);
+	TH2F *hT0_1ToTrigDV = new TH2F("hT0_1ToTrigDV", "hT0_1ToTrigDV;edgeNumId;timeToTrig [ns]", 7, -1.5, 5.5, 8000, -4000., 6000.);
 	TH2F *hTOFWToTrigUV[2];
-	hTOFWToTrigUV[0] = new TH2F("hLTOFWToTrigUV", "hLTOFWToTrigUV;edgeNumId;timeToTrig [ns]", 13, -1.5, 11.5, 4000, -2000., 3000.);
-	hTOFWToTrigUV[1] = new TH2F("hRTOFWToTrigUV", "hRTOFWToTrigUV;edgeNumId;timeToTrig [ns]", 13, -1.5, 11.5, 4000, -2000., 3000.);
-	TH2F *hDCToTrig = new TH2F("hDCToTrig", "hDCToTrig;edgeNumId;timeToTrig [ns]", 13, -1.5, 11.5, 8000, -4000., 6000.);
+	hTOFWToTrigUV[0] = new TH2F("hLTOFWToTrigUV", "hLTOFWToTrigUV;edgeNumId;timeToTrig [ns]", 7, -1.5, 5.5, 8000, -4000., 6000.);
+	hTOFWToTrigUV[1] = new TH2F("hRTOFWToTrigUV", "hRTOFWToTrigUV;edgeNumId;timeToTrig [ns]", 7, -1.5, 5.5, 8000, -4000., 6000.);
+	TH2F *hDCToTrig = new TH2F("hDCToTrig", "hDCToTrig;edgeNumId;timeToTrig [ns]", 7, -1.5, 5.5, 8000, -4000., 6000.);
 	objLs[6].push_back(htof2sipmArr); objLs[6].push_back(hsipmArrToTrig);
 	objLs[6].push_back(hTOF_T1_pos); objLs[6].push_back(hDCToTrig);
 	objLs[6].push_back(hT0_1ToTrigUV); objLs[6].push_back(hT0_1ToTrigDV);
@@ -178,11 +182,49 @@
 	objLs[6].push_back(hsipmBarrToTrig);
 
 	TGraph *gTrkEff = new TGraph();
-	gTrkEff->SetNameTitle("gTrkEff", "index - Tracking Efficiency diagram;event index;3D Efficiency");
+	gTrkEff->SetNameTitle("gTrkEff", "index-Tracking Efficiency diagram;event index;3D Efficiency");
 	objLs[0].push_back(gTrkEff);
 
 	int cnt_timeToTrig_T0_1UV = 0, cnt_timeToTrig_T0_1DV = 0;
 	int cntTRef = 0;
+
+
+
+	//////////////////// histograms for DCs around the target //////////////////////
+	char xy[] = "XY", UD[] = "UD";
+	TH1F *hDCTaFiredDist[2][2][2], *hDCTaToTRef[2][2][2]; // [dcArrU-D], [dcArrU-D][DC0-1][X-Y];
+	TH1F *hDCTaMulti[2][2][2][2], *hdtTa[2][3][3]; // [dcArrU-D], [dcArrU-D][DC0-1][X-Y][1-2];
+	for(int i = 0; i < 2; i++){ // loop over MWDC arrays
+		for(int j = 0; j < 2; j++){ // loop over the two MWDCs
+			for(int k = 0; k < 2; k++){ // loop over XY SLayers
+				for(int l = 0; l < 2; l++){ // loop over two sense wire layers in one SLayer
+					// DC hit multiplicity
+					sprintf(name, "hDCTaMultiDCArr%c_DC%d_%c%d", UD[i], j, xy[k], l);
+					sprintf(title, "DC_Ta Hit Multiplicity of DC Array%c - DC%d - %c%d;multiplicity", UD[i], j, xy[k], l);
+					hDCTaMulti[i][j][k][l] = new TH1F(name, title, 15, -4.5, 10.5);
+					objLs[2].push_back(hDCTaMulti[i][j][k][l]);
+				} // end for over layer 1 and 2
+				// DC fired distribution
+				sprintf(name, "hDCTaFiredDistDCArr%c_DC%d_%c", UD[i], j, xy[k]);
+				sprintf(title, "Fired DC_Ta Anode Distribution of DC Array%c - DC%d - %c;DC Anode Serial Id", UD[i], j, xy[k]);
+				hDCTaFiredDist[i][j][k] = new TH1F(name, title, 55, -4.5, 50.5);
+				objLs[1].push_back(hDCTaFiredDist[i][j][k]);
+				// DC drift time distribution
+				sprintf(name, "HdtDC_TaArr%c_DC%d_%c", UD[i], j, xy[k]);
+				sprintf(title, "Drift Time Distribution of DC_Ta Array%c - DC%d - %c;drift time [ns]", LR[i], j, xuv[k]);
+				hdtTa[i][j][k] = new TH1F(name, title, 500, -100., 400.);
+				objLs[3].push_back(hdtTa[i][j][k]);
+				// DC time to T-reference
+				sprintf(name, "hDCTaToTRefArr%c_DC%d_%c", LR[i], j, xuv[k]);
+				sprintf(title, "DC_Ta Time to T-reterence - DC Array%c - DC%d - %c;timeToTRef [ns]", LR[i], j, xuv[k]);
+				hDCTaToTRef[i][j][k] = new TH1F(name, title, 4000, -2000., 2000.);
+				objLs[7].push_back(hDCTaToTRef[i][j][k]);
+			} // end for over X-Y
+		} // end for over DCs
+	} // end for over DC arrays
+	TH2F *hDCTaToTrig = new TH2F("hDCTaToTrig", "hDCTaToTrig;edgeNumId;timeToTrig [ns]", 7, -1.5, 5.5, 8000, -4000., 6000.);
+	objLs[6].push_back(hDCTaToTrig);
+
 
 
 
