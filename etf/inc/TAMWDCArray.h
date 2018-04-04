@@ -66,7 +66,7 @@ public:
 	friend class TASimulation;
 protected:
 	// copmare two tracks
-	// 0: the two tracks are different; 1: newTrack is defeated by  oldTrack
+	// 0: the two tracks are different; 1: newTrack is defeated by oldTrack
 	// 2: newTrack defeats oldTrack
 	// dcType: [0-1]: [X-Y]
 	static int compare(TATrack *newTrack, TATrack *oldTATrack, int dcType = 0, bool show = false);

@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/9.															     //
-// Last modified: 2018/3/22, SUN Yazhou.										     //
+// Last modified: 2018/4/3, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -69,7 +69,7 @@ public:
 	void SetBeta(double beta){ fBeta = beta; }
 	double GetBeta() const{ return fBeta; }
 	void SetTOF(double TOF, int firedStripId, double nstripStray); // set fTOF;
-	void AssignTrack(tTrack *ptrack); // assign tTrack
+	virtual void AssignTrack(tTrack *ptrack); // assign tTrack
 	void SetFitMethod(int method); // 0: normal fit; 1: BFGS fit
 	// for kNormalFit only. (xc, zc) is the perturbative rotating center of particle track line in an attempt to minimize chi2 and get the optimal combination of linear parameter set
 	void SetFitRotationCenter(double xc, double zc); // 0: normal fit; 1: BFGS fit

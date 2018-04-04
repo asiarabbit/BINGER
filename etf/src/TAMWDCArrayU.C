@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/22.															     //
-// Last modified: 2018/3/28, SUN Yazhou.										     //
+// Last modified: 2018/4/3, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -39,7 +39,6 @@ void TAMWDCArrayU::Configure(){
 
 	for(int i = 2; i--;){
 		fMWDC[i]->SetMWDCId(i);
-		fMWDC[i]->SetMotherDCArr(this);		
 		fMWDC[i]->Configure();
 	}
 	fPlaT0->Configure();

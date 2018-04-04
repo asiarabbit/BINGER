@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/18.															     //
-// Last modified: 2018/3/23, SUN Yazhou.										     //
+// Last modified: 2018/4/3, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -24,12 +24,15 @@
 #include "TAPopMsg.h"
 #include "TAUIDParser.h"
 #include "TATrack2.h"
-#include "tTrack2.h"
+#include "tTrack.h"
+#include "TAAnodePara.h"
+#include "TAAnodeData.h"
 #include "TAAnode.h"
 #include "TADCSFE16.h"
 #include "TADCCable.h"
 #include "TADCSuperLayer.h"
 #include "TAMWDC.h"
+#include "TADetectorPara.h"
 #include "TAChannel.h"
 #include "TAParaManager.h"
 #include "TAMath.h"
@@ -51,8 +54,8 @@ TAMWDCArray2::~TAMWDCArray2(){
 		delete fPlaT0;
 		fPlaT0 = nullptr;
 	}
-	for(vector<TATrack *> &trls : fTrackList){
-		for(TATrack *&tr : trls){
+	for(vector<TATrack2 *> &trls : fTrackList){
+		for(TATrack2 *&tr : trls){
 			if(tr){
 				delete tr;
 				tr = nullptr;
@@ -86,16 +89,16 @@ TAPlaStrip *TAMWDCArray2::GetPlaT0() const{
 	if(!fPlaT0) TAPopMsg::Error(GetName().c_str(), "GetPlaT0: requested PlaT0 pointer is null");
 	return fPlaT0;
 }
-// assign the recognized TATrack2 objects to tTrack2 objects for assignments
-void TAMWDCArray2::AssignTracks(vector<tTrack2 *> &track_ls){ // assign tracks
+// assign the recognized TATrack2 objects to tTrack objects for assignments
+void TAMWDCArray2::AssignTracks(vector<tTrack *> &track_ls){ // assign tracks
 	if(!fTrackList[0].size()) return; // no tracks to assign
 	int type[6]{}; TAUIDParser::DNS(type, GetUID());
-	tTrack2 *ptrack_t = nullptr; // a temporary variable
+	tTrack *ptrack_t = nullptr; // a temporary variable
 	for(int l = 0; l < 2; l++){ // loop over X-Y
 		for(TATrack2 *x : fTrackList[l]){
 //			x.SetFitRotationCenter(fMWDC[1]->GetZc(), fMWDC[1]->GetXc()); // DEBUG
 //			x.SetFitMethod(TATrack::kNormalFit); // DEBUG
-			ptrack_t = new tTrack2;
+			ptrack_t = new tTrack;
 			x->AssignTrack(ptrack_t);
 			// track type: 1[UD][XY] <=> 1[23][01]
 			ptrack_t->type = 100 + (type[0] - 4) * 10 + l; // [67]-4 -> [23]
@@ -115,8 +118,8 @@ void TAMWDCArray2::Initialize(){
 	if(fMWDC[1]) fMWDC[1]->Initialize();
 	if(fPlaT0) fPlaT0->Initialize();
 
-	for(vector<TATrack *> &trls : fTrackList){
-		for(TATrack *&tr : trls){
+	for(vector<TATrack2 *> &trls : fTrackList){
+		for(TATrack2 *&tr : trls){
 			if(tr){
 				delete tr;
 				tr = nullptr;

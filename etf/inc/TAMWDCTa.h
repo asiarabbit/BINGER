@@ -27,7 +27,7 @@ public:
 	virtual ~TAMWDCTa();
 	
 	// to be defined in the derived classes
-	virtual void GetAnodeCenterPosition(int dcType, int layerOption, int anodeId, double *Ag) = 0;
+	virtual void GetAnodeCenterPosition(int dcType, int layerOption, int anodeId, double *Ag) const = 0;
 
 	virtual void GetAnodeGlobalDirection(int dcType, double *ag) const;
 	virtual void GetAnodeGlobalProjection(int dcType, const double *globalCenter, double *globalProjection) const;

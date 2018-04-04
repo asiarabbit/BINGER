@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/1.															     //
-// Last modified: 2017/10/9, SUN Yazhou.										     //
+// Last modified: 2018/4/4, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -17,6 +17,7 @@
 
 #include "TADetector.h"
 #include "TAPopMsg.h"
+#include "TADetectorPara.h"
 
 TADetector::TADetector(const string &name, const string &title, int uid)
 		: TAStuff(name, title, uid), fDetPara(nullptr){

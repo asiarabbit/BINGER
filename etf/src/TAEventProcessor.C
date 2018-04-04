@@ -44,6 +44,9 @@
 #include "TASiPMPlaArray.h"
 #include "TAMWDCArrayL.h"
 #include "TAMWDCArrayR.h"
+#include "TASiPMPlaArray.h"
+#include "TAMWDCArrayU.h"
+#include "TAMWDCArrayD.h"
 #include "TASiPMPlaBarrel.h"
 #include "TAChannel.h"
 #include "TAMWDC.h"
@@ -264,10 +267,11 @@ void TAEventProcessor::Analyze(){
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
 	static TAMWDCArrayL *dcArrL = (TAMWDCArrayL*)detList[3];
 	static TAMWDCArrayR *dcArrR = (TAMWDCArrayR*)detList[4];
-	static TAMWDCArrayL *dcArrU = (TAMWDCArrayL*)detList[6];
-	static TAMWDCArrayR *dcArrD = (TAMWDCArrayR*)detList[7];
+	static TAMWDCArrayU *dcArrU = (TAMWDCArrayU*)detList[6];
+	static TAMWDCArrayD *dcArrD = (TAMWDCArrayD*)detList[7];
 
 	// pattern recognition and rough fit for particle tracking
+	//  XXX THE FOLLOWING ORDER CANNOT BE MESSED UP WITH XXX  //
 	if(dcArrL){ dcArrL->Map(); dcArrL->AssignTracks(fTrackList); }
 	if(dcArrR){ dcArrR->Map(); dcArrR->AssignTracks(fTrackList); }
 	if(dcArrU){ dcArrU->Map(); dcArrU->AssignTracks(fTrackList); }
@@ -331,7 +335,8 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	int cntTrk = 0, cnt3DTrk = 0; // ntr: n trk per event
 	int cntaozWrong = 0, cntaoz = 0;
 	int i = 0, index, cntSec = 0;
-	int ntr = 0, ntrLs[4][3]{}; // total N of TrkProjs; DCArr-L-R-U-D -- [XUV - XY]
+	// ntr: N of trk in DCArrLR; ntrT: N of trk in DCArrLR+UD
+	int ntr = 0, ntrT = 0, ntrLs[4][3]{}; // total N of TrkProjs; DCArr-L-R-U-D -- [XUV - XY]
 	const int ntrMax = 200; // maximum number of track projections in an event
 #ifdef GO
 	#include "TAEventProcessor/define_hist.C" // define histograms of interest
@@ -381,10 +386,10 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 		// assgin ntr variables
 		memset(ntrLs, 0, sizeof(ntrLs));
 		for(tTrack *&t : track_ls){
-			const int dcArrId = t->type / 10 % 10, dcType = t->Type % 10;
+			const int dcArrId = t->type / 10 % 10, dcType = t->type % 10;
 			ntrLs[dcArrId][dcType]++;
 		}
-		ntr = 0;
+		ntr = 0; ntrT = 0;
 		for(tTrack *&t : track_ls){
 			const short dcArrId = t->type / 10 % 10; // dcArrId
 			if(0 == dcArrId || 1 == dcArrId) ntr++;
@@ -477,7 +482,7 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 					anodeId[tmp][0] = 6*l + j; // fired anode layer id: 0-17
 					anodeId[tmp][1] = trk->nu[j]; // nu: anode id in certain layer
 					TAAnode *ano = dcArr->GetMWDC(j/2)->GetAnode(l, j%2 + 1, trk->nu[j]);
-					TAAnodePara *anoPar = (TAAnodePara*)ano->GetPara();
+					TAAnodePara *anoPar = ano->GetAnodePara();
 					anoPar->GetGlobalCenter(Ag[tmp]); anoPar->GetGlobalDirection(ag[tmp]);
 					unsigned uid = ano->GetUID();
 #ifdef DEBUG
@@ -506,7 +511,7 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 		// fit the track with the new drift time and drift distance // DEBUG
 //		cout << "Before correction,\n"; // DEBUG
 //		cout << "k1: " << trkVec[0] << "\tk2: " << trkVec[1] << "\tb1: " << trkVec[2] << "\tb2: " << trkVec[3] << endl; // DEBUG
-		TAMath::BFGS4(Ag, ag, trkVec, rr, nF);
+		TAMath::BFGS4(Ag, ag, trkVec, rr, nF); // update trkVec
 //		cout << "After correction,\n"; // DEBUG
 //		cout << "k1: " << trkVec[0] << "\tk2: " << trkVec[1] << "\tb1: " << trkVec[2] << "\tb2: " << trkVec[3] << endl; // DEBUG
 		for(double &x : trk3DIf[jj].chi) x = -9999.;

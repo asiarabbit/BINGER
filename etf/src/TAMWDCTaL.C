@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/28.															     //
-// Last modified: 2018/3/28, SUN Yazhou.										     //
+// Last modified: 2018/4/4, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -16,6 +16,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 
 #include "TAMWDCTaL.h"
+#include "TADetectorPara.h"
+#include "TAPopMsg.h"
 
 TAMWDCTaL::TAMWDCTaL(const string &name, const string &title, unsigned uid)
 		: TAMWDCTa(name, title, uid){

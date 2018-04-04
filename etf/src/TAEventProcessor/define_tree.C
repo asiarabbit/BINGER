@@ -47,6 +47,7 @@
 	treeTrack->Branch("beta", &beta, "beta/D");
 	treeTrack->Branch("TOT_T0", TOT_T0, "TOT_T0[6]/D"); // see the comment above
 	treeTrack->Branch("ntr", &ntr, "ntr/I");
+	treeTrack->Branch("ntrT", &ntrT, "ntrT/I");
 	treeTrack->Branch("ntrLs", ntrLs, "ntrLs[4][3]/I"); // DCArr-L-R-U-D -- [XUV - XY]
 	treeTrack->Branch("nu", nu, "nu[ntr][6]/I");
 	treeTrack->Branch("SFE16Id", sfe16Id, "SFE16Id[ntr][6]/I");
@@ -135,7 +136,8 @@
 		objLsTree.push_back(treeTOFW[i]);
 	}
 
-	const int n3DtrMax = ntrMax/3; int n3Dtr;
+	const int n3DtrMax = ntrMax/3;
+	int n3Dtr, n3DtrT; // n3Dtr: N of trks in DCArrL-R; n3DtrT: N of trks in DCArrL-R-U-D 
 	bool isDCArrR[n3DtrMax];
 	double Chi3D[n3DtrMax], chi2_3D[n3DtrMax], chi3D[n3DtrMax][18];
 	double k1[n3DtrMax], b1[n3DtrMax], k2[n3DtrMax], b2[n3DtrMax]; // x=k1*z+b1; y=k2*z+b2;
@@ -151,19 +153,20 @@
 //	treePID3D->SetAutoSave(1e7);
 	treePID3D->Branch("index", &index, "index/I");
 	treePID3D->Branch("n3Dtr", &n3Dtr, "n3Dtr/I");
-	treePID3D->Branch("isDCArrR", isDCArrR, "isDCArrR[n3Dtr]/O");
-	treePID3D->Branch("Chi", Chi3D, "Chi[n3Dtr]/D");
-	treePID3D->Branch("chi2", chi2_3D, "chi2[n3Dtr]/D");
-	treePID3D->Branch("chi", chi3D, "chi[n3Dtr][18]/D"); // residuum [x6->u6->v6]
-	treePID3D->Branch("k1", k1, "k1[n3Dtr]/D");
-	treePID3D->Branch("b1", b1, "b1[n3Dtr]/D");
-	treePID3D->Branch("k2", k2, "k2[n3Dtr]/D");
-	treePID3D->Branch("b2", b2, "b2[n3Dtr]/D");
-	treePID3D->Branch("TOF_posY", TOF_posY, "TOF_posY[n3Dtr]/D"); // rough TOF hit postion
-	treePID3D->Branch("TOF_posY_refine", TOF_posY_refine, "TOF_posY_refine[n3Dtr]/D");
-	treePID3D->Branch("firedStripId", firedStripId3D, "firedStripId[n3Dtr]/I");
-	treePID3D->Branch("tof2", tof2_3D, "tof2[n3Dtr]/D");
-	treePID3D->Branch("TOT_DC_Avrg", dcTOTAvrg3D, "TOT_DC_Avrg[n3Dtr]/D");
+	treePID3D->Branch("n3DtrT", &n3DtrT, "n3DtrT/I");
+	treePID3D->Branch("isDCArrR", isDCArrR, "isDCArrR[n3DtrT]/O");
+	treePID3D->Branch("Chi", Chi3D, "Chi[n3DtrT]/D");
+	treePID3D->Branch("chi2", chi2_3D, "chi2[n3DtrT]/D");
+	treePID3D->Branch("chi", chi3D, "chi[n3DtrT][18]/D"); // residuum [x6->u6->v6]
+	treePID3D->Branch("k1", k1, "k1[n3DtrT]/D");
+	treePID3D->Branch("b1", b1, "b1[n3DtrT]/D");
+	treePID3D->Branch("k2", k2, "k2[n3DtrT]/D");
+	treePID3D->Branch("b2", b2, "b2[n3DtrT]/D");
+	treePID3D->Branch("TOF_posY", TOF_posY, "TOF_posY[n3DtrT]/D"); // rough TOF hit postion
+	treePID3D->Branch("TOF_posY_refine", TOF_posY_refine, "TOF_posY_refine[n3DtrT]/D");
+	treePID3D->Branch("firedStripId", firedStripId3D, "firedStripId[n3DtrT]/I");
+	treePID3D->Branch("tof2", tof2_3D, "tof2[n3DtrT]/D");
+	treePID3D->Branch("TOT_DC_Avrg", dcTOTAvrg3D, "TOT_DC_Avrg[n3DtrT]/D");
 	// 3D PID result using the same PID method
 	treePID3D->Branch("aoz", aoz3D, "aoz[n3Dtr]/D");
 	treePID3D->Branch("aozdmin", aozdmin3D, "aozdmin[n3Dtr]/D");
@@ -172,9 +175,6 @@
 	treePID3D->Branch("trkLenT", trkLenT3D, "trkLenT[n3Dtr]/D");
 	treePID3D->Branch("poz", poz3D, "poz[n3Dtr]/D"); // MeV/c
 	objLsTree.push_back(treePID3D);
-
-
-
 
 
 

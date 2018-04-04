@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/3.															     //
-// Last modified: 2018/3/27, SUN Yazhou.										     //
+// Last modified: 2018/4/4, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -20,7 +20,6 @@
 
 #include <vector>
 #include "TADetector.h"
-#include "TADetUnion.h"
 
 using std::vector;
 

@@ -21,6 +21,7 @@
 #include "TADCCable.h"
 #include "TADCSuperLayer.h"
 #include "TAMWDCTa.h"
+#include "TADetectorPara.h"
 #include "TAPopMsg.h"
 #include "TAMWDCArray.h"
 #include "TACtrlPara.h"
@@ -28,13 +29,11 @@
 #include "TAUIDParser.h"
 
 TAMWDCTa::TAMWDCTa(const string &name, const string &title, unsigned uid)
-		: TAMWDC(name, title, uid), fGap(-9999.){
+		: TAMWDC(name, title, uid){
 }
 TAMWDCTa::~TAMWDCTa(){}
 
 void TAMWDCTa::GetAnodeGlobalDirection(int dcType, double *ag) const{
-	if(n >= (int)fSLayerArr.size())
-		TAPopMsg::Error(GetName().c_str(), "GetAnodeGlobalDirection: The input dcType is too large: %d", n);
 	double a[2][3] = {{0., 1., 0.}, {1., 0., 0.}}; // X-Y
 	GetDetPara()->GetGlobalRotation(a[dcType], ag);
 }

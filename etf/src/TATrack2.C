@@ -8,14 +8,20 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/21.															     //
-// Last modified: 2018/3/22, SUN Yazhou.										     //
+// Last modified: 2018/4/4, SUN Yazhou.												 //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
+#include <iostream>
+#include <cstring>
+#include <cstdlib>
+
 #include "TATrack2.h"
+#include "TAPopMsg.h"
+#include "tTrack.h"
 
 TATrack2::TATrack2(const string &name, const string &title, unsigned uid)
 		: TATrack(name, title, uid){
@@ -25,8 +31,9 @@ TATrack2::TATrack2(const string &name, const string &title, unsigned uid)
 TATrack2::TATrack2(const TATrack2 &track) : TATrack(track){
 }
 // the assignment constructor
-TATrack2::TATrack2 &operator=(const TATrack2 &track){
-	*this = (TATrack)track;
+TATrack2 &TATrack2::operator=(const TATrack2 &track){
+	TATrack::operator=(track);
+	return *this;
 }
 TATrack2::~TATrack2(){}
 	
@@ -34,25 +41,25 @@ TATrack2::~TATrack2(){}
 // involving in TATrack would be re-written //
 
 // output array fNu
-void TATrack::GetNu(int *nu) const{
+void TATrack2::GetNu(int *nu) const{
 	for(int i = 0; i < 4; i++) nu[i] = fNu[i];
 }
-void TATrack::GetLAYER(int *LAYER) const{
+void TATrack2::GetLAYER(int *LAYER) const{
 	for(int i = 0; i < 4; i++) LAYER[i] = fLAYER[i];
 } // end of function GetLAYER
-void TATrack::GetZ(double *z) const{ // output array fZ
+void TATrack2::GetZ(double *z) const{ // output array fZ
 	for(int i = 0; i < 4; i++) z[i] = fZ[i];
 } // end of function GetZ
-void TATrack::GetX(double *x) const{ // output array fX
+void TATrack2::GetX(double *x) const{ // output array fX
 	for(int i = 0; i < 4; i++) x[i] = fX[i];
 } // end of function GetX
-void TATrack::GetDriftTime(double *t) const{
+void TATrack2::GetDriftTime(double *t) const{
 	for(int i = 0; i < 4; i++) t[i] = fT[i];
 } // end of function GetDriftTime()
-void TATrack::GetDriftDistance(double *r) const{
+void TATrack2::GetDriftDistance(double *r) const{
 	for(int i = 0; i < 4; i++) r[i] = fR[i];
 } // end of function GetDriftDistance()
-void TATrack::GetChi(double *chi){ // output array fChi
+void TATrack2::GetChi(double *chi){ // output array fChi
 	if(!fIsAssigned){
 		TAPopMsg::Error(GetName().c_str(), "GetChi(double *): Data not assigned.");
 		return;
@@ -62,14 +69,15 @@ void TATrack::GetChi(double *chi){ // output array fChi
 	for(int i = 0; i < 4; i++) chi[i] = fChi[i];
 } // end function GetChi
 void TATrack2::SetData(const double *x, const double *z, const double *t, const double *r, double kL, double bL, double dsquare, int gGOOD, const int *nu, const int *LAYER, const double *weight){
+	if(1 != gGOOD && 2 != gGOOD) TAPopMsg::Error("TATrack2", "SetData: gGOOD is abnormal (only 1 and 2 are allowed: %d): ", gGOOD);
 	double x2[6] = {x[0], x[1], x[2], x[3], -9999., -9999.};
 	double z2[6] = {z[0], z[1], z[2], z[3], -9999., -9999.};
 	double t2[6] = {t[0], t[1], t[2], t[3], -9999., -9999.};
 	double r2[6] = {r[0], r[1], r[2], r[3], -9999., -9999.};
 	int nu2[6] = {nu[0], nu[1], nu[2], nu[3], -1, -1};
-	int LAYER[6] = {LAYER[0], LAYER[1], LAYER[2], LAYER[3], -1, -1};
+	int LAYER2[6] = {LAYER[0], LAYER[1], LAYER[2], LAYER[3], -1, -1};
 	double weight2[6] = {weight[0], weight[1], weight[2], weight[3], 1., 1.};
-	return TATrack::SetData(x2, z2, t2, r2, kL, bL, dsquare, gGOOD, nu2, LAYER2, weight2);
+	TATrack::SetData(x2, z2, t2, r2, kL, bL, dsquare, gGOOD, nu2, LAYER2, weight2);
 }
 void TATrack2::SetDriftTime(const double *t, const double *w){
 	double t2[6] = {t[0], t[1], t[2], t[3], -9999., -9999.};
@@ -82,7 +90,7 @@ void TATrack2::SetDriftDistance(const double *r){
 	return SetDriftDistance(r2);
 }
 // assign tTrack2
-void TATrack2::AssignTrack(tTrack2 *ptrack){
+void TATrack2::AssignTrack(tTrack *ptrack){
 	strcpy(ptrack->name, GetName().c_str());
 	GetNu(ptrack->nu);
 	GetLAYER(ptrack->LAYER);
@@ -110,7 +118,7 @@ void TATrack2::AssignTrack(tTrack2 *ptrack){
 void TATrack2::Show(){
 	Fit(); // Then all the member variables deserving assignemnts would be assigned accordingly.
 	cout << "\033[32;1m" << GetName() << "\033[0m" << endl;
-	cout << "TATrack::Show(): Show information about the track." << endl;
+	cout << "TATrack2::Show(): Show information about the track." << endl;
 	cout << "Dsquare: " << GetDsquare() << endl;
 	cout << "gGOOD: " << GetgGOOD() << endl;
 	cout << "NFiredAnodeLayer: " << GetNFiredAnodeLayer() << endl;

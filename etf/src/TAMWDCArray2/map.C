@@ -30,6 +30,7 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 
 	for(int i = 0; i < 2; i++) if(!MWDC[i]) return false;
 	if(track.size() != 0) track.clear();
+	bool cmpShow = false; // debug for function int compare(...)
 	const double d2Thre = clp->D2Thre();
 
 	// z,x: sense wire position; t,r: drift time, drift distance; chi: fitting residual
@@ -59,7 +60,7 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 	int nu[6]{}; // the counterpart of TATrack2::fNu
 	// gGOOD: indicator for different fired sense wire layer scenarios
 	int gGOOD = -1, LAYER[4] = {-1, -1, -1, -1};
-	int overlapTarckCnt = 0; // for special use (checking of the tracking process)
+	int overlapTrackCnt = 0; // for special use (checking of the tracking process)
 	int nFiredAnodeLayer = 0; // number of fired sense wire layers
 	int overlap = -2; // a temporary variable for the return value of int compare(...)
 	// normalEvent: all the 4 sense wire layers are fired
@@ -156,8 +157,8 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 				// t_TOF-t_DC=(t_tof-t_wire) - t_drift; => delta-t_drift;
 				// (as small and correct as possible while inclusive)
 				const double t1 = delta-250., t2 = delta+20.; // the range borders
-				T0 = GetPlaT0()->GetTime(t0, t1, t2);
-				if(-9999. == T0){ // drift time start is not available
+				TOF = GetPlaT0()->GetTime(t0, t1, t2);
+				if(-9999. == TOF){ // drift time start is not available
 					isBadTrack = true;
 					continue;
 				}
@@ -206,7 +207,7 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 				newTrack.Show(); // DEBUG
 #endif
 				if(fabs(newTrack.GetChi()) > clp->ChiThre()){
-					isBadTarck = true; continue;
+					isBadTrack = true; continue;
 				}
 				for(double cc : chi){
 //					cout << "cc: " << cc << endl; getchar(); // DEBUG
@@ -220,7 +221,7 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 					// 2: newTrack defeats oldTrack
 					overlap = compare(&newTrack, track.at(k), dcType, cmpShow); // compare the two tracks, and mark the obsolete ones
 					if(cmpShow){ // DEBUG
-						TAPopMsg::Debug(GetName().c_str(), "map: overlap: %d", loverlap); // DEBUG
+						TAPopMsg::Debug(GetName().c_str(), "map: overlap: %d", overlap); // DEBUG
 					} // DEBUG
 					if(2 == overlap){ // an overlap happened
 						overlapTrackCnt++;
@@ -335,7 +336,7 @@ int TAMWDCArray2::compare(TATrack2 *newTrack, TATrack2 *oldTrack, int dcType, bo
 			} // end if(nu_temp[i] >= 0...)
 		} // end for over i
 		if(newTrack->GetChi() < oldTrack->GetChi()){
-			oldTarck->SetName("OBSOLETE");
+			oldTrack->SetName("OBSOLETE");
 			return 2;
 		} // end inner if
 		else{

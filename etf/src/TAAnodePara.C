@@ -7,7 +7,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/24.															     //
-// Last modified: 2018/1/27, SUN Yazhou.										     //
+// Last modified: 2018/4/4, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -19,6 +19,7 @@
 #include "TAMath.h"
 #include "TACtrlPara.h"
 #include "TAMWDC.h"
+#include "TADetectorPara.h"
 #include "TADeployPara.h"
 
 const double TAAnodePara::kSTRCorRMax = 6.; // unit: mm positive

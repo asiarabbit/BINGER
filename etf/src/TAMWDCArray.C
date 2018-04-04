@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2018/3/18, SUN Yazhou.										     //
+// Last modified: 2018/4/3, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -24,11 +24,14 @@
 #include "TATrack.h"
 #include "TAPopMsg.h"
 #include "tTrack.h"
+#include "TAAnodePara.h"
+#include "TAAnodeData.h"
 #include "TAAnode.h"
 #include "TADCSFE16.h"
 #include "TADCCable.h"
 #include "TADCSuperLayer.h"
 #include "TAMWDC.h"
+#include "TADetectorPara.h"
 #include "TAPlaStripPara.h"
 #include "TAPlaStrip.h"
 #include "TATOFWall.h"

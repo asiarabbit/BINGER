@@ -8,10 +8,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/30.															     //
-// Last modified: 2017/9/30, SUN Yazhou.										     //
+// Last modified: 2018/4/4, SUN Yazhou.											     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -19,7 +19,8 @@
 #define _TADETECTOR_H_
 
 #include "TAStuff.h"
-#include "TADetectorPara.h"
+
+class TADetectorPara;
 
 class TADetector : public TAStuff{
 public:

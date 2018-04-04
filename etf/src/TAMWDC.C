@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/3.															     //
-// Last modified: 2018/3/28, SUN Yazhou.										     //
+// Last modified: 2018/4/3, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -25,6 +25,7 @@
 #include "TADCCable.h"
 #include "TADCSuperLayer.h"
 #include "TAMWDC.h"
+#include "TADetectorPara.h"
 #include "TAPopMsg.h"
 #include "TAMWDCArray.h"
 #include "TACtrlPara.h"
@@ -128,8 +129,6 @@ void TAMWDC::GetAnodeCenterPosition(int dcType, int layerOption, int anodeId, do
 	GetDetPara()->GetGlobalPosition(p_local, Ag);
 }
 void TAMWDC::GetAnodeGlobalDirection(int dcType, double *ag) const{
-	if(n >= (int)fSLayerArr.size())
-		TAPopMsg::Error(GetName().c_str(), "GetAnodeGlobalDirection: The input dcType is too large: %d", n);
 	double a[3][3] = {{0., 1., 0.}, {1./2., sqrt(3.)/2., 0.}, {-1./2., sqrt(3.)/2., 0.}}; // X-U-V
 	GetDetPara()->GetGlobalRotation(a[dcType], ag);
 }

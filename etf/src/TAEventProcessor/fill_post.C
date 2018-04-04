@@ -23,7 +23,7 @@
 		if(ntr > ntrMax){
 			TAPopMsg::Warn("TAEventProcessor", "Run: ntr is larger than ntrMax: secLen: %d  index: %d", entry_t.channelId, index);
 		}
-		const int ntrT = track_ls.size();
+		ntrT = track_ls.size();
 		for(int j = 0; j < ntrT; j++){ // assign track_ls to treeTrack. loop over tracks
 			tTrack *&tra = track_ls[j];
 			type[j] = tra->type; id[j] = tra->id;
@@ -35,7 +35,7 @@
 			const short dcArrId = (type[j]/10)%10; // 0: dcArrL; 1: dcArrR; 2: dcArrrU; 3: dcArrD
 			if(0 != dcArrId && 1 != dcArrId && 2 != dcArrId && 3 != dcArrId)
 				TAPopMsg::Error("TAEventProcessor", "Run: invalid dcArrId: %d", dcArrId);
-			const int dcType = type[j]%10; // [0-1-2]: [X-U-V]
+			const int dcType = type[j]%10; // [0-1-2 or 0-1]: [X-U-V or X-Y]
 			if(type[j]%10 == 0 && firedStripId[j] >= 0){ // X trk
 				TAPlaStrip *strip = tofw[dcArrId]->GetStrip(firedStripId[j]);
 				TOTUV[j] = strip->GetUV()->GetTOT(); TOTUH[j] = strip->GetUH()->GetTOT();
@@ -54,13 +54,13 @@
 				const double dt = tra->t[k];
 				if(-9999. != dt){
 					if(0 == dcArrId || 1 == dcArrId) hdt[dcArrId][dcId][dcType]->Fill(dt);
-					if(2 == dcArrId || 3 == dcArrId) hdtTa[dcArrId][dcId][dcType]->Fill(dt);
+					if(2 == dcArrId || 3 == dcArrId) hdtTa[dcArrId-2][dcId][dcType]->Fill(dt);
 				} // end if
 				// TOT of DC signals
 				if(nu[j][k] >= 0){
 					TAMWDC *dc = nullptr;
 					if(0 == dcArrId || 1 == dcArrId) dc = dcArr[dcArrId]->GetMWDC(dcId);
-					if(2 == dcArrId || 3 == dcArrId) dc = dcArr2[dcArrId]->GetMWDC(dcId);
+					if(2 == dcArrId || 3 == dcArrId) dc = dcArr2[dcArrId-2]->GetMWDC(dcId);
 					TAAnode *ano = dc->GetAnode(dcType, layerOption, nu[j][k]);
 					TOT_DC[j][k] = tra->dcTOT[k] = ano->GetTOT();
 					sfe16Id[j][k] = ((TAAnodePara*)ano->GetPara())->GetSFE16Id();
@@ -141,32 +141,129 @@
 		if(ntr >= 3) RefineTracks(n3Dtr, trk3DIf, tof2, taHitX);
 		if(n3Dtr > 0) RefinePID(n3Dtr, trk3DIf, pid3DIf);
 
+		//////// refine tracks from DCArrU-D if there's only one trkX and one trkY in U or D /////////
+		int n3DtrT = n3Dtr;
+		if((1 == ntrLs[2][0] && 1 == ntrLs[2][1]) || (1 == ntrLs[3][0] && 1 == ntrLs[3][1])){
+			// obtain the track id of the two 3D tracks //
+			tTrack *tArr[4]{}; // [0-1-2-3]: [UX-UY-DX-DY]
+			for(tTrack *&t : track_ls){
+				const int dcArrId = t->type / 10 % 10; // [0-1-2-3]: [L-R-U-D]
+				if(2 == dcArrId || 3 == dcArrId){ // DCArrU-D
+					const int dcType = t->type % 10;
+					const int sub = (dcArrId - 2) * 2 + dcType;
+					if(sub > 3) TAPopMsg::Error("TAEventProcessor", "Run: DCArrUD 3D trk fitting, sub is abnormal: sub: %d", sub);
+					tArr[sub] = t;
+				} // end if
+			} // end for
+			//////////// do the 3D fitting ///////////////
+			if((tArr[0] && tArr[1]) || (tArr[2] && tArr[3])){
+				for(int jj = 0; jj < 2; jj++){ // loop over 3D tracks (or DCArr)
+					if(!tArr[jj*2] || !tArr[jj*2+1]) continue; // select valid DCArr (U or D)
+					//////  Assign anode position and track information for 3D fitting /////////////
+					const int nF = tArr[jj*2]->nFiredAnodeLayer + tArr[jj*2+1]->nFiredAnodeLayer;
+					double Ag[nF][3]{}, ag[nF][3]{}, rr[nF]{}, trkVec[4]{};
+					trkVec[0] = tArr[jj*2]->k;   trkVec[2] = tArr[jj*2]->b;   // X
+					trkVec[1] = tArr[jj*2+1]->k; trkVec[3] = tArr[jj*2+1]->b; // Y
+					int tmp = 0;
+					for(int l = 0; l < 2; l++){ // loop over X-Y
+						for(int k = 0; k < 4; k++){ // loop over 4 andoe layers
+							const int nu = tArr[jj*2+l]->nu[k];
+							if(-1 == nu) continue;
+							TAAnode *ano = dc2[jj][k/2]->GetAnode(l, k%2 + 1, nu);
+							TAAnodePara *anoPar = ano->GetAnodePara();
+							anoPar->GetGlobalCenter(Ag[tmp]);
+							anoPar->GetGlobalDirection(ag[tmp]);
+							rr[tmp] = tArr[jj*2+l]->r[k];
+							tmp++;
+						} // end for over k (anode layer)
+					} // end for over l (X-Y)
+					TAMath::BFGS4(Ag, ag, trkVec, rr, nF);
+					// pass the fitting result to treePID3D //
+					for(double &x : trk3DIf[n3DtrT].chi) x = -9999.;
+					tmp = 0; trk3DIf[n3DtrT].chi2 = 0.;
+					// assign residuals and prepare for the tree filling
+					for(int l = 0; l < 2; l++){ // loop over X-Y
+						for(int j = 0; j < 4; j++){ // DC0X1X2-DC1X1X2
+							if(tArr[jj*2+l]->nu[j] != -1){ // one measure point
+								trk3DIf[n3DtrT].chi[l*4+j] = TAMath::dSkew(Ag[tmp], ag[tmp], trkVec) - rr[tmp];
+								trk3DIf[n3DtrT].chi2 += trk3DIf[n3DtrT].chi[l*4+j] * trk3DIf[n3DtrT].chi[l*4+j];
+								tmp++;
+							} // end if
+						} // end for over j
+					} // end for over l
+					trk3DIf[n3DtrT].Chi = sqrt(trk3DIf[n3DtrT].chi2/(nF-4));
+					trk3DIf[n3DtrT].k1 = trkVec[0]; trk3DIf[n3DtrT].b1 = trkVec[2];
+					trk3DIf[n3DtrT].k2 = trkVec[1]; trk3DIf[n3DtrT].b2 = trkVec[3];
+					trk3DIf[n3DtrT].isDCArrR = jj;
+					trk3DIf[n3DtrT].firedStripId = -2; // -2: typical value for trks in DCArrUD
+					//// Get averaged TOT of DC signals ////
+					// calculate averaged TOT over all the hit anode layers
+					double TOTAvrgtmp = 0.; int TOTcnt = 0;
+					// get the average, temporary, for the following filtering
+					for(int j = 0; j < 2; j++){ // loop over XY
+						for(int k = 0; k < 4; k++){ // loop over four anode layers in the two MWDCs
+							if(tArr[jj*2+j]->dcTOT[k] >= GetGPar()->Val(54)){
+								TOTAvrgtmp += tArr[jj*2+j]->dcTOT[k]; TOTcnt++;
+							}
+						} // end for over k
+					} // end for over XY
+					if(0 == TOTcnt) continue;
+					TOTAvrgtmp /= TOTcnt; // the temporary average
+					TOTcnt = 0; trk3DIf[n3DtrT].dcTOTAvrg = 0.; // initialization for average update
+					for(int j = 0; j < 2; j++){ // loop over XY
+						for(int k = 0; k < 4; k++){ // loop over six anode layers in the two MWDCs
+							if(tArr[jj*2+j]->dcTOT[k] >= TOTAvrgtmp*0.6){ // or it is deemed as noise
+								trk3DIf[n3DtrT].dcTOTAvrg += tArr[jj*2+j]->dcTOT[k]; TOTcnt++;
+							}
+							else tArr[jj*2+j]->dcTOT[k] = -9999.; // 2018-01-15, slick, rule out noise-like TOTs
+						} // end for over k
+					} // end for voer XUV
+					if(0 == TOTcnt) trk3DIf[n3DtrT].dcTOTAvrg = -9999.; // failed
+					else trk3DIf[n3DtrT].dcTOTAvrg /= TOTcnt; // the updated average
+					n3DtrT++;
+				} // end for over jj (3D tracks, or DC Arr)
+			} // end if(there's only one track in DCArrU or DCArrD)
+		} // end outer if
+
 		/////////////////////// PID DOWNSTREAM THE TARGET ////////////////////////////////////////
 		// PID using tthe DC array downstream the target and the DC array downstream the dipole magnet
-		if(1 == ntrLs[3][0]){
+		if(1 == ntrLs[3][0]){ // only one trk in DCArrD, or no pid is possible
 			if(1 == n3Dtr || (0 == n3Dtr && 1 == ntrLs[1][0])){
-				double pIn[4]{}, pOut[4]; // [0-1-2-3]: [k1, b1, k2, b2]
+				double pIn[4], pOut[4]; // [0-1-2-3]: [k1, k2, b1, b2]
+				for(int j = 4; j--;){
+					pIn[j] = -9999.;
+					pOut[j] = -9999.;
+				}
 				for(tTrack *&t : track_ls){
 					const int dcArrId = t->type / 10 % 10; // [0-1-2-3]: [L-R-U-D]
-					const int dcType = t->Type % 10;
+					const int dcType = t->type % 10;
 					// assign DCArrD trks //
-					if(3 == dcArrId && 0 == dcType){ // DCArrD
-						pIn[0] = t.k; pIn[1] = t.b;
+					if(3 == dcArrId && 0 == dcType){ // only one DX trk is found
+						pIn[0] = t->k; pIn[2] = t->b;
 					} // end if(3 == dcArrId)
-					if(1 == ntrLs[3][1] && 3 == dcArrId && 0 == dcType){ // only one DY trk is found
-						pIn[2] = t.k; pIn[3] = t.b;
+					if(1 == ntrLs[3][1] && 3 == dcArrId && 1 == dcType){ // only one DY trk is found
+						pIn[1] = t->k; pIn[3] = t->b;
 					} // end if(1 == ntrLs[3][1])
 					// assign DCArrR trks //
 					if(0 == n3Dtr && 1 == ntrLs[1][0]){ // DCArrR, only one Xproj is found, no 3D trks
 						if(1 == dcArrId && 0 == dcType){
-							pOut[0] = t.k; pOut[1] = t.b;
+							pOut[0] = t->k; pOut[2] = t->b;
 						} // end if(1 == dcArrId && 0 == dcType)
 					} // end if(0 == n3Dtr && 1 == ntrLs[1][0])
 				} // end for over tracks
 				if(1 == n3Dtr){
-					pOut[0] = trk3DIf[0].k1; pOut[1] = trk3DIf[0].b1;
-					pOut[2] = trk3DIf[0].k2; pOut[3] = trk3DIf[0].b2;
+					pOut[0] = trk3DIf[0].k1; pOut[2] = trk3DIf[0].b1;
+					pOut[1] = trk3DIf[0].k2; pOut[3] = trk3DIf[0].b2;
 				}
+				if(0) if(n3DtrT - n3Dtr > 0 && 1 == ntrLs[3][1]){ // use DCArrD-3D trk or not
+					for(int jj = n3Dtr; jj < n3DtrT; jj++){
+						if(1 == trk3DIf[jj].isDCArrR){ // DCArrD
+							pIn[0] = trk3DIf[jj].k1; pIn[2] = trk3DIf[jj].b1;
+							pIn[1] = trk3DIf[jj].k2; pIn[3] = trk3DIf[jj].b2;
+							break;
+						} // end if
+					} // end for over jj
+				} // end outer if
 				pid->Fly(-1., -9999., pOut, 1, 1, pIn);
 				aoz[0] = pid->GetAoZ(); aozdmin[0] = pid->GetChi();
 				beta2[0] = pid->GetBeta(); poz[0] = pid->GetPoZ(); // MeV/c
@@ -176,10 +273,10 @@
 				cntaoz++;
 			} // end inner if
 		} // end the outer if
-		
+
 //		cout << "n3Dtr: " << n3Dtr << endl; getchar(); // DEBUG
 		// assignment for the filling of treePID3D
-		for(int jj = 0; jj < n3Dtr; jj++){
+		for(int jj = 0; jj < n3DtrT; jj++){
 			const t3DTrkInfo &t = trk3DIf[jj];
 			const t3DPIDInfo &p = pid3DIf[jj];
 			// 3D trk
@@ -202,7 +299,7 @@
 			hTOFWHitPosCmp[isDCArrR[jj]]->Fill(TOF_posY[jj], TOF_posY_refine[jj]);
 		} // end for over 3D tracks
 		// update drift time and drift distance
-		for(int j = 0; j < ntr; j++){
+		for(int j = 0; j < ntrT; j++){
 			tTrack *&tra = track_ls[j];
 			for(int k = 0; k < 6; k++){
 				t[j][k] = tra->t[k];

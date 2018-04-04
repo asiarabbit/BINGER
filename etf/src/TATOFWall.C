@@ -8,16 +8,17 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/9.															     //
-// Last modified: 2018/1/27, SUN Yazhou.										     //
+// Last modified: 2018/4/4, SUN Yazhou.											     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
 #include <cstring>
 #include <cmath>
 #include "TATOFWall.h"
+#include "TADetectorPara.h"
 #include "TAPlaStrip.h"
 #include "TAPlaStripPara.h"
 #include "TAPopMsg.h"

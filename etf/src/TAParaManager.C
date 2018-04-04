@@ -9,10 +9,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/26.															     //
-// Last modified: 2018/1/27, SUN Yazhou.										     //
+// Last modified: 2018/4/4, SUN Yazhou.											     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -27,6 +27,7 @@
 #include "TAPopMsg.h"
 #include "TACtrlPara.h"
 #include "TADetUnion.h"
+#include "TADetectorPara.h"
 #include "TAParameter.h"
 #include "TAChannel.h"
 #include "TAChPara.h"
@@ -34,6 +35,7 @@
 #include "TAAnodePara.h"
 #include "TAMWDC.h"
 #include "TAMWDCArray.h"
+#include "TAMWDCArray2.h"
 #include "TATOFWall.h"
 #include "TAGPar.h"
 #include "TAUIDParser.h"

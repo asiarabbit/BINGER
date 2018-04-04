@@ -20,9 +20,11 @@
 #ifndef _tTRACK2_H_
 #define _tTRACK2_H_
 
+#include "tTrack.h"
+
 struct tTrack2 : public tTrack{ // struct of tracks
 	tTrack2(); // the default constructor
-	virtual tTrack(){}; // the default destructor
+	virtual ~tTrack2(){}; // the default destructor
 	virtual void show() const;
 	virtual double dcTOTAvrg() const;
 };

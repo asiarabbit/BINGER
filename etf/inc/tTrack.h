@@ -32,7 +32,7 @@ struct tTrack{ // struct of tracks.
 	double w[6]; // weight
 	double r[6];
 	double TOF; // time tag from TOF Wall
-	double nStripStray; // count of strips from a fired strips to the fitted track.
+	double nStripStray; // count of strips from a fired strips to the fitted track
 	int firedStripId; // serial id of fired TOF wall strip for the track.
 	double k; // ->thetaOut
 	double b;

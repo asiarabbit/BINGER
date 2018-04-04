@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/28.															     //
-// Last modified: 2018/3/28, SUN Yazhou.										     //
+// Last modified: 2018/4/3, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -24,7 +24,7 @@ class TAMWDCTaL : public TAMWDCTa{
 public:
 	TAMWDCTaL(const string &name = "", const string &title = "", unsigned uid = 999999999);
 	virtual ~TAMWDCTaL();
-	virtual void GetAnodeCenterPosition(int dcType, int layerOption, int anodeId, double *Ag);
+	virtual void GetAnodeCenterPosition(int dcType, int layerOption, int anodeId, double *Ag) const override;
 protected:
 };
 

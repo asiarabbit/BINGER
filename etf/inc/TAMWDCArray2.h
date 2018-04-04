@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/18.															     //
-// Last modified: 2018/3/18, SUN Yazhou.										     //
+// Last modified: 2018/4/3, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -30,13 +30,13 @@ class TGraph;
 
 class TAMWDC;
 class TATrack2;
-class tTrack2; // for transmission of track information
+class tTrack; // for transmission of track information
 class TAPlaStrip;
 
 class TAMWDCArray2 : public TAStuff, public TADetUnion{
 public:
 	TAMWDCArray2(const string &name = "", const string &title = "", unsigned uid = 999999999);
-	virtual ~TAMWDCArray2();
+	virtual ~TAMWDCArray2() = 0;
 
 	vector<TATrack2 *> &GetTrackList(int dcType);
 	TAMWDC *GetMWDC(int dcId) const; // get MWDC #dcId
@@ -46,15 +46,15 @@ public:
 	int GetNXTrack() const{ return fTrackList[0].size(); }
 	int GetNYTrack() const{ return fTrackList[1].size(); }
 	// Map function
-	virtual bool Map();
+	virtual void Map();
 	// subordinate function of void Map()
 	virtual bool Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType);
-	virtual void AssignTracks(vector<tTrack2 *> &track_ls); // assign tracks to track list
+	virtual void AssignTracks(vector<tTrack *> &track_ls); // assign tracks to track list
 	void FillTrack(TGraph *gTrack, TGraph *gTrack_R) const;
 	
 	virtual void Initialize() override;
 	// get the channel that belongs to this with uid
-	virtual void TAStuff *GetChannel(unsigned uid) const override;
+	virtual TAStuff *GetChannel(unsigned uid) const override;
 	virtual void Info() const; // print MWDC array information
 protected:
 	// copmare two tracks
