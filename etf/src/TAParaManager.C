@@ -319,8 +319,8 @@ void TAParaManager::AssignChId(const char *fname){
 //				cout << "uid: " << uid << endl; getchar(); // DEBUG
 //			}
 		}
-		else TAPopMsg::Warn("TAParaManager",
-			"AssignChId: homeless Chid: %s: line %d", fname, linecnt);
+		else if(fDetList[detId]) TAPopMsg::Warn("TAParaManager",
+			"AssignChId: homeless chid: %s: line %d", fname, linecnt);
 	} // end internal while
 } // end member function AssignChId
 // Detector Position set
@@ -346,7 +346,7 @@ void TAParaManager::AssignDetPos(const char *fname) const{
 		short detId = uid & 0x3F; // first section of UID, 6 bits
 		short subDetId = (uid>>6) & 0x7; // second section of UID for TAMWDCArray objects, 3 bits
 		if(!fDetList[detId]){
-			TAPopMsg::Error("TAParaManager", "AssignDetPos: null detector pointer");
+//			TAPopMsg::Error("TAParaManager", "AssignDetPos: null detector pointer");
 			continue;
 		}
 

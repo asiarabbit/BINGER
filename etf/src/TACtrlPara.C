@@ -133,8 +133,8 @@ double TACtrlPara::T_tofDCtoTOFW(unsigned uid){
 		{gp->Val(57), gp->Val(58), 0.}
 	};
 	int dcArrId = -9999;
-	if(3 == type[0] && 4 == type[0]) dcArrId = type[0] - 3; // 0-1: L-R
-	if(6 == type[0] && 7 == type[0]) dcArrId = type[0] - 6 + 2; // 2-3: U-D
+	if(3 == type[0] || 4 == type[0]) dcArrId = type[0] - 3; // 0-1: L-R
+	if(6 == type[0] || 7 == type[0]) dcArrId = type[0] - 6 + 2; // 2-3: U-D
 	return ccT_tofDCtoTOFW[dcArrId][type[1]];
 }
 double TACtrlPara::T_wireMean(unsigned uid){
@@ -154,10 +154,10 @@ double TACtrlPara::T_wireMean(unsigned uid){
 
 	// [dcArrL-R][DC012 or DC01][XUV or XY]
 	static const double ccT_wireMean[4][3][3] = {
-		{{1.5, 1.5, 1.5}, {1.5, 1.5, 1.5}, {1.5, 1.5, 1.5}},
-		{{1.5, 1.5, 1.5}, {1.5, 1.5, 1.5}, {1.5, 1.5, 1.5}},
-		{{0.2, 0.2, 0.}, {0.2, 0.2, 0.}, {0., 0., 0.}},
-		{{0.4, 0.4, 0.}, {0.4, 0.4, 0.}, {0., 0., 0.}}
+		{ {1.5, 1.5, 1.5}, {1.5, 1.5, 1.5}, {1.5, 1.5, 1.5} },
+		{ {1.5, 1.5, 1.5}, {1.5, 1.5, 1.5}, {1.5, 1.5, 1.5} },
+		{ {0.2, 0.2, 0.0}, {0.2, 0.2, 0.0}, {0.0, 0.0, 0.0} },
+		{ {0.4, 0.4, 0.0}, {0.4, 0.4, 0.0}, {0.0, 0.0, 0.0} }
 	};
 
 	int dcArrId = -9999;

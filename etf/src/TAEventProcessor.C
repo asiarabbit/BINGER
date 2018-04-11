@@ -200,8 +200,8 @@ void TAEventProcessor::Configure(){
 	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7); // ALLOWED
 	for(TADetUnion *&p : detList) if(p) p->Configure(); // build the detectors
 	// time start for DCArrU-D is TAT0_1
-	if(detList[6]) ((TAMWDCArray2*)detList[6])->SetPlaT0((TAPlaStrip*)detList[1]);
-	if(detList[7]) ((TAMWDCArray2*)detList[7])->SetPlaT0((TAPlaStrip*)detList[1]);
+	if(detList[6]) ((TAMWDCArray2*)detList[6])->SetPlaT0((TAT0_1*)detList[1]);
+	if(detList[7]) ((TAMWDCArray2*)detList[7])->SetPlaT0((TAT0_1*)detList[1]);
 
 	// read all the parameters required and assign positiion parameters to every channel and alike
 	GetParaManager()->ReadParameters();

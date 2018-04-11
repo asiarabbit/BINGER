@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/18.															     //
-// Last modified: 2018/4/3, SUN Yazhou.											     //
+// Last modified: 2018/4/11, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -49,10 +49,6 @@ TAMWDCArray2::~TAMWDCArray2(){
 	for(TAMWDC *&dc : fMWDC) if(dc){
 		delete dc;
 		dc = nullptr;
-	}
-	if(fPlaT0){
-		delete fPlaT0;
-		fPlaT0 = nullptr;
 	}
 	for(vector<TATrack2 *> &trls : fTrackList){
 		for(TATrack2 *&tr : trls){
@@ -124,7 +120,7 @@ void TAMWDCArray2::Map(){ // map the fired channels in one data section once and
 void TAMWDCArray2::Initialize(){
 	if(fMWDC[0]) fMWDC[0]->Initialize();
 	if(fMWDC[1]) fMWDC[1]->Initialize();
-	if(fPlaT0) fPlaT0->Initialize();
+//	if(fPlaT0) fPlaT0->Initialize(); // fPlaT0 is adventitious
 
 	for(vector<TATrack2 *> &trls : fTrackList){
 		for(TATrack2 *&tr : trls){
