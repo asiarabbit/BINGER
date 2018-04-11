@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/19.															     //
-// Last modified: 2018/3/21, SUN Yazhou.										     //
+// Last modified: 2018/4/9, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -30,8 +30,8 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 
 	for(int i = 0; i < 2; i++) if(!MWDC[i]) return false;
 	if(track.size() != 0) track.clear();
-	bool cmpShow = false; // debug for function int compare(...)
-	const double d2Thre = clp->D2Thre();
+	const bool cmpShow = false; // debug for function int compare(...)
+	const double d2Thre = clp->D2Thre(GetUID());
 
 	// z,x: sense wire position; t,r: drift time, drift distance; chi: fitting residual
 	double z[4], x[4], t[4], r[4], chi[4];
@@ -57,7 +57,7 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 	char type; // MWDC type: X or Y
 	if(0 == dcType) type = 'X';
 	else if(1 == dcType) type = 'Y';
-	int nu[6]{}; // the counterpart of TATrack2::fNu
+	int nu[4]{}; // the counterpart of TATrack2::fNu
 	// gGOOD: indicator for different fired sense wire layer scenarios
 	int gGOOD = -1, LAYER[4] = {-1, -1, -1, -1};
 	int overlapTrackCnt = 0; // for special use (checking of the tracking process)
@@ -71,21 +71,23 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 	//////////////////////////////// THE 4-FOLD NESTED LOOP ////////////////////////////////
 	// to loop over all the possible combinations of fired sense wires 
 	// for the least-Dsquare tracks for a specific event
+	// i == nAnodePerLayer# corresponds to the one situation where all the fired anodes
+	// in the layer is deemed as invalid (caused by noise, unwanted particles, etc.).
 	for(int i = 0; i <= nAnodePerLayer0; i++){ nu[0] = -1; // DC0-X1
 		if(i < nAnodePerLayer0 && MWDC[0]->GetAnodeL1(dcType, i)->GetFiredStatus()) nu[0] = i; // DC0-X1 --------------------------------------------------------------
-		if(-1 == nu[0] && i < nAnodePerLayer0) continue; // inert anodes within the anode layers would be ignored
+		if(-1 == nu[0]) continue; // inert anodes within the anode layers would be ignored
 
 	for(int j = 0; j <= nAnodePerLayer0; j++){ nu[1] = -1; // DC0-X2
 		if(j < nAnodePerLayer0 && MWDC[0]->GetAnodeL2(dcType, j)->GetFiredStatus()) nu[1] = j; // DC0-X2 --------------------------------------------------------------
-		if(-1 == nu[1] && j < nAnodePerLayer0) continue;
+		if(-1 == nu[1]) continue;
 
 	for(int ii = 0; ii <= nAnodePerLayer1; ii++){ nu[2] = -1; // DC1-X1
 		if(ii < nAnodePerLayer1 && MWDC[1]->GetAnodeL1(dcType, ii)->GetFiredStatus()) nu[2] = ii; // DC1-X1 --------------------------------------------------------------
-		if(-1 == nu[2] && ii < nAnodePerLayer1) continue;
+		if(-1 == nu[2]) continue;
 
 	for(int jj = 0; jj <= nAnodePerLayer1; jj++){ nu[3] = -1; // DC1-X2
 		if(jj < nAnodePerLayer1 && MWDC[1]->GetAnodeL2(dcType, jj)->GetFiredStatus()) nu[3] = jj; // DC1-X2 --------------------------------------------------------------
-		if(-1 == nu[3] && jj < nAnodePerLayer1) continue;
+		if(-1 == nu[3]) continue;
 		
 			normalEvent = nu[0] >= 0 && nu[1] >= 0 && nu[2] >= 0 && nu[3] >= 0; // all the 4 sense wire layers are fired
 			bool inert0 = nu[0] <  0 && nu[1] >= 0 && nu[2] >= 0 && nu[3] >= 0;
@@ -146,11 +148,10 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 
 				// get the lt time of the DC that is closest to the PlaT0,
 				// edges of PlaT0 would be compared to t0 for the suitable one
-				// TODO TODO TODO anode layer closest to PlaT0 to be investigated
-				int lid = LAYER[nFiredAnodeLayer-1]; // using the last layer for the time being
+				int lid = LAYER[0]; // using the last layer for the time being
 				TAAnode *ano = MWDC[lid/2]->GetAnode(dcType, lid%2+1, nu[lid]);
-				double t0 = ano->GetTime();
-				unsigned uid = ano->GetUID();
+				const double t0 = ano->GetTime();
+				const unsigned uid = ano->GetUID();
 				const double delta = clp->T_tofDCtoTOFW(uid) - clp->T_wireMean(uid); // minor correction
 				// -20 ~ 250: speculated drift time range
 				// 0+t_wire_t_drift=t_DC; 0+t_tof=t_TOF;
@@ -187,7 +188,7 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 #endif
 				// test the validity of drift time for X tracks
 				for(double tt : t){
-					if(-9999. != tt && !clp->TimeThre(tt))
+					if(-9999. != tt && !clp->TimeThre(tt, GetUID()))
 						isBadTrack = true;
 				} // end loop over drift time
 				if(isBadTrack) continue;
@@ -226,7 +227,7 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 					if(2 == overlap){ // an overlap happened
 						overlapTrackCnt++;
 					} // end if
-					if(1 == overlap) break; // newTrack is part of oldTrack, and is dropped
+					if(1 == overlap) continue; // newTrack is part of oldTrack, and is dropped
 				} // end for over k
 				// eliminate the obsolete tracks
 				for(unsigned k = 0; k < track.size(); k++){

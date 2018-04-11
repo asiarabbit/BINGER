@@ -239,12 +239,12 @@ int TAParaManager::ReadFileList(const char *basePath, ofstream &configFileList, 
 	while((ptr = readdir(dir)) != nullptr){
 		if(!strcmp(ptr->d_name, ".") || !strcmp(ptr->d_name, ".."))
 			continue; // current dir or parent dir
-		else if(ptr->d_type == 8){ // file
+		else if(8 == ptr->d_type){ // file
 			sprintf(fname, "%s/%s\n", basePath, ptr->d_name);
 			configFileList << fname;
 		}
-		else if(ptr->d_type == 10){} // link file
-		else if(ptr->d_type == 4){ // dir
+		else if(10 == ptr->d_type){} // link file
+		else if(4 == ptr->d_type){ // dir
 			memset(base, '\0', sizeof(base));
 			strcpy(base, basePath);
 			strcat(base, "/");
@@ -353,47 +353,50 @@ void TAParaManager::AssignDetPos(const char *fname) const{
 		// MWDCArrayL-R //
 		if(3 == detId || 4 == detId){ // valid TAMWDCArray pointer
 			TAMWDCArray* dcArr = (TAMWDCArray*)fDetList[detId];
-			if(subDetId < 3){ // MWDC
-				TAMWDC *dc = dcArr->GetMWDC(subDetId);
-				dc->GetDetPara()->SetPosition(value);
-				isAssigned = true;
-			}
-			else if(3 == subDetId){ // TOF Wall
-				TATOFWall *tofw = dcArr->GetTOFWall();
-				tofw->GetDetPara()->SetPosition(value);
-				tofw->AssignStripPosition();
-				isAssigned = true;
-			}
+			if(dcArr){
+				if(subDetId < 3){ // MWDC
+					TAMWDC *dc = dcArr->GetMWDC(subDetId);
+					dc->GetDetPara()->SetPosition(value);
+					isAssigned = true;
+				}
+				else if(3 == subDetId){ // TOF Wall
+					TATOFWall *tofw = dcArr->GetTOFWall();
+					tofw->GetDetPara()->SetPosition(value);
+					tofw->AssignStripPosition();
+					isAssigned = true;
+				}
+			} // end if(dcArr)
 		} // end if(3 == detId || 4 == detId)
 		// MWDCArrayU-D //
 		if(6 == detId || 7 == detId){ // valid TAMWDCArray pointer
 			TAMWDCArray2* dcArr = (TAMWDCArray2*)fDetList[detId];
-			if(subDetId < 2){ // MWDC
-				TAMWDC *dc = dcArr->GetMWDC(subDetId);
-				dc->GetDetPara()->SetPosition(value);
-				isAssigned = true;
-			}
+			if(dcArr){
+				if(subDetId < 2){ // MWDC
+					TAMWDC *dc = dcArr->GetMWDC(subDetId);
+					dc->GetDetPara()->SetPosition(value);
+					isAssigned = true;
+				}
+			} // end if(dcArr)
 		} // end if(6 == detId || 7 == detId)
 
 		if(!isAssigned) TAPopMsg::Warn("TAParaManager",
 			"AssignDetPos: homeless Detector Position: %s: line %d", fname, linecnt);
 	} // end while
 
-	// assign position for all anodes
+	// assign position for all anodes,
+	// and check out that if any MWDC in commission has not been assigned with position values
 	for(int i = 0; i < 2; i++){ // loop over MWDC array L-R
 		TAMWDCArray* dcArr = (TAMWDCArray*)fDetList[i + 3];
 		if(!dcArr) continue;
 		for(int j = 0; j < 3; j++){ // loop over MWDCs
-			TAMWDC *dc = dcArr->GetMWDC(j);
-			dc->AssignAnodePosition();
+			dcArr->GetMWDC(j)->AssignAnodePosition();
 		} // end for over j
 	} // end for over i
 	for(int i = 0; i < 2; i++){ // loop over MWDC array U-D
 		TAMWDCArray2* dcArr = (TAMWDCArray2*)fDetList[i + 6];
 		if(!dcArr) continue;
 		for(int j = 0; j < 2; j++){ // loop over MWDCs
-			TAMWDC *dc = dcArr->GetMWDC(j);
-			dc->AssignAnodePosition();
+			dcArr->GetMWDC(j)->AssignAnodePosition();
 		} // end for over j
 	} // end for over i
 } // end member function AssignDetPos

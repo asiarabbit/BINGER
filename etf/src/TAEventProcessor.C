@@ -11,7 +11,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/13.															     //
-// Last modified: 2018/3/23, SUN Yazhou.										     //
+// Last modified: 2018/4/9, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -179,38 +179,42 @@ void TAEventProcessor::Configure(){
 		return;
 	}
 	// select an experiment, to direct to a directory containing the exp config parameters
-	const char dir[2][64] = {"pion_2017Oct", "beamTest_2016Nov"};
+	const char dir[3][64] = {"pion_2017Oct", "beamTest_2016Nov", "C16_Exp_2018_Summer"};
 	TAPopMsg::Info("TAEventProcessor", "Configure: selected Exp Config Dir: %s", dir[1]);
 	SetConfigExpDir(dir[1]);
 	// STR_spline.root || STR_stiff.root || STR_aaa900.root
 	SetSTRROOTFile("STR_spline.root"); // space-time relations for MWDCs
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
-	// read the global parameters array first; type: 004
+	// read the global parameters array first and only; type: 004
 	const short nignore = 4, typeignore[nignore] = {0, 1, 2, 3};
 	GetParaManager()->ReadParameters(nignore, typeignore);
+	// NOTE THAT THE SUBSCRIPT FOR EACH DETECTOR CANNOT in ANY CIRCUMSTANCES BE ALTERED //
 	// note that the detector UID has to be equal to the array detList subscript
-	detList[0] = new TAT0_0("T0_0", "T0_0@Mid-RIBLL2", 0);
-	detList[1] = new TAT0_1("T0_1", "T0_1@End-RIBLL2", 1);
-	detList[2] = new TASiPMPlaArray("SiPMPlaArray", "SiPMPlaArray@Post-Target", 2);
-	detList[3] = new TAMWDCArrayL("DCArrayL", "DCArrayL@Post-Magnet", 3);
-	detList[4] = new TAMWDCArrayR("DCArrayR", "DCArrayR@Post-Magnet", 4);
-	detList[5] = new TASiPMPlaBarrel("SiPMPlaBarrel", "SiPMPlaBarrel@Hug-Target", 5);
-	detList[6] = new TAMWDCArrayU("DCArrayU", "DCArrayU@Pre-Target", 6);
-	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7);
+	detList[0] = new TAT0_0("T0_0", "T0_0@Mid-RIBLL2", 0); // shutdown: FORBIDDEN
+	detList[1] = new TAT0_1("T0_1", "T0_1@End-RIBLL2", 1); // shutdown: FORBIDDEN
+	detList[2] = new TASiPMPlaArray("SiPMPlaArray", "SiPMPlaArray@Post-Target", 2); // ALLOWED
+	detList[3] = new TAMWDCArrayL("DCArrayL", "DCArrayL@Post-Magnet", 3); // ALLOWED
+	detList[4] = new TAMWDCArrayR("DCArrayR", "DCArrayR@Post-Magnet", 4); // FORBIDDEN
+	detList[5] = new TASiPMPlaBarrel("SiPMPlaBarrel", "SiPMPlaBarrel@Hug-Target", 5); // ALLOWED
+	detList[6] = new TAMWDCArrayU("DCArrayU", "DCArrayU@Pre-Target", 6); // ALLOWED
+	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7); // ALLOWED
 	for(TADetUnion *&p : detList) if(p) p->Configure(); // build the detectors
+	// time start for DCArrU-D is TAT0_1
+	if(detList[6]) ((TAMWDCArray2*)detList[6])->SetPlaT0((TAPlaStrip*)detList[1]);
+	if(detList[7]) ((TAMWDCArray2*)detList[7])->SetPlaT0((TAPlaStrip*)detList[1]);
 
 	// read all the parameters required and assign positiion parameters to every channel and alike
 	GetParaManager()->ReadParameters();
 
-	// TAVisual::Configure can only be implemented AFTER all the other detectors are created.
+	// TAVisual::Configure can only be implemented AFTER all the other detectors are created
 	GetVisual()->Configure();
 	if(IsPID()) GetPID()->Configure();
 	// show some information
 	if(TAPopMsg::IsVerbose()){
-		((TAMWDCArray*)detList[3])->Info();
-		((TAMWDCArray*)detList[4])->Info();
-		((TAMWDCArray2*)detList[6])->Info();
-		((TAMWDCArray2*)detList[7])->Info();
+		if(detList[3]) ((TAMWDCArray*)detList[3])->Info();
+		if(detList[4]) ((TAMWDCArray*)detList[4])->Info();
+		if(detList[6]) ((TAMWDCArray2*)detList[6])->Info();
+		if(detList[7]) ((TAMWDCArray2*)detList[7])->Info();
 	}
 	isCalled = true; // has been called
 }
@@ -241,9 +245,15 @@ void TAEventProcessor::FillTrack(TGraph *gTrack, TGraph *gTrack_R) const{
 		TAPopMsg::Error("TAEventProcessor", "FillTrack: input TGraph pointer is null");
 	TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
 	TAMWDCArray *dcArr[2]{0};
+	TAMWDCArray2 *dcArr2[2]{0};
 	dcArr[0] = (TAMWDCArray*)detList[3];
 	dcArr[1] = (TAMWDCArray*)detList[4];
-	for(int i = 2; i--;) dcArr[i]->FillTrack(gTrack, gTrack_R);
+	dcArr2[0] = (TAMWDCArray2*)detList[6];
+	dcArr2[1] = (TAMWDCArray2*)detList[7];
+	for(int i = 2; i--;){
+		if(dcArr[i]) dcArr[i]->FillTrack(gTrack, gTrack_R);
+		if(dcArr2[i]) dcArr2[i]->FillTrack(gTrack, gTrack_R);
+	}
 }
 void TAEventProcessor::Initialize(){
 	for(tEntry *&t : fEntryList) if(t){ delete t; t = nullptr; }
@@ -296,7 +306,7 @@ inline void correctCycleClear(double &x, const double bunchIdTime){
 		if(x < 0.) x += 51200.;
 	}
 //	cout << "1.x: " << x << endl; getchar(); // DEBUG
-}
+} // end of inline function correctCycleClear
 // the overall data analysis routine
 // (id0, id1): index range for analysis; secLenLim: event length limit; rawrtfile: raw rootfile
 void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtfile){
@@ -336,8 +346,9 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	int cntaozWrong = 0, cntaoz = 0;
 	int i = 0, index, cntSec = 0;
 	// ntr: N of trk in DCArrLR; ntrT: N of trk in DCArrLR+UD
-	int ntr = 0, ntrT = 0, ntrLs[4][3]{}; // total N of TrkProjs; DCArr-L-R-U-D -- [XUV - XY]
-	const int ntrMax = 200; // maximum number of track projections in an event
+	int ntr = 0, ntrT = 0;
+	int n3DtrLs[4]{}, ntrLs[4][3]{}; // total N of TrkProjs; DCArr-L-R-U-D -- [XUV - XY]
+	const int ntrMax = 100; // maximum number of track projections in an event
 #ifdef GO
 	#include "TAEventProcessor/define_hist.C" // define histograms of interest
 	#include "TAEventProcessor/define_tree.C" // define the track tree
@@ -437,7 +448,7 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 	static TAParaManager::ArrDet_t &decv = GetParaManager()->GetDetList();
 	static TAMWDCArray *dcArrV[2] = {(TAMWDCArray*)decv[3], (TAMWDCArray*)decv[4]};
 	// identify 3D tracks and start track refinement
-	static const int ntrMax = 200, ntr3DMax = ntrMax/3;
+	static const int ntrMax = 100, ntr3DMax = ntrMax/3;
 	bool isDCArrR[ntr3DMax]{};
 	int n3DtrXUV[3]{};
 	int trkId[ntr3DMax][3]; memset(trkId, -1, sizeof(trkId)); // track id [3D track id][XUV]

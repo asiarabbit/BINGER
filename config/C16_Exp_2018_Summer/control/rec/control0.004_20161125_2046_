@@ -1,6 +1,6 @@
 ##################################################################################################
 # Data Analysis Code Project for the External Target Facility, CSR-HIRFL, @IMP
-# Specifically for: beamTest_2016Nov	SIM.root
+# Specifically for: beamTest_2016Nov	20161125_2046.dat
 #
 # User input global parameters for specific experiments or data taking
 # Users are not allowed to changed parameter ids, or there could be dire consequences
@@ -28,23 +28,23 @@
 
 # Detector time to trig range: to select signals belonging to the same one particle in an event
 # T0_1ToTrigLBUV
-0   1000.
+0   1041.
 # T0_1ToTrigHBUV
-1   1200.
+1   1102.
 # T0_1ToTrigLBDV
-2   1000.
+2   1041.
 # T0_1ToTrigHBDV
-3   1200.
+3   1102.
 # T0_1DelayAvrg: average delay for T0_1, applying to both UV and DV
-4   -343.7
+4   353.4
 # tofwToTrigLB
-5   1120.
+5   1110.
 # tofwToTrigHB
 6   1160.
 # dcToTrigLB
-7   1000.
+7   1100.
 # dcToTrigHB
-8   1600.
+8   1400.
 # sipmPlaArrToTrigLB
 9   200.
 # sipmPlaArrToTrigHB
@@ -54,7 +54,7 @@
 # sipmPlaBarrToTrigHB
 12  700.
 
-# DC sense wire high voltage (HV) for MWDC arrays downstream of the dipole magnet #
+# DC sense wire high voltage (HV) #
 # Note that only a selected set of HVs are simulated by Garfield to get STRs,
 # the HV thus can not be set continuously nor unlimitedly.
 # HVs can only be set according to the given options:
@@ -118,36 +118,36 @@
 # T0_1UV_delay
 33  -2.7
 
-# T_tof: time of flight: used to correct drift time -> for MWDC Array L and R
-# T_tofDC0toTOFWLX: T_tof from X sense wires of DC0 to TOFW, for MWDC array L
+# T_tof: time of flight: used to correct drift time
+# T_tofDC0toTOFWLX: T_tof from X sense wires of DC0 to TOFW, for MWDC arrayL
 # T_tofDC0toTOFWLX
-34  7.8
-# T_tofDC0toTOFWLU
-35  5.0
-# T_tofDC0toTOFWLV
-36  2.1
+34  6.6
+# T_tofDC1toTOFWLX
+35  4.1
+# T_tofDC2toTOFWLX
+36  1.4
 # T_tofDC0toTOFWRX
-37  30.0
-# T_tofDC0toTOFWRU
-38  20.9
-# T_tofDC0toTOFWRV
-39  15.1
+37  31.0
+# T_tofDC1toTOFWRX
+38  22.1
+# T_tofDC2toTOFWRX
+39  15.9
 
 # Parameters owned by class TACtrlPara
 # 3DCoincideWindow
-40 10.
+40 30.
 # D2Thre
 41 17.
 # TimeThreLB
 42 -40.
 # TimeThreHB
-43 400.
+43 350.
 # ChiThrePD
 44 3.
 # Vicinity
 45 1
 # StripTolerance
-46 0
+46 1
 # FitMethod => kNormalFit: 0; kBFGSFit: 1 kIterFit: 2
 47 1
 # Precision => allowed value: -2, -1, 0, 1, 2, 3, increasing depth
@@ -161,46 +161,13 @@
 51 -0.8
 # NStripStrayMaxR
 52 0.8
-# T0_0Delay
-53 -207.
+
+# T0_0Delay: average delay for T0_0, UV
+53   489.409
 # dcTOTNoiseLevel unit: ns, DC TOT exceeding it would be invalidized
 54 70.
 
-# T_tof: time of flight: used to correct drift time -> for MWDC Array U and D
-# T_tofDC0toTOFWUX: T_tof from X sense wires of DC0 to TOFW (plaSci-T0_det), for MWDC array L
-# T_tofDC0toTOFWUX
-55  0.
-# T_tofDC0toTOFWUY
-56  0.
-# T_tofDC0toTOFWDX
-57  0.
-# T_tofDC0toTOFWDY
-58  0.
 
-# DC sense wire high voltage (HV) for MWDC arrays around the target #
-# MWDC array U
-# HVDCU0X
-59  0
-# HVDCU0Y
-60  0
-# HVDCU1X
-61  0
-# HVDCU1Y
-62  0
-# MWDC array D
-# HVDCD0X
-63  0
-# HVDCD0Y
-64  0
-# HVDCD1X
-65  0
-# HVDCD1Y
-66  0
-################ time to trig for DCs around the target ##########################
-# dcTaToTrigLB
-67   1000.
-# dcTaToTrigHB
-68   1600.
 
 
 

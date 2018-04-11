@@ -122,15 +122,15 @@
 # T_tofDC0toTOFWLX: T_tof from X sense wires of DC0 to TOFW, for MWDC arrayL
 # T_tofDC0toTOFWLX
 34  6.6
-# T_tofDC0toTOFWLU
+# T_tofDC1toTOFWLX
 35  4.1
-# T_tofDC0toTOFWLV
+# T_tofDC2toTOFWLX
 36  1.4
 # T_tofDC0toTOFWRX
 37  33.4
-# T_tofDC0toTOFWRU
+# T_tofDC1toTOFWRX
 38  23.7
-# T_tofDC0toTOFWRV
+# T_tofDC2toTOFWRX
 39  16.9
 
 # Parameters owned by class TACtrlPara

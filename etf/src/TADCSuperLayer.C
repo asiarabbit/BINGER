@@ -9,10 +9,10 @@
 //     																				 //
 // Author: SUN Yazhou, asia.rabbit@163.com.    										 //
 // Created: 2017/10/3.   														     //
-// Last modified: 2018/1/27, SUN Yazhou.     										 //
+// Last modified: 2018/4/8, SUN Yazhou.     										 //
 //     																				 //
 //     																				 //
-// Copyright (C) 2017, SUN Yazhou.     												 //
+// Copyright (C) 2017-2018, SUN Yazhou.     										 //
 // All rights reserved.     														 //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -70,21 +70,18 @@ void TADCSuperLayer::Configure(){
 		TAPopMsg::Warn(GetName().c_str(), "Configure: has been called once");
 		return; // Configure() has been called
 	}
-	int type[6]{}; TAUIDParser::DNS(type, GetUID());
-	if(3 == type[0] || 4 == type[0]){
-		const int n = fNCable = TADeployPara::Instance()->GetNDCCable(GetUID());
-//		TAPopMsg::Debug(GetName().c_str(), "Configure: ncable: %d", n);
-		TADCCable *ca[n]{0};
-		char name[64];
-		for(int i = 0; i < fNCable; i++){
-			sprintf(name, "%s->Cable%d", GetName().c_str(), i);
-			ca[i] = new TADCCable(name, name, fUID+(i<<11));
-			ca[i]->SetCableId(i);
-			ca[i]->Configure();
-			fDCCableArr.push_back(ca[i]);
-		}
-	}
-	else TAPopMsg::Error(GetName().c_str(), "Configure: Not an MWDC array.");
+
+	const int n = fNCable = TADeployPara::Instance()->GetNDCCable(GetUID());
+//	TAPopMsg::Debug(GetName().c_str(), "Configure: ncable: %d", n);
+	TADCCable *ca[n]{0};
+	char name[64];
+	for(int i = 0; i < fNCable; i++){
+		sprintf(name, "%s->Cable%d", GetName().c_str(), i);
+		ca[i] = new TADCCable(name, name, fUID+(i<<11));
+		ca[i]->SetCableId(i);
+		ca[i]->Configure();
+		fDCCableArr.push_back(ca[i]);
+	} // end loop over i
 } // end of function Configure
 
 

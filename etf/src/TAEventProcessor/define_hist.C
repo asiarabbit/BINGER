@@ -8,7 +8,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/21.															     //
-// Last modified: 2018/3/30, SUN Yazhou.										     //
+// Last modified: 2018/4/8, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -31,10 +31,12 @@
 	dcArr[1] = (TAMWDCArray*)dec_vec[4]; // dc array R
 	dcArr2[0] = (TAMWDCArray2*)dec_vec[6]; // dc array U
 	dcArr2[1] = (TAMWDCArray2*)dec_vec[7]; // dc array D
-	TATOFWall *tofw[2] = {dcArr[0]->GetTOFWall(), dcArr[1]->GetTOFWall()};
+	TATOFWall *tofw[2]{0};
+	if(dcArr[0]) tofw[0] = dcArr[0]->GetTOFWall();
+	if(dcArr[1]) tofw[1] = dcArr[1]->GetTOFWall();
 	TAMWDC *dc[2][3]{0}, *dc2[2][2]{0}; // dc downstream and upstream of the dipole magnet
-	for(int i = 2; i--;) for(int j = 3; j--;) dc[i][j] = dcArr[i]->GetMWDC(j);
-	for(int i = 2; i--;) for(int j = 2; j--;) dc2[i][j] = dcArr2[i]->GetMWDC(j);
+	for(int i = 2; i--;) for(int j = 3; j--;) if(dcArr[i]) dc[i][j] = dcArr[i]->GetMWDC(j);
+	for(int i = 2; i--;) for(int j = 2; j--;) if(dcArr2[i]) dc2[i][j] = dcArr2[i]->GetMWDC(j);
 //	TAAnode *ano = dc[1][1]->GetAnodeL1(1, 58); // DEBUG
 //	cout << ano->GetAnodePara()->GetSTR(0)->GetTitle() << endl; getchar(); // DEBUG
 //	cout << ano->GetDriftDistance(70., 0) << endl; getchar(); // DEBUG

@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/16.															     //
-// Last modified: 2018/3/19, SUN Yazhou.										     //
+// Last modified: 2018/4/8, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -55,8 +55,8 @@ void TAUIDParser::DNS(int *result, unsigned uid){
 		if(result[1] < 2){ // MWDCs
 			result[2] = (uid>>8) & 0x1; // the next 1 bit, super layer id [0-1-2]: [X-Y]
 			result[3] = (uid>>9) & 0x1; // the next 1 bit, cable id; well actually there's only 1 cab
-			result[4] = (uid>>10) & 0x3; // the next 2 bits, SFE16 id, 0 or 1
-			result[5] = (uid>>12) & 0xF; // the next 4 bits, 16 anodes for a certain SFE16 chip
+			result[4] = (uid>>10) & 0x1; // the next 1 bits, SFE16 id, 0 or 1
+			result[5] = (uid>>11) & 0xF; // the next 4 bits, 16 anodes for a certain SFE16 chip
 		}
 		else{ // plastic scintillator strip for beam timing
 			result[2] = (uid>>8) & 0x1; // the next 1 bit, strip id; actually there's only 1 strip

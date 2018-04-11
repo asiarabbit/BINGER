@@ -3,7 +3,7 @@
 //																				     //
 // BINGER/inc/etf/TAMWDCTaM.h														 //
 //   TAMWDCTaM.h -- header file for class TAMWDCTaM									 //
-//   Introduction: A class derived from TAMWDCTa. This class is for medium size DC	 //
+//   Introduction: A class derived from TAMWDCTa. This class is for medium size DCs	 //
 // downstream of the target.														 //
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //

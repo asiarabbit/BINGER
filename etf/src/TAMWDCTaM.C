@@ -28,12 +28,12 @@ void TAMWDCTaM::GetAnodeCenterPosition(int dcType, int layerOption, int anodeId,
 	const int type = dcType, l = layerOption - 1;
 	const int nAnoPL = GetNAnodePerLayer();
 	if(0 != l && 1 != l)
-		TAPopMsg::Error(GetName().c_str(), "GetAnodeCenterPosition: Invalid layerOption (only 1 or 2 is permitted)");
+		TAPopMsg::Error(GetName().c_str(), "GetAnodeCenterPosition: Invalid layerOption (only 1 or 2 is permitted): %d", layerOption);
 	int n = anodeId % nAnoPL;
 	double x0 = 5. - 2.5 * nAnoPL; // x of the first anode (x0 is the minimum). -35.
 	double p_local[3]{}; // p_local[1] is zero (y, the height), which is about the neutral beam's
 	if(TAMWDC::kX == type){
-		p_local[0] = x0 + 5. * n - 2.5 * l; // x X(l+1)
+		p_local[0] = x0 + 5. * n - 2.5 * l; // X X(l+1)
 		p_local[1] = 0.; // y
 		p_local[2] = 5. * l; // z
 	}

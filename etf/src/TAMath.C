@@ -81,6 +81,7 @@ double TAMath::acceptance(const double *p0, const double *p1){
 }
 // r_global = R.r_local
 // angle0: yaw, angle1: pitch, angle2: roll, intrinsic rotation; (y-x'-z")
+// R(yaw, pitch, roll) = Ry(yaw).Rx'(pitch).Rz"(roll)
 void TAMath::rotate(const double *pIn, double *pOut, const double *angIn){
 	double s1 = sin(angIn[0]), s2 = sin(angIn[1]), s3 = sin(angIn[2]);
 	double c1 = cos(angIn[0]), c2 = cos(angIn[1]), c3 = cos(angIn[2]);

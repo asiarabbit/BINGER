@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/3.															     //
-// Last modified: 2018/4/3, SUN Yazhou.											     //
+// Last modified: 2018/4/8, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -35,13 +35,12 @@
 
 TAMWDC::TAMWDC(const string &name, const string &title, unsigned uid)
 		: TADetector(name, title, uid), 
-		fMWDCId(-1), fNAnodePerLayer(-1), fMotherDCArr(0){
+		fSLayerArr{0}, fMWDCId(-1), fNAnodePerLayer(-1), fMotherDCArr(0){
 }
 TAMWDC::~TAMWDC(){
 	for(TADCSuperLayer *&sl : fSLayerArr) if(sl){
 		delete sl; sl = nullptr;
 	}
-	fSLayerArr.clear();
 }
 short TAMWDC::GetMWDCId() const{
 	if(fMWDCId < 0) TAPopMsg::Error(GetName().c_str(), "GetMWDCId: MWDC id not assigend");
@@ -75,7 +74,7 @@ TADCSuperLayer *TAMWDC::GetSLayer(int n) const{
 	if(n >= (int)fSLayerArr.size())
 		TAPopMsg::Error(GetName().c_str(), "GetSLayer: The input subscript is too large: %d", n);
 	if(!fSLayerArr[n])
-		TAPopMsg::Error(GetName().c_str(), "GetSLayer: Super-layer#%d not assigend", n);
+		TAPopMsg::Error(GetName().c_str(), "GetSLayer: Super-Layer#%d not assigend", n);
 	return fSLayerArr[n];
 }
 TAMWDCArray *TAMWDC::GetMotherDCArr() const{
@@ -99,7 +98,7 @@ static const double degree = TAMath::DEGREE();
 void TAMWDC::GetAnodeCenterPosition(int dcType, int layerOption, int anodeId, double *Ag) const{
 	const int type = dcType, l = layerOption - 1;
 	const int nAnoPL = GetNAnodePerLayer();
-	if(0 != l && 1 != l) TAPopMsg::Error(GetName().c_str(), "GetAnodeCenterPosition: Invalid layerOption (only 1 or 2 is permitted)");
+	if(0 != l && 1 != l) TAPopMsg::Error(GetName().c_str(), "GetAnodeCenterPosition: Invalid layerOption (only 1 or 2 is permitted): %d", layerOption);
 	int n = anodeId % nAnoPL;
 	double x0 = 7. - 5. * nAnoPL; // x of the first anode (x0 is the minimum). -393
 	double p_local[3]{}; // p_local[1] is zero (y, the height), which is about the neutral beam's.
@@ -155,7 +154,9 @@ void TAMWDC::AssignAnodePosition(){
 	const int n = GetNAnodePerLayer();
 	// anode global direction, position and projection, temporary variable
 	double ag[3]{}, Ag[3]{}, proj[3]{};
-	const int nSLayer = fSLayerArr.size();
+
+	int nSLayer = 0;
+	for(TADCSuperLayer *&sl : fSLayerArr) if(sl) nSLayer++;
 	for(int i = nSLayer; i--;){ // dc type
 		GetAnodeGlobalDirection(i, ag); // assign anode orientation
 		TADCSuperLayer *sl = GetSLayer(i);
@@ -206,8 +207,12 @@ TAAnode *TAMWDC::GetAnode(int dcType, int anodeSerialId) const{
 
 // create anodes, and assign them with position information.
 void TAMWDC::Configure(){
+	int type[6]{}; TAUIDParser::DNS(type, GetUID());
+	if(3 != type[0] && 4 != type[0])
+		TAPopMsg::Error(GetName().c_str(), "Configure: Not an L-R MWDC array");
+
 	TADetector::Configure();
-	if(0 != fSLayerArr.size()){
+	if(fSLayerArr[0]){
 		TAPopMsg::Warn(GetName().c_str(), "Configure: has been called once");
 		return; // Configure() has been called
 	}
@@ -220,7 +225,7 @@ void TAMWDC::Configure(){
 	for(int i = 3; i--;){ // X-U-V
 		sl[i]->SetSLayerId(i);
 		sl[i]->Configure();
-		fSLayerArr.push_back(sl[i]);
+		fSLayerArr[i] = sl[i];
 		fNAnodePerLayer = sl[i]->GetNCable() * 16;
 
 		// set mother dc
@@ -230,7 +235,7 @@ void TAMWDC::Configure(){
 		}
 	}
 //	TAPopMsg::Debug(GetName().c_str(), "Configure: showcase: fNAnodePerLayer: %d", fNAnodePerLayer);
-}
+} // end member function Configure
 void TAMWDC::Info() const{
 	TAPopMsg::ConfigInfo(GetName().c_str(), "Configure:\ndelay: %f\nphi: %f\nacceptance: %f\n", GetAnode(0, 1, 0)->GetPara()->GetDelay(), GetDetPara()->GetPhi() / TAMath::DEGREE(), Acceptance() / TAMath::DEGREE());
 }

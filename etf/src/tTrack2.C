@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/22.															     //
-// Last modified: 2018/3/23, SUN Yazhou.										     //
+// Last modified: 2018/4/9, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -24,6 +24,11 @@ using std::cout;
 using std::endl;
 
 tTrack2::tTrack2() : tTrack(){} // the default constructor
+void tTrack2::initialize(){
+	tTrack::initialize();
+	firedStripId = -2;
+}
+
 void tTrack2::show() const{
 	cout << "name: " << name << endl;
 	cout << "type: " << type << endl;
@@ -62,17 +67,6 @@ void tTrack2::show() const{
 	cout << "beta: " << beta << endl;
 	getchar();
 } // end of function show
-double tTrack2::dcTOTAvrg() const{
-	double sum = 0.; int cnt = 0;
-	for(double x : dcTOT){
-		if(-9999. != x){
-			sum += x;
-			cnt++;
-		}
-	}
-	if(0 == cnt) return -9999.;
-	return sum / cnt;
-}
 
 
 

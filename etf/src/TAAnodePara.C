@@ -7,7 +7,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/24.															     //
-// Last modified: 2018/4/4, SUN Yazhou.											     //
+// Last modified: 2018/4/10, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -21,6 +21,7 @@
 #include "TAMWDC.h"
 #include "TADetectorPara.h"
 #include "TADeployPara.h"
+#include "TAUIDParser.h"
 
 const double TAAnodePara::kSTRCorRMax = 6.; // unit: mm positive
 const double TAAnodePara::kSTRCorAngleMax = 10. * TAMath::DEGREE(); // unit: rad
@@ -103,10 +104,18 @@ const double *TAAnodePara::GetSTRCorrection(int STR_id) const{
 	return fSTRCorArr[STR_id];
 }
 int TAAnodePara::GetSTRid(double k, int dcType) const{
-	if(dcType < 0 || dcType > 2)
+	int type[6]{}; TAUIDParser::DNS(type, GetUID());
+	if( ((3 == type[0] || 4 == type[0]) && (dcType < 0 || dcType > 2)) || // DCArrL-R
+		((6 == type[0] || 7 == type[0]) && (dcType < 0 || dcType > 1)) )	// DCArrU-D
 		TAPopMsg::Error(GetName().c_str(), "GetSTRid: invalid dcType: %d", dcType);
-	double theta, phi = GetMotherDC()->GetDetPara()->GetPhi();
-	if(TAMWDC::kX == dcType || TAMWDC::kY == dcType) theta = atan(k) - phi; // X-Y
+
+	if((6 == type[0] || 7 == type[0]) && 1 == dcType) dcType = TAMWDC::kY;
+
+	const double phiC = GetMotherDC()->GetDetPara()->GetPhi();
+	const double thetaC = GetMotherDC()->GetDetPara()->GetTheta();
+	double theta; // the trkproj-drift_cell angle
+	if(TAMWDC::kX == dcType) theta = atan(k) - phiC; // X
+	if(TAMWDC::kY == dcType) theta = atan(k) - thetaC; // Y
 	else theta = atan(k); // U or V
 	return GetSTRid(theta, GetName().c_str());
 } // end of function GetSTRid
@@ -173,10 +182,20 @@ void TAAnodePara::SetSTRCorArr(const int *vaBinNumArr,
 }
 
 int TAAnodePara::GetSFE16Id() const{
-	return fUID & 0x7FFF;
+	static int type[6]{};
+	if(0 == type[0]) TAUIDParser::DNS(type, fUID);
+	if(3 == type[0] || 4 == type[0]) return fUID & 0x7FFF; // the 15 LSB
+	else if(6 == type[0] || 7 == type[0]) return fUID & 0x7FF; // the 11 LSB
+	else TAPopMsg::Error(GetName().c_str(), "GetSFE16Id: this is not from a valid MWDC array");
+	return -1;
 } // the first 15 LSBs
 int TAAnodePara::GetCableId() const{
-	return fUID & 0x3FFF;
+	static int type[6]{};
+	if(0 == type[0]) TAUIDParser::DNS(type, fUID);
+	if(3 == type[0] || 4 == type[0]) return fUID & 0x3FFF; // the 14 LSB
+	else if(6 == type[0] || 7 == type[0]) return fUID & 0x3FF; // the 10 LSB
+	else TAPopMsg::Error(GetName().c_str(), "GetCableId: this is not from a valid MWDC array");
+	return -1;
 } // the first 14 LSBs
 
 double TAAnodePara::GetSpatialResolution(double r, double k) const{ // smeared and delayed

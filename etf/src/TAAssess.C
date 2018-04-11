@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/14.															     //
-// Last modified: 2018/1/5, SUN Yazhou.										  	     //
+// Last modified: 2018/4/10, SUN Yazhou.									  	     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -59,7 +59,7 @@ TAAssess *TAAssess::Instance(){
 	if(!fInstance) fInstance = new TAAssess();
 	return fInstance;
 }
-TAAssess::TAAssess() : fDetList(0){
+TAAssess::TAAssess() : fDetList(0), fROOTFile(""){
 	if(!fDetList) fDetList = &TAParaManager::Instance()->GetDetList();
 }
 TAAssess::~TAAssess(){}
@@ -110,7 +110,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 	}
 
 	// read the track tree
-	const int ntrMax = 200, ntrMax3D = ntrMax / 3;
+	const int ntrMax = 100, ntrMax3D = ntrMax / 3;
 	int ntr, index, nu[ntrMax][6], gGOOD[ntrMax];
 	int type[ntrMax], id[ntrMax], firedStripId[ntrMax];
 	double t[ntrMax][6], r[ntrMax][6], k[ntrMax], b[ntrMax];
@@ -273,7 +273,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 	TH2F *htt_3D[3][3], *hrr_3D[3][3]; // [XUV][DC0-1-2]
 	TH1F *h3DMissxPre[3], *h3DMissxPost[3], *hdt[3][3]; // [DC0-1-2][XUV]
 	for(int i = 0; i < 3; i++){ // loop over XUV
-		sprintf(name, "hnF_%d", i);
+		sprintf(name, "hnF_%c", xuv[i]);
 		sprintf(title, "Number of Fired %c Anode Layers Per 3D Track;nF%c", xuv[i], xuv[i]);
 		hnF[i] = new TH1F(name, title, 10, -1.5, 8.5);
 		sprintf(name, "hgGOOD%c", xuv[i]);
@@ -291,16 +291,16 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 			sprintf(name, "htt%c%d", xuv[i], j);
 			sprintf(title, "t_{X1} v.s. t_{X2} for Vertical %c Tracks for MWDC%d;t_{X1} [ns];t_{X2} [ns]", xuv[i], j);
 			htt[i][j] = new TH2F(name, title, 500, -100., 400., 500, -100., 400.);
-			sprintf(name, "hrr%c%d", xuv[i], j);
+			sprintf(name, "hrr%cdc%d", xuv[i], j);
 			sprintf(title, "r_{X1} v.s. r_{X2} for Vertical %c Tracks for MWDC%d;r_{X1} [mm];r_{X2} [mm]", xuv[i], j);
 			hrr[i][j] = new TH2F(name, title, 500, -0.2, 6., 500., -0.2, 6.);
 			objLs[4].push_back(htt[i][j]); objLs[4].push_back(hrr[i][j]);
-			sprintf(name, "htt_3D_%c%d", xuv[i], j);
+			sprintf(name, "htt_3D_%cdc%d", xuv[i], j);
 			sprintf(title, "t_{X1} v.s. t_{X2} for Vertical 3D %c Tracks for MWDC%d;t_{X1} [ns];t_{X2} [ns]", xuv[i], j);
 			htt_3D[i][j] = new TH2F(name, title, 500, -100., 400., 500, -100., 400.);
-			sprintf(name, "hrr_3D_%c%d", xuv[i], j);
+			sprintf(name, "hrr_3D_%cdc%d", xuv[i], j);
 			sprintf(title, "r_{X1} v.s. r_{X2} for Vertical 3D %c Tracks for MWDC%d;r_{X1} [mm];r_{X2} [mm]", xuv[i], j);
-			hrr_3D[i][j] = new TH2F(name, title, 500, -0.2, 6., 500., -0.2, 6.);
+			hrr_3D[i][j] = new TH2F(name, title, 500, -0.2, 6., 500, -0.2, 6.);
 			objLs[7].push_back(htt_3D[i][j]); objLs[7].push_back(hrr_3D[i][j]);
 			sprintf(name, "Hdt_DC%d%c", i, xuv[j]);
 			sprintf(title, "Drift Time Distribution of MWDC%d-%c;t [ns]", i, xuv[j]);
@@ -311,8 +311,8 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 	TH1F *hnF3D = new TH1F("hnF3D", "Number of All Fired Anode Layers Per 3D Track;nF", 22, -1.5, 20.5);
 	TH1F *h3DMissxTotPre = new TH1F("h3DMissxTotPre", "x Deviation in 3D Coincidence at z of all MWDCs (Pre-Correction)", 500, -100., 100.);
 	TH1F *h3DMissxTotPost = new TH1F("h3DMissxTotPost", "x Deviation in 3D Coincidence at z of all MWDCs (Post-Correction)", 500, -100., 100.);
-	TH1F *hXMag = new TH1F("hXMag", "x at the Entrance of the Magnetic Field", 1000, -500., 500.);
-	TH1F *hYMag = new TH1F("hYMag", "y at the Entrance of the Magnetic Field", 500, -250., 250.);
+	TH1F *hXMag = new TH1F("hXMag", "x at the Exit (z=1050) of the Magnetic Field", 1000, -500., 500.);
+	TH1F *hYMag = new TH1F("hYMag", "y at the Exit (z=1050) of the Magnetic Field", 500, -250., 250.);
 	objLs[0].push_back(hnF3D); objLs[0].push_back(h3DMissxTotPre); objLs[0].push_back(h3DMissxTotPost);
 	objLs[0].push_back(hXMag); objLs[0].push_back(hYMag);
 	TH1F *heff = new TH1F("heff", "MWDC efficiency - Number of X-U-V Tracks;X:Tot-DC0(X1-X2)-DC1-DC2--U--V", 30, -2.5, 27.5);
@@ -323,7 +323,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 
 
 	const int n = treeTrack->GetEntries(); // number of data sections
-	int ntrTot[3]{}, n3DtrTot = 0; // total number of tracks of all kinds of type
+	int ntrTot[3]{}, n3DtrTot = 0; // total number of tracks of all kinds of DC types (X-U-V)
 	int ntrPerSec[3][100]{}, n3DtrPerSec[ntrMax3D]{}; // [XUV][n3Dtr]
 	cout << "Totally " << n << " data sections would be processed.\n";
 	int hasAllCnt = 0; // count of sections that have X, U and V tracks
@@ -397,12 +397,12 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 			if(is3D){ // if 3D tracking has been implemented
 				hChi_3D->Fill(Chi3D[jj]);
 				hchi2_3D->Fill(chi2_3D[jj]);
-				const double b[3] = {k1_3D[jj], k2_3D[jj], 1.}; // track direction vector
+				const double bb[3] = {k1_3D[jj], k2_3D[jj], 1.}; // track direction vector
 				double alpha[3][3]{}; // angle between track projection and drift cell; [DC][XUV]
 				for(int j = 0; j < 3; j++){ // loop over XUV
 					// alpha-angle: track projection to normal plane of sense wires
 					for(int k = 3; k--;){ // v.s. the detector-local z-axis
-						alpha[k][j] = TAMath::AlphaAngle3D(b, ag[k][j], agAxis[k][j]);
+						alpha[k][j] = TAMath::AlphaAngle3D(bb, ag[k][j], agAxis[k][j]);
 //						double a1 = TAMath::VecAng3D(b, agAxis[k][j]) - Pi / 2.; // DEBUG
 //						double a2 = alpha[k][j]; // DEBUG
 //						cout << "a1: " << a1  << "\ta2: " << a2 << endl; getchar(); // DEBUG
@@ -420,7 +420,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 						const int STRid = TAAnodePara::GetSTRid(alpha[dcId][j]);
 						if(-1 != nu[it][k]){
 							const double tt = t[it][k], dr = chi3D[jj][j*6+k];
-							const double rc = r[it][k] + dr;
+							const double rc = r[it][k] + dr; // rc: calculated r
 							hchi_3D->Fill(dr);
 							hrt01_3D->Fill(tt, rc);
 							hdrt01_3D->Fill(tt, dr);
@@ -450,6 +450,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 				} // end loop over XUV
 			} // end if(is3D)
 		} // end loop over 3D tracks
+
 		bool hasXUV[3]{}; // whether the data section has X, U or V track projections
 		for(int j = 0; j < ntr; j++){ // end for over track projections
 			if(type[j]/10 != LRTAG) continue; // DCArrL or DCArrR
@@ -458,7 +459,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 			} // end foor over XUV
 			const int dcType = type[j]%10;
 			heff->Fill(dcType*8 + 2);
-			for(int l = 0; l < 6; l++){
+			for(int l = 0; l < 6; l++){ // loop over 6 anode layers
 				const int dcId = l / 2;
 				const int STRid = dcArr->GetMWDC(dcId)->GetSTRid(k[j], dcType);
 				if(-1 != nu[j][l]){
@@ -536,7 +537,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 	for(int i = 0; i < 3; i++) for(int j = 0; j < 2; j++){ // loop over XUV - LAYER1-2
 		cout << xuv[i] << j + 1;
 		double effDC0 = eff[0][i][j], effDC1 = eff[1][i][j], effDC2 = eff[2][i][j];
-		if(0 == effTot){ effDC0 = 0; effDC1 = 0; effDC2 = 0; }
+		if(0 == effTot){ effDC0 = 0; effDC1 = 0; effDC2 = 0; } // no 3D tracking
 		else{ effDC0 /= effTot; effDC1 /= effTot; effDC2 /= effTot; }
 		if(!n3DtrTot && 0 == i){ // only calculate X efficiencies
 			const double n = double(ntrTot[0]);
@@ -566,9 +567,11 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 		for(TObject *&b : objLs[i]) if(b){
 			b->Write("", TObject::kOverwrite);
 		}
-		objLs[i].clear();
 	}
-	for(auto &ls : objLs) for(auto &b : ls) if(b) delete b;
+	for(auto &ls : objLs) for(auto &b : ls) if(b){
+		delete b; b = nullptr;
+	}
+	for(auto &ls : objLs) ls.clear();
 	fw->Close(); delete fw; fw = nullptr;
 	f->Close(); delete f; f = nullptr;
 } // end of member function EvalDCArr
@@ -653,7 +656,7 @@ bool TAAssess::PostEval(const string &rootfile, int round, bool isDCArrR, bool i
 	delete gMean; gMean = nullptr; f->Close(); delete f; f = nullptr;
 
 	return true;
-}
+} // end of member function PostEval
 
 
 

@@ -89,6 +89,14 @@ TAPlaStrip *TAMWDCArray2::GetPlaT0() const{
 	if(!fPlaT0) TAPopMsg::Error(GetName().c_str(), "GetPlaT0: requested PlaT0 pointer is null");
 	return fPlaT0;
 }
+void TAMWDCArray2::SetPlaT0(TAPlaStrip *t0){
+	if(!t0) TAPopMsg::Error(GetName().c_str(), "SetPlaT0: input t0 is a null pointer");
+	if(fPlaT0){
+		TAPopMsg::Warn(GetName().c_str(), "SetPlaT0: fPlaT0 has already been assigned: %s", fPlaT0->GetName().c_str());
+	}
+	fPlaT0 = t0;
+}
+
 // assign the recognized TATrack2 objects to tTrack objects for assignments
 void TAMWDCArray2::AssignTracks(vector<tTrack *> &track_ls){ // assign tracks
 	if(!fTrackList[0].size()) return; // no tracks to assign
@@ -151,7 +159,7 @@ TAStuff *TAMWDCArray2::GetChannel(unsigned uid) const{
 		}
 	} // end if uid belongs to this object
 	return nullptr;
-}
+} // end of member function GetChannel
 // display the detector information
 void TAMWDCArray2::Info() const{
 	if(!TAPopMsg::IsVerbose()) return;

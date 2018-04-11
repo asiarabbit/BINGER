@@ -18,10 +18,10 @@
 #ifndef _TAMWDC_H_
 #define _TAMWDC_H_
 
-#include <vector>
+#include <array>
 #include "TADetector.h"
 
-using std::vector;
+using std::array;
 
 class TF1; // ROOT class
 class TADCSuperLayer;
@@ -59,7 +59,7 @@ public:
 	
 	static const int kX = 0, kU = 1, kV = 2, kY = 3;
 protected:
-	vector<TADCSuperLayer *> fSLayerArr; // [0-1-2] -> [X,U,V] or [0-1] -> [X-Y]
+	array<TADCSuperLayer *, 3> fSLayerArr; // [0-1-2] -> [X,U,V] or [0-1] -> [X-Y]
 	short fMWDCId;
 	short fNAnodePerLayer;
 	TAMWDCArray *fMotherDCArr;

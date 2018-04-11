@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/13.															     //
-// Last modified: 2018/3/30, SUN Yazhou.										     //
+// Last modified: 2018/4/8, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -199,19 +199,19 @@ void TAGPar::DefineParameters(){
 	p = new TAParameter("T_tofDC0toTOFWLX", "T_tofDC0toTOFWLX");
 	p->SetValue(6.6); fParVec[34] = p; p = nullptr;
 	// ---- PARAMETER 35 --- //
-	p = new TAParameter("T_tofDC1toTOFWLU", "T_tofDC1toTOFWLU");
+	p = new TAParameter("T_tofDC1toTOFWLX", "T_tofDC1toTOFWLX");
 	p->SetValue(4.1); fParVec[35] = p; p = nullptr;
 	// ---- PARAMETER 36 --- //
-	p = new TAParameter("T_tofDC2toTOFWLV", "T_tofDC2toTOFWLV");
+	p = new TAParameter("T_tofDC2toTOFWLX", "T_tofDC2toTOFWLX");
 	p->SetValue(1.4); fParVec[36] = p; p = nullptr;
 	// ---- PARAMETER 37 --- //
 	p = new TAParameter("T_tofDC0toTOFWRX", "T_tofDC0toTOFWRX");
 	p->SetValue(8.5); fParVec[37] = p; p = nullptr;
 	// ---- PARAMETER 38 --- //
-	p = new TAParameter("T_tofDC1toTOFWRU", "T_tofDC1toTOFWRU");
+	p = new TAParameter("T_tofDC1toTOFWRX", "T_tofDC1toTOFWRX");
 	p->SetValue(5.5); fParVec[38] = p; p = nullptr;
 	// ---- PARAMETER 39 --- //
-	p = new TAParameter("T_tofDC2toTOFWRV", "T_tofDC2toTOFWRV");
+	p = new TAParameter("T_tofDC2toTOFWRX", "T_tofDC2toTOFWRX");
 	p->SetValue(2.2); fParVec[39] = p; p = nullptr;
 	// $$$$$$$$$$ Parameters owned by class TACtrlPara $$$$$$$$$$$$$$$ //
 	// ---- PARAMETER 40 --- //
@@ -266,13 +266,13 @@ void TAGPar::DefineParameters(){
 	p = new TAParameter("T_tofDC0toTOFWUX", "T_tofDC0toTOFWUX");
 	p->SetValue(0.); fParVec[55] = p; p = nullptr;
 	// ---- PARAMETER 56 --- //
-	p = new TAParameter("T_tofDC1toTOFWUY", "T_tofDC1toTOFWUY");
+	p = new TAParameter("T_tofDC1toTOFWUX", "T_tofDC1toTOFWUX");
 	p->SetValue(0.); fParVec[56] = p; p = nullptr;
 	// ---- PARAMETER 57 --- //
 	p = new TAParameter("T_tofDC0toTOFWDX", "T_tofDC0toTOFWDX");
 	p->SetValue(0.); fParVec[57] = p; p = nullptr;
 	// ---- PARAMETER 58 --- //
-	p = new TAParameter("T_tofDC1toTOFWDY", "T_tofDC1toTOFWDY");
+	p = new TAParameter("T_tofDC1toTOFWDX", "T_tofDC1toTOFWDX");
 	p->SetValue(0.); fParVec[58] = p; p = nullptr;
 
 	// $$$$$ DC HV: 0,1,2,3,4: 900,1000,1300,1350,1500 $$$$$ //

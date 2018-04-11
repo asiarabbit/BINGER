@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2018/1/27, SUN Yazhou.										     //
+// Last modified: 2018/4/9, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -47,8 +47,24 @@ bool TACtrlPara::Is3DTracking(){ return kIs3DTracking; }
 double TACtrlPara::Get3DCoincideWindow(){ return gp->Val(40); }
 // used in map() as the averaged d2 over fired anodes. D2 <= nFiredAnodeLayer * D2Thre()   (PerDot)
 // for eliminating falsely fired andoes. BINGO unit: mm^2
-double TACtrlPara::D2Thre(){ return gp->Val(41); }
-bool TACtrlPara::TimeThre(double t){ return t > gp->Val(42) && t < gp->Val(43); }
+double TACtrlPara::D2Thre(unsigned uid){
+	if(999999999 != uid){
+		int type[6]; TAUIDParser::DNS(type, uid);
+		if(6 == type[0]){ // DCArrU -> Medium sized DC with drift cell size to be 5mm
+			return gp->Val(41) / 2.;
+		}
+	}
+	return gp->Val(41);
+}
+bool TACtrlPara::TimeThre(double t, unsigned uid){
+	if(999999999 != uid){
+		int type[6]; TAUIDParser::DNS(type, uid);
+		if(6 == type[0]){ // DCArrU -> Medium sized DC with drift cell size to be 5mm
+			return t > gp->Val(42) && t < gp->Val(43) / 2.;
+		}
+	}
+	return t > gp->Val(42) && t < gp->Val(43);
+}
 // threshold for chi per dot, to eliminate false combinations. 4.0
 double TACtrlPara::ChiThrePD(){
 	if(IsCoarseFit()) return 5.;
@@ -77,7 +93,7 @@ double TACtrlPara::DsquareThresholdPerDot(unsigned uid){
 		TAPopMsg::Error("TACtrlPara", "DsquareThresholdPerDot: Not an MWDC array");
 		return -9999.;
 	}
-	static double d2Thre[4] = {40., 40., 40., 40.}; // MWDC Array L-R-U-D
+	static double d2Thre[4] = {40., 40., 20., 40.}; // MWDC Array L-R-U-D
 	int dcArrId = -9999;
 	if(3 == type[0] || 4 == type[0]) dcArrId = type[0] - 3; // 0-1: L-R
 	if(6 == type[0] || 7 == type[0]) dcArrId = type[0] - 6 + 2; // 2-3: U-D
@@ -110,7 +126,7 @@ double TACtrlPara::T_tofDCtoTOFW(unsigned uid){
 	}
 
 	// DC0-1-2, include [dcArr][DC]
-	const double ccT_tofDCtoTOFW[4][3] = { // [L-R-U-D][X-U-V or X-Y]
+	const double ccT_tofDCtoTOFW[4][3] = { // [L-R-U-D][DC0-1-2 or DC0-1]
 		{gp->Val(34), gp->Val(35), gp->Val(36)}, // {7.4, 4.8, 2.0}, // beta = 0.5
 		{gp->Val(37), gp->Val(38), gp->Val(39)}, // {6.4, 4.0, 1.4} // beta = 0.6
 		{gp->Val(55), gp->Val(56), 0.},
@@ -140,9 +156,9 @@ double TACtrlPara::T_wireMean(unsigned uid){
 	static const double ccT_wireMean[4][3][3] = {
 		{{1.5, 1.5, 1.5}, {1.5, 1.5, 1.5}, {1.5, 1.5, 1.5}},
 		{{1.5, 1.5, 1.5}, {1.5, 1.5, 1.5}, {1.5, 1.5, 1.5}},
-		{{1.5, 1.5, 0.}, {1.5, 1.5, 0.}, {0., 0., 0.}},
-		{{1.5, 1.5, 0.}, {1.5, 1.5, 0.}, {0., 0., 0.}}
-		};
+		{{0.2, 0.2, 0.}, {0.2, 0.2, 0.}, {0., 0., 0.}},
+		{{0.4, 0.4, 0.}, {0.4, 0.4, 0.}, {0., 0., 0.}}
+	};
 
 	int dcArrId = -9999;
 	if(3 == type[0] || 4 == type[0]) dcArrId = type[0] - 3; // 0-1: L-R
@@ -235,14 +251,14 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 	else if(6 == type[0] || 7 == type[0]){ // MWDC array U-D
 			if(type[1] < 0 || type[1] > 1) TAPopMsg::Error("TACtrlPara", "AssignSTR: input anode para uid error: DCid: type[1]: %d", type[1]);
 			if(type[2] < 0 || type[2] > 1) TAPopMsg::Error("TACtrlPara", "AssignSTR: input anode para uid error: DCType: type[2]: %d", type[2]);
-			const int hv = HVopt[type[0]-6][type[1]][type[2]];
+			const int hv = HVopt[type[0]-6+2][type[1]][type[2]];
 			if(hv >= nHV) TAPopMsg::Error("TACtrlPara", "AssignSTR: hv id too large: hv: %d", hv);
 		for(int i = 0; i < nAngBin; i++){
 			// XXX: RTDumb -> 1300V, facilitate simulation
 			if(hv < 0) para->SetSTR(rt[2][i], i); // rtDumb, rt[0][i]
 			else para->SetSTR(rt[hv][i], i);
 		}
-	}	
+	}
 	else TAPopMsg::Error("TACtrlPara", "AssignSTR: input anode para uid error: DCArrId: type[0]: %d", type[0]);
 } // end of member function AssignSTR
 

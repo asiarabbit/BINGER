@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/22.															     //
-// Last modified: 2018/3/22, SUN Yazhou.										     //
+// Last modified: 2018/4/9, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -68,21 +68,38 @@ double Dsquare1(const double *x, const double *y, double &k, double &b, const in
 	// extract the two MWDCs with both of their anode planes fired
 	int N1[2] = {-1, -1}; // serial number of the MWDC with both of its anode planes fired
 	int temp = 0;
-	if(x[0] != -9999. && x[1] != -9999.) N1[temp++] = 0;
-	if(x[2] != -9999. && x[3] != -9999.) N1[temp++] = 1;
-	if(x[4] != -9999. && x[5] != -9999.){
+	if(x[0] != -9999. && x[1] != -9999.) N1[temp++] = 0; // DC0
+	if(x[2] != -9999. && x[3] != -9999.){
 		if(temp < 1){
-			N1[temp++] = 2;
+			N1[temp++] = 1; // DC1
 		}
 		else{
 			cout << endl << "temp: " << temp << endl;
 			cout << "Dsquare1, more than one MWDC are fired in both planes." << endl; // DEBUG
 			getchar(); // DEBUG
 		} // end else
-	}
+	} // end if
+	if(x[4] != -9999. && x[5] != -9999.){
+		if(temp < 1){
+			N1[temp++] = 2; // DC2
+		}
+		else{
+			cout << endl << "temp: " << temp << endl;
+			cout << "Dsquare1, more than one MWDC are fired in both planes." << endl; // DEBUG
+			getchar(); // DEBUG
+		} // end else
+	} // end if
 	// here we use the central point of the two fired anodes in X1 and X2 plane in the MWDC selected above
 	double x1 = (x[2 * N1[0]] + x[2 * N1[0] + 1]) / 2., y1 = (y[2 * N1[0]] + y[2 * N1[0] + 1]) / 2.;
-	double x2 = x[LAYER[2]], y2 = y[LAYER[2]];
+	// pick out the single one
+	int singleLAYER = -1;
+	for(int i = 3; i--;){
+		if(LAYER[i] != 2 * N1[0] && LAYER[i] != 2 * N1[0] + 1) singleLAYER = LAYER[i];
+	} // end for over i
+	if(singleLAYER < 0){
+		cout << "Dsquare1, after assignment, singleLAYER is still minus: " << singleLAYER << endl;
+	}
+	double x2 = x[singleLAYER], y2 = y[singleLAYER];
 	double k2m = 0., b2m = 0.;
 	k2m = (y2 - y1) / (x2 - x1);
 	if(k2m > 1E4)

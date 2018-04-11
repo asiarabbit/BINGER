@@ -40,7 +40,9 @@ void Fragment(int chId0, ofstream *pfout){
 			}
 			uid = type[0] + (type[1]<<6) + (type[2]<<9) + (type[3]<<15);
 			fr << chId0 << "\t" << uid << endl;
-			chId0++; type[3]++;
+		    if(chId0 > 0) chId0++;
+		    else chId0 = -2;
+			type[3]++;
 		}
 
 		serialId++;

@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/18.															     //
-// Last modified: 2018/4/3, SUN Yazhou.											     //
+// Last modified: 2018/4/9, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -41,6 +41,7 @@ public:
 	vector<TATrack2 *> &GetTrackList(int dcType);
 	TAMWDC *GetMWDC(int dcId) const; // get MWDC #dcId
 	TAPlaStrip *GetPlaT0() const;
+	void SetPlaT0(TAPlaStrip *t0);
 	double GetDsquareThresholdPerDot() const{ return fDsquareThresholdPerDot; }
 	void SetDsquareThresholdPerDot(double d2Thre);
 	int GetNXTrack() const{ return fTrackList[0].size(); }

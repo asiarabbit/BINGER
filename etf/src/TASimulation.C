@@ -354,7 +354,7 @@ void TASimulation::Evaluate(const string &rootfile){
 	int nTrkPerEv = 0, nTrack; // nTrk per event; number of tracks for a certain event
 	int ntr = 0; // number of track projections in a data section(3*3D track)
 	int index, indexSim = 0, indexSimPre = indexSim; // data section index
-	const int ntrMax = 200, ntrMax3D = ntrMax / 3;
+	const int ntrMax = 100, ntrMax3D = ntrMax / 3;
 
 	int nuSim[3][6], nu[ntrMax][6], nuSimAr[ntrMax3D][3][6];
 	bool isDCArrR, isDCArrRSimAr[ntrMax3D]{}; // wheter of MWDC array R

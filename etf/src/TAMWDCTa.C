@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/27.															     //
-// Last modified: 2018/3/28, SUN Yazhou.										     //
+// Last modified: 2018/4/8, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -54,8 +54,12 @@ void TAMWDCTa::GetAnodeGlobalProjection(int dcType, const double *globalCenter, 
 }
 
 void TAMWDCTa::Configure(){
+	int type[6]{}; TAUIDParser::DNS(type, GetUID());
+	if(6 != type[0] && 7 != type[0])
+		TAPopMsg::Error(GetName().c_str(), "Configure: Not a U-D MWDC array");
+
 	TADetector::Configure();
-	if(0 != fSLayerArr.size()){
+	if(fSLayerArr[0]){
 		TAPopMsg::Warn(GetName().c_str(), "Configure: has been called once");
 		return; // Configure() has been called
 	}
@@ -67,7 +71,7 @@ void TAMWDCTa::Configure(){
 	for(int i = 2; i--;){ // X-Y
 		sl[i]->SetSLayerId(i);
 		sl[i]->Configure();
-		fSLayerArr.push_back(sl[i]);
+		fSLayerArr[i] = sl[i];
 		fNAnodePerLayer = sl[i]->GetNCable() * 16;
 
 		// set mother dc
@@ -77,5 +81,5 @@ void TAMWDCTa::Configure(){
 		}
 	}
 //	TAPopMsg::Debug(GetName().c_str(), "Configure: showcase: fNAnodePerLayer: %d", fNAnodePerLayer);
-}
+} // end member function Configure
 

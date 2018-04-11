@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2017/11/21, SUN Yazhou.										     //
+// Last modified: 2018/4/9, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -48,10 +48,10 @@ struct tTrack{ // struct of tracks.
 	double Z; // atomic number
 	double m; // atomic mass/MeV
 	tTrack(); // the default constructor
+	virtual ~tTrack(){};
 	virtual void initialize();
 	virtual void show() const;
-	virtual double dcTOTAvrg() const;
-	virtual ~tTrack(){};
+	double dcTOTAvrg() const;
 };
 
 

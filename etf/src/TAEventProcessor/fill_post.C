@@ -29,12 +29,14 @@
 			type[j] = tra->type; id[j] = tra->id;
 			k[j] = tra->k; b[j] = tra->b; TOF[j] = tra->TOF;
 			gGOOD[j] = tra->gGOOD; chi2[j] = tra->chi2; Chi[j] = tra->Chi;
-			firedStripId[j] = tra->firedStripId; nStripStray[j] = tra->nStripStray;			
-			memcpy(xMiss3D[j], tra->xMiss3D, sizeof(xMiss3D[j]));
 
 			const short dcArrId = (type[j]/10)%10; // 0: dcArrL; 1: dcArrR; 2: dcArrrU; 3: dcArrD
 			if(0 != dcArrId && 1 != dcArrId && 2 != dcArrId && 3 != dcArrId)
 				TAPopMsg::Error("TAEventProcessor", "Run: invalid dcArrId: %d", dcArrId);
+			if(0 == dcArrId || 1 == dcArrId){
+				firedStripId[j] = tra->firedStripId; nStripStray[j] = tra->nStripStray;			
+				memcpy(xMiss3D[j], tra->xMiss3D, sizeof(xMiss3D[j]));
+			} // end if
 			const int dcType = type[j]%10; // [0-1-2 or 0-1]: [X-U-V or X-Y]
 			if(type[j]%10 == 0 && firedStripId[j] >= 0){ // X trk
 				TAPlaStrip *strip = tofw[dcArrId]->GetStrip(firedStripId[j]);
@@ -52,6 +54,8 @@
 				r[j][k] = tra->r[k];
 				chi[j][k] = tra->chi[k];
 				const double dt = tra->t[k];
+				if(dcArrId > 1 && dcId > 1) // DCArrUD - dcId is 0 or 1.
+					TAPopMsg::Error("TAEventProcessor", "Run: invalid dc Id for DCArrUD: %d", dcId);
 				if(-9999. != dt){
 					if(0 == dcArrId || 1 == dcArrId) hdt[dcArrId][dcId][dcType]->Fill(dt);
 					if(2 == dcArrId || 3 == dcArrId) hdtTa[dcArrId-2][dcId][dcType]->Fill(dt);
@@ -63,7 +67,7 @@
 					if(2 == dcArrId || 3 == dcArrId) dc = dcArr2[dcArrId-2]->GetMWDC(dcId);
 					TAAnode *ano = dc->GetAnode(dcType, layerOption, nu[j][k]);
 					TOT_DC[j][k] = tra->dcTOT[k] = ano->GetTOT();
-					sfe16Id[j][k] = ((TAAnodePara*)ano->GetPara())->GetSFE16Id();
+					sfe16Id[j][k] = ano->GetAnodePara()->GetSFE16Id();
 					chit[j][k] = ano->GetDriftTime(r[j][k]+chi[j][k], kl) - t[j][k];
 				} // end if
 				else{
@@ -78,7 +82,7 @@
 			// particle identification //
 			int ii = 0; taHitX[j] = -9999.; tof2[j] = -9999.; sipmArrStripId[j] = -1;
 			int priority = 0, priorityM = 1000; // to select the optimal fired sipmArr strip time
-			if(sipmArr->GetNFiredStrip() >= 1){
+			if(sipmArr && sipmArr->GetNFiredStrip() >= 1){
 				for(TAChannel *&ch : sipmArr->GetChArr()){
 					if(ch->GetFiredStatus()){
 						// sipm -> TOFWall
@@ -124,7 +128,7 @@
 			if(-9999. != tof2[j]) htof2->Fill(tof2[j]);
 			if(beta2[j] >= 0.) hbeta2->Fill(beta2[j]);
 			if(-9999. != TOT_DC_Avrg[j]) hdcTOT->Fill(TOT_DC_Avrg[j]);
-			if(aoz[j] != -9999. && aozdmin[j] < 0.1){
+			if(-9999. != aoz[j] && aozdmin[j] < 0.1){
 				haoz->Fill(aoz[j]);
 				if(beta2[j] >= 0.){
 					hpoz->Fill(poz[j]);
@@ -139,10 +143,15 @@
 //		for(auto &t : trk3DIf) t.initialize(); for(auto &t : pid3DIf) t.initialize();
 		n3Dtr = 0;
 		if(ntr >= 3) RefineTracks(n3Dtr, trk3DIf, tof2, taHitX);
-		if(n3Dtr > 0) RefinePID(n3Dtr, trk3DIf, pid3DIf);
+		if(IsPID() && n3Dtr > 0) RefinePID(n3Dtr, trk3DIf, pid3DIf);
+		// calculate N of 3D trk from DCArrL and DCArrR
+		for(int j = 0; j < n3Dtr; j++){
+			if(trk3DIf[j].isDCArrR) n3DtrLs[1]++; // DCArrR
+			else n3DtrLs[0]++; // DCArrL
+		}
 
 		//////// refine tracks from DCArrU-D if there's only one trkX and one trkY in U or D /////////
-		int n3DtrT = n3Dtr;
+		n3DtrT = n3Dtr;
 		if((1 == ntrLs[2][0] && 1 == ntrLs[2][1]) || (1 == ntrLs[3][0] && 1 == ntrLs[3][1])){
 			// obtain the track id of the two 3D tracks //
 			tTrack *tArr[4]{}; // [0-1-2-3]: [UX-UY-DX-DY]
@@ -157,7 +166,7 @@
 			} // end for
 			//////////// do the 3D fitting ///////////////
 			if((tArr[0] && tArr[1]) || (tArr[2] && tArr[3])){
-				for(int jj = 0; jj < 2; jj++){ // loop over 3D tracks (or DCArr)
+				for(int jj = 0; jj < 2; jj++){ // loop over 3D tracks (or DCArr) jj 0-1 -> U-D
 					if(!tArr[jj*2] || !tArr[jj*2+1]) continue; // select valid DCArr (U or D)
 					//////  Assign anode position and track information for 3D fitting /////////////
 					const int nF = tArr[jj*2]->nFiredAnodeLayer + tArr[jj*2+1]->nFiredAnodeLayer;
@@ -177,7 +186,7 @@
 							tmp++;
 						} // end for over k (anode layer)
 					} // end for over l (X-Y)
-					TAMath::BFGS4(Ag, ag, trkVec, rr, nF);
+					TAMath::BFGS4(Ag, ag, trkVec, rr, nF); // refine and refresh trkVec
 					// pass the fitting result to treePID3D //
 					for(double &x : trk3DIf[n3DtrT].chi) x = -9999.;
 					tmp = 0; trk3DIf[n3DtrT].chi2 = 0.;
@@ -185,13 +194,13 @@
 					for(int l = 0; l < 2; l++){ // loop over X-Y
 						for(int j = 0; j < 4; j++){ // DC0X1X2-DC1X1X2
 							if(tArr[jj*2+l]->nu[j] != -1){ // one measure point
-								trk3DIf[n3DtrT].chi[l*4+j] = TAMath::dSkew(Ag[tmp], ag[tmp], trkVec) - rr[tmp];
-								trk3DIf[n3DtrT].chi2 += trk3DIf[n3DtrT].chi[l*4+j] * trk3DIf[n3DtrT].chi[l*4+j];
+								trk3DIf[n3DtrT].chi[l*6+j] = TAMath::dSkew(Ag[tmp], ag[tmp], trkVec) - rr[tmp];
+								trk3DIf[n3DtrT].chi2 += trk3DIf[n3DtrT].chi[l*6+j] * trk3DIf[n3DtrT].chi[l*6+j];
 								tmp++;
 							} // end if
 						} // end for over j
 					} // end for over l
-					trk3DIf[n3DtrT].Chi = sqrt(trk3DIf[n3DtrT].chi2/(nF-4));
+					trk3DIf[n3DtrT].Chi = sqrt(trk3DIf[n3DtrT].chi2/(nF-4)); // nF-4: ndf
 					trk3DIf[n3DtrT].k1 = trkVec[0]; trk3DIf[n3DtrT].b1 = trkVec[2];
 					trk3DIf[n3DtrT].k2 = trkVec[1]; trk3DIf[n3DtrT].b2 = trkVec[3];
 					trk3DIf[n3DtrT].isDCArrR = jj;
@@ -221,15 +230,16 @@
 					if(0 == TOTcnt) trk3DIf[n3DtrT].dcTOTAvrg = -9999.; // failed
 					else trk3DIf[n3DtrT].dcTOTAvrg /= TOTcnt; // the updated average
 					n3DtrT++;
+					n3DtrLs[2+jj]++;
 				} // end for over jj (3D tracks, or DC Arr)
 			} // end if(there's only one track in DCArrU or DCArrD)
 		} // end outer if
 
 		/////////////////////// PID DOWNSTREAM THE TARGET ////////////////////////////////////////
-		// PID using tthe DC array downstream the target and the DC array downstream the dipole magnet
-		if(1 == ntrLs[3][0]){ // only one trk in DCArrD, or no pid is possible
-			if(1 == n3Dtr || (0 == n3Dtr && 1 == ntrLs[1][0])){
-				double pIn[4], pOut[4]; // [0-1-2-3]: [k1, k2, b1, b2]
+		// PID using the DC array downstream the target and the DC array downstream the dipole magnet
+		if(IsPID() && 1 == ntrLs[3][0]){ // only one trk in DCArrD, or no pid is possible
+			if(1 == n3DtrLs[1] || (0 == n3DtrLs[1] && 1 == ntrLs[1][0])){
+				double pIn[4], pOut[4]; // [0-1-2-3]: [k1, k2, b1, b2]; pIn: into the magnet
 				for(int j = 4; j--;){
 					pIn[j] = -9999.;
 					pOut[j] = -9999.;
@@ -245,19 +255,22 @@
 						pIn[1] = t->k; pIn[3] = t->b;
 					} // end if(1 == ntrLs[3][1])
 					// assign DCArrR trks //
-					if(0 == n3Dtr && 1 == ntrLs[1][0]){ // DCArrR, only one Xproj is found, no 3D trks
+					if(0 == n3DtrLs[1] && 1 == ntrLs[1][0]){ // DCArrR, only one Xproj is found, no 3D trks
 						if(1 == dcArrId && 0 == dcType){
 							pOut[0] = t->k; pOut[2] = t->b;
 						} // end if(1 == dcArrId && 0 == dcType)
-					} // end if(0 == n3Dtr && 1 == ntrLs[1][0])
+					} // end if(0 == n3DtrLs[1] && 1 == ntrLs[1][0])
 				} // end for over tracks
-				if(1 == n3Dtr){
+				if(1 == n3DtrLs[1]){ // found only one DCArrR 3D trk
 					pOut[0] = trk3DIf[0].k1; pOut[2] = trk3DIf[0].b1;
 					pOut[1] = trk3DIf[0].k2; pOut[3] = trk3DIf[0].b2;
 				}
-				if(0) if(n3DtrT - n3Dtr > 0 && 1 == ntrLs[3][1]){ // use DCArrD-3D trk or not
+				// XXX XXX XXX XXX //
+				if(0) if(1 == n3DtrLs[3]){ // use DCArrD-3D trk or not
 					for(int jj = n3Dtr; jj < n3DtrT; jj++){
 						if(1 == trk3DIf[jj].isDCArrR){ // DCArrD
+							if(-2 != trk3DIf[jj].firedStripId)
+								TAPopMsg::Error("TAEventProcessor", "Run: fill_post:273, abnormal firedStripId for 3D DCArrUD tracks: %d", trk3DIf[jj].firedStripId);
 							pIn[0] = trk3DIf[jj].k1; pIn[2] = trk3DIf[jj].b1;
 							pIn[1] = trk3DIf[jj].k2; pIn[3] = trk3DIf[jj].b2;
 							break;
@@ -288,15 +301,17 @@
 			TOF_posY_refine[jj] = t.TOF_posY_refine; // dt or 3D trks
 			firedStripId3D[jj] = t.firedStripId; tof2_3D[jj] = t.tof2;
 			dcTOTAvrg3D[jj] = t.dcTOTAvrg;
+			hTOFWHitPosCmp[isDCArrR[jj]]->Fill(TOF_posY[jj], TOF_posY_refine[jj]);
 //			cout << "t.firedStripId: " << t.firedStripId << endl; // DEBUG
 //			cout << "t.tof2: " << t.tof2 << endl; // DEBUG
 //			getchar(); // DEBUG
 			// 3D trk PID
-			aoz3D[jj] = p.aoz; aozdmin3D[jj] = p.aozdmin;
-			beta2_3D[jj] = p.beta2; poz3D[jj] = p.poz;
-			yp3D[jj][0] = p.angTaOut[0]; yp3D[jj][1] = p.angTaOut[1];
-			trkLenT3D[jj] = p.trkLenT;
-			hTOFWHitPosCmp[isDCArrR[jj]]->Fill(TOF_posY[jj], TOF_posY_refine[jj]);
+			if(IsPID()){
+				aoz3D[jj] = p.aoz; aozdmin3D[jj] = p.aozdmin;
+				beta2_3D[jj] = p.beta2; poz3D[jj] = p.poz;
+				yp3D[jj][0] = p.angTaOut[0]; yp3D[jj][1] = p.angTaOut[1];
+				trkLenT3D[jj] = p.trkLenT;
+			} // end if(IsPID())
 		} // end for over 3D tracks
 		// update drift time and drift distance
 		for(int j = 0; j < ntrT; j++){

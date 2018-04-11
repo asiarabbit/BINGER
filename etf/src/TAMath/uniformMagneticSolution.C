@@ -18,7 +18,7 @@
 		cdouble Delta(qh*qh + pt*pt*pt, 0.);
 		cdouble sqrtDelta = sqrt(Delta);
 		cdouble omega(-0.5, Sqrt3()/2.);
-		cdouble cqh(qh,0.);
+		cdouble cqh(qh, 0.);
 
 		cdouble alphap = pow(-cqh + sqrtDelta, 1./3.);
 		cdouble alpham = pow(-cqh - sqrtDelta, 1./3.);

@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/12.															     //
-// Last modified: 2018/1/13, SUN Yazhou.										     //
+// Last modified: 2018/4/9, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -71,7 +71,7 @@ double TADeployPara::GetTOFWallStripDelay(unsigned uid) const{
 
 	int type[6]{}; TAUIDParser::DNS(type, uid);
 	if(3 != type[0] && 4 != type[0])
-		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an MWDC array");
+		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an L-R MWDC array");
 	if(3 != type[1]) TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not a TOFWall");
 	if(type[2] > 30)
 		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Strip Id out of range: %d", type[2]);
@@ -93,24 +93,22 @@ double TADeployPara::GetTOFWallDelayAvrg(unsigned uid) const{
 }
 double TADeployPara::GetMWDCDelay(unsigned uid) const{
 	int type[6]{}; TAUIDParser::DNS(type, uid);
-	if(3 != type[0] && 4 != type[0])
+	if(3 != type[0] && 4 != type[0] && 6 != type[0] && 7 != type[0])
 		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an MWDC array");
-	if(type[1] >= 3)
+	if((3 == type[0] || 4 == type[0]) && type[1] >= 3)
+		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an MWDC");
+	if((6 == type[0] || 7 == type[0]) && type[1] >= 2)
 		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an MWDC");
 
-	const double offset0[2] = {20.8, 9.}; // from FEE to HPTDC
-	double delay = offset0[type[0] - 3];
-	delay += -TACtrlPara::Instance()->T_wireMean(uid);
+	const double offset0[4] = {19.3, 7.5, 0., 0.}; // from FEE to HPTDC
+
+	int dcArrId = -9999;
+	if(3 == type[0] || 4 == type[0]) dcArrId = type[0] - 3; // 0-1: L-R
+	if(6 == type[0] || 7 == type[0]) dcArrId = type[0] - 6 + 2; // 2-3: U-D
+	double delay = offset0[dcArrId];
+//	delay += -TACtrlPara::Instance()->T_wireMean(uid);
 	return delay;
 }
-
-
-
-
-
-
-
-
 
 
 

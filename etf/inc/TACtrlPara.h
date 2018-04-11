@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2017/10/9, SUN Yazhou.										     //
+// Last modified: 2018/4/9, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -35,9 +35,9 @@ public:
 	// tolerance window for 3D coincidence test of X U and V track projections
 	// 5: half a DC cell, given all kinds of errors
 	static double Get3DCoincideWindow();
-	static double D2Thre(); // for eliminating falsely fired andoes. unit: mm^2
+	static double D2Thre(unsigned uid = 999999999); // for eliminating falsely fired andoes. unit: mm^2
 	static double DsquareThresholdPerDot(unsigned uid);
-	static bool TimeThre(double t); // if time is within set range
+	static bool TimeThre(double t, unsigned uid = 999999999); // if time is within set range
 	// threshold for chi per dot, to eliminate false combinations. 4.0
 	double ChiThrePD();
 	static int Vicinity(); // used in discerning multiple tracks, unit: cell

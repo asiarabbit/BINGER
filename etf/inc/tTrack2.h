@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/22.															     //
-// Last modified: 2018/3/23, SUN Yazhou.										     //
+// Last modified: 2018/4/8, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -26,7 +26,7 @@ struct tTrack2 : public tTrack{ // struct of tracks
 	tTrack2(); // the default constructor
 	virtual ~tTrack2(){}; // the default destructor
 	virtual void show() const;
-	virtual double dcTOTAvrg() const;
+	virtual void initialize();
 };
 
 #endif

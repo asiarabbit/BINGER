@@ -21,7 +21,7 @@ int main(int argc, char *argv[]){
 	TASimulation *sim = new TASimulation();
 	sim->SetFixDCArr(1); sim->SetIsDebug(0); // MWDC array L or R only
 	sim->SetBeta(0.45, 0.6); // DCArrL, DCArrR
-	sim->GenerateSim(125000, nTrkPerEv, eff, argv[3]);
+	sim->GenerateSim(1250, nTrkPerEv, eff, argv[3]);
 
 	return 0;
 }

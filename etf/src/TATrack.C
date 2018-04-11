@@ -64,7 +64,7 @@ TATrack &TATrack::operator=(const TATrack &track){
 	fgGOOD = track.fgGOOD;
 	fK = track.fK; fB = track.fB;
 	fChi2 = track.fChi2; fDsquare = track.fDsquare;
-	fIsFitted = track.fIsFitted; fIsAssigned = track.fIsAssigned; 
+	fIsFitted = track.fIsFitted; fIsAssigned = track.fIsAssigned;
 	fFitMethod = track.fFitMethod; fFitPrecision = track.fFitPrecision;
 	fZc = track.fZc; fXc = track.fXc; f3DId = track.f3DId;
 	fDsquareThresholdPerDot = track.fDsquareThresholdPerDot;

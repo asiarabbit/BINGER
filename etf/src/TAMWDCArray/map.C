@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2018/3/21, SUN Yazhou.										     //
+// Last modified: 2018/4/9, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -75,29 +75,31 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 	//////////////////////////////// THE 6-FOLD NESTED LOOP ////////////////////////////////
 	// to loop over all the possible combinations of fired sense wires 
 	// for the least-Dsquare tracks for a specific event
+	// i == nAnodePerLayer# corresponds to the one situation where all the fired anodes
+	// in the layer is deemed as invalid (caused by noise, unwanted particles, etc.).
 	for(int i = 0; i <= nAnodePerLayer0; i++){ nu[0] = -1; // DC0-X1
 		if(i < nAnodePerLayer0 && MWDC[0]->GetAnodeL1(dcType, i)->GetFiredStatus()) nu[0] = i; // DC0-X1 --------------------------------------------------------------
-		if(-1 == nu[0] && i < nAnodePerLayer0) continue; // inert anodes within the anode layers would be ignored.
+		if(-1 == nu[0]) continue; // inert anodes within the anode layers would be ignored.
 		
 	for(int j = 0; j <= nAnodePerLayer0; j++){ nu[1] = -1; // DC0-X2 // i + 3 = i + 2 + 1, adjacency involves two anodes.
 		if(j < nAnodePerLayer0 && MWDC[0]->GetAnodeL2(dcType, j)->GetFiredStatus()) nu[1] = j; // DC0-X2 ------------------------------------------
-		if(-1 == nu[1] && j < nAnodePerLayer0) continue;
+		if(-1 == nu[1]) continue;
 
 	for(int ii = 0; ii <= nAnodePerLayer1; ii++){ nu[2] = -1; // DC1-X1
 		if(ii < nAnodePerLayer1 && MWDC[1]->GetAnodeL1(dcType, ii)->GetFiredStatus()) nu[2] = ii; // DC1-X1 ------------------------------------------------------------------------------
-		if(-1 == nu[2] && ii < nAnodePerLayer1) continue;
+		if(-1 == nu[2]) continue;
 
 	for(int jj = 0; jj <= nAnodePerLayer1; jj++){ nu[3] = -1; // DC1-X2
 		if(jj < nAnodePerLayer1 && MWDC[1]->GetAnodeL2(dcType, jj)->GetFiredStatus()) nu[3] = jj; // DC1-X2 ----------------------------------------
-		if(-1 == nu[3] && jj < nAnodePerLayer1) continue;
+		if(-1 == nu[3]) continue;
 
 	for(int iii = 0; iii <= nAnodePerLayer2; iii++){ nu[4] = -1; // DC2-X1
 		if(iii < nAnodePerLayer2 && MWDC[2]->GetAnodeL1(dcType, iii)->GetFiredStatus()) nu[4] = iii; // DC2-X1 ----------------------------------------------------------------------------
-		if(-1 == nu[4] && iii < nAnodePerLayer2) continue;
+		if(-1 == nu[4]) continue;
 
 	for(int jjj = 0; jjj <= nAnodePerLayer2; jjj++){ nu[5] = -1; // DC2-X2
 		if(jjj < nAnodePerLayer2 && MWDC[2]->GetAnodeL2(dcType, jjj)->GetFiredStatus()) nu[5] = jjj; // DC2-X2 --------------------------------------
-		if(-1 == nu[5] && jjj < nAnodePerLayer2) continue;
+		if(-1 == nu[5]) continue;
 		
 			normalEvent = (nu[0] >= 0 || nu[1] >= 0) && (nu[2] >= 0 || nu[3] >= 0) && (nu[4] >= 0 || nu[5] >= 0); // Each MWDC has fired anode(s).
 //			if(!normalEvent) continue;
@@ -266,7 +268,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 					if(2 == overlap){ // an overlap happend
 						overlapTrackCnt++;
 					} // end if(overlap == 2)
-					if(1 == overlap) break; // newTrack is part of oldTrack, and is dropped
+					if(1 == overlap) continue; // newTrack is part of oldTrack, and is dropped
 				} // end for over k
 				// eliminate the obsolete tracks
 				for(unsigned k = 0; k < track.size(); k++){
@@ -277,14 +279,14 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 					} // end if
 				} // end for over k
 #ifdef DEBUG_MAP
-				if(overlap != 1){
+				if(1 != overlap){
 					TAPopMsg::Debug(GetName().c_str(), "map: New track confirmed.");
 				}
 #endif
 				if(cmpShow){ // DEBUG
 					TAPopMsg::Debug(GetName().c_str(), "map: Before pushback, track.size(): %d", track.size());
 				} // end if // DEBUG
-				if(overlap != 1){ // new track accepted
+				if(1 != overlap){ // new track accepted
 					newTrack.SetName(GetName());
 					sprintf(tail, "->Track%c_%lu", type, track.size());
 					newTrack.AppendName(tail);

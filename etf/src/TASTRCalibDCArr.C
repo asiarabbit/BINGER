@@ -83,7 +83,7 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 		dcArr->GetMWDC(i)->GetAnode(j, 1, 0)->GetAnodePara()->GetGlobalDirection(ag[i][j]);
 	}
 
-	const int ntrMax = 200, ntrMax3D = ntrMax / 3;
+	const int ntrMax = 100, ntrMax3D = ntrMax / 3;
 	int ntr, index, type[ntrMax], id[ntrMax], nu[ntrMax][6];
 	double kl[ntrMax], xMiss3D[ntrMax][3];
 	double t[ntrMax][6], r[ntrMax][6], chi[ntrMax][6], Chi[ntrMax];

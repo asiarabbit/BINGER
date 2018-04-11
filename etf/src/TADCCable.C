@@ -34,7 +34,8 @@ int TADCCable::GetCableId() const{
 TADCSFE16 *TADCCable::GetSFE16(int n) const{
 	if(n < 0 || (unsigned)n >= fSFE16Arr.size())
 		TAPopMsg::Error(GetName().c_str(), "GetSFE16: The input subscript out of range: %d", n);
-	if(!fSFE16Arr[n]) TAPopMsg::Error(GetName().c_str(), "GetSFE16Id: SFE16 Chip#%d not assigend", n);
+	if(!fSFE16Arr[n])
+		TAPopMsg::Error(GetName().c_str(), "GetSFE16Id: SFE16 Chip#%d not assigend", n);
 	return fSFE16Arr[n];
 }
 void TADCCable::SetSFE16(int n, TADCSFE16 *sfe){
@@ -57,7 +58,7 @@ void TADCCable::Configure(){
 		return; // Configure() has been called
 	}
 	TADCSFE16 *sfe[2];
-	
+
 	char name[64];
 	for(int i = 2; i--;){
 		sprintf(name, "->SFE16_%d", i);

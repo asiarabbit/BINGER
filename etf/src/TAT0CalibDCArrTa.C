@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/4/3.															     //
-// Last modified: 2018/4/4, SUN Yazhou.											     //
+// Last modified: 2018/4/10, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -61,10 +61,10 @@ void TAT0CalibDCArrTa::Refine_DTHisto(){
 void TAT0CalibDCArrTa::Refine_DTHisto(const string &rootfile, TAMWDCArray2 *dcArr){
 	TAPopMsg::Info("TAT0CalibDCArrTa", "Refine_DTHisto: Input rootfile name: %s", rootfile.c_str());
 	const bool isDCArrD = bool(dcArr->GetUID()-6); // 6: U; 7: D
-	const short UDTAG = 12 + isDCArrD;
+	const short UDTAG = 12 + isDCArrD; // 12: DCArrU; 13: DCArrD
 
 	// read the track tree
-	const int ntrMax = 200;
+	const int ntrMax = 100;
 	int ntr, ntrT, index, type[ntrMax], nu[ntrMax][6];
 	double t[ntrMax][6], r[ntrMax][6], k[ntrMax], b[ntrMax];
 	if(0 != access(rootfile.c_str(), F_OK))
@@ -114,7 +114,7 @@ void TAT0CalibDCArrTa::Refine_DTHisto(const string &rootfile, TAMWDCArray2 *dcAr
 			ntrLs[dcArrId][dcType]++;
 		}
 		if(1 != ntrLs[2+isDCArrD][0] || 1 != ntrLs[2+isDCArrD][1]){
-			continue; // no 3D trk is present in the specified DCArr
+			continue; // no 3D trk is present in the specified DCArr (U or D)
 		}
 		int trkId[2]{}; // X-Y
 		for(int j = 0; j < ntrT; j++){
@@ -123,8 +123,8 @@ void TAT0CalibDCArrTa::Refine_DTHisto(const string &rootfile, TAMWDCArray2 *dcAr
 		for(int l = 0; l < 2; l++){ // loop over X-Y
 			for(int j = 0; j < 4; j++){ // loop over 4 anode layers
 				if(nu[trkId[l]][j] != -1){ // one measure point
-					int DCid = j / 2; // 0-1-2: DC0-DC1
-					int dcType = l; // 0-1-2: X-Y
+					int DCid = j / 2; // 0-1: DC0-DC1
+					int dcType = l; // 0-1: X-Y
 					int layerType = j % 2 + 1; // 1-2: anodeL1-anodeL2
 					int NU = nu[trkId[l]][j];
 					if(hdt[DCid][dcType][layerType-1][NU]){
@@ -163,6 +163,8 @@ void TAT0CalibDCArrTa::Refine_DTHisto(const string &rootfile, TAMWDCArray2 *dcAr
 
 void TAT0CalibDCArrTa::GenerateCalibFile(bool isShowFit){
 	if(!fDCArr) TAPopMsg::Error("TAT0CalibDCArrTa", "GenerateCalibFile: MWDC array pointer is null");
+	if(!strcmp(fROOTFile.c_str(), ""))
+		TAPopMsg::Error("TAT0CalibDCArrTa", "GenerateCalibFile: ROOT file name is empty");
 	GenerateCalibFile(fROOTFile, fDCArr, isShowFit);
 }
 void TAT0CalibDCArrTa::GenerateCalibFile(const string &rootfile, TAMWDCArray2 *dcArr, bool isShowFit){
@@ -181,15 +183,15 @@ void TAT0CalibDCArrTa::GenerateCalibFile(const string &rootfile, TAMWDCArray2 *d
 	// T0 is the offset due to the electronics chain from the preamplifier to the TDC input
 	double T0 = 0., sigma_t0 = 0., chi2 = 0.; // results from TH1F::Fit(...) method.
 	int sigma_t0_cnt = 0; double sigma_t0_sum = 0; // for calculate the mean value of sigma_t0
-	int anodeId[4]{}, uid; // [0-3]: [i,j,m,k] [DC#][XUV][1,2][80]
-	TTree *treeT0 = new TTree("treeT0", "T0 of DC Anodes");
+	int anodeId[4]{}, uid; // [0-3]: [i,j,m,k] [DC#][XUV][1,2][16]
+	TTree *treeT0 = new TTree("treeT0Ta", "T0 of DC Anodes");
 	treeT0->Branch("anodeId", anodeId, "anodeId[4]/I");
 	treeT0->Branch("T0", &T0, "T0/D");
 	treeT0->Branch("sigma_t0", &sigma_t0, "sigma_t0/D");
 	treeT0->Branch("uid", &uid);
-	TH1F *hT0 = new TH1F("hT0", "T0 Distribution Over Aondes Before T0 Correction", 501, -25.05, 25.05);
+	TH1F *hT0 = new TH1F("hT0Ta", "T0 Distribution Over Aondes Before T0 Correction - for DCTa", 501, -25.05, 25.05);
 
-	char xy[] = "XY", strdir[] = "T0Calibration", mkstrdir[64] = "mkdir ";
+	char xy[] = "XY", strdir[] = "T0CalibrationTa", mkstrdir[64] = "mkdir ";
 	strcat(mkstrdir, strdir);
 	// create a new directory to store STR correction files
 	if(0 != access(strdir, F_OK)) system(mkstrdir);
@@ -198,8 +200,8 @@ void TAT0CalibDCArrTa::GenerateCalibFile(const string &rootfile, TAMWDCArray2 *d
 	sprintf(name, "%s/%s_.002", strdir, dcArr->GetName().c_str());
 	// check that if the T0 config file already exists
 	// The T0 calibration should be implemented with the absence of the target T0 config files
-	if(TAParaManager::Instance()->Exist(2)){
-		TAPopMsg::Info("TAT0CalibDCArrTa", "GenerateCalibFile: T0 Calibration files already exist in config/[experiment]/T0:");
+	if(!access(name, F_OK)){ // TAParaManager::Instance()->Exist(2)
+		TAPopMsg::Warn("TAT0CalibDCArr", "GenerateCalibFile: %s already exist", name);
 		char cmd[128]; sprintf(cmd, "echo;echo ls %s/T0/*:; ls %s/T0/*;echo", TACtrlPara::Instance()->ConfigExpDir(), TACtrlPara::Instance()->ConfigExpDir());
 		system(cmd);
 	}
@@ -222,9 +224,9 @@ void TAT0CalibDCArrTa::GenerateCalibFile(const string &rootfile, TAMWDCArray2 *d
 	fd->SetParName(2, "T0"); fd->SetParName(3, "sigma_t0");
 	fd->SetParameter(2, 0.); fd->SetParLimits(2, -30., 30.); // T0, unit: ns
 	fd->SetParameter(3, 0.01); fd->SetParLimits(3, 0.005, 20.); // sigm_t_0, unit: ns
-	for(int i = 0; i < 2; i++){ // loop over DCs
+	for(int i = 0; i < 2; i++){ // loop over two DCs
 		outFile << "#################### This is MWDC " << i << " #######################\n";
-		for(int j = 0; j < 2; j++){ // loop over X-U-V
+		for(int j = 0; j < 2; j++){ // loop over X-Y
 			outFile << "#----- " << xy[j] << " -----#\n";
 			for(int m = 0; m < 2; m++){ // loop over layer 1 and layer 2
 				outFile << "\t# layer " << m + 1 << "\n";

@@ -30,7 +30,7 @@ double TAMath::refinedFitBFGS(const double *x, const double *y, const double *r,
 		par[12 + i] = r[i];
 	}
 	//	par[18] = k0; par[19] = b0;
-	//	Dsquare(x, y, par[18], par[19], gGOOD, LAYER, d2PerDot); // deprecated.
+	//	Dsquare(x, y, par[18], par[19], gGOOD, LAYER, d2PerDot); // deprecated
 	// set the iteration origin.
 	double d2min; // the minimum value of fun.
 	d2min = iterativeFit(x, y, r, par[18], par[19], gGOOD, LAYER, d2PerDot);
