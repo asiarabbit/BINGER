@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2018/4/4, SUN Yazhou.											     //
+// Last modified: 2018/4/11, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -412,15 +412,17 @@ void TASimulation::Evaluate(const string &rootfile){
 		memset(n3DtrXUV, 0, sizeof(n3DtrXUV));
 		memset(trkId, -1, sizeof(trkId));
 		// loop over grouped track projections
-		for(int j = 0; j < ntr; j++) if(-1 != id[j]){
-			for(int k = 0; k < 3; k++){ // loop over X-U-V track types
-				if(type[j]%10 == k){
-					trkId[id[j]][k] = j;
-					n3DtrXUV[k]++;
-				}
-			} // end loop over X-U-V track types
-		} // end for over j and if
-		else typeMinusCnt[type[j]%10]++;
+		for(int j = 0; j < ntr; j++){
+			if(-1 != id[j]){
+				for(int k = 0; k < 3; k++){ // loop over X-U-V track types
+					if(type[j]%10 == k){
+						trkId[id[j]][k] = j;
+						n3DtrXUV[k]++;
+					}
+				} // end loop over X-U-V track types
+			} // end for over j and if
+			else typeMinusCnt[type[j]%10]++;
+		} // end for over ntr
 		if(n3DtrXUV[0] != n3DtrXUV[1] || n3DtrXUV[0] != n3DtrXUV[2]){
 			TAPopMsg::Error("TASimulation", "Evaluate: This is odd... track projections of X, U and V are not consistent: n3DtrX: %d, n3DtrU: %d, n3DtrV: %d", n3DtrXUV[0], n3DtrXUV[1], n3DtrXUV[2]);
 		} // end if

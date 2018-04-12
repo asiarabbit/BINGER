@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2018/4/9, SUN Yazhou.										     //
+// Last modified: 2018/4/11, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -79,27 +79,27 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 	// in the layer is deemed as invalid (caused by noise, unwanted particles, etc.).
 	for(int i = 0; i <= nAnodePerLayer0; i++){ nu[0] = -1; // DC0-X1
 		if(i < nAnodePerLayer0 && MWDC[0]->GetAnodeL1(dcType, i)->GetFiredStatus()) nu[0] = i; // DC0-X1 --------------------------------------------------------------
-		if(-1 == nu[0]) continue; // inert anodes within the anode layers would be ignored.
+		if(-1 == nu[0] && i < nAnodePerLayer0) continue; // inert anodes within the anode layers would be ignored.
 		
 	for(int j = 0; j <= nAnodePerLayer0; j++){ nu[1] = -1; // DC0-X2 // i + 3 = i + 2 + 1, adjacency involves two anodes.
 		if(j < nAnodePerLayer0 && MWDC[0]->GetAnodeL2(dcType, j)->GetFiredStatus()) nu[1] = j; // DC0-X2 ------------------------------------------
-		if(-1 == nu[1]) continue;
+		if(-1 == nu[1] && j < nAnodePerLayer0) continue;
 
 	for(int ii = 0; ii <= nAnodePerLayer1; ii++){ nu[2] = -1; // DC1-X1
 		if(ii < nAnodePerLayer1 && MWDC[1]->GetAnodeL1(dcType, ii)->GetFiredStatus()) nu[2] = ii; // DC1-X1 ------------------------------------------------------------------------------
-		if(-1 == nu[2]) continue;
+		if(-1 == nu[2] && ii < nAnodePerLayer1) continue;
 
 	for(int jj = 0; jj <= nAnodePerLayer1; jj++){ nu[3] = -1; // DC1-X2
 		if(jj < nAnodePerLayer1 && MWDC[1]->GetAnodeL2(dcType, jj)->GetFiredStatus()) nu[3] = jj; // DC1-X2 ----------------------------------------
-		if(-1 == nu[3]) continue;
+		if(-1 == nu[3] && jj < nAnodePerLayer1) continue;
 
 	for(int iii = 0; iii <= nAnodePerLayer2; iii++){ nu[4] = -1; // DC2-X1
 		if(iii < nAnodePerLayer2 && MWDC[2]->GetAnodeL1(dcType, iii)->GetFiredStatus()) nu[4] = iii; // DC2-X1 ----------------------------------------------------------------------------
-		if(-1 == nu[4]) continue;
+		if(-1 == nu[4] && iii < nAnodePerLayer2) continue;
 
 	for(int jjj = 0; jjj <= nAnodePerLayer2; jjj++){ nu[5] = -1; // DC2-X2
 		if(jjj < nAnodePerLayer2 && MWDC[2]->GetAnodeL2(dcType, jjj)->GetFiredStatus()) nu[5] = jjj; // DC2-X2 --------------------------------------
-		if(-1 == nu[5]) continue;
+		if(-1 == nu[5] && jjj < nAnodePerLayer2) continue;
 		
 			normalEvent = (nu[0] >= 0 || nu[1] >= 0) && (nu[2] >= 0 || nu[3] >= 0) && (nu[4] >= 0 || nu[5] >= 0); // Each MWDC has fired anode(s).
 //			if(!normalEvent) continue;
@@ -175,8 +175,8 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 					// edges of TOFW would be compared to t0 for the suitable one
 					int lid = LAYER[nFiredAnodeLayer-1]; // id of the last fired DC anode layer
 					TAAnode *ano = MWDC[lid/2]->GetAnode(dcType, lid%2+1, nu[lid]);
-					double t0 = ano->GetTime();
-					unsigned uid = ano->GetUID();
+					const double t0 = ano->GetTime();
+					const unsigned uid = ano->GetUID();
 					const double delta = clp->T_tofDCtoTOFW(uid) - clp->T_wireMean(uid); // minor correction
 					// -20 ~ 250: speculated drift time range
 					// 0+t_wire+t_drift=t_DC; 0+t_tof=t_TOF;
@@ -327,7 +327,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 // 2: newTrack defeats oldTrack
 // Here tracks with good == 2 are despised and discriminated
 int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, int dcType, bool show){
-//	if(0 != dcType) return 0; // no conclusion could be reached for U(V)projs
+	if(0 != dcType) return 0; // no conclusion could be reached for U(V)projs
 
 	int nstripDeviation = fabs(newTrack->GetFiredStripId() - oldTrack->GetFiredStripId());
 	const int vicinity = clp->Vicinity();
@@ -355,7 +355,7 @@ int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, int dcType, bool 
 			return 2; // oldTrack is nasty
 		} // end if
 		if(2 == newTrack->GetgGOOD() && 2 == oldTrack->GetgGOOD()){
-			if(dcType == 0){
+			if(0 == dcType){
 				if(newTrack->GetChi() >= oldTrack->GetChi()){
 					return 1; // newTrack is nasty
 				} // end if
@@ -363,7 +363,7 @@ int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, int dcType, bool 
 					oldTrack->SetName("OBSOLETE");
 					return 2; // oldTrack is nasty
 				} // end else
-			} // end if(dcType == 0)
+			} // end if(0 == dcType)
 			else return 0; // a conclusion cannot be reached yet for U or V tracks
 		} // end if
 	} // end if
@@ -387,7 +387,7 @@ int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, int dcType, bool 
 			} // end if(nu[i] >= 0)
 		} // end for over i
 
-		// confirmed overlapped tracks.
+		// confirmed overlapped tracks
 		if(nstripDeviation <= stripTolerance){
 	   		if(show){ // DEBUG
 	   			cout << "mark2" << endl; // DEBUG

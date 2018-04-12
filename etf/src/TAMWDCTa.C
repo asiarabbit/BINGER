@@ -47,8 +47,8 @@ void TAMWDCTa::GetAnodeGlobalProjection(int dcType, const double *globalCenter, 
 		globalProjection[2] = p[2];
 	}
 	if(dcType == TAMWDC::kY){ // [0-1-2] -> [Y-X-Z]
-		globalProjection[0] = p[1];
-		globalProjection[1] = p[0]; // Y value would not be used in tracking
+		globalProjection[0] = p[1]; // Y value would not be used in substitute for X here
+		globalProjection[1] = p[0];
 		globalProjection[2] = p[2];
 	}
 }

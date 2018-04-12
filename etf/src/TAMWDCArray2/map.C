@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/19.															     //
-// Last modified: 2018/4/9, SUN Yazhou.											     //
+// Last modified: 2018/4/11, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -75,19 +75,19 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 	// in the layer is deemed as invalid (caused by noise, unwanted particles, etc.).
 	for(int i = 0; i <= nAnodePerLayer0; i++){ nu[0] = -1; // DC0-X1
 		if(i < nAnodePerLayer0 && MWDC[0]->GetAnodeL1(dcType, i)->GetFiredStatus()) nu[0] = i; // DC0-X1 --------------------------------------------------------------
-		if(-1 == nu[0]) continue; // inert anodes within the anode layers would be ignored
+		if(-1 == nu[0] && i < nAnodePerLayer0) continue; // inert anodes within the anode layers would be ignored
 
 	for(int j = 0; j <= nAnodePerLayer0; j++){ nu[1] = -1; // DC0-X2
 		if(j < nAnodePerLayer0 && MWDC[0]->GetAnodeL2(dcType, j)->GetFiredStatus()) nu[1] = j; // DC0-X2 --------------------------------------------------------------
-		if(-1 == nu[1]) continue;
+		if(-1 == nu[1] && j < nAnodePerLayer0) continue;
 
 	for(int ii = 0; ii <= nAnodePerLayer1; ii++){ nu[2] = -1; // DC1-X1
 		if(ii < nAnodePerLayer1 && MWDC[1]->GetAnodeL1(dcType, ii)->GetFiredStatus()) nu[2] = ii; // DC1-X1 --------------------------------------------------------------
-		if(-1 == nu[2]) continue;
+		if(-1 == nu[2] && ii < nAnodePerLayer1) continue;
 
 	for(int jj = 0; jj <= nAnodePerLayer1; jj++){ nu[3] = -1; // DC1-X2
 		if(jj < nAnodePerLayer1 && MWDC[1]->GetAnodeL2(dcType, jj)->GetFiredStatus()) nu[3] = jj; // DC1-X2 --------------------------------------------------------------
-		if(-1 == nu[3]) continue;
+		if(-1 == nu[3] && jj < nAnodePerLayer1) continue;
 		
 			normalEvent = nu[0] >= 0 && nu[1] >= 0 && nu[2] >= 0 && nu[3] >= 0; // all the 4 sense wire layers are fired
 			bool inert0 = nu[0] <  0 && nu[1] >= 0 && nu[2] >= 0 && nu[3] >= 0;
@@ -148,7 +148,7 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 
 				// get the lt time of the DC that is closest to the PlaT0,
 				// edges of PlaT0 would be compared to t0 for the suitable one
-				int lid = LAYER[0]; // using the last layer for the time being
+				int lid = LAYER[0]; // using the layer closet to fPlaT0
 				TAAnode *ano = MWDC[lid/2]->GetAnode(dcType, lid%2+1, nu[lid]);
 				const double t0 = ano->GetTime();
 				const unsigned uid = ano->GetUID();
@@ -164,7 +164,7 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 					continue;
 				}
 				// assign drift time array and drift distance array
-				for(int i = 0; i < 4; i++){ // DC0-X1-X2-DC1-X1-X2
+				for(int i = 0; i < 4; i++) if(nu[i] >= 0){ // DC0-X1-X2-DC1-X1-X2
 					TAAnode *ano = MWDC[i/2]->GetAnode(dcType, i%2+1, nu[i]);
 					ano->GetAnodeData()->SetTOF(TOF);
 					// assign weight at the same time
@@ -179,7 +179,7 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 //					cout << "dt2: " << clp->T_wireMean(uid) << endl;
 //					cout << "2, t[i]: " << t[i] << endl; getchar(); // DEBUG
 					if(-9999. != TOF) r[i] = ano->GetDriftDistance(t[i], kl);
-				} // end for over i
+				} // end for over i and if
 #ifdef DEBUG_MAP
 				for(double tt : t) cout << "t: " << tt << endl; // DEBUG
 				getchar(); // DEBUG

@@ -180,8 +180,9 @@ void TAEventProcessor::Configure(){
 	}
 	// select an experiment, to direct to a directory containing the exp config parameters
 	const char dir[3][64] = {"pion_2017Oct", "beamTest_2016Nov", "C16_Exp_2018_Summer"};
-	TAPopMsg::Info("TAEventProcessor", "Configure: selected Exp Config Dir: %s", dir[1]);
-	SetConfigExpDir(dir[1]);
+	const char *sdir = dir[0];
+	TAPopMsg::Info("TAEventProcessor", "Configure: selected Exp Config Dir: %s", sdir);
+	SetConfigExpDir(sdir);
 	// STR_spline.root || STR_stiff.root || STR_aaa900.root
 	SetSTRROOTFile("STR_spline.root"); // space-time relations for MWDCs
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
@@ -196,8 +197,8 @@ void TAEventProcessor::Configure(){
 	detList[3] = new TAMWDCArrayL("DCArrayL", "DCArrayL@Post-Magnet", 3); // ALLOWED
 	detList[4] = new TAMWDCArrayR("DCArrayR", "DCArrayR@Post-Magnet", 4); // FORBIDDEN
 	detList[5] = new TASiPMPlaBarrel("SiPMPlaBarrel", "SiPMPlaBarrel@Hug-Target", 5); // ALLOWED
-	detList[6] = new TAMWDCArrayU("DCArrayU", "DCArrayU@Pre-Target", 6); // ALLOWED
-	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7); // ALLOWED
+//	detList[6] = new TAMWDCArrayU("DCArrayU", "DCArrayU@Pre-Target", 6); // ALLOWED
+//	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7); // ALLOWED
 	for(TADetUnion *&p : detList) if(p) p->Configure(); // build the detectors
 	// time start for DCArrU-D is TAT0_1
 	if(detList[6]) ((TAMWDCArray2*)detList[6])->SetPlaT0((TAT0_1*)detList[1]);
