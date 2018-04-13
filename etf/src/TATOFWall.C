@@ -29,7 +29,7 @@
 #include "TAChData.h"
 
 TATOFWall::TATOFWall(const string &name, const string &title, unsigned uid)
-		: TADetector(name, title, uid){
+		: TADetector(name, title, uid), fNStrip(-9999){ // fNStrip initial value CANNOT be altered
 	fStripArr.reserve(30);
 	fDelayAvrg = -9999.;
 }
@@ -155,6 +155,13 @@ double TATOFWall::GetDelay(int stripId) const{
 	return GetDelayAvrg() + GetStrip(stripId)->GetDelay();
 }
 
+// has to be called before the calling of Configure() to make the setting here take effect
+void TATOFWall::SetNStrip(int nstrip){
+	if(nstrip <= 0)
+		TAPopMsg::Error("TATOFWall", "SetNStrip: abnormal input nstrip (0 or minus): %d", nstrip);
+	fNStrip = nstrip;
+}
+
 void TATOFWall::Initialize(){
 	for(TAPlaStrip *str : fStripArr) str->Initialize();
 }
@@ -166,16 +173,19 @@ void TATOFWall::Configure(){
 		TAPopMsg::Warn(GetName().c_str(), "Configure: has been called once");
 		return; // Configure() has been called
 	}
-	const int n = deploy->GetNTOFWallStrip(GetUID());
+	if(-9999 == fNStrip){
+		fNStrip = deploy->GetNTOFWallStrip(GetUID());
+	}
+	fNStrip = fNStrip < 0 ? 0 : fNStrip;
 	char name[64];
 	TAPlaStrip *str;
-	for(int i = 0; i < n; i++){
+	for(int i = 0; i < fNStrip; i++){
 		sprintf(name, "%s->Strip%d", GetName().c_str(), i);
 		str = new TAPlaStrip(name, name, fUID+(i<<9));
 		str->SetStripId(i); str->Configure();
 		fStripArr.push_back(str);
 	}
-}
+} // end of member function Configure
 // print user-defined configurations
 void TATOFWall::Info() const{
 	TAPlaStripPara *pra = GetStrip(0)->GetStripPara();

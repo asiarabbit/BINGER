@@ -7,7 +7,7 @@
 #include <ctime>
 
 using namespace std;
-typedef int tChId[3][3][6];
+typedef int tChId[3][3][6]; // [DC0-1][X-U-V][Cable#]
 
 #include "chId0.C" // initialization of chIdL and chIdR
 

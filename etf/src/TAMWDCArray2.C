@@ -113,6 +113,10 @@ void TAMWDCArray2::AssignTracks(vector<tTrack *> &track_ls){ // assign tracks
 
 #include "TAMWDCArray2/map.C" // definition of bool Map(TAMWDC **MWDC, vector<TATrack2> &track)
 void TAMWDCArray2::Map(){ // map the fired channels in one data section once and for all
+	if(4 != GetPlaT0()->GetFiredStatus()
+	&& 3 != GetPlaT0()->GetFiredStatus()
+	) return;
+
 	Map(fMWDC, fTrackList[0], 0); // X
 	Map(fMWDC, fTrackList[1], 1); // Y
 } // end of function void Map()

@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/30.															     //
-// Last modified: 2018/1/16, SUN Yazhou.										     //
+// Last modified: 2018/4/13, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -34,6 +34,7 @@ public:
 	double GetHitPosition() const; // distance from hit point to the down end.
 	// 0: not fired; 1:only upper end fired; 2: only down end fired;
 	// 3: both end fired, but hit position out of range. 4: both end fired and hit point within ration range. -1: H and V not simultaneously fired. -2: Member channels not assigned.
+	// Note that for U channels, the returned value is added with 10
 	int GetFiredStatus() const; // not simply return fFired, but based on the data members
 	// t0, t1 and t2 are set for choosing ch->GetLT over edges
 	// (ch->GetLT-t0) within t1 and t2 is chosen. 

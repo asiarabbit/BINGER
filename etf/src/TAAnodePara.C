@@ -184,16 +184,17 @@ void TAAnodePara::SetSTRCorArr(const int *vaBinNumArr,
 int TAAnodePara::GetSFE16Id() const{
 	static int type[6]{};
 	if(0 == type[0]) TAUIDParser::DNS(type, fUID);
-	if(3 == type[0] || 4 == type[0]) return fUID & 0x7FFF; // the 15 LSB
-	else if(6 == type[0] || 7 == type[0]) return fUID & 0x7FF; // the 11 LSB
+	if(3 == type[0] || 4 == type[0] || 6 == type[0] || 7 == type[0])
+		return fUID & 0x7FFF; // the 15 LSB
 	else TAPopMsg::Error(GetName().c_str(), "GetSFE16Id: this is not from a valid MWDC array");
 	return -1;
 } // the first 15 LSBs
 int TAAnodePara::GetCableId() const{
+
 	static int type[6]{};
 	if(0 == type[0]) TAUIDParser::DNS(type, fUID);
-	if(3 == type[0] || 4 == type[0]) return fUID & 0x3FFF; // the 14 LSB
-	else if(6 == type[0] || 7 == type[0]) return fUID & 0x3FF; // the 10 LSB
+	if(3 == type[0] || 4 == type[0] || 6 == type[0] || 7 == type[0])
+		return fUID & 0x3FFF; // the 14 LSB
 	else TAPopMsg::Error(GetName().c_str(), "GetCableId: this is not from a valid MWDC array");
 	return -1;
 } // the first 14 LSBs
