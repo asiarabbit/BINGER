@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/3.															     //
-// Last modified: 2018/4/4, SUN Yazhou.											     //
+// Last modified: 2018/4/15, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -35,6 +35,7 @@ public:
 	short GetMWDCId() const;
 	short GetNAnodePerLayer() const;
 	TADCSuperLayer *GetSLayer(int id) const;
+	int GetNSLayer() const; // number of constructed SLayer
 	TAMWDCArray *GetMotherDCArr() const;
 	void SetSLayer(int n, TADCSuperLayer *sl);
 	void SetMWDCId(int id);
@@ -57,7 +58,7 @@ public:
 	virtual void Initialize() override;
 	virtual void Info() const;
 	
-	static const int kX = 0, kU = 1, kV = 2, kY = 3;
+	static const int kX = 0, kU = 1, kV = 2, kY = 1;
 protected:
 	array<TADCSuperLayer *, 3> fSLayerArr; // [0-1-2] -> [X,U,V] or [0-1] -> [X-Y]
 	short fMWDCId;

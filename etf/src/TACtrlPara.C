@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2018/4/9, SUN Yazhou.											     //
+// Last modified: 2018/4/15, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -233,8 +233,22 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 				rt[i][j] = (TF1*)f->Get(name);
 			}
 		}
+	} // end if not assigned
+	// // STRs for MWDCTaM // //
+	static const int nHVM = 1;
+	static int HVM[nHVM] = {1400}; // V
+	static TF1 *rtM[nHVM][nAngBin]{0};
+	if(!rtM[0][0]){
+		for(int i = 0; i < nHVM; i++){
+			for(int j = 0; j < nAngBin; j++){
+				sprintf(name, "%dM/RT%d", HVM[i], j);
+				rtM[i][j] = (TF1*)f->Get(name);
+			} // end for over j
+		} // end for over i
 		f->Close();
 	} // end if not assigned
+	
+
 	unsigned uid = para->GetUID();
 	int type[6]{}; TAUIDParser::DNS(type, uid);
 	if(3 == type[0] || 4 == type[0]){ // MWDC array L-R
@@ -245,9 +259,11 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 		for(int i = 0; i < nAngBin; i++){
 			// XXX: RTDumb -> 1300V, facilitate simulation
 			if(hv < 0) para->SetSTR(rt[2][i], i); // rtDumb, rt[0][i]
-			else para->SetSTR(rt[hv][i], i);
-		}
-	}
+			else if(!rt[hv][i])
+				TAPopMsg::Error("TACtrlPara", "AssignSTR: required rt is nullptr: hv: %d, nang: %d", hv, i);
+			else para->SetSTR(rtM[hv][i], i); // XXX: note that this is only for P. Ma triplet-DCTaM Test
+		} // end for over i
+	} // end if(3 == type[0] || 4 == type[0])
 	else if(6 == type[0] || 7 == type[0]){ // MWDC array U-D
 			if(type[1] < 0 || type[1] > 1) TAPopMsg::Error("TACtrlPara", "AssignSTR: input anode para uid error: DCid: type[1]: %d", type[1]);
 			if(type[2] < 0 || type[2] > 1) TAPopMsg::Error("TACtrlPara", "AssignSTR: input anode para uid error: DCType: type[2]: %d", type[2]);
@@ -257,8 +273,8 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 			// XXX: RTDumb -> 1300V, facilitate simulation
 			if(hv < 0) para->SetSTR(rt[2][i], i); // rtDumb, rt[0][i]
 			else para->SetSTR(rt[hv][i], i);
-		}
-	}
+		} // end for over i
+	} // end else if
 	else TAPopMsg::Error("TACtrlPara", "AssignSTR: input anode para uid error: DCArrId: type[0]: %d", type[0]);
 } // end of member function AssignSTR
 

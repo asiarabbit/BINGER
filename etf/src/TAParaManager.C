@@ -412,8 +412,9 @@ void TAParaManager::AssignSTR() const{
 	for(int i = 2; i--;) if(dcArr[i]){ // loop over two DC arrays
 		for(int j = 3; j--;){ // loop over DCs in an array
 			TAMWDC *dc = dcArr[i]->GetMWDC(j);
+			const int nsl = dc->GetNSLayer();
 			const int n = dc->GetNAnodePerLayer();
-			for(int m = 0; m < 3; m++){ // X-U-V
+			for(int m = 0; m < nsl; m++){ // X-U-V
 				for(int l = 0; l < n; l++){ // loop over anodes in a DC
 					ctrlpara->AssignSTR(dc->GetAnodeL1(m, l)->GetAnodePara());
 					ctrlpara->AssignSTR(dc->GetAnodeL2(m, l)->GetAnodePara());
@@ -428,8 +429,9 @@ void TAParaManager::AssignSTR() const{
 	for(int i = 2; i--;) if(dcArr2[i]){ // loop over two DC arrays
 		for(int j = 2; j--;){ // loop over DCs in an array
 			TAMWDC *dc = dcArr[i]->GetMWDC(j);
+			const int nsl = dc->GetNSLayer();
 			const int n = dc->GetNAnodePerLayer();
-			for(int m = 0; m < 2; m++){ // X-Y
+			for(int m = 0; m < nsl; m++){ // X-Y
 				for(int l = 0; l < n; l++){ // loop over anodes in a DC
 					ctrlpara->AssignSTR(dc->GetAnodeL1(m, l)->GetAnodePara());
 					ctrlpara->AssignSTR(dc->GetAnodeL2(m, l)->GetAnodePara());

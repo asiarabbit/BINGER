@@ -51,6 +51,7 @@ build/*
 doc/
 misc/*
 !misc/tools/Garfield/
+!misc/tools/chidGenerator/
 !build/*.sh
 !build/*.C
 data/

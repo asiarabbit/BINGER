@@ -454,9 +454,9 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 		bool hasXUV[3]{}; // whether the data section has X, U or V track projections
 		for(int j = 0; j < ntr; j++){ // end for over track projections
 			if(type[j]/10 != LRTAG) continue; // DCArrL or DCArrR
-			for(int k = 0; k < 3; k++){ // end for over XUV
+			for(int k = 0; k < 3; k++){ // for over XUV
 				if(type[j]%10 == k) hasXUV[k] = true;
-			} // end foor over XUV
+			} // end for over XUV
 			const int dcType = type[j]%10;
 			heff->Fill(dcType*8 + 2);
 			for(int l = 0; l < 6; l++){ // loop over 6 anode layers

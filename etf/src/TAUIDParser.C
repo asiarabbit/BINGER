@@ -63,13 +63,13 @@ unsigned TAUIDParser::UIDGenerator(const int *type){
 		return type[0] + (type[1]<<6);
 	}
 
-	if( (3 == result[0] || 4 == result[0]) || // MWDC Arrays after the big dipole Mag: 3->L, 4->R
-	    (6 == result[0] || 7 == result[0]) ){ // MWDC Arrays around the target: 6->U, 7->D
+	if( 3 == type[0] || 4 == type[0] || // MWDC Arrays after the big dipole Mag: 3->L, 4->R
+	    6 == type[0] || 7 == type[0] ){ // MWDC Arrays around the target: 6->U, 7->D
 		// check the validity of the type for the MWDC arrays
 		if(type[1] < 0 || type[1] > 3)
 			TAPopMsg::Error("TAUIDParser",
 					"UIDGenerator: Input type out of range: type[1]: %d", type[1]);
-		if(type[0] >= 0 && type[1] <= 2){ // MWDCs
+		if(type[1] >= 0 && type[1] <= 2){ // MWDCs
 			if(type[2] > 0x3 || type[2] < 0) // DCSLayer id
 				TAPopMsg::Error("TAUIDParser",
 						"UIDGenerator: Input type out of range: type[2]: %d", type[2]);

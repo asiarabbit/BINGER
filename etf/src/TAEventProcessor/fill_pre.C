@@ -144,9 +144,10 @@
 			tofw[ii]->GetFiredStripArr(multiTOFW_post[ii], hitIdLsTOFW_post[ii]);
 			hTOFWMulti[ii]->Fill(tofw[ii]->GetNFiredStrip());
 			for(int j = 0; j < 3; j++){ // loop over the three MWDCs
-				for(int k = 0; k < 3; k++){ // loop over XUV SLayers
+				const int nsl = dc[ii][j]->GetNSLayer();
+				const int na = dc[ii][j]->GetNAnodePerLayer();
+				for(int k = 0; k < nsl; k++){ // loop over XUV SLayers
 					for(int l = 0; l < 2; l++){ // loop over layer option (1, 2)
-						const int na = dc[ii][j]->GetNAnodePerLayer();
 						for(int m = 0; m < na; m++){ // loop over anode per layer
 							TAAnode *ano = dc[ii][j]->GetAnode(k, l + 1, m);
 							if(ano->GetFiredStatus()){

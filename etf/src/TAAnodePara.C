@@ -7,7 +7,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/24.															     //
-// Last modified: 2018/4/10, SUN Yazhou.										     //
+// Last modified: 2018/4/15, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -108,8 +108,6 @@ int TAAnodePara::GetSTRid(double k, int dcType) const{
 	if( ((3 == type[0] || 4 == type[0]) && (dcType < 0 || dcType > 2)) || // DCArrL-R
 		((6 == type[0] || 7 == type[0]) && (dcType < 0 || dcType > 1)) )	// DCArrU-D
 		TAPopMsg::Error(GetName().c_str(), "GetSTRid: invalid dcType: %d", dcType);
-
-	if((6 == type[0] || 7 == type[0]) && 1 == dcType) dcType = TAMWDC::kY;
 
 	const double phiC = GetMotherDC()->GetDetPara()->GetPhi();
 	const double thetaC = GetMotherDC()->GetDetPara()->GetTheta();

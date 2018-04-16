@@ -47,7 +47,7 @@ void TAMWDCTa::GetAnodeGlobalProjection(int dcType, const double *globalCenter, 
 		globalProjection[2] = p[2];
 	}
 	if(dcType == TAMWDC::kY){ // [0-1-2] -> [Y-X-Z]
-		globalProjection[0] = p[1]; // Y value would not be used in substitute for X here
+		globalProjection[0] = p[1]; // Y value would be used in substitute for X here
 		globalProjection[1] = p[0];
 		globalProjection[2] = p[2];
 	}
@@ -55,8 +55,8 @@ void TAMWDCTa::GetAnodeGlobalProjection(int dcType, const double *globalCenter, 
 
 void TAMWDCTa::Configure(){
 	int type[6]{}; TAUIDParser::DNS(type, GetUID());
-	if(6 != type[0] && 7 != type[0])
-		TAPopMsg::Error(GetName().c_str(), "Configure: Not a U-D MWDC array");
+	if(6 != type[0] && 7 != type[0] && 4 != type[0] && 3 != type[0])
+		TAPopMsg::Error(GetName().c_str(), "Configure: Not an MWDC array");
 
 	TADetector::Configure();
 	if(fSLayerArr[0]){
@@ -65,8 +65,8 @@ void TAMWDCTa::Configure(){
 	}
 
 	TADCSuperLayer *sl[2]; // [0-1]: [X-Y]
-	sl[0] = new TADCSuperLayer(fName+"->SLayerX", fTitle+"->SLayerX", fUID+(0<<8));
-	sl[1] = new TADCSuperLayer(fName+"->SLayerY", fTitle+"->SLayerY", fUID+(1<<8));
+	sl[0] = new TADCSuperLayer(fName+"->SLayerX", fTitle+"->SLayerX", fUID+(0<<9));
+	sl[1] = new TADCSuperLayer(fName+"->SLayerY", fTitle+"->SLayerY", fUID+(1<<9));
 
 	for(int i = 2; i--;){ // X-Y
 		sl[i]->SetSLayerId(i);

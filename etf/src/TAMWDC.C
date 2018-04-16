@@ -77,6 +77,11 @@ TADCSuperLayer *TAMWDC::GetSLayer(int n) const{
 		TAPopMsg::Error(GetName().c_str(), "GetSLayer: Super-Layer#%d not assigend", n);
 	return fSLayerArr[n];
 }
+int TAMWDC::GetNSLayer() const{
+	int n = 0;
+	for(auto p : fSLayerArr) if(p) n++;
+	return n;
+}
 TAMWDCArray *TAMWDC::GetMotherDCArr() const{
 	if(!fMotherDCArr) TAPopMsg::Error(GetName().c_str(), "GetMotherDCArr: pointer is null.");
 	return fMotherDCArr;

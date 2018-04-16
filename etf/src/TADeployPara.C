@@ -39,7 +39,8 @@ short TADeployPara::GetNDCCable(unsigned uid) const{
 	int type[6]{}; TAUIDParser::DNS(type, uid);
 	if(3 == type[0] || 4 == type[0]){ // MWDC Array L-R
 		if(type[1] > 2) TAPopMsg::Error("TADeployPara", "GetNDCCable: Not an MWDC");
-		return fNDCCable[type[0]-3][type[1]];
+//		return fNDCCable[type[0]-3][type[1]];
+		return 1;
 	}
 	// there is only one cable for each SLayer in DCs arount the target
 	if(6 == type[0] || 7 == type[0]){

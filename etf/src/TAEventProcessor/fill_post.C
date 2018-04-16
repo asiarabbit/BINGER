@@ -226,7 +226,7 @@
 							}
 							else tArr[jj*2+j]->dcTOT[k] = -9999.; // 2018-01-15, slick, rule out noise-like TOTs
 						} // end for over k
-					} // end for voer XUV
+					} // end for voer XY
 					if(0 == TOTcnt) trk3DIf[n3DtrT].dcTOTAvrg = -9999.; // failed
 					else trk3DIf[n3DtrT].dcTOTAvrg /= TOTcnt; // the updated average
 					n3DtrT++;
