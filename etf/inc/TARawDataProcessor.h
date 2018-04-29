@@ -9,10 +9,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2017/10/10, SUN Yazhou.										     //
+// Last modified: 2018/4/17, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -28,25 +28,32 @@ public:
 	static TARawDataProcessor *Instance();
 	virtual ~TARawDataProcessor();
 
-	int GetEventCnt() const { return fEventCnt; }
+	int GeEventCnt() const { return fEventCnt; }
+	int GetVMEEventCnt() const { return fVMEEventCnt; }
 	int GetBunchIdMisAlignCnt() const { return fBunchIdMisAlignCnt; }
 	const char *GetROOTFileName() const { return fROOTFile.c_str(); }
 	const char *GetDataFileName() const { return fDataFile.c_str(); }
-	int ReadOffline(); // read offline binary data file and store them in a tree and a rootfile.
+	int ReadOffline(); // read offline binary data file and store them in a tree and a rootfile
+	int ReadOfflinePXI();
+	int ReadOfflineVME();
 	void SetROOTFileName(const string &name){ fROOTFile = name; }
-	void SetDataFileName(const string &name, int runId);
+	// isPXI: false -> VME
+	void SetDataFileName(const string &name, int runId, bool isPXI = true);
 	void SetBunchIdCheck(bool isCheck){ fIsCheckBunchId = isCheck; }
 	void SetPeriod(int index0, int index1);
 protected:
 	TARawDataProcessor();
 
 	static TARawDataProcessor *fInstance;
-	string fDataFile; // raw binary data file
+	string fDataFile; // raw PXI binary data file
+	string fVMEDataFile; // raw VME data file
+	// ROOTFile would contain both PXI and VME treeData
 	string fROOTFile; // ROOT file storing treeData and treeTrack for simulation or experiment
 
-	bool fIsCheckBunchId; // check bunch id alignment or not.
-	int fBunchIdMisAlignCnt; // count of bunchId misalignments.
-	int fEventCnt; // count of events processed.
+	bool fIsCheckBunchId; // check bunch id alignment or not
+	int fBunchIdMisAlignCnt; // count of bunchId misalignments
+	int fEventCnt; // count of PXI events processed
+	int fVMEEventCnt; // count of VME events processed
 	int fRunId;
 	int fIndex0; // start of index
 	int fIndex1; // end of index

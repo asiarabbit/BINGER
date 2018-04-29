@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/12.															     //
-// Last modified: 2018/4/9, SUN Yazhou.											     //
+// Last modified: 2018/4/26, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -39,11 +39,10 @@ short TADeployPara::GetNDCCable(unsigned uid) const{
 	int type[6]{}; TAUIDParser::DNS(type, uid);
 	if(3 == type[0] || 4 == type[0]){ // MWDC Array L-R
 		if(type[1] > 2) TAPopMsg::Error("TADeployPara", "GetNDCCable: Not an MWDC");
-//		return fNDCCable[type[0]-3][type[1]];
-		return 1;
+		return fNDCCable[type[0]-3][type[1]];
 	}
-	// there is only one cable for each SLayer in DCs arount the target
-	if(6 == type[0] || 7 == type[0]){
+	// there is only one cable for each SLayer in DCs around the target
+	if(6 == type[0] || 7 == type[0] || 8 == type[0] || 9 == type[0]){
 		if(type[1] > 1) TAPopMsg::Error("TADeployPara", "GetNDCCable: Not an MWDC");
 		return 1;
 	}
@@ -89,23 +88,24 @@ double TADeployPara::GetTOFWallDelayAvrg(unsigned uid) const{
 	if(3 != type[0] && 4 != type[0])
 		TAPopMsg::Error("TADeployPara", "GetTOFWallDelayAvrg: Not an MWDC array");
 
-	const double ccDelayAvrg_TOFWall[2] = {2.33, -4.67};
+	const double ccDelayAvrg_TOFWall[2] = {0.01, 0.01};
 	return ccDelayAvrg_TOFWall[type[0] - 3]; // [0-1]: DCArr[L-R]
 }
 double TADeployPara::GetMWDCDelay(unsigned uid) const{
 	int type[6]{}; TAUIDParser::DNS(type, uid);
-	if(3 != type[0] && 4 != type[0] && 6 != type[0] && 7 != type[0])
+	if(3 != type[0] && 4 != type[0] && 6 != type[0] && 7 != type[0] && 8 != type[0] && 9 != type[0])
 		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an MWDC array");
 	if((3 == type[0] || 4 == type[0]) && type[1] >= 3)
 		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an MWDC");
-	if((6 == type[0] || 7 == type[0]) && type[1] >= 2)
+	if((6 == type[0] || 7 == type[0] || 8 == type[0] || 9 == type[0]) && type[1] >= 2)
 		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an MWDC");
 
-	const double offset0[4] = {19.3, 7.5, 0., 0.}; // from FEE to HPTDC
+	const double offset0[6] = {0.01, 0.01, 0.01, 0.01, 0.01, 0.01}; // from FEE to HPTDC
 
 	int dcArrId = -9999;
 	if(3 == type[0] || 4 == type[0]) dcArrId = type[0] - 3; // 0-1: L-R
-	if(6 == type[0] || 7 == type[0]) dcArrId = type[0] - 6 + 2; // 2-3: U-D
+	if(6 == type[0] || 7 == type[0] || 8 == type[0] || 9 == type[0])
+		dcArrId = type[0] - 6 + 2; // 2-3-4-5: U-D-PDCU-D
 	double delay = offset0[dcArrId];
 //	delay += -TACtrlPara::Instance()->T_wireMean(uid);
 	return delay;

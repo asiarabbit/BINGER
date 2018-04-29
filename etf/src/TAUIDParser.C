@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/16.															     //
-// Last modified: 2018/4/8, SUN Yazhou.											     //
+// Last modified: 2018/4/22, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -32,8 +32,10 @@ void TAUIDParser::DNS(int *result, unsigned uid){
 	if(2 == result[0]){ // SiPM Plastic Array
 		result[1] = (uid>>6) & 0x1F; // 0-10: 10 strips, 20chs, 5 bits
 	}
-	if( (3 == result[0] || 4 == result[0]) || // MWDC Arrays after the big dipole Mag: 3->L, 4->R
-	    (6 == result[0] || 7 == result[0]) ){ // MWDC Arrays around the target: 6->U, 7->D
+	if( (3 == result[0] || 4 == result[0]) // MWDC Arrays after the big dipole Mag: 3->L, 4->R
+	    || (6 == result[0] || 7 == result[0]) // MWDC Arrays around the target: 6->U, 7->D
+	    || (8 == result[0] || 9 == result[0]) // MWDC Arrays around the target: 8->PDCU, 9->PDCD
+	    ){
 
 		result[1] = (uid>>6) & 0x7; // the next 3 bits, DC id or TOF Wall [0-4]: [DC0-1-2-TOFW]
 		if(result[1] < 3){ // MWDCs
@@ -52,6 +54,9 @@ void TAUIDParser::DNS(int *result, unsigned uid){
 		result[2] = (uid>>9) & 0x3; // sub-strip id, 2 bits
 		result[3] = (uid>>15) & 0x3; // 0: UV; 1: UH; 2: DV; 3: DH, 2bits
 	}
+	if(10 == result[0] || 11 == result[0]){ // MUISC
+		result[1] = (uid>>6) & 0xF; // channel Id, 4 bits
+	}
 } // end of member function DNS
 
 unsigned TAUIDParser::UIDGenerator(const int *type){
@@ -63,8 +68,10 @@ unsigned TAUIDParser::UIDGenerator(const int *type){
 		return type[0] + (type[1]<<6);
 	}
 
-	if( 3 == type[0] || 4 == type[0] || // MWDC Arrays after the big dipole Mag: 3->L, 4->R
-	    6 == type[0] || 7 == type[0] ){ // MWDC Arrays around the target: 6->U, 7->D
+	if( 3 == type[0] || 4 == type[0] // MWDC Arrays after the big dipole Mag: 3->L, 4->R
+	    || 6 == type[0] || 7 == type[0] // MWDC Arrays around the target: 6->U, 7->D
+	    || 8 == type[0] || 9 == type[0] // MWDC Arrays around the target: 6->PDCArrU, 7->PDCArrD
+	    ){
 		// check the validity of the type for the MWDC arrays
 		if(type[1] < 0 || type[1] > 3)
 			TAPopMsg::Error("TAUIDParser",
@@ -98,8 +105,11 @@ unsigned TAUIDParser::UIDGenerator(const int *type){
 			return uid;
 		}
 	}
-	if(5 == type[0]){
+	if(5 == type[0]){ // SiPM Plastic Barrel
 		return type[0] + (type[1]<<6) + (type[2]<<9) + (type[3]<<15);
+	}
+	if(10 == type[0] || 11 == type[0]){ // MUISC
+		return type[0] + (type[1]<<6);
 	}
 
 	TAPopMsg::Error("TAUIDParser", "UIDGenerator: Input type out of range: type[0]: %d", type[0]);

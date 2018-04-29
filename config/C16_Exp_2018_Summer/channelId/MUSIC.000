@@ -1,0 +1,30 @@
+##################################################################################################
+# Data Analysis Code Project for the External Target Facility, CSR-HIRFL, @IMP
+#
+# Channel Id file for multi-unit ionization chambers pre- and post- target
+# Note that the first channel of each MUSIC stores pile-up mark
+#
+# File format is as follows:
+# channelId	uid
+# up to down -> MUSIC-preTA -> MUSIC-postTA => 0-1-2-3-(4-5-6-7)
+#
+# Created Time: 2018/4/23
+# Author: SUN Yazhou, asia.rabbit@163.com
+# Last Modified: 2018/4/23, SUN Yazhou
+##################################################################################################
+
+8531	10
+8517	74
+8518	138
+8519	202
+8520	266
+
+8532	11
+8521	75
+8522	139
+8523	203
+8524	267
+8525	331
+8526	395
+8527	459
+8528	523

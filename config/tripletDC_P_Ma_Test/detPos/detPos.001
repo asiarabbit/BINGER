@@ -11,7 +11,7 @@
 #
 # Created Time: 2018/4/15
 # Author: SUN Yazhou, asia.rabbit@163.com
-# Last Modified: 2018/4/15, SUN Yazhou
+# Last Modified: 2018/4/28, SUN Yazhou
 ##################################################################################################
 
 
@@ -24,5 +24,12 @@
 # __________ ETF -> MWDCArrayM -> MWDC2 __________
 0.0 	0.0 	68.0 	0.0 	0.0 	0.0 	132
 # __________ ETF -> MWDCArrayM -> TOFWall __________
-0.0 	0.0		-32.0   0.0		0.0		0.0		196
+0.0 	0.0		-206.5   0.0	0.0		0.0		196
+
+############ MWDC Array D consisting of two DCTaLs ###############################################
+# MWDCTaL0-1: from up side to down side
+# __________ ETF -> MWDCArrayD -> MWDC0 __________
+0.0 	0.0 	-177.5 	0.0 	0.0 	0.0 	7
+# __________ ETF -> MWDCArrayD -> MWDC1 __________
+0.0 	0.0 	-89.5 	0.0 	0.0 	0.0 	71
 

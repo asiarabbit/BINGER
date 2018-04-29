@@ -261,6 +261,8 @@ void TAGPar::DefineParameters(){
 	p = new TAParameter("dcTOTNoiseLevel", "dcTOTNoiseLevel");
 	p->SetValue(250.); fParVec[54] = p; p = nullptr; // this value is for beam test
 
+	//////////////////// for DCs around the target ////////////////////////////////
+	// DCs made by P. Ma //
 	// tof -> DCArr U-D
 	// ---- PARAMETER 55 --- //
 	p = new TAParameter("T_tofDC0toTOFWUX", "T_tofDC0toTOFWUX");
@@ -310,6 +312,63 @@ void TAGPar::DefineParameters(){
 	// ---- PARAMETER 68 --- //
 	p = new TAParameter("dcTaToTrigHB", "dcTaToTrigHB");
 	p->SetValue(920.); fParVec[68] = p; p = nullptr;
+
+	// --------------------------------------------------------- //
+	// DCs from BUAA, made in Japan //
+	// tof -> DCArr U-D
+	// ---- PARAMETER 69 --- //
+	p = new TAParameter("T_tofPDC0toTOFWUX", "T_tofPDC0toTOFWUX");
+	p->SetValue(0.); fParVec[69] = p; p = nullptr;
+	// ---- PARAMETER 70 --- //
+	p = new TAParameter("T_tofPDC1toTOFWUX", "T_tofPDC1toTOFWUX");
+	p->SetValue(0.); fParVec[70] = p; p = nullptr;
+	// ---- PARAMETER 71 --- //
+	p = new TAParameter("T_tofPDC0toTOFWDX", "T_tofPDC0toTOFWDX");
+	p->SetValue(0.); fParVec[71] = p; p = nullptr;
+	// ---- PARAMETER 72 --- //
+	p = new TAParameter("T_tofPDC1toTOFWDX", "T_tofPDC1toTOFWDX");
+	p->SetValue(0.); fParVec[72] = p; p = nullptr;
+
+	// $$$$$ DC HV: 0,1,2,3,4: 900,1000,1300,1350,1500 $$$$$ //
+	// $ DCU0-1 $ //
+	// ---- PARAMETER 73 --- //
+	p = new TAParameter("HVPDCU0X", "HVPDCU0X");
+	p->SetValue(3); fParVec[73] = p; p = nullptr;
+	// ---- PARAMETER 74 --- //
+	p = new TAParameter("HVPDCU0Y", "HVPDCU0Y");
+	p->SetValue(3); fParVec[74] = p; p = nullptr;
+	// ---- PARAMETER 75 --- //
+	p = new TAParameter("HVPDCU1X", "HVPDCU1X");
+	p->SetValue(3); fParVec[75] = p; p = nullptr;
+	// ---- PARAMETER 76 --- //
+	p = new TAParameter("HVPDCU1Y", "HVPDCU1Y");
+	p->SetValue(3); fParVec[76] = p; p = nullptr;
+	// $ DCD0-1 $ //
+	// ---- PARAMETER 77 --- //
+	p = new TAParameter("HVPDCD0X", "HVPDCD0X");
+	p->SetValue(3); fParVec[77] = p; p = nullptr;
+	// ---- PARAMETER 78 --- //
+	p = new TAParameter("HVPDCD0Y", "HVPDCD0Y");
+	p->SetValue(3); fParVec[78] = p; p = nullptr;
+	// ---- PARAMETER 79 --- //
+	p = new TAParameter("HVPDCD1X", "HVPDCD1X");
+	p->SetValue(3); fParVec[79] = p; p = nullptr;
+	// ---- PARAMETER 80 --- //
+	p = new TAParameter("HVPDCD1Y", "HVPDCD1Y");
+	p->SetValue(3); fParVec[80] = p; p = nullptr;
+
+	// $$$$$ time to trigger range - for DCs around the target $$$$$ //
+	// ---- PARAMETER 81 --- //
+	p = new TAParameter("pdcToTrigLB", "pdcToTrigLB");
+	p->SetValue(450.); fParVec[81] = p; p = nullptr;
+	// ---- PARAMETER 82 --- //
+	p = new TAParameter("pdcToTrigHB", "pdcToTrigHB");
+	p->SetValue(920.); fParVec[82] = p; p = nullptr;
+	
+	// ---- PARAMETER 83 --- //
+	p = new TAParameter("usingPDC", "usingPDC"); // this is a boolean
+	p->SetValue(0); fParVec[83] = p; p = nullptr;
+
 } // end of member function DefineParameters
 
 void TAGPar::DefineAgents(){

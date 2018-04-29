@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/27.															     //
-// Last modified: 2018/4/8, SUN Yazhou.											     //
+// Last modified: 2018/4/26, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -55,7 +55,7 @@ void TAMWDCTa::GetAnodeGlobalProjection(int dcType, const double *globalCenter, 
 
 void TAMWDCTa::Configure(){
 	int type[6]{}; TAUIDParser::DNS(type, GetUID());
-	if(6 != type[0] && 7 != type[0] && 4 != type[0] && 3 != type[0])
+	if(6 != type[0] && 7 != type[0] && 8 != type[0] && 9 != type[0] && 3 != type[0] && 4 != type[0])
 		TAPopMsg::Error(GetName().c_str(), "Configure: Not an MWDC array");
 
 	TADetector::Configure();
@@ -70,9 +70,12 @@ void TAMWDCTa::Configure(){
 
 	for(int i = 2; i--;){ // X-Y
 		sl[i]->SetSLayerId(i);
+		sl[i]->SetNDCCable(1);
 		sl[i]->Configure();
 		fSLayerArr[i] = sl[i];
 		fNAnodePerLayer = sl[i]->GetNCable() * 16;
+		if(1 != sl[i]->GetNCable())
+			TAPopMsg::Error(GetName().c_str(), "Configure: DCTa's cable number not equal to 1: %d", sl[i]->GetNCable());
 
 		// set mother dc
 		for(int j = fNAnodePerLayer; j--;){ // loop over anodes in a super layer

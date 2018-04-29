@@ -33,7 +33,7 @@ public:
 	int GetCableId() const;
 	TADCSFE16 *GetSFE16(int n) const;
 	void SetSFE16(int n, TADCSFE16 *sfe);
-	void SetCableId(int id);	
+	void SetCableId(int id);
 
 	virtual void Initialize();
 	virtual void Configure();

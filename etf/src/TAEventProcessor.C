@@ -11,7 +11,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/13.															     //
-// Last modified: 2018/4/9, SUN Yazhou.											     //
+// Last modified: 2018/4/28, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -48,6 +48,10 @@
 #include "TASiPMPlaArray.h"
 #include "TAMWDCArrayU.h"
 #include "TAMWDCArrayD.h"
+#include "TAPDCArrayU.h" // derived from TAMWDCArray2
+#include "TAPDCArrayD.h"
+#include "TAMUSICM.h"
+#include "TAMUSICL.h"
 #include "TASiPMPlaBarrel.h"
 #include "TAChannel.h"
 #include "TAMWDC.h"
@@ -200,11 +204,30 @@ void TAEventProcessor::Configure(){
 	detList[4] = new TAMWDCArrayM("DCArrayM", "DCArrayM@P.Ma_TEST", 4); // FORBIDDEN
 //	detList[5] = new TASiPMPlaBarrel("SiPMPlaBarrel", "SiPMPlaBarrel@Hug-Target", 5); // ALLOWED
 //	detList[6] = new TAMWDCArrayU("DCArrayU", "DCArrayU@Pre-Target", 6); // ALLOWED
-//	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7); // ALLOWED
+	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7); // ALLOWED
+//	detList[8] = new TAPDCArrayU("PDCArrayU", "PDCArrayU@Pre-Target", 8); // ALLOWED
+//	detList[9] = new TAPDCArrayD("PDCArrayD", "PDCArrayD@Post-Target", 9); // ALLOWED
+//	detList[10] = new TAMUSICM("MUSICM", "MUSICM@Pre-Target", 10); // shutdown: ALLOWED
+//	detList[11] = new TAMUSICL("MUSICL", "MUSICL@Post-Target", 11); // shutdown: ALLOWED
+//	detList[12] = new TAT0_1("VETO_0", "VETO_0@Pre-MSUICF", 12); // shutdown: ALLOWED
+//	detList[13] = new TAT0_1("VETO_1", "VETO_1@Post-MSUICF", 13); // shutdown: ALLOWED
 	for(TADetUnion *&p : detList) if(p) p->Configure(); // build the detectors
 	// time start for DCArrU-D is TAT0_1
-	if(detList[6]) ((TAMWDCArray2*)detList[6])->SetPlaT0((TAT0_1*)detList[1]);
-	if(detList[7]) ((TAMWDCArray2*)detList[7])->SetPlaT0((TAT0_1*)detList[1]);
+	TAT0_1 *str_t0_1 = (TAT0_1*)detList[1];
+	if(!str_t0_1) TAPopMsg::Error("TAEvProsr", "Configure: T0_1 is nullptr");
+	if(detList[6]) ((TAMWDCArray2*)detList[6])->SetPlaT0(str_t0_1);
+	if(detList[7]) ((TAMWDCArray2*)detList[7])->SetPlaT0(str_t0_1);
+	if(detList[8]) ((TAMWDCArray2*)detList[8])->SetPlaT0(str_t0_1);
+	if(detList[9]) ((TAMWDCArray2*)detList[9])->SetPlaT0(str_t0_1);
+	// for P. Ma's test
+	if(detList[4]){
+		TATOFWall *tofw = ((TAMWDCArrayM*)detList[4])->GetTOFWall();
+		vector<TAPlaStrip *> &stripArr = tofw->GetStripArr();
+		if(!stripArr.size()){ // strip array is empty
+			tofw->SetNStrip(1);
+			stripArr.push_back((TAPlaStrip*)str_t0_1);
+		}
+	} // end configuration of TOFWall for P. Ma's Test
 
 	// read all the parameters required and assign positiion parameters to every channel and alike
 	GetParaManager()->ReadParameters();
@@ -218,9 +241,11 @@ void TAEventProcessor::Configure(){
 		if(detList[4]) ((TAMWDCArray*)detList[4])->Info();
 		if(detList[6]) ((TAMWDCArray2*)detList[6])->Info();
 		if(detList[7]) ((TAMWDCArray2*)detList[7])->Info();
+		if(detList[8]) ((TAMWDCArray2*)detList[6])->Info();
+		if(detList[9]) ((TAMWDCArray2*)detList[7])->Info();
 	}
 	isCalled = true; // has been called
-}
+} // end of member function Configure
 // assign an event to the detectors by distributing channel data to the matching channel objects
 void TAEventProcessor::Assign(){
 	for(tEntry *&e : fEntryList) Assign(e);
@@ -249,13 +274,17 @@ void TAEventProcessor::FillTrack(TGraph *gTrack, TGraph *gTrack_R) const{
 	TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
 	TAMWDCArray *dcArr[2]{0};
 	TAMWDCArray2 *dcArr2[2]{0};
+	TAMWDCArray2 *pdcArr2[2]{0};
 	dcArr[0] = (TAMWDCArray*)detList[3];
 	dcArr[1] = (TAMWDCArray*)detList[4];
 	dcArr2[0] = (TAMWDCArray2*)detList[6];
 	dcArr2[1] = (TAMWDCArray2*)detList[7];
+	pdcArr2[0] = (TAMWDCArray2*)detList[8];
+	pdcArr2[1] = (TAMWDCArray2*)detList[9];
 	for(int i = 2; i--;){
 		if(dcArr[i]) dcArr[i]->FillTrack(gTrack, gTrack_R);
 		if(dcArr2[i]) dcArr2[i]->FillTrack(gTrack, gTrack_R);
+		if(pdcArr2[i]) pdcArr2[i]->FillTrack(gTrack, gTrack_R);
 	}
 }
 void TAEventProcessor::Initialize(){
@@ -282,6 +311,8 @@ void TAEventProcessor::Analyze(){
 	static TAMWDCArrayR *dcArrR = (TAMWDCArrayR*)detList[4];
 	static TAMWDCArrayU *dcArrU = (TAMWDCArrayU*)detList[6];
 	static TAMWDCArrayD *dcArrD = (TAMWDCArrayD*)detList[7];
+	static TAPDCArrayU *pdcArrU = (TAPDCArrayU*)detList[8];
+	static TAPDCArrayD *pdcArrD = (TAPDCArrayD*)detList[9];
 
 	// pattern recognition and rough fit for particle tracking
 	//  XXX THE FOLLOWING ORDER CANNOT BE MESSED UP WITH XXX  //
@@ -289,6 +320,8 @@ void TAEventProcessor::Analyze(){
 	if(dcArrR){ dcArrR->Map(); dcArrR->AssignTracks(fTrackList); }
 	if(dcArrU){ dcArrU->Map(); dcArrU->AssignTracks(fTrackList); }
 	if(dcArrD){ dcArrD->Map(); dcArrD->AssignTracks(fTrackList); }
+	if(pdcArrU){ pdcArrU->Map(); pdcArrU->AssignTracks(fTrackList); }
+	if(pdcArrD){ pdcArrD->Map(); pdcArrD->AssignTracks(fTrackList); }
 	// assign and output beta and index
 	int index = GetEntryList()[0]->index;
 	const int n3DTrkR = dcArrR->GetN3DTrack(); // number of 3D tracks in DCArrR
@@ -329,22 +362,26 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	if(0 != access(rootfile.c_str(), F_OK))
 		TAPopMsg::Error("TAEventProcessor", "Run: %s doesn't exist", rootfile.c_str());
 	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
-	TTree *treeData = (TTree*)f->Get("treeData");
-	if(!treeData) TAPopMsg::Error("TAEventProcessor", "Run: Obtained treeData is null pointer");
+	TTree *treeData[2]{}; // [0-1]: [PXI-VME]
+	treeData[0] = (TTree*)f->Get("treeData");
+	treeData[1] = (TTree*)f->Get("treeDataVME");
+	if(!treeData) TAPopMsg::Error("TAEventProcessor", "Run: Obtained PXI treeData is null pointer");
 	tEntry entry_t;
-	treeData->SetBranchAddress("index", &entry_t.index);
-	treeData->SetBranchAddress("nl", &entry_t.nl);
-	treeData->SetBranchAddress("nt", &entry_t.nt);
-	treeData->SetBranchAddress("channelId", &entry_t.channelId);
-	treeData->SetBranchAddress("leadingTime", entry_t.leadingTime);
-	treeData->SetBranchAddress("trailingTime", entry_t.trailingTime);
-	treeData->SetBranchAddress("is_V", &entry_t.is_V);
-	treeData->SetBranchAddress("bunchId", &entry_t.bunchId);
+	for(TTree *tree : treeData) if(tree){
+		tree->SetBranchAddress("index", &entry_t.index);
+		tree->SetBranchAddress("nl", &entry_t.nl);
+		tree->SetBranchAddress("nt", &entry_t.nt);
+		tree->SetBranchAddress("channelId", &entry_t.channelId);
+		tree->SetBranchAddress("leadingTime", entry_t.leadingTime);
+		tree->SetBranchAddress("trailingTime", entry_t.trailingTime);
+		tree->SetBranchAddress("is_V", &entry_t.is_V);
+		tree->SetBranchAddress("bunchId", &entry_t.bunchId);
+	} // end loop over tree pointers
 	vector<tEntry *> &entry_ls = GetEntryList();
 	vector<tTrack *> &track_ls = GetTrackList();
 
 	// read rootfile and assembly each event
-	const int n = treeData->GetEntries();
+	const int n = treeData[0]->GetEntries();
 	int cntTrk = 0, cnt3DTrk = 0; // ntr: n trk per event
 	int cntaozWrong = 0, cntaoz = 0;
 	int i = 0, index, cntSec = 0;
@@ -362,15 +399,17 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	while(i < n){
 		Initialize(); // clear everything from last data section
 		// assign all entries in a sec to fEntryList for processing
-		while(1){
-			entry_t.initialize();
-			treeData->GetEntry(i++);
-			if(-2 != entry_t.index){ // index == -2 marks end of one data section
-				entry_ls.push_back(new tEntry(entry_t));
-				index = entry_t.index;
-			}
-			else break;
-		} // entry assignment for the data section complete
+		for(TTree *tree : treeData) if(tree){
+			while(1){
+				entry_t.initialize();
+				tree->GetEntry(i++);
+				if(-2 != entry_t.index){ // index == -2 marks end of one data section
+					entry_ls.push_back(new tEntry(entry_t));
+					index = entry_t.index;
+				}
+				else break;
+			} // entry assignment for the data section complete
+		} // end loop over treeData
 		if(0 == entry_ls.size()) continue; // empty event
 		// correct time from cycle-clear
 		double bunchIdTime = (abs(entry_t.bunchId) & 0x7FF) * 25.;
@@ -390,8 +429,10 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 		if(index >= id1) break; // ending at index - id1-1
 ///		cout << "\n\nindex: " << index << endl; // DEBUG
 		Assign(); // *** assign entries in fEntryList *** //
-//		for(auto &t : entry_ls) cout << t->name << "\t" << t->channelId << endl; getchar(); // DEBUG
-//		for(auto &t : entry_ls) t->show(); getchar(); // DEBUG
+//		for(auto &t : entry_ls) cout << t->name << "\t" << t->channelId << endl; // DEBUG
+//		getchar(); // DEBUG
+//		for(auto &t : entry_ls) t->show(); // DEBUG
+//		getchar(); // DEBUG
 #ifdef GO
 		#include "TAEventProcessor/fill_pre.C" // fill hists and trees before tracking
 #endif
@@ -448,8 +489,8 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 	vector<tTrack *> &tl = GetTrackList();
 	const int ntr = tl.size(); if(ntr <= 0) return;
 
-	static TAParaManager::ArrDet_t &decv = GetParaManager()->GetDetList();
-	static TAMWDCArray *dcArrV[2] = {(TAMWDCArray*)decv[3], (TAMWDCArray*)decv[4]};
+	static TAParaManager::ArrDet_t &detv = GetParaManager()->GetDetList();
+	static TAMWDCArray *dcArrV[2] = {(TAMWDCArray*)detv[3], (TAMWDCArray*)detv[4]};
 	// identify 3D tracks and start track refinement
 	static const int ntrMax = 100, ntr3DMax = ntrMax/3;
 	bool isDCArrR[ntr3DMax]{};

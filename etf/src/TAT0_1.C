@@ -9,10 +9,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2017/12/16, SUN Yazhou.										     //
+// Last modified: 2018/4/29, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -73,12 +73,13 @@ void TAT0_1::Configure(){
 	double p[3] = {0., 0., GetZ0()}; GetStripPara()->SetGlobalProjection(p);
 
 	fStripPara->SetWidth(30.); // mm, not accurate
-	fStripPara->SetLength(0.); // mm, deliberately set to zero saving the trouble of additional delay
+	fStripPara->SetLength(1e-7); // mm, deliberately set to zero saving the trouble of additional delay
 	fStripPara->AppendDelay(1.E-7); // set as the time reference
 	fStripPara->SetVeff(1200. / 7.8); // mm/ns, roughly calibrated
 
 	GetStripPara()->AppendDelay(gp->Val(4));
 	GetUV()->GetPara()->AppendDelay(gp->Val(33));
+	SetStripId(0);
 
 	// print user-defined configurations
 	TAPopMsg::ConfigInfo(GetName().c_str(), "Configure: \nfZ0: %f\nfDelay: %f\nfWidth: %f\nfLength: %f\nfVeff: %f\n", fZ0, GetDelay(), fStripPara->GetWidth(), fStripPara->GetLength(), fStripPara->GetVeff());

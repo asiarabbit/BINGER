@@ -10,10 +10,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/13.															     //
-// Last modified: 2017/10/13, SUN Yazhou.										     //
+// Last modified: 2018/4/21, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -31,6 +31,7 @@ public:
 	// get the channel that belongs to this with uid
 	virtual TAStuff *GetChannel(unsigned uid) const = 0;
 	virtual void Configure() = 0; // create detector objects
+	virtual bool IsDCArr() const{ return false; } // whether this is an MWDC array or not
 };
 
 #endif

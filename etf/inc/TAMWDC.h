@@ -33,7 +33,7 @@ public:
 	TAMWDC(const string &name = "", const string &title = "", unsigned uid = 999999999);
 	virtual ~TAMWDC();
 	short GetMWDCId() const;
-	short GetNAnodePerLayer() const;
+	virtual short GetNAnodePerLayer() const;
 	TADCSuperLayer *GetSLayer(int id) const;
 	int GetNSLayer() const; // number of constructed SLayer
 	TAMWDCArray *GetMotherDCArr() const;

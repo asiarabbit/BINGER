@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2018/4/3, SUN Yazhou.											     //
+// Last modified: 2018/4/22, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -539,7 +539,7 @@ void TAMWDCArray::Initialize(){
 TAStuff *TAMWDCArray::GetChannel(unsigned uid) const{
 	if(uid > 0x7FFFF) return nullptr; // not a uid belonging to this class (only 19 bits)
 	int type[6]{}; TAUIDParser::DNS(type, uid); // parse input uid
-	int TYPE[6]{}; TAUIDParser::DNS(TYPE, fUID); // parse uid of this
+	int TYPE[6]{}; TAUIDParser::DNS(TYPE, GetUID()); // parse uid of this
 	
 	if(type[0] == TYPE[0]){ // belongs to this object
 		if(type[1] < 3){ // MWDCs

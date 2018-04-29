@@ -1,14 +1,14 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 // Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
 //																				     //
-// BINGER/inc/etf/TAMWDCArrayU.h													 //
-//   TAMWDCArrayU.h -- header file for class TAMWDCArrayU							 //
+// BINGER/inc/etf/TAMWDCArrayU.C													 //
+//   TAMWDCArrayU.C -- source file for class TAMWDCArrayU							 //
 //   Introduction: the MWDC array upstream of the target. A derived class from		 //
 // TAMWDCArray2. Note that there's only two DCs in the DC array.					 //
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/22.															     //
-// Last modified: 2018/4/9, SUN Yazhou.											     //
+// Last modified: 2018/4/21, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -18,7 +18,6 @@
 #include "TAMWDCArrayU.h"
 #include "TAPopMsg.h"
 #include "TAMWDCTaM.h"
-#include "TAPlaStrip.h"
 #include "TACtrlPara.h"
 
 TAMWDCArrayU::TAMWDCArrayU(const string &name, const string &title, unsigned uid)

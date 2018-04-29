@@ -9,10 +9,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2018/1/27, SUN Yazhou.										     //
+// Last modified: 2018/4/22, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -36,11 +36,14 @@ using std::cout;
 using std::endl;
 using std::flush;
 
+#define DEBUG
+
 TARawDataProcessor* TARawDataProcessor::fInstance = nullptr;
 
-TARawDataProcessor::TARawDataProcessor() : fDataFile(""), fROOTFile(""){
+TARawDataProcessor::TARawDataProcessor()
+	 : fDataFile(""), fVMEDataFile(""), fROOTFile(""){
 	fBunchIdMisAlignCnt = 0;
-	fEventCnt = 0;
+	fEventCnt = 0; fVMEEventCnt = 0;
 	fIsCheckBunchId = TACtrlPara::IsCheckBunchIdAlignment();
 	fRunId = 0;
 	fIndex0 = 0;
@@ -52,7 +55,7 @@ TARawDataProcessor *TARawDataProcessor::Instance(){
 }
 TARawDataProcessor::~TARawDataProcessor(){}
 
-void TARawDataProcessor::SetDataFileName(const string &name, int runId){
+void TARawDataProcessor::SetDataFileName(const string &name, int runId, bool isPXI){
 	// retrieve the file name from a path+name string
 	char tmp[64]; strcpy(tmp, name.c_str());
 	sprintf(tmp, "%s_%d", basename(tmp), runId);
@@ -60,8 +63,13 @@ void TARawDataProcessor::SetDataFileName(const string &name, int runId){
 		TAPopMsg::Error("TARawDataProcessor", "SetDataFileName: Input data file is empty");
 	if(0 != access(name.c_str(), F_OK))
 		TAPopMsg::Error("TARawDataProcessor", "SetDataFileName: %s doesn't exist.\n\tFor data files in the current directory, please add './' in front of the data files' name;\n\tFor data files in ../data/, relative or absolute path to the files is not necessary", name.c_str());
-	fDataFile = name;
-	fROOTFile = tmp; fROOTFile += ".root";
+	if(isPXI){
+		fDataFile = name;
+		fROOTFile = tmp; fROOTFile += ".root";
+	}
+	else{
+		fVMEDataFile = name;
+	}
 //	TAPopMsg::Debug("TARawDataProcessor", "SetDataFileName: fROOTFile: %s", fROOTFile.c_str());
 }
 void TARawDataProcessor::SetPeriod(int index0, int index1){
@@ -75,8 +83,17 @@ inline double rand0_5(){ return rand()*1./RAND_MAX; } // bin smoothing, import f
 
 // read offline binary data file and store them in a tree and a rootfile.
 int TARawDataProcessor::ReadOffline(){
+	int staPXI = ReadOfflinePXI(); // readPXI have to be at first to generate a rootfile
+	int staVME = ReadOfflineVME(); // so that VME treeData would be stored in the same rootfile
+	int sta = 0;
+	if(staPXI != 0) sta = staPXI;
+	if(staVME != 0) sta = staVME;
+	return sta;
+}
+
+int TARawDataProcessor::ReadOfflinePXI(){
 	if(0 == access(fROOTFile.c_str(), F_OK)){
-		TAPopMsg::Info("TARawDataProcessor", "ReadOffline: %s exist. BINGER would use the current ROOTFile. RawData => ROOT file transformation would be skipped", fROOTFile.c_str());
+		TAPopMsg::Info("TARawDataProcessor", "ReadOfflinePXI: %s exist. BINGER would use the current ROOTFile. RawData => ROOT file transformation would be skipped", fROOTFile.c_str());
 		return -1; // file already exists
 	}
 
@@ -289,10 +306,10 @@ int TARawDataProcessor::ReadOffline(){
 					}
 				} // end for over edges
 				if(nhl >= 1 && nht >= 0){
-					for(int k = 0; k < nhl && k < 10; k++)
+					for(int k = 0; k < nhl && k < edge_num_limit; k++)
 						entry_temp.leadingTime[k] =
 							(hl[j][k] +  rand0_5()) * H_BLIP;
-					for(int k = 0; k < nht && k < 10; k++)
+					for(int k = 0; k < nht && k < edge_num_limit; k++)
 						entry_temp.trailingTime[k] =
 							(ht[j][k] +  rand0_5()) * H_BLIP;
 					entry_temp.is_V = false; entry_temp.channelId = ch_id[j];
@@ -302,10 +319,10 @@ int TARawDataProcessor::ReadOffline(){
 					if(index >= fIndex0) treeData->Fill();
 				} // end if(nhl >= 1 && nht >= 1)
 				else if(nvl >= 1 && nvt >= 0){
-					for(int k = 0; k < nvl && k < 10; k++)
+					for(int k = 0; k < nvl && k < edge_num_limit; k++)
 						entry_temp.leadingTime[k] =
 							(vl[j][k] +  rand0_5()) * V_BLIP;
-					for(int k = 0; k < nvt && k < 10; k++)
+					for(int k = 0; k < nvt && k < edge_num_limit; k++)
 						entry_temp.trailingTime[k] =
 							(vt[j][k] +  rand0_5()) * V_BLIP;
 					entry_temp.is_V = true; entry_temp.channelId = ch_id[j];
@@ -316,10 +333,10 @@ int TARawDataProcessor::ReadOffline(){
 				} // end if(nvl >= 1 && nvt >= 1)
 
 				// initialize edge arrays
-				if(nvl > 0) for(int k = 0; k < nvl; k++) vl[j][k] = -1.;
-				if(nvt > 0) for(int k = 0; k < nvt; k++) vt[j][k] = -1.;
-				if(nhl > 0) for(int k = 0; k < nhl; k++) hl[j][k] = -1.;
-				if(nht > 0) for(int k = 0; k < nht; k++) ht[j][k] = -1.;
+				if(nvl > 0) for(int k = 0; k < nvl; k++) vl[j][k] = 0;
+				if(nvt > 0) for(int k = 0; k < nvt; k++) vt[j][k] = 0;
+				if(nhl > 0) for(int k = 0; k < nhl; k++) hl[j][k] = 0;
+				if(nht > 0) for(int k = 0; k < nht; k++) ht[j][k] = 0;
 
 				delete [] data_ch;
 			} // circle over fired channel(s) except the last one which is explained below.
@@ -350,7 +367,7 @@ int TARawDataProcessor::ReadOffline(){
 			}
 			if(length_last_ch != 1){
 				Is_Error = true;
-				if(Is_Error) TAPopMsg::Info("TARawDataProcessor", "ReadOffline: length_last_ch is not 1 word... index: %d, frag_num: %d", index, i);
+				if(Is_Error) TAPopMsg::Info("TARawDataProcessor", "ReadOfflinePXI: length_last_ch is not 1 word... index: %d, frag_num: %d", index, i);
 //				cout << "event " << index << " fragment " << i << ":" << endl;
 //				cout << "length_last_ch(words): " << (data_len - offset[va_ch_nu - 1]) / 4. << endl;
 //				cout << "va_ch_nu: " << va_ch_nu << endl;
@@ -422,16 +439,294 @@ int TARawDataProcessor::ReadOffline(){
 	cout << endl << endl << "Total Event Count: " << endl;
 	cout << endl <<  "       \033[1m" << fEventCnt << "\033[0m        " << endl << endl;
 	cout << "\033[36;1mBunch ID misalignment count: " << fBunchIdMisAlignCnt << "\033[0m\n";
-	if(fBunchIdMisAlignCnt > 0) TAPopMsg::Info("TARawDataProcessor", "ReadOffLine: BunchId misalignment count happend %d times", fBunchIdMisAlignCnt);
+	if(fBunchIdMisAlignCnt > 0) TAPopMsg::Info("TARawDataProcessor", "ReadOffLinePXI: BunchId misalignment count happend %d times", fBunchIdMisAlignCnt);
 
+	cout << "\033[33;1m:)\033[0m treeData has been written into " << fROOTFile << ". \033[33;1m:)\033[0m\n\n";
+
+
+	// write
 	treeData->Write("", TObject::kOverwrite);
 	fclose(fp);
 	f->Close();
-	cout << "\033[33;1m:)\033[0m treeData has been written into " << fROOTFile << ". \033[33;1m:)\033[0m\n\n";
-//	cout << "mark 1\n"; getchar(); // DEBUG
 	delete f;
+//	delete treeData;
+//	cout << "mark 1\n"; getchar(); // DEBUG	
 
 	return 0;
-} // end function ReadOffline
+} // end function ReadOfflinePXI
+
+// read VME data into ROOTFile generated by ReadOfflinePXI()
+int TARawDataProcessor::ReadOfflineVME(){
+	if(!strcmp("", fVMEDataFile.c_str())) return -1; // VME data file is empty
+
+	// high resolution mode
+	static const double H_BLIP = 25. / pow(2., 8.);
+	static const int edge_num_limit = 10;
+	static const int ch_num_limit_per_frag = 128;
+
+	// high resolution leading edge measurements, number of its edges per channel
+	int hl[ch_num_limit_per_frag][edge_num_limit]{}, nhl[ch_num_limit_per_frag]{};
+	int ht[ch_num_limit_per_frag][edge_num_limit]{}, nht[ch_num_limit_per_frag]{};
+	int channelId[ch_num_limit_per_frag]{};
+
+
+	if(!strcmp(fROOTFile.c_str(), "")){
+		TAPopMsg::Error("TARawDataProcessor", "ReadOfflineVME: fROOTFile name is empty. PXI data file not set yet?");
+		return -1;
+	}
+	if(0 != access(fROOTFile.c_str(), F_OK)){
+		TAPopMsg::Error("TARawDataProcessor", "ReadOfflineVME: fROOTFile doesn't exist. ReadOfflinePXI not run yet?");
+		return -1;
+	}
+
+	// define the data tree
+	int index;
+	tEntry entry_temp;
+	TFile *f = new TFile(fROOTFile.c_str(), "UPDATE");
+	TTree *treeDataVME = new TTree("treeDataVME", ("experiment VME data-"+fVMEDataFile).c_str());
+	treeDataVME->Branch("index", &entry_temp.index, "index/I"); // run id
+	treeDataVME->Branch("channelId", &entry_temp.channelId, "channelId/I");
+	treeDataVME->Branch("nl", &entry_temp.nl, "nl/I");
+	treeDataVME->Branch("nt", &entry_temp.nt, "nt/I");
+	treeDataVME->Branch("leadingTime", entry_temp.leadingTime, "leadingTime[nl]/D");
+	treeDataVME->Branch("trailingTime", entry_temp.trailingTime, "trailingTime[nt]/D");
+	treeDataVME->Branch("is_V", &entry_temp.is_V, "is_V/O");
+	treeDataVME->Branch("bunchId", &entry_temp.bunchId, "bunchId/I");
+	
+	// scaler statistics, in case of event matching with PXI data
+	unsigned int sca[16], psca[16], dsca[16], nsca; // scaler, trigger count
+	TTree *treeSCA = new TTree("treeSCA", ("SCA INFO-"+fVMEDataFile).c_str());
+	treeSCA->Branch("index", &index, "index/I"); // event index
+	treeSCA->Branch("sca", sca, "sca[16]/i");
+	treeSCA->Branch("dsca", dsca, "dsca[16]/I");
+	treeSCA->Branch("psca", psca, "psca[16]/I");
+
+	// open the original binary data file
+	FILE *fp;
+	if(!(fp = fopen(fVMEDataFile.c_str(),"rb"))){
+		cout << "File does not exist." << endl;
+		exit(1);
+	}
+	cout << "Data file " << fDataFile << " opened. " << endl;
+	fVMEEventCnt = 0;
+
+	// read VME binary data file
+	const int blkSize = 8192; // size of one block, in sizeof(int)
+	int buffer[blkSize]; // cache block data
+	int pos = 0; // the current pos of reading pointer in a block
+	int event_num = 0; // number of events processed
+	int block_num = 0; // number of blocks processed
+	// blcok header
+	int blk_index, blk_ev_num, blk_last_pos; // block index, event number and last pos of data zone
+	// event header
+	int ev_len, ev_index, ev_vmeReadCnt; // event length, event index and ? (not clear what this is)
+
+	// dump the first block, which contains no valid data
+	if(fread(buffer, sizeof(int), blkSize, fp) <= 0){ // reading failure
+		cout << strerror(errno) << endl;
+		exit(EXIT_FAILURE);
+	} // end if
+	else memset(buffer, 0, sizeof(buffer)); // abandon the first block
+	block_num++;
+	
+	while(fread(buffer, sizeof(int), blkSize, fp) > 0){
+		// block header - the first 3 words
+		blk_index = buffer[0];
+		blk_ev_num = buffer[1];
+		blk_last_pos = buffer[2];
+		pos = 3;
+		cout << "---------- Block Header -------------\n"; // DEBUG
+		cout << "block index: " << blk_index; // DEBUG
+		cout << ", block event number: " << blk_ev_num; // DEBUG
+		cout << ", block_last_pos: " << blk_last_pos << endl; // DEBUG
+		getchar(); // DEBUG
+		
+		// loop over events in the preset block
+		for(int i = 0; i < blk_ev_num; i++){
+			// event header
+			ev_len = buffer[pos];
+			ev_index = buffer[pos+1];
+			ev_vmeReadCnt = buffer[pos+2];
+			entry_temp.is_V = false;
+			entry_temp.index = ev_index;
+			entry_temp.bunchId = 0;
+			cout << "---------- Event Header -------------\n"; // DEBUG
+			cout << "event index: " << ev_index; // DEBUG
+			cout << ", event length: " << ev_len; // DEBUG
+			cout << ", ev_vmeReadCnt: " << ev_vmeReadCnt << endl; // DEBUG
+			getchar(); // DEBUG
+
+			// // // read the data zone of an event // // //
+			int id_v1190 = 0, id_v830 = 0; // the No. of v1190 and v830 plugin
+			int pileUp = -1; // to copy this information from ch-31 to ch-30
+			for(int j = 3; j < ev_len; j++){ // loop over channels in an event
+
+				int slot = -1, header = -1; // to identify a channel
+				int chData = buffer[pos+j]; // channel data
+				slot = (chData>>27) & 0x1F;
+
+				if(5 == slot && 17 == slot){ // QDC v965 and ADC v785
+					header = (chData>>24) & 0x7;
+					if(2 == header){ // data header
+						int cnt = (chData >> 8) & 0x3F;
+						cout << "Header for v7x5, slot: " << slot; // DEBUG
+						cout << ", count: " << cnt << endl; // DEBUG
+						getchar(); // DEBUG
+					} // end header reading
+					if(4 == header){ // data trailer
+						cout << "Trailer for v7x5, slot: " << slot; // DEBUG
+						getchar(); // DEBUG
+					} // end trailer reading
+					if(0 == header){ // data channel
+						int chId = (chData >> 16) & 0x1F;
+						entry_temp.nl = 1; entry_temp.nt = 0;
+						switch(slot){
+							case 5: // QDC v965; slot 5
+								entry_temp.channelId = chId + 8401;
+								entry_temp.leadingTime[0] = (chData & 0xFFF) + rand0_5();
+								break;
+							case 17: // ADC v785; slot 17
+								entry_temp.channelId = chId + 8501;
+								entry_temp.leadingTime[0] = (chData & 0xFFF) + rand0_5();
+								if(31 == chId) pileUp = (chData & 0xFFF) + rand0_5();
+								break;
+							default:
+								TAPopMsg::Error("TARawDataProcessor", "ReadOfflineVME: abnormal slot number for non-mTDC plugins: slot: %d", slot); break;
+						} // end switch
+						treeDataVME->Fill();
+					} // end if header == 0
+				} // end if QDC or ADC
+
+				///// ->->-> start or end of data zone for certain plugins ->->-> ////
+				if(8 == slot || 16 == slot){ // mTDC plugins, processing header and trailer
+					int geo = chData & 0x1F; // plugin id (slot No. in practical)
+					if(8 == slot && (9 == geo || 11 == geo)){ // HPTDC global header
+						id_v1190 = geo;
+						cout << "HPTDC Global Header for v1190, geo: " << geo << endl; // DEBUG
+						cout << "id_v1190: " << id_v1190 << endl; // DEBUG
+						getchar(); // DEBUG
+						continue;
+					} // end if Global Header
+					if(16 == slot && (9 == geo || 11 == geo)){
+						if(9 != id_v1190 && 11 != id_v1190)
+							TAPopMsg::Error("TARawDataProcessor", "ReadOfflineVME: HPTDC global trailer encountered, but id_v1190 value is abnormal: %d", id_v1190);
+						cout << "HPTDC Global Trailer for v1190, geo: " << geo << endl; // DEBUG
+						cout << "id_v1190: " << id_v1190 << endl; // DEBUG
+						getchar(); // DEBUG
+
+						// assign and fill treeDataVME
+						for(int j = 0; j < 128; j++) if(channelId[j]){
+							int chid = channelId[j]; // chid in a v1190 plugin
+							if(9 == id_v1190) entry_temp.channelId = chid + 8001;
+							else if(11 == id_v1190) entry_temp.channelId = chid + 8201;
+							entry_temp.nl = nhl[chid]; entry_temp.nt = nht[chid];
+							for(int k = 0; k < nhl[chid] && k < edge_num_limit; k++)
+								entry_temp.leadingTime[k] = 
+									(hl[chid][k] +  rand0_5()) * H_BLIP;
+							for(int k = 0; k < nht[chid] && k < edge_num_limit; k++)
+								entry_temp.trailingTime[k] = 
+									(ht[chid][k] +  rand0_5()) * H_BLIP;
+							treeDataVME->Fill();
+
+							if(nhl[chid] > 0) for(int k = 0; k < nhl[chid]; k++)
+								hl[nhl[chid]][k] = 0;
+							if(nht[chid] > 0) for(int k = 0; k < nht[chid]; k++)
+								ht[nht[chid]][k] = 0;
+						} // end for over chs in a v1190 plugin and if
+						
+						// initialization for assignment
+						memset(channelId, 0, sizeof(channelId));
+						memset(nhl, 0, sizeof(nhl)); memset(nht, 0, sizeof(nht));
+						id_v1190 = 0; continue;
+					} // end if Global Trailer
+				} // end of header and trailer processing
+				if(21 == slot){ // scaler v830 header
+					id_v830++;
+					nsca = 0;
+					cout << "v830 header encountered" << endl; // DEBUG
+					getchar(); // DEBUG
+					continue;
+				} // end of if(21 == slot)
+				///// <-<-<- start or end of data zone for certain plugins <-<-<- ////
+				// HPTDC group header and group trailer //
+				if(1 == slot && id_v1190){ // TDC group header
+					cout << "TDC group header for v1190, id_v1190: " << id_v1190 << endl; // DEBUG
+					getchar(); // DEBUG
+					continue;
+				} // end TDC group header
+				if(3 == slot && id_v1190){ // TDC group trailer
+					int cnt = chData && 0xFFF;
+					cout << "TDC group trailer for v1190, id_v1190: " << id_v1190 << endl; // DEBUG
+					cout << cnt << " hits." << endl; // DEBUG
+					getchar(); // DEBUG
+					continue;
+				} // end TDC group trailer
+				///////////////////////////////////////////
+
+				if(0 == slot && id_v1190){ // HPTDC physical data zone
+					int chId = (chData>>19) & 0x7F; // local chId in the plugin
+					bool lt = (chData>>26) & 0x1; // leading or trailing edge
+					if(lt){ // leading edge
+						hl[chId][nhl[chId]] = chData & 0x7FFFF; nhl[chId]++;
+						if(!channelId[chId]) channelId[chId] = chId;
+					} // end if (leading edge)
+					else{ // trailing edge
+						ht[chId][nht[chId]] = chData & 0x7FFFF; nht[chId]++;
+						if(!channelId[chId]) channelId[chId] = chId;
+					} // end else (trailing edge)
+				} // end if HPTDC physical data zone
+				
+				if(id_v830){
+					psca[nsca] = sca[nsca];
+					sca[nsca] = chData;
+					dsca[nsca] = sca[nsca] - psca[nsca];
+					nsca++;
+					if(16 == nsca){
+						id_v830 = 0;
+						treeSCA->Fill();
+					} // end if
+				} // end if(id_v830)
+			} // end loop over channels in an event
+			// copy channel data of ch-8532, because two MUSICs share the same pileUp channel
+			entry_temp.channelId = 8531;
+			entry_temp.nl = 1; entry_temp.nt = 0;
+			entry_temp.leadingTime[0] = pileUp;
+			treeDataVME->Fill();
+			
+			// mark the end of one event
+			entry_temp.index = -2;
+			entry_temp.channelId = ev_len;
+			entry_temp.nl = 0;
+			entry_temp.nt = 0;
+			entry_temp.bunchId = 0;
+			treeDataVME->Fill();
+			// // // end of event decoding // // //
+
+
+			pos += ev_len;
+			event_num++;
+		} // end loop over events in a block
+		block_num++;
+		cout << "Block " << block_num << " processed.\r" << flush;
+		memset(buffer, 0, sizeof(buffer)); // initialize block buffer
+	} // end while over blocks
+	
+	cout << block_num << " blocks and " << event_num << " events have been processed." << endl;
+	// close the binary file
+	fclose(fp);
+	
+	treeDataVME->Write("", TObject::kOverwrite);
+	treeSCA->Write("", TObject::kOverwrite);
+	f->Close(); delete f;
+//	delete treeDataVME;
+
+	return 0;
+} // end function ReadOfflineVME
+
+
+
+
+
+
 
 

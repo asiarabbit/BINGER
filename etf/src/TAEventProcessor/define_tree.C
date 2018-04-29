@@ -8,7 +8,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/21.															     //
-// Last modified: 2017/12/28, SUN Yazhou.										     //
+// Last modified: 2018/4/22, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -144,6 +144,21 @@
 		treeTOFW[i]->Branch("uvlTLs_pre", uvlTLsTOFW_pre[i], "uvlTLs_pre[multi_pre]/D");
 		treeTOFW[i]->Branch("dvlTLs_pre", dvlTLsTOFW_pre[i], "dvlTLs_pre[multi_pre]/D");
 		objLsTree.push_back(treeTOFW[i]);
+	}
+
+	// trees for MUSICs
+	TTree *treeMUSIC[2]{}; // [0-1]: MUSICM-L: up-downstream of the target
+	double deltaE[2]{}, Z[2]{};
+	int pileUp[2]{}, nF_MU[2]{}; // N of Fried ch (pileup-ch excluded)
+	treeMUSIC[0] = new TTree("treeMUSICM", "MUSIC upstream of the target");
+	treeMUSIC[0] = new TTree("treeMUSICL", "MUSIC downstream of the target");
+	for(int i = 2; i--;) if(music[i]){
+		treeMUSIC[i]->Branch("index", &index, "index/I");
+		treeMUSIC[i]->Branch("deltaE", &deltaE[i], "deltaE/D");
+		treeMUSIC[i]->Branch("Z", &Z[i], "Z/D");
+		treeMUSIC[i]->Branch("pileUp", &pileUp[i], "pileUp/I");
+		treeMUSIC[i]->Branch("nF", &nF_MU[i], "nF/I");
+		objLsTree.push_back(treeMUSIC[i]);
 	}
 
 	const int n3DtrMax = ntrMax/3;

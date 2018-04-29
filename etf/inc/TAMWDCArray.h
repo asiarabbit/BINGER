@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/6.															     //
-// Last modified: 2018/3/21, SUN Yazhou.										     //
+// Last modified: 2018/4/26, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -62,6 +62,7 @@ public:
 	// get the channel that belongs to this with uid
 	virtual TAStuff *GetChannel(unsigned uid) const override;
 	virtual void Info() const; // print MWDC array information
+	virtual bool IsDCArr() const override { return true; }
 
 	friend class TASimulation;
 protected:

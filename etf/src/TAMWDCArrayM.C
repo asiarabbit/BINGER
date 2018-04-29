@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/4/13.															     //
-// Last modified: 2018/4/13, SUN Yazhou.										     //
+// Last modified: 2018/4/28, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -43,7 +43,7 @@ void TAMWDCArrayM::Configure(){
 		fMWDC[i]->SetMotherDCArr(this);
 		fMWDC[i]->Configure();
 	}
-	fTOFWall->SetNStrip(1);
+	fTOFWall->SetNStrip(0); // only has 1 strip, would be set as TAT0_1
 	fTOFWall->Configure();
 }
 

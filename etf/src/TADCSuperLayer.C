@@ -9,7 +9,7 @@
 //     																				 //
 // Author: SUN Yazhou, asia.rabbit@163.com.    										 //
 // Created: 2017/10/3.   														     //
-// Last modified: 2018/4/8, SUN Yazhou.     										 //
+// Last modified: 2018/4/26, SUN Yazhou.     										 //
 //     																				 //
 //     																				 //
 // Copyright (C) 2017-2018, SUN Yazhou.     										 //
@@ -43,7 +43,7 @@ short TADCSuperLayer::GetNCable() const{
 }
 TADCCable *TADCSuperLayer::GetCable(int n) const{
 	if(n < 0 || (unsigned)n >= fDCCableArr.size())
-		TAPopMsg::Error(GetName().c_str(), "GetCable: The input sugscript out of range: %d", n);
+		TAPopMsg::Error(GetName().c_str(), "GetCable: The input subscript out of range: %d", n);
 	if(!fDCCableArr[n])
 		TAPopMsg::Error(GetName().c_str(), "GetCable: requested cable pointer is null");
 	return fDCCableArr[n];
@@ -71,7 +71,8 @@ void TADCSuperLayer::Configure(){
 		return; // Configure() has been called
 	}
 
-	const int n = fNCable = TADeployPara::Instance()->GetNDCCable(GetUID());
+	if(-1 == fNCable) fNCable = TADeployPara::Instance()->GetNDCCable(GetUID());
+	const int n = fNCable;
 //	TAPopMsg::Debug(GetName().c_str(), "Configure: ncable: %d", n);
 	TADCCable *ca[n]{0};
 	char name[64];
@@ -83,6 +84,11 @@ void TADCSuperLayer::Configure(){
 		fDCCableArr.push_back(ca[i]);
 	} // end loop over i
 } // end of function Configure
+
+void TADCSuperLayer::SetNDCCable(int n){
+	if(n < 0 || n > 6) TAPopMsg::Error(GetName().c_str(), "SetNDCCable: abnormal input: %d", n);
+	fNCable = n;
+}
 
 
 

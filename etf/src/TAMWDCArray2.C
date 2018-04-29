@@ -37,6 +37,9 @@
 #include "TAParaManager.h"
 #include "TAMath.h"
 #include "TAPlaStrip.h"
+#include "TAGPar.h"
+
+static TAGPar *gp = TAGPar::Instance();
 
 TAMWDCArray2::TAMWDCArray2(const string &name, const string &title, unsigned uid)
 		: TAStuff(name, title, uid), fMWDC{0}, fPlaT0(0){
@@ -95,6 +98,7 @@ void TAMWDCArray2::SetPlaT0(TAPlaStrip *t0){
 
 // assign the recognized TATrack2 objects to tTrack objects for assignments
 void TAMWDCArray2::AssignTracks(vector<tTrack *> &track_ls){ // assign tracks
+	static bool usingPDC = gp->Val(83);
 	if(!fTrackList[0].size()) return; // no tracks to assign
 	int type[6]{}; TAUIDParser::DNS(type, GetUID());
 	tTrack *ptrack_t = nullptr; // a temporary variable
@@ -104,8 +108,20 @@ void TAMWDCArray2::AssignTracks(vector<tTrack *> &track_ls){ // assign tracks
 //			x.SetFitMethod(TATrack::kNormalFit); // DEBUG
 			ptrack_t = new tTrack;
 			x->AssignTrack(ptrack_t);
+
 			// track type: 1[UD][XY] <=> 1[23][01]
-			ptrack_t->type = 100 + (type[0] - 4) * 10 + l; // [67]-4 -> [23]
+			int detId = -1;
+			if(usingPDC){ // swithc 67 with 89
+				switch(type[0]){
+					case 6: detId = 8; break;
+					case 7: detId = 9; break;
+					case 8: detId = 6; break;
+					case 9: detId = 7; break;
+					default: break;
+				}
+			} // end if
+			ptrack_t->type = 100 + (detId - 4) * 10 + l; // [67, 89]-4 -> [23, 45]
+
 			track_ls.push_back(ptrack_t);
 		}
 	} // end for over l
@@ -138,9 +154,9 @@ void TAMWDCArray2::Initialize(){
 } // end of function Initialize
 // get the channel that belongs to this and has the specified uid
 TAStuff *TAMWDCArray2::GetChannel(unsigned uid) const{
-	if(uid > 0x7FFF) return nullptr; // not a uid belonging to this class (only 15 bits)
+	if(uid > 0x7FFFF) return nullptr; // not a uid belonging to this class (only 19 bits)
 	int type[6]{}; TAUIDParser::DNS(type, uid); // parse input uid
-	int TYPE[6]{}; TAUIDParser::DNS(TYPE, fUID); // parse uid of this
+	int TYPE[6]{}; TAUIDParser::DNS(TYPE, GetUID()); // parse uid of this
 
 	if(type[0] == TYPE[0]){ // belongs to this object
 		if(type[1] < 2){ // MWDCs

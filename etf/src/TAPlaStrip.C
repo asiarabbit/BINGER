@@ -69,8 +69,8 @@ double TAPlaStrip::GetHitPosition() const{ // distance from hit point to the dow
 // see the header file for fired status index interpretation
 int TAPlaStrip::GetFiredStatus() const{
 	int sta = GetStripData()->GetFiredStatus();
-		bool df[2] = {GetDV()->GetFiredStatus(), GetDH()->GetFiredStatus()}; // [H-V]
-		bool uf[2] = {GetUV()->GetFiredStatus(), GetUH()->GetFiredStatus()}; // [H-V]
+	bool df[2] = {GetDV()->GetFiredStatus(), GetDH()->GetFiredStatus()}; // [H-V]
+	bool uf[2] = {GetUV()->GetFiredStatus(), GetUH()->GetFiredStatus()}; // [H-V]
 	if(-2 == sta){ // not assigned
 		for(int i = 0; i < 2; i++){ // loop over U and V channels
 			if(df[i] && uf[i]){

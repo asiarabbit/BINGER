@@ -27,24 +27,25 @@
 # H: high resolution mode channel; V: very high resolution mode channel
 
 # Detector time to trig range: to select signals belonging to the same one particle in an event
+# Global delay accounted for
 # T0_1ToTrigLBUV
-0   1000.
+0   810.
 # T0_1ToTrigHBUV
-1   1200.
+1   870.
 # T0_1ToTrigLBDV
-2   1000.
+2   810.
 # T0_1ToTrigHBDV
-3   1200.
+3   870.
 # T0_1DelayAvrg: average delay for T0_1, applying to both UV and DV
-4   -343.7
+4   50.
 # tofwToTrigLB
-5   1120.
+5   810.
 # tofwToTrigHB
-6   1160.
+6   880.
 # dcToTrigLB
-7   1000.
+7   820.
 # dcToTrigHB
-8   1600.
+8   1100.
 # sipmPlaArrToTrigLB
 9   200.
 # sipmPlaArrToTrigHB
@@ -116,7 +117,7 @@
 32  3000.
 
 # T0_1UV_delay
-33  -2.7
+33  -17.1062
 
 # T_tof: time of flight: used to correct drift time -> for MWDC Array L and R
 # T_tofDC0toTOFWLX: T_tof from X sense wires of DC0 to TOFW, for MWDC array L
@@ -127,11 +128,11 @@
 # T_tofDC2toTOFWLX
 36  2.1
 # T_tofDC0toTOFWRX
-37  30.0
+37  -0.69
 # T_tofDC1toTOFWRX
-38  20.9
+38  -0.915
 # T_tofDC2toTOFWRX
-39  15.1
+39  -1.14
 
 # Parameters owned by class TACtrlPara
 # 3DCoincideWindow
@@ -173,9 +174,9 @@
 # T_tofDC1toTOFWUX
 56  -2.8
 # T_tofDC0toTOFWDX
-57  -4.2
+57  -0.32
 # T_tofDC1toTOFWDX
-58  -8.2
+58  -0.62
 
 # DC sense wire high voltage (HV) for MWDC arrays around the target #
 # MWDC array U

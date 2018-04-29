@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/11.															     //
-// Last modified: 2018/1/27, SUN Yazhou.										     //
+// Last modified: 2018/4/22, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -175,12 +175,12 @@ void TASiPMPlaArray::Configure(){
 	const double delay = -11.1495;
 	if(nStripSiPM % 2 != 0) TAPopMsg::Warn(GetName().c_str(), "Configure: nStripSiPM not even");
 	for(int i = 0; i < nStripSiPM; i++){
-		sprintf(name, "%s->Strip%d->UV", fName.c_str(), i);
-		fuv = new TAChannel(name, name, fUID+((i*2)<<6));
+		sprintf(name, "%s->Strip%d->UV", GetName().c_str(), i);
+		fuv = new TAChannel(name, name, GetUID()+((i*2)<<6));
 		fuv->SetSerialId(i); fuv->GetPara()->AppendDelay(delay);
 		fuv->GetPara()->SetValue(GetStripX(i));
-		sprintf(name, "%s->Strip%d->UH", fName.c_str(), i);
-		fuh = new TAChannel(name, name, fUID+((i*2+1)<<6));
+		sprintf(name, "%s->Strip%d->UH", GetName().c_str(), i);
+		fuh = new TAChannel(name, name, GetUID()+((i*2+1)<<6));
 		fuh->SetSerialId(i); fuh->GetPara()->AppendDelay(delay);
 		fuh->GetPara()->SetValue(GetStripX(i));
 		fUVArr.push_back(fuv); fUHArr.push_back(fuh);

@@ -9,7 +9,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/29.															     //
-// Last modified: 2018/1/27, SUN Yazhou.										     //
+// Last modified: 2018/4/26, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -54,7 +54,7 @@
 				r[j][k] = tra->r[k];
 				chi[j][k] = tra->chi[k];
 				const double dt = tra->t[k];
-				if(dcArrId > 1 && dcId > 1) // DCArrUD - dcId is 0 or 1.
+				if(dcArrId > 1 && dcId > 1) // DCArrUD - dcId is 0 or 1
 					TAPopMsg::Error("TAEventProcessor", "Run: invalid dc Id for DCArrUD: %d", dcId);
 				if(-9999. != dt){
 					if(0 == dcArrId || 1 == dcArrId) hdt[dcArrId][dcId][dcType]->Fill(dt);
@@ -237,6 +237,7 @@
 
 		/////////////////////// PID DOWNSTREAM THE TARGET ////////////////////////////////////////
 		// PID using the DC array downstream the target and the DC array downstream the dipole magnet
+		if(0) if(4 != VETO_0->GetFiredStatus() && 4 != VETO_1->GetFiredStatus()) // veto before target
 		if(IsPID() && 1 == ntrLs[3][0]){ // only one trk in DCArrD, or no pid is possible
 			if(1 == n3DtrLs[1] || (0 == n3DtrLs[1] && 1 == ntrLs[1][0])){
 				double pIn[4], pOut[4]; // [0-1-2-3]: [k1, k2, b1, b2]; pIn: into the magnet

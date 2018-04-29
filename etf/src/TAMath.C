@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/25.															     //
-// Last modified: 2018/1/27, SUN Yazhou.										     //
+// Last modified: 2018/4/26, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -31,6 +31,7 @@ using std::setprecision;
 using std::complex;
 typedef complex<double> cdouble;
 
+static TACtrlPara *clp = TACtrlPara::Instance();
 
 // length of the vector, len: vector dimension
 double TAMath::norm(const double *p, int len){

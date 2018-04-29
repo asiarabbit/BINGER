@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/26.															     //
-// Last modified: 2018/4/4, SUN Yazhou.											     //
+// Last modified: 2018/4/21, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -368,7 +368,7 @@ void TAParaManager::AssignDetPos(const char *fname) const{
 			} // end if(dcArr)
 		} // end if(3 == detId || 4 == detId)
 		// MWDCArrayU-D //
-		if(6 == detId || 7 == detId){ // valid TAMWDCArray pointer
+		if(6 == detId || 7 == detId || 8 == detId || 9 == detId){ // valid TAMWDCArray pointer
 			TAMWDCArray2* dcArr = (TAMWDCArray2*)fDetList[detId];
 			if(dcArr){
 				if(subDetId < 2){ // MWDC
@@ -387,14 +387,14 @@ void TAParaManager::AssignDetPos(const char *fname) const{
 	// and check out that if any MWDC in commission has not been assigned with position values
 	for(int i = 0; i < 2; i++){ // loop over MWDC array L-R
 		TAMWDCArray* dcArr = (TAMWDCArray*)fDetList[i + 3];
-		if(!dcArr) continue;
+		if(!dcArr || !dcArr->IsDCArr()) continue;
 		for(int j = 0; j < 3; j++){ // loop over MWDCs
 			dcArr->GetMWDC(j)->AssignAnodePosition();
 		} // end for over j
 	} // end for over i
-	for(int i = 0; i < 2; i++){ // loop over MWDC array U-D
+	for(int i = 0; i < 4; i++){ // loop over MWDC array U-D and PDCArr-U-D
 		TAMWDCArray2* dcArr = (TAMWDCArray2*)fDetList[i + 6];
-		if(!dcArr) continue;
+		if(!dcArr || !dcArr->IsDCArr()) continue;
 		for(int j = 0; j < 2; j++){ // loop over MWDCs
 			dcArr->GetMWDC(j)->AssignAnodePosition();
 		} // end for over j
@@ -423,12 +423,15 @@ void TAParaManager::AssignSTR() const{
 		} // end for over j
 	} // end loop over two DC arrays
 
-	TAMWDCArray2 *dcArr2[2]; // MWDC array U and D
+
+	// allocate anode STRs
+	// MWDC array U and D
+	TAMWDCArray2 *dcArr2[2];
 	dcArr2[0] = (TAMWDCArray2*)fDetList[6];
 	dcArr2[1] = (TAMWDCArray2*)fDetList[7];
 	for(int i = 2; i--;) if(dcArr2[i]){ // loop over two DC arrays
 		for(int j = 2; j--;){ // loop over DCs in an array
-			TAMWDC *dc = dcArr[i]->GetMWDC(j);
+			TAMWDC *dc = dcArr2[i]->GetMWDC(j);
 			const int nsl = dc->GetNSLayer();
 			const int n = dc->GetNAnodePerLayer();
 			for(int m = 0; m < nsl; m++){ // X-Y
@@ -439,6 +442,24 @@ void TAParaManager::AssignSTR() const{
 			} // end for over X-U-V
 		} // end for over j
 	} // end loop over two DC arrays
+	// PDC array U and D
+	TAMWDCArray2 *pdcArr2[2];
+	pdcArr2[0] = (TAMWDCArray2*)fDetList[8];
+	pdcArr2[1] = (TAMWDCArray2*)fDetList[9];
+	for(int i = 2; i--;) if(pdcArr2[i]){ // loop over two DC arrays
+		for(int j = 2; j--;){ // loop over DCs in an array
+			TAMWDC *dc = pdcArr2[i]->GetMWDC(j);
+			const int nsl = dc->GetNSLayer();
+			const int n = dc->GetNAnodePerLayer();
+			for(int m = 0; m < nsl; m++){ // X-Y
+				for(int l = 0; l < n; l++){ // loop over anodes in a DC
+					ctrlpara->AssignSTR(dc->GetAnodeL1(m, l)->GetAnodePara());
+					ctrlpara->AssignSTR(dc->GetAnodeL2(m, l)->GetAnodePara());
+				} // end for over anodes in a DC
+			} // end for over X-Y
+		} // end for over j
+	} // end loop over two DC arrays
+
 } // end member function AssignSTR
 // T0, including DC anode T0 and plastic scintillator T0
 void TAParaManager::AssignT0(const char *fname) const{

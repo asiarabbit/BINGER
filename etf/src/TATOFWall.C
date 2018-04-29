@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/9.															     //
-// Last modified: 2018/4/4, SUN Yazhou.											     //
+// Last modified: 2018/4/28, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -157,8 +157,8 @@ double TATOFWall::GetDelay(int stripId) const{
 
 // has to be called before the calling of Configure() to make the setting here take effect
 void TATOFWall::SetNStrip(int nstrip){
-	if(nstrip <= 0)
-		TAPopMsg::Error("TATOFWall", "SetNStrip: abnormal input nstrip (0 or minus): %d", nstrip);
+	if(nstrip < 0)
+		TAPopMsg::Error("TATOFWall", "SetNStrip: abnormal input nstrip (minus): %d", nstrip);
 	fNStrip = nstrip;
 }
 

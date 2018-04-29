@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/3.															     //
-// Last modified: 2017/10/6, SUN Yazhou.										     //
+// Last modified: 2018/4/26, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -25,6 +25,7 @@
 using std::vector;
 
 class TADCCable;
+class TAMWDCTa;
 
 class TADCSuperLayer : public TAStuff{
 public:
@@ -39,7 +40,11 @@ public:
 
 	virtual void Initialize();
 	virtual void Configure();
+	
+	friend class TAMWDCTa;
 protected:
+	void SetNDCCable(int n);
+
 	vector<TADCCable *> fDCCableArr;
 	short fSLayerId;
 	short fNCable;

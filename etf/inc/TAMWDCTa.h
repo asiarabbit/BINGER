@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/27.															     //
-// Last modified: 2018/4/8, SUN Yazhou.											     //
+// Last modified: 2018/4/26, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -24,7 +24,7 @@
 class TAMWDCTa : public TAMWDC{
 public:
 	TAMWDCTa(const string &name = "", const string &title = "", unsigned uid = 999999999);
-	virtual ~TAMWDCTa();
+	virtual ~TAMWDCTa() = 0;
 	
 	virtual void GetAnodeGlobalDirection(int dcType, double *ag) const;
 	virtual void GetAnodeGlobalProjection(int dcType, const double *globalCenter, double *globalProjection) const;
