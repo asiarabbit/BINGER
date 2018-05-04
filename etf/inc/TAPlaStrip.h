@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/30.															     //
-// Last modified: 2018/4/13, SUN Yazhou.										     //
+// Last modified: 2018/5/3, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -46,6 +46,8 @@ public:
 	TAChannel *GetDH() const; // return down end of the strip, HPTDC high resolution mode.
 	TAPlaStripPara *GetStripPara() const;
 	TAPlaStripData *GetStripData() const;
+	bool IsSingleEnd() const{ return fIsSingleEnd; } // whether to use only one end
+	void SetIsSingleEnd(bool opt){ fIsSingleEnd = opt; }
 	// Set functions
 	void SetStripLength(double length);
 	void SetStripId(int id){ fStripId = id; }
@@ -61,5 +63,6 @@ protected:
 	TAChannel *fDH; // Down end - High resolution mode
 	int fStripId; // strip serial id
 	double ft0, ft1, ft2; // used in GetTime(...) to mark the difference of them between two calls
+	bool fIsSingleEnd; // whether to use only one end
 };
 #endif

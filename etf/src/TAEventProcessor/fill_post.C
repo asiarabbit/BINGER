@@ -9,7 +9,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/29.															     //
-// Last modified: 2018/4/26, SUN Yazhou.										     //
+// Last modified: 2018/4/30, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -31,14 +31,16 @@
 			gGOOD[j] = tra->gGOOD; chi2[j] = tra->chi2; Chi[j] = tra->Chi;
 
 			const short dcArrId = (type[j]/10)%10; // 0: dcArrL; 1: dcArrR; 2: dcArrrU; 3: dcArrD
-			if(0 != dcArrId && 1 != dcArrId && 2 != dcArrId && 3 != dcArrId)
+			if(   0 != dcArrId && 1 != dcArrId // DCArr-LR
+			   && 2 != dcArrId && 3 != dcArrId // DCArr-UD
+			   && 4 != dcArrId && 5 != dcArrId ) // DCArr-PDC-UD
 				TAPopMsg::Error("TAEventProcessor", "Run: invalid dcArrId: %d", dcArrId);
 			if(0 == dcArrId || 1 == dcArrId){
-				firedStripId[j] = tra->firedStripId; nStripStray[j] = tra->nStripStray;			
+				firedStripId[j] = tra->firedStripId; nStripStray[j] = tra->nStripStray;	
 				memcpy(xMiss3D[j], tra->xMiss3D, sizeof(xMiss3D[j]));
-			} // end if
+			} // end if(0 == dcArrId || 1 == dcArrId)
 			const int dcType = type[j]%10; // [0-1-2 or 0-1]: [X-U-V or X-Y]
-			if(type[j]%10 == 0 && firedStripId[j] >= 0){ // X trk
+			if(dcArrId < 2 && type[j]%10 == 0 && firedStripId[j] >= 0){ // X trk
 				TAPlaStrip *strip = tofw[dcArrId]->GetStrip(firedStripId[j]);
 				TOTUV[j] = strip->GetUV()->GetTOT(); TOTUH[j] = strip->GetUH()->GetTOT();
 				TOTDV[j] = strip->GetDV()->GetTOT(); TOTDH[j] = strip->GetDH()->GetTOT();
@@ -54,17 +56,17 @@
 				r[j][k] = tra->r[k];
 				chi[j][k] = tra->chi[k];
 				const double dt = tra->t[k];
-				if(dcArrId > 1 && dcId > 1) // DCArrUD - dcId is 0 or 1
-					TAPopMsg::Error("TAEventProcessor", "Run: invalid dc Id for DCArrUD: %d", dcId);
 				if(-9999. != dt){
 					if(0 == dcArrId || 1 == dcArrId) hdt[dcArrId][dcId][dcType]->Fill(dt);
 					if(2 == dcArrId || 3 == dcArrId) hdtTa[dcArrId-2][dcId][dcType]->Fill(dt);
+					if(4 == dcArrId || 5 == dcArrId) hdtp[dcArrId-2][dcId][dcType]->Fill(dt);
 				} // end if
 				// TOT of DC signals
 				if(nu[j][k] >= 0){
 					TAMWDC *dc = nullptr;
 					if(0 == dcArrId || 1 == dcArrId) dc = dcArr[dcArrId]->GetMWDC(dcId);
 					if(2 == dcArrId || 3 == dcArrId) dc = dcArr2[dcArrId-2]->GetMWDC(dcId);
+					if(4 == dcArrId || 5 == dcArrId) dc = pdcArr2[dcArrId-4]->GetMWDC(dcId);
 					TAAnode *ano = dc->GetAnode(dcType, layerOption, nu[j][k]);
 					TOT_DC[j][k] = tra->dcTOT[k] = ano->GetTOT();
 					sfe16Id[j][k] = ano->GetAnodePara()->GetSFE16Id();
@@ -108,7 +110,7 @@
 					ii++;
 				} // end for over channels
 			} // end outer if
-			if(tRef != -9999. && firedStripId[j] >= 0){
+			if(tRef != -9999. && firedStripId[j] >= 0 && dcArrId < 2){
 				tof2[j] = tofw[dcArrId]->GetStripTime(firedStripId[j], tRef, 9., 40.) - tRef;
 			}
 			yp[j][0] = -9999.; yp[j][1] = -9999.; trkLenT[j] = -9999.;
@@ -178,7 +180,10 @@
 						for(int k = 0; k < 4; k++){ // loop over 4 andoe layers
 							const int nu = tArr[jj*2+l]->nu[k];
 							if(-1 == nu) continue;
-							TAAnode *ano = dc2[jj][k/2]->GetAnode(l, k%2 + 1, nu);
+							static bool usingPDC = GetGPar()->Val(83);
+							TAMWDC *dc = dc2[jj][k/2];
+							if(usingPDC) dc = pdc2[jj][k/2];
+							TAAnode *ano = dc->GetAnode(l, k%2 + 1, nu);
 							TAAnodePara *anoPar = ano->GetAnodePara();
 							anoPar->GetGlobalCenter(Ag[tmp]);
 							anoPar->GetGlobalDirection(ag[tmp]);

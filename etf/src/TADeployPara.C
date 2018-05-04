@@ -19,7 +19,9 @@
 #include "TAPopMsg.h"
 #include "TAUIDParser.h"
 #include "TACtrlPara.h"
+#include "TAGPar.h"
 
+static const TAGPar *gp = TAGPar::Instance();
 TADeployPara* TADeployPara::fInstance = nullptr;
 
 TADeployPara::TADeployPara(){
@@ -88,7 +90,7 @@ double TADeployPara::GetTOFWallDelayAvrg(unsigned uid) const{
 	if(3 != type[0] && 4 != type[0])
 		TAPopMsg::Error("TADeployPara", "GetTOFWallDelayAvrg: Not an MWDC array");
 
-	const double ccDelayAvrg_TOFWall[2] = {0.01, 0.01};
+	const double ccDelayAvrg_TOFWall[2] = {gp->Val(89), gp->Val(93)};
 	return ccDelayAvrg_TOFWall[type[0] - 3]; // [0-1]: DCArr[L-R]
 }
 double TADeployPara::GetMWDCDelay(unsigned uid) const{
@@ -100,16 +102,25 @@ double TADeployPara::GetMWDCDelay(unsigned uid) const{
 	if((6 == type[0] || 7 == type[0] || 8 == type[0] || 9 == type[0]) && type[1] >= 2)
 		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an MWDC");
 
-	const double offset0[6] = {0.01, 0.01, 0.01, 0.01, 0.01, 0.01}; // from FEE to HPTDC
+	const double offset0[6][3] = {
+		{gp->Val(86), gp->Val(87), gp->Val(88)}, // MWDC Array L
+		{gp->Val(90), gp->Val(91), gp->Val(92)}, // MWDC Array R
+		{gp->Val(94), gp->Val(95), 0.		  }, // MWDC Array U
+		{gp->Val(96), gp->Val(97), 0.		  }, // MWDC Array D
+		{gp->Val(98), gp->Val(99), 0.		  }, //  PDC Array U
+		{gp->Val(100), gp->Val(101), 0.		  }  //  PDC Array D
+	}; // [3-4-6-7-8-9]
 
 	int dcArrId = -9999;
 	if(3 == type[0] || 4 == type[0]) dcArrId = type[0] - 3; // 0-1: L-R
 	if(6 == type[0] || 7 == type[0] || 8 == type[0] || 9 == type[0])
 		dcArrId = type[0] - 6 + 2; // 2-3-4-5: U-D-PDCU-D
-	double delay = offset0[dcArrId];
+	double delay = offset0[dcArrId][type[1]];
 //	delay += -TACtrlPara::Instance()->T_wireMean(uid);
 	return delay;
 }
 
-
+double TADeployPara::GetTargetZ0() const{
+	return gp->Val(84);
+}
 

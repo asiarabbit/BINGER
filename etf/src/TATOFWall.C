@@ -99,6 +99,9 @@ double TATOFWall::GetTime(double kl, double bl, double &nstripStray, int &firedS
 			strip->GetStripPara()->GetGlobalProjection(p); // assign p
 			double width = strip->GetStripPara()->GetWidth();
 			nStripStray = (kl * p[2] - p[0] + bl) / sqrt(1. + kl * kl) / width;
+//			cout << "(kl * p[2] - p[0] + bl) / sqrt(1. + kl * kl) / width: "; // DEBUG
+//			cout << (kl * p[2] - p[0] + bl) / sqrt(1. + kl * kl) / width << endl; // DEBUG
+//			cout << "nStripStray: " << nStripStray << endl; getchar(); // DEBUG
 //			cout << "nStripStray: " << nStripStray << endl; getchar(); // DEBUG
 
 			if(fabs(nStripStray) < fabs(nStripStrayMin)){

@@ -10,7 +10,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/29.															     //
-// Last modified: 2018/4/29, SUN Yazhou.										     //
+// Last modified: 2018/5/3, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -43,6 +43,7 @@
 		const int nUVLEdge_T0_1 = T0_1->GetUV()->GetData()->GetNLeadingEdge();
 		const int nDVLEdge_T0_1 = T0_1->GetDV()->GetData()->GetNLeadingEdge();
 		// T0_1 UV validity check
+		bool hasIncre_ValidityUV = false, hasIncre_ValidityDV = false; // incre only once per event
 		for(int j = 0; j < nUVLEdge_T0_1; j++){
 			double time = T0_1->GetUV()->GetTime(j) - T0_1_delayAvrg;
 #ifdef DEBUG
@@ -53,7 +54,10 @@
 #endif
 			hT0_1ToTrigUV->Fill(j, time);
 			if(time > timeToTrigLowBoundUV && time < timeToTrigHighBoundUV){
-				cnt_timeToTrig_T0_1UV++; break;
+				if(!hasIncre_ValidityUV){
+					cnt_timeToTrig_T0_1UV++;
+					hasIncre_ValidityUV = true;
+				} // end if(!hasIncre_ValidityUV)
 			}
 		}
 		// T0_1 DV validity check
@@ -69,7 +73,10 @@
 #endif
 			if(time > timeToTrigLowBoundDV && time < timeToTrigHighBoundDV){
 //				cout << "cnt_timeToTrig_T0_1DV: " << cnt_timeToTrig_T0_1DV << endl; getchar(); // DEBUG
-				cnt_timeToTrig_T0_1DV++; break;
+				if(!hasIncre_ValidityDV){
+					hasIncre_ValidityDV = true;
+					cnt_timeToTrig_T0_1DV++;
+				} // end if(!hasIncre_ValidityDV)
 			}
 		}
 		// extract the best matched T0_1_UV and T0_1_DV
@@ -110,14 +117,16 @@
 		// Time of Flight and beam energy measurement in RIBLL2
 		beta = -1.; // initialization
 		static const double L = 25.88 * 1000.; // the length of RIBLL2
-		double tof1 = -9999.; // time of flight in RIBLL2
+		tof1 = -9999.; // time of flight in RIBLL2
 		if(-9999. != tRef){
 			const double t0_0 = T0_0->GetTime(tRef, -180., -100.);
 			if(-9999. != t0_0){
 				tof1 = tRef - t0_0;
 				beta = L / tof1 / c0;
+				htof1->Fill(tof1-8600.);
 //				cout << "t0_0: " << t0_0 << "\ttRef: " << tRef << endl; // DEBUG
-//				cout << "index: " << index << "\ttof1: " << tof1 << endl; // DEBUG
+//				cout << "index: " << index << "\ttof1: " << tof1-10600. << endl; // DEBUG
+//				getchar(); // DEBUG
 //				cout << "beta: " << beta << endl; getchar(); // DEBUG
 			}
 		}
@@ -134,6 +143,7 @@
 			for(TAPlaStrip *&str : tofw[ii]->GetStripArr()){
 				const int sta = str->GetFiredStatus();
 				const int strId = str->GetStripId();
+//				cout << "strId: " << strId << "\tsta: " << sta << endl; getchar(); // DEBUG
 				if(4 == sta) hTOFWFiredDist[ii]->Fill(strId);
 				if(4 == sta || 3 == sta){
 //					if(15 == strId)

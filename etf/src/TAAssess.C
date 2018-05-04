@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/14.															     //
-// Last modified: 2018/4/10, SUN Yazhou.									  	     //
+// Last modified: 2018/4/30, SUN Yazhou.									  	     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -104,9 +104,12 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 	// The x-axis of xX, xU, xV, to calculate angle-alpha
 	const double al[3][3] = {{1., 0., 0.}, {-sqrt(3.), 1., 0.}, {sqrt(3.), 1., 0.}}; // X-U-V
 	double ag[3][3][3]{}, agAxis[3][3][3]{}; // [DC][XUV][xyz];
-	for(int i = 3; i--;) for(int j = 3; j--;){ // i: DC0-1-2; j: X-U-V
-		dcArr->GetMWDC(i)->GetDetPara()->GetGlobalRotation(al[j], agAxis[i][j]);
-		dcArr->GetMWDC(i)->GetAnode(j, 1, 0)->GetAnodePara()->GetGlobalDirection(ag[i][j]);
+	for(int i = 3; i--;){
+		const double nsl = dcArr->GetMWDC(0)->GetNSLayer();
+		for(int j = nsl; j--;){ // i: DC0-1-2; j: X-U-V
+			dcArr->GetMWDC(i)->GetDetPara()->GetGlobalRotation(al[j], agAxis[i][j]);
+			dcArr->GetMWDC(i)->GetAnode(j, 1, 0)->GetAnodePara()->GetGlobalDirection(ag[i][j]);
+		}
 	}
 
 	// read the track tree
@@ -429,7 +432,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 							hrt03_3D[j][dcId]->Fill(tt, rc);
 							hdrt03_3D[j][dcId]->Fill(tt, dr);
 
-							if(0 == j && 0 == k && 40 == nu[j][k]){
+							if(0 == j && 0 == k && 8 == nu[j][k]){ // 8 -> 40: DCTa -> DC XXX XXX XXX
 								hrt04_3D->Fill(tt, rc);
 								hdrt04_3D->Fill(tt, dr);
 								hrt04_3D_STR[STRid]->Fill(tt, rc);
@@ -440,8 +443,10 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 					} // end loop over six sense wire layers for one type
 //					hr_->Fill(alpha[2][0]/DEGREE);
 					for(int k = 0; k < 3; k++){ // loop over MWDCs
-						if(alpha[k][j] > -1. * DEGREE && alpha[k][j] < 1. * DEGREE){
-							if(nu[it][2*k] >= 30 && nu[it][2*k] <= 50){
+						if(alpha[k][j] > -1. * DEGREE && alpha[k][j] < 2. * DEGREE){
+							// nAnodePerLayaer
+							static int napl = dcArr->GetMWDC(k)->GetNAnodePerLayer();
+							if(nu[it][2*k] >= 0.3*napl && nu[it][2*k] <= 0.7*napl){
 								htt_3D[j][k]->Fill(t[it][2*k], t[it][2*k+1]);
 								hrr_3D[j][k]->Fill(r[it][2*k], r[it][2*k+1]);
 							} // end if(nu...)
@@ -475,7 +480,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 					hrt03[dcType][dcId]->Fill(tt, rc);
 					hdrt03[dcType][dcId]->Fill(tt, dr);
 
-					if(0 == dcType && 0 == l && 40 == nu[j][l]){
+					if(0 == dcType && 0 == l && 8 == nu[j][l]){ // 8 -> 40: DCTa -> DC XXX XXX XXX
 						hrt04->Fill(tt, rc);
 						hdrt04->Fill(tt, dr);
 						hrt04_STR[STRid]->Fill(tt, rc);
@@ -492,10 +497,15 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 			// fill the time loop from approximate perpendicular tracks
 			double ang0 = atan(k[j]), ang = ang0;
 			for(int l = 0; l < 3; l++){ // loop over three DCs
+//				cout << "phiDC[l]: " << phiDC[l] << endl; // DEBUG
+//				cout << "k[j]: " << k[j] << endl; // DEBUG
+//				cout << "ang: " << ang / DEGREE << endl; //DEBUG
+//				getchar(); // DEBUG
 				if(0 == dcType) ang = ang0 - phiDC[l] + 0. * DEGREE;
 				if(0 == dcType && 1 == l) hr_->Fill(ang/DEGREE);
-				if(ang > -2. * DEGREE && ang < 1. * DEGREE){
-					if(nu[j][2*l] >= 30 && nu[j][2*l] <= 50){
+				if(ang > -2. * DEGREE && ang < 2. * DEGREE){
+				static int napl = dcArr->GetMWDC(l)->GetNAnodePerLayer(); // nAnodePerLayer
+					if(nu[j][2*l] >= 0.3*napl && nu[j][2*l] <= 0.7*napl){
 						htt[dcType][l]->Fill(t[j][2*l], t[j][2*l+1]);
 						hrr[dcType][l]->Fill(r[j][2*l], r[j][2*l+1]);
 					} // end if

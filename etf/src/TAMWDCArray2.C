@@ -99,7 +99,7 @@ void TAMWDCArray2::SetPlaT0(TAPlaStrip *t0){
 // assign the recognized TATrack2 objects to tTrack objects for assignments
 void TAMWDCArray2::AssignTracks(vector<tTrack *> &track_ls){ // assign tracks
 	static bool usingPDC = gp->Val(83);
-	if(!fTrackList[0].size()) return; // no tracks to assign
+	if(!fTrackList[0].size() && !fTrackList[1].size()) return; // no tracks to assign
 	int type[6]{}; TAUIDParser::DNS(type, GetUID());
 	tTrack *ptrack_t = nullptr; // a temporary variable
 	for(int l = 0; l < 2; l++){ // loop over X-Y
@@ -109,8 +109,8 @@ void TAMWDCArray2::AssignTracks(vector<tTrack *> &track_ls){ // assign tracks
 			ptrack_t = new tTrack;
 			x->AssignTrack(ptrack_t);
 
-			// track type: 1[UD][XY] <=> 1[23][01]
-			int detId = -1;
+			// track type: 1[UD, pdcUD][XY] <=> 1[23, 45][01]
+			int detId = type[0];
 			if(usingPDC){ // swithc 67 with 89
 				switch(type[0]){
 					case 6: detId = 8; break;

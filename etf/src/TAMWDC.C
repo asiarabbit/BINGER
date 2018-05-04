@@ -56,8 +56,8 @@ double TAMWDC::Acceptance() const{
 	if(!GetDetPara()->IsAssigned())
 		TAPopMsg::Error(GetName().c_str(), "Acceptance: detector position not assigned.");
 	double p0[3]{}, p1[3]{};
-	((TAAnodePara*)GetAnode(0, 1, 0)->GetPara())->GetGlobalProjection(p0);
-	((TAAnodePara*)GetAnode(0, 1, GetNAnodePerLayer() - 1)->GetPara())->GetGlobalProjection(p1);
+	GetAnode(0, 1, 0)->GetAnodePara()->GetGlobalProjection(p0);
+	GetAnode(0, 1, GetNAnodePerLayer() - 1)->GetAnodePara()->GetGlobalProjection(p1);
 	double pp0[2] = {p0[2], p0[0]}, pp1[2] = {p1[2], p1[0]}; // z, x, to fit the format of the method
 	return TAMath::acceptance(pp0, pp1);
 }

@@ -307,7 +307,7 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 			else{
 				switch(type[0]){
 					case 6: para->SetSTR(rtM[hv][i], i); break; // DCTaM
-					case 7: para->SetSTR(rtL[hv][i], i); break; // DCTaL
+					case 7: para->SetSTR(rtM[hv][i], i); break; // DCTaL XXX For P. Ma's Test
 					case 8:
 					case 9: TAPopMsg::Error("TACtrlPara", "AssignSTR: STR not simulated for PDCs");
 					para->SetSTR(rt[hv][i], i); break; // PDC XXX: FIXME: to be completed

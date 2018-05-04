@@ -38,44 +38,45 @@
 	double TOTUV[ntrMax], TOTUH[ntrMax], TOTDV[ntrMax], TOTDH[ntrMax];
 	double TOT_T0[6]; // [1-6: T0V, T0H, T1LV, T1LH, T1RV, T1RH]
 	double TOF_T1; // time tag of T1 plastic scintillator, beside the target.
-	double tRef; // T reference -> ~ 500+-100 to trigger
+	double tRef, tof1; // T reference -> ~ 500+-100 to trigger
 	TTree *treeTrack = new TTree("treeTrack", "pattern recognition tracks");
 //	treeTrack->SetAutoSave(1e7);
 	treeTrack->Branch("index", &index, "index/I");
 	treeTrack->Branch("bunchId", &bunchId, "bunchId/I");
+	treeTrack->Branch("tof1", &tof1, "tof1/D"); // tof from T0_0 to T0_1
 	treeTrack->Branch("tRef", &tRef, "tRef/D");
 	treeTrack->Branch("beta", &beta, "beta/D");
 	treeTrack->Branch("TOT_T0", TOT_T0, "TOT_T0[6]/D"); // see the comment above
 	treeTrack->Branch("ntr", &ntr, "ntr/I");
 	treeTrack->Branch("ntrT", &ntrT, "ntrT/I");
-	treeTrack->Branch("ntrLs", ntrLs, "ntrLs[4][3]/I"); // DCArr-L-R-U-D -- [XUV - XY]
-	treeTrack->Branch("nu", nu, "nu[ntr][6]/I");
-	treeTrack->Branch("SFE16Id", sfe16Id, "SFE16Id[ntr][6]/I");
-	treeTrack->Branch("gGOOD", gGOOD, "gGOOD[ntr]/I");
-	treeTrack->Branch("type", type, "type[ntr]/I"); // track type: 1[LR][XUV]
-	treeTrack->Branch("id", id, "id[ntr]/I"); // 3-D track id
-	treeTrack->Branch("xMiss3D", xMiss3D, "xMiss3D[ntr][3]/D"); // 3D track coincidence test at z coordinates of the three DCs
-	treeTrack->Branch("t", t, "t[ntr][6]/D");
-	treeTrack->Branch("w", w, "w[ntr][6]/D");
-	treeTrack->Branch("r", r, "r[ntr][6]/D");
-	treeTrack->Branch("k", k, "k[ntr]/D"); // start for iterative fit, necessary
-	treeTrack->Branch("b", b, "b[ntr]/D"); // start for iterative fit, necessary
-	treeTrack->Branch("chi", chi, "chi[ntr][6]/D"); // residuals for each hit
-	treeTrack->Branch("chi2", chi2, "chi2[ntr]/D"); // sum of chi^2
-	treeTrack->Branch("Chi", Chi, "Chi[ntr]/D"); // sqrt(chi2/nFiredAnodeLayer)
-	treeTrack->Branch("TOF", TOF, "TOF[ntr]/D");
-	treeTrack->Branch("chit", chit, "chit[ntr][6]/D"); // drift time error suggested by fitted tracks
-	treeTrack->Branch("tof2", tof2, "tof2[ntr]/D"); // tof from T0_1 to TOFW
-	treeTrack->Branch("beta2", beta2, "beta2[ntr]/D"); // beta from T0_1 to TOFW
-	treeTrack->Branch("TOT_DC", TOT_DC, "TOT_DC[ntr][6]/D");
-	treeTrack->Branch("TOT_DC_Avrg", TOT_DC_Avrg, "TOT_DC_Avrg[ntr]/D");
-	treeTrack->Branch("TOTUV", TOTUV, "TOTUV[ntr]/D"); // time over threshold, up side, V
-	treeTrack->Branch("TOTUH", TOTUH, "TOTUH[ntr]/D"); // time over threshold, up side, H
-	treeTrack->Branch("TOTDV", TOTDV, "TOTDV[ntr]/D"); // time over threshold, down side, V
-	treeTrack->Branch("TOTDH", TOTDH, "TOTDH[ntr]/D"); // time over threshold, down side, H
+	treeTrack->Branch("ntrLs", ntrLs, "ntrLs[6][3]/I"); // DCArr-L-R-U-D -- [XUV - XY]
+	treeTrack->Branch("nu", nu, "nu[ntrT][6]/I");
+	treeTrack->Branch("SFE16Id", sfe16Id, "SFE16Id[ntrT][6]/I");
+	treeTrack->Branch("gGOOD", gGOOD, "gGOOD[ntrT]/I");
+	treeTrack->Branch("type", type, "type[ntrT]/I"); // track type: 1[LR][XUV]
+	treeTrack->Branch("id", id, "id[ntrT]/I"); // 3-D track id
+	treeTrack->Branch("xMiss3D", xMiss3D, "xMiss3D[ntrT][3]/D"); // 3D track coincidence test at z coordinates of the three DCs
+	treeTrack->Branch("t", t, "t[ntrT][6]/D");
+	treeTrack->Branch("w", w, "w[ntrT][6]/D");
+	treeTrack->Branch("r", r, "r[ntrT][6]/D");
+	treeTrack->Branch("k", k, "k[ntrT]/D"); // start for iterative fit, necessary
+	treeTrack->Branch("b", b, "b[ntrT]/D"); // start for iterative fit, necessary
+	treeTrack->Branch("chi", chi, "chi[ntrT][6]/D"); // residuals for each hit
+	treeTrack->Branch("chi2", chi2, "chi2[ntrT]/D"); // sum of chi^2
+	treeTrack->Branch("Chi", Chi, "Chi[ntrT]/D"); // sqrt(chi2/nFiredAnodeLayer)
+	treeTrack->Branch("TOF", TOF, "TOF[ntrT]/D");
+	treeTrack->Branch("chit", chit, "chit[ntrT][6]/D"); // drift time error suggested by fitted tracks
+	treeTrack->Branch("tof2", tof2, "tof2[ntrT]/D"); // tof from T0_1 to TOFW
+	treeTrack->Branch("beta2", beta2, "beta2[ntrT]/D"); // beta from T0_1 to TOFW
+	treeTrack->Branch("TOT_DC", TOT_DC, "TOT_DC[ntrT][6]/D");
+	treeTrack->Branch("TOT_DC_Avrg", TOT_DC_Avrg, "TOT_DC_Avrg[ntrT]/D");
+	treeTrack->Branch("TOTUV", TOTUV, "TOTUV[ntrT]/D"); // time over threshold, up side, V
+	treeTrack->Branch("TOTUH", TOTUH, "TOTUH[ntrT]/D"); // time over threshold, up side, H
+	treeTrack->Branch("TOTDV", TOTDV, "TOTDV[ntrT]/D"); // time over threshold, down side, V
+	treeTrack->Branch("TOTDH", TOTDH, "TOTDH[ntrT]/D"); // time over threshold, down side, H
 	treeTrack->Branch("TOF_T1", &TOF_T1, "TOF_T1/D"); // time tag of T1 plastic scintillator
-	treeTrack->Branch("firedStripId", firedStripId, "firedStripId[ntr]/I");
-	treeTrack->Branch("nStripStray", nStripStray, "nStripStray[ntr]/D"); // distance of track to fired TOF Wall strip center
+	treeTrack->Branch("firedStripId", firedStripId, "firedStripId[ntrT]/I");
+	treeTrack->Branch("nStripStray", nStripStray, "nStripStray[ntrT]/D"); // distance of track to fired TOF Wall strip center
 	// sipmArr part //
 	if(sipmArr){
 		treeTrack->Branch("taHitX", taHitX, "taHitX[ntr]/D");

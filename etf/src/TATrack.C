@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2018/4/4, SUN Yazhou.											     //
+// Last modified: 2018/4/30, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -206,7 +206,8 @@ void TATrack::SetData(const double *x, const double *z, const double *t, const d
 	} // end for over i
 	// gGOOD == 2 specially marks the kind of tracks where two MWDCs are both-anode-layer fired.
 	nFiredAnodeLayer = gGOOD;
-	if(gGOOD == 2) nFiredAnodeLayer = 4;
+	if(2 == gGOOD) nFiredAnodeLayer = 4;
+	if(1 == gGOOD) nFiredAnodeLayer = 3;
 	if(temp_good != nFiredAnodeLayer){
 		TAPopMsg::Warn(GetName().c_str(), "SetData: the input count of fired anode layers disagrees with the one obtained from counting non-zero elements of fired anode serial id array.\nThe counting result of count of fired andoe layers: %d\ngGOOD:%d\nThe input count of fired anode layers: %d", temp_good, gGOOD, nFiredAnodeLayer);
 	} // end if(temp_good != gGOOD)

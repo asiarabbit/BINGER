@@ -34,7 +34,7 @@ public:
 	double GetTOFWallDelayAvrg(unsigned uid) const;
 	double GetMWDCDelay(unsigned uid) const;
 	double GetSiPMArrayZ0() const{ return -885.75; }
-	double GetTargetZ0() const{ return -860.75; }
+	double GetTargetZ0() const;
 protected:
 	TADeployPara();
 

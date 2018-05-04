@@ -11,7 +11,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/13.															     //
-// Last modified: 2018/4/28, SUN Yazhou.										     //
+// Last modified: 2018/5/4, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -184,8 +184,8 @@ void TAEventProcessor::Configure(){
 		return;
 	}
 	// select an experiment, to direct to a directory containing the exp config parameters
-	const char dir[4][64] = {"pion_2017Oct", "beamTest_2016Nov", "C16_Exp_2018_Summer", "tripletDC_P_Ma_Test"};
-	const char *sdir = dir[3];
+	const char dir[5][64] = {"pion_2017Oct", "beamTest_2016Nov", "C16_Exp_2018_Summer", "tripletDC_P_Ma_Test", "tripletDC_P_Ma_Test_ETF"};
+	const char *sdir = dir[4];
 	TAPopMsg::Info("TAEventProcessor", "Configure: selected Exp Config Dir: %s", sdir);
 	SetConfigExpDir(sdir);
 	// STR_spline.root || STR_stiff.root || STR_aaa900.root
@@ -203,7 +203,7 @@ void TAEventProcessor::Configure(){
 //	detList[4] = new TAMWDCArrayR("DCArrayR", "DCArrayR@Post-Magnet", 4); // FORBIDDEN
 	detList[4] = new TAMWDCArrayM("DCArrayM", "DCArrayM@P.Ma_TEST", 4); // FORBIDDEN
 //	detList[5] = new TASiPMPlaBarrel("SiPMPlaBarrel", "SiPMPlaBarrel@Hug-Target", 5); // ALLOWED
-//	detList[6] = new TAMWDCArrayU("DCArrayU", "DCArrayU@Pre-Target", 6); // ALLOWED
+	detList[6] = new TAMWDCArrayU("DCArrayU", "DCArrayU@Pre-Target", 6); // ALLOWED
 	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7); // ALLOWED
 //	detList[8] = new TAPDCArrayU("PDCArrayU", "PDCArrayU@Pre-Target", 8); // ALLOWED
 //	detList[9] = new TAPDCArrayD("PDCArrayD", "PDCArrayD@Post-Target", 9); // ALLOWED
@@ -227,6 +227,7 @@ void TAEventProcessor::Configure(){
 			tofw->SetNStrip(1);
 			stripArr.push_back((TAPlaStrip*)str_t0_1);
 		}
+		if(!strcmp("tripletDC_P_Ma_Test_ETF", sdir)) str_t0_1->SetIsSingleEnd(true);
 	} // end configuration of TOFWall for P. Ma's Test
 
 	// read all the parameters required and assign positiion parameters to every channel and alike
@@ -248,8 +249,41 @@ void TAEventProcessor::Configure(){
 } // end of member function Configure
 // assign an event to the detectors by distributing channel data to the matching channel objects
 void TAEventProcessor::Assign(){
+	// special treatment for T0_1 with single-end readout
+	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
+	static TAPlaStrip *T0_1 = (TAT0_1*)(detList[1]);
+	if(T0_1->IsSingleEnd()){
+		static int chId[4]{};
+		if(!chId[0]){ // UV-UH-DV-DH
+			chId[0] = T0_1->GetUV()->GetPara()->GetChannelId();
+			chId[1] = T0_1->GetUH()->GetPara()->GetChannelId();
+			chId[2] = T0_1->GetDV()->GetPara()->GetChannelId();
+			chId[3] = T0_1->GetDH()->GetPara()->GetChannelId();
+		} // end if(!chid[0])
+		for(const tEntry *e : fEntryList){
+			bool DVF = false, UVF = false; // if D(U)V ch fired
+			if(chId[0] == e->channelId){ // U channels are Daq-ed
+				UVF = true;
+				// fabricate a DV entry stuffed with UV data
+				tEntry *eDV = new tEntry(*e);
+				eDV->channelId = chId[2]; // change chId to DV's
+				fEntryList.push_back(eDV);
+			}
+			if(chId[2] == e->channelId){ // D channels are Daq-ed
+				DVF = true;
+				// fabricate a UV entry stuffed with DV data
+				tEntry *eUV = new tEntry(*e);
+				eUV->channelId = chId[0]; // change chId to UV's
+				fEntryList.push_back(eUV);
+			}
+			if(DVF && UVF)
+				TAPopMsg::Error("TAEventProcessor", "Assign(): T0_1 singe-end readout, while DV and UV are both fired");
+		} // end for over entries
+	} // end if(T0_1->IsSingleEnd())
+
 	for(tEntry *&e : fEntryList) Assign(e);
-}
+
+} // end assign
 void TAEventProcessor::Assign(tEntry *entry){
 
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
@@ -308,7 +342,9 @@ void TAEventProcessor::Analyze(){
 
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
 	static TAMWDCArrayL *dcArrL = (TAMWDCArrayL*)detList[3];
-	static TAMWDCArrayR *dcArrR = (TAMWDCArrayR*)detList[4];
+	// XXX: should be changed to R for 16C
+	static TAMWDCArrayR *dcArrR = dynamic_cast<TAMWDCArrayM*>(detList[4]);
+	if(!dcArrR && detList[4]) TAPopMsg::Error("TAEvPsr", "Analyze: DCArrD not TAMWDCArrayM object.");
 	static TAMWDCArrayU *dcArrU = (TAMWDCArrayU*)detList[6];
 	static TAMWDCArrayD *dcArrD = (TAMWDCArrayD*)detList[7];
 	static TAPDCArrayU *pdcArrU = (TAPDCArrayU*)detList[8];
@@ -382,12 +418,12 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 
 	// read rootfile and assembly each event
 	const int n = treeData[0]->GetEntries();
-	int cntTrk = 0, cnt3DTrk = 0; // ntr: n trk per event
+	int cntTrk = 0, cnt3DTrk = 0, cntTrkY = 0; // ntr: n trk per event; cntTrkY: Y tracks from (P)DCTa
 	int cntaozWrong = 0, cntaoz = 0;
 	int i = 0, index, cntSec = 0;
 	// ntr: N of trk in DCArrLR; ntrT: N of trk in DCArrLR+UD
 	int ntr = 0, ntrT = 0;
-	int n3DtrLs[4]{}, ntrLs[4][3]{}; // total N of TrkProjs; DCArr-L-R-U-D -- [XUV - XY]
+	int n3DtrLs[6]{}, ntrLs[6][3]{}; // total N of TrkProjs; DCArr-L-R-U-D-PDCU-D -- [XUV - XY]
 	const int ntrMax = 100; // maximum number of track projections in an event
 #ifdef GO
 	#include "TAEventProcessor/define_hist.C" // define histograms of interest
@@ -429,6 +465,7 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 		if(index >= id1) break; // ending at index - id1-1
 ///		cout << "\n\nindex: " << index << endl; // DEBUG
 		Assign(); // *** assign entries in fEntryList *** //
+//		cout << "index: " << index << endl; // DEBUG
 //		for(auto &t : entry_ls) cout << t->name << "\t" << t->channelId << endl; // DEBUG
 //		getchar(); // DEBUG
 //		for(auto &t : entry_ls) t->show(); // DEBUG
@@ -443,20 +480,23 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 		for(tTrack *&t : track_ls){
 			const int dcArrId = t->type / 10 % 10, dcType = t->type % 10;
 			ntrLs[dcArrId][dcType]++;
+			if(dcArrId > 1 && 1 == dcType) cntTrkY++;
 		}
 		ntr = 0; ntrT = 0;
 		for(tTrack *&t : track_ls){
 			const short dcArrId = t->type / 10 % 10; // dcArrId
-			if(0 == dcArrId || 1 == dcArrId) ntr++;
+			if(0 == dcArrId || 1 == dcArrId) ntr++; // ntr for MWDCArrayL-R
 		}
 		ntr = ntr < ntrMax ? ntr : ntrMax;
-		for(int j = 0; j < ntr; j++){ cntTrk++; if(track_ls[j]->id != -1) cnt3DTrk++; }
 #ifdef GO
 		#include "TAEventProcessor/fill_post.C" // fill hists and trees after tracking
 #endif
 		cntSec++;
+		cntTrk += ntrT;
+		cnt3DTrk += n3DtrT;
+//		cout << "ntrT: " << ntrT << "\tn3DtrT: " << n3DtrT << endl; getchar(); // DEBUG
 		if(index % 1 == 0){
-			cout << setw(10) << index << setw(10) << cntSec << setw(10) << cntTrk - (cnt3DTrk/3)*2;
+			cout << setw(10) << index << setw(10) << cntSec << setw(10) << cntTrk - (cnt3DTrk/3)*2 - cntTrkY;
 			cout << setw(10) << cntTrk << setw(10) << cnt3DTrk / 3;
 			cout << setw(10) << cntaoz << setw(10) << cntaozWrong << "\r" << flush;
 //			cout << "idx " << index << " nEv/trkX " << cntSec << "/";

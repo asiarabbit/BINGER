@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2018/4/29, SUN Yazhou.										     //
+// Last modified: 2018/4/30, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -62,7 +62,7 @@ void TAT0_1::Configure(){
 		TAPopMsg::Warn(GetName().c_str(), "Configure: has been called once");
 		return; // Configure() has been called
 	}
-	SetZ0(-1177.5); // from this to 32Q02 unit: mm 20171026_2157, pionExp
+	SetZ0(gp->Val(85)); // from this to 32Q02 unit: mm 20171026_2157, pionExp
 	fUV = new TAChannel(fName+"->UV", fName+"->UV", fUID+(0<<6)); fUV->SetSerialId(0);
 	fUH = new TAChannel(fName+"->UH", fName+"->UH", fUID+(1<<6)); fUV->SetSerialId(1);
 	fDV = new TAChannel(fName+"->DV", fName+"->DV", fUID+(2<<6)); fUV->SetSerialId(2);
@@ -72,8 +72,8 @@ void TAT0_1::Configure(){
 	fStripData = new TAPlaStripData(fName+"->Data", fName+"->Data", fUID);
 	double p[3] = {0., 0., GetZ0()}; GetStripPara()->SetGlobalProjection(p);
 
-	fStripPara->SetWidth(30.); // mm, not accurate
-	fStripPara->SetLength(1e-7); // mm, deliberately set to zero saving the trouble of additional delay
+	fStripPara->SetWidth(400.); // mm, not accurate
+	fStripPara->SetLength(400.); // mm
 	fStripPara->AppendDelay(1.E-7); // set as the time reference
 	fStripPara->SetVeff(1200. / 7.8); // mm/ns, roughly calibrated
 

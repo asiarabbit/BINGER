@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/24.															     //
-// Last modified: 2017/10/15, SUN Yazhou.										     //
+// Last modified: 2018/4/30, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -90,7 +90,10 @@ double TAAnode::GetDriftTime(double &weight) const{
 		return -9999.;
 	} // end if
 	double driftTime = GetData()->GetLeadingTime() - GetPara()->GetDelay() - tof;
-//	cout << "GetData()->GetLeadingTime(): " << GetData()->GetLeadingTime() << endl; getchar(); // DEBUG
+//	cout << "GetData()->GetLeadingTime(): " << GetData()->GetLeadingTime() << endl; // DEBUG
+//	cout << "GetPara()->GetDelay(): " << GetPara()->GetDelay() << endl; // DEBUG
+//	cout << "tof: " << tof << endl; // DEBUG
+//	getchar(); // DEBUG
 	// weight: for weighted addition of chi to chi2
 	if(TACtrlPara::IsDriftTimeQtCorrection())
 		GetAnodePara()->DriftTimeQtCorrection(driftTime, GetTOT(), weight);

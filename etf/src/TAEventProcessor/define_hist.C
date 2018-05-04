@@ -8,7 +8,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/21.															     //
-// Last modified: 2018/4/29, SUN Yazhou.										     //
+// Last modified: 2018/5/1, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -186,12 +186,14 @@
 	hTOFWToTrigUV[0] = new TH2F("hLTOFWToTrigUV", "hLTOFWToTrigUV;edgeNumId;timeToTrig [ns]", 7, -1.5, 5.5, 8000, -4000., 6000.);
 	hTOFWToTrigUV[1] = new TH2F("hRTOFWToTrigUV", "hRTOFWToTrigUV;edgeNumId;timeToTrig [ns]", 7, -1.5, 5.5, 8000, -4000., 6000.);
 	TH2F *hDCToTrig = new TH2F("hDCToTrig", "hDCToTrig;edgeNumId;timeToTrig [ns]", 7, -1.5, 5.5, 8000, -4000., 6000.);
+	TH1F *htof1 = new TH1F("htof1", "tof1", 500, -10., 100.);
 	objLs[6].push_back(htof2sipmArr); objLs[6].push_back(hsipmArrToTrig);
 	objLs[6].push_back(hTOF_T1_pos); objLs[6].push_back(hDCToTrig);
 	objLs[6].push_back(hT0_1ToTrigUV); objLs[6].push_back(hT0_1ToTrigDV);
 	objLs[6].push_back(hTOFWToTrigUV[0]); objLs[6].push_back(hTOFWToTrigUV[1]);
 	objLs[7].push_back(hsipmArrToTRef); objLs[7].push_back(hsipmBarrToTRef);
 	objLs[6].push_back(hsipmBarrToTrig);
+	objLs[6].push_back(htof1);
 
 	TGraph *gTrkEff = new TGraph();
 	gTrkEff->SetNameTitle("gTrkEff", "index-Tracking Efficiency diagram;event index;3D Efficiency");
@@ -224,12 +226,12 @@
 				objLs[1].push_back(hDCTaFiredDist[i][j][k]);
 				// DC drift time distribution
 				sprintf(name, "HdtDC_TaArr%c_DC%d_%c", UD[i], j, xy[k]);
-				sprintf(title, "Drift Time Distribution of DC_Ta Array%c - DC%d - %c;drift time [ns]", LR[i], j, xuv[k]);
+				sprintf(title, "Drift Time Distribution of DC_Ta Array%c - DC%d - %c;drift time [ns]", UD[i], j, xy[k]);
 				hdtTa[i][j][k] = new TH1F(name, title, 500, -100., 400.);
 				objLs[3].push_back(hdtTa[i][j][k]);
 				// DC time to T-reference
-				sprintf(name, "hDCTaToTRefArr%c_DC%d_%c", LR[i], j, xuv[k]);
-				sprintf(title, "DC_Ta Time to T-reterence - DC Array%c - DC%d - %c;timeToTRef [ns]", LR[i], j, xuv[k]);
+				sprintf(name, "hDCTaToTRefArr%c_DC%d_%c", UD[i], j, xy[k]);
+				sprintf(title, "DC_Ta Time to T-reterence - DC Array%c - DC%d - %c;timeToTRef [ns]", UD[i], j, xy[k]);
 				hDCTaToTRef[i][j][k] = new TH1F(name, title, 4000, -2000., 2000.);
 				objLs[7].push_back(hDCTaToTRef[i][j][k]);
 			} // end for over X-Y
@@ -259,12 +261,12 @@
 				objLs[1].push_back(hPDCFiredDist[i][j][k]);
 				// DC drift time distribution
 				sprintf(name, "HdtPDCArr%c_DC%d_%c", UD[i], j, xy[k]);
-				sprintf(title, "Drift Time Distribution of PDC Array%c - DC%d - %c;drift time [ns]", LR[i], j, xuv[k]);
+				sprintf(title, "Drift Time Distribution of PDC Array%c - DC%d - %c;drift time [ns]", UD[i], j, xy[k]);
 				hdtp[i][j][k] = new TH1F(name, title, 500, -100., 400.);
 				objLs[3].push_back(hdtp[i][j][k]);
 				// DC time to T-reference
-				sprintf(name, "hPDCToTRefArr%c_DC%d_%c", LR[i], j, xuv[k]);
-				sprintf(title, "PDC Time to T-reterence - DC Array%c - DC%d - %c;timeToTRef [ns]", LR[i], j, xuv[k]);
+				sprintf(name, "hPDCToTRefArr%c_DC%d_%c", UD[i], j, xy[k]);
+				sprintf(title, "PDC Time to T-reterence - DC Array%c - DC%d - %c;timeToTRef [ns]", UD[i], j, xy[k]);
 				hPDCToTRef[i][j][k] = new TH1F(name, title, 4000, -2000., 2000.);
 				objLs[7].push_back(hPDCToTRef[i][j][k]);
 			} // end for over X-Y

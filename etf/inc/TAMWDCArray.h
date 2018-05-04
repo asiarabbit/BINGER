@@ -70,7 +70,7 @@ protected:
 	// 0: the two tracks are different; 1: newTrack is defeated by oldTrack
 	// 2: newTrack defeats oldTrack
 	// dcType: [0-1]: [X-Y]
-	static int compare(TATrack *newTrack, TATrack *oldTATrack, int dcType = 0, bool show = false);
+	static int compare(TATrack *newTrack, TATrack *oldTATrack, char type = 'X', bool show = false);
 	static void cleanUp(vector<TATrack *> &tr, const int n);
 	// to see if track projections resolved from UV data is compatible with that from X data.
 	bool Compatible(double k, double b, double ku, double bu, double kv, double bv, double &k2, double &b2, double *xMiss3D);

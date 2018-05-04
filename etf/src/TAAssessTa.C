@@ -408,7 +408,9 @@ void TAAssessTa::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid,
 //					hr_->Fill(alpha[2][0]/DEGREE);
 					for(int k = 0; k < 2; k++){ // loop over MWDCs
 						if(alpha[k][j] > -1. * DEGREE && alpha[k][j] < 1. * DEGREE){
-							if(nu[it][2*k] >= 5 && nu[it][2*k] <= 13){
+							// nAnodePerLayaer
+							static int napl = dcArr->GetMWDC(k)->GetNAnodePerLayer();
+							if(nu[it][2*k] >= 0.3*napl && nu[it][2*k] <= 0.7*napl){
 								htt_3D[j][k]->Fill(t[it][2*k], t[it][2*k+1]);
 								hrr_3D[j][k]->Fill(r[it][2*k], r[it][2*k+1]);
 							} // end if(nu...)

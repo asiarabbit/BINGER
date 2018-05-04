@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/4/13.															     //
-// Last modified: 2018/4/28, SUN Yazhou.										     //
+// Last modified: 2018/4/30, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -51,7 +51,7 @@ void TAMWDCArrayM::Map(){
 	if(GetTOFWall()->GetNFiredStrip() <= 0) return; // event filter
 
 	Map(fMWDC, fTrackList[0], 0); // X
-	Map(fMWDC, fTrackList[1], 0); // Y
+	Map(fMWDC, fTrackList[1], 3); // Y, dcType: Y -> 3
 }
 
 

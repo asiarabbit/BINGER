@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/19.															     //
-// Last modified: 2018/4/11, SUN Yazhou.										     //
+// Last modified: 2018/5/3, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -34,12 +34,14 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 	const double d2Thre = clp->D2Thre(GetUID());
 
 	// z,x: sense wire position; t,r: drift time, drift distance; chi: fitting residual
-	double z[4], x[4], t[4], r[4], chi[4];
-	for(int i = 0; i < 4; i++){
+	double z[6], x[6], t[6], r[6], chi[6];
+	// weight for weighted addition of chi to chi2
+	double weight[6] = {1., 1., 1., 1., 1., 1.};
+	for(int i = 0; i < 6; i++){
 		z[i] = -9999.; x[i] = -9999.; t[i] = -9999.; r[i] = -9999.; chi[i] = -9999.;
 	}
 	double kl = -9999., bl = -9999., d2 = -9999., TOF = -9999.;
-	
+
 	const short nAnodePerLayer0 = MWDC[0]->GetNAnodePerLayer();
 	const short nAnodePerLayer1 = MWDC[1]->GetNAnodePerLayer();
 
@@ -59,7 +61,7 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 	else if(1 == dcType) type = 'Y';
 	int nu[4]{}; // the counterpart of TATrack2::fNu
 	// gGOOD: indicator for different fired sense wire layer scenarios
-	int gGOOD = -1, LAYER[4] = {-1, -1, -1, -1};
+	int gGOOD = -1, LAYER[6] = {-1, -1, -1, -1, -1, -1};
 	int overlapTrackCnt = 0; // for special use (checking of the tracking process)
 	int nFiredAnodeLayer = 0; // number of fired sense wire layers
 	int overlap = -2; // a temporary variable for the return value of int compare(...)
@@ -88,17 +90,20 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 	for(int jj = 0; jj <= nAnodePerLayer1; jj++){ nu[3] = -1; // DC1-X2
 		if(jj < nAnodePerLayer1 && MWDC[1]->GetAnodeL2(dcType, jj)->GetFiredStatus()) nu[3] = jj; // DC1-X2 --------------------------------------------------------------
 		if(-1 == nu[3] && jj < nAnodePerLayer1) continue;
-		
+
 			normalEvent = nu[0] >= 0 && nu[1] >= 0 && nu[2] >= 0 && nu[3] >= 0; // all the 4 sense wire layers are fired
-			bool inert0 = nu[0] <  0 && nu[1] >= 0 && nu[2] >= 0 && nu[3] >= 0;
-			bool inert1 = nu[0] >= 0 && nu[1] <  0 && nu[2] >= 0 && nu[3] >= 0;
-			bool inert2 = nu[0] >= 0 && nu[1] >= 0 && nu[2] <  0 && nu[3] >= 0;
-			bool inert3 = nu[0] >= 0 && nu[1] >= 0 && nu[2] >= 0 && nu[3] <  0;
-			specialEvent = inert0 || inert1 || inert2 || inert3; // only one sense wire layer is inert
+			specialEvent = false;
+			if(!normalEvent){
+				bool inert0 = nu[0] <  0 && nu[1] >= 0 && nu[2] >= 0 && nu[3] >= 0;
+				bool inert1 = nu[0] >= 0 && nu[1] <  0 && nu[2] >= 0 && nu[3] >= 0;
+				bool inert2 = nu[0] >= 0 && nu[1] >= 0 && nu[2] <  0 && nu[3] >= 0;
+				bool inert3 = nu[0] >= 0 && nu[1] >= 0 && nu[2] >= 0 && nu[3] <  0;
+				specialEvent = inert0 || inert1 || inert2 || inert3; // only one sense wire layer is inert
+			} // end if(!normalEvent)
 			if(!normalEvent && !specialEvent) continue; // each sense wire layer has to be fired, or at least three sense wire layers have to be fired
 #ifdef DEBUG_MAP
 			cout << endl << "i: " << i << "\tj: " << j; // DEBUG
-			cout << "\tii: " << ii << "\tjj: " << jj; // DEBUG
+			cout << "\tii: " << ii << "\tjj: " << jj << endl; // DEBUG
 			for(int i = 0; i < 4; i++){ // DEBUG
 				cout << "nu[" << i << "]: " << nu[i] << "\t"; // DEBUG
 			} // end for over i DEBUG
@@ -112,7 +117,7 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 			nFiredAnodeLayer = 0;
 			for(int i = 0; i < 4; i++){
 				x[i] = -9999.; z[i] = -9999.; t[i] = -9999.; r[i] = -9999.;
-				r[i] = -9999.; chi[i] = -9999.; LAYER[i] = -1;
+				r[i] = -9999.; chi[i] = -9999.; LAYER[i] = -1; weight[i] = 1.;
 				if(nu[i] >= 0){
 					LAYER[nFiredAnodeLayer++] = i;
 					TAAnodePara *pa = MWDC[i/2]->GetAnode(dcType, i%2+1, nu[i])->GetAnodePara();
@@ -128,8 +133,6 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 			
 			// initialization
 			kl = -9999.; bl = -9999.; d2 = -9999.; TOF = -9999.;
-			// weight for weighted addition of chi to chi2
-			double weight[4] = {1., 1., 1., 1.};
 			// Here it's Dsquare(z, x...), NOT Dsquare(x, z...), because the coordinate system is different from those conventional ones now
 			d2 = TAMath::Dsquare(z, x, kl, bl, gGOOD, LAYER, GetDsquareThresholdPerDot());
 #ifdef DEBUG_MAP
@@ -266,7 +269,7 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 	} // end of DC0-X1 loop
 
 #ifdef DEBUG_MAP
-	sleep(3);
+//	sleep(3);
 	TAPopMsg::Debug(GetName().c_str(), "map: track.size(): %d", track.size());
 	for(auto &t : track) t->Show();
 	cout << "Map returning true..." << endl; // DEBUG

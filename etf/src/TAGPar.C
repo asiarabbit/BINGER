@@ -369,6 +369,66 @@ void TAGPar::DefineParameters(){
 	p = new TAParameter("usingPDC", "usingPDC"); // this is a boolean
 	p->SetValue(0); fParVec[83] = p; p = nullptr;
 
+
+	//////////////// calib parameters (mainly global delays) for detectors ///////////////
+	// ---- PARAMETER 84 --- //
+	p = new TAParameter("targetZ0", "target z position - targetZ0");
+	p->SetValue(0.); fParVec[84] = p; p = nullptr;
+	// ---- PARAMETER 85 --- //
+	p = new TAParameter("T0_1Z0", "T0_1 z position - T0_1Z0");
+	p->SetValue(0.); fParVec[85] = p; p = nullptr;
+	// // // Global Delay - MWDC Array L // // // ----------------------------------------
+	// ---- PARAMETER 86 --- //
+	p = new TAParameter("delay_DCL0", "MWDC global delay - delay_DCL0");
+	p->SetValue(0.); fParVec[86] = p; p = nullptr;
+	// ---- PARAMETER 87 --- //
+	p = new TAParameter("delay_DCL1", "MWDC global delay - delay_DCL1");
+	p->SetValue(0.); fParVec[87] = p; p = nullptr;
+	// ---- PARAMETER 88 --- //
+	p = new TAParameter("delay_DCL2", "MWDC global delay - delay_DCL2");
+	p->SetValue(0.); fParVec[88] = p; p = nullptr;
+	// ---- PARAMETER 89 --- //
+	p = new TAParameter("delay_TOFWL", "TOFW global delay - delay_TOFWL");
+	p->SetValue(0.); fParVec[89] = p; p = nullptr;
+	// // // Global Delay - MWDC Array R // // // ----------------------------------------
+	// ---- PARAMETER 90 --- //
+	p = new TAParameter("delay_DCR0", "MWDC global delay - delay_DCR0");
+	p->SetValue(0.); fParVec[90] = p; p = nullptr;
+	// ---- PARAMETER 91 --- //
+	p = new TAParameter("delay_DCR1", "MWDC global delay - delay_DCR1");
+	p->SetValue(0.); fParVec[91] = p; p = nullptr;
+	// ---- PARAMETER 92 --- //
+	p = new TAParameter("delay_DCR2", "MWDC global delay - delay_DCR2");
+	p->SetValue(0.); fParVec[92] = p; p = nullptr;
+	// ---- PARAMETER 93 --- //
+	p = new TAParameter("delay_TOFWR", "TOFW global delay - delay_TOFWR");
+	p->SetValue(0.); fParVec[93] = p; p = nullptr;
+	// // // Global Delay - DC-Ta Array U-D // // // ----------------------------------------
+	// ---- PARAMETER 94 --- //
+	p = new TAParameter("delay_DCU0", "MWDC global delay - delay_DCU0");
+	p->SetValue(0.); fParVec[94] = p; p = nullptr;
+	// ---- PARAMETER 95 --- //
+	p = new TAParameter("delay_DCU1", "MWDC global delay - delay_DCU1");
+	p->SetValue(0.); fParVec[95] = p; p = nullptr;
+	// ---- PARAMETER 96 --- //
+	p = new TAParameter("delay_DCD0", "MWDC global delay - delay_DCD0");
+	p->SetValue(0.); fParVec[96] = p; p = nullptr;
+	// ---- PARAMETER 97 --- //
+	p = new TAParameter("delay_DCD1", "MWDC global delay - delay_DCD1");
+	p->SetValue(0.); fParVec[97] = p; p = nullptr;
+	// // // Global Delay - PDC Array U-D // // // ----------------------------------------
+	// ---- PARAMETER 98 --- //
+	p = new TAParameter("delay_PDCU0", "MWDC global delay - delay_PDCU0");
+	p->SetValue(0.); fParVec[98] = p; p = nullptr;
+	// ---- PARAMETER 99 --- //
+	p = new TAParameter("delay_PDCU1", "MWDC global delay - delay_PDCU1");
+	p->SetValue(0.); fParVec[99] = p; p = nullptr;
+	// ---- PARAMETER 100 --- //
+	p = new TAParameter("delay_PDCD0", "MWDC global delay - delay_PDCD0");
+	p->SetValue(0.); fParVec[100] = p; p = nullptr;
+	// ---- PARAMETER 101 --- //
+	p = new TAParameter("delay_PDCD1", "MWDC global delay - delay_PDCD1");
+	p->SetValue(0.); fParVec[101] = p; p = nullptr;
 } // end of member function DefineParameters
 
 void TAGPar::DefineAgents(){
