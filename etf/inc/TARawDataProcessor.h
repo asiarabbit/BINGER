@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2018/4/17, SUN Yazhou.										     //
+// Last modified: 2018/5/7, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -32,7 +32,8 @@ public:
 	int GetVMEEventCnt() const { return fVMEEventCnt; }
 	int GetBunchIdMisAlignCnt() const { return fBunchIdMisAlignCnt; }
 	const char *GetROOTFileName() const { return fROOTFile.c_str(); }
-	const char *GetDataFileName() const { return fDataFile.c_str(); }
+	const char *GetDataFileName() const;
+	const char *GetVMEDataFileName() const { return fVMEDataFile.c_str(); }
 	int ReadOffline(); // read offline binary data file and store them in a tree and a rootfile
 	int ReadOfflinePXI();
 	int ReadOfflineVME();
@@ -45,8 +46,9 @@ protected:
 	TARawDataProcessor();
 
 	static TARawDataProcessor *fInstance;
-	string fDataFile; // raw PXI binary data file
+	string fPXIDataFile; // raw PXI binary data file
 	string fVMEDataFile; // raw VME data file
+	string fVMEROOTFile; // VME ROOT file, if no PXI data or ROOT file is provided
 	// ROOTFile would contain both PXI and VME treeData
 	string fROOTFile; // ROOT file storing treeData and treeTrack for simulation or experiment
 

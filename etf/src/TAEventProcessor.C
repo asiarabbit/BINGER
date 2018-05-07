@@ -11,7 +11,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/13.															     //
-// Last modified: 2018/5/4, SUN Yazhou.											     //
+// Last modified: 2018/5/5, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -165,13 +165,14 @@ void TAEventProcessor::SetSTRROOTFile(const string &file){
 	STRFile = dirname(tmp) + STRFile;
 	GetCtrlPara()->SetSTRROOTFile(STRFile);
 }
-void TAEventProcessor::SetDataFile(const string &datafile, int runId){
+void TAEventProcessor::SetDataFile(const string &datafile, int runId, bool isPXI){
 	if(!strcmp("", datafile.c_str()))
 		TAPopMsg::Error("TAEventProcessor", "SetDataFile: Input datafile name is empty");
 	const char c = datafile.c_str()[0];
-	if('/' == c || '.' == c) // data file with its path specified
-		GetRawDataProcessor()->SetDataFileName(datafile, runId);
-	else GetRawDataProcessor()->SetDataFileName("../data/"+datafile, runId);
+	string name;
+	if('/' == c || '.' == c) name = datafile; // data file with its path specified
+	else name = "../data/"+datafile;		
+	GetRawDataProcessor()->SetDataFileName(name, runId, isPXI);
 }
 void TAEventProcessor::SetPeriod(int index0, int index1){
 	GetRawDataProcessor()->SetPeriod(index0, index1);
@@ -401,7 +402,12 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	TTree *treeData[2]{}; // [0-1]: [PXI-VME]
 	treeData[0] = (TTree*)f->Get("treeData");
 	treeData[1] = (TTree*)f->Get("treeDataVME");
-	if(!treeData) TAPopMsg::Error("TAEventProcessor", "Run: Obtained PXI treeData is null pointer");
+	// rootfile exists, but a treeDataVME is not found, and VMEdatafile is not empty, then
+	// read vme binary file to add treeDataVME
+	if(!treeData[1] && strcmp(GetRawDataProcessor()->GetVMEDataFileName(), ""))
+		GetRawDataProcessor()->ReadOfflineVME();
+	if(!treeData[0] && !treeData[1])
+		TAPopMsg::Error("TAEventProcessor", "Run: Obtained PXI and VME treeData-s are null pointers");
 	tEntry entry_t;
 	for(TTree *tree : treeData) if(tree){
 		tree->SetBranchAddress("index", &entry_t.index);
@@ -417,7 +423,9 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	vector<tTrack *> &track_ls = GetTrackList();
 
 	// read rootfile and assembly each event
-	const int n = treeData[0]->GetEntries();
+	int n; // number of entries in the treeData
+	if(treeData[0]) n = treeData[0]->GetEntries();
+	else if(treeData[1]) n = treeData[1]->GetEntries();
 	int cntTrk = 0, cnt3DTrk = 0, cntTrkY = 0; // ntr: n trk per event; cntTrkY: Y tracks from (P)DCTa
 	int cntaozWrong = 0, cntaoz = 0;
 	int i = 0, index, cntSec = 0;
