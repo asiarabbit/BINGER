@@ -573,7 +573,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 
 			// // // read the data zone of an event // // //
 			int id_v1190 = 0, id_v830 = 0; // the No. of v1190 and v830 plugin
-			int pileUp = -1; // to copy this information from ch-31 to ch-30
+			double pileUp = -9999.; // to copy this information from ch-31 to ch-30
 			for(int j = 3; j < ev_len; j++){ // loop over channels in an event
 
 				int slot = -1, header = -1; // to identify a channel
@@ -609,7 +609,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 							case 17: // ADC v785; slot 17
 								entry_temp.channelId = chId + 8501;
 								entry_temp.leadingTime[0] = (chData & 0xFFF) + rand0_5();
-								if(31 == chId) pileUp = (chData & 0xFFF) + rand0_5();
+								if(31 == chId) pileUp = entry_temp.leadingTime[0];
 								break;
 							default:
 								TAPopMsg::Error("TARawDataProcessor", "ReadOfflineVME: abnormal slot number for non-mTDC plugins: slot: %d", slot); break;
@@ -711,7 +711,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 				if(0 == slot && id_v1190 && !id_v830){ // HPTDC physical data zone
 					int chId = (chData>>19) & 0x7F; // local chId in the plugin
 					bool lt = (chData>>26) & 0x1; // leading or trailing edge
-					if(lt){ // leading edge
+					if(0 == lt){ // leading edge
 						hl[chId][nhl[chId]] = chData & 0x7FFFF; nhl[chId]++;
 						if(channelId[chId] < 0) channelId[chId] = chId;
 					} // end if (leading edge)
@@ -734,7 +734,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 				} // end if(id_v830)
 			} // end loop over channels in an event
 			// copy channel data of ch-8532, because two MUSICs share the same pileUp channel
-			entry_temp.channelId = 8531;
+			entry_temp.channelId = 8533;
 			entry_temp.nl = 1; entry_temp.nt = 0;
 			entry_temp.leadingTime[0] = pileUp;
 			treeDataVME->Fill();

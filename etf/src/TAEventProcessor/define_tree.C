@@ -149,7 +149,7 @@
 
 	// trees for MUSICs
 	TTree *treeMUSIC[2]{}; // [0-1]: MUSICM-L: up-downstream of the target
-	double deltaE[2]{}, Z[2]{};
+	double deltaE[2]{}, Z[2]{}, MU_ch[2][8]{};
 	int pileUp[2]{}, nF_MU[2]{}; // N of Fried ch (pileup-ch excluded)
 	treeMUSIC[0] = new TTree("treeMUSICM", "MUSIC upstream of the target");
 	treeMUSIC[0] = new TTree("treeMUSICL", "MUSIC downstream of the target");
@@ -159,7 +159,14 @@
 		treeMUSIC[i]->Branch("Z", &Z[i], "Z/D");
 		treeMUSIC[i]->Branch("pileUp", &pileUp[i], "pileUp/I");
 		treeMUSIC[i]->Branch("nF", &nF_MU[i], "nF/I");
-		objLsTree.push_back(treeMUSIC[i]);
+	}
+	if(music[0]){
+		treeMUSIC[0]->Branch("ch", MU_ch[0], "ch[4]/D"); // 4 sampling units
+		objLsTree.push_back(treeMUSIC[0]);
+	}
+	if(music[1]){
+		treeMUSIC[1]->Branch("ch", MU_ch[1], "ch[8]/D"); // 8 sampling units
+		objLsTree.push_back(treeMUSIC[1]);
 	}
 
 	const int n3DtrMax = ntrMax/3;

@@ -242,8 +242,8 @@
 
 
 	// DCs from BUAA, made in Japan //
-	TH1F *hPDCFiredDist[2][2][2], *hPDCToTRef[2][2][2]; // [dcArrU-D], [dcArrU-D][DC0-1][X-Y];
-	TH1F *hPDCMulti[2][2][2][2], *hdtp[2][3][3]; // [dcArrU-D], [dcArrU-D][DC0-1][X-Y][1-2];
+	TH1F *hPDCFiredDist[2][2][2], *hPDCToTRef[2][2][2]; // [pdcArrU-D], [pdcArrU-D][DC0-1][X-Y];
+	TH1F *hPDCMulti[2][2][2][2], *hdtp[2][3][3]; // [pdcArrU-D], [pdcArrU-D][DC0-1][X-Y][1-2];
 	for(int i = 0; i < 2; i++){ // loop over MWDC arrays
 		for(int j = 0; j < 2; j++){ // loop over the two MWDCs
 			for(int k = 0; k < 2; k++){ // loop over XY SLayers

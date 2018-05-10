@@ -218,8 +218,8 @@ void TAEventProcessor::Configure(){
 	if(!str_t0_1) TAPopMsg::Error("TAEvProsr", "Configure: T0_1 is nullptr");
 	if(detList[6]) ((TAMWDCArray2*)detList[6])->SetPlaT0(str_t0_1);
 	if(detList[7]) ((TAMWDCArray2*)detList[7])->SetPlaT0(str_t0_1);
-	if(detList[8]) ((TAMWDCArray2*)detList[8])->SetPlaT0(str_t0_1);
-	if(detList[9]) ((TAMWDCArray2*)detList[9])->SetPlaT0(str_t0_1);
+	if(detList[8]) ((TAMWDCArray2*)detList[8])->SetPlaT0(str_t0_1); // PDCArrU
+	if(detList[9]) ((TAMWDCArray2*)detList[9])->SetPlaT0(str_t0_1); // PDCArrD
 	// for P. Ma's test
 	if(detList[4]){
 		TATOFWall *tofw = ((TAMWDCArrayM*)detList[4])->GetTOFWall();
