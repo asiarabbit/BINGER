@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/14.															     //
-// Last modified: 2018/4/30, SUN Yazhou.									  	     //
+// Last modified: 2018/5/16, SUN Yazhou.									  	     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -90,9 +90,11 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 	char dir[ndir][64] = {"misc", "rt", "drt", "dt", "rr", "3Drt", "3Ddrt", "3Drr"};
 	char topdir[64], lr[] = "LR";
 	sprintf(topdir, "assess%d%c", runid, lr[isDCArrR]);
-	// XXX: slick use of sprintf; ATTENTION: sprintf is an iterator for self-assignment;
-	// dir[i] must be the 1st par in the code below, or dir would be altered to 1st-par firstly
-	for(int i = 0; i < ndir; i++) sprintf(dir[i], "%s%d%c", dir[i], runid, lr[isDCArrR]);
+	char tmp[32];
+	for(int i = 0; i < ndir; i++){
+		strcpy(tmp, dir[i]);
+		sprintf(dir[i], "%s%d%c", tmp, runid, lr[isDCArrR]);
+	} // end for over i
 
 	// DC parameters
 	const double phiAvrg = dcArr->GetPhiAvrg();

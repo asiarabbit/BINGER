@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/30.															     //
-// Last modified: 2018/4/10, SUN Yazhou.									  	     //
+// Last modified: 2018/5/16, SUN Yazhou.									  	     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -91,9 +91,11 @@ void TAAssessTa::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid,
 	char dir[ndir][64] = {"miscTa", "rtTa", "drtTa", "dtTa", "rrTa", "3DrtTa", "3DdrtTa", "3DrrTa"};
 	char topdir[64], ud[] = "UD";
 	sprintf(topdir, "assessTa%d%c", runid, ud[isDCArrD]);
-	// XXX: slick use of sprintf; ATTENTION: sprintf is an iterator for self-assignment;
-	// dir[i] must be the 1st par in the code below, or dir would be altered to 1st-par firstly
-	for(int i = 0; i < ndir; i++) sprintf(dir[i], "%s%d%c", dir[i], runid, ud[isDCArrD]);
+	char tmp[32];
+	for(int i = 0; i < ndir; i++){
+		strcpy(tmp, dir[i]);
+		sprintf(dir[i], "%s%d%c", tmp, runid, ud[isDCArrD]);
+	} // end for over i
 
 	// DC parameters
 	const TAMWDC *dc[2] = {dcArr->GetMWDC(0), dcArr->GetMWDC(1)};

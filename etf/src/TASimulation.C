@@ -77,7 +77,7 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 	char rootfile[64]; strcpy(rootfile, "SIM.root"); // (sys_time+"_SIM.root").c_str()
 	// use extra sim-rootfile name
 	if(strcmp(simrootfilename.c_str(), "")) strcpy(rootfile, simrootfilename.c_str());
-	strncpy(simFile, rootfile, sizeof(rootfile));
+	strcpy(simFile, rootfile);
 	TFile *f = new TFile(rootfile, "RECREATE");
 	// treeData: raw data; each entry is a data channel
 	TTree *treeData = new TTree("treeData", "RAW SIMULATION DATA");

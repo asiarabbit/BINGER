@@ -119,7 +119,7 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 	// create TH2F objects for the STR correction fittings //
 	TH2F *hDCSTRCor[3][3][2][96][nAng]{0}; // [DC#][XUV][Layer][nu][STR_id]
 	TH2F *hDCSTR_RT[3][3][2][96][nAng]{0}; // [DC#][XUV][Layer][nu][STR_id] r-t 2D graph
-	char name[64], title[128];
+	char name[64], title[256];
 	for(int i = 0; i < 3; i++){ // loop over DCs
 		for(int j = 0; j < 3; j++){ // loop over X-U-V
 			for(int m = 0; m < 2; m++){
@@ -268,7 +268,7 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 	if(0 != access(rootfile.c_str(), F_OK))
 		TAPopMsg::Error("TASTRCalibDCArr", "GenerateCalibFile: Input rootfile %s doesn't exist", rootfile.c_str());
 	TFile *f = new TFile(("assess"+rootfile).c_str(), "UPDATE");
-	char name[128], title[128], xuv[] = "XUV";
+	char name[128], title[256], xuv[] = "XUV";
 	sprintf(name, "STRCali-%s", dcArr->GetName().c_str());
 	sprintf(title, "%s/histo", name); // directory storing drift time histograms
 	if(!f->FindObjectAny(name)){
@@ -435,7 +435,7 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 	// write //
 	// make directory to store calibration results
 	f->cd("/");
-	char dir[64], subdir[64]; // directory to store results of the auto-calibration round
+	char dir[128], subdir[64]; // directory to store results of the auto-calibration round
 	sprintf(subdir, "round%c%d", dcArr->GetName().c_str()[7], round); // DCArray[L-R]
 	sprintf(dir, "STRCali-%s/%s", dcArr->GetName().c_str(), subdir);
 	if(!f->FindObjectAny(subdir)) f->mkdir(dir);
