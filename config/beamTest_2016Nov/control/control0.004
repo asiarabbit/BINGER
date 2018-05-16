@@ -122,15 +122,15 @@
 # T_tofDC0toTOFWLX: T_tof from X sense wires of DC0 to TOFW, for MWDC arrayL
 # T_tofDC0toTOFWLX
 34  7.8
-# T_tofDC0toTOFWLU
+# T_tofDC1toTOFWLX
 35  5.0
-# T_tofDC0toTOFWLV
+# T_tofDC2toTOFWLX
 36  2.1
 # T_tofDC0toTOFWRX
 37  30.0
-# T_tofDC0toTOFWRU
+# T_tofDC1toTOFWRX
 38  20.9
-# T_tofDC0toTOFWRV
+# T_tofDC2toTOFWRX
 39  15.1
 
 # Parameters owned by class TACtrlPara
@@ -149,9 +149,9 @@
 # StripTolerance
 46 0
 # FitMethod => kNormalFit: 0; kBFGSFit: 1 kIterFit: 2
-47 1
+47 0
 # Precision => allowed value: -2, -1, 0, 1, 2, 3, increasing depth
-48 2
+48 -1
 # nstripstray unit: /(strip width)
 # NStripStrayMinL
 49 -0.8
@@ -165,6 +165,45 @@
 53 -207.
 # dcTOTNoiseLevel unit: ns, DC TOT exceeding it would be invalidized
 54 70.
+
+# T_tof: time of flight: used to correct drift time -> for MWDC Array U and D
+# T_tofDC0toTOFWUX: T_tof from X sense wires of DC0 to TOFW (plaSci-T0_det), for MWDC array L
+# T_tofDC0toTOFWUX
+55  -0.5
+# T_tofDC1toTOFWUX
+56  -2.8
+# T_tofDC0toTOFWDX
+57  -4.2
+# T_tofDC1toTOFWDX
+58  -8.2
+
+# DC sense wire high voltage (HV) for MWDC arrays around the target #
+# MWDC array U
+# HVDCU0X
+59  0
+# HVDCU0Y
+60  0
+# HVDCU1X
+61  0
+# HVDCU1Y
+62  0
+# MWDC array D
+# HVDCD0X
+63  0
+# HVDCD0Y
+64  0
+# HVDCD1X
+65  0
+# HVDCD1Y
+66  0
+################ time to trig for DCs around the target ##########################
+# dcTaToTrigLB
+67   1000.
+# dcTaToTrigHB
+68   1600.
+
+
+
 
 
 

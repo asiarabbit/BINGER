@@ -9,10 +9,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/11/27.															     //
-// Last modified: 2017/11/29, SUN Yazhou.										     //
+// Last modified: 2018/5/5, SUN Yazhou.											     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -29,8 +29,8 @@ using std::endl;
 
 TAUI *TAUI::fInstance = nullptr;
 
-TAUI::TAUI() : fDataFile(""), fROOTFile(""), fIndex0(0), fIndex1(INT_MAX),
-	fRunId(0), fAnaDepth(0), fEvLenLim(INT_MAX){
+TAUI::TAUI() : fDataFile(""), fVMEDataFile(""), fROOTFile(""), fIndex0(0),
+	fIndex1(INT_MAX), fRunId(0), fAnaDepth(0), fEvLenLim(INT_MAX){
 }
 TAUI::~TAUI(){}
 TAUI *TAUI::Instance(){
@@ -55,17 +55,40 @@ void TAUI::GetOpt(int argc, char *argv[]){
 		}
 	}
 	// operand without an option dash would be pushed to the end of the input array
-	if(argv[optind]){
-		if(!strcmp(argv[optind]+strlen(argv[optind])-4, ".dat"))
-			strcpy(fDataFile, argv[optind]);
-		else if(!strcmp(argv[optind]+strlen(argv[optind])-5, ".root"))
-			strcpy(fROOTFile, argv[optind]);
-	}
-
+	char suffix[64];
+	short cnt[3]{}; // to check if any data type is assigned more than once, which is forbidden
+	for(int I = 2; I--;){
+		const char *arg = argv[optind+I];
+		if(arg){
+			if(!strcmp(arg+strlen(arg)-4, ".dat")){ // PXI binary data file
+				strcpy(fDataFile, arg);
+				cnt[0]++;
+			}
+			else if(!strcmp(arg+strlen(arg)-5, ".root")){ // PXI ROOT file
+				strcpy(fROOTFile, arg);
+				cnt[1]++;
+			}
+			else{
+				strcpy(suffix, arg+strlen(arg)-3);
+				// to see if the suffix is made of numerals
+				bool isNum = true;
+				for(unsigned i = 0; i < strlen(suffix); i++)
+					if(suffix[i] < 48 || suffix[i] > 57) isNum = false;
+				if(isNum){
+					strcpy(fVMEDataFile, arg); // VME data file
+					cnt[2]++;
+				} // end if(isNum)
+			} // end the final else
+		} // end if argv[optind]
+	} // end for over I
+	if(cnt[0] > 1) TAPopMsg::Error("TAUI", "GetOpt: more than 1 PXI data file is offered");
+	if(cnt[1] > 1) TAPopMsg::Error("TAUI", "GetOpt: more than 1 root file is offered");
+	if(cnt[2] > 1) TAPopMsg::Error("TAUI", "GetOpt: more than 1 VME data file is offered");
+	
 	// input file name validity check
 	if(strcmp(fROOTFile, "") && strcmp(fDataFile, ""))
 		TAPopMsg::Error("TAUI", "GetOpt: The data file and root file are designated at the same time, which is conflicting.\n\t(The rootfile ought be generated from the datafile.)");
-	if(!strcmp(fROOTFile, "") && !strcmp(fDataFile, ""))
+	if(!strcmp(fROOTFile, "") && !strcmp(fDataFile, "") && !strcmp(fVMEDataFile, ""))
 		TAPopMsg::Error("TAUI", "GetOpt: Neither a data file or root file is given.");
 	// check data type by filename suffixes
 	if(strcmp(fDataFile, "") && strcmp(fDataFile+strlen(fDataFile)-4, ".dat"))
@@ -130,6 +153,7 @@ void TAUI::Go(){
 			PromptHelp(true);
 	}
 	if(strcmp(fDataFile, "") && !strcmp(fROOTFile, "")) SetDataFile(fDataFile, fRunId);
+	SetDataFile(fVMEDataFile, fRunId, false);
 
 	Run(fIndex0, fIndex1, fEvLenLim, fROOTFile);
 }

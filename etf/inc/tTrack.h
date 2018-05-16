@@ -8,10 +8,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2017/11/21, SUN Yazhou.										     //
+// Last modified: 2018/4/9, SUN Yazhou.											     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -32,7 +32,7 @@ struct tTrack{ // struct of tracks.
 	double w[6]; // weight
 	double r[6];
 	double TOF; // time tag from TOF Wall
-	double nStripStray; // count of strips from a fired strips to the fitted track.
+	double nStripStray; // count of strips from a fired strips to the fitted track
 	int firedStripId; // serial id of fired TOF wall strip for the track.
 	double k; // ->thetaOut
 	double b;
@@ -48,8 +48,9 @@ struct tTrack{ // struct of tracks.
 	double Z; // atomic number
 	double m; // atomic mass/MeV
 	tTrack(); // the default constructor
-	void initialize();
-	void show() const;
+	virtual ~tTrack(){};
+	virtual void initialize();
+	virtual void show() const;
 	double dcTOTAvrg() const;
 };
 

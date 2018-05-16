@@ -21,14 +21,14 @@
 #define _t3DTRKINFO_H_
 
 struct t3DTrkInfo{
-	double k1, b1, k2, b2;
+	double k1, b1, k2, b2; // track information downstream the dipole magnet
 	double tof2, taHitX; // tof2: time of flight from target to TOFWall; taHitX: hit pos x in TA
 	int firedStripId;
 	double TOF_posY, TOF_posY_refine; // hit Y position in TOFW strip, rough and refine (dt or 3Dtrk)
 	double chi[18], chi2, Chi;
 	// time over threshold of DC signals, indicator of dE/dx
 	double dcTOTAvrg; // averaged over all hit anode layers for a 3D track (maximum: 18)
-	bool isDCArrR;
+	bool isDCArrR; // false: L; true: R;     false: U; true: D;
 
 	t3DTrkInfo();
 	void initialize();

@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/25.															     //
-// Last modified: 2018/1/27, SUN Yazhou.										     //
+// Last modified: 2018/4/26, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -31,6 +31,7 @@ using std::setprecision;
 using std::complex;
 typedef complex<double> cdouble;
 
+static TACtrlPara *clp = TACtrlPara::Instance();
 
 // length of the vector, len: vector dimension
 double TAMath::norm(const double *p, int len){
@@ -81,6 +82,7 @@ double TAMath::acceptance(const double *p0, const double *p1){
 }
 // r_global = R.r_local
 // angle0: yaw, angle1: pitch, angle2: roll, intrinsic rotation; (y-x'-z")
+// R(yaw, pitch, roll) = Ry(yaw).Rx'(pitch).Rz"(roll)
 void TAMath::rotate(const double *pIn, double *pOut, const double *angIn){
 	double s1 = sin(angIn[0]), s2 = sin(angIn[1]), s3 = sin(angIn[2]);
 	double c1 = cos(angIn[0]), c2 = cos(angIn[1]), c3 = cos(angIn[2]);

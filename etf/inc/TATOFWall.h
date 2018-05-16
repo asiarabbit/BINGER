@@ -8,10 +8,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/30.															     //
-// Last modified: 2017/11/30, SUN Yazhou.										     //
+// Last modified: 2018/4/13, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -52,12 +52,14 @@ public:
 	double GetDelayAvrg() const;
 	double GetDelay(int stripId) const;
 	void SetDelayAvrg(double delay) { fDelayAvrg = delay; }
+	void SetNStrip(int nstrip);
 
 	virtual void Configure();
 	virtual void Initialize() override;
 	virtual void Info() const;
 protected:
 	vector<TAPlaStrip *> fStripArr; // 30 plastic scintillator strips
+	int fNStrip; // number of plastic strips in the TOF Wall
 	double fDelayAvrg; // base delay for every strip
 };
 

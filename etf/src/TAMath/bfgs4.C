@@ -174,7 +174,7 @@ double fun(const double *xk, const double Ag[][3], const double ag[][3], const d
 //	cout << "xk[0]: " << xk[0] << " xk[1]: " << xk[1] << " xk[2]: " << xk[2] << " xk[3]: " << xk[3] << endl; // DEBUG
 //	cout << "p[0]: " << p[0] << " p[1]: " << p[1] << " p[2]: " << p[2] << " p[3]: " << p[3] << endl; // DEBUG
 	pp[0] = p[0] * (1. + xk[0]); pp[1] = p[1] * (1. + xk[1]); // k1, k2
-	pp[2] = p[2] * (1. + xk[2]); pp[3] = p[3] * (1. + xk[3]);	// b1, b2
+	pp[2] = p[2] * (1. + xk[2]); pp[3] = p[3] * (1. + xk[3]); // b1, b2
 	for(int i = 0; i < nF; i++){
 		dr[i] = TAMath::dSkew(Ag[i], ag[i], pp) - r[i];
 //		cout << "i: " << i << " dr[i]: " << dr[i] << endl; // DEBUG

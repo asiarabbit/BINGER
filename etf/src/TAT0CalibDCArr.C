@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2018/1/27, SUN Yazhou.										     //
+// Last modified: 2018/4/10, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -63,10 +63,10 @@ void TAT0CalibDCArr::Refine_DTHisto(bool isCalib){
 void TAT0CalibDCArr::Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, bool hasCorrected, bool isCalib){
 	TAPopMsg::Info("TAT0CalibDCArr", "Refine_DTHisto: Input rootfile name: %s", rootfile.c_str());
 	const double phiAvrg = dcArr->GetPhiAvrg(); // average of phi over the three MWDCs
-	const bool LRTAG = bool(dcArr->GetUID()-3); // 3: L; 4: R
+	const short LRTAG = 10 + bool(dcArr->GetUID()-3); // 10: DCArrL; 11: DCArrR
 
 	// read the track tree
-	const int ntrMax = 200, ntrMax3D = ntrMax / 3;
+	const int ntrMax = 100, ntrMax3D = ntrMax / 3;
 	int ntr, index, type[ntrMax], id[ntrMax], nu[ntrMax][6], firedStripId[ntrMax];
 	double t[ntrMax][6], r[ntrMax][6], k[ntrMax], b[ntrMax], beta2[ntrMax];
 	if(0 != access(rootfile.c_str(), F_OK))
@@ -135,8 +135,8 @@ void TAT0CalibDCArr::Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, 
 		n3Dtr = n3DtrXUV[0];
 		// // // ^^^^^^^ circulation over 3-D tracks in one data section ^^^^^^^ // // //
 		for(int jj = 0; jj < n3Dtr; jj++){ // loop over 3D tracks in a data section
-			isDCArrR[jj] = bool(type[trkId[jj][0]]/10%10); // 0: L; 1: R
-			if(LRTAG != isDCArrR[jj]) continue;
+			if(LRTAG != type[trkId[jj][0]] / 10) continue;
+			isDCArrR[jj] = bool(type[trkId[jj][0]] / 10 % 10); // 0: L; 1: R
 			int nFX = 0, nFU = 0, nFV = 0; // fired anode layers in 
 			for(int j = 0; j < 6; j++){ // count effective measurements
 				if(nu[trkId[jj][0]][j] != -1) nFX++;
@@ -219,6 +219,8 @@ void TAT0CalibDCArr::Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, 
 
 void TAT0CalibDCArr::GenerateCalibFile(bool isShowFit){
 	if(!fDCArr) TAPopMsg::Error("TAT0CalibDCArr", "GenerateCalibFile: MWDC array pointer is null");
+	if(!strcmp(fROOTFile.c_str(), ""))
+		TAPopMsg::Error("TAT0CalibDCArr", "GenerateCalibFile: ROOT file name is empty");
 	GenerateCalibFile(fROOTFile, fDCArr, isShowFit);
 }
 void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcArr, bool isShowFit){
@@ -254,8 +256,8 @@ void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcAr
 	sprintf(name, "%s/%s_.002", strdir, dcArr->GetName().c_str());
 	// check that if the T0 config file already exists
 	// The T0 calibration should be implemented with the absence of the target T0 config files
-	if(TAParaManager::Instance()->Exist(2)){
-		TAPopMsg::Info("TAT0CalibDCArr", "GenerateCalibFile: T0 Calibration files already exist in config/[experiment]/T0:");
+	if(!access(name, F_OK)){ // TAParaManager::Instance()->Exist(2)
+		TAPopMsg::Warn("TAT0CalibDCArr", "GenerateCalibFile: %s already exist", name);
 		char cmd[128]; sprintf(cmd, "echo;echo ls %s/T0/*:; ls %s/T0/*;echo", TACtrlPara::Instance()->ConfigExpDir(), TACtrlPara::Instance()->ConfigExpDir());
 		system(cmd);
 	}
@@ -278,7 +280,7 @@ void TAT0CalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcAr
 	fd->SetParName(2, "T0"); fd->SetParName(3, "sigma_t0");
 	fd->SetParameter(2, 0.); fd->SetParLimits(2, -30., 30.); // T0, unit: ns
 	fd->SetParameter(3, 0.01); fd->SetParLimits(3, 0.005, 20.); // sigm_t_0, unit: ns
-	for(int i = 0; i < 3; i++){ // loop over DCs
+	for(int i = 0; i < 3; i++){ // loop over three DCs
 		outFile << "#################### This is MWDC " << i << " #######################\n";
 		for(int j = 0; j < 3; j++){ // loop over X-U-V
 			outFile << "#----- " << xuv[j] << " -----#\n";

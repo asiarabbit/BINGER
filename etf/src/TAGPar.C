@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/13.															     //
-// Last modified: 2018/3/3, SUN Yazhou.										     //
+// Last modified: 2018/4/8, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -199,19 +199,19 @@ void TAGPar::DefineParameters(){
 	p = new TAParameter("T_tofDC0toTOFWLX", "T_tofDC0toTOFWLX");
 	p->SetValue(6.6); fParVec[34] = p; p = nullptr;
 	// ---- PARAMETER 35 --- //
-	p = new TAParameter("T_tofDC1toTOFWLU", "T_tofDC1toTOFWLU");
+	p = new TAParameter("T_tofDC1toTOFWLX", "T_tofDC1toTOFWLX");
 	p->SetValue(4.1); fParVec[35] = p; p = nullptr;
 	// ---- PARAMETER 36 --- //
-	p = new TAParameter("T_tofDC2toTOFWLV", "T_tofDC2toTOFWLV");
+	p = new TAParameter("T_tofDC2toTOFWLX", "T_tofDC2toTOFWLX");
 	p->SetValue(1.4); fParVec[36] = p; p = nullptr;
 	// ---- PARAMETER 37 --- //
 	p = new TAParameter("T_tofDC0toTOFWRX", "T_tofDC0toTOFWRX");
 	p->SetValue(8.5); fParVec[37] = p; p = nullptr;
 	// ---- PARAMETER 38 --- //
-	p = new TAParameter("T_tofDC1toTOFWRU", "T_tofDC1toTOFWRU");
+	p = new TAParameter("T_tofDC1toTOFWRX", "T_tofDC1toTOFWRX");
 	p->SetValue(5.5); fParVec[38] = p; p = nullptr;
 	// ---- PARAMETER 39 --- //
-	p = new TAParameter("T_tofDC2toTOFWRV", "T_tofDC2toTOFWRV");
+	p = new TAParameter("T_tofDC2toTOFWRX", "T_tofDC2toTOFWRX");
 	p->SetValue(2.2); fParVec[39] = p; p = nullptr;
 	// $$$$$$$$$$ Parameters owned by class TACtrlPara $$$$$$$$$$$$$$$ //
 	// ---- PARAMETER 40 --- //
@@ -260,6 +260,175 @@ void TAGPar::DefineParameters(){
 	// ---- PARAMETER 54 --- //
 	p = new TAParameter("dcTOTNoiseLevel", "dcTOTNoiseLevel");
 	p->SetValue(250.); fParVec[54] = p; p = nullptr; // this value is for beam test
+
+	//////////////////// for DCs around the target ////////////////////////////////
+	// DCs made by P. Ma //
+	// tof -> DCArr U-D
+	// ---- PARAMETER 55 --- //
+	p = new TAParameter("T_tofDC0toTOFWUX", "T_tofDC0toTOFWUX");
+	p->SetValue(0.); fParVec[55] = p; p = nullptr;
+	// ---- PARAMETER 56 --- //
+	p = new TAParameter("T_tofDC1toTOFWUX", "T_tofDC1toTOFWUX");
+	p->SetValue(0.); fParVec[56] = p; p = nullptr;
+	// ---- PARAMETER 57 --- //
+	p = new TAParameter("T_tofDC0toTOFWDX", "T_tofDC0toTOFWDX");
+	p->SetValue(0.); fParVec[57] = p; p = nullptr;
+	// ---- PARAMETER 58 --- //
+	p = new TAParameter("T_tofDC1toTOFWDX", "T_tofDC1toTOFWDX");
+	p->SetValue(0.); fParVec[58] = p; p = nullptr;
+
+	// $$$$$ DC HV: 0,1,2,3,4: 900,1000,1300,1350,1500 $$$$$ //
+	// $ DCU0-1 $ //
+	// ---- PARAMETER 59 --- //
+	p = new TAParameter("HVDCU0X", "HVDCU0X");
+	p->SetValue(3); fParVec[59] = p; p = nullptr;
+	// ---- PARAMETER 60 --- //
+	p = new TAParameter("HVDCU0Y", "HVDCU0Y");
+	p->SetValue(3); fParVec[60] = p; p = nullptr;
+	// ---- PARAMETER 61 --- //
+	p = new TAParameter("HVDCU1X", "HVDCU1X");
+	p->SetValue(3); fParVec[61] = p; p = nullptr;
+	// ---- PARAMETER 62 --- //
+	p = new TAParameter("HVDCU1Y", "HVDCU1Y");
+	p->SetValue(3); fParVec[62] = p; p = nullptr;
+	// $ DCD0-1 $ //
+	// ---- PARAMETER 63 --- //
+	p = new TAParameter("HVDCD0X", "HVDCD0X");
+	p->SetValue(3); fParVec[63] = p; p = nullptr;
+	// ---- PARAMETER 64 --- //
+	p = new TAParameter("HVDCD0Y", "HVDCD0Y");
+	p->SetValue(3); fParVec[64] = p; p = nullptr;
+	// ---- PARAMETER 65 --- //
+	p = new TAParameter("HVDCD1X", "HVDCD1X");
+	p->SetValue(3); fParVec[65] = p; p = nullptr;
+	// ---- PARAMETER 66 --- //
+	p = new TAParameter("HVDCD1Y", "HVDCD1Y");
+	p->SetValue(3); fParVec[66] = p; p = nullptr;
+
+	// $$$$$ time to trigger range - for DCs around the target $$$$$ //
+	// ---- PARAMETER 67 --- //
+	p = new TAParameter("dcTaToTrigLB", "dcTaToTrigLB");
+	p->SetValue(450.); fParVec[67] = p; p = nullptr;
+	// ---- PARAMETER 68 --- //
+	p = new TAParameter("dcTaToTrigHB", "dcTaToTrigHB");
+	p->SetValue(920.); fParVec[68] = p; p = nullptr;
+
+	// --------------------------------------------------------- //
+	// DCs from BUAA, made in Japan //
+	// tof -> DCArr U-D
+	// ---- PARAMETER 69 --- //
+	p = new TAParameter("T_tofPDC0toTOFWUX", "T_tofPDC0toTOFWUX");
+	p->SetValue(0.); fParVec[69] = p; p = nullptr;
+	// ---- PARAMETER 70 --- //
+	p = new TAParameter("T_tofPDC1toTOFWUX", "T_tofPDC1toTOFWUX");
+	p->SetValue(0.); fParVec[70] = p; p = nullptr;
+	// ---- PARAMETER 71 --- //
+	p = new TAParameter("T_tofPDC0toTOFWDX", "T_tofPDC0toTOFWDX");
+	p->SetValue(0.); fParVec[71] = p; p = nullptr;
+	// ---- PARAMETER 72 --- //
+	p = new TAParameter("T_tofPDC1toTOFWDX", "T_tofPDC1toTOFWDX");
+	p->SetValue(0.); fParVec[72] = p; p = nullptr;
+
+	// $$$$$ DC HV: 0,1,2,3,4: 900,1000,1300,1350,1500 $$$$$ //
+	// $ DCU0-1 $ //
+	// ---- PARAMETER 73 --- //
+	p = new TAParameter("HVPDCU0X", "HVPDCU0X");
+	p->SetValue(3); fParVec[73] = p; p = nullptr;
+	// ---- PARAMETER 74 --- //
+	p = new TAParameter("HVPDCU0Y", "HVPDCU0Y");
+	p->SetValue(3); fParVec[74] = p; p = nullptr;
+	// ---- PARAMETER 75 --- //
+	p = new TAParameter("HVPDCU1X", "HVPDCU1X");
+	p->SetValue(3); fParVec[75] = p; p = nullptr;
+	// ---- PARAMETER 76 --- //
+	p = new TAParameter("HVPDCU1Y", "HVPDCU1Y");
+	p->SetValue(3); fParVec[76] = p; p = nullptr;
+	// $ DCD0-1 $ //
+	// ---- PARAMETER 77 --- //
+	p = new TAParameter("HVPDCD0X", "HVPDCD0X");
+	p->SetValue(3); fParVec[77] = p; p = nullptr;
+	// ---- PARAMETER 78 --- //
+	p = new TAParameter("HVPDCD0Y", "HVPDCD0Y");
+	p->SetValue(3); fParVec[78] = p; p = nullptr;
+	// ---- PARAMETER 79 --- //
+	p = new TAParameter("HVPDCD1X", "HVPDCD1X");
+	p->SetValue(3); fParVec[79] = p; p = nullptr;
+	// ---- PARAMETER 80 --- //
+	p = new TAParameter("HVPDCD1Y", "HVPDCD1Y");
+	p->SetValue(3); fParVec[80] = p; p = nullptr;
+
+	// $$$$$ time to trigger range - for DCs around the target $$$$$ //
+	// ---- PARAMETER 81 --- //
+	p = new TAParameter("pdcToTrigLB", "pdcToTrigLB");
+	p->SetValue(450.); fParVec[81] = p; p = nullptr;
+	// ---- PARAMETER 82 --- //
+	p = new TAParameter("pdcToTrigHB", "pdcToTrigHB");
+	p->SetValue(920.); fParVec[82] = p; p = nullptr;
+	
+	// ---- PARAMETER 83 --- //
+	p = new TAParameter("usingPDC", "usingPDC"); // this is a boolean
+	p->SetValue(0); fParVec[83] = p; p = nullptr;
+
+
+	//////////////// calib parameters (mainly global delays) for detectors ///////////////
+	// ---- PARAMETER 84 --- //
+	p = new TAParameter("targetZ0", "target z position - targetZ0");
+	p->SetValue(0.); fParVec[84] = p; p = nullptr;
+	// ---- PARAMETER 85 --- //
+	p = new TAParameter("T0_1Z0", "T0_1 z position - T0_1Z0");
+	p->SetValue(0.); fParVec[85] = p; p = nullptr;
+	// // // Global Delay - MWDC Array L // // // ----------------------------------------
+	// ---- PARAMETER 86 --- //
+	p = new TAParameter("delay_DCL0", "MWDC global delay - delay_DCL0");
+	p->SetValue(0.); fParVec[86] = p; p = nullptr;
+	// ---- PARAMETER 87 --- //
+	p = new TAParameter("delay_DCL1", "MWDC global delay - delay_DCL1");
+	p->SetValue(0.); fParVec[87] = p; p = nullptr;
+	// ---- PARAMETER 88 --- //
+	p = new TAParameter("delay_DCL2", "MWDC global delay - delay_DCL2");
+	p->SetValue(0.); fParVec[88] = p; p = nullptr;
+	// ---- PARAMETER 89 --- //
+	p = new TAParameter("delay_TOFWL", "TOFW global delay - delay_TOFWL");
+	p->SetValue(0.); fParVec[89] = p; p = nullptr;
+	// // // Global Delay - MWDC Array R // // // ----------------------------------------
+	// ---- PARAMETER 90 --- //
+	p = new TAParameter("delay_DCR0", "MWDC global delay - delay_DCR0");
+	p->SetValue(0.); fParVec[90] = p; p = nullptr;
+	// ---- PARAMETER 91 --- //
+	p = new TAParameter("delay_DCR1", "MWDC global delay - delay_DCR1");
+	p->SetValue(0.); fParVec[91] = p; p = nullptr;
+	// ---- PARAMETER 92 --- //
+	p = new TAParameter("delay_DCR2", "MWDC global delay - delay_DCR2");
+	p->SetValue(0.); fParVec[92] = p; p = nullptr;
+	// ---- PARAMETER 93 --- //
+	p = new TAParameter("delay_TOFWR", "TOFW global delay - delay_TOFWR");
+	p->SetValue(0.); fParVec[93] = p; p = nullptr;
+	// // // Global Delay - DC-Ta Array U-D // // // ----------------------------------------
+	// ---- PARAMETER 94 --- //
+	p = new TAParameter("delay_DCU0", "MWDC global delay - delay_DCU0");
+	p->SetValue(0.); fParVec[94] = p; p = nullptr;
+	// ---- PARAMETER 95 --- //
+	p = new TAParameter("delay_DCU1", "MWDC global delay - delay_DCU1");
+	p->SetValue(0.); fParVec[95] = p; p = nullptr;
+	// ---- PARAMETER 96 --- //
+	p = new TAParameter("delay_DCD0", "MWDC global delay - delay_DCD0");
+	p->SetValue(0.); fParVec[96] = p; p = nullptr;
+	// ---- PARAMETER 97 --- //
+	p = new TAParameter("delay_DCD1", "MWDC global delay - delay_DCD1");
+	p->SetValue(0.); fParVec[97] = p; p = nullptr;
+	// // // Global Delay - PDC Array U-D // // // ----------------------------------------
+	// ---- PARAMETER 98 --- //
+	p = new TAParameter("delay_PDCU0", "MWDC global delay - delay_PDCU0");
+	p->SetValue(0.); fParVec[98] = p; p = nullptr;
+	// ---- PARAMETER 99 --- //
+	p = new TAParameter("delay_PDCU1", "MWDC global delay - delay_PDCU1");
+	p->SetValue(0.); fParVec[99] = p; p = nullptr;
+	// ---- PARAMETER 100 --- //
+	p = new TAParameter("delay_PDCD0", "MWDC global delay - delay_PDCD0");
+	p->SetValue(0.); fParVec[100] = p; p = nullptr;
+	// ---- PARAMETER 101 --- //
+	p = new TAParameter("delay_PDCD1", "MWDC global delay - delay_PDCD1");
+	p->SetValue(0.); fParVec[101] = p; p = nullptr;
 } // end of member function DefineParameters
 
 void TAGPar::DefineAgents(){

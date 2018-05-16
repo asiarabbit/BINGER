@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/12.															     //
-// Last modified: 2018/1/13, SUN Yazhou.										     //
+// Last modified: 2018/4/26, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -19,7 +19,9 @@
 #include "TAPopMsg.h"
 #include "TAUIDParser.h"
 #include "TACtrlPara.h"
+#include "TAGPar.h"
 
+static const TAGPar *gp = TAGPar::Instance();
 TADeployPara* TADeployPara::fInstance = nullptr;
 
 TADeployPara::TADeployPara(){
@@ -37,10 +39,17 @@ TADeployPara* TADeployPara::Instance(){
 
 short TADeployPara::GetNDCCable(unsigned uid) const{
 	int type[6]{}; TAUIDParser::DNS(type, uid);
-	if(3 != type[0] && 4 != type[0])
-		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an MWDC array");
-	if(type[1] > 3) TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an MWDC");
-	return fNDCCable[type[0]-3][type[1]];
+	if(3 == type[0] || 4 == type[0]){ // MWDC Array L-R
+		if(type[1] > 2) TAPopMsg::Error("TADeployPara", "GetNDCCable: Not an MWDC");
+		return fNDCCable[type[0]-3][type[1]];
+	}
+	// there is only one cable for each SLayer in DCs around the target
+	if(6 == type[0] || 7 == type[0] || 8 == type[0] || 9 == type[0]){
+		if(type[1] > 1) TAPopMsg::Error("TADeployPara", "GetNDCCable: Not an MWDC");
+		return 1;
+	}
+	TAPopMsg::Error("TADeployPara", "GetNDCCable: Not an MWDC array");
+	return -1;
 }
 short TADeployPara::GetNTOFWallStrip(unsigned uid) const{
 	return fNTOFWallStrip;
@@ -64,7 +73,7 @@ double TADeployPara::GetTOFWallStripDelay(unsigned uid) const{
 
 	int type[6]{}; TAUIDParser::DNS(type, uid);
 	if(3 != type[0] && 4 != type[0])
-		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an MWDC array");
+		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an L-R MWDC array");
 	if(3 != type[1]) TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not a TOFWall");
 	if(type[2] > 30)
 		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Strip Id out of range: %d", type[2]);
@@ -81,29 +90,37 @@ double TADeployPara::GetTOFWallDelayAvrg(unsigned uid) const{
 	if(3 != type[0] && 4 != type[0])
 		TAPopMsg::Error("TADeployPara", "GetTOFWallDelayAvrg: Not an MWDC array");
 
-	const double ccDelayAvrg_TOFWall[2] = {2.33, -4.67};
+	const double ccDelayAvrg_TOFWall[2] = {gp->Val(89), gp->Val(93)};
 	return ccDelayAvrg_TOFWall[type[0] - 3]; // [0-1]: DCArr[L-R]
 }
 double TADeployPara::GetMWDCDelay(unsigned uid) const{
 	int type[6]{}; TAUIDParser::DNS(type, uid);
-	if(3 != type[0] && 4 != type[0])
+	if(3 != type[0] && 4 != type[0] && 6 != type[0] && 7 != type[0] && 8 != type[0] && 9 != type[0])
 		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an MWDC array");
-	if(type[1] >= 3)
+	if((3 == type[0] || 4 == type[0]) && type[1] >= 3)
+		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an MWDC");
+	if((6 == type[0] || 7 == type[0] || 8 == type[0] || 9 == type[0]) && type[1] >= 2)
 		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an MWDC");
 
-	const double offset0[2] = {20.8, 9.}; // from FEE to HPTDC
-	double delay = offset0[type[0] - 3];
-	delay += -TACtrlPara::Instance()->T_wireMean(uid);
+	const double offset0[6][3] = {
+		{gp->Val(86), gp->Val(87), gp->Val(88)}, // MWDC Array L
+		{gp->Val(90), gp->Val(91), gp->Val(92)}, // MWDC Array R
+		{gp->Val(94), gp->Val(95), 0.		  }, // MWDC Array U
+		{gp->Val(96), gp->Val(97), 0.		  }, // MWDC Array D
+		{gp->Val(98), gp->Val(99), 0.		  }, //  PDC Array U
+		{gp->Val(100), gp->Val(101), 0.		  }  //  PDC Array D
+	}; // [3-4-6-7-8-9]
+
+	int dcArrId = -9999;
+	if(3 == type[0] || 4 == type[0]) dcArrId = type[0] - 3; // 0-1: L-R
+	if(6 == type[0] || 7 == type[0] || 8 == type[0] || 9 == type[0])
+		dcArrId = type[0] - 6 + 2; // 2-3-4-5: U-D-PDCU-D
+	double delay = offset0[dcArrId][type[1]];
+//	delay += -TACtrlPara::Instance()->T_wireMean(uid);
 	return delay;
 }
 
-
-
-
-
-
-
-
-
-
+double TADeployPara::GetTargetZ0() const{
+	return gp->Val(84);
+}
 

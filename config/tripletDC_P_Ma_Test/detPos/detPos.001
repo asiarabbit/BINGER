@@ -1,0 +1,35 @@
+##################################################################################################
+# Data Analysis Code Project for the External Target Facility, CSR-HIRFL, @IMP
+# Exp: 311AMeV 40Ar Beam Test, Nov, 2016
+#
+# Detector position file with information specifying position and orientation.
+# The MWDCArrayL is not used in this experiment. It is kept only as a matter of convenience.
+#
+# File format is as follows:
+# x   y   z   phi   yaw   pitch   roll
+# unit: mm	degree
+#
+# Created Time: 2018/4/15
+# Author: SUN Yazhou, asia.rabbit@163.com
+# Last Modified: 2018/4/28, SUN Yazhou
+##################################################################################################
+
+
+############ MWDC Arrays downstream of the dipole magnet #########################################
+# MWDC0-1-2: from up side to down side
+# __________ ETF -> MWDCArrayM -> MWDC0 __________
+0.0 	0.0 	-68.0 	0.0 	0.0 	0.0 	4
+# __________ ETF -> MWDCArrayM -> MWDC1 __________
+0.0 	0.0 	1E-8 	0.0 	0.0 	0.0 	68
+# __________ ETF -> MWDCArrayM -> MWDC2 __________
+0.0 	0.0 	68.0 	0.0 	0.0 	0.0 	132
+# __________ ETF -> MWDCArrayM -> TOFWall __________
+0.0 	0.0		-274.5   0.0	0.0		0.0		196
+
+############ MWDC Array D consisting of two DCTaLs ###############################################
+# MWDCTaL0-1: from up side to down side
+# __________ ETF -> MWDCArrayD -> MWDC0 __________
+0.0 	0.0 	-177.5 	0.0 	0.0 	0.0 	7
+# __________ ETF -> MWDCArrayD -> MWDC1 __________
+0.0 	0.0 	-89.5 	0.0 	0.0 	0.0 	71
+

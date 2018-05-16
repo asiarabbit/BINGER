@@ -57,7 +57,7 @@ double TADetectorPara::GetPsi() const{
 	return fPsi;
 }
 
-// r_global = dR.(R.r_local)
+// r_global = dR.(R.r_local) - intrinsic rotation
 // tranformation from detector local coordiantes to global coordinates - the rotation part
 void TADetectorPara::GetGlobalRotation(const double *p_local, double *p_global) const{
 	double angle[3] = {fPhi, fTheta, fPsi};
@@ -78,6 +78,7 @@ void TADetectorPara::GetGlobalPosition(const double *p_local, double *p_global) 
 	p_global[2] += fZ + fZOffset; // z
 }
 
+// p[0-5]: [xc, yc, zc, yaw, pitch, roll] (mm, rad)
 void TADetectorPara::SetPosition(const double *p){
 	fX = p[0];   fY = p[1];     fZ = p[2];
 	fPhi = p[3]; fTheta = p[4]; fPsi = p[5];

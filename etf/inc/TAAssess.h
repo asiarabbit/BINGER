@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/14.															     //
-// Last modified: 2018/1/5, SUN Yazhou.										  	     //
+// Last modified: 2018/3/30, SUN Yazhou.									  	     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -17,7 +17,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 
 #ifndef _TAASSESS_H_
-#define _TAAssess_H_
+#define _TAASSESS_H_
 
 #include <string>
 #include <cmath>

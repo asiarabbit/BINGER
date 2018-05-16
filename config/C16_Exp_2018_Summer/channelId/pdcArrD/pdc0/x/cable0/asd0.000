@@ -1,0 +1,32 @@
+##################################################################################################
+# Data Analysis Code Project for the External Target Facility, CSR-HIRFL, @IMP
+#
+# Channel Id file for 8 channels of an ASD chip used for Ampli-Shape-Discri in MWDC FEE.
+# Note that this ASD chip is from Japan, model: AD-TYPE 34+10
+# Identity: __________ ETF -> MWDCArrayD -> MWDC0 -> X -> Cable0 -> ASD0(X1) __________
+# channelId map rule:
+# VME channel id:  1 3 5 7 9 11 13 15  -- -- -- X(Y)1
+# Wire No.:        0 1 2 3 4 5  6  7  
+#
+# VME channel id:  0 2 4 6 8 10 12 14  -- -- -- X(Y)2
+# Wire No.:        0 1 2 3 4 5  6  7  
+# Wire No. 0 -> 7: from left to right (facing beam direction, x incrementing).
+# ASD0 cooresponds to X(Y)1 with smaller z than ASD1(X(Y)2),
+# and is 5.-mm x(y)-wise translated w.r.t. X(Y)2.
+#
+# File format is as follows:
+# channelId	uid
+#
+# Created Time: 2018/04/23 11:41
+# Author: SUN Yazhou, asia.rabbit@163.com
+# Last Modified: 2018/04/23 11:41, SUN Yazhou
+##################################################################################################
+
+8266	9
+8268	32777
+8270	65545
+8272	98313
+8274	131081
+8276	163849
+8278	196617
+8280	229385

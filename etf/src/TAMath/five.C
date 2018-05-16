@@ -12,7 +12,7 @@
 // Last modified: 2017/10/9, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -24,7 +24,7 @@ double Dsquare5(const double *x, const double *y, double &k, double &b, const in
 	double increment = 0.; // a temporary variable.
 
 	/////////////////////----------------------- least square method ------------//////////////////////////////
-	int n = 6; // six anode layers
+	const int n = 6; // six anode layers
 	double punishment = 1E10; // individual anodes exceeding DsquThre would recieve a punishment in dsquare. See the code.
 	double k1m = 0., b1m = 0.;
 	double SUMx = 0., SUMy = 0., SUMxx = 0., SUMxy = 0.;
@@ -65,7 +65,7 @@ double Dsquare5(const double *x, const double *y, double &k, double &b, const in
 
 	//////////////////////////-------------- the classcical method ---------------//////////////////////////////
 	// extract the two MWDCs with both of their anode planes fired.
-	int N1[2] = {-1, -1}; // serial number of the two MWDC with both of their anode planes fired.
+	int N1[2] = {-1, -1}; // serial number of the two MWDCs with both of their anode planes fired.
 	int temp = 0;
 	if(x[0] != -9999. && x[1] != -9999.) N1[temp++] = 0;
 	if(x[2] != -9999. && x[3] != -9999.) N1[temp++] = 1;

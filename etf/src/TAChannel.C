@@ -7,10 +7,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/30.															     //
-// Last modified: 2017/11/29, SUN Yazhou.										     //
+// Last modified: 2018/5/3, SUN Yazhou.											     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -52,6 +52,7 @@ double TAChannel::GetLeadingTime(int n) const{
 // t0, t1 and t2 are set for choosing ch->GetLT over edges
 // (ch->GetLT-t0) within t1 and t2 is chosen. t0, t1 and t2 using default values, choose the 1st edge
 double TAChannel::GetLT(double t0, double t1, double t2) const{
+	if(!GetFiredStatus()) return -9999.; // not fired
 //	cout << "t0: " << t0 << endl; getchar(); // DEBUG
 	if(-9999. == t0 && -9999. == t1 && -9999. == t2) return GetTime();
 	else return GetData()->GetLT(t0 + GetPara()->GetDelay(), t1, t2) - GetPara()->GetDelay();

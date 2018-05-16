@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2018/1/16, SUN Yazhou.										     //
+// Last modified: 2018/4/22, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -31,6 +31,7 @@
 #include "TADCCable.h"
 #include "TADCSuperLayer.h"
 #include "TAMWDC.h"
+#include "TADetectorPara.h"
 #include "TAPlaStripPara.h"
 #include "TAPlaStrip.h"
 #include "TATOFWall.h"
@@ -49,17 +50,25 @@ const double TAMWDCArray::kPropagationSpeed = 200.; // mm/ns
 const double DEGREE = TAMath::DEGREE();
 static TAGPar *gp = TAGPar::Instance();
 
-TAMWDCArray::TAMWDCArray(const string &name, const string &title, int uid)
+TAMWDCArray::TAMWDCArray(const string &name, const string &title, unsigned uid)
 		: TAStuff(name, title, uid), fMWDC{0}, fTOFWall(0){
 	fPhiAvrg = -9999.;
+	// would be overwritten later in the derived classes 
+	// using values from TACtrlPara::DsquareThresholdPerDot()
 	fDsquareThresholdPerDot = 100.;
 }
 TAMWDCArray::~TAMWDCArray(){
-	for(TAMWDC *dc : fMWDC) if(dc) delete dc;
-	if(fTOFWall) delete fTOFWall;
+	for(TAMWDC *&dc : fMWDC) if(dc){
+		delete dc;
+		dc = nullptr;
+	}
+	if(fTOFWall){
+		delete fTOFWall;
+		fTOFWall = nullptr;
+	}
 
 	for(vector<TATrack *> &trls : fTrackList){
-		for(TATrack *tr : trls){
+		for(TATrack *&tr : trls){
 			if(tr){
 				delete tr;
 				tr = nullptr;
@@ -523,14 +532,14 @@ void TAMWDCArray::Initialize(){
 				tr = nullptr;
 			}
 		} // end for over tracks
-		trls.clear();		
+		trls.clear();
 	} // end for over vectors
-} // end of function Initialize.
-// get the channel that belongs to this with uid.
+} // end of function Initialize
+// get the channel that belongs to this and has the specified uid
 TAStuff *TAMWDCArray::GetChannel(unsigned uid) const{
-	if(uid > 0xFFFFF) return nullptr; // not a uid belonging to this class
+	if(uid > 0x7FFFF) return nullptr; // not a uid belonging to this class (only 19 bits)
 	int type[6]{}; TAUIDParser::DNS(type, uid); // parse input uid
-	int TYPE[6]{}; TAUIDParser::DNS(TYPE, fUID); // parse uid of this
+	int TYPE[6]{}; TAUIDParser::DNS(TYPE, GetUID()); // parse uid of this
 	
 	if(type[0] == TYPE[0]){ // belongs to this object
 		if(type[1] < 3){ // MWDCs

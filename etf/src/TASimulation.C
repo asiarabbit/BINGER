@@ -10,10 +10,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2018/1/27, SUN Yazhou.										     //
+// Last modified: 2018/4/11, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -34,6 +34,7 @@
 #include "TAT0_1.h"
 #include "TAMWDCArray.h"
 #include "TAMWDC.h"
+#include "TADetectorPara.h"
 #include "TAAnode.h"
 #include "TAAnodePara.h"
 #include "TAChannel.h"
@@ -76,7 +77,7 @@ void TASimulation::GenerateSim(int run, int nTrkPerEvEx, double effEx, char *sim
 	char rootfile[64]; strcpy(rootfile, "SIM.root"); // (sys_time+"_SIM.root").c_str()
 	// use extra sim-rootfile name
 	if(strcmp(simrootfilename.c_str(), "")) strcpy(rootfile, simrootfilename.c_str());
-	strncpy(simFile, rootfile, sizeof(rootfile));
+	strcpy(simFile, rootfile);
 	TFile *f = new TFile(rootfile, "RECREATE");
 	// treeData: raw data; each entry is a data channel
 	TTree *treeData = new TTree("treeData", "RAW SIMULATION DATA");
@@ -353,7 +354,7 @@ void TASimulation::Evaluate(const string &rootfile){
 	int nTrkPerEv = 0, nTrack; // nTrk per event; number of tracks for a certain event
 	int ntr = 0; // number of track projections in a data section(3*3D track)
 	int index, indexSim = 0, indexSimPre = indexSim; // data section index
-	const int ntrMax = 200, ntrMax3D = ntrMax / 3;
+	const int ntrMax = 100, ntrMax3D = ntrMax / 3;
 
 	int nuSim[3][6], nu[ntrMax][6], nuSimAr[ntrMax3D][3][6];
 	bool isDCArrR, isDCArrRSimAr[ntrMax3D]{}; // wheter of MWDC array R
@@ -411,15 +412,17 @@ void TASimulation::Evaluate(const string &rootfile){
 		memset(n3DtrXUV, 0, sizeof(n3DtrXUV));
 		memset(trkId, -1, sizeof(trkId));
 		// loop over grouped track projections
-		for(int j = 0; j < ntr; j++) if(-1 != id[j]){
-			for(int k = 0; k < 3; k++){ // loop over X-U-V track types
-				if(type[j]%10 == k){
-					trkId[id[j]][k] = j;
-					n3DtrXUV[k]++;
-				}
-			} // end loop over X-U-V track types
-		} // end for over j and if
-		else typeMinusCnt[type[j]%10]++;
+		for(int j = 0; j < ntr; j++){
+			if(-1 != id[j]){
+				for(int k = 0; k < 3; k++){ // loop over X-U-V track types
+					if(type[j]%10 == k){
+						trkId[id[j]][k] = j;
+						n3DtrXUV[k]++;
+					}
+				} // end loop over X-U-V track types
+			} // end for over j and if
+			else typeMinusCnt[type[j]%10]++;
+		} // end for over ntr
 		if(n3DtrXUV[0] != n3DtrXUV[1] || n3DtrXUV[0] != n3DtrXUV[2]){
 			TAPopMsg::Error("TASimulation", "Evaluate: This is odd... track projections of X, U and V are not consistent: n3DtrX: %d, n3DtrU: %d, n3DtrV: %d", n3DtrXUV[0], n3DtrXUV[1], n3DtrXUV[2]);
 		} // end if

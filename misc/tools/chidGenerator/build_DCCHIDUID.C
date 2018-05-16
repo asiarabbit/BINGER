@@ -7,7 +7,7 @@
 #include <ctime>
 
 using namespace std;
-typedef int tChId[3][3][6];
+typedef int tChId[3][3][6]; // [DC0-1][X-U-V][Cable#]
 
 #include "chId0.C" // initialization of chIdL and chIdR
 
@@ -74,7 +74,9 @@ s2+="###########################################################################
 			int uid = type[0] + (type[1]<<6) + (type[2]<<9)
 				+ (type[3]<<11) + (type[4]<<14) + (type[5]<<15);
 		    fr << chId << "\t" << uid << endl;
-		    chId++; type[5]--;
+		    if(chId > 0) chId++;
+		    else chId = -2;
+		    type[5]--;
 		} // end for over i
 		type[5] = 15; type[4] = 0;
 		fr.close();

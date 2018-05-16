@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/11/27.															     //
-// Last modified: 2017/12/27, SUN Yazhou.										     //
+// Last modified: 2018/5/5, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -35,7 +35,7 @@ protected:
 
 	static TAUI *fInstance;
 	// parameters to be passed to the constructor of TAEventProcessor
-	char fDataFile[128], fROOTFile[128];
+	char fDataFile[256], fVMEDataFile[256], fROOTFile[256];
 	int fIndex0, fIndex1;
 	int fRunId, fAnaDepth, fEvLenLim; // analyze depth
 };

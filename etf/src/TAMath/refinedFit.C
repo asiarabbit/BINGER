@@ -9,10 +9,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/9.															     //
-// Last modified: 2018/1/27, SUN Yazhou.										     //
+// Last modified: 2018/4/26, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -24,7 +24,8 @@ double TAMath::refinedFit(const double *x, const double *y, const double *r, dou
 	// prepare for the refined fit
 	int i, j, ki; // temporary loop control variables
 //	static int failedcnt = 0; // count of events obstinately difficult to resolve.
-	double sigma = 150; // um;
+	const double sigma0 = clp->GetSimSpatialResolution();
+	double sigma = sigma0; // um;
 	double n_d2Thre = gGOOD;
 	if(gGOOD == 2) n_d2Thre = 4; // count of fired andoe layers.
 	double d2MAX = pow(sigma / 1000., 2) * n_d2Thre; // the expected MWDC position resolution.
@@ -69,7 +70,7 @@ double TAMath::refinedFit(const double *x, const double *y, const double *r, dou
 			nIncre = 5;
 			nnIncre = 5;
 			nnnM = 8;
-			sigma = 400; // um;
+			sigma = sigma0*2.; // um;
 			d2MAX = pow(sigma / 1000., 2) * n_d2Thre; // the expected MWDC position resolution.
 			break;
 		case 0:
@@ -77,7 +78,7 @@ double TAMath::refinedFit(const double *x, const double *y, const double *r, dou
 			nIncre = 20;
 			nnIncre = 20;
 			nnnM = 12;
-			sigma = 100; // um;
+			sigma = sigma0*0.5; // um;
 			d2MAX = pow(sigma / 1000., 2) * n_d2Thre; // the expected MWDC position resolution.
 			break;
 		case 1:
@@ -85,7 +86,7 @@ double TAMath::refinedFit(const double *x, const double *y, const double *r, dou
 			nIncre = 50;
 			nnIncre = 50;
 			nnnM = 16;
-			sigma = 100;
+			sigma = sigma0*0.5;
 			d2MAX = pow(sigma / 1000., 2) * n_d2Thre;
 			break;
 		case 2:
@@ -93,7 +94,7 @@ double TAMath::refinedFit(const double *x, const double *y, const double *r, dou
 			nIncre = 50;
 			nnIncre = 50;
 			nnnM = 20;
-			sigma = 100;
+			sigma = sigma0*0.5;
 			d2MAX = pow(sigma / 1000., 2) * n_d2Thre;
 			break;
 		case 3:
@@ -101,7 +102,7 @@ double TAMath::refinedFit(const double *x, const double *y, const double *r, dou
 			nIncre = 100;
 			nnIncre = 100;
 			nnnM = 25;
-			sigma = 100;
+			sigma = sigma0*0.5;
 			d2MAX = pow(sigma / 1000., 2) * n_d2Thre;
 			break;
 		default: // default is reserved for test, and with the lowest calculation precision.
@@ -109,7 +110,7 @@ double TAMath::refinedFit(const double *x, const double *y, const double *r, dou
 			nIncre = 3;
 			nnIncre = 3;
 			nnnM = 4;
-			sigma = 400;
+			sigma = sigma0*2.;
 			d2MAX = pow(sigma / 1000., 2) * n_d2Thre;
 			break;
 	} // end of switch
@@ -197,7 +198,7 @@ double TAMath::refinedFit(const double *x, const double *y, const double *r, dou
 			nIncre = 5;
 			nnIncre = 5;
 			nnnM = 8;
-			sigma = 400; // um;
+			sigma = sigma0*2.; // um;
 			d2MAX = pow(sigma / 1000., 2) * n_d2Thre; // the expected MWDC position resolution.
 			break;
 		case 0:
@@ -205,7 +206,7 @@ double TAMath::refinedFit(const double *x, const double *y, const double *r, dou
 			nIncre = 10;
 			nnIncre = 10;
 			nnnM = 12;
-			sigma = 200; // um;
+			sigma = sigma0; // um;
 			d2MAX = pow(sigma / 1000., 2) * n_d2Thre; // the expected MWDC position resolution.
 			break;
 		case 1:
@@ -213,7 +214,7 @@ double TAMath::refinedFit(const double *x, const double *y, const double *r, dou
 			nIncre = 15;
 			nnIncre = 15;
 			nnnM = 16;
-			sigma = 200;
+			sigma = sigma0;
 			d2MAX = pow(sigma / 1000., 2) * n_d2Thre;
 			break;
 		case 2:
@@ -221,7 +222,7 @@ double TAMath::refinedFit(const double *x, const double *y, const double *r, dou
 			nIncre = 20;
 			nnIncre = 20;
 			nnnM = 20;
-			sigma = 100;
+			sigma = sigma0*0.5;
 			d2MAX = pow(sigma / 1000., 2) * n_d2Thre;
 			break;
 		case 3:
@@ -229,7 +230,7 @@ double TAMath::refinedFit(const double *x, const double *y, const double *r, dou
 			nIncre = 40;
 			nnIncre = 30;
 			nnnM = 25;
-			sigma = 100;
+			sigma = sigma0*0.5;
 			d2MAX = pow(sigma / 1000., 2) * n_d2Thre;
 			break;
 		default: // default is reserved for test, and with the lowest calculation precision.
@@ -237,7 +238,7 @@ double TAMath::refinedFit(const double *x, const double *y, const double *r, dou
 			nIncre = 3;
 			nnIncre = 3;
 			nnnM = 4;
-			sigma = 400;
+			sigma = sigma0*2.;
 			d2MAX = pow(sigma / 1000., 2) * n_d2Thre;
 			break;
 	} // end of switch

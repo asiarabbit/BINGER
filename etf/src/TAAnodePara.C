@@ -7,7 +7,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/24.															     //
-// Last modified: 2018/1/27, SUN Yazhou.										     //
+// Last modified: 2018/4/26, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -19,7 +19,9 @@
 #include "TAMath.h"
 #include "TACtrlPara.h"
 #include "TAMWDC.h"
+#include "TADetectorPara.h"
 #include "TADeployPara.h"
+#include "TAUIDParser.h"
 
 const double TAAnodePara::kSTRCorRMax = 6.; // unit: mm positive
 const double TAAnodePara::kSTRCorAngleMax = 10. * TAMath::DEGREE(); // unit: rad
@@ -27,9 +29,10 @@ const double TAAnodePara::kSTRCorRStep = TAAnodePara::kSTRCorRMax / TAAnodePara:
 const double TAAnodePara::kSTRCorAngleStep = 
 			TAAnodePara::kSTRCorAngleMax * 2. / (TAAnodePara::kSTRCorAngleNBins - 2);
 const double TAAnodePara::kSTRCorArrDummy[TAAnodePara::kSTRCorRNBins]{0.};
+static TACtrlPara *clp = TACtrlPara::Instance();
 
 TAAnodePara::TAAnodePara(const string &name, const string &title, unsigned uid)
-		: TAChPara(name, title, uid), fGlobalDirection(nullptr), fMotherDC(0){
+		: TAChPara(name, title, uid), fGlobalDirection(nullptr), fSTR{0}, fMotherDC(0){
 	for(int i = 0; i < 3; i++){
 		fGlobalCenter[i] = -9999.;
 		fGlobalProjection[i] = -9999.;
@@ -83,8 +86,8 @@ void TAAnodePara::SetSTR(TF1 *str, int id){
 	if(id >= kSTRCorAngleNBins)
 		TAPopMsg::Error(GetName().c_str(), "SetSTR: str_id too large: %d", id);
 	if(!str) TAPopMsg::Error(GetName().c_str(), "SetSTR: input str is null.");
+	if(fSTR[id]) TAPopMsg::Warn(GetName().c_str(), "SetSTR: fSTR has been assigned before. Is this cool?");
 	fSTR[id] = str;
-//	cout << "GetName: " << GetName() << endl;
 }
 TF1 *TAAnodePara::GetSTR(int id) const{
 	if(id >= kSTRCorAngleNBins)
@@ -102,10 +105,18 @@ const double *TAAnodePara::GetSTRCorrection(int STR_id) const{
 	return fSTRCorArr[STR_id];
 }
 int TAAnodePara::GetSTRid(double k, int dcType) const{
-	if(dcType < 0 || dcType > 2)
+	int type[6]{}; TAUIDParser::DNS(type, GetUID());
+	if( ((3 == type[0] || 4 == type[0]) && (dcType < 0 || dcType > 2)) // DCArrL-R
+		|| ((6 == type[0] || 7 == type[0]) && (dcType < 0 || dcType > 1)) // DCArrU-D
+		|| ((8 == type[0] || 9 == type[0]) && (dcType < 0 || dcType > 1)) // PDCArrU-D
+	)
 		TAPopMsg::Error(GetName().c_str(), "GetSTRid: invalid dcType: %d", dcType);
-	double theta, phi = GetMotherDC()->GetDetPara()->GetPhi();
-	if(TAMWDC::kX == dcType) theta = atan(k) - phi; // X
+
+	const double phiC = GetMotherDC()->GetDetPara()->GetPhi();
+	const double thetaC = GetMotherDC()->GetDetPara()->GetTheta();
+	double theta; // the trkproj-drift_cell angle
+	if(TAMWDC::kX == dcType) theta = atan(k) - phiC; // X
+	if(TAMWDC::kY == dcType) theta = atan(k) - thetaC; // Y
 	else theta = atan(k); // U or V
 	return GetSTRid(theta, GetName().c_str());
 } // end of function GetSTRid
@@ -172,15 +183,27 @@ void TAAnodePara::SetSTRCorArr(const int *vaBinNumArr,
 }
 
 int TAAnodePara::GetSFE16Id() const{
-	return fUID & 0x7FFF;
+	static int type[6]{};
+	if(0 == type[0]) TAUIDParser::DNS(type, fUID);
+	if(3 == type[0] || 4 == type[0] || 6 == type[0] || 7 == type[0] || 8 == type[0] || 9 == type[0])
+		return fUID & 0x7FFF; // the 15 LSB
+	else TAPopMsg::Error(GetName().c_str(), "GetSFE16Id: this is not from a valid MWDC array");
+	return -1;
 } // the first 15 LSBs
 int TAAnodePara::GetCableId() const{
-	return fUID & 0x3FFF;
+
+	static int type[6]{};
+	if(0 == type[0]) TAUIDParser::DNS(type, fUID);
+	if(3 == type[0] || 4 == type[0] || 6 == type[0] || 7 == type[0] || 8 == type[0] || 9 == type[0])
+		return fUID & 0x3FFF; // the 14 LSB
+	else TAPopMsg::Error(GetName().c_str(), "GetCableId: this is not from a valid MWDC array");
+	return -1;
 } // the first 14 LSBs
 
-double TAAnodePara::GetSpatialResolution(double r, double k) const{ // smeared and delayed
-	if(r < 0.5) return 0.2; // .3
-	else return 0.2; // .2
+double TAAnodePara::GetSpatialResolution(double r, double k) const{ // smeared and delayed;  unit: mm
+//	cout << "sigmar: " << TACtrlPara::GetSimSpatialResolution() << endl; getchar(); // DEBUG
+	if(r < 0.5) return TACtrlPara::GetSimSpatialResolution(); // .3
+	else return TACtrlPara::GetSimSpatialResolution(); // .2
 } // end of member function GetSpatialResolution(...)
 void TAAnodePara::DriftTimeQtCorrection(double &driftTime, double TOT, double &weight){
 //	TAPopMsg::Debug("TAAnodePara", "DriftTimeQtCorrection: is being called."); // DEBUG
@@ -190,13 +213,13 @@ void TAAnodePara::DriftTimeQtCorrection(double &driftTime, double TOT, double &w
 	}
 	if(TOT < 300.){ // the fomula can be invalid
 		driftTime += -9.89;
-		weight = TACtrlPara::Instance()->DriftTimeQtCorrectionWeight() * 0.8; // because the correction for low TOT is relatively not accurate.
+		weight = clp->DriftTimeQtCorrectionWeight() * 0.8; // because the correction for low TOT is relatively not accurate.
 		return;
 	} // end if
 	double p0 = 512.125, p1 = 48.5836, p2 = 2.72877; // the fitted parabola TOT-dt relation. unit: ns
 	double correction = (-p1 + sqrt(p1*p1 - 4.*p2*(p0-TOT))) / (2.*p2);
 	driftTime += correction;
-	weight = TACtrlPara::Instance()->DriftTimeQtCorrectionWeight();
+	weight = clp->DriftTimeQtCorrectionWeight();
 	return;
 } // end of member function DriftTimeQtCorrection(...)
 

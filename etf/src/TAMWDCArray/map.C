@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2017/12/30, SUN Yazhou.										     //
+// Last modified: 2018/5/3, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -35,7 +35,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 
 	bool cmpShow = false; // function compare debug
 	// GetDsquareThresholdPerDot(); // stores the minimum of Dsquares of all the combinations
-	double d2Thre = clp->D2Thre();
+	const double d2Thre = clp->D2Thre();
 
 	double z[6] = {-9999., -9999., -9999., -9999., -9999., -9999.};
 	double x[6] = {-9999., -9999., -9999., -9999., -9999., -9999.};
@@ -43,11 +43,11 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 	double r[6] = {-9999., -9999., -9999., -9999., -9999., -9999.};
 	double chi[6] = {-9999., -9999., -9999., -9999., -9999., -9999.};
 	double kl = -9999., bl = -9999., d2 = -9999., TOF = -9999.;
-	double nstripStray = -1.; // count of strips from a fired strips to the fitted track, a temporary variable.
-	int firedStripId = -1; // serial id of the fired strip specific to certain track, a temporary variable.
-	int nAnodePerLayer0 = MWDC[0]->GetNAnodePerLayer();
-	int nAnodePerLayer1 = MWDC[1]->GetNAnodePerLayer();
-	int nAnodePerLayer2 = MWDC[2]->GetNAnodePerLayer();
+	double nstripStray = -1.; // count of strips from a fired strips to the fitted track, a temporary variable
+	int firedStripId = -1; // serial id of the fired strip specific to certain track, a temporary variable
+	const short nAnodePerLayer0 = MWDC[0]->GetNAnodePerLayer();
+	const short nAnodePerLayer1 = MWDC[1]->GetNAnodePerLayer();
+	const short nAnodePerLayer2 = MWDC[2]->GetNAnodePerLayer();
 
 	// the live track for the current hit combination
 	TATrack newTrack("newTrack", "Particle Track-ASIA.SUN");
@@ -58,17 +58,28 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 	}
 	newTrack.SetDsquareThresholdPerDot(GetDsquareThresholdPerDot());
 	char tail[64] = ""; // for naming newTrack
-	char type; // MWDC type: V, X, or U.
-	if(dcType == 0) type = 'X';
-	else if(dcType == 1) type = 'U';
-	else if(dcType == 2) type = 'V';
-	int nu[6]{}; // the counterpart of TAMWDCArray::fNu;
+	char type; // MWDC type: V, X, or U
+	if(0 == dcType) type = 'X';
+	else if(1 == dcType) type = 'U';
+	else if(2 == dcType) type = 'V';
+	else if(3 == dcType){
+		type = 'Y'; dcType = 1;
+	}
+	int nu[6]{}; // the counterpart of TATrack::fNu
 	int gGOOD = -1, LAYER[6] = {-1, -1, -1, -1, -1, -1};
-	int overlapTrackCnt = 0; // for special use.
-	int nFiredAnodeLayer = 0; // number of fired anode layers.
-	int overlap = -2; // a temporary variable for the return value of int compare().
-	bool bothFired0, bothFired1, bothFired2, normalEvent, specialEvent;
-	// to loop over all possible combinations of fired anode wires for the least Dsquare for a specific event. i.e. one anode per plane
+	int overlapTrackCnt = 0; // for special use
+	int nFiredAnodeLayer = 0; // number of fired anode layers
+	int overlap = -2; // a temporary variable for the return value of int compare(...)
+	// bothFired#: the two sense wire layers of DC# is fired or not;
+	// specialEvent: gGOOD == 2; normalEvent: the rest
+	bool bothFired0 = false, bothFired1 = false, bothFired2 = false;
+	bool normalEvent = false, specialEvent = false;
+
+	//////////////////////////////// THE 6-FOLD NESTED LOOP ////////////////////////////////
+	// to loop over all the possible combinations of fired sense wires 
+	// for the least-Dsquare tracks for a specific event
+	// i == nAnodePerLayer# corresponds to the one situation where all the fired anodes
+	// in the layer is deemed as invalid (caused by noise, unwanted particles, etc.).
 	for(int i = 0; i <= nAnodePerLayer0; i++){ nu[0] = -1; // DC0-X1
 		if(i < nAnodePerLayer0 && MWDC[0]->GetAnodeL1(dcType, i)->GetFiredStatus()) nu[0] = i; // DC0-X1 --------------------------------------------------------------
 		if(-1 == nu[0] && i < nAnodePerLayer0) continue; // inert anodes within the anode layers would be ignored.
@@ -104,17 +115,17 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 
 			} // end if(!normalEvent)
 //			if(!(bothFired0 && bothFired1 && bothFired2)) continue;
-			if(!normalEvent && !specialEvent) continue; // Each MWDC have to be fired, or any two MWDCs are two-anode-plane fired.
+			if(!normalEvent && !specialEvent) continue; // Each MWDC has to be fired, or any two MWDCs are two-anode-plane fired.
 #ifdef DEBUG_MAP
 			cout << endl << "i: " << i << "\tj: " << j; // DEBUG
 			cout << "\tii: " << ii << "\tjj: " << jj; // DEBUG
 			cout << "\tiii: " << iii << "\tjjj: " << jjj << endl; // DEBUG
-			getchar(); // DEBUG
 			for(int i = 0; i < 6; i++){ // DEBUG
 				cout << "nu[" << i << "]: " << nu[i] << "\t"; // DEBUG
 			} // end for over i DEBUG
 			cout << endl; // DEBUG
 			cout << "normalEvent: " << normalEvent << "\tspecialEvent: " << specialEvent << endl; // DEBUG
+			getchar(); // DEBUG
 #endif
 			gGOOD = 0;
 			for(int i = 0; i < 6; i++){
@@ -136,13 +147,13 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 				} // end if
 			} // end of for over i
 			nFiredAnodeLayer = gGOOD;
-			if(specialEvent) gGOOD = 2; // 4 fired anode layers. But here gGOOD is specially assign 2 for a special treatment.
+			if(specialEvent) gGOOD = 2; // 4 fired anode layers. But here gGOOD is specially assigned with 2 for a special treatment
 
 			// initialization
 			kl = -9999.; bl = -9999.; d2 = -9999.; TOF = -9999.;
 			// weight for weighted addition of chi to chi2
 			double weight[6] = {1., 1., 1., 1., 1., 1.};
-			// Here it's Dsquare(z, x...), NOT Dsquare(x, z...), because the coordinate system is different from those conventional ones now.
+			// Here it's Dsquare(z, x...), NOT Dsquare(x, z...), because the coordinate system is different from those conventional ones now
 			d2 = TAMath::Dsquare(z, x, kl, bl, gGOOD, LAYER, GetDsquareThresholdPerDot());
 #ifdef DEBUG_MAP
 			cout << endl << "d2: " << d2; // DEBUG
@@ -162,15 +173,15 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 ////				cout << "track.size(): " << track.size() << endl; // DEBUG
 //				getchar(); // DEBUG
 
-				if(0 == dcType){ // MWDC_X
+				if('X' == type || 'Y' == type){ // MWDC_X or MWDC_Y
 					// get the lt time (t0) of the DC that is closest to the TOFWall,
 					// edges of TOFW would be compared to t0 for the suitable one
 					int lid = LAYER[nFiredAnodeLayer-1]; // id of the last fired DC anode layer
 					TAAnode *ano = MWDC[lid/2]->GetAnode(dcType, lid%2+1, nu[lid]);
-					double t0 = ano->GetTime();
-					unsigned uid = ano->GetUID();
+					const double t0 = ano->GetTime();
+					const unsigned uid = ano->GetUID();
 					const double delta = clp->T_tofDCtoTOFW(uid) - clp->T_wireMean(uid); // minor correction
-					// -20 ~ 250: speculated drift time zone
+					// -20 ~ 250: speculated drift time range
 					// 0+t_wire+t_drift=t_DC; 0+t_tof=t_TOF;
 					// t_TOF-t_DC=(t_tof-t_wire) - t_drift; => delta-t_drift;
 					// (as small and correct as possible while inclusive)
@@ -186,8 +197,8 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 						continue;
 					}
 				} // end if
-				// Assign drift time array and drift distance array.
-				if(0 == dcType){
+				// assign drift time array and drift distance array
+				if('X' == type || 'Y' == type){ // MWDC_X or MWDC_Y
 					for(int i = 0; i < 6; i++){ // DC0X1-X2-DC1X1-X2-DC2X1-X2
 						if(nu[i] >= 0){
 							TAAnode *ano = MWDC[i/2]->GetAnode(dcType, i%2+1, nu[i]);
@@ -196,27 +207,27 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 							t[i] = ano->GetDriftTime(weight[i]);
 //							cout << "TOF: " << TOF << endl; // DEBUG
 //							cout << "1, t[i]: " << t[i] << endl; getchar(); // DEBUG
-							// roughly correct time of flight from DC to TOF wall.
+							// roughly correct time of flight from DC to TOF wall
 							unsigned uid = ano->GetUID();
 							t[i] +=
 								clp->T_tofDCtoTOFW(uid) - clp->T_wireMean(uid);
 //							cout << "dt1: " << clp->T_tofDCtoTOFW(uid) << endl;
 //							cout << "dt2: " << clp->T_wireMean(uid) << endl;
 //							cout << "2, t[i]: " << t[i] << endl; getchar(); // DEBUG
-							if(0 == dcType && -9999. != TOF){ // X
+							if(('X' == type || 'Y' == type) && -9999. != TOF){ // X or Y
 								r[i] = ano->GetDriftDistance(t[i], kl);
 							} // end if
 						} // end if
 					} // end for over i
 				} // end if(DCtype == X)
 #ifdef DEBUG_MAP
-				for(double tt: t) cout << "t: " << tt << endl;
+				for(double tt: t) cout << "t: " << tt << endl; // DEBUG
 				getchar(); // DEBUG
-				for(double rr: r) cout << "r: " << rr << endl;
+				for(double rr: r) cout << "r: " << rr << endl; // DEBUG
 				getchar(); // DEBUG
 #endif
 				// test the validity of drift time for X tracks
-				if(0 == dcType) for(double tt : t){
+				if('X' == type || 'Y' == type) for(double tt : t){
 					if(-9999. != tt && !clp->TimeThre(tt))
 						isBadTrack = true;
 				} // end loop over drift time
@@ -225,18 +236,19 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 				newTrack.SetData(x, z, t, r, kl, bl, d2, gGOOD, nu, LAYER, weight);
 				newTrack.SetTOF(TOF, firedStripId, nstripStray);
 
-				// NOTE that this function would trigger TATrack::Fit() so as to increase // DEBUG
+				// NOTE that this function would trigger TATrack::Fit() so as to increase
+				// system burden
 //				cout << "We're going to implement FIT function\n"; getchar(); // DEBUG
 				newTrack.GetChi(chi);
 //				if(newTrack.fIsDEBUG) newTrack.Show(); // DEBUG
 
 #ifdef DEBUG_MAP
 				cout << "newTrack.GetChi(): " << newTrack.GetChi() << endl; // DEBUG
-				for(double cc : chi) cout << "cc: " << cc << endl;
+				for(double cc : chi) cout << "cc: " << cc << endl; // DEBUG
 				getchar(); // DEBUG
 				newTrack.Show(); // DEBUG
 #endif
-				if(0 == dcType){
+				if('X' == type || 'Y' == type){
 //					cout << "newTrack.GetChi(): " << newTrack.GetChi() << endl; getchar(); // DEBUG
 //					cout << "clp->ChiThre(): " << clp->ChiThre() << endl; getchar(); // DEBUG
 					if(fabs(newTrack.GetChi()) > clp->ChiThre()){
@@ -249,18 +261,17 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 					} // end for
 					if(isBadTrack) continue;
 				} // end if
-				// system burden. // DEBUG
 				for(unsigned k = 0; k < track.size(); k++){ // check if two tracks derive from the same one.
-					// 0: the two tracks are different; 1: newTrack is defeated by  oldTrack;
-					// 2: newTrack defeats oldTrack->
-					overlap = compare(&newTrack, track.at(k), dcType, cmpShow); // compare the two tracks, and mark the obsolete ones.
+					// 0: the two tracks are different; 1: newTrack is defeated by oldTrack;
+					// 2: newTrack defeats oldTrack
+					overlap = compare(&newTrack, track.at(k), type, cmpShow); // compare the two tracks, and mark the obsolete ones
 					if(cmpShow){ // DEBUG
 						TAPopMsg::Debug(GetName().c_str(), "map: overlap: %d", overlap); // DEBUG
 					} // DEBUG
-					if(2 == overlap){ // An overlap happend.
+					if(2 == overlap){ // an overlap happend
 						overlapTrackCnt++;
-					} // end if(overlap == 1 || overlap == 2)
-					if(1 == overlap) break; // newTrack is part of oldTrack, and is dropped.
+					} // end if(overlap == 2)
+					if(1 == overlap) continue; // newTrack is part of oldTrack, and is dropped
 				} // end for over k
 				// eliminate the obsolete tracks
 				for(unsigned k = 0; k < track.size(); k++){
@@ -271,14 +282,14 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 					} // end if
 				} // end for over k
 #ifdef DEBUG_MAP
-				if(overlap != 1){
+				if(1 != overlap){
 					TAPopMsg::Debug(GetName().c_str(), "map: New track confirmed.");
 				}
 #endif
 				if(cmpShow){ // DEBUG
 					TAPopMsg::Debug(GetName().c_str(), "map: Before pushback, track.size(): %d", track.size());
 				} // end if // DEBUG
-				if(overlap != 1){ // new track accepted
+				if(1 != overlap){ // new track accepted
 					newTrack.SetName(GetName());
 					sprintf(tail, "->Track%c_%lu", type, track.size());
 					newTrack.AppendName(tail);
@@ -302,7 +313,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 	} // end of DC0-X1 for
 
 #ifdef DEBUG_MAP
-	sleep(3);
+//	sleep(3);
 	TAPopMsg::Debug(GetName().c_str(), "map: track.size(): %d", track.size());
 	for(auto &t : track) t->Show();
 	cout << "Map returning true..." << endl; // DEBUG
@@ -318,11 +329,11 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 // 0: the two tracks are different; 1: newTrack is defeated by oldTrack;
 // 2: newTrack defeats oldTrack
 // Here tracks with good == 2 are despised and discriminated
-int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, int dcType, bool show){
-//	if(0 != dcType) return 0; // no conclusion could be reached for U(V)projs
+int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, char type, bool show){
+	if('X' != type && 'Y' != type) return 0; // no conclusion could be reached for U(V)projs
 
 	int nstripDeviation = fabs(newTrack->GetFiredStripId() - oldTrack->GetFiredStripId());
-	const int &vicinity = clp->Vicinity();
+	const int vicinity = clp->Vicinity();
 //	cout << "vicinity: " << vicinity << endl; getchar(); // DEBUG
 	// TOF strip stray tolerance for discern discrete tracks
 	const int stripTolerance = clp->StripTolerance();
@@ -347,7 +358,7 @@ int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, int dcType, bool 
 			return 2; // oldTrack is nasty
 		} // end if
 		if(2 == newTrack->GetgGOOD() && 2 == oldTrack->GetgGOOD()){
-			if(dcType == 0){
+			if('X' == type || 'Y' == type){
 				if(newTrack->GetChi() >= oldTrack->GetChi()){
 					return 1; // newTrack is nasty
 				} // end if
@@ -355,7 +366,7 @@ int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, int dcType, bool 
 					oldTrack->SetName("OBSOLETE");
 					return 2; // oldTrack is nasty
 				} // end else
-			} // end if(dcType == 0)
+			} // end if('X' == type || 'Y' == type)
 			else return 0; // a conclusion cannot be reached yet for U or V tracks
 		} // end if
 	} // end if
@@ -379,7 +390,7 @@ int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, int dcType, bool 
 			} // end if(nu[i] >= 0)
 		} // end for over i
 
-		// confirmed overlapped tracks.
+		// confirmed overlapped tracks
 		if(nstripDeviation <= stripTolerance){
 	   		if(show){ // DEBUG
 	   			cout << "mark2" << endl; // DEBUG
@@ -400,7 +411,7 @@ int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, int dcType, bool 
 					vicinityVioCnt++;
 					if(vicinityVioCnt == nValid_nu_temp) return 0;
 				} // end inner if
-			} // end if(nu_temp[i] >= 0)
+			} // end if(nu_temp[i] >= 0...)
 		} // end for over i
 		if(nstripDeviation <= stripTolerance){
 			oldTrack->SetName("OBSOLETE"); // OBSOLETE marks the track to be eliminated
@@ -419,11 +430,11 @@ int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, int dcType, bool 
 					vicinityVioCnt++;
 					if(vicinityVioCnt == nValid_nu_temp) return 0;
 				} // end inner if
-			} // end if(nu_temp[i] >= 0)
+			} // end if(nu_temp[i] >= 0...)
 		} // end for over i
 
 		if(nstripDeviation <= stripTolerance){
-			if(0 == dcType){
+			if('X' == type || 'Y' == type){
 				if(newTrack->GetChi() < oldTrack->GetChi()){
 					oldTrack->SetName("OBSOLETE");
 					return 2;

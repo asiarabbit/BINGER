@@ -9,10 +9,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/26.															     //
-// Last modified: 2018/1/27, SUN Yazhou.										     //
+// Last modified: 2018/4/21, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -27,6 +27,7 @@
 #include "TAPopMsg.h"
 #include "TACtrlPara.h"
 #include "TADetUnion.h"
+#include "TADetectorPara.h"
 #include "TAParameter.h"
 #include "TAChannel.h"
 #include "TAChPara.h"
@@ -34,6 +35,7 @@
 #include "TAAnodePara.h"
 #include "TAMWDC.h"
 #include "TAMWDCArray.h"
+#include "TAMWDCArray2.h"
 #include "TATOFWall.h"
 #include "TAGPar.h"
 #include "TAUIDParser.h"
@@ -237,12 +239,12 @@ int TAParaManager::ReadFileList(const char *basePath, ofstream &configFileList, 
 	while((ptr = readdir(dir)) != nullptr){
 		if(!strcmp(ptr->d_name, ".") || !strcmp(ptr->d_name, ".."))
 			continue; // current dir or parent dir
-		else if(ptr->d_type == 8){ // file
+		else if(8 == ptr->d_type){ // file
 			sprintf(fname, "%s/%s\n", basePath, ptr->d_name);
 			configFileList << fname;
 		}
-		else if(ptr->d_type == 10){} // link file
-		else if(ptr->d_type == 4){ // dir
+		else if(10 == ptr->d_type){} // link file
+		else if(4 == ptr->d_type){ // dir
 			memset(base, '\0', sizeof(base));
 			strcpy(base, basePath);
 			strcat(base, "/");
@@ -317,8 +319,8 @@ void TAParaManager::AssignChId(const char *fname){
 //				cout << "uid: " << uid << endl; getchar(); // DEBUG
 //			}
 		}
-		else TAPopMsg::Warn("TAParaManager",
-			"AssignChId: homeless Chid: %s: line %d", fname, linecnt);
+		else if(fDetList[detId]) TAPopMsg::Warn("TAParaManager",
+			"AssignChId: homeless chid: %s: line %d", fname, linecnt);
 	} // end internal while
 } // end member function AssignChId
 // Detector Position set
@@ -344,56 +346,120 @@ void TAParaManager::AssignDetPos(const char *fname) const{
 		short detId = uid & 0x3F; // first section of UID, 6 bits
 		short subDetId = (uid>>6) & 0x7; // second section of UID for TAMWDCArray objects, 3 bits
 		if(!fDetList[detId]){
-			TAPopMsg::Error("TAParaManager", "AssignDetPos: null detector pointer.");
-			return;
+//			TAPopMsg::Error("TAParaManager", "AssignDetPos: null detector pointer");
+			continue;
 		}
+
+		// MWDCArrayL-R //
 		if(3 == detId || 4 == detId){ // valid TAMWDCArray pointer
 			TAMWDCArray* dcArr = (TAMWDCArray*)fDetList[detId];
-			if(subDetId < 3){ // MWDC
-				TAMWDC *dc = (TAMWDC*)dcArr->GetMWDC(subDetId);
-				dc->GetDetPara()->SetPosition(value);
-				isAssigned = true;
-			}
-			else if(3 == subDetId){ // TOF Wall
-				TATOFWall *tofw = (TATOFWall*)dcArr->GetTOFWall();
-				tofw->GetDetPara()->SetPosition(value);
-				tofw->AssignStripPosition();
-				isAssigned = true;
-			}
-		} // end if(fDetList[detId])
+			if(dcArr){
+				if(subDetId < 3){ // MWDC
+					TAMWDC *dc = dcArr->GetMWDC(subDetId);
+					dc->GetDetPara()->SetPosition(value);
+					isAssigned = true;
+				}
+				else if(3 == subDetId){ // TOF Wall
+					TATOFWall *tofw = dcArr->GetTOFWall();
+					tofw->GetDetPara()->SetPosition(value);
+					tofw->AssignStripPosition();
+					isAssigned = true;
+				}
+			} // end if(dcArr)
+		} // end if(3 == detId || 4 == detId)
+		// MWDCArrayU-D //
+		if(6 == detId || 7 == detId || 8 == detId || 9 == detId){ // valid TAMWDCArray pointer
+			TAMWDCArray2* dcArr = (TAMWDCArray2*)fDetList[detId];
+			if(dcArr){
+				if(subDetId < 2){ // MWDC
+					TAMWDC *dc = dcArr->GetMWDC(subDetId);
+					dc->GetDetPara()->SetPosition(value);
+					isAssigned = true;
+				}
+			} // end if(dcArr)
+		} // end if(6 == detId || 7 == detId)
+
 		if(!isAssigned) TAPopMsg::Warn("TAParaManager",
 			"AssignDetPos: homeless Detector Position: %s: line %d", fname, linecnt);
 	} // end while
 
-	// assign position for all anodes
-	for(int i = 0; i < 2; i++){ // loop over MWDC arrays
+	// assign position for all anodes,
+	// and check out that if any MWDC in commission has not been assigned with position values
+	for(int i = 0; i < 2; i++){ // loop over MWDC array L-R
 		TAMWDCArray* dcArr = (TAMWDCArray*)fDetList[i + 3];
+		if(!dcArr || !dcArr->IsDCArr()) continue;
 		for(int j = 0; j < 3; j++){ // loop over MWDCs
-			TAMWDC *dc = (TAMWDC*)dcArr->GetMWDC(j);
-			dc->AssignAnodePosition();
+			dcArr->GetMWDC(j)->AssignAnodePosition();
+		} // end for over j
+	} // end for over i
+	for(int i = 0; i < 4; i++){ // loop over MWDC array U-D and PDCArr-U-D
+		TAMWDCArray2* dcArr = (TAMWDCArray2*)fDetList[i + 6];
+		if(!dcArr || !dcArr->IsDCArr()) continue;
+		for(int j = 0; j < 2; j++){ // loop over MWDCs
+			dcArr->GetMWDC(j)->AssignAnodePosition();
 		} // end for over j
 	} // end for over i
 } // end member function AssignDetPos
 // STR extraction from root file
 void TAParaManager::AssignSTR() const{
-	if(!gp->HasRead()) TAPopMsg::Error("TAParaManager", "AssignSTR: Global Parameters in TAGPar have not been assigned with values read from config files");
+	if(!gp->HasRead())
+		TAPopMsg::Error("TAParaManager", "AssignSTR: Global Parameters in TAGPar have not been assigned with values read from config files, where HV information is stored");
 	static TACtrlPara *ctrlpara = TACtrlPara::Instance();
 
-	TAMWDCArray	*dcArr[2]; // MWDC array L and R
+	TAMWDCArray *dcArr[2]; // MWDC array L and R
 	dcArr[0] = (TAMWDCArray*)fDetList[3];
 	dcArr[1] = (TAMWDCArray*)fDetList[4];
 	for(int i = 2; i--;) if(dcArr[i]){ // loop over two DC arrays
 		for(int j = 3; j--;){ // loop over DCs in an array
 			TAMWDC *dc = dcArr[i]->GetMWDC(j);
+			const int nsl = dc->GetNSLayer();
 			const int n = dc->GetNAnodePerLayer();
-			for(int m = 0; m < 3; m++){ // X-U-V
-				for(int l = 0; l < n; l++){ // loop of anodes in a DC
-					ctrlpara->AssignSTR((TAAnodePara*)dc->GetAnodeL1(m, l)->GetPara());
-					ctrlpara->AssignSTR((TAAnodePara*)dc->GetAnodeL2(m, l)->GetPara());
+			for(int m = 0; m < nsl; m++){ // X-U-V
+				for(int l = 0; l < n; l++){ // loop over anodes in a DC
+					ctrlpara->AssignSTR(dc->GetAnodeL1(m, l)->GetAnodePara());
+					ctrlpara->AssignSTR(dc->GetAnodeL2(m, l)->GetAnodePara());
 				} // end for over anodes in a DC
 			} // end for over X-U-V
 		} // end for over j
 	} // end loop over two DC arrays
+
+
+	// allocate anode STRs
+	// MWDC array U and D
+	TAMWDCArray2 *dcArr2[2];
+	dcArr2[0] = (TAMWDCArray2*)fDetList[6];
+	dcArr2[1] = (TAMWDCArray2*)fDetList[7];
+	for(int i = 2; i--;) if(dcArr2[i]){ // loop over two DC arrays
+		for(int j = 2; j--;){ // loop over DCs in an array
+			TAMWDC *dc = dcArr2[i]->GetMWDC(j);
+			const int nsl = dc->GetNSLayer();
+			const int n = dc->GetNAnodePerLayer();
+			for(int m = 0; m < nsl; m++){ // X-Y
+				for(int l = 0; l < n; l++){ // loop over anodes in a DC
+					ctrlpara->AssignSTR(dc->GetAnodeL1(m, l)->GetAnodePara());
+					ctrlpara->AssignSTR(dc->GetAnodeL2(m, l)->GetAnodePara());
+				} // end for over anodes in a DC
+			} // end for over X-U-V
+		} // end for over j
+	} // end loop over two DC arrays
+	// PDC array U and D
+	TAMWDCArray2 *pdcArr2[2];
+	pdcArr2[0] = (TAMWDCArray2*)fDetList[8];
+	pdcArr2[1] = (TAMWDCArray2*)fDetList[9];
+	for(int i = 2; i--;) if(pdcArr2[i]){ // loop over two DC arrays
+		for(int j = 2; j--;){ // loop over DCs in an array
+			TAMWDC *dc = pdcArr2[i]->GetMWDC(j);
+			const int nsl = dc->GetNSLayer();
+			const int n = dc->GetNAnodePerLayer();
+			for(int m = 0; m < nsl; m++){ // X-Y
+				for(int l = 0; l < n; l++){ // loop over anodes in a DC
+					ctrlpara->AssignSTR(dc->GetAnodeL1(m, l)->GetAnodePara());
+					ctrlpara->AssignSTR(dc->GetAnodeL2(m, l)->GetAnodePara());
+				} // end for over anodes in a DC
+			} // end for over X-Y
+		} // end for over j
+	} // end loop over two DC arrays
+
 } // end member function AssignSTR
 // T0, including DC anode T0 and plastic scintillator T0
 void TAParaManager::AssignT0(const char *fname) const{
@@ -464,7 +530,9 @@ void TAParaManager::AssignSTRCor(const char *fname) const{
 		TAAnode *ano = nullptr;
 		short detId = uid & 0x3F; // first section of UID, 6 bits
 		short subDetId = (uid>>6) & 0x7; // second section of UID for TAMWDCArray objects, 3 bits
-		if((3 == detId || 4 == detId) && subDetId < 3){ // MWDC
+		if( ((3 == detId || 4 == detId) && subDetId < 3) // MWDC Array L-R
+		 || ((6 == detId || 7 == detId) && subDetId < 2)) // MWDC Array U-D
+		{ // MWDC
 			if(fDetList[detId]) ano = (TAAnode*)fDetList[detId]->GetChannel(uid);
 		}
 //		cout << "ano->GetName(): " << ano->GetName() << endl; getchar(); // DEBUG

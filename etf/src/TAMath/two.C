@@ -9,10 +9,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/9.															     //
-// Last modified: 2017/10/9, SUN Yazhou.										     //
+// Last modified: 2018/3/22, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -22,10 +22,10 @@ double Dsquare2(const double *x, const double *y, double &k, double &b, const in
 	double dsquare = 0.;
 	double denominator = 0.;
 	double increment = 0.; // a temporary variable.
-	DsqThrePerDot = 20.; // for gGOOD == 2 specifically.
+//	DsqThrePerDot = 20.; // for gGOOD == 2 specifically.
 
 	/////////////////////----------------------- least square method ------------//////////////////////////////
-	int n = 6; // six anode layers
+	const int n = 6; // six anode layers
 	double punishment = 1E10; // individual anodes exceeding DsquThre would recieve a punishment in dsquare. See the code.
 	double k1m = 0., b1m = 0.;
 	double SUMx = 0., SUMy = 0., SUMxx = 0., SUMxy = 0.;

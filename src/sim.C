@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include "TAEventProcessor.h"
 #include "TASimulation.h"
+#include "TACtrlPara.h"
 
 using std::cout;
 using std::endl;
@@ -14,14 +15,19 @@ int main(int argc, char *argv[]){
 		cout << "3 Parameters have to be given\n";
 		exit(1);
 	}
-	int nTrkPerEv = atoi(argv[1]); double eff = atoi(argv[2])/100.;
+	if(argc > 4){
+		const double sigmar = atof(argv[4]);
+		TACtrlPara::Instance()->SetSimSpatialResolution(sigmar);
+		cout << "input sim sigma-r: " << sigmar << endl;
+	}
+	int nTrkPerEv = atof(argv[1]); double eff = atof(argv[2])/100.;
 	cout << "\033[33;1mnTrkPerEv: " << nTrkPerEv << "\teff: " << eff*100. << "%\033[0m\n";
 	TAEventProcessor *ep = TAEventProcessor::Instance();
 	ep->Configure();
 	TASimulation *sim = new TASimulation();
-	sim->SetFixDCArr(1); sim->SetIsDebug(0); // MWDC array L or R only
+	sim->SetFixDCArr(1); sim->SetIsDebug(0); // MWDC array L-0 or R-1 only
 	sim->SetBeta(0.45, 0.6); // DCArrL, DCArrR
-	sim->GenerateSim(125000, nTrkPerEv, eff, argv[3]);
+	sim->GenerateSim(100000, nTrkPerEv, eff, argv[3]);
 
 	return 0;
 }

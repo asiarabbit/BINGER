@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/23.															     //
-// Last modified: 2018/1/28, SUN Yazhou.										     //
+// Last modified: 2018/4/11, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -28,6 +28,7 @@
 #include "TACtrlPara.h"
 #include "TADeployPara.h"
 #include "TAPopMsg.h"
+#include "TADetectorPara.h"
 #include "TASiPMPlaArray.h"
 #include "TAMWDCArray.h"
 #include "TATOFWall.h"
@@ -55,8 +56,9 @@ TAPID::~TAPID(){}
 static double c0 = TAParaManager::Instance()->GetPhysConst("c0");
 static double u0MeV = TAParaManager::Instance()->GetPhysConst("u0MeV");
 // TaHit: target hit position
-void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, const int option){
-	if(0 != dcArrId && 1 != dcArrId) TAPopMsg::Error("TAPID", "Fly: dcArrId neither 0 nor 1 (which is supposed to be a boolean)");
+void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, const int option, const double *pIn){
+	if(0 != dcArrId && 1 != dcArrId)
+		TAPopMsg::Error("TAPID", "Fly: dcArrId neither 0 nor 1 (which is supposed to be a boolean-like integer)");
 
 	const double h0 = GetIterationStep(), stepError = GetStepError();
 	if(0 == option){
@@ -64,6 +66,8 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 		SetStepErrorTolerance(stepError*5.); // truncation error for RK method
 	}
 
+	if(!fTOFWall[dcArrId])
+		TAPopMsg::Error("TAPID", "Fly: fTOFWall is null pointer - The parent MWDC array not created");
 	TATOFWall *tofw = fTOFWall[dcArrId]; // 0 (faLse): L; 1 (true): R
 	const double tofwPhi = tofw->GetDetPara()->GetPhi();
 	const double tofwXc = tofw->GetDetPara()->GetX();
@@ -76,7 +80,7 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 	static const double z0_T0_1 = fT0_1->GetZ0();
 	double y0_SiPMArr = 0.; // hit position in the target
 	if(-9999. == x0TaHit) TAPopMsg::Error("TAPID", "GetAoQ: SiPM hit position not properly fired");
-	// 1050.: z border of the magnetic field.  (xi,yi,zi): initial point to start RK propogation.
+	// 1050.: z border of the magnetic field.  (xi,yi,zi): initial point to start RK propogation
 	const double zi = 1000., xi = k1*zi + b1, yi = k2*zi + b2;
 	double y[2] = {xi, yi}; // start of the RK propagation
 	double yp[2] = {k1, k2}; // k1 and k2
@@ -133,7 +137,7 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 		if(fGCurve){
 			fTrackVec.clear();
 			tra_t tra;
-			const double n = 2000;
+			const int n = 2000;
 			for(int i = 0; i <= n; i++){
 				double ai = (1. - 2.*i/n)*TAMath::Pi();
 				double zi = zo+fabs(rho)*cos(ai);
@@ -174,7 +178,18 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 				TransportIon(y, yp, zi, z0_TA);
 				if(IsOutOfRange()) continue; // ineligible aoz
 				double dd[2] = {y[0] - x0TaHit, y[1] - y0_SiPMArr};
-				d2 = sqrt(dd[0]*dd[0]); // + dd[1]*dd[1]; 2017.7.5 20:27
+				// use track slope information
+				if(pIn){ // pIn[0-3]: {k1_Ta, b1_Ta, k2_Ta, b2_Ta}
+					dd[0] = yp[0] - pIn[0]; // k1
+					if(-9999. != pIn[2]) dd[1] = yp[1] - pIn[2]; // k2
+				}
+				d2 = sqrt(dd[0]*dd[0] + dd[1]*dd[1]); // ; 2017.7.5 20:27
+				// use track position information
+				if(0) if(pIn){
+					double dp[2] = {y[0] - pIn[0]*z0_TA+pIn[1], y[1] - pIn[2]*z0_TA+pIn[3]};
+					if(-9999. == pIn[2]) dp[1] = 0.;
+					d2 += sqrt(dp[0]*dp[0]+dp[1]*dp[1]) * 0.5; // XXX still experimental XXX
+				}
 				if(d2 < fAoZdmin){
 					fAoZdmin = d2; fAoZ = aoz; fBeta = beta;
 					fTotalTrackLength = GetTrackLength() + trkL2;
@@ -304,9 +319,13 @@ void TAPID::Configure(){
 		TAPopMsg::Error("TAPID", "Configure: MWDC arrays in paraManger are null. Consider to put this TOFWall pointer assignment in TAPID::Configure(), and put TAPID::Configure in the last of TAEventProcessor::Configure to lick the problem");
 	if(!dec_vec[1])
 		TAPopMsg::Error("TAPID", "Configure: T0_1 in paraManager is null. Note that detector construction should be implemented prior to the current function in TAEventProcessor::Configure");
+
+	// assign TOFWall and T0_1
 	TAMWDCArray *dcArr[2]{0};
-	dcArr[0] = (TAMWDCArray*)dec_vec[3]; fTOFWall[0] = dcArr[0]->GetTOFWall(); // dc array L
-	dcArr[1] = (TAMWDCArray*)dec_vec[4]; fTOFWall[1] = dcArr[1]->GetTOFWall(); // dc array R
+	dcArr[0] = (TAMWDCArray*)dec_vec[3];
+	if(dcArr[0]) fTOFWall[0] = dcArr[0]->GetTOFWall();
+	dcArr[1] = (TAMWDCArray*)dec_vec[4];
+	if(dcArr[1]) fTOFWall[1] = dcArr[1]->GetTOFWall();
 	fT0_1 = (TAT0_1*)dec_vec[1];
 
 //	p0[0] = 0.; p0[1] = 00.; p0[2] = 0.;

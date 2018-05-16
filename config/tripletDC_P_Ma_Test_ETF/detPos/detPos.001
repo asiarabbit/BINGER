@@ -1,0 +1,39 @@
+##################################################################################################
+# Data Analysis Code Project for the External Target Facility, CSR-HIRFL, @IMP
+# Exp: 311AMeV 40Ar Beam Test, Nov, 2016
+#
+# Detector position file with information specifying position and orientation.
+# This is for Peng Ma's Test in magnetic field for the target-zone MWDCs.
+#
+# File format is as follows:
+# x   y   z   phi   yaw   pitch   roll
+# unit: mm	degree
+#
+# Created Time: 2018/4/15
+# Author: SUN Yazhou, asia.rabbit@163.com
+# Last Modified: 2018/5/4, SUN Yazhou
+##################################################################################################
+
+
+############ MWDC Array D consisting of two DCTaLs ###############################################
+# MWDC Array U
+# __________ ETF -> MWDCArrayU -> MWDC0 __________
+0.0 	0.0 	1E-8 	0.0 	0.0 	0.0 	6
+# __________ ETF -> MWDCArrayU -> MWDC1 __________
+0.0 	0.0 	68. 	0.0 	0.0 	0.0 	70
+# MWDC Array D
+# __________ ETF -> MWDCArrayD -> MWDC0 __________
+0.0 	0.0 	123.5 	0.0 	0.0 	0.0 	7
+# __________ ETF -> MWDCArrayD -> MWDC1 __________
+0.0 	0.0 	191.5 	0.0 	0.0 	0.0 	71
+
+############################## MWDC Array downstream of the dipole magnet ########################
+# __________ ETF -> MWDCArrayR -> MWDC0 __________
+647.95 		15.9464 	2840.22 	17.9937 	0.00		0.00		4
+# __________ ETF -> MWDCArrayR -> MWDC1 __________
+1041.47 	12.802 		4493.76 	14.6661 	0.00		0.00		68
+# __________ ETF -> MWDCArrayR -> MWDC2 __________
+1369.06 	12.7095 	5640.42 	14.9094 	0.00		0.00		132
+# __________ ETF -> MWDCArrayR -> TOFWall __________
+2242.53	    0.00	8585.3	   		14.0349		0.00		0.00		196
+

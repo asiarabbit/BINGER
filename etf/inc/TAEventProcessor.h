@@ -14,7 +14,7 @@
 // Last modified: 2017/12/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -60,7 +60,7 @@ public:
 	TAGPar *GetGPar() const;
 	void SetConfigExpDir(const string &dir);
 	void SetSTRROOTFile(const string &file);
-	void SetDataFile(const string &datafile, int runId);
+	void SetDataFile(const string &datafile, int runId, bool isPXI = true);
 	void SetMagneticIntensity(double B);
 	// whether or not to implement the particle tracking or rigidity analysis
 	void SetIsPID(bool opt = true){ fIsPID = opt; }

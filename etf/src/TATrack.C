@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2018/1/27, SUN Yazhou.										     //
+// Last modified: 2018/4/30, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -24,8 +24,6 @@
 
 #include "TATrack.h"
 #include "TAPopMsg.h"
-#include "TAMath.h"
-#include "TAMath.h"
 #include "TAMath.h"
 #include "tTrack.h"
 #include "TAGPar.h"
@@ -66,7 +64,7 @@ TATrack &TATrack::operator=(const TATrack &track){
 	fgGOOD = track.fgGOOD;
 	fK = track.fK; fB = track.fB;
 	fChi2 = track.fChi2; fDsquare = track.fDsquare;
-	fIsFitted = track.fIsFitted; fIsAssigned = track.fIsAssigned; 
+	fIsFitted = track.fIsFitted; fIsAssigned = track.fIsAssigned;
 	fFitMethod = track.fFitMethod; fFitPrecision = track.fFitPrecision;
 	fZc = track.fZc; fXc = track.fXc; f3DId = track.f3DId;
 	fDsquareThresholdPerDot = track.fDsquareThresholdPerDot;
@@ -120,25 +118,25 @@ double TATrack::GetIntercept(){
 	if(!fIsFitted) Fit();
 
 	return fB;
-} // end of function GetIntercept.
+} // end of function GetIntercept
 void TATrack::GetNu(int *nu) const{
 	for(int i = 0; i < 6; i++) nu[i] = fNu[i];
 }
 void TATrack::GetLAYER(int *LAYER) const{
 	for(int i = 0; i < 6; i++) LAYER[i] = fLAYER[i];
-} // end of function GetLAYER.
+} // end of function GetLAYER
 void TATrack::GetZ(double *z) const{ // output array fZ
 	for(int i = 0; i < 6; i++) z[i] = fZ[i];
-} // end of function GetZ.
+} // end of function GetZ
 void TATrack::GetX(double *x) const{ // output array fX
 	for(int i = 0; i < 6; i++) x[i] = fX[i];
-} // end of function GetX.
+} // end of function GetX
 void TATrack::GetDriftTime(double *t) const{
 	for(int i = 0; i < 6; i++) t[i] = fT[i];
 } // end of function GetDriftTime()
 void TATrack::GetDriftDistance(double *r) const{
 	for(int i = 0; i < 6; i++) r[i] = fR[i];
-} // end of function GetDriftDistance()
+} // end of function GetDriftDistance() 
 void TATrack::GetChi(double *chi){ // output array fChi
 	if(!fIsAssigned){
 		TAPopMsg::Error(GetName().c_str(), "GetChi(double *): Data not assigned.");
@@ -208,7 +206,8 @@ void TATrack::SetData(const double *x, const double *z, const double *t, const d
 	} // end for over i
 	// gGOOD == 2 specially marks the kind of tracks where two MWDCs are both-anode-layer fired.
 	nFiredAnodeLayer = gGOOD;
-	if(gGOOD == 2) nFiredAnodeLayer = 4;
+	if(2 == gGOOD) nFiredAnodeLayer = 4;
+	if(1 == gGOOD) nFiredAnodeLayer = 3;
 	if(temp_good != nFiredAnodeLayer){
 		TAPopMsg::Warn(GetName().c_str(), "SetData: the input count of fired anode layers disagrees with the one obtained from counting non-zero elements of fired anode serial id array.\nThe counting result of count of fired andoe layers: %d\ngGOOD:%d\nThe input count of fired anode layers: %d", temp_good, gGOOD, nFiredAnodeLayer);
 	} // end if(temp_good != gGOOD)

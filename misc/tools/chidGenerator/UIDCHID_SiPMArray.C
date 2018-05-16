@@ -30,10 +30,13 @@ void Fragment(int chId0, ofstream *pfout){
 
 		uid = type[0] + ((type[1]*2)<<6);
 		fr << chId0 << "\t" << uid << endl;
-		chId0++;
+		if(chId0 > 0) chId0++;
+		else chId0 = -2;
+
 		uid = type[0] + ((type[1]*2+1)<<6);
 		fr << chId0 << "\t" << uid << endl;
-		chId0++;
+		if(chId0 > 0) chId0++;
+		else chId0 = -2;
 		type[1]++;
 		fr << endl;
 	} // end for over i

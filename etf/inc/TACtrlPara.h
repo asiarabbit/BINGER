@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2017/10/9, SUN Yazhou.										     //
+// Last modified: 2018/4/9, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -35,9 +35,10 @@ public:
 	// tolerance window for 3D coincidence test of X U and V track projections
 	// 5: half a DC cell, given all kinds of errors
 	static double Get3DCoincideWindow();
-	static double D2Thre(); // for eliminating falsely fired andoes. unit: mm^2
+	static double D2Thre(unsigned uid = 999999999); // for eliminating falsely fired andoes. unit: mm^2
 	static double DsquareThresholdPerDot(unsigned uid);
-	static bool TimeThre(double t); // if time is within set range
+	static bool TimeThre(double t, unsigned uid = 999999999); // if time is within set range
+	double ChiThre(); // threshold for chi average
 	// threshold for chi per dot, to eliminate false combinations. 4.0
 	double ChiThrePD();
 	static int Vicinity(); // used in discerning multiple tracks, unit: cell
@@ -49,7 +50,6 @@ public:
 	static int Precision();
 	// MWDCArrayR_DC1_U: installation error
 	static double DCArrR_DC1UHorizontalDeviation();
-	double ChiThre() const{ return kChiThre; }
 	// as its name indicates, used in TAAnode::GetDriftTime
 	double DriftTimeQtCorrectionWeight() const{ return kDriftTimeQtCorrectionWeight; }
 	const char *DataFileName() const;
@@ -61,6 +61,11 @@ public:
 	void GetNStripStrayRangeL(double &minL, double &maxL) const;
 	bool TOFWallStripStrayTest(double strayMin, unsigned uid) const;
 	void AssignSTR(TAAnodePara *para) const;
+
+	// spatial resolution used to smear drift distance during the generation of simulation data
+	// This method is used in TAAnodePara::GetSpatialResolution()
+	static double GetSimSpatialResolution();
+	void SetSimSpatialResolution(double sigmar);
 
 	// rough time of flight from DC to TOF wall unit: ns
 	// for pattern recognition purposes only
@@ -83,6 +88,7 @@ private:
 	// for map function
 	double kDriftTimeQtCorrectionWeight; // as its name indicates, used in TAAnode.C
 	double kChiThre; // threshold for chi. (sqrt(chi2 / nFiredAnodeLayer)) unit: mm map.C 1.0 1.5
+	static double fSigmaR; // spatial resolution used to smear drift distance during the generation of simulation data
 
 	string kDataFile; // for extra use
 	// the directory name in config directory holding the selected experiment config files

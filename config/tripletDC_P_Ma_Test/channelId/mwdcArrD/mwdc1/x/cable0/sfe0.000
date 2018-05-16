@@ -1,0 +1,34 @@
+##################################################################################################
+# Data Analysis Code Project for the External Target Facility, CSR-HIRFL, @IMP
+#
+# Channel Id file for 16 channels of an SFE16 chip used for Ampli-Shape-Discri in MWDC FEE.
+# Identity: __________ ETF -> MWDCArrayD -> MWDC1 -> X -> Cable0 -> SFE0(X1) __________
+# channelId map rule: PXI channel id 1 -> 16 <=> SFE16 channel No. 1 -> 16
+# SFE16 channel No. 1 -> 16: from left to right (facing beam direction, x incrementing).
+# SFE0 cooresponds to X(Y)1 with smaller z than SFE1(X(Y)2),
+# and is 2.5-or-5.-mm x(y)-wise translated w.r.t. X(Y)2.
+#
+# File format is as follows:
+# channelId	uid
+#
+# Created Time: 2018/04/28 19:23
+# Author: SUN Yazhou, asia.rabbit@163.com
+# Last Modified: 2018/04/28 19:23, SUN Yazhou
+##################################################################################################
+
+765	71
+766	32839
+767	65607
+768	98375
+769	131143
+770	163911
+771	196679
+772	229447
+773	262215
+774	294983
+775	327751
+776	360519
+777	393287
+778	426055
+779	458823
+780	491591

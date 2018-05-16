@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/9.															     //
-// Last modified: 2018/1/16, SUN Yazhou.										     //
+// Last modified: 2018/5/3, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -26,7 +26,7 @@
 #include "TAVisual.h"
 
 TAPlaStrip::TAPlaStrip(const string &name, const string &title, unsigned uid)
-	: TAStuff(name, title, uid){
+	: TAStuff(name, title, uid), fIsSingleEnd(false){
 	fStripPara = nullptr; fStripData = nullptr;
 	fUV = nullptr; fUH = nullptr;
 	fDV = nullptr; fDH = nullptr;
@@ -61,7 +61,8 @@ double TAPlaStrip::GetHitPosition() const{ // distance from hit point to the dow
 			GetStripData()->SetHitPosition(pos); // so that the hit position would only be calculated once
 		} // end if(f..)
 		else{
-			TAPopMsg::Error(GetName().c_str(), "GetHitPosition: not both ends are fired.");
+			return -9999.;
+//			TAPopMsg::Error(GetName().c_str(), "GetHitPosition: not both ends are fired.");
 		}
 	} // end outer if
 	return pos;
@@ -69,8 +70,8 @@ double TAPlaStrip::GetHitPosition() const{ // distance from hit point to the dow
 // see the header file for fired status index interpretation
 int TAPlaStrip::GetFiredStatus() const{
 	int sta = GetStripData()->GetFiredStatus();
-		bool df[2] = {GetDV()->GetFiredStatus(), GetDH()->GetFiredStatus()}; // [H-V]
-		bool uf[2] = {GetUV()->GetFiredStatus(), GetUH()->GetFiredStatus()}; // [H-V]
+	bool df[2] = {GetDV()->GetFiredStatus(), GetDH()->GetFiredStatus()}; // [V-H]
+	bool uf[2] = {GetUV()->GetFiredStatus(), GetUH()->GetFiredStatus()}; // [V-H]
 	if(-2 == sta){ // not assigned
 		for(int i = 0; i < 2; i++){ // loop over U and V channels
 			if(df[i] && uf[i]){

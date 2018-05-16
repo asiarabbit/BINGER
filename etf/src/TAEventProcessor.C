@@ -11,7 +11,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/13.															     //
-// Last modified: 2018/3/3, SUN Yazhou.										     //
+// Last modified: 2018/5/5, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -44,6 +44,14 @@
 #include "TASiPMPlaArray.h"
 #include "TAMWDCArrayL.h"
 #include "TAMWDCArrayR.h"
+#include "TAMWDCArrayM.h" // derived from TAMWDCArrayR
+#include "TASiPMPlaArray.h"
+#include "TAMWDCArrayU.h"
+#include "TAMWDCArrayD.h"
+#include "TAPDCArrayU.h" // derived from TAMWDCArray2
+#include "TAPDCArrayD.h"
+#include "TAMUSICM.h"
+#include "TAMUSICL.h"
 #include "TASiPMPlaBarrel.h"
 #include "TAChannel.h"
 #include "TAMWDC.h"
@@ -157,13 +165,14 @@ void TAEventProcessor::SetSTRROOTFile(const string &file){
 	STRFile = dirname(tmp) + STRFile;
 	GetCtrlPara()->SetSTRROOTFile(STRFile);
 }
-void TAEventProcessor::SetDataFile(const string &datafile, int runId){
+void TAEventProcessor::SetDataFile(const string &datafile, int runId, bool isPXI){
 	if(!strcmp("", datafile.c_str()))
 		TAPopMsg::Error("TAEventProcessor", "SetDataFile: Input datafile name is empty");
 	const char c = datafile.c_str()[0];
-	if('/' == c || '.' == c) // data file with its path specified
-		GetRawDataProcessor()->SetDataFileName(datafile, runId);
-	else GetRawDataProcessor()->SetDataFileName("../data/"+datafile, runId);
+	string name;
+	if('/' == c || '.' == c) name = datafile; // data file with its path specified
+	else name = "../data/"+datafile;		
+	GetRawDataProcessor()->SetDataFileName(name, runId, isPXI);
 }
 void TAEventProcessor::SetPeriod(int index0, int index1){
 	GetRawDataProcessor()->SetPeriod(index0, index1);
@@ -176,41 +185,106 @@ void TAEventProcessor::Configure(){
 		return;
 	}
 	// select an experiment, to direct to a directory containing the exp config parameters
-	const char dir[2][64] = {"pion_2017Oct", "beamTest_2016Nov"};
-	TAPopMsg::Info("TAEventProcessor", "Configure: selected Exp Config Dir: %s", dir[1]);
-	SetConfigExpDir(dir[1]);
+	const char dir[5][64] = {"pion_2017Oct", "beamTest_2016Nov", "C16_Exp_2018_Summer", "tripletDC_P_Ma_Test", "tripletDC_P_Ma_Test_ETF"};
+	const char *sdir = dir[4];
+	TAPopMsg::Info("TAEventProcessor", "Configure: selected Exp Config Dir: %s", sdir);
+	SetConfigExpDir(sdir);
 	// STR_spline.root || STR_stiff.root || STR_aaa900.root
 	SetSTRROOTFile("STR_spline.root"); // space-time relations for MWDCs
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
-	// read the global parameters array first; type: 004
+	// read the global parameters array first and only; type: 004
 	const short nignore = 4, typeignore[nignore] = {0, 1, 2, 3};
 	GetParaManager()->ReadParameters(nignore, typeignore);
+	// NOTE THAT THE SUBSCRIPT FOR EACH DETECTOR CANNOT in ANY CIRCUMSTANCES BE ALTERED //
 	// note that the detector UID has to be equal to the array detList subscript
-	detList[0] = new TAT0_0("T0_0", "T0_0@Mid-RIBLL2", 0);
-	detList[1] = new TAT0_1("T0_1", "T0_1@End-RIBLL2", 1);
-	detList[2] = new TASiPMPlaArray("SiPMPlaArray", "SiPMPlaArray@Post-Target", 2);
-	detList[3] = new TAMWDCArrayL("DCArrayL", "DCArrayL@Post-Magnet", 3);
-	detList[4] = new TAMWDCArrayR("DCArrayR", "DCArrayR@Post-Magnet", 4);
-	detList[5] = new TASiPMPlaBarrel("SiPMPlaBarrel", "SiPMPlaBarrel@Hug-Target", 5);
+	detList[0] = new TAT0_0("T0_0", "T0_0@Mid-RIBLL2", 0); // shutdown: FORBIDDEN
+	detList[1] = new TAT0_1("T0_1", "T0_1@End-RIBLL2", 1); // shutdown: FORBIDDEN
+//	detList[2] = new TASiPMPlaArray("SiPMPlaArray", "SiPMPlaArray@Post-Target", 2); // ALLOWED
+//	detList[3] = new TAMWDCArrayL("DCArrayL", "DCArrayL@Post-Magnet", 3); // ALLOWED
+//	detList[4] = new TAMWDCArrayR("DCArrayR", "DCArrayR@Post-Magnet", 4); // FORBIDDEN
+	detList[4] = new TAMWDCArrayM("DCArrayM", "DCArrayM@P.Ma_TEST", 4); // FORBIDDEN
+//	detList[5] = new TASiPMPlaBarrel("SiPMPlaBarrel", "SiPMPlaBarrel@Hug-Target", 5); // ALLOWED
+	detList[6] = new TAMWDCArrayU("DCArrayU", "DCArrayU@Pre-Target", 6); // ALLOWED
+	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7); // ALLOWED
+//	detList[8] = new TAPDCArrayU("PDCArrayU", "PDCArrayU@Pre-Target", 8); // ALLOWED
+//	detList[9] = new TAPDCArrayD("PDCArrayD", "PDCArrayD@Post-Target", 9); // ALLOWED
+//	detList[10] = new TAMUSICM("MUSICM", "MUSICM@Pre-Target", 10); // shutdown: ALLOWED
+//	detList[11] = new TAMUSICL("MUSICL", "MUSICL@Post-Target", 11); // shutdown: ALLOWED
+//	detList[12] = new TAT0_1("VETO_0", "VETO_0@Pre-MSUICF", 12); // shutdown: ALLOWED
+//	detList[13] = new TAT0_1("VETO_1", "VETO_1@Post-MSUICF", 13); // shutdown: ALLOWED
 	for(TADetUnion *&p : detList) if(p) p->Configure(); // build the detectors
+	// time start for DCArrU-D is TAT0_1
+	TAT0_1 *str_t0_1 = (TAT0_1*)detList[1];
+	if(!str_t0_1) TAPopMsg::Error("TAEvProsr", "Configure: T0_1 is nullptr");
+	if(detList[6]) ((TAMWDCArray2*)detList[6])->SetPlaT0(str_t0_1);
+	if(detList[7]) ((TAMWDCArray2*)detList[7])->SetPlaT0(str_t0_1);
+	if(detList[8]) ((TAMWDCArray2*)detList[8])->SetPlaT0(str_t0_1); // PDCArrU
+	if(detList[9]) ((TAMWDCArray2*)detList[9])->SetPlaT0(str_t0_1); // PDCArrD
+	// for P. Ma's test
+	if(detList[4]){
+		TATOFWall *tofw = ((TAMWDCArrayM*)detList[4])->GetTOFWall();
+		vector<TAPlaStrip *> &stripArr = tofw->GetStripArr();
+		if(!stripArr.size()){ // strip array is empty
+			tofw->SetNStrip(1);
+			stripArr.push_back((TAPlaStrip*)str_t0_1);
+		}
+		if(!strcmp("tripletDC_P_Ma_Test_ETF", sdir)) str_t0_1->SetIsSingleEnd(true);
+	} // end configuration of TOFWall for P. Ma's Test
 
 	// read all the parameters required and assign positiion parameters to every channel and alike
 	GetParaManager()->ReadParameters();
 
-	// TAVisual::Configure can only be implemented AFTER all the other detectors are created.
+	// TAVisual::Configure can only be implemented AFTER all the other detectors are created
 	GetVisual()->Configure();
 	if(IsPID()) GetPID()->Configure();
 	// show some information
 	if(TAPopMsg::IsVerbose()){
-		((TAMWDCArray*)detList[3])->Info();
-		((TAMWDCArray*)detList[4])->Info();
+		if(detList[3]) ((TAMWDCArray*)detList[3])->Info();
+		if(detList[4]) ((TAMWDCArray*)detList[4])->Info();
+		if(detList[6]) ((TAMWDCArray2*)detList[6])->Info();
+		if(detList[7]) ((TAMWDCArray2*)detList[7])->Info();
+		if(detList[8]) ((TAMWDCArray2*)detList[6])->Info();
+		if(detList[9]) ((TAMWDCArray2*)detList[7])->Info();
 	}
 	isCalled = true; // has been called
-}
+} // end of member function Configure
 // assign an event to the detectors by distributing channel data to the matching channel objects
 void TAEventProcessor::Assign(){
+	// special treatment for T0_1 with single-end readout
+	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
+	static TAPlaStrip *T0_1 = (TAT0_1*)(detList[1]);
+	if(T0_1->IsSingleEnd()){
+		static int chId[4]{};
+		if(!chId[0]){ // UV-UH-DV-DH
+			chId[0] = T0_1->GetUV()->GetPara()->GetChannelId();
+			chId[1] = T0_1->GetUH()->GetPara()->GetChannelId();
+			chId[2] = T0_1->GetDV()->GetPara()->GetChannelId();
+			chId[3] = T0_1->GetDH()->GetPara()->GetChannelId();
+		} // end if(!chid[0])
+		for(const tEntry *e : fEntryList){
+			bool DVF = false, UVF = false; // if D(U)V ch fired
+			if(chId[0] == e->channelId){ // U channels are Daq-ed
+				UVF = true;
+				// fabricate a DV entry stuffed with UV data
+				tEntry *eDV = new tEntry(*e);
+				eDV->channelId = chId[2]; // change chId to DV's
+				fEntryList.push_back(eDV);
+			}
+			if(chId[2] == e->channelId){ // D channels are Daq-ed
+				DVF = true;
+				// fabricate a UV entry stuffed with DV data
+				tEntry *eUV = new tEntry(*e);
+				eUV->channelId = chId[0]; // change chId to UV's
+				fEntryList.push_back(eUV);
+			}
+			if(DVF && UVF)
+				TAPopMsg::Error("TAEventProcessor", "Assign(): T0_1 singe-end readout, while DV and UV are both fired");
+		} // end for over entries
+	} // end if(T0_1->IsSingleEnd())
+
 	for(tEntry *&e : fEntryList) Assign(e);
-}
+
+} // end assign
 void TAEventProcessor::Assign(tEntry *entry){
 
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
@@ -234,9 +308,19 @@ void TAEventProcessor::FillTrack(TGraph *gTrack, TGraph *gTrack_R) const{
 		TAPopMsg::Error("TAEventProcessor", "FillTrack: input TGraph pointer is null");
 	TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
 	TAMWDCArray *dcArr[2]{0};
+	TAMWDCArray2 *dcArr2[2]{0};
+	TAMWDCArray2 *pdcArr2[2]{0};
 	dcArr[0] = (TAMWDCArray*)detList[3];
 	dcArr[1] = (TAMWDCArray*)detList[4];
-	for(int i = 2; i--;) dcArr[i]->FillTrack(gTrack, gTrack_R);
+	dcArr2[0] = (TAMWDCArray2*)detList[6];
+	dcArr2[1] = (TAMWDCArray2*)detList[7];
+	pdcArr2[0] = (TAMWDCArray2*)detList[8];
+	pdcArr2[1] = (TAMWDCArray2*)detList[9];
+	for(int i = 2; i--;){
+		if(dcArr[i]) dcArr[i]->FillTrack(gTrack, gTrack_R);
+		if(dcArr2[i]) dcArr2[i]->FillTrack(gTrack, gTrack_R);
+		if(pdcArr2[i]) pdcArr2[i]->FillTrack(gTrack, gTrack_R);
+	}
 }
 void TAEventProcessor::Initialize(){
 	for(tEntry *&t : fEntryList) if(t){ delete t; t = nullptr; }
@@ -259,14 +343,22 @@ void TAEventProcessor::Analyze(){
 
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
 	static TAMWDCArrayL *dcArrL = (TAMWDCArrayL*)detList[3];
-	static TAMWDCArrayR *dcArrR = (TAMWDCArrayR*)detList[4];
+	// XXX: should be changed to R for 16C
+	static TAMWDCArrayR *dcArrR = dynamic_cast<TAMWDCArrayM*>(detList[4]);
+	if(!dcArrR && detList[4]) TAPopMsg::Error("TAEvPsr", "Analyze: DCArrD not TAMWDCArrayM object.");
+	static TAMWDCArrayU *dcArrU = (TAMWDCArrayU*)detList[6];
+	static TAMWDCArrayD *dcArrD = (TAMWDCArrayD*)detList[7];
+	static TAPDCArrayU *pdcArrU = (TAPDCArrayU*)detList[8];
+	static TAPDCArrayD *pdcArrD = (TAPDCArrayD*)detList[9];
 
 	// pattern recognition and rough fit for particle tracking
+	//  XXX THE FOLLOWING ORDER CANNOT BE MESSED UP WITH XXX  //
 	if(dcArrL){ dcArrL->Map(); dcArrL->AssignTracks(fTrackList); }
-	if(dcArrR){
-		dcArrR->Map();
-		dcArrR->AssignTracks(fTrackList);
-	}
+	if(dcArrR){ dcArrR->Map(); dcArrR->AssignTracks(fTrackList); }
+	if(dcArrU){ dcArrU->Map(); dcArrU->AssignTracks(fTrackList); }
+	if(dcArrD){ dcArrD->Map(); dcArrD->AssignTracks(fTrackList); }
+	if(pdcArrU){ pdcArrU->Map(); pdcArrU->AssignTracks(fTrackList); }
+	if(pdcArrD){ pdcArrD->Map(); pdcArrD->AssignTracks(fTrackList); }
 	// assign and output beta and index
 	int index = GetEntryList()[0]->index;
 	const int n3DTrkR = dcArrR->GetN3DTrack(); // number of 3D tracks in DCArrR
@@ -287,7 +379,7 @@ inline void correctCycleClear(double &x, const double bunchIdTime){
 		if(x < 0.) x += 51200.;
 	}
 //	cout << "1.x: " << x << endl; getchar(); // DEBUG
-}
+} // end of inline function correctCycleClear
 // the overall data analysis routine
 // (id0, id1): index range for analysis; secLenLim: event length limit; rawrtfile: raw rootfile
 void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtfile){
@@ -307,27 +399,40 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	if(0 != access(rootfile.c_str(), F_OK))
 		TAPopMsg::Error("TAEventProcessor", "Run: %s doesn't exist", rootfile.c_str());
 	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
-	TTree *treeData = (TTree*)f->Get("treeData");
-	if(!treeData) TAPopMsg::Error("TAEventProcessor", "Run: Obtained treeData is null pointer");
+	TTree *treeData[2]{}; // [0-1]: [PXI-VME]
+	treeData[0] = (TTree*)f->Get("treeData");
+	treeData[1] = (TTree*)f->Get("treeDataVME");
+	// rootfile exists, but a treeDataVME is not found, and VMEdatafile is not empty, then
+	// read vme binary file to add treeDataVME
+	if(!treeData[1] && strcmp(GetRawDataProcessor()->GetVMEDataFileName(), ""))
+		GetRawDataProcessor()->ReadOfflineVME();
+	if(!treeData[0] && !treeData[1])
+		TAPopMsg::Error("TAEventProcessor", "Run: Obtained PXI and VME treeData-s are null pointers");
 	tEntry entry_t;
-	treeData->SetBranchAddress("index", &entry_t.index);
-	treeData->SetBranchAddress("nl", &entry_t.nl);
-	treeData->SetBranchAddress("nt", &entry_t.nt);
-	treeData->SetBranchAddress("channelId", &entry_t.channelId);
-	treeData->SetBranchAddress("leadingTime", entry_t.leadingTime);
-	treeData->SetBranchAddress("trailingTime", entry_t.trailingTime);
-	treeData->SetBranchAddress("is_V", &entry_t.is_V);
-	treeData->SetBranchAddress("bunchId", &entry_t.bunchId);
+	for(TTree *tree : treeData) if(tree){
+		tree->SetBranchAddress("index", &entry_t.index);
+		tree->SetBranchAddress("nl", &entry_t.nl);
+		tree->SetBranchAddress("nt", &entry_t.nt);
+		tree->SetBranchAddress("channelId", &entry_t.channelId);
+		tree->SetBranchAddress("leadingTime", entry_t.leadingTime);
+		tree->SetBranchAddress("trailingTime", entry_t.trailingTime);
+		tree->SetBranchAddress("is_V", &entry_t.is_V);
+		tree->SetBranchAddress("bunchId", &entry_t.bunchId);
+	} // end loop over tree pointers
 	vector<tEntry *> &entry_ls = GetEntryList();
 	vector<tTrack *> &track_ls = GetTrackList();
 
 	// read rootfile and assembly each event
-	const int n = treeData->GetEntries();
-	int cntTrk = 0, cnt3DTrk = 0; // ntr: n trk per event
+	int n; // number of entries in the treeData
+	if(treeData[0]) n = treeData[0]->GetEntries();
+	else if(treeData[1]) n = treeData[1]->GetEntries();
+	int cntTrk = 0, cnt3DTrk = 0, cntTrkY = 0; // ntr: n trk per event; cntTrkY: Y tracks from (P)DCTa
 	int cntaozWrong = 0, cntaoz = 0;
 	int i = 0, index, cntSec = 0;
-	int ntr = 0; // number of track projections in a data section(3*3D track)
-	const int ntrMax = 200; // maximum number of track projections in an event
+	// ntr: N of trk in DCArrLR; ntrT: N of trk in DCArrLR+UD
+	int ntr = 0, ntrT = 0;
+	int n3DtrLs[6]{}, ntrLs[6][3]{}; // total N of TrkProjs; DCArr-L-R-U-D-PDCU-D -- [XUV - XY]
+	const int ntrMax = 100; // maximum number of track projections in an event
 #ifdef GO
 	#include "TAEventProcessor/define_hist.C" // define histograms of interest
 	#include "TAEventProcessor/define_tree.C" // define the track tree
@@ -338,15 +443,17 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	while(i < n){
 		Initialize(); // clear everything from last data section
 		// assign all entries in a sec to fEntryList for processing
-		while(1){
-			entry_t.initialize();
-			treeData->GetEntry(i++);
-			if(-2 != entry_t.index){ // index == -2 marks end of one data section
-				entry_ls.push_back(new tEntry(entry_t));
-				index = entry_t.index;
-			}
-			else break;
-		} // entry assignment for the data section complete
+		for(TTree *tree : treeData) if(tree){
+			while(1){
+				entry_t.initialize();
+				tree->GetEntry(i++);
+				if(-2 != entry_t.index){ // index == -2 marks end of one data section
+					entry_ls.push_back(new tEntry(entry_t));
+					index = entry_t.index;
+				}
+				else break;
+			} // entry assignment for the data section complete
+		} // end loop over treeData
 		if(0 == entry_ls.size()) continue; // empty event
 		// correct time from cycle-clear
 		double bunchIdTime = (abs(entry_t.bunchId) & 0x7FF) * 25.;
@@ -366,21 +473,38 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 		if(index >= id1) break; // ending at index - id1-1
 ///		cout << "\n\nindex: " << index << endl; // DEBUG
 		Assign(); // *** assign entries in fEntryList *** //
-//		for(auto &t : entry_ls) cout << t->name << "\t" << t->channelId << endl; getchar(); // DEBUG
-//		for(auto &t : entry_ls) t->show(); getchar(); // DEBUG
+//		cout << "index: " << index << endl; // DEBUG
+//		for(auto &t : entry_ls) cout << t->name << "\t" << t->channelId << endl; // DEBUG
+//		getchar(); // DEBUG
+//		for(auto &t : entry_ls) t->show(); // DEBUG
+//		getchar(); // DEBUG
 #ifdef GO
 		#include "TAEventProcessor/fill_pre.C" // fill hists and trees before tracking
 #endif
 		// *** recognize patterns and assign raw tracks to fTrackList *** //
 		Analyze();
-		ntr = track_ls.size() < ntrMax ? track_ls.size() : ntrMax;
-		for(int j = 0; j < ntr; j++){ cntTrk++; if(track_ls[j]->id != -1) cnt3DTrk++; }
+		// assgin ntr variables
+		memset(ntrLs, 0, sizeof(ntrLs));
+		for(tTrack *&t : track_ls){
+			const int dcArrId = t->type / 10 % 10, dcType = t->type % 10;
+			ntrLs[dcArrId][dcType]++;
+			if(dcArrId > 1 && 1 == dcType) cntTrkY++;
+		}
+		ntr = 0; ntrT = 0;
+		for(tTrack *&t : track_ls){
+			const short dcArrId = t->type / 10 % 10; // dcArrId
+			if(0 == dcArrId || 1 == dcArrId) ntr++; // ntr for MWDCArrayL-R
+		}
+		ntr = ntr < ntrMax ? ntr : ntrMax;
 #ifdef GO
 		#include "TAEventProcessor/fill_post.C" // fill hists and trees after tracking
 #endif
 		cntSec++;
+		cntTrk += ntrT;
+		cnt3DTrk += n3DtrT;
+//		cout << "ntrT: " << ntrT << "\tn3DtrT: " << n3DtrT << endl; getchar(); // DEBUG
 		if(index % 1 == 0){
-			cout << setw(10) << index << setw(10) << cntSec << setw(10) << cntTrk - (cnt3DTrk/3)*2;
+			cout << setw(10) << index << setw(10) << cntSec << setw(10) << cntTrk - (cnt3DTrk/3)*2 - cntTrkY;
 			cout << setw(10) << cntTrk << setw(10) << cnt3DTrk / 3;
 			cout << setw(10) << cntaoz << setw(10) << cntaozWrong << "\r" << flush;
 //			cout << "idx " << index << " nEv/trkX " << cntSec << "/";
@@ -413,10 +537,10 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 	vector<tTrack *> &tl = GetTrackList();
 	const int ntr = tl.size(); if(ntr <= 0) return;
 
-	static TAParaManager::ArrDet_t &decv = GetParaManager()->GetDetList();
-	static TAMWDCArray *dcArrV[2] = {(TAMWDCArray*)decv[3], (TAMWDCArray*)decv[4]};
+	static TAParaManager::ArrDet_t &detv = GetParaManager()->GetDetList();
+	static TAMWDCArray *dcArrV[2] = {(TAMWDCArray*)detv[3], (TAMWDCArray*)detv[4]};
 	// identify 3D tracks and start track refinement
-	static const int ntrMax = 200, ntr3DMax = ntrMax/3;
+	static const int ntrMax = 100, ntr3DMax = ntrMax/3;
 	bool isDCArrR[ntr3DMax]{};
 	int n3DtrXUV[3]{};
 	int trkId[ntr3DMax][3]; memset(trkId, -1, sizeof(trkId)); // track id [3D track id][XUV]
@@ -461,7 +585,7 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 					anodeId[tmp][0] = 6*l + j; // fired anode layer id: 0-17
 					anodeId[tmp][1] = trk->nu[j]; // nu: anode id in certain layer
 					TAAnode *ano = dcArr->GetMWDC(j/2)->GetAnode(l, j%2 + 1, trk->nu[j]);
-					TAAnodePara *anoPar = (TAAnodePara*)ano->GetPara();
+					TAAnodePara *anoPar = ano->GetAnodePara();
 					anoPar->GetGlobalCenter(Ag[tmp]); anoPar->GetGlobalDirection(ag[tmp]);
 					unsigned uid = ano->GetUID();
 #ifdef DEBUG
@@ -490,7 +614,7 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 		// fit the track with the new drift time and drift distance // DEBUG
 //		cout << "Before correction,\n"; // DEBUG
 //		cout << "k1: " << trkVec[0] << "\tk2: " << trkVec[1] << "\tb1: " << trkVec[2] << "\tb2: " << trkVec[3] << endl; // DEBUG
-		TAMath::BFGS4(Ag, ag, trkVec, rr, nF);
+		TAMath::BFGS4(Ag, ag, trkVec, rr, nF); // update trkVec
 //		cout << "After correction,\n"; // DEBUG
 //		cout << "k1: " << trkVec[0] << "\tk2: " << trkVec[1] << "\tb1: " << trkVec[2] << "\tb2: " << trkVec[3] << endl; // DEBUG
 		for(double &x : trk3DIf[jj].chi) x = -9999.;
@@ -577,6 +701,7 @@ void TAEventProcessor::RefinePID(const int n3Dtr, const t3DTrkInfo *trk3DIf, t3D
 		pi.trkLenT = pid->GetTotalTrackLength();
 	}
 }
+
 
 
 

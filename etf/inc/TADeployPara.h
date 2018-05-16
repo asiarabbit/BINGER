@@ -8,10 +8,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/12.															     //
-// Last modified: 2017/11/13, SUN Yazhou.										     //
+// Last modified: 2018/3/26, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -32,10 +32,9 @@ public:
 	double GetTOFWallStripDelay(unsigned uid) const;
 	double GetTOFWallStripVeff(unsigned uid) const;
 	double GetTOFWallDelayAvrg(unsigned uid) const;
-	double GetDsquareThresholdPerDot(unsigned uid) const;
 	double GetMWDCDelay(unsigned uid) const;
 	double GetSiPMArrayZ0() const{ return -885.75; }
-	double GetTargetZ0() const{ return -860.75; }
+	double GetTargetZ0() const;
 protected:
 	TADeployPara();
 

@@ -8,16 +8,17 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/9.															     //
-// Last modified: 2018/1/27, SUN Yazhou.										     //
+// Last modified: 2018/4/28, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
 #include <cstring>
 #include <cmath>
 #include "TATOFWall.h"
+#include "TADetectorPara.h"
 #include "TAPlaStrip.h"
 #include "TAPlaStripPara.h"
 #include "TAPopMsg.h"
@@ -28,7 +29,7 @@
 #include "TAChData.h"
 
 TATOFWall::TATOFWall(const string &name, const string &title, unsigned uid)
-		: TADetector(name, title, uid){
+		: TADetector(name, title, uid), fNStrip(-9999){ // fNStrip initial value CANNOT be altered
 	fStripArr.reserve(30);
 	fDelayAvrg = -9999.;
 }
@@ -98,6 +99,9 @@ double TATOFWall::GetTime(double kl, double bl, double &nstripStray, int &firedS
 			strip->GetStripPara()->GetGlobalProjection(p); // assign p
 			double width = strip->GetStripPara()->GetWidth();
 			nStripStray = (kl * p[2] - p[0] + bl) / sqrt(1. + kl * kl) / width;
+//			cout << "(kl * p[2] - p[0] + bl) / sqrt(1. + kl * kl) / width: "; // DEBUG
+//			cout << (kl * p[2] - p[0] + bl) / sqrt(1. + kl * kl) / width << endl; // DEBUG
+//			cout << "nStripStray: " << nStripStray << endl; getchar(); // DEBUG
 //			cout << "nStripStray: " << nStripStray << endl; getchar(); // DEBUG
 
 			if(fabs(nStripStray) < fabs(nStripStrayMin)){
@@ -154,6 +158,13 @@ double TATOFWall::GetDelay(int stripId) const{
 	return GetDelayAvrg() + GetStrip(stripId)->GetDelay();
 }
 
+// has to be called before the calling of Configure() to make the setting here take effect
+void TATOFWall::SetNStrip(int nstrip){
+	if(nstrip < 0)
+		TAPopMsg::Error("TATOFWall", "SetNStrip: abnormal input nstrip (minus): %d", nstrip);
+	fNStrip = nstrip;
+}
+
 void TATOFWall::Initialize(){
 	for(TAPlaStrip *str : fStripArr) str->Initialize();
 }
@@ -165,16 +176,19 @@ void TATOFWall::Configure(){
 		TAPopMsg::Warn(GetName().c_str(), "Configure: has been called once");
 		return; // Configure() has been called
 	}
-	const int n = deploy->GetNTOFWallStrip(GetUID());
+	if(-9999 == fNStrip){
+		fNStrip = deploy->GetNTOFWallStrip(GetUID());
+	}
+	fNStrip = fNStrip < 0 ? 0 : fNStrip;
 	char name[64];
 	TAPlaStrip *str;
-	for(int i = 0; i < n; i++){
+	for(int i = 0; i < fNStrip; i++){
 		sprintf(name, "%s->Strip%d", GetName().c_str(), i);
 		str = new TAPlaStrip(name, name, fUID+(i<<9));
 		str->SetStripId(i); str->Configure();
 		fStripArr.push_back(str);
 	}
-}
+} // end of member function Configure
 // print user-defined configurations
 void TATOFWall::Info() const{
 	TAPlaStripPara *pra = GetStrip(0)->GetStripPara();
