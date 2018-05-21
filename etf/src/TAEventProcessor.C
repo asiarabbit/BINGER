@@ -186,7 +186,7 @@ void TAEventProcessor::Configure(){
 	}
 	// select an experiment, to direct to a directory containing the exp config parameters
 	const char dir[5][64] = {"pion_2017Oct", "beamTest_2016Nov", "C16_Exp_2018_Summer", "tripletDC_P_Ma_Test", "tripletDC_P_Ma_Test_ETF"};
-	const char *sdir = dir[4];
+	const char *sdir = dir[2];
 	TAPopMsg::Info("TAEventProcessor", "Configure: selected Exp Config Dir: %s", sdir);
 	SetConfigExpDir(sdir);
 	// STR_spline.root || STR_stiff.root || STR_aaa900.root
@@ -201,13 +201,13 @@ void TAEventProcessor::Configure(){
 	detList[1] = new TAT0_1("T0_1", "T0_1@End-RIBLL2", 1); // shutdown: FORBIDDEN
 //	detList[2] = new TASiPMPlaArray("SiPMPlaArray", "SiPMPlaArray@Post-Target", 2); // ALLOWED
 //	detList[3] = new TAMWDCArrayL("DCArrayL", "DCArrayL@Post-Magnet", 3); // ALLOWED
-//	detList[4] = new TAMWDCArrayR("DCArrayR", "DCArrayR@Post-Magnet", 4); // FORBIDDEN
-	detList[4] = new TAMWDCArrayM("DCArrayM", "DCArrayM@P.Ma_TEST", 4); // FORBIDDEN
+	detList[4] = new TAMWDCArrayR("DCArrayR", "DCArrayR@Post-Magnet", 4); // FORBIDDEN
+//	detList[4] = new TAMWDCArrayM("DCArrayM", "DCArrayM@P.Ma_TEST", 4); // FORBIDDEN
 //	detList[5] = new TASiPMPlaBarrel("SiPMPlaBarrel", "SiPMPlaBarrel@Hug-Target", 5); // ALLOWED
-	detList[6] = new TAMWDCArrayU("DCArrayU", "DCArrayU@Pre-Target", 6); // ALLOWED
-	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7); // ALLOWED
-//	detList[8] = new TAPDCArrayU("PDCArrayU", "PDCArrayU@Pre-Target", 8); // ALLOWED
-//	detList[9] = new TAPDCArrayD("PDCArrayD", "PDCArrayD@Post-Target", 9); // ALLOWED
+//	detList[6] = new TAMWDCArrayU("DCArrayU", "DCArrayU@Pre-Target", 6); // ALLOWED
+//	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7); // ALLOWED
+	detList[8] = new TAPDCArrayU("PDCArrayU", "PDCArrayU@Pre-Target", 8); // ALLOWED
+	detList[9] = new TAPDCArrayD("PDCArrayD", "PDCArrayD@Post-Target", 9); // ALLOWED
 //	detList[10] = new TAMUSICM("MUSICM", "MUSICM@Pre-Target", 10); // shutdown: ALLOWED
 //	detList[11] = new TAMUSICL("MUSICL", "MUSICL@Post-Target", 11); // shutdown: ALLOWED
 //	detList[12] = new TAT0_1("VETO_0", "VETO_0@Pre-MSUICF", 12); // shutdown: ALLOWED
@@ -343,9 +343,11 @@ void TAEventProcessor::Analyze(){
 
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
 	static TAMWDCArrayL *dcArrL = (TAMWDCArrayL*)detList[3];
+	static TAMWDCArrayR *dcArrR = (TAMWDCArrayR*)detList[4];
 	// XXX: should be changed to R for 16C
-	static TAMWDCArrayR *dcArrR = dynamic_cast<TAMWDCArrayM*>(detList[4]);
-	if(!dcArrR && detList[4]) TAPopMsg::Error("TAEvPsr", "Analyze: DCArrD not TAMWDCArrayM object.");
+//	static TAMWDCArrayR *dcArrR = (TAMWDCArrayR*)(detList[4]);
+//	static TAMWDCArrayR *dcArrR = dynamic_cast<TAMWDCArrayM*>(detList[4]);
+//	if(!dcArrR && detList[4]) TAPopMsg::Error("TAEvPsr", "Analyze: DCArrD not TAMWDCArrayM object.");
 	static TAMWDCArrayU *dcArrU = (TAMWDCArrayU*)detList[6];
 	static TAMWDCArrayD *dcArrD = (TAMWDCArrayD*)detList[7];
 	static TAPDCArrayU *pdcArrU = (TAPDCArrayU*)detList[8];

@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/23.															     //
-// Last modified: 2018/4/11, SUN Yazhou.										     //
+// Last modified: 2018/5/21, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -56,6 +56,7 @@ TAPID::~TAPID(){}
 static double c0 = TAParaManager::Instance()->GetPhysConst("c0");
 static double u0MeV = TAParaManager::Instance()->GetPhysConst("u0MeV");
 // TaHit: target hit position
+// see TAPID.h for the interpretation of option
 void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, const int option, const double *pIn){
 	if(0 != dcArrId && 1 != dcArrId)
 		TAPopMsg::Error("TAPID", "Fly: dcArrId neither 0 nor 1 (which is supposed to be a boolean-like integer)");
@@ -100,14 +101,14 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 		return;
 	}
 	// particle propagation in uniform magnetic field -- analytic solution exists
-	if(2 == option){
+	if(2 == option || 3 == option){
 		const double zMagIn = -500., zMagOut = ze;
 		const double B = GetExB();
 		double result[6]{}, dtheta, rho, ki; // dtheta: particle defelct angle by mag
 		double zo, xo; // (zo, xo): rotating center of the arc
 		TAMath::UniformMagneticSolution(k1, b1, zMagOut, zMagIn, z0_TA, x0TaHit, result);
 		// no eligible solution found
-		if(result[0] == result[1] &&result[1] == result[2] &&result[2] == result[3]){
+		if(result[0] == result[1] && result[1] == result[2] && result[2] == result[3]){
 			fIsFlied = true;
 			// every element of result was set to be the number of valid solutions (0, 2, or 3)
 //			cout << "\nresult[0]: " << result[0] << endl;
@@ -146,8 +147,8 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 				fTrackVec.push_back(tra);
 			} // end for
 		} // end if(fGCurve)
-		return;
-	} // end if(2 == option)
+		if(2 == option) return;
+	} // end if(2 == option || 3 = option)
 
 	// particle propagation in nonuniform magnetic field //
 	// after the initial beta was estimated, trkL2 is assigned with l from pi (not pe) to TOFWall
@@ -158,6 +159,7 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 	double ddmin[2]{}; // quality estimator
 #endif
 	double aoz, aozc = 1., d2; // aozc: the central aoz
+	if(3 == option){ aozc = fAoZ; }
 	double span = 3.; // search scope, aozc-span ~ aozc+span
 	int ln = 1, n = 60; if(0 == option){ n = 25; }
 	for(int iter = 0; iter < 2; iter++){ // iteration to refine beta1
