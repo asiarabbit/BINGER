@@ -37,6 +37,7 @@ public:
 	// option: 0: nonuniform magnetic field low precision
 	// option: 1: nonuniform magnetic field high precision
 	// option: 2: uniform magnetic field analytic solution
+	// option: 3: result of option 2 used as the start for iteration of option 1
 	virtual void Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId = 1, const int option = 1, const double *pIn = nullptr);
 	using TAMagnet::FillGraphTrajectory;
 	void FillGraphTrajectory() const;
