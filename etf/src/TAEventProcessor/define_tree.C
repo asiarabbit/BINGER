@@ -149,15 +149,17 @@
 
 	// trees for MUSICs
 	TTree *treeMUSIC[2]{}; // [0-1]: MUSICM-L: up-downstream of the target
-	double deltaE[2]{}, Z[2]{}, MU_ch[2][8]{};
-	int pileUp[2]{}, nF_MU[2]{}; // N of Fried ch (pileup-ch excluded)
+	double deltaE[2]{}, Z[2]{}, MU_ch[2][6]{};
+	int pileUp[2]{}, nF_MU[2]{}; // N of Fired ch (pileup-ch excluded)
+	int pileUpSCA; // pileup recorded by scaler
 	treeMUSIC[0] = new TTree("treeMUSICM", "MUSIC upstream of the target");
-	treeMUSIC[0] = new TTree("treeMUSICL", "MUSIC downstream of the target");
+	treeMUSIC[1] = new TTree("treeMUSICL", "MUSIC downstream of the target");
 	for(int i = 2; i--;) if(music[i]){
 		treeMUSIC[i]->Branch("index", &index, "index/I");
 		treeMUSIC[i]->Branch("deltaE", &deltaE[i], "deltaE/D");
 		treeMUSIC[i]->Branch("Z", &Z[i], "Z/D");
 		treeMUSIC[i]->Branch("pileUp", &pileUp[i], "pileUp/I");
+		treeMUSIC[i]->Branch("pileUpSCA", &pileUpSCA, "pileUpSCA/I");
 		treeMUSIC[i]->Branch("nF", &nF_MU[i], "nF/I");
 	}
 	if(music[0]){

@@ -5,15 +5,28 @@
 #
 # File format is as follows:
 # channelId	uid
-# up to down -> TOF stop LH - LV - RH - RV
+# up to down -> TOF stop LV - LH - RV - RH
 #
 # Created Time: 2017/12/09
 # Author: SUN Yazhou, asia.rabbit@163.com
 # Last Modified: 2018/4/23, SUN Yazhou
 ##################################################################################################
 
+# under PXI global clock
 3001	1
 3002	65
 3003	129
 3004	193
+
+# under VME v1190_9 local clock
+8002	15
+-2		79
+8003	143
+-2		207
+
+# under VME v1190_11 local clock
+8214	17
+-2		81
+8215	145
+-2		209
 

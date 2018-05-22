@@ -8,12 +8,14 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/4/22.															     //
-// Last modified: 2018/4/26, SUN Yazhou.										     //
+// Last modified: 2018/5/22, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
+
+#define USE_ADC_PILEUP
 
 #include <cmath>
 
@@ -29,18 +31,28 @@ TAMUSICM::~TAMUSICM(){}
 double TAMUSICM::GetDeltaE(){
 	if(-9999. != fDeltaE) return fDeltaE; // fDeltaE has been calculated once
 	if(!GetFiredStatus()) return -9999.; // not in valid fired state
+#ifdef USE_ADC_PILEUP
 	double pileUp = GetPileUp();
 	if(pileUp > 1500.) return -9999.; // pile up on, data spoiled
+#endif
+	if(IsPileUp()) return -9999.; // sca pile up
 
 	int cnt = 0; // number of assigned channels
 	fDeltaE = 0.;
 	const double dENoiseLevel = 216.; // to rule out noise;   unit: ch
-	for(TAChannel *c : fChArr) if(c && c->GetFiredStatus()){
-		double adc = c->GetLeadingTime(); // the first leading time measurement stores the adc value
-		if(adc < dENoiseLevel) continue; // noise
-		fDeltaE += adc;
-		cnt++;
-	} // end for and if
+
+	int i = 0; // to identify the first channel
+	for(TAChannel *c : fChArr){
+		if(0 == i) continue; // the first channel contains pileUp info, so is dropped
+		i++;
+		if(c && c->GetFiredStatus()){
+			double adc = c->GetLeadingTime(); // the first leading time measurement stores the adc value
+			if(adc < dENoiseLevel) continue; // noise
+			fDeltaE += adc;
+			cnt++;
+		} // end for and if
+	} // end for over channels
+
 	if(0 != cnt){
 		fDeltaE /= cnt;
 		return fDeltaE;
@@ -62,7 +74,7 @@ double TAMUSICM::GetZ(){
 }
 
 void TAMUSICM::Configure(){
-	if(!fChArr.size()){
+	if(fChArr.size()){
 		TAPopMsg::Warn(GetName().c_str(), "Configure: has been called once");
 		return;
 	}

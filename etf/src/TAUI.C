@@ -152,8 +152,12 @@ void TAUI::Go(){
 			TAPopMsg::Error("TAUI", "Go: Allowed value for anaDepth is 0 - 6");
 			PromptHelp(true);
 	}
-	if(strcmp(fDataFile, "") && !strcmp(fROOTFile, "")) SetDataFile(fDataFile, fRunId);
-	SetDataFile(fVMEDataFile, fRunId, false);
+	if(!strcmp(fROOTFile, "")){
+		if(strcmp(fDataFile, ""))
+			SetDataFile(fDataFile, fRunId);
+		if(strcmp(fVMEDataFile, ""))
+			SetDataFile(fVMEDataFile, fRunId, false);
+	} // end if(!strcmp(fROOTFile, ""))
 
 	Run(fIndex0, fIndex1, fEvLenLim, fROOTFile);
 }

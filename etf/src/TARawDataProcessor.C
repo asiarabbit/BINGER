@@ -502,12 +502,13 @@ int TARawDataProcessor::ReadOfflineVME(){
 	treeDataVME->Branch("bunchId", &entry_temp.bunchId, "bunchId/I");
 	
 	// scaler statistics, in case of event matching with PXI data
-	unsigned sca[16]{}, psca[16]{}, dsca[16]{}, nsca = 0; // scaler, trigger count
+	unsigned sca[16]{}, psca[16]{}; // psca: previous value of sca
+	int dsca[16]{}, nsca = 0; // scaler, trigger count
 	TTree *treeSCA = new TTree("treeSCA", ("SCA INFO-"+fVMEDataFile).c_str());
 	treeSCA->Branch("index", &index, "index/I"); // event index
 	treeSCA->Branch("sca", sca, "sca[16]/i");
 	treeSCA->Branch("dsca", dsca, "dsca[16]/I");
-	treeSCA->Branch("psca", psca, "psca[16]/I");
+	treeSCA->Branch("psca", psca, "psca[16]/i");
 
 	// open the original binary data file
 	FILE *fp;

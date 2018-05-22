@@ -12,7 +12,7 @@
 # Wire No.:        0 1 2 3 4 5  6  7  
 # Wire No. 0 -> 7: from left to right (facing beam direction, x incrementing).
 # ASD0 cooresponds to X(Y)1 with smaller z than ASD1(X(Y)2),
-# and is 5.-mm x(y)-wise translated w.r.t. X(Y)2.
+# and is 10.-mm x(y)-wise translated w.r.t. X(Y)2.
 #
 # File format is as follows:
 # channelId	uid

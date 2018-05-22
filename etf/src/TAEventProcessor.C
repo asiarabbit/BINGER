@@ -11,7 +11,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/13.															     //
-// Last modified: 2018/5/5, SUN Yazhou.											     //
+// Last modified: 2018/5/22, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -199,29 +199,37 @@ void TAEventProcessor::Configure(){
 	// note that the detector UID has to be equal to the array detList subscript
 	detList[0] = new TAT0_0("T0_0", "T0_0@Mid-RIBLL2", 0); // shutdown: FORBIDDEN
 	detList[1] = new TAT0_1("T0_1", "T0_1@End-RIBLL2", 1); // shutdown: FORBIDDEN
-//	detList[2] = new TASiPMPlaArray("SiPMPlaArray", "SiPMPlaArray@Post-Target", 2); // ALLOWED
-//	detList[3] = new TAMWDCArrayL("DCArrayL", "DCArrayL@Post-Magnet", 3); // ALLOWED
-	detList[4] = new TAMWDCArrayR("DCArrayR", "DCArrayR@Post-Magnet", 4); // FORBIDDEN
-//	detList[4] = new TAMWDCArrayM("DCArrayM", "DCArrayM@P.Ma_TEST", 4); // FORBIDDEN
-//	detList[5] = new TASiPMPlaBarrel("SiPMPlaBarrel", "SiPMPlaBarrel@Hug-Target", 5); // ALLOWED
-//	detList[6] = new TAMWDCArrayU("DCArrayU", "DCArrayU@Pre-Target", 6); // ALLOWED
-//	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7); // ALLOWED
-	detList[8] = new TAPDCArrayU("PDCArrayU", "PDCArrayU@Pre-Target", 8); // ALLOWED
-	detList[9] = new TAPDCArrayD("PDCArrayD", "PDCArrayD@Post-Target", 9); // ALLOWED
-//	detList[10] = new TAMUSICM("MUSICM", "MUSICM@Pre-Target", 10); // shutdown: ALLOWED
-//	detList[11] = new TAMUSICL("MUSICL", "MUSICL@Post-Target", 11); // shutdown: ALLOWED
-//	detList[12] = new TAT0_1("VETO_0", "VETO_0@Pre-MSUICF", 12); // shutdown: ALLOWED
-//	detList[13] = new TAT0_1("VETO_1", "VETO_1@Post-MSUICF", 13); // shutdown: ALLOWED
+//	detList[2] = new TASiPMPlaArray("SiPMPlaArray", "SiPMPlaArray@Post-Target", 2);
+//	detList[3] = new TAMWDCArrayL("DCArrayL", "DCArrayL@Post-Magnet", 3);
+	detList[4] = new TAMWDCArrayR("DCArrayR", "DCArrayR@Post-Magnet", 4);
+//	detList[4] = new TAMWDCArrayM("DCArrayM", "DCArrayM@P.Ma_TEST", 4);
+//	detList[5] = new TASiPMPlaBarrel("SiPMPlaBarrel", "SiPMPlaBarrel@Hug-Target", 5);
+//	detList[6] = new TAMWDCArrayU("DCArrayU", "DCArrayU@Pre-Target", 6);
+//	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7);
+	detList[8] = new TAPDCArrayU("PDCArrayU", "PDCArrayU@Pre-Target", 8);
+	detList[9] = new TAPDCArrayD("PDCArrayD", "PDCArrayD@Post-Target", 9);
+	detList[10] = new TAMUSICM("MUSICM", "MUSICM@Pre-Target", 10);
+	detList[11] = new TAMUSICL("MUSICL", "MUSICL@Post-Target", 11);
+	detList[12] = new TAT0_1("VETO_0", "VETO_0@Pre-MSUICF", 12);
+	detList[13] = new TAT0_1("VETO_1", "VETO_1@Post-MSUICF", 13);
+	detList[14] = new TAT0_0("T0_0_VME0", "T0_0_VME0@Mid-RIBLL2", 14); // for PDCArrU
+	detList[15] = new TAT0_1("T0_1_VME0", "T0_1_VME1@End-RIBLL2", 15); // for PDCArrU
+	detList[16] = new TAT0_0("T0_0_VME1", "T0_0_VME0@Mid-RIBLL2", 16); // for PDCArrD
+	detList[17] = new TAT0_1("T0_1_VME1", "T0_1_VME1@End-RIBLL2", 17); // for PDCArrD
+	
 	for(TADetUnion *&p : detList) if(p) p->Configure(); // build the detectors
 	// time start for DCArrU-D is TAT0_1
 	TAT0_1 *str_t0_1 = (TAT0_1*)detList[1];
+	TAT0_1 *str_t0_1_0 = (TAT0_1*)detList[15];
+	TAT0_1 *str_t0_1_1 = (TAT0_1*)detList[17];
 	if(!str_t0_1) TAPopMsg::Error("TAEvProsr", "Configure: T0_1 is nullptr");
 	if(detList[6]) ((TAMWDCArray2*)detList[6])->SetPlaT0(str_t0_1);
 	if(detList[7]) ((TAMWDCArray2*)detList[7])->SetPlaT0(str_t0_1);
-	if(detList[8]) ((TAMWDCArray2*)detList[8])->SetPlaT0(str_t0_1); // PDCArrU
-	if(detList[9]) ((TAMWDCArray2*)detList[9])->SetPlaT0(str_t0_1); // PDCArrD
+	if(detList[8]) ((TAMWDCArray2*)detList[8])->SetPlaT0(str_t0_1_0); // PDCArrU
+	if(detList[9]) ((TAMWDCArray2*)detList[9])->SetPlaT0(str_t0_1_1); // PDCArrD
 	// for P. Ma's test
-	if(detList[4]){
+	bool isPMaTest = false;
+	if(isPMaTest && detList[4]){
 		TATOFWall *tofw = ((TAMWDCArrayM*)detList[4])->GetTOFWall();
 		vector<TAPlaStrip *> &stripArr = tofw->GetStripArr();
 		if(!stripArr.size()){ // strip array is empty
@@ -404,6 +412,7 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	TTree *treeData[2]{}; // [0-1]: [PXI-VME]
 	treeData[0] = (TTree*)f->Get("treeData");
 	treeData[1] = (TTree*)f->Get("treeDataVME");
+	TTree *treeSCA = (TTree*)f->Get("treeSCA");
 	// rootfile exists, but a treeDataVME is not found, and VMEdatafile is not empty, then
 	// read vme binary file to add treeDataVME
 	if(!treeData[1] && strcmp(GetRawDataProcessor()->GetVMEDataFileName(), ""))
@@ -421,6 +430,8 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 		tree->SetBranchAddress("is_V", &entry_t.is_V);
 		tree->SetBranchAddress("bunchId", &entry_t.bunchId);
 	} // end loop over tree pointers
+	unsigned sca[16];
+	if(treeSCA) treeSCA->SetBranchAddress("sca", sca); // scaler data
 	vector<tEntry *> &entry_ls = GetEntryList();
 	vector<tTrack *> &track_ls = GetTrackList();
 
@@ -457,6 +468,7 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 			} // entry assignment for the data section complete
 		} // end loop over treeData
 		if(0 == entry_ls.size()) continue; // empty event
+		treeSCA->GetEntry(i);
 		// correct time from cycle-clear
 		double bunchIdTime = (abs(entry_t.bunchId) & 0x7FF) * 25.;
 		if(entry_t.bunchId < 0) bunchIdTime *= -1.;

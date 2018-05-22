@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2018/4/29, SUN Yazhou.										     //
+// Last modified: 2018/5/20, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -243,6 +243,7 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 	// use base STRs from garfield simualtion results
 	static TFile *f = new TFile(kSTRROOTFile.c_str());
 	static const int nAngBin = TAAnodePara::kSTRCorAngleNBins, nHV = 5;
+	// STRs for DC downstream of the dipole magnet
 	// HV: 900V, 1000V, 1300V, 1350V, 1500V
 	static TF1 *rt[nHV][nAngBin]{0}; // [HVs] [six track-cell angle intervals]
 //	static TF1 *rtDumb = (TF1*)f->Get("RTDumb"); // constant zero
@@ -256,9 +257,9 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 			}
 		}
 	} // end if not assigned
-	// // STRs for MWDCTaM // //
+	// // STRs for MWDCTaMs // //
 	static const int nHVM = 1, nHVL = 1;
-	static const int HVM[nHVM] = {1400}, HVL[nHVL] = {1400}; // V
+	static const int HVM[nHVM] = {1400}, HVL[nHVL] = {1400}; // unit: V
 	static TF1 *rtM[nHVM][nAngBin]{0}, *rtL[nHVM][nAngBin]{0};
 	// assign rtM for DCTaM
 	if(!rtM[0][0]){
@@ -278,6 +279,19 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 			} // end for over j
 		} // end for over i
 	} // end if not assigned
+	// // STRs for PDCs // //
+	static const int nHVP = 1;
+	static const int HVP[nHVP] = {1000}; // unit: V
+	static TF1 *rtP[nHVP][nAngBin]{0};
+	// assign rtM for DCTaM
+	if(!rtP[0][0]){
+		for(int i = 0; i < nHVP; i++){
+			for(int j = 0; j < nAngBin; j++){
+				sprintf(name, "%dP/RT%d", HVP[i], j);
+				rtP[i][j] = (TF1*)f->Get(name);
+			} // end for over j
+		} // end for over i
+	} // end if not assigned
 
 
 	unsigned uid = para->GetUID();
@@ -292,8 +306,8 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 			if(hv < 0) para->SetSTR(rt[2][i], i); // rtDumb, rt[0][i]
 			else if(!rt[hv][i])
 				TAPopMsg::Error("TACtrlPara", "AssignSTR: required rt is nullptr: hv: %d, nang: %d", hv, i);
-			else para->SetSTR(rtM[hv][i], i); // XXX: note that this is only for P. Ma triplet-DCTaM Test
-//			else para->SetSTR(rt[hv][i], i);
+//			else para->SetSTR(rtM[hv][i], i); // XXX: note that this is only for P. Ma triplet-DCTaM Test
+			else para->SetSTR(rt[hv][i], i);
 		} // end for over i
 	} // end if(3 == type[0] || 4 == type[0])
 	else if(6 == type[0] || 7 == type[0] || 8 == type[0] || 9 == type[0]){ // MWDC array U-D
@@ -301,16 +315,15 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 			if(type[2] < 0 || type[2] > 1) TAPopMsg::Error("TACtrlPara", "AssignSTR: input anode para uid error: DCType: type[2]: %d", type[2]);
 			const int hv = HVopt[type[0]-6+2][type[1]][type[2]];
 			if(hv >= nHV) TAPopMsg::Error("TACtrlPara", "AssignSTR: hv id too large: hv: %d", hv);
-		for(int i = 0; i < nAngBin; i++){
+		for(int i = 0; i < nAngBin; i++){ // loop over angle alpha intervals
 			// XXX: RTDumb -> 1300V, facilitate simulation
 			if(hv < 0) para->SetSTR(rt[2][i], i); // rtDumb, rt[0][i]
 			else{
 				switch(type[0]){
 					case 6: para->SetSTR(rtM[hv][i], i); break; // DCTaM
-					case 7: para->SetSTR(rtM[hv][i], i); break; // DCTaL XXX For P. Ma's Test
+					case 7: para->SetSTR(rtL[hv][i], i); break; // DCTaL
 					case 8:
-					case 9: TAPopMsg::Error("TACtrlPara", "AssignSTR: STR not simulated for PDCs");
-					para->SetSTR(rt[hv][i], i); break; // PDC XXX: FIXME: to be completed
+					case 9: para->SetSTR(rtP[hv][i], i); break;
 					default: break;
 				}
 			} // end else
