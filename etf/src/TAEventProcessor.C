@@ -68,6 +68,7 @@
 #include "t3DTrkInfo.h"
 #include "t3DPIDInfo.h"
 #include "TAGPar.h" // Global parameters
+#include "readVME.h"
 
 using std::cout;
 using std::endl;
@@ -413,10 +414,7 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	treeData[0] = (TTree*)f->Get("treeData");
 	treeData[1] = (TTree*)f->Get("treeDataVME");
 	TTree *treeSCA = (TTree*)f->Get("treeSCA");
-	// rootfile exists, but a treeDataVME is not found, and VMEdatafile is not empty, then
-	// read vme binary file to add treeDataVME
-	if(!treeData[1] && strcmp(GetRawDataProcessor()->GetVMEDataFileName(), ""))
-		GetRawDataProcessor()->ReadOfflineVME();
+	TTree *vme = (TTree*)f->Get("vme");
 	if(!treeData[0] && !treeData[1])
 		TAPopMsg::Error("TAEventProcessor", "Run: Obtained PXI and VME treeData-s are null pointers");
 	tEntry entry_t;
@@ -432,6 +430,16 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	} // end loop over tree pointers
 	unsigned sca[16];
 	if(treeSCA) treeSCA->SetBranchAddress("sca", sca); // scaler data
+	tVME_event evt;
+	if(vme){
+		vme->SetBranchAddress("adc", evt.adc);
+		vme->SetBranchAddress("qdc", evt.qdc[0]);
+		vme->SetBranchAddress("mtdc0", evt.mtdc0);
+		vme->SetBranchAddress("mtdc1", evt.mtdc1);
+		vme->SetBranchAddress("sca", evt.sca);
+		vme->SetBranchAddress("dsca", evt.dsca);
+	} // end if(vme)
+
 	vector<tEntry *> &entry_ls = GetEntryList();
 	vector<tTrack *> &track_ls = GetTrackList();
 
@@ -469,6 +477,7 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 		} // end loop over treeData
 		if(0 == entry_ls.size()) continue; // empty event
 		treeSCA->GetEntry(i);
+		vme->GetEntry(i);
 		// correct time from cycle-clear
 		double bunchIdTime = (abs(entry_t.bunchId) & 0x7FF) * 25.;
 		if(entry_t.bunchId < 0) bunchIdTime *= -1.;

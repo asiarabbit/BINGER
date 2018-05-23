@@ -238,9 +238,9 @@
 80  0
 ## time to trig for DCs around the target
 # pdcToTrigLB
-81  1000.
+81  3600.
 # pdcToTrigHB
-82  1600.
+82  4300.
 
 # whether using PDC tracks for PID. Note that this is a boolean
 83 0
