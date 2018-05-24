@@ -28,15 +28,15 @@
 
 # Detector time to trig range: to select signals belonging to the same one particle in an event
 # T0_1ToTrigLBUV
-0   1000.
+0   3660.
 # T0_1ToTrigHBUV
-1   1200.
+1   3700.
 # T0_1ToTrigLBDV
-2   1000.
+2   3660.
 # T0_1ToTrigHBDV
-3   1200.
+3   3700.
 # T0_1DelayAvrg: average delay for T0_1, applying to both UV and DV
-4   -343.7
+4   -0.
 # tofwToTrigLB
 5   1120.
 # tofwToTrigHB
@@ -116,7 +116,7 @@
 32  3000.
 
 # T0_1UV_delay
-33  -2.7
+33  -0.
 
 # T_tof: time of flight: used to correct drift time -> for MWDC Array L and R
 # T_tofDC0toTOFWLX: T_tof from X sense wires of DC0 to TOFW, for MWDC array L
@@ -162,7 +162,7 @@
 # NStripStrayMaxR
 52 0.8
 # T0_0Delay
-53 -207.
+53 -0.
 # dcTOTNoiseLevel unit: ns, DC TOT exceeding it would be invalidized
 54 70.
 

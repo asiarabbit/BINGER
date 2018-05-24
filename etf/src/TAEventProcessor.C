@@ -227,7 +227,7 @@ void TAEventProcessor::Configure(){
 	if(detList[6]) ((TAMWDCArray2*)detList[6])->SetPlaT0(str_t0_1);
 	if(detList[7]) ((TAMWDCArray2*)detList[7])->SetPlaT0(str_t0_1);
 	if(detList[8]) ((TAMWDCArray2*)detList[8])->SetPlaT0(str_t0_1_0); // PDCArrU
-	if(detList[9]) ((TAMWDCArray2*)detList[9])->SetPlaT0(str_t0_1_1); // PDCArrD
+	if(detList[9]) ((TAMWDCArray2*)detList[9])->SetPlaT0(str_t0_1_0); // PDCArrD // should be 1_1 for beam exp.
 	// for P. Ma's test
 	bool isPMaTest = false;
 	if(isPMaTest && detList[4]){
@@ -482,7 +482,7 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 		double bunchIdTime = (abs(entry_t.bunchId) & 0x7FF) * 25.;
 		if(entry_t.bunchId < 0) bunchIdTime *= -1.;
 //		cout << "bunchIdTime: " << bunchIdTime << endl; getchar(); // DEBUG
-		for(tEntry *t : entry_ls){
+		if(0. != bunchIdTime) for(tEntry *t : entry_ls){
 //			t->show(); // DEBUG
 			for(double &x : t->leadingTime) correctCycleClear(x, bunchIdTime);
 			for(double &x : t->trailingTime) correctCycleClear(x, bunchIdTime);

@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2018/5/20, SUN Yazhou.										     //
+// Last modified: 2018/5/23, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -54,6 +54,9 @@ double TACtrlPara::D2Thre(unsigned uid){
 		if(6 == type[0]){ // DCArrU -> Medium sized DC with drift cell size to be 5mm
 			return gp->Val(41) / 2.;
 		}
+		if(8 == type[0] || 9 == type[0]){ // PDC -> drift distance: 10mm
+			return gp->Val(41) * 3.;
+		}
 	}
 	return gp->Val(41);
 }
@@ -63,18 +66,31 @@ bool TACtrlPara::TimeThre(double t, unsigned uid){
 		if(6 == type[0]){ // DCArrU -> Medium sized DC with drift cell size to be 5mm
 			return t > gp->Val(42) && t < gp->Val(43) / 2.;
 		}
+		if(8 == type[0] || 9 == type[0]){ // PDC -> drift distance: 10mm
+			return t > gp->Val(42) && t < gp->Val(43) * 1.5;
+		}
 	}
 	return t > gp->Val(42) && t < gp->Val(43);
 }
 // threshold for chi per dot, to eliminate false combinations. 4.0
-double TACtrlPara::ChiThrePD(){
-	if(IsCoarseFit()) return 5.;
+double TACtrlPara::ChiThrePD(unsigned uid){
+	int type[6]; TAUIDParser::DNS(type, uid);
+	if(IsCoarseFit()){
+		// 2.5 - 5. - 10.: drift cell size
+		if(3 == type[0] || 4 == type[0]) return 5.; // DCArrL-R
+		if(6 == type[0]) return 2.5; // DCArrU
+		if(7 == type[0]) return 5.; // DCArrD
+		if(8 == type[0] || 9 == type[0]) return 10.; // PDCArr-U-D
+	}
+	if(8 == type[0] || 9 == type[0]) return gp->Val(44) * 2.; // loose treatment for PDCs
 	return gp->Val(44);
 }
 // threshold for chi. (sqrt(chi2 / nFiredAnodeLayer)) unit: mm map.C 1.0 1.5
-double TACtrlPara::ChiThre(){
+double TACtrlPara::ChiThre(unsigned uid){
 	if(-9999. == kChiThre)
 		kChiThre = 0.6 * ChiThrePD() * (IsDriftTimeQtCorrection() ? kDriftTimeQtCorrectionWeight : 1.);
+	int type[6]; TAUIDParser::DNS(type, uid);
+	if(8 == type[0] || 9 == type[0]) return kChiThre * 2.; // loose treatment for PDCs
 	return kChiThre;
 }
 int TACtrlPara::Vicinity(){ return gp->Val(45); } // used in discerning multiple tracks, unit: cell
@@ -100,13 +116,13 @@ double TACtrlPara::DsquareThresholdPerDot(unsigned uid){
 		TAPopMsg::Error("TACtrlPara", "DsquareThresholdPerDot: Not an MWDC array");
 		return -9999.;
 	}
-	static double d2Thre[6] = {40., 40., 20., 40., 80., 80.}; // MWDC Array L-R-U-D-PDCU-D
+	static double d2Thre[6] = {40., 40., 20., 40., 60., 60.}; // MWDC Array L-R-U-D-PDCU-D
 	int dcArrId = -9999;
 	if(3 == type[0] || 4 == type[0]) dcArrId = type[0] - 3; // 0-1: L-R
 	if(6 == type[0] || 7 == type[0] || 8 == type[0] || 9 == type[0])
 		dcArrId = type[0] - 6 + 2; // 2-3-4-5: U-D-PDC-U-D
 	return d2Thre[dcArrId];
-}
+} // used in map.C - TATrack::SetDsquareThresholdPerDot, Dsquare(..., D2Threshold)
 // calculate the minmum deviation of a track off the fired strips in a TOF wall
 bool TACtrlPara::TOFWallStripStrayTest(double strayMin, unsigned uid) const{
 	int type[6]{}; TAUIDParser::DNS(type, uid);

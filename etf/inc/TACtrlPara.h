@@ -38,9 +38,9 @@ public:
 	static double D2Thre(unsigned uid = 999999999); // for eliminating falsely fired andoes. unit: mm^2
 	static double DsquareThresholdPerDot(unsigned uid);
 	static bool TimeThre(double t, unsigned uid = 999999999); // if time is within set range
-	double ChiThre(); // threshold for chi average
+	double ChiThre(unsigned uid = 999999999); // threshold for chi average
 	// threshold for chi per dot, to eliminate false combinations. 4.0
-	double ChiThrePD();
+	double ChiThrePD(unsigned uid = 999999999);
 	static int Vicinity(); // used in discerning multiple tracks, unit: cell
 	static int StripTolerance(); // used in discerning multiple tracks, unit: strip
 	// TATrack::kBFGSFit; // kNormalFit: 0; kBFGSFit: 1 kIterFit: 2

@@ -10,7 +10,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/29.															     //
-// Last modified: 2018/5/20, SUN Yazhou.											     //
+// Last modified: 2018/5/20, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
