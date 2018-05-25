@@ -47,6 +47,7 @@ protected:
 	TAAssessPDC();
 	DetArr_t *fDetList;
 	string fROOTFile;
+	static bool fNullDCArr; // to mark if the DCArr for the class is valid or not
 };
 	
 #endif
