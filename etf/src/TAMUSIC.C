@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/4/22.															     //
-// Last modified: 2018/4/22, SUN Yazhou.										     //
+// Last modified: 2018/5/26, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -53,8 +53,10 @@ int TAMUSIC::GetNFiredChannel() const{
 	return cnt;
 }
 double TAMUSIC::GetPileUp() const{
-	if(fChArr.size() > 0 && fChArr[0] && fChArr[0]->GetFiredStatus())
-		return fChArr[0]->GetLeadingTime();
+	if(fChArr.size() > 0 && fChArr[0]){
+		if(fChArr[0]->GetFiredStatus()) return fChArr[0]->GetLeadingTime();
+		return 0.; // not fired, so basically signal amplitude didn't exceed the threshold
+	} // end if
 	TAPopMsg::Error(GetName().c_str(), "GetPileUp: fChArr[0] is invalid or not fired.");
 	return -9999.;
 }

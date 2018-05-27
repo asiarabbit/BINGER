@@ -304,8 +304,8 @@
 			nF_MU[j] = music[j]->GetNFiredChannel();
 			if(0 == nF_MU[j]) continue;
 			pileUp[j] = music[j]->GetPileUp();
-			if(pileUpSCA >= 2) music[i]->SetPileUp(true);
-			else if(pileUpSCA == 1) music[i]->SetPileUp(false);
+			if(pileUpSCA >= 2) music[j]->SetPileUp(true);
+			else if(pileUpSCA == 1) music[j]->SetPileUp(false);
 //			else TAPopMsg::Error("TAEvProsr", "Run: MUSIC PileUpSCA anomaly: %d", pileUpSCA);
 			deltaE[j] = music[j]->GetDeltaE();
 //			music[j]->SetBeta(beta);

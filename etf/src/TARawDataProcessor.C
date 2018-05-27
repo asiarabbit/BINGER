@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2018/5/23, SUN Yazhou.											     //
+// Last modified: 2018/5/25, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -109,8 +109,14 @@ int TARawDataProcessor::ReadOfflinePXI(){
 		TFile *f = new TFile(fROOTFile.c_str());
 		TTree *treeData = (TTree*)f->Get("treeData");
 		if(treeData){
-			TAPopMsg::Info("TARawDataProcessor", "ReadOfflinePXI: %s exist and this function has been called once. BINGER would use the current ROOTFile and treeData. RawData => ROOT file transformation would be skipped", fROOTFile.c_str());
-			f->Close();
+			TAPopMsg::Info("TARawDataProcessor", "ReadOfflinePXI: %s exist and treeData not nullptr. So this function has been called once. BINGER would use the current ROOTFile and treeData. RawData => ROOT file transformation would be skipped", fROOTFile.c_str());
+			
+			// retrieve the index of the last event, and assign which to fEventCnt
+			int index_t;
+			treeData->SetBranchAddress("index", &index_t);
+			treeData->GetEntry(treeData->GetEntries()-2); // the last but one entry
+			fEventCnt = index_t;
+			f->Close(); delete f; f = nullptr;
 			return -1; // file already exists
 		} // end if treeData is not nullptr
 	} // end if fROOTFile exists
@@ -118,7 +124,7 @@ int TARawDataProcessor::ReadOfflinePXI(){
 	static const double H_BLIP = 25. / pow(2., 8.);
 	static const double V_BLIP = 25. / pow(2., 10.);
 
-	static const int edge_num_limit = 10;
+	static const int edge_num_limit = tEntry::NMAX;
 	static const int ch_num_limit_per_frag = 128;
 	static const int frag_num_limit_per_event = 100; // used for bunchID checking
 
@@ -198,7 +204,7 @@ int TARawDataProcessor::ReadOfflinePXI(){
 		cout << "File " << fPXIDataFile << " does not exist." << endl;
 		exit(1);
 	}
-	cout << "Data file " << fPXIDataFile << " opened. " << endl;
+	cout << "\n\nData file " << fPXIDataFile << " opened. " << endl;
 	fBunchIdMisAlignCnt = 0;
 	fEventCnt = 0;
 	while(1){
@@ -331,7 +337,11 @@ int TARawDataProcessor::ReadOfflinePXI(){
 						entry_temp.trailingTime[k] =
 							(ht[j][k] +  rand0_5()) * H_BLIP;
 					entry_temp.is_V = false; entry_temp.channelId = ch_id[j];
-					entry_temp.nl = nhl; entry_temp.nt = nht;
+					if(nhl > edge_num_limit || nht > edge_num_limit){
+						TAPopMsg::Warn("TARawDataProcessor", "ReadOfflinePXI: HPTDC edge number is greater than %d: nhl: %d, nht: %d", edge_num_limit, nhl, nht);
+					}
+					entry_temp.nl = nhl < edge_num_limit ? nhl : edge_num_limit;
+					entry_temp.nt = nht < edge_num_limit ? nht : edge_num_limit;
 					entry_temp.index = index;
 					entry_temp.bunchId = -1;
 					if(index >= fIndex0) treeData->Fill();
@@ -454,8 +464,8 @@ int TARawDataProcessor::ReadOfflinePXI(){
 		cout << "Processing event index  " << index << "\r" << flush;
 	} // end while
 
-	cout << endl << endl << "Total Event Count: " << endl;
-	cout << endl <<  "       \033[1m" << fEventCnt << "\033[0m        " << endl << endl;
+	cout << "\n\n>>>>>>>>>>>>> PXI DATA Total Event Count <<<<<<<<<<<<<<<<<<<:\n" << endl;
+	cout << "       \033[1m" << fEventCnt << "\033[0m        \n" << endl;
 	cout << "\033[36;1mBunch ID misalignment count: " << fBunchIdMisAlignCnt << "\033[0m\n";
 	if(fBunchIdMisAlignCnt > 0) TAPopMsg::Info("TARawDataProcessor", "ReadOffLinePXI: BunchId misalignment count happend %d times", fBunchIdMisAlignCnt);
 
@@ -481,13 +491,13 @@ int TARawDataProcessor::ReadOfflineVME(){
 	TTree *treeData_t = (TTree*)f->Get("treeDataVME");
 	if(treeData_t){
 		TAPopMsg::Info("TARawDataProcessor", "ReadOfflineVME: treeDataVME not null. The function has been called once.");
-		f->Close();
+		f->Close(); delete f; f = nullptr;
 		return -1;
 	}
 
 	// high resolution mode
 	static const double H_BLIP = 25. / pow(2., 8.);
-	static const int edge_num_limit = 10;
+	static const int edge_num_limit = tEntry::NMAX;
 	static const int ch_num_limit_per_frag = 128;
 
 	// high resolution leading edge measurements, number of its edges per channel
@@ -557,7 +567,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 	else memset(buffer, 0, sizeof(buffer)); // abandon the first block
 	block_num++;
 	
-	int index0 = -1; // to make the first index to be zero
+	int index, index0 = -1; // index0: to make the first index to be zero
 	while(fread(buffer, sizeof(int), blkSize, fp) > 0){
 		// block header - the first 3 words
 		blk_ev_num = buffer[1];
@@ -580,6 +590,8 @@ int TARawDataProcessor::ReadOfflineVME(){
 			entry_temp.is_V = false;
 			if(-1 == index0) index0 = ev_index;
 			entry_temp.index = ev_index - index0;
+			index = entry_temp.index;
+			if(index >= fIndex1) break;
 //			cout << "ev_index: " << ev_index << "\tindex0: " << index0 << endl; // DEBUG
 //			cout << "entry_temp.index: " << entry_temp.index << endl; getchar(); // DEBUG
 			entry_temp.bunchId = 0;
@@ -640,7 +652,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 							default:
 								TAPopMsg::Error("TARawDataProcessor", "ReadOfflineVME: abnormal slot number for non-mTDC plugins: slot: %d", slot); break;
 						} // end switch
-						treeDataVME->Fill();
+						if(index >= fIndex0) treeDataVME->Fill();
 						continue;
 					} // end if header == 0
 				} // end if QDC or ADC
@@ -676,18 +688,24 @@ int TARawDataProcessor::ReadOfflineVME(){
 							if(chid >= 128) TAPopMsg::Error("TARawDataProcessor", "ReadOfflineVME: abnormal chId for mtdc plugin: %d", chid);
 							if(9 == id_v1190) entry_temp.channelId = chid + 8001;
 							else if(11 == id_v1190) entry_temp.channelId = chid + 8201;
-							entry_temp.nl = nhl[chid]; entry_temp.nt = nht[chid];
+							if(nhl[chid] > edge_num_limit || nht[chid] > edge_num_limit){
+								TAPopMsg::Warn("TARawDataProcessor", "ReadOfflineVME: HPTDC edge number is greater than %d: nhl: %d, nht: %d", edge_num_limit, nhl[chid], nht[chid]);
+							}
+							entry_temp.nl = nhl[chid] < edge_num_limit ? nhl[chid] : edge_num_limit;
+							entry_temp.nt = nht[chid] < edge_num_limit ? nht[chid] : edge_num_limit;
+
 							for(int k = 0; k < nhl[chid] && k < edge_num_limit; k++){
 								entry_temp.leadingTime[k] = 
 									(hl[chid][k] + rand0_5()) * H_BLIP;
+								// fill tree - vme with mtdc data //
 								// only leading edges are collected
 								if(9 == id_v1190) evt.mtdc0[chid][k] = hl[chid][k];
 								if(11 == id_v1190) evt.mtdc1[chid][k] = hl[chid][k];
-							}
+							} // end for over k
 							for(int k = 0; k < nht[chid] && k < edge_num_limit; k++)
 								entry_temp.trailingTime[k] = 
 									(ht[chid][k] +  rand0_5()) * H_BLIP;
-							treeDataVME->Fill();
+							if(index >= fIndex0) treeDataVME->Fill();
 
 							if(nhl[chid] > 0) for(int k = 0; k < nhl[chid]; k++)
 								hl[chid][k] = 0;
@@ -762,15 +780,18 @@ int TARawDataProcessor::ReadOfflineVME(){
 					nsca++;
 					if(16 == nsca){
 						id_v830 = 0;
-						treeSCA->Fill();
+						if(index >= fIndex0) treeSCA->Fill();
 					} // end if
 				} // end if(id_v830)
 			} // end loop over channels in an event
 			// copy channel data of ch-8532, because two MUSICs share the same pileUp channel
-			entry_temp.channelId = 8533;
-			entry_temp.nl = 1; entry_temp.nt = 0;
-			entry_temp.leadingTime[0] = pileUp;
-			treeDataVME->Fill();
+			if(-9999. != pileUp){ // pileUp channel has been fired
+				entry_temp.channelId = 8533;
+				entry_temp.nl = 1;
+				entry_temp.nt = 0;
+				entry_temp.leadingTime[0] = pileUp;
+				if(index >= fIndex0) treeDataVME->Fill();
+			} // end if(-9999. != pileUp)
 			
 			// mark the end of one event
 			entry_temp.index = -2;
@@ -778,28 +799,37 @@ int TARawDataProcessor::ReadOfflineVME(){
 			entry_temp.nl = 0;
 			entry_temp.nt = 0;
 			entry_temp.bunchId = 0;
-			treeDataVME->Fill();
+			if(index >= fIndex0) treeDataVME->Fill();
 			// // // end of event decoding // // //
 
 			pos += ev_len;
-			event_num++;
-			
-			vme->Fill(); // Fill vme pristine data tree
+			if(index >= fIndex0) event_num++;
+
+			if(index >= fIndex0) vme->Fill(); // Fill vme pristine data tree
 		} // end loop over events in a block
-		block_num++;
+		if(index >= fIndex1) break;
+		if(index >= fIndex0) block_num++;
 		cout << "Block " << block_num << " processed.\r" << flush;
 		memset(buffer, 0, sizeof(buffer)); // initialize block buffer
 	} // end while over blocks
 	fVMEEventCnt = event_num;
 
-	cout << block_num << " blocks and " << event_num << " events have been processed." << endl;
+	cout << "\n\n>>>>>>>>>>>>> VME DATA Total BLOCK Count <<<<<<<<<<<<<<<<<<<\n" << endl;
+	cout << "       \033[33;1m" << block_num << "\033[0m        \n" << endl;
+	cout << ">>>>>>>>>>>>> VME DATA Total EVENT Count <<<<<<<<<<<<<<<<<<<\n" << endl;
+	cout << "       \033[33;1m" << event_num << "\033[0m        \n" << endl;
+	if(fEventCnt > 0){
+		cout << "------------- EVENT NUMBER DIFFERENCE -------------" << endl;
+		cout << "\033[36;1mPXI ev_cnt - VME ev_cnt: \033[31;1m" << fEventCnt - event_num << "\033[0m\n" << endl;
+	}
+	cout << "\033[45;1m .... .... ... RAW DATA DECODEING HAS BEEN COMPLETED .... .... ... \033[0m\n\n\n" << endl;
 	// close the binary file
 	fclose(fp);
-	
+
 	treeDataVME->Write("", TObject::kOverwrite);
 	treeSCA->Write("", TObject::kOverwrite);
 	vme->Write("", TObject::kOverwrite);
-	f->Close(); delete f;
+	f->Close(); delete f; f = nullptr;
 //	delete treeDataVME;
 
 	return 0;
