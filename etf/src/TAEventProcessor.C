@@ -462,7 +462,7 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	cout << std::left;
 	cout << setw(10) << "index" << setw(10) << "nEv" << setw(10) << "trkX" << setw(10) << "totTrk";
 	cout << setw(10) << "3Dtrk" << setw(10) << "naoz" << setw(10) << "naozBad" << endl;
-	return; // DEBUG
+//	return; // DEBUG
 	while(entryId[0] < nPXI && entryId[1] < nVME){
 		Initialize(); // clear everything from last data section
 		// assign all entries in a sec to fEntryList for processing

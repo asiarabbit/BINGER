@@ -693,8 +693,8 @@ int TARawDataProcessor::ReadOfflineVME(){
 							}
 							entry_temp.nl = nhl[chid] < edge_num_limit ? nhl[chid] : edge_num_limit;
 							entry_temp.nt = nht[chid] < edge_num_limit ? nht[chid] : edge_num_limit;
-							entry_temp.nl = nhl[chid]; // DEBUG
-							entry_temp.nt = nht[chid]; // DEBUG
+//							entry_temp.nl = nhl[chid]; // DEBUG
+//							entry_temp.nt = nht[chid]; // DEBUG
 
 							for(int k = 0; k < nhl[chid] && k < edge_num_limit; k++){
 								entry_temp.leadingTime[k] = 
