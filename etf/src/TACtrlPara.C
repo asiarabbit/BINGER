@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2018/4/29, SUN Yazhou.										     //
+// Last modified: 2018/5/23, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -54,6 +54,9 @@ double TACtrlPara::D2Thre(unsigned uid){
 		if(6 == type[0]){ // DCArrU -> Medium sized DC with drift cell size to be 5mm
 			return gp->Val(41) / 2.;
 		}
+		if(8 == type[0] || 9 == type[0]){ // PDC -> drift distance: 10mm
+			return gp->Val(41) * 3.;
+		}
 	}
 	return gp->Val(41);
 }
@@ -63,18 +66,31 @@ bool TACtrlPara::TimeThre(double t, unsigned uid){
 		if(6 == type[0]){ // DCArrU -> Medium sized DC with drift cell size to be 5mm
 			return t > gp->Val(42) && t < gp->Val(43) / 2.;
 		}
+		if(8 == type[0] || 9 == type[0]){ // PDC -> drift distance: 10mm
+			return t > gp->Val(42) && t < gp->Val(43) * 1.5;
+		}
 	}
 	return t > gp->Val(42) && t < gp->Val(43);
 }
 // threshold for chi per dot, to eliminate false combinations. 4.0
-double TACtrlPara::ChiThrePD(){
-	if(IsCoarseFit()) return 5.;
+double TACtrlPara::ChiThrePD(unsigned uid){
+	int type[6]; TAUIDParser::DNS(type, uid);
+	if(IsCoarseFit()){
+		// 2.5 - 5. - 10.: drift cell size
+		if(3 == type[0] || 4 == type[0]) return 5.; // DCArrL-R
+		if(6 == type[0]) return 2.5; // DCArrU
+		if(7 == type[0]) return 5.; // DCArrD
+		if(8 == type[0] || 9 == type[0]) return 10.; // PDCArr-U-D
+	}
+	if(8 == type[0] || 9 == type[0]) return gp->Val(44) * 2.; // loose treatment for PDCs
 	return gp->Val(44);
 }
 // threshold for chi. (sqrt(chi2 / nFiredAnodeLayer)) unit: mm map.C 1.0 1.5
-double TACtrlPara::ChiThre(){
+double TACtrlPara::ChiThre(unsigned uid){
 	if(-9999. == kChiThre)
 		kChiThre = 0.6 * ChiThrePD() * (IsDriftTimeQtCorrection() ? kDriftTimeQtCorrectionWeight : 1.);
+	int type[6]; TAUIDParser::DNS(type, uid);
+	if(8 == type[0] || 9 == type[0]) return kChiThre * 2.; // loose treatment for PDCs
 	return kChiThre;
 }
 int TACtrlPara::Vicinity(){ return gp->Val(45); } // used in discerning multiple tracks, unit: cell
@@ -100,13 +116,13 @@ double TACtrlPara::DsquareThresholdPerDot(unsigned uid){
 		TAPopMsg::Error("TACtrlPara", "DsquareThresholdPerDot: Not an MWDC array");
 		return -9999.;
 	}
-	static double d2Thre[6] = {40., 40., 20., 40., 80., 80.}; // MWDC Array L-R-U-D-PDCU-D
+	static double d2Thre[6] = {40., 40., 20., 40., 60., 60.}; // MWDC Array L-R-U-D-PDCU-D
 	int dcArrId = -9999;
 	if(3 == type[0] || 4 == type[0]) dcArrId = type[0] - 3; // 0-1: L-R
 	if(6 == type[0] || 7 == type[0] || 8 == type[0] || 9 == type[0])
 		dcArrId = type[0] - 6 + 2; // 2-3-4-5: U-D-PDC-U-D
 	return d2Thre[dcArrId];
-}
+} // used in map.C - TATrack::SetDsquareThresholdPerDot, Dsquare(..., D2Threshold)
 // calculate the minmum deviation of a track off the fired strips in a TOF wall
 bool TACtrlPara::TOFWallStripStrayTest(double strayMin, unsigned uid) const{
 	int type[6]{}; TAUIDParser::DNS(type, uid);
@@ -243,6 +259,7 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 	// use base STRs from garfield simualtion results
 	static TFile *f = new TFile(kSTRROOTFile.c_str());
 	static const int nAngBin = TAAnodePara::kSTRCorAngleNBins, nHV = 5;
+	// STRs for DC downstream of the dipole magnet
 	// HV: 900V, 1000V, 1300V, 1350V, 1500V
 	static TF1 *rt[nHV][nAngBin]{0}; // [HVs] [six track-cell angle intervals]
 //	static TF1 *rtDumb = (TF1*)f->Get("RTDumb"); // constant zero
@@ -256,9 +273,9 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 			}
 		}
 	} // end if not assigned
-	// // STRs for MWDCTaM // //
+	// // STRs for MWDCTaMs // //
 	static const int nHVM = 1, nHVL = 1;
-	static const int HVM[nHVM] = {1400}, HVL[nHVL] = {1400}; // V
+	static const int HVM[nHVM] = {1400}, HVL[nHVL] = {1400}; // unit: V
 	static TF1 *rtM[nHVM][nAngBin]{0}, *rtL[nHVM][nAngBin]{0};
 	// assign rtM for DCTaM
 	if(!rtM[0][0]){
@@ -278,6 +295,19 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 			} // end for over j
 		} // end for over i
 	} // end if not assigned
+	// // STRs for PDCs // //
+	static const int nHVP = 1;
+	static const int HVP[nHVP] = {1000}; // unit: V
+	static TF1 *rtP[nHVP][nAngBin]{0};
+	// assign rtM for DCTaM
+	if(!rtP[0][0]){
+		for(int i = 0; i < nHVP; i++){
+			for(int j = 0; j < nAngBin; j++){
+				sprintf(name, "%dP/RT%d", HVP[i], j);
+				rtP[i][j] = (TF1*)f->Get(name);
+			} // end for over j
+		} // end for over i
+	} // end if not assigned
 
 
 	unsigned uid = para->GetUID();
@@ -292,8 +322,8 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 			if(hv < 0) para->SetSTR(rt[2][i], i); // rtDumb, rt[0][i]
 			else if(!rt[hv][i])
 				TAPopMsg::Error("TACtrlPara", "AssignSTR: required rt is nullptr: hv: %d, nang: %d", hv, i);
-			else para->SetSTR(rtM[hv][i], i); // XXX: note that this is only for P. Ma triplet-DCTaM Test
-//			else para->SetSTR(rt[hv][i], i);
+//			else para->SetSTR(rtM[hv][i], i); // XXX: note that this is only for P. Ma triplet-DCTaM Test
+			else para->SetSTR(rt[hv][i], i);
 		} // end for over i
 	} // end if(3 == type[0] || 4 == type[0])
 	else if(6 == type[0] || 7 == type[0] || 8 == type[0] || 9 == type[0]){ // MWDC array U-D
@@ -301,16 +331,15 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 			if(type[2] < 0 || type[2] > 1) TAPopMsg::Error("TACtrlPara", "AssignSTR: input anode para uid error: DCType: type[2]: %d", type[2]);
 			const int hv = HVopt[type[0]-6+2][type[1]][type[2]];
 			if(hv >= nHV) TAPopMsg::Error("TACtrlPara", "AssignSTR: hv id too large: hv: %d", hv);
-		for(int i = 0; i < nAngBin; i++){
+		for(int i = 0; i < nAngBin; i++){ // loop over angle alpha intervals
 			// XXX: RTDumb -> 1300V, facilitate simulation
 			if(hv < 0) para->SetSTR(rt[2][i], i); // rtDumb, rt[0][i]
 			else{
 				switch(type[0]){
 					case 6: para->SetSTR(rtM[hv][i], i); break; // DCTaM
-					case 7: para->SetSTR(rtM[hv][i], i); break; // DCTaL XXX For P. Ma's Test
+					case 7: para->SetSTR(rtL[hv][i], i); break; // DCTaL
 					case 8:
-					case 9: TAPopMsg::Error("TACtrlPara", "AssignSTR: STR not simulated for PDCs");
-					para->SetSTR(rt[hv][i], i); break; // PDC XXX: FIXME: to be completed
+					case 9: para->SetSTR(rtP[hv][i], i); break;
 					default: break;
 				}
 			} // end else

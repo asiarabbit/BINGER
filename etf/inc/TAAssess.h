@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/14.															     //
-// Last modified: 2018/3/30, SUN Yazhou.									  	     //
+// Last modified: 2018/5/24, SUN Yazhou.									  	     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -46,6 +46,7 @@ protected:
 	TAAssess();
 	DetArr_t *fDetList;
 	string fROOTFile;
+	static bool fNullDCArr; // to mark if the DCArr for the class is valid or not
 };
 	
 #endif

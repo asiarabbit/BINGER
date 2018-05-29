@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/14.															     //
-// Last modified: 2018/5/16, SUN Yazhou.									  	     //
+// Last modified: 2018/5/25, SUN Yazhou.									  	     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -23,6 +23,7 @@
 #include <cstring>
 #include <vector>
 #include <unistd.h>
+#include <libgen.h> // basename function
 
 // ROOT include
 #include "TH1F.h"
@@ -54,6 +55,7 @@ static const int nAng = TAAnodePara::kSTRCorAngleNBins;
 static const double angStep = TAAnodePara::kSTRCorAngleStep;
 
 TAAssess *TAAssess::fInstance = nullptr;
+bool TAAssess::fNullDCArr = false;
 
 TAAssess *TAAssess::Instance(){
 	if(!fInstance) fInstance = new TAAssess();
@@ -73,8 +75,11 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 	if(!detList)
 		TAPopMsg::Error("TAAssess", "EvalDCArr: Detector List pointer detList is null");
 	TAMWDCArray *dcArrAr[2] = {(TAMWDCArray*)(*detList)[3], (TAMWDCArray*)(*detList)[4]};
-	if(!dcArrAr[0] && !dcArrAr[1])
-		TAPopMsg::Error("TAAssess", "EvalDCArr: Both DCArr is null. TAEventProcesssor::Configure not run yet?");
+	if(!dcArrAr[0] && !dcArrAr[1]){
+		TAPopMsg::Info("TAAssess", "EvalDCArr: Both DCArr is null. TAEventProcesssor::Configure not run yet?");
+		fNullDCArr = true; // no valid DCArr is available for the class
+		return;
+	}
 	TAMWDCArray *dcArr = dcArrAr[isDCArrR];
 	if(!dcArr) TAPopMsg::Error("TAAssess", "EvalDCArr: Required DCArr is null");
 
@@ -447,7 +452,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 					for(int k = 0; k < 3; k++){ // loop over MWDCs
 						if(alpha[k][j] > -1. * DEGREE && alpha[k][j] < 2. * DEGREE){
 							// nAnodePerLayaer
-							static int napl = dcArr->GetMWDC(k)->GetNAnodePerLayer();
+							int napl = dcArr->GetMWDC(k)->GetNAnodePerLayer();
 							if(nu[it][2*k] >= 0.3*napl && nu[it][2*k] <= 0.7*napl){
 								htt_3D[j][k]->Fill(t[it][2*k], t[it][2*k+1]);
 								hrr_3D[j][k]->Fill(r[it][2*k], r[it][2*k+1]);
@@ -506,7 +511,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 				if(0 == dcType) ang = ang0 - phiDC[l] + 0. * DEGREE;
 				if(0 == dcType && 1 == l) hr_->Fill(ang/DEGREE);
 				if(ang > -2. * DEGREE && ang < 2. * DEGREE){
-				static int napl = dcArr->GetMWDC(l)->GetNAnodePerLayer(); // nAnodePerLayer
+					int napl = dcArr->GetMWDC(l)->GetNAnodePerLayer(); // nAnodePerLayer
 					if(nu[j][2*l] >= 0.3*napl && nu[j][2*l] <= 0.7*napl){
 						htt[dcType][l]->Fill(t[j][2*l], t[j][2*l+1]);
 						hrr[dcType][l]->Fill(r[j][2*l], r[j][2*l+1]);
@@ -535,10 +540,10 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 	cout << "\n\nhasXCnt: \033[1m" << hasXUVCnt[0];
 	cout << "\t\033[0mhasUCnt: \033[1m" << hasXUVCnt[1];
 	cout << "\t\033[0mhasVCnt: \033[1m" << hasXUVCnt[2] << "\n\033[0m";
-	cout << "\nXTrkCnt: \033[1m" << ntrTot[0];
+	cout << "\n\033[0mXTrkCnt: \033[1m" << ntrTot[0];
 	cout << "\t\033[0mUTrkCnt: \033[1m" << ntrTot[1];
 	cout << "\t\033[0mVTrkCnt: \033[1m" << ntrTot[2] << endl;
-	cout << "\nhasAllCnt: \033[1m" << hasAllCnt;
+	cout << "\n\033[0mhasAllCnt: \033[1m" << hasAllCnt;
 	cout << "\033[0m\tTotal 3D track count: \033[1m" << n3DtrTot;
 	cout << "\033[0m\nMatch Success rate (n3DtrTot/ntrTotX): \033[1m";
 	cout << double(n3DtrTot) / ntrTot[0] << "\033[0m\n";
@@ -565,9 +570,11 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 	cout << "\n\n\033[33;1mDONE\033[0m\n\n";
 
 	// write //
-	cout << "The results would be stored in ROOT file directory \"\033[36;1m" << topdir << "\"\n\033[0m";
+	cout << "The results would be stored in ROOT file directory \"\033[36;1m" << topdir << "\"\n\n\n\033[0m";
 //	if(!f->FindObjectAny(topdir)) f->mkdir(topdir); f->cd(topdir);
-	char s[128]; strcpy(s, ("assess"+rootfile).c_str());
+	
+	char tail[96]; strcpy(tail, rootfile.c_str());
+	char s[128]; strcpy(s, ("assess" + string(basename(tail))).c_str());
 //	if(0 == runid && 0 == access(s, F_OK)) system(("rm "+string(s)).c_str());
 	TFile *fw = new TFile(s, "UPDATE");
 	if(!fw->FindObjectAny(topdir)) fw->mkdir(topdir);
@@ -590,19 +597,21 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 
 // evaluation done after Eval event by event
 void TAAssess::PostEval(int round, bool isDCArrR){
+	if(fNullDCArr) return; // no valid dcArr available for the class
 	if(!strcmp("", fROOTFile.c_str()))
 		TAPopMsg::Error("TAAssess", "PostEval: rootfile name is empty");
 	TAPopMsg::Info("TAAssess", "PostEval: Input rootfile: %s", fROOTFile.c_str());
 	if(0 != access(fROOTFile.c_str(), F_OK))
 		TAPopMsg::Error("TAAssess", "PostEval: Input rootfile %s doesn't exist", fROOTFile.c_str());
 
-	bool success0 = PostEval("assess"+fROOTFile, round, isDCArrR, true);
-	bool success1 = PostEval("assess"+fROOTFile, round, isDCArrR, false);
+	char tail[96]; strcpy(tail, fROOTFile.c_str());
+	bool success0 = PostEval(("assess" + string(basename(tail))).c_str(), round, isDCArrR, true);
+	bool success1 = PostEval(("assess" + string(basename(tail))).c_str(), round, isDCArrR, false);
 	if(!success0 && !success1)
 		TAPopMsg::Info("TAAssess", "PostEval: No eligible hrt_04_sample is found whatsoever and wheresoever\n");
 	else
 		cout << "\033[33;1m\n\nDONE\n\n\033[0m";
-}
+} // end of member function PostEval()
 bool TAAssess::PostEval(const string &rootfile, int round, bool isDCArrR, bool is3D){
 	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
 	char name[128], lr[] = "LR", dir[64]; // name: TH2F name - dr-DCA
@@ -617,6 +626,7 @@ bool TAAssess::PostEval(const string &rootfile, int round, bool isDCArrR, bool i
 	TH2F *h2 = (TH2F*)f->Get(name);
 	if(!h2){
 //		TAPopMsg::Error("TAAssess", "PostEval: %s doesn't exist", name);
+		f->Close(); delete f; f = nullptr;
 		return false;
 	}
 	TAPopMsg::Info("TAAssess", "PostEval: isDCArrR: %d, is3D: %d", isDCArrR, is3D);

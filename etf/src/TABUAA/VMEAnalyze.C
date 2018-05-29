@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2016/11/15, transported: 2018/1/9.									     //
-// Last modified: 2018/1/27, SUN Yazhou.											 //
+// Last modified: 2018/5/23, SUN Yazhou.											 //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -84,10 +84,10 @@ void TABUAA::analyze(const int *data, tVME_event &ev){
 		else if(slot == 1 && id_v1290 == 1){}
 		else if(slot == 0 && id_v1290 == 1){
 			chid = (chData >> 21) & 0x1F;
-			ev.mtdc[chid][ev.hit[chid]++] = chData & 0xFFFFF;
+			ev.mtdc0[chid][ev.hit[chid]++] = chData & 0xFFFFF;
 //			cout << "chid: " << chid << endl; // DEBUG
 //			cout << "ev.hit[chid]: " << ev.hit[chid] << endl; // DEBUG
-//			cout << "ev.mtdc[chid][ev.hit[chid]]: " << ev.mtdc[chid][ev.hit[chid]] << endl; // DEBUG
+//			cout << "ev.mtdc0[chid][ev.hit[chid]]: " << ev.mtdc0[chid][ev.hit[chid]] << endl; // DEBUG
 //			getchar(); // DEBUG
 		} // end if
 		else if(slot == 3 && id_v1290 == 1){

@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/3.															     //
-// Last modified: 2018/4/20, SUN Yazhou.										     //
+// Last modified: 2018/5/22, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -133,7 +133,8 @@ void TAMWDC::GetAnodeCenterPosition(int dcType, int layerOption, int anodeId, do
 	GetDetPara()->GetGlobalPosition(p_local, Ag);
 }
 void TAMWDC::GetAnodeGlobalDirection(int dcType, double *ag) const{
-	double a[3][3] = {{0., 1., 0.}, {1./2., sqrt(3.)/2., 0.}, {-1./2., sqrt(3.)/2., 0.}}; // X-U-V
+	double a[4][3] = {{0., 1., 0.}, {1./2., sqrt(3.)/2., 0.}, {-1./2., sqrt(3.)/2., 0.}, {1., 0., 0.}}; // X-U-V-Y
+	if(dcType >= 4) TAPopMsg::Error(GetName().c_str(), "GetAnodeGlobalDirection: input dcType out of range. (0-1-2-3: X-U-V-Y)");
 	GetDetPara()->GetGlobalRotation(a[dcType], ag);
 }
 
@@ -163,7 +164,9 @@ void TAMWDC::AssignAnodePosition(){
 	int nSLayer = 0;
 	for(TADCSuperLayer *&sl : fSLayerArr) if(sl) nSLayer++;
 	for(int i = nSLayer; i--;){ // dc type
-		GetAnodeGlobalDirection(i, ag); // assign anode orientation
+		int dcType = i;
+		if(2 == nSLayer && 1 == dcType) dcType = 4; // X-Y DC, i==1 stands for Y wires
+		GetAnodeGlobalDirection(dcType, ag); // assign anode orientation
 		TADCSuperLayer *sl = GetSLayer(i);
 		sl->SetGlobalDirection(ag);
 		for(int j = 2; j--;){ // layer option
@@ -172,7 +175,7 @@ void TAMWDC::AssignAnodePosition(){
 				GetAnodeCenterPosition(i, j+1, k, Ag);
 				GetAnodeGlobalProjection(i, Ag, proj);
 
-				TAAnodePara *para = (TAAnodePara*)GetAnode(i, j+1, k)->GetPara();
+				TAAnodePara *para = GetAnode(i, j+1, k)->GetAnodePara();
 				para->SetGlobalCenter(Ag);
 				para->SetGlobalDirection(sl->GetGlobalDirection());
 				para->SetGlobalProjection(proj);

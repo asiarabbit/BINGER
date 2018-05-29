@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/22.															     //
-// Last modified: 2018/1/27, SUN Yazhou.										     //
+// Last modified: 2018/5/22, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -75,8 +75,9 @@ void TAVisual::Configure(){
 	fGAnodeDumb = new TGraph(); fGAnodeDumb->SetNameTitle("AnodeDumb", "AnodeDumb");
 	fGAnodeDumb->SetMarkerColor(15); fGAnodeDumb->SetMarkerStyle(7);
 	for(TAAnode *&ano : fAnodeArr){
-		TAAnodePara *pra = (TAAnodePara*)ano->GetPara();
-		fGAnodeDumb->SetPoint(fGAnodeDumb->GetN(), pra->GetProjectionZ(), pra->GetProjectionX());
+		TAAnodePara *para = ano->GetAnodePara();
+		if(para->GetChannelId() < 0) continue;
+		fGAnodeDumb->SetPoint(fGAnodeDumb->GetN(), para->GetProjectionZ(), para->GetProjectionX());
 	}
 	fGAnodeFired = new TGraph(); fGAnodeFired->SetNameTitle("AnodeFired", "AnodeFired");
 	fGAnodeFired->SetMarkerColor(2); fGAnodeFired->SetMarkerStyle(7);
@@ -109,13 +110,14 @@ void TAVisual::Configure(){
 	fGPlaStripDumb->SetMarkerStyle(29); fGPlaStripDumb->SetMarkerColor(30);
 	TGraph *&gpla = fGPlaStripDumb;
 	for(TAPlaStrip *&str : fPlaStripArr){
-			double pos[3]; str->GetStripPara()->GetGlobalProjection(pos);
-			// identify the strip
-			int type[6]{}; TAUIDParser::DNS(type, str->GetUID());
-			if(3 == type[0] || 4 == type[0]) // TOFWall strip
-				gpla->SetPoint(gpla->GetN(), pos[2], pos[0]); // z, x
-			if(5 == type[0]) // SiPMPlaBarrel strip
-				gpla->SetPoint(gpla->GetN(), pos[1], pos[0]); // y, x
+		if(str->GetUV()->GetPara()->GetChannelId() < 0) continue;
+		double pos[3]; str->GetStripPara()->GetGlobalProjection(pos);
+		// identify the strip
+		int type[6]{}; TAUIDParser::DNS(type, str->GetUID());
+		if(3 == type[0] || 4 == type[0]) // TOFWall strip
+			gpla->SetPoint(gpla->GetN(), pos[2], pos[0]); // z, x
+		if(5 == type[0]) // SiPMPlaBarrel strip
+			gpla->SetPoint(gpla->GetN(), pos[1], pos[0]); // y, x
 	} // end for over strips
 	// specifically for SiPM plastic scintillator array
 	for(TAChannel *&ch : fChArr){
@@ -130,9 +132,10 @@ void TAVisual::Configure(){
 	const int n = fAnodeArr.size();
 //	TAPopMsg::Debug("TAVisual", "Configure: Anode array size: %d", n); // DEBUG
 	for(int i = 0; i < n; i++){
-		TAAnodePara *pra = (TAAnodePara*)fAnodeArr[i]->GetPara();
-		fHitMapData[i].z = pra->GetProjectionZ();
-		fHitMapData[i].x = pra->GetProjectionX();
+		TAAnodePara *para = (TAAnodePara*)fAnodeArr[i]->GetPara();
+		if(para->GetChannelId() < 0) continue;
+		fHitMapData[i].z = para->GetProjectionZ();
+		fHitMapData[i].x = para->GetProjectionX();
 	}
 
 	fObjArr.push_back(fGMainFrame); fObjArr.push_back(fGMagnet);
@@ -185,14 +188,14 @@ void TAVisual::FillEvent(){
 			gch->SetPoint(gch->GetN(), z_SiPMArr, ch->GetPara()->GetValue());
 		}
 	}
-}
+} // end of member function FillEvent(...)
 void TAVisual::FillHitMap(){
 	// fill the hit distribution 2-D graph
 	static const int n = fAnodeArr.size();
 	for(int i = 0; i < n; i++){
 		if(fAnodeArr[i]->GetFiredStatus()) fH2HitMap->Fill(fHitMapData[i].z, fHitMapData[i].x);
 	}
-}
+} // end of member function FillHitMap
 void TAVisual::DrawHitMap(){
 	TCanvas *c = GetCanvas();
 	char name[64], title[128];

@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2018/5/3, SUN Yazhou.											     //
+// Last modified: 2018/5/24, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -35,7 +35,10 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 
 	bool cmpShow = false; // function compare debug
 	// GetDsquareThresholdPerDot(); // stores the minimum of Dsquares of all the combinations
-	const double d2Thre = clp->D2Thre();
+	const int UID = GetUID();
+	const double d2Thre = clp->D2Thre(UID);
+	const double chiThre = clp->ChiThre(UID);
+	const double chiThrePD = clp->ChiThrePD(UID);
 
 	double z[6] = {-9999., -9999., -9999., -9999., -9999., -9999.};
 	double x[6] = {-9999., -9999., -9999., -9999., -9999., -9999.};
@@ -251,13 +254,13 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 				if('X' == type || 'Y' == type){
 //					cout << "newTrack.GetChi(): " << newTrack.GetChi() << endl; getchar(); // DEBUG
 //					cout << "clp->ChiThre(): " << clp->ChiThre() << endl; getchar(); // DEBUG
-					if(fabs(newTrack.GetChi()) > clp->ChiThre()){
+					if(fabs(newTrack.GetChi()) > chiThre){
 						isBadTrack = true; continue;
 					}
 					for(double cc : chi){
 //						cout << "cc: " << cc << endl; getchar(); // DEBUG
 //						cout << "clp->ChiThrePD(): " << clp->ChiThrePD() << endl; getchar(); // DEBUG
-						if(-9999. != cc && fabs(cc) > clp->ChiThrePD()) isBadTrack = true;
+						if(-9999. != cc && fabs(cc) > chiThrePD) isBadTrack = true;
 					} // end for
 					if(isBadTrack) continue;
 				} // end if

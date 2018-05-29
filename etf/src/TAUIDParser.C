@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/16.															     //
-// Last modified: 2018/4/22, SUN Yazhou.										     //
+// Last modified: 2018/5/23, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -23,46 +23,48 @@ TAUIDParser::~TAUIDParser(){}
 	
 void TAUIDParser::DNS(int *result, unsigned uid){
 	result[0] = uid & 0x3F; // the first 6 bits, detector id
-	if(0 == result[0]){ // T0_0
-		result[1] = (uid>>6) & 0x1; // 0: UV; 1: UH
-	}
-	if(1 == result[0]){ // T0_1
-		result[1] = (uid>>6) & 0x3; // 0: UV; 1: UH; 2:DV; 3:DH
-	}
-	if(2 == result[0]){ // SiPM Plastic Array
-		result[1] = (uid>>6) & 0x1F; // 0-10: 10 strips, 20chs, 5 bits
-	}
-	if( (3 == result[0] || 4 == result[0]) // MWDC Arrays after the big dipole Mag: 3->L, 4->R
-	    || (6 == result[0] || 7 == result[0]) // MWDC Arrays around the target: 6->U, 7->D
-	    || (8 == result[0] || 9 == result[0]) // MWDC Arrays around the target: 8->PDCU, 9->PDCD
-	    ){
+	switch(result[0]){
+		case 0: case 14: case 16: // TAT0_0
+			result[1] = (uid>>6) & 0x1; break; // 0: UV; 1: UH
+		case 1: case 12: case 13: case 15: case 17: // TAT0_1
+			result[1] = (uid>>6) & 0x3; break; // 0: UV; 1: UH; 2:DV; 3:DH
+		case 2: // SiPM Plastic Array
+			result[1] = (uid>>6) & 0x1F; break; // 0-10: 10 strips, 20chs, 5 bits
+		case 3: case 4: // MWDC Arrays after the big dipole Mag: 3->L, 4->R
+		case 6: case 7: // MWDC Arrays around the target: 6->U, 7->D
+		case 8: case 9: // MWDC Arrays around the target: 8->PDCU, 9->PDCD
+			result[1] = (uid>>6) & 0x7; // the next 3 bits, DC id or TOF Wall [0-4]: [DC0-1-2-TOFW]
+			if(result[1] < 3){ // MWDCs
+				result[2] = (uid>>9) & 0x3; // the next 2 bits, super layer id [0-1-2]: [X-U-V]
+				result[3] = (uid>>11) & 0x7; // the next 3 bits, cable id
+				result[4] = (uid>>14) & 0x1; // the next 1 bit, SFE16 id, 0 or 1
+				result[5] = (uid>>15) & 0xF; // the next 4 bits, 16 anodes for a certain SFE16 chip
+			}
+			else{ // TOF Wall
+				result[2] = (uid>>9) & 0x3F; // the next 6 bits, strip id
+				result[3] = (uid>>15) & 0x3; // the next 2 bits, 0: UV; 1: UH; 2: DV; 3: DH
+			}
+			break;
+		case 5: // SiPM Plastic Barrel
+			result[1] = (uid>>6) & 0x7; // plate Id, 3 bits
+			result[2] = (uid>>9) & 0x3; // sub-strip id, 2 bits
+			result[3] = (uid>>15) & 0x3; // 0: UV; 1: UH; 2: DV; 3: DH, 2bits
+			break;
+		case 10: case 11: // MUISC
+			result[1] = (uid>>6) & 0xF; break; // channel Id, 4 bits
 
-		result[1] = (uid>>6) & 0x7; // the next 3 bits, DC id or TOF Wall [0-4]: [DC0-1-2-TOFW]
-		if(result[1] < 3){ // MWDCs
-			result[2] = (uid>>9) & 0x3; // the next 2 bits, super layer id [0-1-2]: [X-U-V]
-			result[3] = (uid>>11) & 0x7; // the next 3 bits, cable id
-			result[4] = (uid>>14) & 0x1; // the next 1 bit, SFE16 id, 0 or 1
-			result[5] = (uid>>15) & 0xF; // the next 4 bits, 16 anodes for a certain SFE16 chip
-		}
-		else{ // TOF Wall
-			result[2] = (uid>>9) & 0x3F; // the next 6 bits, strip id
-			result[3] = (uid>>15) & 0x3; // the next 2 bits, 0: UV; 1: UH; 2: DV; 3: DH
-		}
-	} // end if(MWDC array)
-	if(5 == result[0]){ // SiPM Plastic Barrel
-		result[1] = (uid>>6) & 0x7; // plate Id, 3 bits
-		result[2] = (uid>>9) & 0x3; // sub-strip id, 2 bits
-		result[3] = (uid>>15) & 0x3; // 0: UV; 1: UH; 2: DV; 3: DH, 2bits
-	}
-	if(10 == result[0] || 11 == result[0]){ // MUISC
-		result[1] = (uid>>6) & 0xF; // channel Id, 4 bits
-	}
+	} // end of switch(result[0])
+
 } // end of member function DNS
 
 unsigned TAUIDParser::UIDGenerator(const int *type){
-	if(0 == type[0] && type[1] <= 0x1) return type[0] + (type[1]<<6); // T0_0
+	if(0 == type[0] || 14 == type[0] || 16 == type[0]){
+		if(type[1] <= 0x1) return type[0] + (type[1]<<6); // TAT0_0
+	} // end the lengthy if
 
-	if(1 == type[0] && type[1] <= 0x3) return type[0] + (type[1]<<6); // T0_1
+	if(1 == type[0] || 12 == type[0] || 13 == type[0] || 15 == type[0] || 17 == type[0]){
+		if(type[1] <= 0x3) return type[0] + (type[1]<<6); // TAT0_1
+	} // end the lengthy if
 
 	if(2 == type[0] && type[1] <= 0x1F){ // SiPM Plastic Array
 		return type[0] + (type[1]<<6);

@@ -1,24 +1,24 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 // Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
 //																				     //
-// BINGER/inc/etf/TAAssessTa.h													     //
-//   TAAssessTa.h -- header file for class TAAssessTa							     //
+// BINGER/inc/etf/TAAssessPDC.h													     //
+//   TAAssessPDC.h -- header file for class TAAssessPDC							     //
 //   Introduction: Assess the tracking results for code performances and quality of  //
 // the data. This is actually a user-interface class, and output interface to papers //
 // and presentations. What is worth mentioning is that compared with TAAssess, this	 //
 // class is specifically for MWDCs around the target.								 //
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2018/3/30.															     //
-// Last modified: 2018/5/25, SUN Yazhou.									  	     //
+// Created: 2018/5/24.															     //
+// Last modified: 2018/5/24, SUN Yazhou.									  	     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _TAASSESSTA_H_
-#define _TAASSESSTA_H_
+#ifndef _TAASSESSPDC_H_
+#define _TAASSESSPDC_H_
 
 #include <string>
 #include <cmath>
@@ -29,11 +29,11 @@ class TAMWDCArray2;
 
 using std::string;
 
-class TAAssessTa{
+class TAAssessPDC{
 public:
 	typedef TAParaManager::ArrDet_t DetArr_t;
-	static TAAssessTa *Instance();
-	virtual ~TAAssessTa();
+	static TAAssessPDC *Instance();
+	virtual ~TAAssessPDC();
 
 	// assess tracking results of MWDC array U and MWDC array D
 	void SetROOTFile(const string &file){ fROOTFile = file; }
@@ -43,8 +43,8 @@ public:
 	virtual void PostEval(int round = 0, bool isDCArrD = true);
 	static bool PostEval(const string &rootfile, int round = 0, bool isDCArrD = true, bool is3D = true);
 protected:
-	static TAAssessTa *fInstance;
-	TAAssessTa();
+	static TAAssessPDC *fInstance;
+	TAAssessPDC();
 	DetArr_t *fDetList;
 	string fROOTFile;
 	static bool fNullDCArr; // to mark if the DCArr for the class is valid or not

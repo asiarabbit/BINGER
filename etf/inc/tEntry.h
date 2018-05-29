@@ -8,10 +8,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2017/10/10, SUN Yazhou.										     //
+// Last modified: 2018/5/26, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -20,14 +20,15 @@
 
 
 /////////////////////////////// DATA STRUCT ///////////////////////////
-struct tEntry{ // struct of reading one channel from binary files.
-	char name[256]; // entry name, showing the identity of the entry.
+struct tEntry{ // struct of reading one channel from binary files
+	char name[256]; // entry name, showing the identity of the entry
 	int index;
 	int channelId;
-	int nl; // count of leading edges in one data section.
-	int nt; // count of trailing edges in one dat section.
-	double leadingTime[10];
-	double trailingTime[10];
+	int nl; // count of leading edges in one data section
+	int nt; // count of trailing edges in one dat section
+	static const int NMAX = 10; // edge number limit
+	double leadingTime[NMAX];
+	double trailingTime[NMAX];
 	bool is_V;
 	int bunchId; // trigger time in one time cycle
 

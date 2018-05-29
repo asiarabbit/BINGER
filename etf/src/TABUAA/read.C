@@ -7,7 +7,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2016/11/15, transported: 2018/1/9.									     //
-// Last modified: 2018/1/10, SUN Yazhou.										     //
+// Last modified: 2018/5/23, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -50,7 +50,7 @@ void TABUAA::ReadOffline(){
 	vme->Branch("qdc1", event.qdc[1], "qdc1[32]/I");  //hw
 	vme->Branch("qdc2", event.qdc[2], "qdc2[32]/I");
 	vme->Branch("hit", event.hit, "hit[32]/I");
-	vme->Branch("mtdc", event.mtdc, "mtdc[32][10]/I");
+	vme->Branch("mtdc", event.mtdc0, "mtdc[32][10]/I");
 	vme->Branch("sca", event.sca, "sca[16]/I");
 	vme->Branch("dsca", event.dsca, "dsca[16]/I");
 

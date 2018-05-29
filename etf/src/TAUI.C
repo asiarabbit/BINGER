@@ -60,15 +60,18 @@ void TAUI::GetOpt(int argc, char *argv[]){
 	for(int I = 2; I--;){
 		const char *arg = argv[optind+I];
 		if(arg){
+//			cout << "strlen(arg): " << strlen(arg) << endl; // DEBUG
+//			cout << "arg+strlen(arg)-4: " << arg+strlen(arg)-4 << endl; // DEBUG
+//			getchar(); // DEBUG
 			if(!strcmp(arg+strlen(arg)-4, ".dat")){ // PXI binary data file
 				strcpy(fDataFile, arg);
 				cnt[0]++;
 			}
-			else if(!strcmp(arg+strlen(arg)-5, ".root")){ // PXI ROOT file
+			else if(!strcmp(arg+strlen(arg)-5, ".root")){ // ROOT file
 				strcpy(fROOTFile, arg);
 				cnt[1]++;
 			}
-			else{
+			else{ // VME binary data file
 				strcpy(suffix, arg+strlen(arg)-3);
 				// to see if the suffix is made of numerals
 				bool isNum = true;
@@ -135,7 +138,7 @@ void TAUI::PromptHelp(bool isVerbose){
 	cout << "\tAbsolute path/data or ../data/relative-path/data is adopted\n";
 	cout << "\tfor input binary data files.\n";
 	exit(1);
-}
+} // end of member function PromptHelp
 
 void TAUI::Go(){
 	if(fIndex0 >= fIndex1)
@@ -151,9 +154,14 @@ void TAUI::Go(){
 		default: SetIsTracking(false); SetIsPID(false);
 			TAPopMsg::Error("TAUI", "Go: Allowed value for anaDepth is 0 - 6");
 			PromptHelp(true);
-	}
-	if(strcmp(fDataFile, "") && !strcmp(fROOTFile, "")) SetDataFile(fDataFile, fRunId);
-	SetDataFile(fVMEDataFile, fRunId, false);
+			break;
+	} // end of switch
+	if(!strcmp(fROOTFile, "")){
+		if(strcmp(fDataFile, ""))
+			SetDataFile(fDataFile, fRunId);
+		if(strcmp(fVMEDataFile, ""))
+			SetDataFile(fVMEDataFile, fRunId, false);
+	} // end if(!strcmp(fROOTFile, ""))
 
 	Run(fIndex0, fIndex1, fEvLenLim, fROOTFile);
 }

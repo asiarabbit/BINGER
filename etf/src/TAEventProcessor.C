@@ -11,7 +11,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/13.															     //
-// Last modified: 2018/5/5, SUN Yazhou.											     //
+// Last modified: 2018/5/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -68,6 +68,7 @@
 #include "t3DTrkInfo.h"
 #include "t3DPIDInfo.h"
 #include "TAGPar.h" // Global parameters
+#include "readVME.h"
 
 using std::cout;
 using std::endl;
@@ -199,29 +200,37 @@ void TAEventProcessor::Configure(){
 	// note that the detector UID has to be equal to the array detList subscript
 	detList[0] = new TAT0_0("T0_0", "T0_0@Mid-RIBLL2", 0); // shutdown: FORBIDDEN
 	detList[1] = new TAT0_1("T0_1", "T0_1@End-RIBLL2", 1); // shutdown: FORBIDDEN
-//	detList[2] = new TASiPMPlaArray("SiPMPlaArray", "SiPMPlaArray@Post-Target", 2); // ALLOWED
-//	detList[3] = new TAMWDCArrayL("DCArrayL", "DCArrayL@Post-Magnet", 3); // ALLOWED
-	detList[4] = new TAMWDCArrayR("DCArrayR", "DCArrayR@Post-Magnet", 4); // FORBIDDEN
-//	detList[4] = new TAMWDCArrayM("DCArrayM", "DCArrayM@P.Ma_TEST", 4); // FORBIDDEN
-//	detList[5] = new TASiPMPlaBarrel("SiPMPlaBarrel", "SiPMPlaBarrel@Hug-Target", 5); // ALLOWED
-//	detList[6] = new TAMWDCArrayU("DCArrayU", "DCArrayU@Pre-Target", 6); // ALLOWED
-//	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7); // ALLOWED
-	detList[8] = new TAPDCArrayU("PDCArrayU", "PDCArrayU@Pre-Target", 8); // ALLOWED
-	detList[9] = new TAPDCArrayD("PDCArrayD", "PDCArrayD@Post-Target", 9); // ALLOWED
-//	detList[10] = new TAMUSICM("MUSICM", "MUSICM@Pre-Target", 10); // shutdown: ALLOWED
-//	detList[11] = new TAMUSICL("MUSICL", "MUSICL@Post-Target", 11); // shutdown: ALLOWED
-//	detList[12] = new TAT0_1("VETO_0", "VETO_0@Pre-MSUICF", 12); // shutdown: ALLOWED
-//	detList[13] = new TAT0_1("VETO_1", "VETO_1@Post-MSUICF", 13); // shutdown: ALLOWED
+//	detList[2] = new TASiPMPlaArray("SiPMPlaArray", "SiPMPlaArray@Post-Target", 2);
+//	detList[3] = new TAMWDCArrayL("DCArrayL", "DCArrayL@Post-Magnet", 3);
+	detList[4] = new TAMWDCArrayR("DCArrayR", "DCArrayR@Post-Magnet", 4);
+//	detList[4] = new TAMWDCArrayM("DCArrayM", "DCArrayM@P.Ma_TEST", 4);
+//	detList[5] = new TASiPMPlaBarrel("SiPMPlaBarrel", "SiPMPlaBarrel@Hug-Target", 5);
+//	detList[6] = new TAMWDCArrayU("DCArrayU", "DCArrayU@Pre-Target", 6);
+//	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7);
+	detList[8] = new TAPDCArrayU("PDCArrayU", "PDCArrayU@Pre-Target", 8);
+	detList[9] = new TAPDCArrayD("PDCArrayD", "PDCArrayD@Post-Target", 9);
+	detList[10] = new TAMUSICM("MUSICM", "MUSICM@Pre-Target", 10);
+	detList[11] = new TAMUSICL("MUSICL", "MUSICL@Post-Target", 11);
+	detList[12] = new TAT0_1("VETO_0", "VETO_0@Pre-MSUICF", 12);
+	detList[13] = new TAT0_1("VETO_1", "VETO_1@Post-MSUICF", 13);
+	detList[14] = new TAT0_0("T0_0_VME0", "T0_0_VME0@Mid-RIBLL2", 14); // for PDCArrU
+	detList[15] = new TAT0_1("T0_1_VME0", "T0_1_VME1@End-RIBLL2", 15); // for PDCArrU
+	detList[16] = new TAT0_0("T0_0_VME1", "T0_0_VME0@Mid-RIBLL2", 16); // for PDCArrD
+	detList[17] = new TAT0_1("T0_1_VME1", "T0_1_VME1@End-RIBLL2", 17); // for PDCArrD
+	
 	for(TADetUnion *&p : detList) if(p) p->Configure(); // build the detectors
 	// time start for DCArrU-D is TAT0_1
 	TAT0_1 *str_t0_1 = (TAT0_1*)detList[1];
+	TAT0_1 *str_t0_1_0 = (TAT0_1*)detList[15];
+	TAT0_1 *str_t0_1_1 = (TAT0_1*)detList[17];
 	if(!str_t0_1) TAPopMsg::Error("TAEvProsr", "Configure: T0_1 is nullptr");
 	if(detList[6]) ((TAMWDCArray2*)detList[6])->SetPlaT0(str_t0_1);
 	if(detList[7]) ((TAMWDCArray2*)detList[7])->SetPlaT0(str_t0_1);
-	if(detList[8]) ((TAMWDCArray2*)detList[8])->SetPlaT0(str_t0_1); // PDCArrU
-	if(detList[9]) ((TAMWDCArray2*)detList[9])->SetPlaT0(str_t0_1); // PDCArrD
+	if(detList[8]) ((TAMWDCArray2*)detList[8])->SetPlaT0(str_t0_1_0); // PDCArrU
+	if(detList[9]) ((TAMWDCArray2*)detList[9])->SetPlaT0(str_t0_1_1); // PDCArrD // should be 1_1 for beam exp.
 	// for P. Ma's test
-	if(detList[4]){
+	bool isPMaTest = false;
+	if(isPMaTest && detList[4]){
 		TATOFWall *tofw = ((TAMWDCArrayM*)detList[4])->GetTOFWall();
 		vector<TAPlaStrip *> &stripArr = tofw->GetStripArr();
 		if(!stripArr.size()){ // strip array is empty
@@ -394,8 +403,8 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 		GetRawDataProcessor()->SetPeriod(id0, id1);
 		GetRawDataProcessor()->ReadOffline(); // prepare data file
 		rootfile = GetRawDataProcessor()->GetROOTFileName();
-		printf("\033[32;1m  Analyzing event#%d to event#%d from datafile  %s\n\033[0m", id0, id1, GetRawDataProcessor()->GetDataFileName());
-	}
+		printf("\033[32;1m  Analyzing event#%d to event#%d from datafile  %s and %s\n\033[0m", id0, id1, GetRawDataProcessor()->GetDataFileName(), GetRawDataProcessor()->GetVMEDataFileName());
+	} // end if(strcmp...)
 	else printf("\033[32;1m  Analyzing event#%d to event#%d from rootfile   %s\n\033[0m", id0, id1, rootfile.c_str());
 //	return;
 	if(0 != access(rootfile.c_str(), F_OK))
@@ -404,10 +413,8 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	TTree *treeData[2]{}; // [0-1]: [PXI-VME]
 	treeData[0] = (TTree*)f->Get("treeData");
 	treeData[1] = (TTree*)f->Get("treeDataVME");
-	// rootfile exists, but a treeDataVME is not found, and VMEdatafile is not empty, then
-	// read vme binary file to add treeDataVME
-	if(!treeData[1] && strcmp(GetRawDataProcessor()->GetVMEDataFileName(), ""))
-		GetRawDataProcessor()->ReadOfflineVME();
+	TTree *treeSCA = (TTree*)f->Get("treeSCA");
+	TTree *vme = (TTree*)f->Get("vme");
 	if(!treeData[0] && !treeData[1])
 		TAPopMsg::Error("TAEventProcessor", "Run: Obtained PXI and VME treeData-s are null pointers");
 	tEntry entry_t;
@@ -421,16 +428,29 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 		tree->SetBranchAddress("is_V", &entry_t.is_V);
 		tree->SetBranchAddress("bunchId", &entry_t.bunchId);
 	} // end loop over tree pointers
+	unsigned sca[16];
+	if(treeSCA) treeSCA->SetBranchAddress("sca", sca); // scaler data
+	tVME_event evt;
+	if(vme){
+		vme->SetBranchAddress("adc", evt.adc);
+		vme->SetBranchAddress("qdc", evt.qdc[0]);
+		vme->SetBranchAddress("mtdc0", evt.mtdc0);
+		vme->SetBranchAddress("mtdc1", evt.mtdc1);
+		vme->SetBranchAddress("sca", evt.sca);
+		vme->SetBranchAddress("dsca", evt.dsca);
+	} // end if(vme)
+
 	vector<tEntry *> &entry_ls = GetEntryList();
 	vector<tTrack *> &track_ls = GetTrackList();
 
 	// read rootfile and assembly each event
-	int n; // number of entries in the treeData
-	if(treeData[0]) n = treeData[0]->GetEntries();
-	else if(treeData[1]) n = treeData[1]->GetEntries();
+	int nPXI, nVME; // number of entries in the treeData for both PXI and VME daq systems
+	if(treeData[0]) nPXI = treeData[0]->GetEntries();
+	if(treeData[1]) nVME = treeData[1]->GetEntries();
 	int cntTrk = 0, cnt3DTrk = 0, cntTrkY = 0; // ntr: n trk per event; cntTrkY: Y tracks from (P)DCTa
 	int cntaozWrong = 0, cntaoz = 0;
-	int i = 0, index, cntSec = 0;
+	int entryId[2]{}; // entry id iterators for the two treeData-s, [0-1]: [PXI-VME]
+	int index, cntSec = 0;
 	// ntr: N of trk in DCArrLR; ntrT: N of trk in DCArrLR+UD
 	int ntr = 0, ntrT = 0;
 	int n3DtrLs[6]{}, ntrLs[6][3]{}; // total N of TrkProjs; DCArr-L-R-U-D-PDCU-D -- [XUV - XY]
@@ -442,26 +462,38 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	cout << std::left;
 	cout << setw(10) << "index" << setw(10) << "nEv" << setw(10) << "trkX" << setw(10) << "totTrk";
 	cout << setw(10) << "3Dtrk" << setw(10) << "naoz" << setw(10) << "naozBad" << endl;
-	while(i < n){
+//	return; // DEBUG
+	while(entryId[0] < nPXI && entryId[1] < nVME){
 		Initialize(); // clear everything from last data section
 		// assign all entries in a sec to fEntryList for processing
-		for(TTree *tree : treeData) if(tree){
-			while(1){
-				entry_t.initialize();
-				tree->GetEntry(i++);
-				if(-2 != entry_t.index){ // index == -2 marks end of one data section
-					entry_ls.push_back(new tEntry(entry_t));
-					index = entry_t.index;
-				}
-				else break;
-			} // entry assignment for the data section complete
-		} // end loop over treeData
+		int indext[2] = {-1, -1}; // cache index for PXI and VME
+		for(int i = 0; i < 2; i++){ // loop over the two treeData-s
+			TTree *tree = treeData[i];
+			if(tree){
+				while(1){
+					entry_t.initialize();
+					tree->GetEntry(entryId[i]++);
+					if(-2 != entry_t.index){ // index == -2 marks end of one data section
+						entry_ls.push_back(new tEntry(entry_t));
+						indext[i] = entry_t.index;
+					} // end if(-2 != entry_t.index)
+					else break;
+				} // entry assignment for the data section complete
+			} // end if(tree)
+		} // end for over i
+		if(indext[1] >= 0 && indext[0] >= 0 && indext[1] != indext[0]){
+			TAPopMsg::Error("TAEvProsr", "Run: PXI and VME index are not consistent. PXI index: %d, VME index: %d", indext[0], indext[1]);
+		}
+		index = indext[0]; // use pxi index
+		treeSCA->GetEntry(cntSec);
+		vme->GetEntry(cntSec);
+		cntSec++;
 		if(0 == entry_ls.size()) continue; // empty event
 		// correct time from cycle-clear
 		double bunchIdTime = (abs(entry_t.bunchId) & 0x7FF) * 25.;
 		if(entry_t.bunchId < 0) bunchIdTime *= -1.;
 //		cout << "bunchIdTime: " << bunchIdTime << endl; getchar(); // DEBUG
-		for(tEntry *t : entry_ls){
+		if(0. != bunchIdTime) for(tEntry *t : entry_ls){
 //			t->show(); // DEBUG
 			for(double &x : t->leadingTime) correctCycleClear(x, bunchIdTime);
 			for(double &x : t->trailingTime) correctCycleClear(x, bunchIdTime);
@@ -501,7 +533,6 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 #ifdef GO
 		#include "TAEventProcessor/fill_post.C" // fill hists and trees after tracking
 #endif
-		cntSec++;
 		cntTrk += ntrT;
 		cnt3DTrk += n3DtrT;
 //		cout << "ntrT: " << ntrT << "\tn3DtrT: " << n3DtrT << endl; getchar(); // DEBUG
@@ -521,7 +552,8 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 
 	cout << "\n\n";
 	cout << "Totally \033[33;1m" << cntSec << "\033[0m sections ";
-	cout << "\033[1m" << i << "\033[0m entries \033[1m" << cntTrk;
+	cout << "\033[1m" << entryId[0] << "\033[0m PXI entries \033[1m" << cntTrk;
+	cout << "\033[0m and \033[1m" << entryId[1] << "\033[0m VME entries \033[1m" << cntTrk;
 	cout << "\033[0m tracks and \033[1m" << cnt3DTrk / 3;
 	cout << "\033[0m 3D tracks have been processed.\n";
 	cout << " cntaoz " << cntaoz << " cntaozWrong " << cntaozWrong << endl;

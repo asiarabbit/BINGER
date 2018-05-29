@@ -12,21 +12,21 @@
 # Wire No.:        0 1 2 3 4 5  6  7  
 # Wire No. 0 -> 7: from left to right (facing beam direction, x incrementing).
 # ASD0 cooresponds to X(Y)1 with smaller z than ASD1(X(Y)2),
-# and is 5.-mm x(y)-wise translated w.r.t. X(Y)2.
+# and is 10.-mm x(y)-wise translated w.r.t. X(Y)2.
 #
 # File format is as follows:
 # channelId	uid
 #
-# Created Time: 2018/04/23 11:41
+# Created Time: 2018/05/24 10:09
 # Author: SUN Yazhou, asia.rabbit@163.com
-# Last Modified: 2018/04/23 11:41, SUN Yazhou
+# Last Modified: 2018/05/24 10:09, SUN Yazhou
 ##################################################################################################
 
-8298	73
-8300	32841
-8302	65609
-8304	98377
-8306	131145
-8308	163913
-8310	196681
-8312	229449
+8279	73
+8277	32841
+8275	65609
+8273	98377
+8271	131145
+8269	163913
+8267	196681
+8265	229449

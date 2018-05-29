@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/19.															     //
-// Last modified: 2018/5/3, SUN Yazhou.											     //
+// Last modified: 2018/5/24, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -31,7 +31,10 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 	for(int i = 0; i < 2; i++) if(!MWDC[i]) return false;
 	if(track.size() != 0) track.clear();
 	const bool cmpShow = false; // debug for function int compare(...)
-	const double d2Thre = clp->D2Thre(GetUID());
+	const int UID = GetUID();
+	const double d2Thre = clp->D2Thre(UID);
+	const double chiThre = clp->ChiThre(UID);
+	const double chiThrePD = clp->ChiThrePD(UID);
 
 	// z,x: sense wire position; t,r: drift time, drift distance; chi: fitting residual
 	double z[6], x[6], t[6], r[6], chi[6];
@@ -160,7 +163,7 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 				// 0+t_wire_t_drift=t_DC; 0+t_tof=t_TOF;
 				// t_TOF-t_DC=(t_tof-t_wire) - t_drift; => delta-t_drift;
 				// (as small and correct as possible while inclusive)
-				const double t1 = delta-250., t2 = delta+20.; // the range borders
+				const double t1 = delta - 250., t2 = delta + 20.; // the range borders
 				TOF = GetPlaT0()->GetTime(t0, t1, t2);
 				if(-9999. == TOF){ // drift time start is not available
 					isBadTrack = true;
@@ -210,13 +213,13 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 				getchar(); // DEBUG
 				newTrack.Show(); // DEBUG
 #endif
-				if(fabs(newTrack.GetChi()) > clp->ChiThre()){
+				if(fabs(newTrack.GetChi()) > chiThre){
 					isBadTrack = true; continue;
 				}
 				for(double cc : chi){
 //					cout << "cc: " << cc << endl; getchar(); // DEBUG
 //					cout << "clp->ChiThrePD(): " << clp->ChiThrePD() << endl; getchar(); // DEBUG
-					if(-9999. != cc && fabs(cc) > clp->ChiThrePD()) isBadTrack = true;
+					if(-9999. != cc && fabs(cc) > chiThrePD) isBadTrack = true;
 				} // end for
 				if(isBadTrack) continue;
 				////// INCOMPATIBILITY CHECK //////

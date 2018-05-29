@@ -1,15 +1,15 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 // Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
 //																				     //
-// BINGER/inc/etf/TAAssessTa.C													     //
-//   TAAssessTa.C -- source file for class TAAssessTa							     //
+// BINGER/inc/etf/TAAssessPDC.C													     //
+//   TAAssessPDC.C -- source file for class TAAssessPDC							     //
 //   Introduction: Assess the tracking results for code performances and quality of  //
 // the data. This is actually a user-interface class, and output interface to papers //
 // and presentations. What is worth mentioning is that compared with TAAssess, this	 //
 // class is specifically for MWDCs around the target.								 //
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2018/3/30.															     //
+// Created: 2018/5/24.															     //
 // Last modified: 2018/5/24, SUN Yazhou.									  	     //
 //																				     //
 //																				     //
@@ -33,7 +33,7 @@
 #include "TGraph.h"
 #include "TH2F.h"
 
-#include "TAAssessTa.h"
+#include "TAAssessPDC.h"
 #include "TAParaManager.h"
 #include "TAPopMsg.h"
 #include "TAParaManager.h"
@@ -56,54 +56,54 @@ static const double Pi = TAMath::Pi();
 static const int nAng = TAAnodePara::kSTRCorAngleNBins;
 static const double angStep = TAAnodePara::kSTRCorAngleStep;
 
-TAAssessTa *TAAssessTa::fInstance = nullptr;
-bool TAAssessTa::fNullDCArr = false;
+TAAssessPDC *TAAssessPDC::fInstance = nullptr;
+bool TAAssessPDC::fNullDCArr = false;
 
-TAAssessTa *TAAssessTa::Instance(){
-	if(!fInstance) fInstance = new TAAssessTa();
+TAAssessPDC *TAAssessPDC::Instance(){
+	if(!fInstance) fInstance = new TAAssessPDC();
 	return fInstance;
 }
-TAAssessTa::TAAssessTa() : fDetList(0), fROOTFile(""){
+TAAssessPDC::TAAssessPDC() : fDetList(0), fROOTFile(""){
 	if(!fDetList) fDetList = &TAParaManager::Instance()->GetDetList();
 }
-TAAssessTa::~TAAssessTa(){}
+TAAssessPDC::~TAAssessPDC(){}
 
-void TAAssessTa::EvalDCArr(int round, bool isDCArrD){
+void TAAssessPDC::EvalDCArr(int round, bool isDCArrD){
 	EvalDCArr(fROOTFile, fDetList, round, isDCArrD);
 }
-void TAAssessTa::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, bool isDCArrD){
+void TAAssessPDC::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, bool isDCArrD){
 	if(!strcmp("", rootfile.c_str()))
-		TAPopMsg::Error("TAAssessTa", "EvalDCArr: rootfile name is empty");
+		TAPopMsg::Error("TAAssessPDC", "EvalDCArr: rootfile name is empty");
 	if(!detList)
-		TAPopMsg::Error("TAAssessTa", "EvalDCArr: Detector List pointer detList is null");
-	TAMWDCArray2 *dcArrAr[2] = {(TAMWDCArray2*)(*detList)[6], (TAMWDCArray2*)(*detList)[7]};
-	short UDTAG = 12 + isDCArrD; // type/10: 1[2-3-4-5] -> dcArrU-D-PDCArrU-D
+		TAPopMsg::Error("TAAssessPDC", "EvalDCArr: Detector List pointer detList is null");
+	TAMWDCArray2 *dcArrAr[2] = {(TAMWDCArray2*)(*detList)[8], (TAMWDCArray2*)(*detList)[9]};
 
 	static bool usingPDC = TAGPar::Instance()->Val(83);
 	// track type has experienced exchanges: 1[23]# <-> 1[45]# if PDC tracks are used for PID
 	if(usingPDC){
-		dcArrAr[0] = (TAMWDCArray2*)(*detList)[8];
-		dcArrAr[1] = (TAMWDCArray2*)(*detList)[9];
+		dcArrAr[0] = (TAMWDCArray2*)(*detList)[6];
+		dcArrAr[1] = (TAMWDCArray2*)(*detList)[7];
 	}
 	if(!dcArrAr[0] && !dcArrAr[1]){
-		TAPopMsg::Info("TAAssessTa", "EvalDCArr: Both DCArr is null. TAEventProcesssor::Configure not run yet?");
+		TAPopMsg::Error("TAAssessPDC", "EvalDCArr: Both DCArr is null. TAEventProcesssor::Configure not run yet?");
 		fNullDCArr = true; // no valid DCArr is available for the class
 		return;
 	}
 	TAMWDCArray2 *dcArr = dcArrAr[isDCArrD];
-	if(!dcArr) TAPopMsg::Error("TAAssessTa", "EvalDCArr: Requested DCArr is null");
+	if(!dcArr) TAPopMsg::Error("TAAssessPDC", "EvalDCArr: Requested DCArr is null");
 
 	cout << "Input rootfile: " << rootfile << endl;
 	if(0 != access(rootfile.c_str(), F_OK))
-		TAPopMsg::Error("TAAssessTa", "EvalDCArr: Input rootfile %s doesn't exist", rootfile.c_str());
+		TAPopMsg::Error("TAAssessPDC", "EvalDCArr: Input rootfile %s doesn't exist", rootfile.c_str());
 	TFile *f = new TFile(rootfile.c_str());
 	TTree *treeTrack = (TTree*)f->Get("treeTrack");
-	if(!treeTrack) TAPopMsg::Error("TAAssessTa", "EvalDCArr: treeTrack is nullptr");
+	if(!treeTrack) TAPopMsg::Error("TAAssessPDC", "EvalDCArr: treeTrack is nullptr");
 	// default is for DCArrR
+	const short UDTAG = 14 + isDCArrD; // type/10: 14 -> PDCArrU; 15 -> PDCArrD
 	const int ndir = 8;
-	char dir[ndir][64] = {"miscTa", "rtTa", "drtTa", "dtTa", "rrTa", "3DrtTa", "3DdrtTa", "3DrrTa"};
+	char dir[ndir][64] = {"miscPDC", "rtPDC", "drtPDC", "dtPDC", "rrPDC", "3DrtPDC", "3DdrtPDC", "3DrrPDC"};
 	char topdir[64], ud[] = "UD";
-	sprintf(topdir, "assessTa%d%c", runid, ud[isDCArrD]);
+	sprintf(topdir, "assessPDC%d%c", runid, ud[isDCArrD]);
 	char tmp[32];
 	for(int i = 0; i < ndir; i++){
 		strcpy(tmp, dir[i]);
@@ -166,7 +166,7 @@ void TAAssessTa::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid,
 		treePID3D->SetBranchAddress("b2", b2_3D);
 		treePID3D->SetBranchAddress("firedStripId", firedStripId); // firedStripId == -2 marks UD3Dtrk
 		treePID3D->SetBranchAddress("isDCArrR", isDCArrR_3D);
-	}
+	} // end if(treePID3D)
 
 /////////////////////////////////////// BEGIN OF THE HISTOGRAM DEFINITION ///////////////////////////
 	// to store all the ROOT statistical objects
@@ -352,7 +352,7 @@ void TAAssessTa::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid,
 		for(int j = 0; j < 2; j++) ntrPerSec[j][ntrTot[j]-ntrTot_pre[j]]++; // [XY][ntrPerSec]
 		// DCArrU-D 3D track statistics
 		// only one U(D)Xtrk and one U(D)Ytrk is present, only then would there be a 3D track
-		if(1 == ntrLs[2+isDCArrD][0] && 1 == ntrLs[2+isDCArrD][1]){
+		if(1 == ntrLs[4+isDCArrD][0] && 1 == ntrLs[4+isDCArrD][1]){
 			n3DtrPerSec[1]++; n3DtrTot++; effTot++;
 			// extract id of the wanted tracks
 			int trkId[2]{}; // X-Y
@@ -411,7 +411,7 @@ void TAAssessTa::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid,
 							hrt03_3D[j][dcId]->Fill(tt, rc);
 							hdrt03_3D[j][dcId]->Fill(tt, dr);
 
-							if(0 == j && 0 == k && 8 == nu[j][k]){
+							if(0 == j && 0 == k && 4 == nu[j][k]){
 								hrt04_3D->Fill(tt, rc);
 								hdrt04_3D->Fill(tt, dr);
 								hrt04_3D_STR[STRid]->Fill(tt, rc);
@@ -462,7 +462,7 @@ void TAAssessTa::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid,
 					hrt03[dcType][dcId]->Fill(tt, rc);
 					hdrt03[dcType][dcId]->Fill(tt, dr);
 
-					if(0 == dcType && 0 == l && 8 == nu[j][l]){
+					if(0 == dcType && 0 == l && 4 == nu[j][l]){
 						hrt04->Fill(tt, rc);
 						hdrt04->Fill(tt, dr);
 						hrt04_STR[STRid]->Fill(tt, rc);
@@ -533,16 +533,16 @@ void TAAssessTa::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid,
 
 	// write //
 	cout << "The results would be stored in ROOT file directory \"\033[36;1m" << topdir << "\"\n\033[0m";
-//	if(!f->FindObject(topdir)) f->mkdir(topdir); f->cd(topdir);
+//	if(!f->FindObjectAny(topdir)) f->mkdir(topdir); f->cd(topdir);
 	char tail[96]; strcpy(tail, rootfile.c_str());
 	char s[128]; strcpy(s, ("assess" + string(basename(tail))).c_str());
 //	if(0 == runid && 0 == access(s, F_OK)) system(("rm "+string(s)).c_str());
 	TFile *fw = new TFile(s, "UPDATE");
-	if(!fw->FindObject(topdir)) fw->mkdir(topdir);
+	if(!fw->FindObjectAny(topdir)) fw->mkdir(topdir);
 	fw->cd(topdir);
 	for(int i = 0; i < ndir; i++){
 		sprintf(s, "%s/%s", topdir, dir[i]);
-		if(!fw->FindObject(dir[i])) fw->mkdir(s);
+		if(!fw->FindObjectAny(dir[i])) fw->mkdir(s);
 		fw->cd(s);
 		for(TObject *&b : objLs[i]) if(b){
 			b->Write("", TObject::kOverwrite);
@@ -557,40 +557,40 @@ void TAAssessTa::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid,
 } // end of member function EvalDCArr
 
 // evaluation done after Eval event by event
-void TAAssessTa::PostEval(int round, bool isDCArrD){
+void TAAssessPDC::PostEval(int round, bool isDCArrD){
 	if(fNullDCArr) return; // no valid dcArr available for the class
 	if(!strcmp("", fROOTFile.c_str()))
-		TAPopMsg::Error("TAAssessTa", "PostEval: rootfile name is empty");
-	TAPopMsg::Info("TAAssessTa", "PostEval: Input rootfile: %s", fROOTFile.c_str());
+		TAPopMsg::Error("TAAssessPDC", "PostEval: rootfile name is empty");
+	TAPopMsg::Info("TAAssessPDC", "PostEval: Input rootfile: %s", fROOTFile.c_str());
 	if(0 != access(fROOTFile.c_str(), F_OK))
-		TAPopMsg::Error("TAAssessTa", "PostEval: Input rootfile %s doesn't exist", fROOTFile.c_str());
+		TAPopMsg::Error("TAAssessPDC", "PostEval: Input rootfile %s doesn't exist", fROOTFile.c_str());
 
 	char tail[96]; strcpy(tail, fROOTFile.c_str());
 	bool success0 = PostEval(("assess" + string(basename(tail))).c_str(), round, isDCArrD, true);
 	bool success1 = PostEval(("assess" + string(basename(tail))).c_str(), round, isDCArrD, false);
 	if(!success0 && !success1)
-		TAPopMsg::Info("TAAssessTa", "PostEval: No eligible hrt_04_sample is found whatsoever and wheresoever\n");
+		TAPopMsg::Info("TAAssessPDC", "PostEval: No eligible hrt_04_sample is found whatsoever and wheresoever\n");
 	else
 		cout << "\033[33;1m\n\nDONE\n\n\033[0m";
-}
-bool TAAssessTa::PostEval(const string &rootfile, int round, bool isDCArrD, bool is3D){
+} // end of member function PostEval()
+bool TAAssessPDC::PostEval(const string &rootfile, int round, bool isDCArrD, bool is3D){
 	TFile *f = new TFile(rootfile.c_str(), "UPDATE");
 	char name[128], ud[] = "UD", dir[64]; // name: TH2F name - dr-DCA
 	if(is3D){
-		sprintf(dir, "assessTa%d%c/3DdrtTa%d%c", round, ud[isDCArrD], round, ud[isDCArrD]);
+		sprintf(dir, "assessPDC%d%c/3DdrtPDC%d%c", round, ud[isDCArrD], round, ud[isDCArrD]);
 		sprintf(name, "%s/hdrt04_3D_sample", dir);
 	}
 	else{
-		sprintf(dir, "assessTa%d%c/drtTa%d%c", round, ud[isDCArrD], round, ud[isDCArrD]);
+		sprintf(dir, "assessPDC%d%c/drtPDC%d%c", round, ud[isDCArrD], round, ud[isDCArrD]);
 		sprintf(name, "%s/hdrt04_sample", dir);
 	}
 	TH2F *h2 = (TH2F*)f->Get(name);
 	if(!h2){
-//		TAPopMsg::Error("TAAssessTa", "PostEval: %s doesn't exist", name);
+//		TAPopMsg::Error("TAAssessPDC", "PostEval: %s doesn't exist", name);
 		f->Close(); delete f; f = nullptr;
 		return false;
 	}
-	TAPopMsg::Info("TAAssessTa", "PostEval: isDCArrD: %d, is3D: %d", isDCArrD, is3D);
+	TAPopMsg::Info("TAAssessPDC", "PostEval: isDCArrD: %d, is3D: %d", isDCArrD, is3D);
 	TH1D *hprojx = h2->ProjectionX();
 	TF1 *fgaus = new TF1("fgaus", "gaus", -4., 4.);
 	TGraph *gSigma = new TGraph(); // DCA-sigma for MWDC resolution estimation
@@ -631,9 +631,9 @@ bool TAAssessTa::PostEval(const string &rootfile, int round, bool isDCArrD, bool
 
 	f->cd(dir);
 	if(gSigma->GetN()) gSigma->Write("", TObject::kOverwrite);
-	else TAPopMsg::Info("TAAssessTa", "PostEval: gSigma has no data");
+	else TAPopMsg::Info("TAAssessPDC", "PostEval: gSigma has no data");
 	if(gMean->GetN()) gMean->Write("", TObject::kOverwrite);
-	else TAPopMsg::Info("TAAssessTa", "PostEval: gMean has no data");
+	else TAPopMsg::Info("TAAssessPDC", "PostEval: gMean has no data");
 
 	delete fgaus; fgaus = nullptr; delete gSigma; gSigma = nullptr;
 	delete gMean; gMean = nullptr; f->Close(); delete f; f = nullptr;

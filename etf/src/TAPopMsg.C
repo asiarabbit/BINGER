@@ -41,6 +41,9 @@ void TAPopMsg::Info(const char *cname, const char *fmt, ...){
 }
 
 void TAPopMsg::Error(const char *cname, const char *fmt, ...){
+	static bool nomore = false;
+	if(nomore) return;
+
 	va_list arg_ptr;
 	va_start(arg_ptr, fmt);
 	char msg[1024], omsg[1024];
@@ -48,7 +51,8 @@ void TAPopMsg::Error(const char *cname, const char *fmt, ...){
 	vsprintf(omsg, msg, arg_ptr);
 	va_end(arg_ptr);
 	cout << omsg;
-	static bool nomore = false;
+
+	// select repeatability
 	if(!nomore){
 		cout << "[q]: abort, [n]: do not stop any more, others: continue > " << std::flush;
 		std::string str;
@@ -65,6 +69,9 @@ void TAPopMsg::Error(const char *cname, const char *fmt, ...){
 }
 
 void TAPopMsg::Warn(const char *cname, const char *fmt, ...){
+	static bool nomore = false;
+	if(nomore) return;
+
 	va_list arg_ptr;
 	va_start(arg_ptr, fmt);
 	char msg[1024], omsg[1024];
@@ -73,8 +80,20 @@ void TAPopMsg::Warn(const char *cname, const char *fmt, ...){
 	va_end(arg_ptr);
 	cout << omsg;
 
-	cout << "Press ENTER to continue...";
-	getchar();
+	// select repeatability
+	if(!nomore){
+		cout << "[q]: abort, [n]: do not stop any more, others: continue > " << std::flush;
+		std::string str;
+		std::getline(std::cin, str);
+		if(!str.empty() && (str.c_str())[0] == 'q'){
+			cout << "Aborting BINGER...\n";
+			exit(1);
+		}
+		else if(!str.empty() && (str.c_str())[0] == 'n'){
+			nomore = true;
+		}
+		cout << std::endl;
+	}
 }
 
 void TAPopMsg::Debug(const char *cname, const char *fmt, ...){

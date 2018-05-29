@@ -10,7 +10,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/29.															     //
-// Last modified: 2018/5/3, SUN Yazhou.											     //
+// Last modified: 2018/5/20, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -297,12 +297,22 @@
 			hSiPMPlaBarrMulti->Fill(multiSipmBarr_post);
 		} // end if(sipmBarr)
 
-		// MUSIC statistics
+		// MUSIC statistics;   psca: previous value of sca
+		unsigned psca[16]; memcpy(psca, sca, sizeof(sca));
+		pileUpSCA = sca[10] - psca[10];
 		for(int j = 0; j < 2; j++) if(music[j]){ // loop over two MUSICs
-			deltaE[j] = music[j]->GetDeltaE();
-			Z[j] = music[j]->GetZ();
 			nF_MU[j] = music[j]->GetNFiredChannel();
+			if(0 == nF_MU[j]) continue;
 			pileUp[j] = music[j]->GetPileUp();
+			if(pileUpSCA >= 2) music[j]->SetPileUp(true);
+			else if(pileUpSCA == 1) music[j]->SetPileUp(false);
+//			else TAPopMsg::Error("TAEvProsr", "Run: MUSIC PileUpSCA anomaly: %d", pileUpSCA);
+			deltaE[j] = music[j]->GetDeltaE();
+//			music[j]->SetBeta(beta);
+//			Z[j] = music[j]->GetZ();
+			for(double &t : MU_ch[j]) t = -9999.;
+			int sub = 0;
+			for(TAChannel *c : music[j]->GetChArr()) MU_ch[j][sub++] = c->GetLeadingTime();
 		} // end loop over two MUSICs
 
 

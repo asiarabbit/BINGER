@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/30.															     //
-// Last modified: 2017/9/30, SUN Yazhou.										     //
+// Last modified: 2018/5/25, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -94,7 +94,7 @@ double TAChData::GetTrailingTime(int n) const{
 		TAPopMsg::Error(GetName().c_str(), "GetTrailingTime: Trailing time array is null.");
 	return fTrailingTime[n];
 }
-// return fEventIndex.
+// return fEventIndex
 int TAChData::GetEventIndex() const{
 	if(fEventIndex < 0) TAPopMsg::Error(GetName().c_str(), "event index not assigned");
 	return fEventIndex;
@@ -124,7 +124,7 @@ bool TAChData::Assign(tEntry *entry){
 	}
 
 	return false;
-}
+} // end of member function Assign
 
 // for debugging purposes
 void TAChData::Show() const{
@@ -138,7 +138,7 @@ void TAChData::Show() const{
 		cout << "fTrailingTime[" << i << "]: " << fTrailingTime[i] << endl;
 	cout << "fIs_V: " << fIs_V << endl;
 	cout << "fEventIndex: " << fEventIndex << endl;
-} // end of member function Show.
+} // end of member function Show
 
 
 
