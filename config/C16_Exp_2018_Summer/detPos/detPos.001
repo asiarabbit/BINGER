@@ -11,7 +11,7 @@
 #
 # Created Time: 2017/12/09
 # Author: SUN Yazhou, asia.rabbit@163.com
-# Last Modified: 2018/04/20, SUN Yazhou
+# Last Modified: 2018/06/03, SUN Yazhou
 ##################################################################################################
 
 
@@ -25,6 +25,18 @@
 0.379108	-0.570159	-1730.02	-0.0765586	-0.0904899	0.127934 	9
 # __________ ETF -> PDCArrayD -> PDC1 __________
 -0.597091	0.49276		-939.039	-0.146684	0.0395412	0.278913 	73
+
+######################### P.Ma's MWDC Arrays downstream of the dipole ###############
+# MWDC Array U
+# __________ ETF -> MWDCArrayU -> MWDC0 __________
+0.0 	0.0 	628.5 	0.0 	0.0 	0.0 	6
+# __________ ETF -> MWDCArrayU -> MWDC1 __________
+0.0 	0.0 	696.5	0.0 	0.0 	0.0 	70
+# MWDC Array D
+# __________ ETF -> MWDCArrayD -> MWDC0 __________
+0.0 	0.0 	763.0 	0.0 	0.0 	0.0 	7
+# __________ ETF -> MWDCArrayD -> MWDC1 __________
+0.0 	0.0 	851.0 	0.0 	0.0 	0.0 	71
 
 ######################### MWDC Arrays downstream of the dipole magnet ###############
 # __________ ETF -> MWDCArrayR -> MWDC0 __________
