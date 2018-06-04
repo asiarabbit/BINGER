@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/23.															     //
-// Last modified: 2018/5/21, SUN Yazhou.										     //
+// Last modified: 2018/6/4, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -161,19 +161,27 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 	double aoz, aozc = 1., d2; // aozc: the central aoz
 	if(3 == option){ aozc = fAoZ; }
 	double span = 3.; // search scope, aozc-span ~ aozc+span
-	int ln = 1, n = 60; if(0 == option){ n = 25; }
+	int ln = 1, n = 60;
+	// loop laps for iter==0, which is to refne beta
+	if(0 == option){ n = 15; }
+	if(3 == option){ span = 0.8; n = 10; } // aoz from uniform magField is precise enough
 	for(int iter = 0; iter < 2; iter++){ // iteration to refine beta1
 		if(1 == iter){
 			// reset search domin, narrow the scope and coodinate the center
-			n = 24; ln = 5; if(0 == option){ n = 10; ln = 3; }
-			span = 1.; aozc = fAoZ;
+			n = 15; ln = 4; span = 2.;
+			aozc = fAoZ;
 			fAoZdmin = 9999.; // reset dmin
+			if(0 == option){ n = 5; ln = 3; }
+			if(3 == option){ n = 5; ln = 3; span = 0.5; }
 		}
 		// aozc: center of the scope domain
 		for(int l = 0; l < ln; l++){ // outer loop
+//			cout << "l: " << l << "\tspan: " << span << "\taozc: " << aozc << "\tn: " << n << endl; getchar(); // DEBUG
 			for(int ll = 0; ll <= n; ll++){ // interior loop
-				aoz = aozc + (2.*ll/n - 1.)*span;
 				SetOutOfRangeError(false);
+				aoz = aozc + (2.*ll/n - 1.)*span;
+				if(fabs(aoz) < 0.03) continue;
+				if(fabs(aoz) > 5.) continue;
 				SetQoP(aoz, beta);
 				y[0] = xi; y[1] = yi; // start of the RK propagation
 				yp[0] = k1; yp[1] = k2; // k1 and k2
@@ -199,6 +207,7 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 					ddmin[0] = dd[0]; ddmin[1] = dd[1];
 #endif
 					memcpy(fAngleTaOut, yp, sizeof(fAngleTaOut));
+//					cout << "fAoZdmin: " << fAoZdmin << "dd[0]: " << dd[0] << "\tdd[1]: " << dd[1] << "\tfAoZ: " << fAoZ << endl; getchar(); // DEBUG
 				} // end if
 				if(fAoZdmin < 1E-2) break;
 			} // end for over ll

@@ -689,7 +689,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 							if(9 == id_v1190) entry_temp.channelId = chid + 8001;
 							else if(11 == id_v1190) entry_temp.channelId = chid + 8201;
 							if(nhl[chid] > edge_num_limit || nht[chid] > edge_num_limit){
-								TAPopMsg::Warn("TARawDataProcessor", "ReadOfflineVME: HPTDC edge number is greater than %d: nhl: %d, nht: %d", edge_num_limit, nhl[chid], nht[chid]);
+//								TAPopMsg::Warn("TARawDataProcessor", "ReadOfflineVME: HPTDC edge number is greater than %d: nhl: %d, nht: %d", edge_num_limit, nhl[chid], nht[chid]);
 							}
 							entry_temp.nl = nhl[chid] < edge_num_limit ? nhl[chid] : edge_num_limit;
 							entry_temp.nt = nht[chid] < edge_num_limit ? nht[chid] : edge_num_limit;

@@ -118,12 +118,14 @@
 			if(0 == dcType && tof2[j] > 0. && -9999. != taHitX[j]){ // X tracks
 				if(IsPID()){
 					double p[4] = {k[j], 0., b[j], 0.}; // {k1, k2, b1, b2}
-					pid->Fly(tof2[j], taHitX[j], p, dcArrId, 2);
+					pid->Fly(tof2[j], taHitX[j], p, dcArrId, 3);
 					aoz[j] = pid->GetAoZ(); aozdmin[j] = pid->GetChi();
 					beta2[j] = pid->GetBeta(); poz[j] = pid->GetPoZ(); // MeV/c
 					pid->GetTargetExitAngle(yp[j]); trkLenT[j] = pid->GetTotalTrackLength();
-					if(aozdmin[j] > 0.1 || -9999. == aoz[j]) cntaozWrong++;
-//					cout << "aozdmin[j]: " << aozdmin[j] << endl; getchar(); // DEBUG
+					if(aozdmin[j] > 1. || -9999. == aoz[j]) cntaozWrong++;
+//					cout << "aozdmin[j]: " << aozdmin[j] << endl; // DEBUG
+//					cout << "aoz[j]: " << aoz[j] << endl; // DEBUG
+//					getchar(); // DEBUG
 					cntaoz++;
 				}
 			} // end the lengthy if

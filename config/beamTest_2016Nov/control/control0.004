@@ -203,6 +203,96 @@
 68   1600.
 
 
+## ## ## ## ## ## ## ## DCs from BUAA, made in Japan ## ## ## ## ## ## ## ## ## ## ## ## ##
+# T_tof: time of flight: used to correct drift time -> for MWDC Array U and D
+# T_tofPDC0toTOFWUX: T_tof from X sense wires of DC0 to TOFW (plaSci-T0_det), for MWDC array U and D
+# T_tofPDC0toTOFWUX
+69  -0.5
+# T_tofPDC1toTOFWUX
+70  -2.8
+# T_tofPDC0toTOFWDX
+71  -4.2
+# T_tofPDC1toTOFWDX
+72  -8.2
+
+# DC sense wire high voltage (HV) for MWDC arrays around the target #
+# PDC array U
+# HVPDCU0X
+73  0
+# HVPDCU0Y
+74  0
+# HVPDCU1X
+75  0
+# HVPDCU1Y
+76  0
+# PDC array D
+# HVPDCD0X
+77  0
+# HVPDCD0Y
+78  0
+# HVPDCD1X
+79  0
+# HVPDCD1Y
+80  0
+## time to trig for DCs around the target
+# pdcToTrigLB
+81  3600.
+# pdcToTrigHB
+82  4300.
+
+# whether using PDC tracks for PID. Note that this is a boolean
+83 0
+
+
+# target z position - targetZ0
+84 -860.75
+# T0_1 z position - T0_1Z0
+85 -1177.5
+######### MWDC Array L ###################
+# MWDC global delay - delay_DCL0
+86 1E-3
+# MWDC global delay - delay_DCL1
+87 1E-3
+# MWDC global delay - delay_DCL2
+88 1E-3
+# TOFW global delay - delay_TOFWL
+89 1E-3
+######### MWDC Array R ###################
+# MWDC global delay - delay_DCR0
+90 44.
+# MWDC global delay - delay_DCR1
+91 44.
+# MWDC global delay - delay_DCR2
+92 44.
+# TOFW global delay - delay_TOFWR
+93 1E-3
+######### DCTa - Array U-D ################
+# MWDCTa global delay - delay_DCU0
+94 28.
+# MWDCTa global delay - delay_DCU1
+95 28.
+# MWDCTa global delay - delay_DCD0
+96 28.
+# MWDCTa global delay - delay_DCD1
+97 28.
+######### PDC - Array U-D #################
+# PDC global delay - delay_PDCU0
+98 1E-3
+# PDC global delay - delay_PDCU1
+99 1E-3
+# PDC global delay - delay_PDCD0
+100 1E-3
+# PDC global delay - delay_PDCD1
+101 1E-3
+
+
+
+
+
+
+
+
+
 
 
 

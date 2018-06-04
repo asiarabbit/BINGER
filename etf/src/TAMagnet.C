@@ -119,21 +119,21 @@ void TAMagnet::TransportIon(double *y, double *yp, double zi, double zf, bool is
 //		getchar(); // DEBUG
 		// out of range check
 		if(fabs(x) < 1050. && fabs(x) > 475.){ // z within the magnetic range
-			if(fabs(y[0]) > 1000.){
+			if(fabs(y[0]) > 150.+fabs(x)*1.3){
 //				cout << "Mark 1" << endl; getchar(); // DEBUG
 				fOutOfRangeError = true; break;
 			} // x well out of range
-			if(fabs(y[1]) > 500.){
+			if(fabs(y[1]) > 300.+fabs(x)*0.2){
 //				cout << "Mark 2" << endl; getchar(); // DEBUG
 				fOutOfRangeError = true; break;
 			 } // y well out of range
 		} // end if
 		if(fabs(x) < 475.){ // z within the magnetic range (in the cavity of the magnet)
-			if(fabs(y[0]) > 550.){
+			if(fabs(y[0]) > 600.){
 //				cout << "Mark 3" << endl; getchar(); // DEBUG
 				fOutOfRangeError = true; break;
 			 } // x well out of range
-			if(fabs(y[1]) > 170.){
+			if(fabs(y[1]) > 200.){
 //				cout << "Mark 4" << endl; getchar(); // DEBUG
 				fOutOfRangeError = true; break;
 			 } // y well out of range
@@ -397,7 +397,7 @@ void TAMagnet::GetMagneticIntensity(double *B, const double *p){
 	// because of the symmetry of the magnetic field, the magnetic filed intensity is
 	// irrelevant to the signs of the position coordinates.
 	double pp[3] = {fabs(p[0]), fabs(p[1]), fabs(p[2])};
-	
+
 	// Expand the magnet field with measured B using extrapolation // ***********************
 	// extrapolation for B at Y greater than 90mm and X greater than 390mm in the magnet
 	if(pp[2] < 475.){ // inside the cavity
@@ -519,7 +519,8 @@ void TAMagnet::SetQoP(double aoz, double beta, double V0, double tof2, double L,
 	} // end if
 //	double k = 0.321840605; // SI unit      = e0/(u0*c0*1E6)
 	fQoP = 0.321840605 / (aoz*TAMath::BetaGamma(beta));
-//	cout << "aoz: " << aoz << "\tbeta: " << beta << endl; // DEBUG
+	if(0) if(fabs(fQoP) > 1E3)
+		TAPopMsg::Warn("TAMagnet", "SetQoP: abnormal QoP: fQoP: %f, beta: %f", fQoP, beta);
 
 	// for real time update of QoP because of dE
 	fAoZ = aoz; fV0 = V0; fTOF2 = tof2;
@@ -549,8 +550,9 @@ void TAMagnet::UpdateQoP(double x){
 	// particle velocity at track length x
 	double Vx = fV0 * pow((1. - 8. * (fTOF2 * fV0 / fL - 1.) / fL * x), 0.25); // mm/ns
 	double beta = Vx / c0;
-	double gamma = 1./sqrt(1. - beta*beta);
-	fQoP = 0.321840605 / (fAoZ*beta*gamma); // 0.321840605 = e0/(u0*c0*1E6)
+	fQoP = 0.321840605 / (fAoZ*TAMath::BetaGamma(beta)); // 0.321840605 = e0/(u0*c0*1E6)
+	if(0) if(fabs(fQoP) > 1E3)
+		TAPopMsg::Warn("TAMagnet", "UpdateQoP: abnormal QoP: fQoP: %f, beta: %f", fQoP, beta);
 } // end of member function UpdateQop(...)
 
 // trilinear interpolation
