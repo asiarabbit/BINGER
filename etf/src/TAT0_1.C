@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2018/4/30, SUN Yazhou.										     //
+// Last modified: 2018/6/8, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -27,7 +27,7 @@
 static const TAGPar *gp = TAGPar::Instance();
 
 TAT0_1::TAT0_1(const string &name, const string &title, unsigned uid)
-		: TAPlaStrip(name, title, uid){
+		: TAPlaStrip(name, title, uid), TADetUnion(uid){
 	fZ0 = -9999; fDistanceOfFlight = -9999.;
 }
 TAT0_1::~TAT0_1(){}

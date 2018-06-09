@@ -91,7 +91,10 @@ void TAAssessTa::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid,
 		return;
 	}
 	TAMWDCArray2 *dcArr = dcArrAr[isDCArrD];
-	if(!dcArr) TAPopMsg::Error("TAAssessTa", "EvalDCArr: Requested DCArr is null");
+	if(!dcArr){
+		TAPopMsg::Info("TAAssessTa", "EvalDCArr: Requested DCArr is null");
+		return;
+	}
 
 	cout << "Input rootfile: " << rootfile << endl;
 	if(0 != access(rootfile.c_str(), F_OK))
@@ -181,35 +184,35 @@ void TAAssessTa::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid,
 	TH1F *hchi2_3D = new TH1F("hchi2_3D", "Track~\\chi^2~Distribution~\\sum(\\chi^2)~(for~3D~Tracks);\\chi^2~[mm^2]", 1000., -0.5, 100);
 	objLs[6].push_back(hchi_3D); objLs[6].push_back(hChi_3D); objLs[6].push_back(hchi2_3D);
 	// hrt: DCA v.s. t //
-	TH2F *hrt01 = new TH2F("hrt01", "Overall Distribution of Calculated Drift Distance and Drift Time;t [ns];r [mm]", 500, -100., 400., 800, -0.5, 7.5);
+	TH2F *hrt01 = new TH2F("hrt01", "Overall Distribution of Calculated Drift Distance and Drift Time;t [ns];r [mm]", 600, -100., 500., 1300, -0.5, 12.5);
 	objLs[1].push_back(hrt01);
-	TH2F *hrt01_3D = new TH2F("hrt01_3D", "Overall Distribution of Calculated Drift Distance and Drift Time for 3D Tracks;t [ns];r [mm]", 500, -100., 400., 800, -0.5, 7.5);
+	TH2F *hrt01_3D = new TH2F("hrt01_3D", "Overall Distribution of Calculated Drift Distance and Drift Time for 3D Tracks;t [ns];r [mm]", 600, -100., 500., 1300, -0.5, 12.5);
 	objLs[5].push_back(hrt01_3D);
 	TH2F *hrt02[2], *hrt03[2][2]; // [0-1]: [XY]; [0-1][0-1]: [XY][DC0-1]
 	TH2F *hrt02_3D[2], *hrt03_3D[2][2]; // [0-1]: [XY]; [0-1][0-1]: [XY][DC0-1]
 	for(int i = 0; i < 2; i++){ // loop over XY
 		sprintf(name, "hrt02_%d", i);
 		sprintf(title, "Distribution of DCA v.s. Drift Time for %c-Tracks;t [ns];DCA [mm]", xy[i]);
-		hrt02[i] = new TH2F(name, title, 500, -100., 400., 800, -0.5, 7.5);
+		hrt02[i] = new TH2F(name, title, 600, -100., 500., 1300, -0.5, 12.5);
 		objLs[1].push_back(hrt02[i]);
 		sprintf(name, "hrt02_3D_%d", i);
 		sprintf(title, "Distribution of DCA v.s. Drift Time for 3D Tracks in %c Sense Wires;t [ns];DCA [mm]", xy[i]);
-		hrt02_3D[i] = new TH2F(name, title, 500, -100., 400., 800, -0.5, 7.5);
+		hrt02_3D[i] = new TH2F(name, title, 600, -100., 500., 1300, -0.5, 12.5);
 		objLs[5].push_back(hrt02_3D[i]);
 		for(int j = 0; j < 2; j++){ // loop over two DCs
 			sprintf(name, "hrt03_%d_%d", i, j);
 			sprintf(title, "Distribution of DCA v.s. Drift Time for %c-Track-DC%d;t [ns];DCA [mm]", xy[i], j);
-			hrt03[i][j] = new TH2F(name, title, 500, -100., 400., 800, -0.5, 7.5);
+			hrt03[i][j] = new TH2F(name, title, 600, -100., 500., 1300, -0.5, 12.5);
 			objLs[1].push_back(hrt03[i][j]);
 			sprintf(name, "hrt03_3D_%d_%d", i, j);
 			sprintf(title, "Distribution of DCA v.s. Drift Time for 3D Tracks in DC%d %c Sense Wires;t [ns];DCA [mm]", j, xy[i]);
-			hrt03_3D[i][j] = new TH2F(name, title, 500, -100., 400., 800, -0.5, 7.5);
+			hrt03_3D[i][j] = new TH2F(name, title, 600, -100., 500., 1300, -0.5, 12.5);
 			objLs[5].push_back(hrt03_3D[i][j]);
 		} // end loop over DCs
 	} // end loop over XY
-	TH2F *hrt04 = new TH2F("hrt04", "Distribution of DCA v.s. Drift Time for DC0X1Anode40;t [mm];DCA [mm]", 500, -100., 400., 800, -0.5, 7.5);
+	TH2F *hrt04 = new TH2F("hrt04", "Distribution of DCA v.s. Drift Time for DC0X1Anode40;t [mm];DCA [mm]", 600, -100., 500., 1300, -0.5, 12.5);
 	objLs[1].push_back(hrt04);
-	TH2F *hrt04_3D = new TH2F("hrt04_3D", "Distribution of DCA v.s. Drift Time for DC0X1Anode40(3D Tracks);t [mm];DCA [mm]", 500, -100., 400., 800, -0.5, 7.5);
+	TH2F *hrt04_3D = new TH2F("hrt04_3D", "Distribution of DCA v.s. Drift Time for DC0X1Anode40(3D Tracks);t [mm];DCA [mm]", 600, -100., 500., 1300, -0.5, 12.5);
 	objLs[5].push_back(hrt04_3D);
 
 	TH2F *hrt04_STR[nAng];
@@ -217,43 +220,43 @@ void TAAssessTa::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid,
 	for(int i = 0; i < nAng; i++){
 		sprintf(name, "hrt04_STR_%d", i);
 		sprintf(title, "Distribution of DCA and Drift Time for DC0X1Anode40STR_%d(alpha: %f~%f);t [ns]; r [mm]", i, (i-nAng/2.)*angStep/DEGREE, (i-nAng/2.+1.)*angStep/DEGREE);
-		hrt04_STR[i] = new TH2F(name, title, 500, -100., 400., 800, -0.5, 7.5);
+		hrt04_STR[i] = new TH2F(name, title, 600, -100., 500., 1300, -0.5, 12.5);
 		objLs[1].push_back(hrt04_STR[i]);
 		sprintf(name, "hrt04_3D_STR_%d", i);
 		sprintf(title, "Distribution of DCA and Drift Time for DC0X1Anode40STR_%d(alpha: %f~%f)(3D Tracks);t [ns]; r [mm]", i, (i-nAng/2.)*angStep/DEGREE, (i-nAng/2.+1.)*angStep/DEGREE);
-		hrt04_3D_STR[i] = new TH2F(name, title, 500, -100., 400., 800, -0.5, 7.5);
+		hrt04_3D_STR[i] = new TH2F(name, title, 600, -100., 500., 1300, -0.5, 12.5);
 		objLs[5].push_back(hrt04_3D_STR[i]);
 	}
 	// hdrt: chi v.s. t //
-	TH2F *hdrt01 = new TH2F("hdrt01", "Overall Distribution of Redisual and Drift Time;t [ns];dr [mm]", 500, -100., 400., 800, -4.0, 4.0);
+	TH2F *hdrt01 = new TH2F("hdrt01", "Overall Distribution of Redisual and Drift Time;t [ns];dr [mm]", 600, -100., 500., 800, -4.0, 4.0);
 	objLs[2].push_back(hdrt01);
-	TH2F *hdrt01_3D = new TH2F("hdrt01_3D", "Overall Distribution of Redisual and Drift Time for 3D Tracks;t [ns];dr [mm]", 500, -100., 400., 800, -4.0, 4.0);
+	TH2F *hdrt01_3D = new TH2F("hdrt01_3D", "Overall Distribution of Redisual and Drift Time for 3D Tracks;t [ns];dr [mm]", 600, -100., 500., 800, -4.0, 4.0);
 	objLs[6].push_back(hdrt01_3D);
 	TH2F *hdrt02[2]{}, *hdrt03[2][2]{}; // [0-1]: [XY]; [0-1][0-1]: [XY][DC0-1]
 	TH2F *hdrt02_3D[2]{}, *hdrt03_3D[2][2]{}; // [0-1]: [XY]; [0-1][0-1]: [XY][DC0-1]
 	for(int i = 0; i < 2; i++){ // loop over XY
 		sprintf(name, "hdrt02_%d", i);
 		sprintf(title, "Distribution of Residual and Drift Time for %c-Tracks;t [ns];dr [mm]", xy[i]);
-		hdrt02[i] = new TH2F(name, title, 500, -100., 400., 800, -4.0, 4.0);
+		hdrt02[i] = new TH2F(name, title, 600, -100., 500., 800, -4.0, 4.0);
 		objLs[2].push_back(hdrt02[i]);
 		sprintf(name, "hdrt02_3D_%d", i);
 		sprintf(title, "Distribution of Residual and Drift Time for 3D Tracks in %c Sense Wires;t [ns];dr [mm]", xy[i]);
-		hdrt02_3D[i] = new TH2F(name, title, 500, -100., 400., 800, -4.0, 4.0);
+		hdrt02_3D[i] = new TH2F(name, title, 600, -100., 500., 800, -4.0, 4.0);
 		objLs[6].push_back(hdrt02_3D[i]);
 		for(int j = 0; j < 2; j++){ // loop over DCs
 			sprintf(name, "hdrt03_%d_%d", i, j);
 			sprintf(title, "Distribution of Residual and Drift Time for %c-Tracks-DC%d", xy[i], j);
-			hdrt03[i][j] = new TH2F(name, title, 500, -100., 400., 800, -4.0, 4.0);
+			hdrt03[i][j] = new TH2F(name, title, 600, -100., 500., 800, -4.0, 4.0);
 			objLs[2].push_back(hdrt03[i][j]);
 			sprintf(name, "hdrt03_3D_%d_%d", i, j);
 			sprintf(title, "Distribution of Residual and Drift Time for 3D Tracks in DC%d %c Sense Wires", j, xy[i]);
-			hdrt03_3D[i][j] = new TH2F(name, title, 500, -100., 400., 800, -4.0, 4.0);
+			hdrt03_3D[i][j] = new TH2F(name, title, 600, -100., 500., 800, -4.0, 4.0);
 			objLs[6].push_back(hdrt03_3D[i][j]);
 		} // end loop over DCs
 	} // end loop over XY
-	TH2F *hdrt04 = new TH2F("hdrt04", "Distribution of Residual and Drift Time for DC0X1Anode40;t [ns];dr [mm]", 500, -100., 400., 800, -4.0, 4.0);
+	TH2F *hdrt04 = new TH2F("hdrt04", "Distribution of Residual and Drift Time for DC0X1Anode40;t [ns];dr [mm]", 600, -100., 500., 800, -4.0, 4.0);
 	objLs[2].push_back(hdrt04);
-	TH2F *hdrt04_3D = new TH2F("hdrt04_3D", "Distribution of Residual and Drift Time for DC0X1Anode40(3D tracks);t [ns];dr [mm]", 500, -100., 400., 800, -4.0, 4.0);
+	TH2F *hdrt04_3D = new TH2F("hdrt04_3D", "Distribution of Residual and Drift Time for DC0X1Anode40(3D tracks);t [ns];dr [mm]", 600, -100., 500., 800, -4.0, 4.0);
 	objLs[6].push_back(hdrt04_3D);
 
 	TH2F *hdrt04_STR[nAng]{};
@@ -261,11 +264,11 @@ void TAAssessTa::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid,
 	for(int i = 0; i < nAng; i++){
 		sprintf(name, "hdrt04_STR_%d", i);
 		sprintf(title, "Distribution of Residual and Drift Time for DC0X1Anode40STR_%d(alpha: %f~%f);t [ns];dr [mm]", i, (i-nAng/2.)*angStep/DEGREE, (i-nAng/2.+1.)*angStep/DEGREE);
-		hdrt04_STR[i] = new TH2F(name, title, 500, -100., 400., 800, -4.0, 4.0);
+		hdrt04_STR[i] = new TH2F(name, title, 600, -100., 500., 800, -4.0, 4.0);
 		objLs[2].push_back(hdrt04_STR[i]);
 		sprintf(name, "hdrt04_3D_STR_%d", i);
 		sprintf(title, "Distribution of Residual and Drift Time for DC0X1Anode40STR_%d(alpha: %f~%f)(3D tracks);t [ns];dr [mm]", i, (i-nAng/2.)*angStep/DEGREE, (i-nAng/2.+1.)*angStep/DEGREE);
-		hdrt04_3D_STR[i] = new TH2F(name, title, 500, -100., 400., 800, -4.0, 4.0);
+		hdrt04_3D_STR[i] = new TH2F(name, title, 600, -100., 500., 800, -4.0, 4.0);
 		objLs[6].push_back(hdrt04_3D_STR[i]);
 	}
 	TH2F *hdrt04_sample = new TH2F("hdrt04_sample", "dr-DCA Spectra - for STRCor Evaluation;DCA [mm];dr [mm]", 60, 0., 5.5, 800, -4.0, 4.0);
@@ -299,19 +302,19 @@ void TAAssessTa::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid,
 		hgGOOD[i] = new TH1F(name, title, 11, -1.5, 9.5);
 		objLs[0].push_back(hnF[i]); objLs[0].push_back(hgGOOD[i]);
 		for(int j = 0; j < 2; j++){ // loop over DCs
-			sprintf(name, "htt%c%d", xy[i], j);
+			sprintf(name, "htt%cdc%d", xy[i], j);
 			sprintf(title, "t_{X1} v.s. t_{X2} for Vertical %c Tracks for MWDC%d;t_{X1} [ns];t_{X2} [ns]", xy[i], j);
-			htt[i][j] = new TH2F(name, title, 500, -100., 400., 500, -100., 400.);
+			htt[i][j] = new TH2F(name, title, 600, -100., 500., 500, -100., 400.);
 			sprintf(name, "hrr%cdc%d", xy[i], j);
 			sprintf(title, "r_{X1} v.s. r_{X2} for Vertical %c Tracks for MWDC%d;r_{X1} [mm];r_{X2} [mm]", xy[i], j);
-			hrr[i][j] = new TH2F(name, title, 500, -0.2, 6., 500., -0.2, 6.);
+			hrr[i][j] = new TH2F(name, title, 1000, -0.2, 16., 1000., -0.2, 16.);
 			objLs[4].push_back(htt[i][j]); objLs[4].push_back(hrr[i][j]);
 			sprintf(name, "htt_3D_%cdc%d", xy[i], j);
 			sprintf(title, "t_{X1} v.s. t_{X2} for Vertical 3D %c Tracks for MWDC%d;t_{X1} [ns];t_{X2} [ns]", xy[i], j);
-			htt_3D[i][j] = new TH2F(name, title, 500, -100., 400., 500, -100., 400.);
+			htt_3D[i][j] = new TH2F(name, title, 600, -100., 500., 500, -100., 400.);
 			sprintf(name, "hrr_3D_%cdc%d", xy[i], j);
 			sprintf(title, "r_{X1} v.s. r_{X2} for Vertical 3D %c Tracks for MWDC%d;r_{X1} [mm];r_{X2} [mm]", xy[i], j);
-			hrr_3D[i][j] = new TH2F(name, title, 500, -0.2, 6., 500, -0.2, 6.);
+			hrr_3D[i][j] = new TH2F(name, title, 1000, -0.2, 16., 1000, -0.2, 16.);
 			objLs[7].push_back(htt_3D[i][j]); objLs[7].push_back(hrr_3D[i][j]);
 			sprintf(name, "Hdt_DC%d%c", i, xy[j]);
 			sprintf(title, "Drift Time Distribution of MWDC%d-%c;t [ns]", i, xy[j]);
@@ -377,8 +380,8 @@ void TAAssessTa::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid,
 			p[1] = k[trkId[1]]; // k2
 			p[2] = b[trkId[0]]; // b1
 			p[3] = b[trkId[1]]; // b2
-			hHAng->Fill(atan(p[0])/DEGREE); hXMag->Fill(p[0]*(-500.)+p[2]);
-			hVAng->Fill(atan(p[1])/DEGREE); hYMag->Fill(p[1]*(-500.)+p[3]);
+			hHAng->Fill(atan(p[0])/DEGREE); hXMag->Fill(p[0]*(-1874.0)+p[2]);
+			hVAng->Fill(atan(p[1])/DEGREE); hYMag->Fill(p[1]*(-1874.0)+p[3]);
 			// 3D statistics
 			if(is3D){ // if 3D tracking has been implemented
 				int trk3DId;
@@ -411,7 +414,7 @@ void TAAssessTa::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid,
 							hrt03_3D[j][dcId]->Fill(tt, rc);
 							hdrt03_3D[j][dcId]->Fill(tt, dr);
 
-							if(0 == j && 0 == k && 8 == nu[j][k]){
+							if(0 == j && 0 == k && nu[j][k] >= 3 && nu[j][k] <= 5){
 								hrt04_3D->Fill(tt, rc);
 								hdrt04_3D->Fill(tt, dr);
 								hrt04_3D_STR[STRid]->Fill(tt, rc);
@@ -462,7 +465,7 @@ void TAAssessTa::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid,
 					hrt03[dcType][dcId]->Fill(tt, rc);
 					hdrt03[dcType][dcId]->Fill(tt, dr);
 
-					if(0 == dcType && 0 == l && 8 == nu[j][l]){
+					if(0 == dcType && 0 == l && nu[j][l] >= 3 && nu[j][l] <= 5){
 						hrt04->Fill(tt, rc);
 						hdrt04->Fill(tt, dr);
 						hrt04_STR[STRid]->Fill(tt, rc);

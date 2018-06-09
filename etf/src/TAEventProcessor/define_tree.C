@@ -22,7 +22,7 @@
 	int id[ntrMax]; // tracks with the same track Id and different track type are projections of the same 3-D track.
 	int nu[ntrMax][6], sfe16Id[ntrMax][6]; // fired anode id, SFE16 chip id
 	double t[ntrMax][6], TOT_DC[ntrMax][6], TOT_DC_Avrg[ntrMax], r[ntrMax][6]; // hit pattern
-	double k[ntrMax], b[ntrMax]; // track
+	double k[ntrMax], b[ntrMax], d2[ntrMax]; // track
 	double aoz[ntrMax], aozdmin[ntrMax], poz[ntrMax]; // aoz
 	double yp[ntrMax][2]; // dx/dz; dy/dz, on the target hit position
 	// w: weight for weight addition of chi to chi2
@@ -38,13 +38,14 @@
 	double TOTUV[ntrMax], TOTUH[ntrMax], TOTDV[ntrMax], TOTDH[ntrMax];
 	double TOT_T0[6]; // [1-6: T0V, T0H, T1LV, T1LH, T1RV, T1RH]
 	double TOF_T1; // time tag of T1 plastic scintillator, beside the target.
-	double tRef, tof1; // T reference -> ~ 500+-100 to trigger
+	double tRef, tRef_pos, tof1; // T reference -> ~ 500+-100 to trigger
 	TTree *treeTrack = new TTree("treeTrack", "pattern recognition tracks");
 //	treeTrack->SetAutoSave(1e7);
 	treeTrack->Branch("index", &index, "index/I");
 	treeTrack->Branch("bunchId", &bunchId, "bunchId/I");
 	treeTrack->Branch("tof1", &tof1, "tof1/D"); // tof from T0_0 to T0_1
 	treeTrack->Branch("tRef", &tRef, "tRef/D");
+	treeTrack->Branch("tRef_pos", &tRef_pos, "tRef_pos/D");
 	treeTrack->Branch("beta", &beta, "beta/D");
 	treeTrack->Branch("TOT_T0", TOT_T0, "TOT_T0[6]/D"); // see the comment above
 	treeTrack->Branch("ntr", &ntr, "ntr/I");
@@ -61,6 +62,7 @@
 	treeTrack->Branch("r", r, "r[ntrT][6]/D");
 	treeTrack->Branch("k", k, "k[ntrT]/D"); // start for iterative fit, necessary
 	treeTrack->Branch("b", b, "b[ntrT]/D"); // start for iterative fit, necessary
+	treeTrack->Branch("d2", d2, "d2[ntrT]/D");
 	treeTrack->Branch("chi", chi, "chi[ntrT][6]/D"); // residuals for each hit
 	treeTrack->Branch("chi2", chi2, "chi2[ntrT]/D"); // sum of chi^2
 	treeTrack->Branch("Chi", Chi, "Chi[ntrT]/D"); // sqrt(chi2/nFiredAnodeLayer)
@@ -148,13 +150,14 @@
 	}
 
 	// trees for MUSICs
-	TTree *treeMUSIC[2]{}; // [0-1]: MUSICM-L: up-downstream of the target
-	double deltaE[2]{}, Z[2]{}, MU_ch[2][6]{};
-	int pileUp[2]{}, nF_MU[2]{}; // N of Fired ch (pileup-ch excluded)
+	TTree *treeMUSIC[3]{}; // [0-2]: MUSICM-L-Si: up-downstream of the target
+	double deltaE[3]{}, Z[3]{}, MU_ch[3][6]{};
+	int pileUp[3]{}, nF_MU[3]{}; // N of Fired ch (pileup-ch excluded)
 	int pileUpSCA; // pileup recorded by scaler
 	treeMUSIC[0] = new TTree("treeMUSICM", "MUSIC upstream of the target");
 	treeMUSIC[1] = new TTree("treeMUSICL", "MUSIC downstream of the target");
-	for(int i = 2; i--;) if(music[i]){
+	treeMUSIC[2] = new TTree("treeSi", "Si downstream of the target");
+	for(int i = 3; i--;) if(music[i]){
 		treeMUSIC[i]->Branch("index", &index, "index/I");
 		treeMUSIC[i]->Branch("deltaE", &deltaE[i], "deltaE/D");
 		treeMUSIC[i]->Branch("Z", &Z[i], "Z/D");
@@ -169,6 +172,10 @@
 	if(music[1]){
 		treeMUSIC[1]->Branch("ch", MU_ch[1], "ch[8]/D"); // 8 sampling units
 		objLsTree.push_back(treeMUSIC[1]);
+	}
+	if(music[2]){
+		treeMUSIC[2]->Branch("ch", MU_ch[2], "ch[4]/D"); // 8 sampling units
+		objLsTree.push_back(treeMUSIC[2]);
 	}
 
 	const int n3DtrMax = ntrMax/3;

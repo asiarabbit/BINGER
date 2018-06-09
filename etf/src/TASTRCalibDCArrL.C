@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2017/12/23, SUN Yazhou.										     //
+// Last modified: 2018/6/8, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -22,6 +22,10 @@
 
 TASTRCalibDCArrL::TASTRCalibDCArrL(const string &rootfile, TAMWDCArrayL *dcArrL)
 		: TASTRCalibDCArr(rootfile, dcArrL){
+	// very the identity of the dcArray
+	if(dcArrL && dcArrL->GetDetId() != 6)
+		TAPopMsg::Error("TASTRCalibDCArrL", "TASTRCalibDCArrL: input DC array is not dcArrL, detId: %d", dcArrL->GetDetId());
+
 	if(!fDCArr){
 		fDCArr = (TAMWDCArray*)TAParaManager::Instance()->GetDetList()[3];
 		if(!fDCArr) TAPopMsg::Error("TASTRCalibDCArrL", "TASTRCaliDCArrL: DC array from TAParaManager is null. TAEventProcessor::Configure() not run yet?");

@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/22.															     //
-// Last modified: 2018/4/21, SUN Yazhou.										     //
+// Last modified: 2018/6/8, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -17,7 +17,7 @@
 
 #include "TAMWDCArrayD.h"
 #include "TAPopMsg.h"
-#include "TAMWDCTaM.h"
+#include "TAMWDCTaL.h"
 #include "TACtrlPara.h"
 
 TAMWDCArrayD::TAMWDCArrayD(const string &name, const string &title, unsigned uid)
@@ -32,8 +32,8 @@ void TAMWDCArrayD::Configure(){
 		return; // Configure() has been called
 	}
 	SetDsquareThresholdPerDot(TACtrlPara::DsquareThresholdPerDot(fUID));
-	if(!fMWDC[0]) fMWDC[0] = new TAMWDCTaM(fName+"->DC0", fTitle+"->DC0", fUID+(0<<6));
-	if(!fMWDC[1]) fMWDC[1] = new TAMWDCTaM(fName+"->DC1", fTitle+"->DC1", fUID+(1<<6));
+	if(!fMWDC[0]) fMWDC[0] = new TAMWDCTaL(fName+"->DC0", fTitle+"->DC0", fUID+(0<<6));
+	if(!fMWDC[1]) fMWDC[1] = new TAMWDCTaL(fName+"->DC1", fTitle+"->DC1", fUID+(1<<6));
 
 	for(int i = 2; i--;){
 		fMWDC[i]->SetMWDCId(i);

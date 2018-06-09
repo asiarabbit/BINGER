@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2018/4/9, SUN Yazhou.											     //
+// Last modified: 2018/6/7, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -87,7 +87,6 @@ private:
 	//---------  for pattern recognition -------------------//
 	// for map function
 	double kDriftTimeQtCorrectionWeight; // as its name indicates, used in TAAnode.C
-	double kChiThre; // threshold for chi. (sqrt(chi2 / nFiredAnodeLayer)) unit: mm map.C 1.0 1.5
 	static double fSigmaR; // spatial resolution used to smear drift distance during the generation of simulation data
 
 	string kDataFile; // for extra use

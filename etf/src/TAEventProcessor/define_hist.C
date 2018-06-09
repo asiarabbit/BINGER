@@ -22,8 +22,17 @@
 	// detector pointers
 	TAParaManager::ArrDet_t &det_vec = GetParaManager()->GetDetList();
 	TAT0_0 *T0_0 = (TAT0_0*)det_vec[0];
-	TAT0_1 *T0_1 = (TAT0_1*)det_vec[1]; // use PXI TOF stop as time reference
+	TAT0_1 *T0_1 = (TAT0_1*)det_vec[1]; // [1-15-17]: [PXI-slot9-slot11]
 //	TAT0_1 *T0_1 = (TAT0_1*)det_vec[15]; // use VME TOF stop-v1190_9 as the time reference
+
+//	TAT0_1 *str_t0_1[3] = {
+//		(TAT0_1*)det_vec[1],
+//		(TAT0_1*)det_vec[15], // v1190 - slot_9
+//		(TAT0_1*)det_vec[17] // v1190 - slot_11
+//	};
+
+
+
 	TAT0_1 *VETO_0 = (TAT0_1*)det_vec[12];
 	TAT0_1 *VETO_1 = (TAT0_1*)det_vec[13];
 	TASiPMPlaArray *sipmArr = (TASiPMPlaArray*)det_vec[2];
@@ -37,9 +46,10 @@
 	dcArr2[1] = (TAMWDCArray2*)det_vec[7]; // dc array D
 	pdcArr2[0] = (TAMWDCArray2*)det_vec[8]; // pdc array U
 	pdcArr2[1] = (TAMWDCArray2*)det_vec[9]; // pdc array D
-	TAMUSIC *music[2]{0}; // MUSIC around the target
+	TAMUSIC *music[3]{0}; // MUSIC around the target
 	music[0] = (TAMUSIC*)det_vec[10]; // upstream of the target
 	music[1] = (TAMUSIC*)det_vec[11]; // downstream of the target
+	music[2] = (TAMUSIC*)det_vec[18]; // Si-downstream of the target
 	TATOFWall *tofw[2]{0};
 	if(dcArr[0]) tofw[0] = dcArr[0]->GetTOFWall();
 	if(dcArr[1]) tofw[1] = dcArr[1]->GetTOFWall();
@@ -121,7 +131,7 @@
 		// TOFWall time to T-reference
 		sprintf(name, "h%cTOFWToTRefUV", LR[i]);
 		sprintf(title, "h%cTOFWToTRefUV;stripId;timeToTRef [ns]", LR[i]);
-		hTOFWToTRef[i] = new TH2F(name, title, 33, -1.5, 31.5, 3000, -500., 1500.);
+		hTOFWToTRef[i] = new TH2F(name, title, 33, -1.5, 31.5, 30000, -200., 800.);
 		objLs[7].push_back(hTOFWToTRef[i]);
 		for(int j = 0; j < 3; j++){ // loop over the three MWDCs
 			for(int k = 0; k < 3; k++){ // loop over XUV SLayers
@@ -170,7 +180,7 @@
 	TH2F *htof2_vs_poz = new TH2F("htof2_vs_poz", "tof2 v.s. poz;p/z/ MeV/c;tof2 [ns]", 5000, -1000., 4000., 500, -20., 100.);
 	TH2F *haoz_vs_poz = new TH2F("haoz_vs_poz", "aoz v.s. poz;p/z/ MeV/c;aoz", 5000, -1000., 4000., 500, -5.0, 5.0);
 	TH2F *hdcTOT_vs_poz = new TH2F("hdcTOT_vs_poz", "Averaged DC Anode TOT v.s. poz;p/z/ MeV/c;dcTOT [ns]", 5000, -1000., 4000., 500, -100., 1000.);
-	TH1F *hTOF_T1_pos = new TH1F("TOF_T1_pos", "TOF_T1_pos(U - D);pos [ns]", 1000, -100., 100.);
+	TH1F *hTOF_T1_pos = new TH1F("TOF_T1_pos", "TOF_T1_pos(U - D);pos [ns]", 10000, -50., 50.);
 	objLs[5].push_back(hpoz); objLs[5].push_back(haoz); objLs[5].push_back(htof2);
 	objLs[5].push_back(hbeta2); objLs[5].push_back(hdcTOT); objLs[5].push_back(htof2_vs_poz);
 	objLs[5].push_back(haoz_vs_poz); objLs[5].push_back(hdcTOT_vs_poz);
@@ -273,7 +283,7 @@
 			} // end for over X-Y
 		} // end for over DCs
 	} // end for over DC arrays
-	TH2F *hPDCToTrig = new TH2F("hPDCToTrig", "hPDCToTrig;edgeNumId;timeToTrig [ns]", 7, -1.5, 5.5, 8000, -4000., 6000.);
+	TH2F *hPDCToTrig = new TH2F("hPDCToTrig", "hPDCToTrig;edgeNumId;timeToTrig [ns]", 7, -1.5, 5.5, 10000, -4000., 16000.);
 	objLs[6].push_back(hPDCToTrig);
 
 

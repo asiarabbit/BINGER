@@ -89,8 +89,8 @@ void TAMagnet::TransportIon(double *y, double *yp, double zi, double zf, bool is
 		if(isTracking){
 			fTrackVec.push_back(tra);
 #ifdef DEBUG
-//			cout << "x: " << x << "\tzf: " << zf << endl; // DEBUG
-//			cout << "y[0]: " << y[0] << "\ty[1]: " << y[1] << endl; // DEBUG
+			cout << "x: " << x << "\tzf: " << zf << endl; // DEBUG
+			cout << "y[0]: " << y[0] << "\ty[1]: " << y[1] << endl; // DEBUG
 			cout << "dx/dz: " << yp[0] << "\tdy/dz: " << yp[1] << endl; // DEBUG
 			cout<< "d2x/dz2: " << ypp[0] << "\td2y/dz2: " << ypp[1] << endl; // DEBUG
 			cout << "B[0]: " << B[0] << "\tB[1]: " << B[1]; // DEBUG
@@ -419,6 +419,7 @@ void TAMagnet::GetMagneticIntensity(double *B, const double *p){
 	int ii[3] = {int(pp[0]), int(pp[1]), int(pp[2])}; for(int &x : ii) x /= 10;
 	double dp[3] = {pp[0]-ii[0]*10., pp[1]-ii[1]*10., pp[2]-ii[2]*10.}; // for interpolation
 	double B_t[3][8]{}; // [xyz][8 vetices]
+	bool isOut = false;
 
 	if(ii[0] >= 0 && ii[0] < 100
 	&& ii[1] >= 0 && ii[1] < 9
@@ -441,11 +442,13 @@ void TAMagnet::GetMagneticIntensity(double *B, const double *p){
 	} // end if(...&&...&&...)
 	else{
 		B[0] = 0.; B[1] = 0.; B[2] = 0.;
+		isOut = true;
 	} // end else
 
-	if(0. == B[0] && 0. == B[1] && 0. == B[2]){
+	if(isOut){
 //		cout << "p[0]: " << p[0] << "\tp[1]: " << p[1] << "\tp[2]: " << p[2] << endl; // DEBUG
 //		cout << "ii[0]: " << ii[0] << "\tii[1]: " << ii[1] << "\tii[2]: " << ii[2] << endl; // DEBUG
+//		cout << "Mark 5" << endl; // DEBUG
 //		getchar(); // DEBUG
 		fOutOfRangeError = true;
 	}

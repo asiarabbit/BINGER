@@ -7,7 +7,6 @@
 #include "TAAssess.h"
 #include "TAAssessTa.h"
 #include "TAAssessPDC.h"
-#include "TAGPar.h"
 
 using std::cout;
 using std::endl;
@@ -22,21 +21,27 @@ int main(int argc, char *argv[]){
 
 	TAEventProcessor *ep = TAEventProcessor::Instance();
 	ep->Configure();
+	TAAssess *ass = nullptr; TAAssessTa *assTa = nullptr; TAAssessPDC *assPDC = nullptr;
+	ass = TAAssess::Instance();
+//	assTa = TAAssessTa::Instance();
+//	assPDC = TAAssessPDC::Instance();
+
 	
-	TAAssess *ass = TAAssess::Instance();
-	ass->SetROOTFile(argv[1]);
-	ass->EvalDCArr(round, isDCArrR);
-	ass->PostEval(round, isDCArrR); // analyze hrt_04_sample for STRcor assess
-
-	TAAssessTa *assTa = TAAssessTa::Instance();
-	assTa->SetROOTFile(argv[1]);
-	assTa->EvalDCArr(round, isDCArrR);
-	assTa->PostEval(round, isDCArrR); // analyze hrt_04_sample for STRcor assess
-
-	TAAssessPDC *assPDC = TAAssessPDC::Instance();
-	assPDC->SetROOTFile(argv[1]);
-	assPDC->EvalDCArr(round, isDCArrR);
-	assPDC->PostEval(round, isDCArrR); // analyze hrt_04_sample for STRcor assess
+	if(ass){
+		ass->SetROOTFile(argv[1]);
+		ass->EvalDCArr(round, isDCArrR);
+		ass->PostEval(round, isDCArrR); // analyze hrt_04_sample for STRcor assess
+	}
+	if(assTa){
+		assTa->SetROOTFile(argv[1]);
+		assTa->EvalDCArr(round, isDCArrR);
+		assTa->PostEval(round, isDCArrR); // analyze hrt_04_sample for STRcor assess
+	}
+	if(assPDC){
+		assPDC->SetROOTFile(argv[1]);
+		assPDC->EvalDCArr(round, isDCArrR);
+		assPDC->PostEval(round, isDCArrR); // analyze hrt_04_sample for STRcor assess
+	}
 
 	return 0;
 }

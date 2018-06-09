@@ -81,7 +81,10 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 		return;
 	}
 	TAMWDCArray *dcArr = dcArrAr[isDCArrR];
-	if(!dcArr) TAPopMsg::Error("TAAssess", "EvalDCArr: Required DCArr is null");
+	if(!dcArr){
+		TAPopMsg::Info("TAAssess", "EvalDCArr: Required DCArr is null");
+		return;
+	}
 
 	cout << "Input rootfile: " << rootfile << endl;
 	if(0 != access(rootfile.c_str(), F_OK))
@@ -332,7 +335,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 ///////////////////////////////////////// END OF THE HISTOGRAM DEFINITION //////////////////////////
 
 
-	const int n = treeTrack->GetEntries(); // number of data sections
+	const int n = 70000.; //treeTrack->GetEntries(); // number of data sections
 	int ntrTot[3]{}, n3DtrTot = 0; // total number of tracks of all kinds of DC types (X-U-V)
 	int ntrPerSec[3][100]{}, n3DtrPerSec[ntrMax3D]{}; // [XUV][n3Dtr]
 	cout << "Totally " << n << " data sections would be processed.\n";
@@ -439,7 +442,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 							hrt03_3D[j][dcId]->Fill(tt, rc);
 							hdrt03_3D[j][dcId]->Fill(tt, dr);
 
-							if(0 == j && 0 == k && 8 == nu[j][k]){ // 8 -> 40: DCTa -> DC XXX XXX XXX
+							if(0 == j && 0 == k && nu[j][k] > 30 && nu[j][k] < 50){ // 8 -> 40: DCTa -> DC XXX XXX XXX
 								hrt04_3D->Fill(tt, rc);
 								hdrt04_3D->Fill(tt, dr);
 								hrt04_3D_STR[STRid]->Fill(tt, rc);
@@ -487,7 +490,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 					hrt03[dcType][dcId]->Fill(tt, rc);
 					hdrt03[dcType][dcId]->Fill(tt, dr);
 
-					if(0 == dcType && 0 == l && 8 == nu[j][l]){ // 8 -> 40: DCTa -> DC XXX XXX XXX
+					if(0 == dcType && 0 == l && nu[j][l] > 30 && nu[j][l] < 50){ // 8 -> 40: DCTa -> DC XXX XXX XXX
 						hrt04->Fill(tt, rc);
 						hdrt04->Fill(tt, dr);
 						hrt04_STR[STRid]->Fill(tt, rc);

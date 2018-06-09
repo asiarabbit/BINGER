@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2018/4/22, SUN Yazhou.										     //
+// Last modified: 2018/6/8, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -51,7 +51,7 @@ const double DEGREE = TAMath::DEGREE();
 static TAGPar *gp = TAGPar::Instance();
 
 TAMWDCArray::TAMWDCArray(const string &name, const string &title, unsigned uid)
-		: TAStuff(name, title, uid), fMWDC{0}, fTOFWall(0){
+		: TAStuff(name, title, uid), TADetUnion(uid), fMWDC{0}, fTOFWall(0){
 	fPhiAvrg = -9999.;
 	// would be overwritten later in the derived classes 
 	// using values from TACtrlPara::DsquareThresholdPerDot()

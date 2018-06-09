@@ -395,7 +395,7 @@ int TARawDataProcessor::ReadOfflinePXI(){
 			}
 			if(length_last_ch != 1){
 				Is_Error = true;
-				if(Is_Error) TAPopMsg::Info("TARawDataProcessor", "ReadOfflinePXI: length_last_ch is not 1 word... index: %d, frag_num: %d", index, i);
+				if(Is_Error) TAPopMsg::Info("TARawDataProcessor", "ReadOfflinePXI: length_last_ch is not 1 word... index: %d, frag_num: %d, length_last_ch: %d", index, i, length_last_ch);
 //				cout << "event " << index << " fragment " << i << ":" << endl;
 //				cout << "length_last_ch(words): " << (data_len - offset[va_ch_nu - 1]) / 4. << endl;
 //				cout << "va_ch_nu: " << va_ch_nu << endl;
@@ -510,8 +510,8 @@ int TARawDataProcessor::ReadOfflineVME(){
 	tVME_event evt;
 	vme->Branch("adc", evt.adc, "adc[32]/I");
 	vme->Branch("qdc", evt.qdc[0], "qdc[32]/I");
-	vme->Branch("mtdc0", evt.mtdc0, "mtdc0[128]/I");
-	vme->Branch("mtdc1", evt.mtdc1, "mtdc1[128]/I");
+	vme->Branch("mtdc0", evt.mtdc0, "mtdc0[128][10]/I");
+	vme->Branch("mtdc1", evt.mtdc1, "mtdc1[128][10]/I");
 	vme->Branch("sca", evt.sca, "sca[16]/I");
 	vme->Branch("dsca", evt.dsca, "dsca[16]/I");
 
@@ -702,7 +702,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 								// fill tree - vme with mtdc data //
 								// only leading edges are collected
 								if(9 == id_v1190) evt.mtdc0[chid][k] = hl[chid][k];
-								if(11 == id_v1190) evt.mtdc1[chid][k] = hl[chid][k];
+								else if(11 == id_v1190) evt.mtdc1[chid][k] = hl[chid][k];
 							} // end for over k
 							for(int k = 0; k < nht[chid] && k < edge_num_limit; k++)
 								entry_temp.trailingTime[k] = 

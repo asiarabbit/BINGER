@@ -1,31 +1,32 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 // Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
 //																				     //
-// BINGER/inc/etf/TASTRCalibDCArrL.h												 //
-//   TASTRCalibDCArrL.h -- header file for class TASTRCalibDCArrL					 //
+// BINGER/inc/etf/TASTRCalibPDCArrU.h												 //
+//   TASTRCalibPDCArrU.h -- header file for class TASTRCalibPDCArrU					 //
 //   Introduction: a tool class to calibrate DC STRs using auto-calibration. A		 //
-// derived class of TASTRCalibDCArr, specifically for the left DC array arm.		 //
+// derived class of TASTRCalibPDCArr, specifically for the DCTas upstream of the	 //
+// target. Note that this is for DCs around the target made in Japan.				 //
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2017/10/18.															     //
-// Last modified: 2017/12/23, SUN Yazhou.										     //
+// Created: 2018/6/8.															     //
+// Last modified: 2018/6/8, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _TASTRCALIBDCARRL_H_
-#define _TASTRCALIBDCARRL_H_
+#ifndef _TASTRCALIBPDCARRU_H_
+#define _TASTRCALIBPDCARRU_H_
 
-#include "TASTRCalibDCArr.h"
+#include "TASTRCalibDCArrTa.h"
 
-class TAMWDCArrayL;
+class TAPDCArrayU;
 
-class TASTRCalibDCArrL : public TASTRCalibDCArr{
+class TASTRCalibPDCArrU : public TASTRCalibDCArrTa{
 public:
-	TASTRCalibDCArrL(const string &rootfile = "", TAMWDCArrayL *dcArrL = nullptr);
-	virtual ~TASTRCalibDCArrL();
+	TASTRCalibPDCArrU(const string &rootfile = "", TAPDCArrayU *pdcArrU = nullptr);
+	virtual ~TASTRCalibPDCArrU();
 protected:
 };
 

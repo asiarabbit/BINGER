@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/13.															     //
-// Last modified: 2018/4/8, SUN Yazhou.											     //
+// Last modified: 2018/6/7, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -429,6 +429,20 @@ void TAGPar::DefineParameters(){
 	// ---- PARAMETER 101 --- //
 	p = new TAParameter("delay_PDCD1", "MWDC global delay - delay_PDCD1");
 	p->SetValue(0.); fParVec[101] = p; p = nullptr;
+
+	// PDC Tracking Control //
+	// ---- PARAMETER 102 --- //
+	p = new TAParameter("D2Thre-PDC", "D2Thre-PDC");
+	p->SetValue(27.); fParVec[102] = p; p = nullptr;
+	// ---- PARAMETER 103 --- //
+	p = new TAParameter("TimeThreLB-PDC", "TimeThreLB-PDC");
+	p->SetValue(-40.); fParVec[103] = p; p = nullptr;
+	// ---- PARAMETER 104 --- //
+	p = new TAParameter("TimeThreHB-PDC", "TimeThreHB-PDC");
+	p->SetValue(500.); fParVec[104] = p; p = nullptr;
+	// ---- PARAMETER 105 --- //
+	p = new TAParameter("ChiThrePD-PDC", "ChiThrePD-PDC");
+	p->SetValue(5.); fParVec[105] = p; p = nullptr;
 } // end of member function DefineParameters
 
 void TAGPar::DefineAgents(){

@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/11.															     //
-// Last modified: 2018/4/22, SUN Yazhou.										     //
+// Last modified: 2018/6/8, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -27,7 +27,7 @@
 #include "TADeployPara.h"
 
 TASiPMPlaArray::TASiPMPlaArray(const string &name, const string &title, unsigned uid)
-		: TAStuff(name, title, uid){
+		: TAStuff(name, title, uid), TADetUnion(uid){
 	fWidth = -9999.; fLength = -9999.;
 	fX0 = -9999.; fZ0 = -9999.;
 	fNStripV = -1; fNStripH = -1;

@@ -45,6 +45,7 @@ double TAChData::GetLeadingTime(int n) const{
 }
 // t0, t1 and t2 are set for choosing ch->GetLT over edges
 // (ch->GetLT-t0) within t1 and t2 is chosen. t1 and t2 using default values, choose the 1st edge
+//#define DEBUG
 double TAChData::GetLT(double t0, double t1, double t2) const{
 	const int nl = GetNLeadingEdge();
 	double tmp, dt, lt = GetLeadingTime(); // default is the 0-th edge leading edge time
@@ -79,9 +80,11 @@ double TAChData::GetLT(double t0, double t1, double t2) const{
 			}
 		}
 	} // end outer else
-//	Show(); // DEBUG
-//	cout << "t0: " << t0 << "\tt1: " << t1 << "\tt2: " << t2 << endl; // DEBUG
-//	cout << "lt: " << lt << endl; getchar(); // DEBUG
+#ifdef DEBUG
+	Show(); // DEBUG
+	cout << "t0: " << t0 << "\tt1: " << t1 << "\tt2: " << t2 << endl; // DEBUG
+	cout << "lt: " << lt << endl; getchar(); // DEBUG
+#endif
 	return lt;
 }
 // get the n-th pulse
@@ -122,6 +125,7 @@ bool TAChData::Assign(tEntry *entry){
 
 		return true;
 	}
+	else strcpy(entry->name, "\033[31mDEFECT-CHANNEL (nl<=0)\033[0m");
 
 	return false;
 } // end of member function Assign

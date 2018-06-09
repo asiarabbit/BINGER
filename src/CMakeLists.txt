@@ -5,7 +5,7 @@
 #
 # Created Time: 2017/10/18
 # Author: SUN Yazhou, asia.rabbit@163.com
-# Last Modified: 2018/1/10, SUN Yazhou
+# Last Modified: 2018/6/8, SUN Yazhou
 ##################################################################################################
 
 find_package(ROOT REQUIRED)
@@ -31,6 +31,12 @@ target_link_libraries(t0 ${LIB_LIST})
 
 add_executable(str strcali.C)
 target_link_libraries(str ${LIB_LIST})
+
+add_executable(strpdc strcali_pdc.C)
+target_link_libraries(strpdc ${LIB_LIST})
+
+add_executable(strdcta strcali_dcta.C)
+target_link_libraries(strdcta ${LIB_LIST})
 
 #add_executable(vme vme.C)
 #target_link_libraries(vme ${LIB_LIST})
