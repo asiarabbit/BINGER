@@ -338,7 +338,7 @@ int TARawDataProcessor::ReadOfflinePXI(){
 							(ht[j][k] +  rand0_5()) * H_BLIP;
 					entry_temp.is_V = false; entry_temp.channelId = ch_id[j];
 					if(nhl > edge_num_limit || nht > edge_num_limit){
-						TAPopMsg::Warn("TARawDataProcessor", "ReadOfflinePXI: HPTDC edge number is greater than %d: nhl: %d, nht: %d", edge_num_limit, nhl, nht);
+//						TAPopMsg::Warn("TARawDataProcessor", "ReadOfflinePXI: HPTDC edge number is greater than %d: nhl: %d, nht: %d", edge_num_limit, nhl, nht);
 					}
 					entry_temp.nl = nhl < edge_num_limit ? nhl : edge_num_limit;
 					entry_temp.nt = nht < edge_num_limit ? nht : edge_num_limit;
