@@ -22,9 +22,9 @@ int main(int argc, char *argv[]){
 	TAEventProcessor *ep = TAEventProcessor::Instance();
 	ep->Configure();
 	TAAssess *ass = nullptr; TAAssessTa *assTa = nullptr; TAAssessPDC *assPDC = nullptr;
-	ass = TAAssess::Instance();
+//	ass = TAAssess::Instance();
 //	assTa = TAAssessTa::Instance();
-//	assPDC = TAAssessPDC::Instance();
+	assPDC = TAAssessPDC::Instance();
 
 	
 	if(ass){

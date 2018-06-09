@@ -67,7 +67,7 @@ bool TACtrlPara::TimeThre(double t, unsigned uid){
 			return t > gp->Val(42) && t < gp->Val(43) / 2.;
 		}
 		if(8 == type[0] || 9 == type[0]){ // PDC -> drift distance: 10mm
-			cout << gp->Val(103) << " " << gp->Val(104) << endl; getchar(); // DEBUG
+//			cout << gp->Val(103) << " " << gp->Val(104) << endl; getchar(); // DEBUG
 			return t > gp->Val(103) && t < gp->Val(104); // 103, 104: exclusive for PDCs
 		}
 	}

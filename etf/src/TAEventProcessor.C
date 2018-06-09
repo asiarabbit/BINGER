@@ -78,7 +78,7 @@ using std::setw;
 //#define DEBUG
 #define GO // do the filling of ROOT objects
 //#define VERBOSE // show TAPopMsg::Info() information
-#define SHOW_ENTRY
+//#define SHOW_ENTRY
 
 TAEventProcessor* TAEventProcessor::fInstance = nullptr;
 

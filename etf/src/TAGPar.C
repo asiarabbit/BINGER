@@ -443,6 +443,12 @@ void TAGPar::DefineParameters(){
 	// ---- PARAMETER 105 --- //
 	p = new TAParameter("ChiThrePD-PDC", "ChiThrePD-PDC");
 	p->SetValue(5.); fParVec[105] = p; p = nullptr;
+
+	// TOFSTOP OPTION //
+	// ---- PARAMETER 105 --- //
+	p = new TAParameter("TOFSTOP-OPTION", "TOFSTOP OPTION");
+	p->SetValue(1); fParVec[106] = p; p = nullptr;
+
 } // end of member function DefineParameters
 
 void TAGPar::DefineAgents(){

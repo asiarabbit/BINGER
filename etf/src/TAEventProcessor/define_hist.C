@@ -8,7 +8,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/21.															     //
-// Last modified: 2018/5/23, SUN Yazhou.										     //
+// Last modified: 2018/6/9, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -22,8 +22,13 @@
 	// detector pointers
 	TAParaManager::ArrDet_t &det_vec = GetParaManager()->GetDetList();
 	TAT0_0 *T0_0 = (TAT0_0*)det_vec[0];
-	TAT0_1 *T0_1 = (TAT0_1*)det_vec[1]; // [1-15-17]: [PXI-slot9-slot11]
-//	TAT0_1 *T0_1 = (TAT0_1*)det_vec[15]; // use VME TOF stop-v1190_9 as the time reference
+
+	// use VME TOF stop-v1190_9 or PXI TOF Stop channels as the time reference
+	const short TOFStopOption = gpar->Val(106);
+	if(1 != TOFStopOption && 15 != TOFStopOption)
+		TAPopMsg::Error("TAEvProsr", "Run: abnormal TOFStopOption: %d", TOFStopOption);
+//	cout << "TOFStopOption: " << TOFStopOption << endl; getchar(); // DEBUG
+	TAT0_1 *T0_1 = (TAT0_1*)det_vec[TOFStopOption]; // [1-15-17]: [PXI-slot9-slot11]
 
 //	TAT0_1 *str_t0_1[3] = {
 //		(TAT0_1*)det_vec[1],
