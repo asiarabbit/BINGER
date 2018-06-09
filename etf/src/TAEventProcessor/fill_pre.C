@@ -96,7 +96,8 @@
 		cout << "timeUV_T0_1 - timeDV_T0_1: " << timeUV_T0_1 - timeDV_T0_1 << endl; // DEBUG
 		getchar(); // DEBUG
 #endif
-		hTOF_T1_pos->Fill(timeUV_T0_1 - timeDV_T0_1);
+		tRef_pos = timeUV_T0_1 - timeDV_T0_1;
+		hTOF_T1_pos->Fill(tRef_pos);
 		if(dmin_T0_1 > -20. && dmin_T0_1 < 60.){
 			tRef = (timeUV_T0_1 + timeDV_T0_1) / 2.;
 			cntTRef++;
@@ -136,6 +137,20 @@
 		TOT_T0[2] = T0_1->GetUV()->GetTOT(); TOT_T0[3] = T0_1->GetUH()->GetTOT();
 		TOT_T0[4] = T0_1->GetDV()->GetTOT(); TOT_T0[5] = T0_1->GetDH()->GetTOT();
 
+		// DEBUG
+//		for(int i = 0; i < 3; i++){
+//			int fired = str_t0_1[i]->GetFiredStatus();
+//			cout << str_t0_1[i]->GetName() << endl;
+//			cout << "FiredStatus(): " << fired << endl;
+//			if(4 == fired){
+//				double uv = str_t0_1[i]->GetUV()->GetLeadingTime();
+//				double dv = str_t0_1[i]->GetDV()->GetLeadingTime();
+//				cout << "UV: " << uv << "\tDV: " << dv << endl;
+//				cout << "UV - DV: " << uv - dv << endl;
+//			}
+//		}
+//		getchar(); // DEBUG
+
 		////////////// detector performance statistics //////////////
 		// the MWDC arrays downstream of the target //
 		for(int ii = 0; ii < 2; ii++) if(dcArr[ii]){ // loop over MWDC arrays
@@ -154,8 +169,10 @@
 					}
 					hTOFWHitPos[ii]->Fill(strId, str->GetHitPosition());
 					double tofwToTrig = str->GetTime(0., gpar->Val(5), gpar->Val(6));
-					if(-9999. != tRef) hTOFWToTRef[ii]->Fill(strId, tofwToTrig - tRef);
+					double tofwToTRef = tofwToTrig - tofw[ii]->GetDelayAvrg() - tRef;
+					if(-9999. != tRef) hTOFWToTRef[ii]->Fill(strId, tofwToTRef);
 					// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
+//					cout << "tofwToTrig: " << tofwToTrig << endl; getchar(); // DEBUG
 					if(!(tofwToTrig > gpar->Val(5) && tofwToTrig < gpar->Val(6))){ // belongs to the trigger-generating particle // (300., 700.)->pion2017; (1120., 1160.)->beamTest2016
 						str->GetStripData()->SetFiredStatus(-10); // manually altered
 					}
@@ -300,12 +317,12 @@
 		// MUSIC statistics;   psca: previous value of sca
 		unsigned psca[16]; memcpy(psca, sca, sizeof(sca));
 		pileUpSCA = sca[10] - psca[10];
-		for(int j = 0; j < 2; j++) if(music[j]){ // loop over two MUSICs
+		for(int j = 0; j < 3; j++) if(music[j]){ // loop over two MUSICs
 			nF_MU[j] = music[j]->GetNFiredChannel();
 			if(0 == nF_MU[j]) continue;
-			pileUp[j] = music[j]->GetPileUp();
 			if(pileUpSCA >= 2) music[j]->SetPileUp(true);
 			else if(pileUpSCA == 1) music[j]->SetPileUp(false);
+			pileUp[j] = music[j]->GetPileUp();
 //			else TAPopMsg::Error("TAEvProsr", "Run: MUSIC PileUpSCA anomaly: %d", pileUpSCA);
 			deltaE[j] = music[j]->GetDeltaE();
 //			music[j]->SetBeta(beta);

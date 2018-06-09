@@ -7,7 +7,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/24.															     //
-// Last modified: 2017/10/15, SUN Yazhou.										     //
+// Last modified: 2018/6/9, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -35,8 +35,9 @@ public:
 	void GetGlobalDirection(double *ag) const; // anode orientation vector
 	void GetGlobalProjection(double *Ag) const; // anode projection
 	const double *GetSTRCorrection(int angle_no) const;
+	int GetDetId() const;
 	// specialised for STR calibration
-	static int GetDriftDistanceBinNumber(double driftDistance);
+	int GetDriftDistanceBinNumber(double driftDistance);
 	TF1 *GetSTR(int STR_id) const;
 	TF1 *GetSTR(double k, int dcType) const;
 	TAMWDC *GetMotherDC() const;
@@ -68,9 +69,10 @@ protected:
 	const double *fGlobalDirection; // global orientation vector, pointing to the Mother MWDC direction array
 	// Space Time Relation (STR) correction table.
 	const double *fSTRCorArr[kSTRCorAngleNBins];
-	static const double kSTRCorArrDummy[kSTRCorRNBins];
+	static const double kSTRCorArrDummy[kSTRCorRNBins*3]; // to accommodate for large drift cells
 	TF1 *fSTR[kSTRCorAngleNBins];
 	TAMWDC *fMotherDC; // DC the anode belongs to
+	short fDetId; // the detector Id of DCArr this anode belongs to
 };
 
 #endif

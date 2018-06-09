@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/18.															     //
-// Last modified: 2018/4/11, SUN Yazhou.										     //
+// Last modified: 2018/6/8, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -42,7 +42,7 @@
 static TAGPar *gp = TAGPar::Instance();
 
 TAMWDCArray2::TAMWDCArray2(const string &name, const string &title, unsigned uid)
-		: TAStuff(name, title, uid), fMWDC{0}, fPlaT0(0){
+		: TAStuff(name, title, uid), TADetUnion(uid), fMWDC{0}, fPlaT0(0){
 	// would be overwritten later in the derived classes
 	// using values from TACtrlPara::DsquareThresholdPerDot()
 	fDsquareThresholdPerDot = 100.;

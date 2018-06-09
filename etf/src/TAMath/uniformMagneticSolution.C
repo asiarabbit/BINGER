@@ -36,7 +36,7 @@
 		} // end for over i
 	}
 	for(int i = 0; i < 3; i++){
-		if(fabs(s[i].x1) > 600.) s[i].x1 = -9999.; // out of Mag mouth (+-500)
+		if(fabs(s[i].x1) > 700.) s[i].x1 = -9999.; // out of Mag mouth (+-500)
 		if(-9999. == s[i].x1) continue;
 		s[i].ki = (s[i].x1 - x0)/(z1 - z0);
 		if(fabs(s[i].ki) > 3.){ s[i].x1 = -9999.; continue; }

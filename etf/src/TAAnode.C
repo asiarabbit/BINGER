@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/24.															     //
-// Last modified: 2018/4/30, SUN Yazhou.										     //
+// Last modified: 2018/6/9, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -151,20 +151,27 @@ double TAAnode::GetDriftDistance(double dt, int STR_id){ // k is the track slope
 	return r > 0. ? r : 0.;
 } // end of function GetDriftDistance
 double TAAnode::GetDriftDistanceCorrection(double r, int STR_id) const{
+	// range validity check
+	// special treatment for PDCs //
+	double STRCorRMax = TAAnodePara::kSTRCorRMax;
+	const short detId = GetAnodePara()->GetDetId();
+	if(8 == detId || 9 == detId){ // PDC array, large drift cells - 10mm max drift distance
+		STRCorRMax *= 2.;
+	}
+	if(r < 0. || r >= STRCorRMax) return 0.;
+
+
 	const double *pcor = GetAnodePara()->GetSTRCorrection(STR_id);
-	if(r < 0. || r >= TAAnodePara::kSTRCorRMax) return 0.;
-	else{
-		int DT = TAAnodePara::GetDriftDistanceBinNumber(r);
-//		if(0)
-		if(0 == DT){ // the zero bin is void to avoid bias, so the STR correction value of this bin has to be extrapolated.
-			return pcor[1];
-		}
-		double k = (r - (DT + 0.5) * TAAnodePara::kSTRCorRStep) / TAAnodePara::kSTRCorRStep; // DEBUG
-		if(k < 0.) k = 0.;
-		// TODO: to be completed with more advanced interpolation method
-		// such as (Newton interpolation)
-		return pcor[DT] * (1. - k) + pcor[DT + 1] * k;
-	} // end else
+	int DT = GetAnodePara()->GetDriftDistanceBinNumber(r);
+//	if(0)
+	if(0 == DT){ // the zero bin is void to avoid bias, so the STR correction value of this bin has to be extrapolated.
+		return pcor[1];
+	}
+	double k = (r - (DT + 0.5) * TAAnodePara::kSTRCorRStep) / TAAnodePara::kSTRCorRStep;
+	if(k < 0.) k = 0.;
+	// TODO: to be completed with more advanced interpolation method
+	// such as (Newton interpolation)
+	return pcor[DT] * (1. - k) + pcor[DT + 1] * k;
 } // end of function GetDriftDistanceCorrection
 
 void TAAnode::SetChId(int id){

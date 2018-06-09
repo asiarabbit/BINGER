@@ -21,7 +21,7 @@
 #include "TAUIDParser.h"
 
 TAMUSIC::TAMUSIC(const string &name, const string &title, unsigned uid)
-	: TAStuff(name, title, uid), fNChannel(-1){
+	: TAStuff(name, title, uid), TADetUnion(uid), fNChannel(-1){
 }
 TAMUSIC::~TAMUSIC(){
 	for(TAChannel *&c : fChArr) if(c){

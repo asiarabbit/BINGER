@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2018/5/23, SUN Yazhou.										     //
+// Last modified: 2018/6/7, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -55,7 +55,7 @@ double TACtrlPara::D2Thre(unsigned uid){
 			return gp->Val(41) / 2.;
 		}
 		if(8 == type[0] || 9 == type[0]){ // PDC -> drift distance: 10mm
-			return gp->Val(41) * 3.;
+			return gp->Val(102); // 102: exclusive for PDCs
 		}
 	}
 	return gp->Val(41);
@@ -67,14 +67,15 @@ bool TACtrlPara::TimeThre(double t, unsigned uid){
 			return t > gp->Val(42) && t < gp->Val(43) / 2.;
 		}
 		if(8 == type[0] || 9 == type[0]){ // PDC -> drift distance: 10mm
-			return t > gp->Val(42) && t < gp->Val(43) * 1.5;
+//			cout << gp->Val(103) << " " << gp->Val(104) << endl; getchar(); // DEBUG
+			return t > gp->Val(103) && t < gp->Val(104); // 103, 104: exclusive for PDCs
 		}
 	}
 	return t > gp->Val(42) && t < gp->Val(43);
 }
 // threshold for chi per dot, to eliminate false combinations. 4.0
 double TACtrlPara::ChiThrePD(unsigned uid){
-	int type[6]; TAUIDParser::DNS(type, uid);
+	int type[6]{}; TAUIDParser::DNS(type, uid);
 	if(IsCoarseFit()){
 		// 2.5 - 5. - 10.: drift cell size
 		if(3 == type[0] || 4 == type[0]) return 5.; // DCArrL-R
@@ -82,18 +83,17 @@ double TACtrlPara::ChiThrePD(unsigned uid){
 		if(7 == type[0]) return 5.; // DCArrD
 		if(8 == type[0] || 9 == type[0]) return 10.; // PDCArr-U-D
 	}
-	if(8 == type[0] || 9 == type[0]) return gp->Val(44) * 2.; // loose treatment for PDCs
+	if(8 == type[0] || 9 == type[0]) return gp->Val(105); // 105: exclusive for PDCs
 	return gp->Val(44);
 }
 // threshold for chi. (sqrt(chi2 / nFiredAnodeLayer)) unit: mm map.C 1.0 1.5
 double TACtrlPara::ChiThre(unsigned uid){
-	if(-9999. == kChiThre)
-		kChiThre = 0.6 * ChiThrePD() * (IsDriftTimeQtCorrection() ? kDriftTimeQtCorrectionWeight : 1.);
-	int type[6]; TAUIDParser::DNS(type, uid);
-	if(8 == type[0] || 9 == type[0]) return kChiThre * 2.; // loose treatment for PDCs
-	return kChiThre;
+		double chiThre = 0.8 * ChiThrePD(uid) * (IsDriftTimeQtCorrection() ? kDriftTimeQtCorrectionWeight : 1.);
+	return chiThre;
 }
-int TACtrlPara::Vicinity(){ return gp->Val(45); } // used in discerning multiple tracks, unit: cell
+int TACtrlPara::Vicinity(){
+	return gp->Val(45);
+} // used in discerning multiple tracks, unit: cell
 int TACtrlPara::StripTolerance(){ return gp->Val(46); } // used in discerning multi-trks, unit: strip
 // TATrack::kBFGSFit; // kNormalFit: 0; kBFGSFit: 1 kIterFit: 2
 int TACtrlPara::FitMethod(){ return gp->Val(47); }
@@ -228,7 +228,7 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 		{ {(int)gp->Val(13), (int)gp->Val(14), (int)gp->Val(15)},
 		  {(int)gp->Val(16), (int)gp->Val(17), (int)gp->Val(18)},
 		  {(int)gp->Val(19), (int)gp->Val(20), (int)gp->Val(21)} },
-		// DCArrL, DC0-1-2 - X-U-V
+		// DCArrR, DC0-1-2 - X-U-V
 		{ {(int)gp->Val(22), (int)gp->Val(23), (int)gp->Val(24)},
 		  {(int)gp->Val(25), (int)gp->Val(26), (int)gp->Val(27)},
 		  {(int)gp->Val(28), (int)gp->Val(29), (int)gp->Val(30)} },
@@ -296,8 +296,8 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 		} // end for over i
 	} // end if not assigned
 	// // STRs for PDCs // //
-	static const int nHVP = 1;
-	static const int HVP[nHVP] = {1000}; // unit: V
+	static const int nHVP = 4;
+	static const int HVP[nHVP] = {1000, 1400, 1200, 1150}; // unit: V
 	static TF1 *rtP[nHVP][nAngBin]{0};
 	// assign rtM for DCTaM
 	if(!rtP[0][0]){
@@ -339,7 +339,7 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 					case 6: para->SetSTR(rtM[hv][i], i); break; // DCTaM
 					case 7: para->SetSTR(rtL[hv][i], i); break; // DCTaL
 					case 8:
-					case 9: para->SetSTR(rtP[hv][i], i); break;
+					case 9: para->SetSTR(rtP[hv][i], i); break; // PDCU-D
 					default: break;
 				}
 			} // end else
@@ -355,7 +355,6 @@ TACtrlPara::TACtrlPara() : kIsCoarseFit(false), kIs3DTracking(false){
 	// for map function
 
 	kDriftTimeQtCorrectionWeight = 6.0;
-	kChiThre = -9999.;
 	fSigmaR = 0.2;
 
 	kDataFile = ""; // for extra use

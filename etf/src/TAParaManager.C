@@ -531,7 +531,9 @@ void TAParaManager::AssignSTRCor(const char *fname) const{
 		short detId = uid & 0x3F; // first section of UID, 6 bits
 		short subDetId = (uid>>6) & 0x7; // second section of UID for TAMWDCArray objects, 3 bits
 		if( ((3 == detId || 4 == detId) && subDetId < 3) // MWDC Array L-R
-		 || ((6 == detId || 7 == detId) && subDetId < 2)) // MWDC Array U-D
+		 || ((6 == detId || 7 == detId) && subDetId < 2) // MWDC Array U-D
+		 || ((8 == detId || 9 == detId) && subDetId < 2) // PDC Array U-D
+		 )
 		{ // MWDC
 			if(fDetList[detId]) ano = (TAAnode*)fDetList[detId]->GetChannel(uid);
 		}

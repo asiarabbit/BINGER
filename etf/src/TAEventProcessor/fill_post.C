@@ -27,7 +27,7 @@
 		for(int j = 0; j < ntrT; j++){ // assign track_ls to treeTrack. loop over tracks
 			tTrack *&tra = track_ls[j];
 			type[j] = tra->type; id[j] = tra->id;
-			k[j] = tra->k; b[j] = tra->b; TOF[j] = tra->TOF;
+			k[j] = tra->k; b[j] = tra->b; TOF[j] = tra->TOF; d2[j] = tra->dsquare;
 			gGOOD[j] = tra->gGOOD; chi2[j] = tra->chi2; Chi[j] = tra->Chi;
 
 			const short dcArrId = (type[j]/10)%10; // 0: dcArrL; 1: dcArrR; 2: dcArrrU; 3: dcArrD
@@ -118,12 +118,14 @@
 			if(0 == dcType && tof2[j] > 0. && -9999. != taHitX[j]){ // X tracks
 				if(IsPID()){
 					double p[4] = {k[j], 0., b[j], 0.}; // {k1, k2, b1, b2}
-					pid->Fly(tof2[j], taHitX[j], p, dcArrId, 2);
+					pid->Fly(tof2[j], taHitX[j], p, dcArrId, 3);
 					aoz[j] = pid->GetAoZ(); aozdmin[j] = pid->GetChi();
 					beta2[j] = pid->GetBeta(); poz[j] = pid->GetPoZ(); // MeV/c
 					pid->GetTargetExitAngle(yp[j]); trkLenT[j] = pid->GetTotalTrackLength();
-					if(aozdmin[j] > 0.1 || -9999. == aoz[j]) cntaozWrong++;
-//					cout << "aozdmin[j]: " << aozdmin[j] << endl; getchar(); // DEBUG
+					if(aozdmin[j] > 1. || -9999. == aoz[j]) cntaozWrong++;
+//					cout << "aozdmin[j]: " << aozdmin[j] << endl; // DEBUG
+//					cout << "aoz[j]: " << aoz[j] << endl; // DEBUG
+	//				getchar(); // DEBUG
 					cntaoz++;
 				}
 			} // end the lengthy if
@@ -167,9 +169,12 @@
 				} // end if
 			} // end for
 			//////////// do the 3D fitting ///////////////
-			if((tArr[0] && tArr[1]) || (tArr[2] && tArr[3])){
-				for(int jj = 0; jj < 2; jj++){ // loop over 3D tracks (or DCArr) jj 0-1 -> U-D
-					if(!tArr[jj*2] || !tArr[jj*2+1]) continue; // select valid DCArr (U or D)
+			if(Is3DTracking() && ((tArr[0] && tArr[1]) || (tArr[2] && tArr[3]))){
+//				cout << "here we go" << endl; getchar(); // DEBUG
+				for(int jj = 2; jj--;){ // loop over 3D tracks (or DCArr) jj 0-1 -> U-D
+//					cout << "jj: " << jj << endl; // DEBUG
+//					cout << "!tArr[jj*2]: " << (!tArr[jj*2]) << endl; // DEBUG
+					if(nullptr == tArr[jj*2] || nullptr == tArr[jj*2+1]) continue; // select valid DCArr (U or D)
 					//////  Assign anode position and track information for 3D fitting /////////////
 					const int nF = tArr[jj*2]->nFiredAnodeLayer + tArr[jj*2+1]->nFiredAnodeLayer;
 					double Ag[nF][3]{}, ag[nF][3]{}, rr[nF]{}, trkVec[4]{};
@@ -210,6 +215,8 @@
 					trk3DIf[n3DtrT].k2 = trkVec[1]; trk3DIf[n3DtrT].b2 = trkVec[3];
 					trk3DIf[n3DtrT].isDCArrR = jj;
 					trk3DIf[n3DtrT].firedStripId = -2; // -2: typical value for trks in DCArrUD
+					n3DtrT++;
+					n3DtrLs[2+jj]++;
 					//// Get averaged TOT of DC signals ////
 					// calculate averaged TOT over all the hit anode layers
 					double TOTAvrgtmp = 0.; int TOTcnt = 0;
@@ -234,15 +241,14 @@
 					} // end for voer XY
 					if(0 == TOTcnt) trk3DIf[n3DtrT].dcTOTAvrg = -9999.; // failed
 					else trk3DIf[n3DtrT].dcTOTAvrg /= TOTcnt; // the updated average
-					n3DtrT++;
-					n3DtrLs[2+jj]++;
 				} // end for over jj (3D tracks, or DC Arr)
 			} // end if(there's only one track in DCArrU or DCArrD)
 		} // end outer if
 
 		/////////////////////// PID DOWNSTREAM THE TARGET ////////////////////////////////////////
 		// PID using the DC array downstream the target and the DC array downstream the dipole magnet
-		if(0) if(4 != VETO_0->GetFiredStatus() && 4 != VETO_1->GetFiredStatus()) // veto before target
+		// veto before target // 
+		if(1 || (4 != VETO_0->GetFiredStatus() && 4 != VETO_1->GetFiredStatus()))
 		if(IsPID() && 1 == ntrLs[3][0]){ // only one trk in DCArrD, or no pid is possible
 			if(1 == n3DtrLs[1] || (0 == n3DtrLs[1] && 1 == ntrLs[1][0])){
 				double pIn[4], pOut[4]; // [0-1-2-3]: [k1, k2, b1, b2]; pIn: into the magnet
@@ -283,12 +289,13 @@
 						} // end if
 					} // end for over jj
 				} // end outer if
-				pid->Fly(-1., -9999., pOut, 1, 1, pIn);
+				pid->Fly(tof2[0], -9999., pOut, 1, 1, pIn);
 				aoz[0] = pid->GetAoZ(); aozdmin[0] = pid->GetChi();
 				beta2[0] = pid->GetBeta(); poz[0] = pid->GetPoZ(); // MeV/c
 				pid->GetTargetExitAngle(yp[0]); trkLenT[0] = pid->GetTotalTrackLength();
-				if(aozdmin[0] > 0.1 || -9999. == aoz[0]) cntaozWrong++;
-//				cout << "aozdmin[j]: " << aozdmin[j] << endl; getchar(); // DEBUG
+				if(aozdmin[0] > 100. || -9999. == aoz[0]) cntaozWrong++;
+//				cout << "aoz: " << aoz[0] << "\ttrkLenT: " << trkLenT[0] << endl; // DEBUG
+//				cout << "aozdmin: " << aozdmin[0] << endl; getchar(); // DEBUG
 				cntaoz++;
 			} // end inner if
 		} // end the outer if

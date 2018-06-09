@@ -11,7 +11,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/13.															     //
-// Last modified: 2018/5/27, SUN Yazhou.										     //
+// Last modified: 2018/6/7, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -78,6 +78,7 @@ using std::setw;
 //#define DEBUG
 #define GO // do the filling of ROOT objects
 //#define VERBOSE // show TAPopMsg::Info() information
+//#define SHOW_ENTRY
 
 TAEventProcessor* TAEventProcessor::fInstance = nullptr;
 
@@ -205,8 +206,8 @@ void TAEventProcessor::Configure(){
 	detList[4] = new TAMWDCArrayR("DCArrayR", "DCArrayR@Post-Magnet", 4);
 //	detList[4] = new TAMWDCArrayM("DCArrayM", "DCArrayM@P.Ma_TEST", 4);
 //	detList[5] = new TASiPMPlaBarrel("SiPMPlaBarrel", "SiPMPlaBarrel@Hug-Target", 5);
-//	detList[6] = new TAMWDCArrayU("DCArrayU", "DCArrayU@Pre-Target", 6);
-//	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7);
+	detList[6] = new TAMWDCArrayU("DCArrayU", "DCArrayU@Pre-Target", 6);
+	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7);
 	detList[8] = new TAPDCArrayU("PDCArrayU", "PDCArrayU@Pre-Target", 8);
 	detList[9] = new TAPDCArrayD("PDCArrayD", "PDCArrayD@Post-Target", 9);
 	detList[10] = new TAMUSICM("MUSICM", "MUSICM@Pre-Target", 10);
@@ -217,12 +218,13 @@ void TAEventProcessor::Configure(){
 	detList[15] = new TAT0_1("T0_1_VME0", "T0_1_VME1@End-RIBLL2", 15); // for PDCArrU
 	detList[16] = new TAT0_0("T0_0_VME1", "T0_0_VME0@Mid-RIBLL2", 16); // for PDCArrD
 	detList[17] = new TAT0_1("T0_1_VME1", "T0_1_VME1@End-RIBLL2", 17); // for PDCArrD
-	
+	detList[18] = new TAMUSICM("Si", "Si@Post-Target", 18);
+
 	for(TADetUnion *&p : detList) if(p) p->Configure(); // build the detectors
 	// time start for DCArrU-D is TAT0_1
 	TAT0_1 *str_t0_1 = (TAT0_1*)detList[1];
-	TAT0_1 *str_t0_1_0 = (TAT0_1*)detList[15];
-	TAT0_1 *str_t0_1_1 = (TAT0_1*)detList[17];
+	TAT0_1 *str_t0_1_0 = (TAT0_1*)detList[15]; // v1190 - slot_9
+	TAT0_1 *str_t0_1_1 = (TAT0_1*)detList[17]; // v1190 - slot_11
 	if(!str_t0_1) TAPopMsg::Error("TAEvProsr", "Configure: T0_1 is nullptr");
 	if(detList[6]) ((TAMWDCArray2*)detList[6])->SetPlaT0(str_t0_1);
 	if(detList[7]) ((TAMWDCArray2*)detList[7])->SetPlaT0(str_t0_1);
@@ -351,23 +353,23 @@ void TAEventProcessor::Analyze(){
 	if(!IsTracking()) return;
 
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
-	static TAMWDCArrayL *dcArrL = (TAMWDCArrayL*)detList[3];
+//	static TAMWDCArrayL *dcArrL = (TAMWDCArrayL*)detList[3];
 	static TAMWDCArrayR *dcArrR = (TAMWDCArrayR*)detList[4];
 	// XXX: should be changed to R for 16C
 //	static TAMWDCArrayR *dcArrR = (TAMWDCArrayR*)(detList[4]);
 //	static TAMWDCArrayR *dcArrR = dynamic_cast<TAMWDCArrayM*>(detList[4]);
 //	if(!dcArrR && detList[4]) TAPopMsg::Error("TAEvPsr", "Analyze: DCArrD not TAMWDCArrayM object.");
-	static TAMWDCArrayU *dcArrU = (TAMWDCArrayU*)detList[6];
-	static TAMWDCArrayD *dcArrD = (TAMWDCArrayD*)detList[7];
+//	static TAMWDCArrayU *dcArrU = (TAMWDCArrayU*)detList[6];
+//	static TAMWDCArrayD *dcArrD = (TAMWDCArrayD*)detList[7];
 	static TAPDCArrayU *pdcArrU = (TAPDCArrayU*)detList[8];
 	static TAPDCArrayD *pdcArrD = (TAPDCArrayD*)detList[9];
 
 	// pattern recognition and rough fit for particle tracking
 	//  XXX THE FOLLOWING ORDER CANNOT BE MESSED UP WITH XXX  //
-	if(dcArrL){ dcArrL->Map(); dcArrL->AssignTracks(fTrackList); }
+//	if(dcArrL){ dcArrL->Map(); dcArrL->AssignTracks(fTrackList); }
 	if(dcArrR){ dcArrR->Map(); dcArrR->AssignTracks(fTrackList); }
-	if(dcArrU){ dcArrU->Map(); dcArrU->AssignTracks(fTrackList); }
-	if(dcArrD){ dcArrD->Map(); dcArrD->AssignTracks(fTrackList); }
+//	if(dcArrU){ dcArrU->Map(); dcArrU->AssignTracks(fTrackList); }
+//	if(dcArrD){ dcArrD->Map(); dcArrD->AssignTracks(fTrackList); }
 	if(pdcArrU){ pdcArrU->Map(); pdcArrU->AssignTracks(fTrackList); }
 	if(pdcArrD){ pdcArrD->Map(); pdcArrD->AssignTracks(fTrackList); }
 	// assign and output beta and index
@@ -444,10 +446,11 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	vector<tTrack *> &track_ls = GetTrackList();
 
 	// read rootfile and assembly each event
-	int nPXI, nVME; // number of entries in the treeData for both PXI and VME daq systems
+	int nPXI = 1, nVME = 1; // N of entries in the treeData for both PXI and VME daq systems
 	if(treeData[0]) nPXI = treeData[0]->GetEntries();
 	if(treeData[1]) nVME = treeData[1]->GetEntries();
-	int cntTrk = 0, cnt3DTrk = 0, cntTrkY = 0; // ntr: n trk per event; cntTrkY: Y tracks from (P)DCTa
+	int cntTrk = 0, cnt3DTrk = 0; // ntr: n trk per event; cntTrkY: Y tracks from (P)DCTa
+	int cntTrkX = 0, cntTrkY = 0; // X: for DCArrL-R-U-D; Y: for DCArrU-D
 	int cntaozWrong = 0, cntaoz = 0;
 	int entryId[2]{}; // entry id iterators for the two treeData-s, [0-1]: [PXI-VME]
 	int index, cntSec = 0;
@@ -466,13 +469,15 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	while(entryId[0] < nPXI && entryId[1] < nVME){
 		Initialize(); // clear everything from last data section
 		// assign all entries in a sec to fEntryList for processing
-		int indext[2] = {-1, -1}; // cache index for PXI and VME
+		int indext[2] = {-1, -1}, bunchId_PXI = 0; // cache index for PXI and VME
 		for(int i = 0; i < 2; i++){ // loop over the two treeData-s
 			TTree *tree = treeData[i];
 			if(tree){
 				while(1){
 					entry_t.initialize();
 					tree->GetEntry(entryId[i]++);
+					// buncId of VME is confined to zero
+					if(-2 == entry_t.index && entry_t.bunchId != 0) bunchId_PXI = entry_t.bunchId;
 					if(-2 != entry_t.index){ // index == -2 marks end of one data section
 						entry_ls.push_back(new tEntry(entry_t));
 						indext[i] = entry_t.index;
@@ -484,32 +489,38 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 		if(indext[1] >= 0 && indext[0] >= 0 && indext[1] != indext[0]){
 			TAPopMsg::Error("TAEvProsr", "Run: PXI and VME index are not consistent. PXI index: %d, VME index: %d", indext[0], indext[1]);
 		}
-		index = indext[0]; // use pxi index
-		treeSCA->GetEntry(cntSec);
-		vme->GetEntry(cntSec);
+		if(indext[0] >= 0) index = indext[0]; // use pxi index
+		else if(indext[1] >= 0) index = indext[1]; // use vme index
+		else TAPopMsg::Error("TAEvProsr", "Run: indexes of VME and PXI are both below 0.");
+		
+		if(treeSCA) treeSCA->GetEntry(cntSec);
+		if(vme) vme->GetEntry(cntSec);
 		cntSec++;
 		if(0 == entry_ls.size()) continue; // empty event
 		// correct time from cycle-clear
-		double bunchIdTime = (abs(entry_t.bunchId) & 0x7FF) * 25.;
+		double bunchIdTime = (abs(bunchId_PXI) & 0x7FF) * 25.;
 		if(entry_t.bunchId < 0) bunchIdTime *= -1.;
 //		cout << "bunchIdTime: " << bunchIdTime << endl; getchar(); // DEBUG
 		if(0. != bunchIdTime) for(tEntry *t : entry_ls){
+			if(0 == t->bunchId) continue; // VME event
 //			t->show(); // DEBUG
 			for(double &x : t->leadingTime) correctCycleClear(x, bunchIdTime);
 			for(double &x : t->trailingTime) correctCycleClear(x, bunchIdTime);
 		}
 		if(entry_t.channelId > secLenLim) continue; // index==-2, then channelId stores secLen
 		if(entry_t.channelId < 0) continue; // bunchIdMisAlignment happened
-		if(index < id0){
+		if(index != -1 && index < id0){
 			cout << "Skipping Event index " << index << "\r" << flush;
 			continue;
 		} // starting from index - id0
 		if(index >= id1) break; // ending at index - id1-1
 ///		cout << "\n\nindex: " << index << endl; // DEBUG
 		Assign(); // *** assign entries in fEntryList *** //
-//		cout << "index: " << index << endl; // DEBUG
-//		for(auto &t : entry_ls) cout << t->name << "\t" << t->channelId << endl; // DEBUG
-//		getchar(); // DEBUG
+#ifdef SHOW_ENTRY
+		cout << "\n\nindex: " << index << endl; // DEBUG
+		for(auto &t : entry_ls) cout << t->name << "\t" << t->channelId << endl; // DEBUG
+		getchar(); // DEBUG
+#endif
 //		for(auto &t : entry_ls) t->show(); // DEBUG
 //		getchar(); // DEBUG
 #ifdef GO
@@ -523,6 +534,7 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 			const int dcArrId = t->type / 10 % 10, dcType = t->type % 10;
 			ntrLs[dcArrId][dcType]++;
 			if(dcArrId > 1 && 1 == dcType) cntTrkY++;
+			if(0 == dcType) cntTrkX++;
 		}
 		ntr = 0; ntrT = 0;
 		for(tTrack *&t : track_ls){
@@ -537,8 +549,8 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 		cnt3DTrk += n3DtrT;
 //		cout << "ntrT: " << ntrT << "\tn3DtrT: " << n3DtrT << endl; getchar(); // DEBUG
 		if(index % 1 == 0){
-			cout << setw(10) << index << setw(10) << cntSec << setw(10) << cntTrk - (cnt3DTrk/3)*2 - cntTrkY;
-			cout << setw(10) << cntTrk << setw(10) << cnt3DTrk / 3;
+			cout << setw(10) << index << setw(10) << cntSec << setw(10) << cntTrkX;
+			cout << setw(10) << cntTrk << setw(10) << cnt3DTrk;
 			cout << setw(10) << cntaoz << setw(10) << cntaozWrong << "\r" << flush;
 //			cout << "idx " << index << " nEv/trkX " << cntSec << "/";
 //			cout << cntTrk - (cnt3DTrk/3)*2 << " totTrk " << cntTrk << " 3Dtrk " << cnt3DTrk / 3;

@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/12/12.															     //
-// Last modified: 2018/1/16, SUN Yazhou.										     //
+// Last modified: 2018/6/7, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -46,7 +46,7 @@ protected:
 	void DefineAgents();
 	void SetHasRead(bool opt){ fHasRead = opt; }
 	static TAGPar *fInstance;
-	enum {kParSIZE = 200, kAgentSIZE = 20};
+	enum {kParSIZE = 250, kAgentSIZE = 20};
 	array<TAParameter *, kParSIZE> fParVec;
 	bool fHasRead; // has read the config file(s) or not
 	array<TObject *, kAgentSIZE> fAgentVec; // agents in the Matrix, sneaking into codes for information

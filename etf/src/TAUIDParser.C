@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/16.															     //
-// Last modified: 2018/5/23, SUN Yazhou.										     //
+// Last modified: 2018/6/6, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -50,7 +50,7 @@ void TAUIDParser::DNS(int *result, unsigned uid){
 			result[2] = (uid>>9) & 0x3; // sub-strip id, 2 bits
 			result[3] = (uid>>15) & 0x3; // 0: UV; 1: UH; 2: DV; 3: DH, 2bits
 			break;
-		case 10: case 11: // MUISC
+		case 10: case 11: case 18: // MUISC
 			result[1] = (uid>>6) & 0xF; break; // channel Id, 4 bits
 
 	} // end of switch(result[0])
@@ -110,7 +110,7 @@ unsigned TAUIDParser::UIDGenerator(const int *type){
 	if(5 == type[0]){ // SiPM Plastic Barrel
 		return type[0] + (type[1]<<6) + (type[2]<<9) + (type[3]<<15);
 	}
-	if(10 == type[0] || 11 == type[0]){ // MUISC
+	if(10 == type[0] || 11 == type[0] || 18 == type[0]){ // MUISC
 		return type[0] + (type[1]<<6);
 	}
 

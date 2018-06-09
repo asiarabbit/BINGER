@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/18.															     //
-// Last modified: 2018/1/5, SUN Yazhou.											     //
+// Last modified: 2018/6/8, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -36,7 +36,7 @@ public:
 	virtual void ChiHistogramming(bool is3D); // is3D: whether to use 3D chi to fill the histograms
 	virtual void GenerateSTRCorFile(int round = 0);
 	// isBigData: whether or not the data statistics is enough
-	static void ChiHistogramming(const string &rootfile, TAMWDCArray *dcArr, bool is3D, bool isBigSta = true);
+	static void ChiHistogramming(const string &rootfile, TAMWDCArray *dcArr, bool is3D = false, bool isBigSta = true);
 	// round: STR auto-calibration round
 	static void GenerateCalibFile(const string &rootfile, TAMWDCArray *dcArr, int round = 0);
 protected:

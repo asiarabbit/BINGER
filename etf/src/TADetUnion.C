@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/13.															     //
-// Last modified: 2017/10/13, SUN Yazhou.										     //
+// Last modified: 2018/6/8, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -18,7 +18,11 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 
 #include "TADetUnion.h"
+#include "TAStuff.h"
+#include "TAUIDParser.h"
 
-TADetUnion::TADetUnion(){
+TADetUnion::TADetUnion(unsigned uid) : fDetId(-1){
+	int type[6]{}; TAUIDParser::DNS(type, uid);
+	fDetId = type[0];
 }
 TADetUnion::~TADetUnion(){}

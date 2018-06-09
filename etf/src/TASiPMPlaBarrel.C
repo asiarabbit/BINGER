@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/21.															     //
-// Last modified: 2018/4/4, SUN Yazhou.											     //
+// Last modified: 2018/6/8, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -28,7 +28,7 @@
 #include "TAPopMsg.h"
 
 TASiPMPlaBarrel::TASiPMPlaBarrel(const string &name, const string &title, unsigned uid)
-	: TATOFWall(name, title, uid){
+	: TATOFWall(name, title, uid), TADetUnion(uid){
 }
 TASiPMPlaBarrel::~TASiPMPlaBarrel(){}
 

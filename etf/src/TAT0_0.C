@@ -9,10 +9,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2017/12/29, SUN Yazhou.										     //
+// Last modified: 2018/6/8, SUN Yazhou.											     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -25,7 +25,7 @@
 static const TAGPar *gp = TAGPar::Instance();
 
 TAT0_0::TAT0_0(const string &name, const string &title, unsigned uid)
-		: TAStuff(name, title, uid), fUV(nullptr), fUH(nullptr){
+		: TAStuff(name, title, uid), TADetUnion(uid), fUV(nullptr), fUH(nullptr){
 	fFiredStatus = -2; fDelay = -9999.;
 }
 TAT0_0::~TAT0_0(){

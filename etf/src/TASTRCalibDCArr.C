@@ -45,6 +45,9 @@ using std::ofstream;
 using std::setw;
 using std::ios_base;
 
+// dcArrId: 0 1 2 3 4 5
+// detId:   3 4 6 7 8 9
+const int detIdMap[6] = {3, 4, 6, 7, 8, 9}; // [0-5]: [DCArr_L-R-DCTaArr_U-D-PDCArr_U-D]
 const int TASTRCalibDCArr::nr = TAAnodePara::kSTRCorRNBins;
 const double TASTRCalibDCArr::rmx = TAAnodePara::kSTRCorRMax;
 const int TASTRCalibDCArr::nAng = TAAnodePara::kSTRCorAngleNBins;
@@ -74,7 +77,7 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 	if(is3D && !f->FindObjectAny("treePID3D"))
 		TAPopMsg::Error("TASTRCalibDCArr", "ChiHistogramming: 3D chi histogramming is required, yet treePID3D is not found");
 //	TAParaManager::Instance()->UpdateSTRCorrection(); // keep up-to-date with the newest calibration
-	const bool LRTAG = bool(dcArr->GetUID()-3); // 3: L; 4: R
+	const short DETID = dcArr->GetDetId(); // 3: DCArrL; 4: DCArrR
 	// The x-axis of xX, xU, xV, to calculate angle-alpha
 	const double al[3][3] = {{1., 0., 0.}, {-sqrt(3.), 1., 0.}, {sqrt(3.), 1., 0.}}; // X-U-V
 	double ag[3][3][3]{}, agAxis[3][3][3]{}; // [DC][XUV][xyz];
@@ -145,8 +148,8 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 		treeTrack->GetEntry(i);
 		if(!is3D){
 			for(int j = 0; j < ntr; j++){ // loop over tracks in a data section
-				bool isDCArrR = bool(type[j]/10%10); // 0: L; 1: R
-				if(LRTAG != isDCArrR) continue;
+				const short dcArrId = type[j] / 10 % 10;
+				if(DETID != detIdMap[dcArrId]) continue;
 				int dcType = type[j]%10; // X-U-V
 //				if(-1 == id[j]) continue; // not a successful match
 				if(Chi[j] > 0.9) continue; // nasty tracks
@@ -194,8 +197,8 @@ void TASTRCalibDCArr::ChiHistogramming(const string &rootfile, TAMWDCArray *dcAr
 			n3Dtr = n3DtrXUV[0];
 			// // // ^^^^^^^ circulation over 3-D tracks in one data section ^^^^^^^ // // //
 			for(int jj = 0; jj < n3Dtr; jj++){ // loop over 3D tracks in a data section
-				bool isDCArrR = bool(type[trkId[jj][0]]/10%10); // 0: L; 1: R
-				if(LRTAG != isDCArrR) continue;
+				const short dcArrId = type[trkId[jj][0]]/10%10;
+				if(DETID != detIdMap[dcArrId]) continue;
 				if(Chi3D[jj] > 0.9) continue; // nasty tracks
 				const double b[3] = {k1_3D[jj], k2_3D[jj], 1.}; // track direction vector
 				double alpha[3][3]{}; // angle between track projection and drift cell; [DC][XUV]
@@ -297,7 +300,7 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 	int anodeId[4];
 	double sigma_tree[nAng][nr], mean_tree[nAng][nr];
 	if(nAng > 6 || nr > 60)
-		TAPopMsg::Error("TASTRCalibDCArr", "GenerateCalibFile: nAng or nr is too small: nAng: %d, nr: %d", nAng, nr);
+		TAPopMsg::Error("TASTRCalibDCArr", "GenerateCalibFile: nAng or nr is too large: nAng: %d, nr: %d", nAng, nr);
 	int nAng_tree = nAng, nr_tree = nr;
 	TTree *treeSigma = new TTree("treeSigma", "Spatial Resolution and STR Correction");
 	treeSigma->Branch("anodeId", anodeId, "anodeId[4]/I");
@@ -327,7 +330,7 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 	outFile << "# by class TASTRCalibDCArr by fitting track fitting residues\n";
 	outFile << "# (Ref. NIM A 488. 1-2, p51-73 (2002)).\n";
 	outFile << "#\n";
-	outFile << "# File format is as follows (three lines per each anode):\n";
+	outFile << "# File format is as follows (three lines per each wire layer):\n";
 	outFile << "# Info: anode_UID angle_No valid_bin_cnt\n";
 	outFile << "# STR_correction_drift_time_bin_array\n";
 	outFile << "# STR_correction_array\n";

@@ -9,14 +9,14 @@
 #
 # Created Time: 2017/12/09
 # Author: SUN Yazhou, asia.rabbit@163.com
-# Last Modified: 2018/4/23, SUN Yazhou
+# Last Modified: 2018/6/4, SUN Yazhou
 ##################################################################################################
 
 # under PXI global clock
-3001	1
-3002	65
-3003	129
-3004	193
+2801	1
+2802	65
+2803	129
+2804	193
 
 # under VME v1190_9 local clock
 8002	15

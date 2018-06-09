@@ -79,7 +79,7 @@ int TAPlaStrip::GetFiredStatus() const{
 				if(0 == i){ // Very high resolution
 					double x = GetHitPosition();
 					double l = GetStripPara()->GetLength();
-					if(x >= -1. * l && x < 2. * l) sta = 4; // l +- 1*l: good hit
+					if(x >= -3. * l && x < 3. * l) sta = 4; // l +- 1*l: good hit
 				}
 			} // end if(... && ...)
 			else if(!df[i] && uf[i]) sta = 2;
