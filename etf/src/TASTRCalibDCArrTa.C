@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/6/8.															     //
-// Last modified: 2018/6/8, SUN Yazhou.											     //
+// Last modified: 2018/6/9, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -334,8 +334,25 @@ void TASTRCalibDCArrTa::GenerateCalibFile(const string &rootfile, TAMWDCArray2 *
 	treeSigma->Branch("sigma", sigma_tree, "sigma[nAng][nr]/D");
 	treeSigma->Branch("mean", mean_tree, "mean[nAng][nr]/D");
 	// for filling r-sigma graph
-	double sigma_g[2][2][nr] = {0};
-	int sigma_g_cnt[2][2][nr] = {0};
+	double ***sigma_g = new double**[2];
+	int ***sigma_g_cnt = new int**[2];
+	for(int i = 0; i < 2; i++){
+		sigma_g[i] = new double*[2];
+		sigma_g_cnt[i] = new int*[2];
+		for(int j = 0; j < 2; j++){
+			sigma_g[i][j] = new double[nr];
+			sigma_g_cnt[i][j] = new int[nr];
+			for(int k = 0; k < nr; k++){
+				sigma_g[i][j][k] = 0.;
+				sigma_g_cnt[i][j][k] = 0;
+			} // end for over j
+		} // end for over j
+	} // end for over i
+	double **strCor = new double*[nAng], **strCorSigma = new double*[nAng];
+	for(int i = 0; i < nAng; i++){
+		strCor[i] = new double[nr];
+		strCorSigma[i] = new double[nr];
+	} // end for over i
 
 	// Generate the calibration file
 	char strdir[] = "STRCorrection", mkstrdir[64] = "mkdir ";
@@ -372,7 +389,9 @@ void TASTRCalibDCArrTa::GenerateCalibFile(const string &rootfile, TAMWDCArray2 *
 				for(int k = 0; k < nAnodePerLayer; k++){ // loop over anodes per layer
 					anodeId[0] = i; anodeId[1] = j; anodeId[2] = m; anodeId[3] = k;
 					// temporarily stores the result
-					double strCor[nAng][nr] = {0}, strCorSigma[nAng][nr] = {0};
+					for(int ii = 0; ii < nAng; ii++) for(int jj = 0; jj < nAng; jj++){
+						strCor[ii][jj] = 0.; strCorSigma[ii][jj] = 0.;
+					}
 					TAAnode *ano = dcArr->GetMWDC(i)->GetAnode(j, m+1, k);
 					for(int str_id = 0; str_id < nAng; str_id++){
 						sprintf(name, "STRCali-%s/histo/hDCSTRCor_%d_%d_%d_%d_%d", dcArr->GetName().c_str(), i, j, m, k, str_id);
@@ -388,7 +407,7 @@ void TASTRCalibDCArrTa::GenerateCalibFile(const string &rootfile, TAMWDCArray2 *
 							double npro = hpro->GetEntries();
 							const double rms = hpro->GetRMS();
 							if(0) if(0 == l) npro = 0; // the first bin is biased
-							if(npro < 100. || rms > 0.9){ // stastics is too small or STRcor nasty
+							if(npro < 200. || rms > 0.9){ // stastics is too small or STRcor nasty
 								strCor[str_id][l] = 0.;
 								strCorSigma[str_id][l] = 0.;
 								continue;
@@ -410,7 +429,7 @@ void TASTRCalibDCArrTa::GenerateCalibFile(const string &rootfile, TAMWDCArray2 *
 							hmean[i][j]->Fill(mean); hmeanTot->Fill(mean);
 							hsigma[i][j]->Fill(sigma); hsigmaTot->Fill(sigma);
 //							cout << "mean: " << mean << "\tsigma: " << sigma << endl; getchar(); // DEBUG
-							if((mean > -0.7 && mean < 0.7) && (sigma < 0.9 && sigma > 0.)){
+							if((mean > -0.5 && mean < 0.5) && (sigma < 0.5 && sigma > 0.)){
 								strCor[str_id][l] = mean;
 								strCorSigma[str_id][l] = sigma;
 								// more statistics brings about more weight in the sigma average
@@ -449,22 +468,48 @@ void TASTRCalibDCArrTa::GenerateCalibFile(const string &rootfile, TAMWDCArray2 *
 	outFile << endl;
 	outFile.close();
 
-	double sigmaTot[nr]{}; int sigmaTot_cnt[nr]{};
-	for(int i = 0; i < 2; i++) for(int j = 0; j < 2; j++)
-	for(int l = 0; l < nr; l++) if(sigma_g_cnt[i][j][l] > 0){
-		sigmaTot[l] += sigma_g[i][j][l];
-		sigmaTot_cnt[l]  += sigma_g_cnt[i][j][l];
-		sigma_g[i][j][l] /= sigma_g_cnt[i][j][l];
-		gsigma[i][j]->SetPoint(l, rstep*(l+0.5), sigma_g[i][j][l]); // l+0.5: bin center
-	}
-	for(int l = 0; l < nr; l++) if(sigmaTot_cnt[l] > 0)
-		gsigmaTot->SetPoint(l, rstep*(l+0.5), sigmaTot[l]/sigmaTot_cnt[l]);
+	double *sigmaTot = new double[nr];
+	int *sigmaTot_cnt = new int[nr];
+	for(int i = 0; i < nr; i++){ // initialize sigmaTot and sigmaTot_cnt
+		sigmaTot[i] = 0.; sigmaTot_cnt[i] = 0;
+	} // end for over i
+	for(int i = 0; i < 2; i++){
+		for(int j = 0; j < 2; j++) for(int l = 0; l < nr; l++) if(sigma_g_cnt[i][j][l] > 0){
+			sigmaTot[l] += sigma_g[i][j][l];
+			sigmaTot_cnt[l]  += sigma_g_cnt[i][j][l];
+			sigma_g[i][j][l] /= sigma_g_cnt[i][j][l];
+			gsigma[i][j]->SetPoint(l, rstep*(l+0.5), sigma_g[i][j][l]); // l+0.5: bin center
+		} // end for and if
+	} // end for over i
+	for(int i = 0; i < nr; i++) if(sigmaTot_cnt[i] > 0){
+		gsigmaTot->SetPoint(i, rstep*(i+0.5), sigmaTot[i]/sigmaTot_cnt[i]);
+	} // end for over i
+
+	// free the dynamically allocated memory //
+	for(int i = 0; i < 2; i++){
+		for(int j = 0; j < 2; j++){
+			delete [] sigma_g[i][j];
+			delete [] sigma_g_cnt[i][j];
+		} // end for over j
+		delete [] sigma_g[i];
+		delete [] sigma_g_cnt[i];
+	} // end for over i
+	for(int i = 0; i < nAng; i++){
+		delete [] strCor[i];
+		delete [] strCorSigma[i];
+	} // end for over i
+	delete [] sigma_g; sigma_g = nullptr;
+	delete [] sigma_g_cnt; sigma_g_cnt = nullptr;
+	delete [] sigmaTot; sigmaTot = nullptr;
+	delete [] sigmaTot_cnt; sigmaTot_cnt = nullptr;
+	delete [] strCor; strCor = nullptr;
+	delete [] strCorSigma; strCorSigma = nullptr;
 
 	// write //
 	// make directory to store calibration results
 	f->cd("/");
 	char dir[128], subdir[64]; // directory to store results of the auto-calibration round
-	sprintf(subdir, "round%c%d", dcArr->GetName().c_str()[7], round); // DCArray[L-R]
+	sprintf(subdir, "round%s_%d", dcArr->GetName().c_str(), round); // PDCArray[L-R]
 	sprintf(dir, "STRCali-%s/%s", dcArr->GetName().c_str(), subdir);
 	if(!f->FindObjectAny(subdir)) f->mkdir(dir);
 	f->cd(dir); // stores sigma, mean and treeSgima

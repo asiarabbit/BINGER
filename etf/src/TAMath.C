@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/25.															     //
-// Last modified: 2018/4/26, SUN Yazhou.										     //
+// Last modified: 2018/6/9, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -20,7 +20,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <cmath>
-#include <complex> //complex operation
+#include <complex> //complex number operation
 #include "TAMath.h"
 #include "TAPopMsg.h"
 #include "TACtrlPara.h"

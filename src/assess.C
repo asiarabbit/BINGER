@@ -16,15 +16,20 @@ int main(int argc, char *argv[]){
 		cout << "./ass <rootfile> <isDCArrR> <round_id>. 3 Parameters have to be given\n";
 		exit(1);
 	}
+	const int DCArrOption = atoi(argv[2]);
+	if(0 != DCArrOption && 1 != DCArrOption){
+		cout << "./ass <rootfile> <isDCArrR> <round_id>. isDCArrR is not 0 or 1\n";
+		exit(1);
+	}
 	const int round = atoi(argv[3]);
-	bool isDCArrR = bool(atoi(argv[2]));
+	const bool isDCArrR = bool(DCArrOption);
 
 	TAEventProcessor *ep = TAEventProcessor::Instance();
 	ep->Configure();
 	TAAssess *ass = nullptr; TAAssessTa *assTa = nullptr; TAAssessPDC *assPDC = nullptr;
 //	ass = TAAssess::Instance();
-//	assTa = TAAssessTa::Instance();
-	assPDC = TAAssessPDC::Instance();
+	assTa = TAAssessTa::Instance();
+//	assPDC = TAAssessPDC::Instance();
 
 	
 	if(ass){

@@ -414,7 +414,7 @@ void TAAssessTa::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid,
 							hrt03_3D[j][dcId]->Fill(tt, rc);
 							hdrt03_3D[j][dcId]->Fill(tt, dr);
 
-							if(0 == j && 0 == k && nu[j][k] >= 3 && nu[j][k] <= 5){
+							if(0 == j && 0 == k && 4 == nu[j][k]){
 								hrt04_3D->Fill(tt, rc);
 								hdrt04_3D->Fill(tt, dr);
 								hrt04_3D_STR[STRid]->Fill(tt, rc);
@@ -465,7 +465,7 @@ void TAAssessTa::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid,
 					hrt03[dcType][dcId]->Fill(tt, rc);
 					hdrt03[dcType][dcId]->Fill(tt, dr);
 
-					if(0 == dcType && 0 == l && nu[j][l] >= 3 && nu[j][l] <= 5){
+					if(0 == dcType && 0 == l && 4 == nu[j][l]){
 						hrt04->Fill(tt, rc);
 						hdrt04->Fill(tt, dr);
 						hrt04_STR[STRid]->Fill(tt, rc);

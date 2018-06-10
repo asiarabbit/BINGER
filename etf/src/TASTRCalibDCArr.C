@@ -439,7 +439,7 @@ void TASTRCalibDCArr::GenerateCalibFile(const string &rootfile, TAMWDCArray *dcA
 	// make directory to store calibration results
 	f->cd("/");
 	char dir[128], subdir[64]; // directory to store results of the auto-calibration round
-	sprintf(subdir, "round%c%d", dcArr->GetName().c_str()[7], round); // DCArray[L-R]
+	sprintf(subdir, "round%s_%d", dcArr->GetName().c_str(), round); // DCArray[L-R]
 	sprintf(dir, "STRCali-%s/%s", dcArr->GetName().c_str(), subdir);
 	if(!f->FindObjectAny(subdir)) f->mkdir(dir);
 	f->cd(dir); // stores sigma, mean and treeSgima

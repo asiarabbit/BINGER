@@ -46,3 +46,8 @@ target_link_libraries(strdcta ${LIB_LIST})
 
 add_executable(te test.C)
 target_link_libraries(te ${LIB_LIST})
+
+add_executable(sho shoot.C)
+target_link_libraries(sho ${ROOT_LIBRARIES})
+
+
