@@ -4,7 +4,7 @@
 # Channel Id file for the Optical Fiber detector.
 # Identity: __________ ETF -> Optical Fiber detector __________
 # channel map rule:
-#	level0: strip0 -> strip 15;		level1: [0-1-2-3] <=> [UpV-UpH-DownV-DownH]
+#	level0: strip0 -> strip 40;		level1: [0-1-2-3] <=> [UpV-UpH-DownV-DownH]
 #
 # File format is as follows:
 # channelId	uid

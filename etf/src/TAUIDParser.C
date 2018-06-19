@@ -54,7 +54,7 @@ void TAUIDParser::DNS(int *result, unsigned uid){
 			result[1] = (uid>>6) & 0xF; break; // channel Id, 4 bits
 		case 19: // Optic Fiber Array
 			result[1] = (uid>>6) & 0x7; // DUMMY BIT, 3 bits
-			result[2] = (uid>>9) & 0x3; // strip id, 2 bits
+			result[2] = (uid>>9) & 0x3F; // strip id, 2 bits
 			result[3] = (uid>>15) & 0x3; // 0: UV; 1: UH; 2: DV; 3: DH, 2bits
 			break;
 	} // end of switch(result[0])

@@ -342,22 +342,30 @@
 		if(opfa){
 			multi_opfa = 0;
 			for(int j = 0; j < 40; j++){
+				pos_opfa[j] = -9999.;
+				for(double &x : ul_opfa[j]) x = -9999.;
+				for(double &x : dl_opfa[j]) x = -9999.;
 				TAPlaStrip *str = opfa->GetStrip(j);
 				const short sta = str->GetFiredStatus();
 				if(3 == sta || 4 == sta){
 					multi_opfa++;
 					TAChannel *uv = str->GetUV();
 					TAChannel *dv = str->GetDV();
+//					uv->GetData()->Show(); // DEBUG
+//					dv->GetData()->Show(); // DEBUG
+//					getchar(); // DEBUG
 					for(int k = 0; k < 5; k++){
-						double tu = ul_opfa[j][k] = uv->GetLeadingTime();
-						double td = dl_opfa[j][k] = dv->GetLeadingTime();
-						if(0 == k && -9999 != tu && -9999 != td)
+						double tu = uv->GetLeadingTime(k);
+						double td = dv->GetLeadingTime(k);
+						ul_opfa[j][k] = tu;
+						dl_opfa[j][k] = td;
+						if(0 == k && -9999. != tu && -9999. != td)
 							pos_opfa[j] = tu - td;
 					}
 				}
 			}
 		} // end if(opfa)
-
+		
 
 
 

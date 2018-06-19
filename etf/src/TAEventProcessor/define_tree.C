@@ -238,8 +238,8 @@
 	if(opfa){
 		treeOpticFiberArr->Branch("index", &index, "index/I");
 		treeOpticFiberArr->Branch("multi", &multi_opfa, "multi/I");
-		treeOpticFiberArr->Branch("ul", ul_opfa, "ul[40][5]/I");
-		treeOpticFiberArr->Branch("dl", dl_opfa, "dl[40][5]/I");
+		treeOpticFiberArr->Branch("ul", ul_opfa, "ul[40][5]/D");
+		treeOpticFiberArr->Branch("dl", dl_opfa, "dl[40][5]/D");
 		treeOpticFiberArr->Branch("pos", pos_opfa, "pos[40]/D");
 		objLsTree.push_back(treeOpticFiberArr);
 	}
