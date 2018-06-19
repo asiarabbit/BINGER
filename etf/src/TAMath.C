@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/25.															     //
-// Last modified: 2018/6/9, SUN Yazhou.											     //
+// Last modified: 2018/6/12, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -32,6 +32,8 @@ using std::complex;
 typedef complex<double> cdouble;
 
 static TACtrlPara *clp = TACtrlPara::Instance();
+const double TAMath::kzMagIn = -475.;
+const double TAMath::kzMagOut = 475.;
 
 // length of the vector, len: vector dimension
 double TAMath::norm(const double *p, int len){
@@ -43,9 +45,14 @@ double TAMath::norm(const double *p, int len){
 }
 // |p0-p1|, len=3
 double TAMath::L(const double *p0, const double *p1, int len){
-	double p[3] = {p0[0] - p1[0], p0[1] - p1[1], p0[2] - p1[2]};
+	const int n = 10;
+	double p[n]{};
+	if(len > n)
+		TAPopMsg::Error("TAMath", "L: array length out of range - len: %d (should be no more than %d)", len, n);
+	
+	for(int i = len; i--;) p[i] = p0[i] - p1[i];
 	return norm(p, len);
-}
+} // end of member function L
 // angle between two 3D vectors <a, b>
 double TAMath::VecAng3D(const double *a, const double *b){
 	// cosA = a*b / (|a||b|)
@@ -184,6 +191,37 @@ double TAMath::Gamma(double beta){
 	}
 	return 1./sqrt(1.-beta*beta);
 }
+// (zo, xo): rotating center of the arc
+double TAMath::rho(double kin, double bin, double kout, double bout, double *zo, double *xo){
+	if(fabs(kin - kout) < 1e-8){
+		TAPopMsg::Warn("TAMath", "rho: |k1-k2| too small: k1: %f, k2: %f", kin, kout);
+		kout = kin + 1e-7;
+	}
+	const double &k1 = kin, &k2 = kout;
+	const double &b1 = bin, &b2 = bout;
+
+	const double z1 = kzMagIn,  x1 = k1 * z1 + b1; // incident point
+	const double z2 = kzMagOut, x2 = k2 * z2 + b2; // exit point
+
+	if(zo && xo){
+		zo[0] = (k1 * z2 - k2 * z1 + k1 * k2 * (x2 - x1)) / (k1 - k2);
+		xo[0] = (k1 * x1 - k2 * x2 + z1 - z2) / (k1 - k2);
+	}
+
+	const double L1 = fabs(((z1 - z2) + k2 * (x1 - x2)) / (k1 - k2)) * sqrt(1. + k1 * k1);
+	// XXX: note that L2 is preferred, which agrees with L1p and L2p the better
+	const double L2 = fabs(((z1 - z2) + k1 * (x1 - x2)) / (k1 - k2)) * sqrt(1. + k2 * k2);
+
+	// x2 solved from equatioin L1 == L2
+	const double x2p = x1 + 
+		(z2 - z1) / (k1 + k2) * (k1 * k2 + sqrt(1. + k1 * k1) * sqrt(1. + k2 * k2) - 1.);
+	const double L1p = fabs(((z1 - z2) + k2 * (x1 - x2p)) / (k1 - k2)) * sqrt(1. + k1 * k1);
+	const double L2p = fabs(((z1 - z2) + k1 * (x1 - x2p)) / (k1 - k2)) * sqrt(1. + k2 * k2);
+	cout << "\n\nL1: " << L1 << "\tL2: " << L2;
+	cout << "\nL1p: " << L1p << "\tL2p: " << L2p << "\tx2: " << x2 << "\tx2p: " << x2p << endl;
+
+	return L2p;
+} // end of member function rho
 
 // definitions for fit functions serving class TATrack.
 #include "TAMath/deviaFun.C" // Dsquare, minid2 - global functions.

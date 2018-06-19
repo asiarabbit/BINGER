@@ -111,21 +111,21 @@
 				} // end for over channels
 			} // end outer if
 			if(tRef != -9999. && firedStripId[j] >= 0 && dcArrId < 2){
-				tof2[j] = tofw[dcArrId]->GetStripTime(firedStripId[j], tRef, 9., 40.) - tRef;
+				tof2[j] = tofw[dcArrId]->GetStripTime(firedStripId[j], tRef, 40., 90.) - tRef; // 
 			}
 			yp[j][0] = -9999.; yp[j][1] = -9999.; trkLenT[j] = -9999.;
 			aoz[j] = -9999.; aozdmin[j] = -9999.; beta2[j] = -1.;
 			if(0 == dcType && tof2[j] > 0. && -9999. != taHitX[j]){ // X tracks
 				if(IsPID()){
 					double p[4] = {k[j], 0., b[j], 0.}; // {k1, k2, b1, b2}
-					pid->Fly(tof2[j], taHitX[j], p, dcArrId, 3);
+					pid->Fly(tof2[j], taHitX[j], p, dcArrId, TAPID::kOpt3);
 					aoz[j] = pid->GetAoZ(); aozdmin[j] = pid->GetChi();
 					beta2[j] = pid->GetBeta(); poz[j] = pid->GetPoZ(); // MeV/c
 					pid->GetTargetExitAngle(yp[j]); trkLenT[j] = pid->GetTotalTrackLength();
 					if(aozdmin[j] > 1. || -9999. == aoz[j]) cntaozWrong++;
 //					cout << "aozdmin[j]: " << aozdmin[j] << endl; // DEBUG
 //					cout << "aoz[j]: " << aoz[j] << endl; // DEBUG
-	//				getchar(); // DEBUG
+//					getchar(); // DEBUG
 					cntaoz++;
 				}
 			} // end the lengthy if
@@ -252,13 +252,21 @@
 		if(IsPID() && 1 == ntrLs[3][0]){ // only one trk in DCArrD, or no pid is possible
 			if(1 == n3DtrLs[1] || (0 == n3DtrLs[1] && 1 == ntrLs[1][0])){
 				double pIn[4], pOut[4]; // [0-1-2-3]: [k1, k2, b1, b2]; pIn: into the magnet
+				double pIn0[4]; // trk info before the target
 				for(int j = 4; j--;){
-					pIn[j] = -9999.;
+					pIn[j] = -9999.; pIn0[j] = -9999.;
 					pOut[j] = -9999.;
 				}
 				for(tTrack *&t : track_ls){
 					const int dcArrId = t->type / 10 % 10; // [0-1-2-3]: [L-R-U-D]
 					const int dcType = t->type % 10;
+					// assign DCArrU trks //
+					if(2 == dcArrId && 0 == dcType){ // only one UX trk is found
+						pIn0[0] = t->k; pIn0[2] = t->b;
+					} // end if(2 == dcArrId)
+					if(1 == ntrLs[2][1] && 2 == dcArrId && 1 == dcType){ // only one UY trk is found
+						pIn0[1] = t->k; pIn0[3] = t->b;
+					} // end if(1 == ntrLs[2][1])
 					// assign DCArrD trks //
 					if(3 == dcArrId && 0 == dcType){ // only one DX trk is found
 						pIn[0] = t->k; pIn[2] = t->b;
@@ -278,25 +286,45 @@
 					pOut[1] = trk3DIf[0].k2; pOut[3] = trk3DIf[0].b2;
 				}
 				// XXX XXX XXX XXX //
+				if(0) if(1 == n3DtrLs[3]){ // use DCArrU-3D trk or not
+					for(int jj = n3Dtr; jj < n3DtrT; jj++){
+						if(0 == trk3DIf[jj].isDCArrR){ // DCArrU
+							if(-2 != trk3DIf[jj].firedStripId)
+								TAPopMsg::Error("TAEventProcessor", "Run: fill_post: abnormal firedStripId for 3D DCArrUD tracks: %d", trk3DIf[jj].firedStripId);
+							pIn0[0] = trk3DIf[jj].k1; pIn0[2] = trk3DIf[jj].b1;
+							pIn0[1] = trk3DIf[jj].k2; pIn0[3] = trk3DIf[jj].b2;
+							break;
+						} // end if
+					} // end for over jj
+				} // end outer if
 				if(0) if(1 == n3DtrLs[3]){ // use DCArrD-3D trk or not
 					for(int jj = n3Dtr; jj < n3DtrT; jj++){
 						if(1 == trk3DIf[jj].isDCArrR){ // DCArrD
 							if(-2 != trk3DIf[jj].firedStripId)
-								TAPopMsg::Error("TAEventProcessor", "Run: fill_post:273, abnormal firedStripId for 3D DCArrUD tracks: %d", trk3DIf[jj].firedStripId);
+								TAPopMsg::Error("TAEventProcessor", "Run: fill_post: abnormal firedStripId for 3D DCArrUD tracks: %d", trk3DIf[jj].firedStripId);
 							pIn[0] = trk3DIf[jj].k1; pIn[2] = trk3DIf[jj].b1;
 							pIn[1] = trk3DIf[jj].k2; pIn[3] = trk3DIf[jj].b2;
 							break;
 						} // end if
 					} // end for over jj
 				} // end outer if
-				pid->Fly(tof2[0], -9999., pOut, 1, 1, pIn);
+				pid->Fly(tof2[0], -9999., pOut, 1, TAPID::kOpt4, pIn, pIn0);
 				aoz[0] = pid->GetAoZ(); aozdmin[0] = pid->GetChi();
 				beta2[0] = pid->GetBeta(); poz[0] = pid->GetPoZ(); // MeV/c
+				brho[0] = pid->GetBrho();
 				pid->GetTargetExitAngle(yp[0]); trkLenT[0] = pid->GetTotalTrackLength();
 				if(aozdmin[0] > 100. || -9999. == aoz[0]) cntaozWrong++;
-//				cout << "aoz: " << aoz[0] << "\ttrkLenT: " << trkLenT[0] << endl; // DEBUG
-//				cout << "aozdmin: " << aozdmin[0] << endl; getchar(); // DEBUG
-				cntaoz++;
+				cout << "index: " << index << endl; // DEBUG
+				cout << "aoz: " << aoz[0] << "\ttrkLenT: " << trkLenT[0] << endl; // DEBUG
+				cout << "aozdmin: " << aozdmin[0] << endl; // DEBUG
+				cout << "poz[0]: " << poz[0] << endl; // DEBUG
+				cout << "brho[0]: " << brho[0] << " poz[0]: " << poz[0] << endl; // DEBUG
+				cout << "brhoc[0]: " << poz[0] / (0.321840605 * 931.493582); // DEBUG
+				cout << "rho: " << brho[0]*1000./1.3848 << endl; // DEBUG
+				cout << "rhoc: " << brho[0]*1000./1.3848 << endl; // DEBUG
+				getchar(); // DEBUG
+
+			cntaoz++;
 			} // end inner if
 		} // end the outer if
 

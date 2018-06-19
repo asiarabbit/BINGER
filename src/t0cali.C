@@ -11,7 +11,7 @@ using std::endl;
 
 int main(int argc, char *argv[]){
 	if(argc < 3){
-		cout << "./str <rootfile> <DCArrOption>.\nrootfile name and dcArrOption (0: L, 1: R) have to be provided\n";
+		cout << "./t0 <rootfile> <DCArrOption>.\nrootfile name and dcArrOption (0: L, 1: R) have to be provided\n";
 		exit(1);
 	}
 	bool isDCArrR = bool(atoi(argv[2]));

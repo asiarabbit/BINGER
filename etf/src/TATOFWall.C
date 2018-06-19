@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/9.															     //
-// Last modified: 2018/4/28, SUN Yazhou.										     //
+// Last modified: 2018/6/11, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -76,7 +76,8 @@ void TATOFWall::GetFiredStripArr(int &multi, int *idLs, short *staLs, double *uv
 }
 // t0, t1, t2: see explnanation below
 double TATOFWall::GetStripTime(int i, double t0, double t1, double t2) const{
-	return GetStrip(i)->GetTime(t0,t1,t2) - GetDelayAvrg();
+	const double delayAvrg = GetDelayAvrg(); t0 += delayAvrg;
+	return GetStrip(i)->GetTime(t0, t1, t2) - delayAvrg;
 }
 // Get TOF time from strip specified by a track with linear parameter kl and bl.
 // firedStripId: serial id of the fired strip for the track specifically.
@@ -85,6 +86,7 @@ double TATOFWall::GetStripTime(int i, double t0, double t1, double t2) const{
 // (time-t0) within t1 and t2 is chosen
 // t0, t1 and t2 using default values, choose the 1st edge
 double TATOFWall::GetTime(double kl, double bl, double &nstripStray, int &firedStripId, double t0, double t1, double t2) const{
+	const double delayAvrg = GetDelayAvrg(); t0 += delayAvrg;
 //	cout << "t0: " << t0 << "\tt1: " << t1 << "\tt2: " << t2 << endl; // DEBUG
 	double nStripStray = -9999., nStripStrayMin = 9999.; // see the assignment below.
 	int minID = -1; // serial Id of the strip with minimum nStripStray.
@@ -114,14 +116,14 @@ double TATOFWall::GetTime(double kl, double bl, double &nstripStray, int &firedS
 			firedStripId = minID;
 			nstripStray = nStripStrayMin;
 //			cout << "GetStrip(" << minID << ")->GetTime(t0,t1,t2): " << GetStrip(minID)->GetTime(t0,t1,t2) << endl; getchar(); // DEBUG
-			return GetStrip(minID)->GetTime(t0,t1,t2) - GetDelayAvrg();
+			return GetStrip(minID)->GetTime(t0,t1,t2) - delayAvrg;
 		} // end if
 	} // end if
 
 	nstripStray = -9999.;
 	firedStripId = -1;
 	return -9999.;
-}
+} // end of function GetTime
 void TATOFWall::GetStripProjection(int serialId, double *p) const{
 	double width = GetStrip(0)->GetStripPara()->GetWidth();
 	double phi = GetDetPara()->GetPhi();

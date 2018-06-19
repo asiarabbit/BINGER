@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/9.															     //
-// Last modified: 2018/5/3, SUN Yazhou.											     //
+// Last modified: 2018/6/11, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -95,8 +95,11 @@ int TAPlaStrip::GetFiredStatus() const{
 // t0, t1 and t2 are set for choosing ch->GetLT over edges
 // (ch->GetLT-t0) within t1 and t2 is chosen. t0, t1 and t2 using default values, choose the 1st edge
 double TAPlaStrip::GetTime(double t0x, double t1x, double t2x){ // get hit time
-	double time = GetStripData()->GetTime();
+	// to make t1 and t2 meaningful with the presence of delay
 	TAPlaStripPara *pa = GetStripPara();
+	const double delay = pa->GetDelay(); t0x += delay;
+
+	double time = GetStripData()->GetTime();
 	// the last calculated time should be updated if t0, t1, and t2 are not the same as before
 	if(!(ft0 == t0x && ft1 == t1x && ft2 == t2x)) time = -9999.;
 	if(-9999. == time){ // not assigned
@@ -111,8 +114,7 @@ double TAPlaStrip::GetTime(double t0x, double t1x, double t2x){ // get hit time
 		if(4 == sta || 
 		3 == sta
 		   ){
-			time = -pa->GetLength()/(2.*pa->GetVeff()) + tt / 2.;
-			time -= pa->GetDelay();
+			time = -pa->GetLength()/(2.*pa->GetVeff()) + tt / 2. - delay;
 			GetStripData()->SetTime(time); // assigne the fStripData object
 		}
 		else{ // strip not properly fired

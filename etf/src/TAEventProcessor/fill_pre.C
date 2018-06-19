@@ -42,6 +42,7 @@
 		const double T0_1_delayAvrg = T0_1->GetDelay();
 		const int nUVLEdge_T0_1 = T0_1->GetUV()->GetData()->GetNLeadingEdge();
 		const int nDVLEdge_T0_1 = T0_1->GetDV()->GetData()->GetNLeadingEdge();
+		tRef_UV_NL = nUVLEdge_T0_1; tRef_DV_NL = nDVLEdge_T0_1;
 		// T0_1 UV validity check
 		bool hasIncre_ValidityUV = false, hasIncre_ValidityDV = false; // incre only once per event
 		for(int j = 0; j < nUVLEdge_T0_1; j++){
@@ -81,6 +82,7 @@
 		}
 		// extract the best matched T0_1_UV and T0_1_DV
 		double timeUV_T0_1 = -9999., timeDV_T0_1 = -9999., dmin_T0_1 = 1E200;
+		//if(0)
 		for(int j = 0; j < nUVLEdge_T0_1; j++){
 			double tmpuv = T0_1->GetUV()->GetTime(j) - T0_1_delayAvrg;
 			double tmpdv = T0_1->GetDV()->GetLT(tmpuv+T0_1_delayAvrg) - T0_1_delayAvrg; // 
@@ -91,6 +93,9 @@
 				timeUV_T0_1 = tmpuv; timeDV_T0_1 = tmpdv;
 			}
 		}
+//		timeUV_T0_1 = T0_1->GetUV()->GetTime(0); // DEBUG
+//		timeDV_T0_1 = T0_1->GetDV()->GetTime(0); // DEBUG
+//		tRef = (timeUV_T0_1 + timeDV_T0_1) / 2.; // DEBUG
 #ifdef DEBUG_T0_1_pos
 		cout << "dmin_T0_1: " << dmin_T0_1 << endl; // DEBUG
 		cout << "timeUV_T0_1 - timeDV_T0_1: " << timeUV_T0_1 - timeDV_T0_1 << endl; // DEBUG
@@ -315,7 +320,7 @@
 		} // end if(sipmBarr)
 
 		// MUSIC statistics;   psca: previous value of sca
-		unsigned psca[16]; memcpy(psca, sca, sizeof(sca));
+		static unsigned psca[16];
 		pileUpSCA = sca[10] - psca[10];
 		for(int j = 0; j < 3; j++) if(music[j]){ // loop over two MUSICs
 			nF_MU[j] = music[j]->GetNFiredChannel();
@@ -331,6 +336,7 @@
 			int sub = 0;
 			for(TAChannel *c : music[j]->GetChArr()) MU_ch[j][sub++] = c->GetLeadingTime();
 		} // end loop over two MUSICs
+		memcpy(psca, sca, sizeof(sca));
 
 
 

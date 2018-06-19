@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/25.															     //
-// Last modified: 2018/3/14, SUN Yazhou.										     //
+// Last modified: 2018/6/11, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -65,9 +65,11 @@ public:
 	// solve particle trajectory in uniform magnetic field, with only Mag boundry, exit track
 	// and target position known; returning the track radius of curvature in the magnetic field
 	// input unit: mm; output unit: mm
-	// x=kiz+bi, track before Target; (zo, xo): rotating center of the arc
+	// x=ki z+bi, track after Target, before Mag; (zo, xo): rotating center of the arc
 	// result: [0-5]: [thetaDeflect, rho, ki, bi, zo, xo]
 	static void UniformMagneticSolution(double k1, double b1, double zMagOut, double zMagIn, double zTa, double xTa, double *result);
+	// analytic PID method using DCTaArr
+	static double rho(double kin, double bin, double kout, double bout, double *zo = nullptr, double *xo = nullptr);
 	static double Gamma(double beta);
 	static double BetaGamma(double beta){ return Gamma(beta) * beta; }
 	static double GammaBeta(double beta){ return BetaGamma(beta); }
@@ -89,6 +91,7 @@ public:
 	// fit using BFGS minimization algorithm
 	static double refinedFitBFGS(const double *z, const double *x, const double *r, double &k, double &b, int gGOOD, const int *LAYER, double d2ThrePerDot);
 	static double iterativeFit(const double *z, const double *x, const double *r, double &k, double &b, int gGOOD, const int *LAYER, double d2ThrePerDot);
+	static const double kzMagIn, kzMagOut;
 };
 
 #endif

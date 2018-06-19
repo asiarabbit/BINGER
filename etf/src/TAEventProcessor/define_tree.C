@@ -23,7 +23,7 @@
 	int nu[ntrMax][6], sfe16Id[ntrMax][6]; // fired anode id, SFE16 chip id
 	double t[ntrMax][6], TOT_DC[ntrMax][6], TOT_DC_Avrg[ntrMax], r[ntrMax][6]; // hit pattern
 	double k[ntrMax], b[ntrMax], d2[ntrMax]; // track
-	double aoz[ntrMax], aozdmin[ntrMax], poz[ntrMax]; // aoz
+	double aoz[ntrMax], aozdmin[ntrMax], poz[ntrMax], brho[ntrMax]; // aoz
 	double yp[ntrMax][2]; // dx/dz; dy/dz, on the target hit position
 	// w: weight for weight addition of chi to chi2
 	// chit: drift time error suggested by fitted tracks
@@ -39,6 +39,7 @@
 	double TOT_T0[6]; // [1-6: T0V, T0H, T1LV, T1LH, T1RV, T1RH]
 	double TOF_T1; // time tag of T1 plastic scintillator, beside the target.
 	double tRef, tRef_pos, tof1; // T reference -> ~ 500+-100 to trigger
+	int tRef_UV_NL, tRef_DV_NL;
 	TTree *treeTrack = new TTree("treeTrack", "pattern recognition tracks");
 //	treeTrack->SetAutoSave(1e7);
 	treeTrack->Branch("index", &index, "index/I");
@@ -46,6 +47,8 @@
 	treeTrack->Branch("tof1", &tof1, "tof1/D"); // tof from T0_0 to T0_1
 	treeTrack->Branch("tRef", &tRef, "tRef/D");
 	treeTrack->Branch("tRef_pos", &tRef_pos, "tRef_pos/D");
+	treeTrack->Branch("tRef_UV_NL", &tRef_UV_NL, "tRef_UV_NL/I"); // number of leading edge(s)
+	treeTrack->Branch("tRef_DV_NL", &tRef_DV_NL, "tRef_DV_NL/I");
 	treeTrack->Branch("beta", &beta, "beta/D");
 	treeTrack->Branch("TOT_T0", TOT_T0, "TOT_T0[6]/D"); // see the comment above
 	treeTrack->Branch("ntr", &ntr, "ntr/I");
@@ -88,6 +91,7 @@
 	if(IsPID()){
 		treeTrack->Branch("aoz", aoz, "aoz[ntr]/D"); // mass over z; mass unit: amu
 		treeTrack->Branch("poz", poz, "poz[ntr]/D"); // momentum over z; momentum unit: MeV/c
+		treeTrack->Branch("brho", brho, "brho[ntr]/D"); // Tesla*m
 		treeTrack->Branch("trkLenT", trkLenT, "trkLenT[ntr]/D"); // total trk len from Ta to TOFW
 		treeTrack->Branch("angTaOut", yp, "angTaOut[ntr][2]/D"); // out angle at the target hit point
 		treeTrack->Branch("aozdmin", aozdmin, "aozdmin[ntr]/D"); // start for iterative fit, necessary

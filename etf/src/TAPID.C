@@ -57,12 +57,12 @@ static double c0 = TAParaManager::Instance()->GetPhysConst("c0");
 static double u0MeV = TAParaManager::Instance()->GetPhysConst("u0MeV");
 // TaHit: target hit position
 // see TAPID.h for the interpretation of option
-void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, const int option, const double *pIn_){
+void TAPID::Fly(double tof2, double x0TaHit, const double *pOut_, short dcArrId, const OPTION option, const double *pIn_, const double *pIn0_){
 	if(0 != dcArrId && 1 != dcArrId)
 		TAPopMsg::Error("TAPID", "Fly: dcArrId neither 0 nor 1 (which is supposed to be a boolean-like integer)");
 
 	const double h0 = GetIterationStep(), stepError = GetStepError();
-	if(0 == option){
+	if(kOpt0 == option){
 		SetIterationStep(h0*5.); // increment for z per step
 		SetStepErrorTolerance(stepError*5.); // truncation error for RK method
 	}
@@ -75,15 +75,19 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 	const double tofwZc = tofw->GetDetPara()->GetZ();
 	const double k_tofw = tan(tofwPhi+TAMath::Pi()/2.);
 	const double b_tofw = tofwXc - k_tofw * tofwZc;
+	double pOut[4] = {pOut_[0], pOut_[1], pOut_[2], pOut_[3]};
+	if(-9999. == pOut[1]) pOut[1] = 0.; // k2_out
+	if(-9999. == pOut[3]) pOut[3] = 0.; // b2_out
 	double k1 = pOut[0], k2 = pOut[1], b1 = pOut[2], b2 = pOut[3];
-	if(-9999. == k2) k2 = 0.;
-	if(-9999. == b2) b2 = 0.;
-	double pIn[4] = {pIn_[0], pIn_[1], pIn_[2], pIn_[3]};
+	double pIn[4] = {pIn_[0], pIn_[1], pIn_[2], pIn_[3]}; // k1, k2, b1, b2
 	if(-9999. == pIn[1]) pIn[1] = 0.; // k2_in
 	if(-9999. == pIn[3]) pIn[3] = 0.; // b2_in
+	double pIn0[4] = {pIn0_[0], pIn0_[1], pIn0_[2], pIn0_[3]}; // k1, k2, b1, b2
+	if(-9999. == pIn0[1]) pIn0[1] = 0.; // k2_in0
+	if(-9999. == pIn0[3]) pIn0[3] = 0.; // b2_in0
 
 	// the central z coordinate of the target
-	static const double z0_TA = -939.039; // TADeployPara::Instance()->GetTargetZ0();
+	static const double z0_TA = TADeployPara::Instance()->GetTargetZ0(); // -939.039;
 	static const double z0_T0_1 = fT0_1->GetZ0();
 	double y0_SiPMArr = 0.; // hit position in the target
 	if(-9999. == x0TaHit && !pIn)
@@ -108,26 +112,55 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 		return;
 	}
 	// particle propagation in uniform magnetic field -- analytic solution exists
-	if(2 == option || 3 == option){
-		const double zMagIn = -500., zMagOut = ze;
+	// 2: uniform Mag - piont+trk; 3: hybrid of uni-and-nonuni-Mag; 4: uni-Mag - trk+trk
+	if(kOpt2 == option || kOpt3 == option || kOpt4 == option){
 		const double B = GetExB();
-		double result[6]{}, dtheta, rho, ki; // dtheta: particle defelct angle by mag
+		double dtheta, rho, ki; // ki: x=ki z+bi, track after Target, before Mag
 		double zo, xo; // (zo, xo): rotating center of the arc
-		TAMath::UniformMagneticSolution(k1, b1, zMagOut, zMagIn, z0_TA, x0TaHit, result);
-		// no eligible solution found
-		if(result[0] == result[1] && result[1] == result[2] && result[2] == result[3]){
-			fIsFlied = true;
-			// every element of result was set to be the number of valid solutions (0, 2, or 3)
-//			cout << "\nresult[0]: " << result[0] << endl;
-//			cout << "fAoZdmin: " << fAoZdmin << endl; getchar(); // DEBUG
-			return;
-		}
-		dtheta = result[0]; rho = result[1]; ki = result[2];
-		zo = result[4]; xo = result[5];
-		const double d0 = (zMagIn-z0_T0_1)*sqrt(1.+ki*ki); // from T0_1 to Mag
-		const double d1 = rho*dtheta; // arc in the Mag
-		const double d2 = trkL2; // from Mag to TOF wall
-		fTotalTrackLength = d0 + d1 + d2;
+		if(kOpt2 == option || kOpt3 == option){
+			const double zMagIn = -500., zMagOut = ze;
+			double result[6]{}; // dtheta: particle defelct angle by mag
+			TAMath::UniformMagneticSolution(k1, b1, zMagOut, zMagIn, z0_TA, x0TaHit, result);
+			// no eligible solution found
+			if(result[0] == result[1] && result[1] == result[2] && result[2] == result[3]){
+				fIsFlied = true;
+				// every element of result was set to be the number of valid solutions (0, 2, or 3)
+//				cout << "\nresult[0]: " << result[0] << endl;
+//				cout << "fAoZdmin: " << fAoZdmin << endl; getchar(); // DEBUG
+				return;
+			}
+			dtheta = result[0]; rho = result[1]; ki = result[2];
+			zo = result[4]; xo = result[5];
+			const double d0 = (zMagIn - z0_T0_1)*sqrt(1.+ki*ki); // from T0_1 to Mag
+			const double d1 = rho*dtheta; // arc in the Mag
+			const double d2 = trkL2; // from Mag to TOF wall
+			fTotalTrackLength = d0 + d1 + d2;
+		} // end if
+		if(kOpt4 == option){
+			if(-9999. == pIn[0] || -9999. == pIn[2] || -9999. == pOut[0] || -9999. == pOut[2]){
+				TAPopMsg::Error("TAPID", "Fly: deficient incident XTrk or(and) exit XTrk. Option: %d, kin: %f, bin: %f, kout: %f, bOut: %f", option, pIn[0], pIn[2], pOut[0], pOut[2]);
+			}
+			rho = TAMath::rho(pIn[0], pIn[2], pOut[0], pOut[2], &zo, &xo);
+			dtheta = atan(pOut[0]) - atan(pIn[0]); ki = pIn[0];
+			double pT0_1[3] = {0., 0., z0_T0_1}, pTaHit[3] = {0., 0., z0_TA};
+			double pMagIn[3] = {0., 0., TAMath::kzMagIn}, pMagOut[3] = {0., 0., TAMath::kzMagOut};
+			const double pTOFWHit[3] = {x_tofwHit, y_tofwHit, z_tofwHit};
+			pT0_1[0] = pIn0[0] * pT0_1[2] + pIn0[2]; // T0_1 hit x
+			pT0_1[1] = pIn0[1] * pT0_1[2] + pIn0[3]; // T0_1 hit y
+			pTaHit[0] = pIn[0] * pTaHit[2] + pIn[2]; // Target hit x
+			pTaHit[1] = pIn[1] * pTaHit[2] + pIn[3]; // Target hit y
+			pMagIn[0] = pIn[0] * pMagIn[2] + pIn[2]; // MagIn hit x
+			pMagIn[1] = pIn[1] * pMagIn[2] + pIn[3]; // MagIn hit y
+			pMagOut[0] = pOut[0] * pMagOut[2] + pOut[2]; // MagIn hit x
+			pMagOut[1] = pOut[1] * pMagOut[2] + pOut[3]; // MagIn hit y
+			const double trajectoryLength0 = TAMath::L(pT0_1, pTaHit); // from TOFStop to Target
+			const double trajectoryLength1 = TAMath::L(pTaHit, pMagIn); // from Target to Mag Field
+			const double trajectoryLength2 = rho * dtheta; // arc length in the Mag Field
+			const double trajectoryLength3 = TAMath::L(pMagOut, pTOFWHit); // from Mag Field to TOFW
+			fTotalTrackLength = trajectoryLength0 + trajectoryLength1 + trajectoryLength2 + trajectoryLength3;
+		} // end if(kOpt4 == option)
+
+
 		fBeta = fTotalTrackLength / tof2 / c0;
 		if(fBeta < 0. || fBeta >= 1.){ // bad beta, failed PID
 			fBeta = -1.; fTotalTrackLength = -9999.;
@@ -135,11 +168,13 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 			return;
 		}
 		fGamma = TAMath::Gamma(fBeta);
+		cout << "fBeta: " << fBeta << "\tfTotalTrackLength: " << fTotalTrackLength << endl; getchar(); // DEBUG
 		// 0.321840605 = e0/(u0*c0*1E6) SI unit
 		fAoZ = B * (rho/1000.) * 0.321840605 / (fBeta * fGamma);
 		fAoZdmin = 0.;
 		fAngleTaOut[0] = atan(ki); fAngleTaOut[1] = 0.;
-		fPoZ = fAoZ * fBeta * fGamma * u0MeV; // MeV/c
+		fPoZ = B * (rho/1000.) * 0.321840605 * u0MeV; // MeV/c
+		fBrho = B * rho / 1000.;
 		fIsFlied = true; // fIsflied should be assigned immediately after flying
 		// store the track
 		if(fGCurve){
@@ -154,8 +189,8 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 				fTrackVec.push_back(tra);
 			} // end for
 		} // end if(fGCurve)
-		if(2 == option) return;
-	} // end if(2 == option || 3 = option)
+		if(kOpt2 == option || kOpt4 == option) return;
+	} // end if(kOpt2 == option || 3 = option)
 
 	// particle propagation in nonuniform magnetic field //
 	// after the initial beta was estimated, trkL2 is assigned with l from pi (not pe) to TOFWall
@@ -166,22 +201,23 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 	double ddmin[2]{}; // quality estimator
 #endif
 	double aoz, aozc = 2., d2; // aozc: the central aoz
-	if(3 == option){ aozc = fAoZ; }
+	if(kOpt3 == option){ aozc = fAoZ; }
 	double span = 1.5; // search scope, aozc-span ~ aozc+span
 	int ln = 1, n = 30;
 	// loop laps for iter==0, which is to refne beta
-	if(0 == option){ n = 15; }
-	if(3 == option){ span = 0.8; n = 10; } // aoz from uniform magField is precise enough
+	if(kOpt0 == option){ n = 15; }
+	if(kOpt3 == option){ span = 0.8; n = 10; } // aoz from uniform magField is precise enough
 	for(int iter = 0; iter < 2; iter++){ // iteration to refine beta1
 		if(1 == iter){
 			// reset search domin, narrow the scope and coodinate the center
 			n = 15; ln = 4; span = 1.;
 			aozc = fAoZ;
 			fAoZdmin = 9999.; // reset dmin
-			if(0 == option){ n = 5; ln = 3; }
-			if(3 == option){ n = 5; ln = 3; span = 0.5; }
+			if(kOpt0 == option){ n = 5; ln = 3; }
+			if(kOpt3 == option){ n = 5; ln = 3; span = 0.5; }
 		}
 		// aozc: center of the scope domain
+		const double z0MagIn = -1000.; // the zmin border of the magnetic field
 		for(int l = 0; l < ln; l++){ // outer loop
 //			cout << "l: " << l << "\tln: " << ln << "\titer: " << iter << endl; // DEBUG
 //			cout << "\tspan: " << span << "\taozc: " << aozc << "\tn: " << n << endl; // DEBUG
@@ -194,7 +230,7 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 				SetQoP(aoz, beta);
 				y[0] = xi; y[1] = yi; // start of the RK propagation
 				yp[0] = k1; yp[1] = k2; // k1 and k2
-				TransportIon(y, yp, zi, z0_TA);
+				TransportIon(y, yp, zi, z0MagIn);
 				if(IsOutOfRange()) continue; // ineligible aoz
 				double dd[2] = {y[0] - x0TaHit, y[1] - y0_SiPMArr};
 				// use track slope information
@@ -205,13 +241,13 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 				d2 = sqrt(dd[0]*dd[0] + dd[1]*dd[1]); // ; 2017.7.5 20:27
 				// use track position information
 				if(pIn){
-					double dp[2] = {y[0] - pIn[0]*z0_TA+pIn[2], y[1] - pIn[1]*z0_TA+pIn[3]};
+					double dp[2] = {y[0] - pIn[0]*z0MagIn+pIn[2], y[1] - pIn[1]*z0MagIn+pIn[3]};
 					if(-9999. == pIn[2] || 0. == pIn[2]) dp[1] = 0.; // y trk not assigned
 					d2 += sqrt(dp[0]*dp[0]+dp[1]*dp[1]) * 0.5; // XXX still experimental XXX
 				}
 				if(d2 < fAoZdmin){
 					fAoZdmin = d2; fAoZ = aoz; fBeta = beta;
-					fTotalTrackLength = GetTrackLength() + trkL2 + z0_TA - z0_T0_1;
+					fTotalTrackLength = GetTrackLength() + trkL2 + z0MagIn - z0_T0_1;
 #ifdef DEBUG
 					ddmin[0] = dd[0]; ddmin[1] = dd[1];
 #endif
@@ -244,6 +280,7 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 	if(9999. == fAoZdmin) return; // PID failure
 	fGamma = TAMath::Gamma(fBeta);
 	fPoZ = fAoZ * fBeta * fGamma * u0MeV; // MeV/c
+	fBrho = fPoZ / (0.321840605 * u0MeV);
 
 #ifdef DEBUG
 	cout << "___________________________________________________________\n";
@@ -265,7 +302,7 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut, short dcArrId, 
 		FillGraphTrajectory();
 	}
 
-	if(0 == option){
+	if(kOpt0 == option){
 		// recover precision level setttings
 		SetIterationStep(h0); SetStepErrorTolerance(stepError);
 	}
@@ -300,6 +337,10 @@ double TAPID::GetGamma() const{
 double TAPID::GetPoZ() const{
 	if(!IsFlied()) TAPopMsg::Error("TAPID", "GetPoZ: Particle Not Flied");
 	return fPoZ;
+}
+double TAPID::GetBrho() const{
+	if(!IsFlied()) TAPopMsg::Error("TAPID", "GetBrho: Particle Not Flied");
+	return fBrho;
 }
 double TAPID::GetChi() const{
 	if(!IsFlied()) TAPopMsg::Error("TAPID", "GetChi: Particle Not Flied");
@@ -350,9 +391,9 @@ void TAPID::Configure(){
 	if(dcArr[1]) fTOFWall[1] = dcArr[1]->GetTOFWall();
 	fT0_1 = (TAT0_1*)dec_vec[1];
 
-//	p0[0] = 0.; p0[1] = 00.; p0[2] = 0.;
+	p0[0] = 0.; p0[1] = 0.; p0[2] = 0.;
 	GetMagneticIntensity(B0, p0); B0m = TAMath::norm(B0);
-//	printf("Configure: B(0,0,0): |(%f, %f, %f)| = %f", B0[0], B0[1], B0[2], B0m); getchar(); // DEBUG
+//	printf("Configure: B(%f,%f,%f): |(%f, %f, %f)| = %f", p0[0], p0[1], p0[2], B0[0], B0[1], B0[2], B0m); getchar(); // DEBUG
 	TAPopMsg::ConfigInfo("TAPID", "Configure: magFile: %s", magFile.c_str());
 	TAPopMsg::ConfigInfo("TAPID", "Configure: B(0,0,0): |(%f, %f, %f)| = %f", B0[0], B0[1], B0[2], B0m); // DEBUG
 }
@@ -360,7 +401,7 @@ void TAPID::Configure(){
 void TAPID::Initialize(){
 	if(!IsFlied()) return;
 	fAoZ = -9999.; fAoZdmin = 9999.;
-	fBeta = -1.; fGamma = -1.; fPoZ = -9999.;
+	fBeta = -1.; fGamma = -1.; fPoZ = -9999.; fBrho = -9999.;
 	fAngleTaOut[0] = -9999.; fAngleTaOut[1] = -9999.;
 	fTotalTrackLength = -9999; fIsFlied = false;
 }
