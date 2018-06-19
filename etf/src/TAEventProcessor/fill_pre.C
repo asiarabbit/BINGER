@@ -338,7 +338,25 @@
 		} // end loop over two MUSICs
 		memcpy(psca, sca, sizeof(sca));
 
-
+		// optical fiber array statistics
+		if(opfa){
+			multi_opfa = 0;
+			for(int j = 0; j < 40; j++){
+				TAPlaStrip *str = opfa->GetStrip(j);
+				const short sta = str->GetFiredStatus();
+				if(3 == sta || 4 == sta){
+					multi_opfa++;
+					TAChannel *uv = str->GetUV();
+					TAChannel *dv = str->GetDV();
+					for(int k = 0; k < 5; k++){
+						double tu = ul_opfa[j][k] = uv->GetLeadingTime();
+						double td = dl_opfa[j][k] = dv->GetLeadingTime();
+						if(0 == k && -9999 != tu && -9999 != td)
+							pos_opfa[j] = tu - td;
+					}
+				}
+			}
+		} // end if(opfa)
 
 
 

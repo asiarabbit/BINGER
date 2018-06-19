@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/9.															     //
-// Last modified: 2018/6/11, SUN Yazhou.										     //
+// Last modified: 2018/6/19, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -23,9 +23,9 @@
 #include "TAPlaStripPara.h"
 #include "TAPopMsg.h"
 #include "TADeployPara.h"
+#include "TAChannel.h"
 #include "TACtrlPara.h"
 #include "TAMath.h"
-#include "TAChannel.h"
 #include "TAChData.h"
 
 TATOFWall::TATOFWall(const string &name, const string &title, unsigned uid)
@@ -171,13 +171,14 @@ void TATOFWall::Initialize(){
 	for(TAPlaStrip *str : fStripArr) str->Initialize();
 }
 void TATOFWall::Configure(){
-	TADetector::Configure();
-	TADeployPara *deploy = TADeployPara::Instance();
-	SetDelayAvrg(deploy->GetTOFWallDelayAvrg(GetUID()));
 	if(fStripArr.size() > 0){
 		TAPopMsg::Warn(GetName().c_str(), "Configure: has been called once");
 		return; // Configure() has been called
 	}
+
+	TADetector::Configure();
+	TADeployPara *deploy = TADeployPara::Instance();
+	SetDelayAvrg(deploy->GetTOFWallDelayAvrg(GetUID()));
 	if(-9999 == fNStrip){
 		fNStrip = deploy->GetNTOFWallStrip(GetUID());
 	}

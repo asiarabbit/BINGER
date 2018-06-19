@@ -225,7 +225,24 @@
 	objLsTree.push_back(treePID3D);
 
 
-
+	int multi_opfa;
+	double ul_opfa[40][5], dl_opfa[40][5];
+	double pos_opfa[40];
+	for(int i = 0; i < 40; i++){
+		for(int j = 0; j < 5; j++){
+			ul_opfa[i][j] = -9999; dl_opfa[i][j] = -9999;
+		}
+		pos_opfa[i] = -9999.;
+	}
+	TTree *treeOpticFiberArr = new TTree("treeOpticFiber", "Optic Fiber array");
+	if(opfa){
+		treeOpticFiberArr->Branch("index", &index, "index/I");
+		treeOpticFiberArr->Branch("multi", &multi_opfa, "multi/I");
+		treeOpticFiberArr->Branch("ul", ul_opfa, "ul[40][5]/I");
+		treeOpticFiberArr->Branch("dl", dl_opfa, "dl[40][5]/I");
+		treeOpticFiberArr->Branch("pos", pos_opfa, "pos[40]/D");
+		objLsTree.push_back(treeOpticFiberArr);
+	}
 
 
 

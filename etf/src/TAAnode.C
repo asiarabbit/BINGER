@@ -97,7 +97,7 @@ double TAAnode::GetDriftTime(double &weight) const{
 	// weight: for weighted addition of chi to chi2
 	if(TACtrlPara::IsDriftTimeQtCorrection())
 		GetAnodePara()->DriftTimeQtCorrection(driftTime, GetTOT(), weight);
-	else weight = 1.; // the default weight value.
+	else weight = 1.; // the default weight value
 	return driftTime;
 } // end of function GetDriftTime().
 // for generate simulation data //

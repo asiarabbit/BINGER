@@ -2,7 +2,7 @@
 // Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
 //																				     //
 // BINGER/inc/etf/TASiPMPlaBarrel.h												     //
-//   TASiPMPlaArray.h -- header file for class TASiPMPlaBarrel					     //
+//   TASiPMPlaBarrel.h -- header file for class TASiPMPlaBarrel					     //
 //   Introduction: A barrel with a regular octagon cross section, to measure hit 	 //
 // multiplicity around the target, so as to implicate impact parameter of the nuclei //
 // bombardment.																		 //

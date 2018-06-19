@@ -52,7 +52,11 @@ void TAUIDParser::DNS(int *result, unsigned uid){
 			break;
 		case 10: case 11: case 18: // MUISC
 			result[1] = (uid>>6) & 0xF; break; // channel Id, 4 bits
-
+		case 19: // Optic Fiber Array
+			result[1] = (uid>>6) & 0x7; // DUMMY BIT, 3 bits
+			result[2] = (uid>>9) & 0x3; // strip id, 2 bits
+			result[3] = (uid>>15) & 0x3; // 0: UV; 1: UH; 2: DV; 3: DH, 2bits
+			break;
 	} // end of switch(result[0])
 
 } // end of member function DNS
@@ -70,10 +74,10 @@ unsigned TAUIDParser::UIDGenerator(const int *type){
 		return type[0] + (type[1]<<6);
 	}
 
-	if( 3 == type[0] || 4 == type[0] // MWDC Arrays after the big dipole Mag: 3->L, 4->R
-	    || 6 == type[0] || 7 == type[0] // MWDC Arrays around the target: 6->U, 7->D
-	    || 8 == type[0] || 9 == type[0] // MWDC Arrays around the target: 6->PDCArrU, 7->PDCArrD
-	    ){
+	if(3 == type[0] || 4 == type[0] // MWDC Arrays after the big dipole Mag: 3->L, 4->R
+	   || 6 == type[0] || 7 == type[0] // MWDC Arrays around the target: 6->U, 7->D
+	   || 8 == type[0] || 9 == type[0] // MWDC Arrays around the target: 6->PDCArrU, 7->PDCArrD
+	   ){
 		// check the validity of the type for the MWDC arrays
 		if(type[1] < 0 || type[1] > 3)
 			TAPopMsg::Error("TAUIDParser",
@@ -113,7 +117,10 @@ unsigned TAUIDParser::UIDGenerator(const int *type){
 	if(10 == type[0] || 11 == type[0] || 18 == type[0]){ // MUISC
 		return type[0] + (type[1]<<6);
 	}
-
+	if(19 == type[0]){ // Optic Fiber Array
+		return type[0] + (type[1]<<6) + (type[2]<<9) + (type[3]<<15);
+	}
+	
 	TAPopMsg::Error("TAUIDParser", "UIDGenerator: Input type out of range: type[0]: %d", type[0]);
 	return 999999999;
 }

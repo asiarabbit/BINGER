@@ -84,7 +84,7 @@ TAPlaStrip *TASiPMPlaBarrel::GetStrip(short plateId, short stripId) const{
 
 TAStuff *TASiPMPlaBarrel::GetChannel(unsigned uid) const{
 	int type[4]{}; TAUIDParser::DNS(type, uid); // parse input uid
-	int TYPE[4]{}; TAUIDParser::DNS(TYPE, fUID); // parse uid of this
+	int TYPE[4]{}; TAUIDParser::DNS(TYPE, GetUID()); // parse uid of this
 
 	if(type[0] == TYPE[0]){ // belongs to this object
 		TAPlaStrip *str = GetStrip(type[1], type[2]);

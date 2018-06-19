@@ -69,6 +69,7 @@
 #include "t3DPIDInfo.h"
 #include "TAGPar.h" // Global parameters
 #include "readVME.h"
+#include "TAOpticFiberArray.h"
 
 using std::cout;
 using std::endl;
@@ -187,8 +188,8 @@ void TAEventProcessor::Configure(){
 		return;
 	}
 	// select an experiment, to direct to a directory containing the exp config parameters
-	const char dir[5][64] = {"pion_2017Oct", "beamTest_2016Nov", "C16_Exp_2018_Summer", "tripletDC_P_Ma_Test", "tripletDC_P_Ma_Test_ETF"};
-	const char *sdir = dir[2];
+	const char dir[6][64] = {"pion_2017Oct", "beamTest_2016Nov", "C16_Exp_2018_Summer", "tripletDC_P_Ma_Test", "tripletDC_P_Ma_Test_ETF", "OpticFiber"};
+	const char *sdir = dir[5];
 	TAPopMsg::Info("TAEventProcessor", "Configure: selected Exp Config Dir: %s", sdir);
 	SetConfigExpDir(sdir);
 	// STR_spline.root || STR_stiff.root || STR_aaa900.root
@@ -219,6 +220,7 @@ void TAEventProcessor::Configure(){
 	detList[16] = new TAT0_0("T0_0_VME1", "T0_0_VME0@Mid-RIBLL2", 16); // for PDCArrD
 	detList[17] = new TAT0_1("T0_1_VME1", "T0_1_VME1@End-RIBLL2", 17); // for PDCArrD
 	detList[18] = new TAMUSICM("Si", "Si@Post-Target", 18);
+	detList[19] = new TAOpticFiberArray("OpticFiberArray", "OpticFiberArray", 19);
 
 	for(TADetUnion *&p : detList) if(p) p->Configure(); // build the detectors
 	// time start for DCArrU-D is TAT0_1

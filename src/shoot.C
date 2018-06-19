@@ -72,6 +72,7 @@ void shoot(const char *rootfile){
 	// hit point on the target and the track information
 	double taHitPos[2][2], kTa[2][2], bTa[2][2]; // [0-1][0-1]: [U-D][X-Y]
 	double vetoPos[2], t0_1Pos[2];
+	double chiTa[2][2][6]; // [U-D][X-Y]
 	bool t0_1_ok = false; // if TOF stop signal is good
 	TTree *treeshoot = new TTree("treeshoot", "shoot! haha~");
 	treeshoot->Branch("index", &index, "index/I");
@@ -80,7 +81,10 @@ void shoot(const char *rootfile){
 	treeshoot->Branch("t0_1Pos", t0_1Pos, "t0_1Pos[2]/D");
 	treeshoot->Branch("kTa", kTa, "kTa[2][2]/D");
 	treeshoot->Branch("bTa", bTa, "bTa[2][2]/D");
+	treeshoot->Branch("kTa", kTa, "kTa[2][2]/D");
+	treeshoot->Branch("chiTa", chiTa, "chiTa[2][2][6]/D");
 	treeshoot->Branch("t0_1_ok", &t0_1_ok, "t0_1_ok/O");
+	
 
 	const char ud[] = "UD", xy[] = "XY";
 	ostringstream name, title;
@@ -118,10 +122,12 @@ void shoot(const char *rootfile){
 		for(int k = 0; k < 2; k++){ // loop over U-D
 			for(int l = 0; l < 2; l++){ // loop over X-Y
 				kTa[k][l] = -9999.; bTa[k][l] = -9999.; taHitPos[k][l] = -9999.;
+				for(int ii = 0; ii < 6; ii++) chiTa[k][l][ii] = -9999.;
 				const int TYPE = 100 + (k + 2) * 10 + l; // 120-121-130-131: UX-UY-DX-DY
 				for(int j = 0; j < ntrT; j++){ // loop over tracks
 					if(TYPE == type[j]){
-						kTa[k][l] = k_[j]; bTa[k][l] = b[j];				
+						kTa[k][l] = k_[j]; bTa[k][l] = b[j];
+						for(int ii = 0; ii < 6; ii++) chiTa[k][l][ii] = chi[j][ii];
 						taHitPos[k][l] = kTa[k][l] * zTa + bTa[k][l];
 						if(1 == ntrLs[2+k][l]) hTaPos1D[k][l]->Fill(taHitPos[k][l]);
 						if(0 == k){	// PDCArrU

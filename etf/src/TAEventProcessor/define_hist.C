@@ -55,6 +55,7 @@
 	music[0] = (TAMUSIC*)det_vec[10]; // upstream of the target
 	music[1] = (TAMUSIC*)det_vec[11]; // downstream of the target
 	music[2] = (TAMUSIC*)det_vec[18]; // Si-downstream of the target
+	TAOpticFiberArray *opfa = (TAOpticFiberArray*)det_vec[19]; // optic fiber array made by Cheng
 	TATOFWall *tofw[2]{0};
 	if(dcArr[0]) tofw[0] = dcArr[0]->GetTOFWall();
 	if(dcArr[1]) tofw[1] = dcArr[1]->GetTOFWall();
