@@ -71,8 +71,8 @@
 	treeTrack->Branch("Chi", Chi, "Chi[ntrT]/D"); // sqrt(chi2/nFiredAnodeLayer)
 	treeTrack->Branch("TOF", TOF, "TOF[ntrT]/D");
 	treeTrack->Branch("chit", chit, "chit[ntrT][6]/D"); // drift time error suggested by fitted tracks
-	treeTrack->Branch("tof2", tof2, "tof2[ntrT]/D"); // tof from T0_1 to TOFW
-	treeTrack->Branch("beta2", beta2, "beta2[ntrT]/D"); // beta from T0_1 to TOFW
+	treeTrack->Branch("tof2", tof2, "tof2[ntr]/D"); // tof from T0_1 to TOFW
+	treeTrack->Branch("beta2", beta2, "beta2[ntr]/D"); // beta from T0_1 to TOFW
 	treeTrack->Branch("TOT_DC", TOT_DC, "TOT_DC[ntrT][6]/D");
 	treeTrack->Branch("TOT_DC_Avrg", TOT_DC_Avrg, "TOT_DC_Avrg[ntrT]/D");
 	treeTrack->Branch("TOTUV", TOTUV, "TOTUV[ntrT]/D"); // time over threshold, up side, V

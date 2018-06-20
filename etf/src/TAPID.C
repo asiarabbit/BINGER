@@ -168,7 +168,8 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut_, short dcArrId,
 			return;
 		}
 		fGamma = TAMath::Gamma(fBeta);
-		cout << "fBeta: " << fBeta << "\tfTotalTrackLength: " << fTotalTrackLength << endl; getchar(); // DEBUG
+		cout << "fBeta: " << fBeta << "\tfTotalTrackLength: " << fTotalTrackLength << endl; 
+		getchar(); // DEBUG
 		// 0.321840605 = e0/(u0*c0*1E6) SI unit
 		fAoZ = B * (rho/1000.) * 0.321840605 / (fBeta * fGamma);
 		fAoZdmin = 0.;

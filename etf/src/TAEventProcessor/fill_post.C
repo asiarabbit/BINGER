@@ -314,17 +314,19 @@
 				brho[0] = pid->GetBrho();
 				pid->GetTargetExitAngle(yp[0]); trkLenT[0] = pid->GetTotalTrackLength();
 				if(aozdmin[0] > 100. || -9999. == aoz[0]) cntaozWrong++;
-				cout << "index: " << index << endl; // DEBUG
-				cout << "aoz: " << aoz[0] << "\ttrkLenT: " << trkLenT[0] << endl; // DEBUG
-				cout << "aozdmin: " << aozdmin[0] << endl; // DEBUG
-				cout << "poz[0]: " << poz[0] << endl; // DEBUG
-				cout << "brho[0]: " << brho[0] << " poz[0]: " << poz[0] << endl; // DEBUG
-				cout << "brhoc[0]: " << poz[0] / (0.321840605 * 931.493582); // DEBUG
-				cout << "rho: " << brho[0]*1000./1.3848 << endl; // DEBUG
-				cout << "rhoc: " << brho[0]*1000./1.3848 << endl; // DEBUG
-				getchar(); // DEBUG
+				if(aoz[0] > 0.){
+					cout << "index: " << index << endl; // DEBUG
+					cout << "aoz: " << aoz[0] << "\ttrkLenT: " << trkLenT[0] << endl; // DEBUG
+					cout << "aozdmin: " << aozdmin[0] << endl; // DEBUG
+					cout << "poz[0]: " << poz[0] << endl; // DEBUG
+					cout << "brho[0]: " << brho[0] << " poz[0]: " << poz[0] << endl; // DEBUG
+					cout << "brhoc[0]: " << poz[0] / (0.321840605 * 931.493582); // DEBUG
+					cout << "rho: " << brho[0]*1000./1.3848 << endl; // DEBUG
+					cout << "rhoc: " << brho[0]*1000./1.3848 << endl; // DEBUG
+					getchar(); // DEBUG
+				} // end if
 
-			cntaoz++;
+				cntaoz++;
 			} // end inner if
 		} // end the outer if
 

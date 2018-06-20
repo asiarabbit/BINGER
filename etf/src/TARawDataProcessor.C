@@ -91,7 +91,10 @@ void TARawDataProcessor::SetPeriod(int index0, int index1){
 }
 
 //////---------------------------- READ OFFLINE-----------------------------------------------------//
-inline double rand0_5(){ return rand()*1./RAND_MAX; } // bin smoothing, import from BUAA code.
+inline double rand0_5(){
+	return 0.;
+//	return rand()*1./RAND_MAX;
+} // bin smoothing, import from BUAA code.
 
 // read offline binary data file and store them in a tree and a rootfile.
 int TARawDataProcessor::ReadOffline(){

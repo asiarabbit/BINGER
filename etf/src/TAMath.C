@@ -8,12 +8,15 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/25.															     //
-// Last modified: 2018/6/12, SUN Yazhou.										     //
+// Last modified: 2018/6/20, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
+
+
+#define DEBUG
 
 #include <iostream>
 #include <iomanip>
@@ -208,17 +211,22 @@ double TAMath::rho(double kin, double bin, double kout, double bout, double *zo,
 		xo[0] = (k1 * x1 - k2 * x2 + z1 - z2) / (k1 - k2);
 	}
 
-	const double L1 = fabs(((z1 - z2) + k2 * (x1 - x2)) / (k1 - k2)) * sqrt(1. + k1 * k1);
-	// XXX: note that L2 is preferred, which agrees with L1p and L2p the better
-	const double L2 = fabs(((z1 - z2) + k1 * (x1 - x2)) / (k1 - k2)) * sqrt(1. + k2 * k2);
-
 	// x2 solved from equatioin L1 == L2
 	const double x2p = x1 + 
 		(z2 - z1) / (k1 + k2) * (k1 * k2 + sqrt(1. + k1 * k1) * sqrt(1. + k2 * k2) - 1.);
-	const double L1p = fabs(((z1 - z2) + k2 * (x1 - x2p)) / (k1 - k2)) * sqrt(1. + k1 * k1);
 	const double L2p = fabs(((z1 - z2) + k1 * (x1 - x2p)) / (k1 - k2)) * sqrt(1. + k2 * k2);
-	cout << "\n\nL1: " << L1 << "\tL2: " << L2;
-	cout << "\nL1p: " << L1p << "\tL2p: " << L2p << "\tx2: " << x2 << "\tx2p: " << x2p << endl;
+
+
+#ifdef DEBUG
+	const double L1 = fabs(((z1 - z2) + k2 * (x1 - x2)) / (k1 - k2)) * sqrt(1. + k1 * k1);
+	// XXX: note that L2 is preferred, which agrees with L1p and L2p the better
+	const double L2 = fabs(((z1 - z2) + k1 * (x1 - x2)) / (k1 - k2)) * sqrt(1. + k2 * k2);
+	const double L1p = fabs(((z1 - z2) + k2 * (x1 - x2p)) / (k1 - k2)) * sqrt(1. + k1 * k1);
+
+	cout << "\n\nL1: " << L1 << "\tL2: " << L2; // DEBUG
+	cout << "\nL1p: " << L1p << "\tL2p: " << L2p << "\tx2: " << x2 << "\tx2p: " << x2p << endl; // DEBUG
+	getchar(); // DEBUG
+#endif
 
 	return L2p;
 } // end of member function rho
