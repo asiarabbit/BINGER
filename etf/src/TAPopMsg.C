@@ -8,10 +8,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/24.															     //
-// Last modified: 2017/10/24, SUN Yazhou.										     //
+// Last modified: 2018/6/21, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -24,7 +24,7 @@
 using std::cout;
 
 // assignment and definition
-bool TAPopMsg::fIsVerbose = true;
+bool TAPopMsg::fIsVerbose = false;
 bool TAPopMsg::fIsSilent = false;
 bool TAPopMsg::fIsDebug = true;
 

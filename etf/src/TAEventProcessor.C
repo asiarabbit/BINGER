@@ -256,8 +256,8 @@ void TAEventProcessor::Configure(){
 		if(detList[4]) ((TAMWDCArray*)detList[4])->Info();
 		if(detList[6]) ((TAMWDCArray2*)detList[6])->Info();
 		if(detList[7]) ((TAMWDCArray2*)detList[7])->Info();
-		if(detList[8]) ((TAMWDCArray2*)detList[6])->Info();
-		if(detList[9]) ((TAMWDCArray2*)detList[7])->Info();
+		if(detList[8]) ((TAMWDCArray2*)detList[8])->Info();
+		if(detList[9]) ((TAMWDCArray2*)detList[9])->Info();
 	}
 	isCalled = true; // has been called
 } // end of member function Configure
@@ -344,7 +344,7 @@ void TAEventProcessor::Initialize(){
 	for(TADetUnion *&det : GetParaManager()->GetDetList()){
 		if(det) det->Initialize();
 	}
-	GetPID()->Initialize();
+	if(IsPID()) GetPID()->Initialize();
 }
 
 
@@ -571,7 +571,7 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	cout << "\033[0m tracks and \033[1m" << cnt3DTrk / 3;
 	cout << "\033[0m 3D tracks have been processed.\n";
 	cout << " cntaoz " << cntaoz << " cntaozWrong " << cntaozWrong << endl;
-	cout << "Exiting the Run function.\n\n";
+	cout << "The result has been written in " << rootfile << ". Exiting the Run function.\n\n";
 	f->Close(); delete f;
 //	delete treeTrack;
 } // end of member function Run

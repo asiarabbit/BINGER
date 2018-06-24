@@ -156,6 +156,10 @@
 	// trees for MUSICs
 	TTree *treeMUSIC[3]{}; // [0-2]: MUSICM-L-Si: up-downstream of the target
 	double deltaE[3]{}, Z[3]{}, MU_ch[3][6]{};
+	for(int i = 0; i < 3; i++){
+		deltaE[i] = -9999.; Z[i] = -9999.;
+		for(int j = 0; j < 6; j++) MU_ch[i][j] = -9999.;
+	}
 	int pileUp[3]{}, nF_MU[3]{}; // N of Fired ch (pileup-ch excluded)
 	int pileUpSCA; // pileup recorded by scaler
 	treeMUSIC[0] = new TTree("treeMUSICM", "MUSIC upstream of the target");

@@ -92,8 +92,8 @@ void TARawDataProcessor::SetPeriod(int index0, int index1){
 
 //////---------------------------- READ OFFLINE-----------------------------------------------------//
 inline double rand0_5(){
-	return 0.;
-//	return rand()*1./RAND_MAX;
+//	return 0.;
+	return rand()*1./RAND_MAX;
 } // bin smoothing, import from BUAA code.
 
 // read offline binary data file and store them in a tree and a rootfile.
@@ -211,7 +211,10 @@ int TARawDataProcessor::ReadOfflinePXI(){
 	fBunchIdMisAlignCnt = 0;
 	fEventCnt = 0;
 	while(1){
-		srand(time(0)); // set random seed
+		section_len = -1;
+		Is_vacant = false; Is_Error = false; Is_BunchidMisAlign = false;
+
+//		srand(time(0)); // set random seed
 		// read section head
 		if(fread(&sec_h, sizeof(section_head), 1, fp) <= 0) break; // read secion_head
 		index = sec_h.index; // read section index
@@ -462,10 +465,18 @@ int TARawDataProcessor::ReadOfflinePXI(){
 
 		if(frag_nu > 0) delete [] frag_h;
 
-		section_len = -1; Is_vacant = false; Is_Error = false; Is_BunchidMisAlign = false;
-
 		cout << "Processing event index  " << index << "\r" << flush;
 	} // end while
+	// ensure a normal ending at the end of a data file //
+	if(entry_temp.nl != 0){
+		entry_temp.index = -2; // default is -1; so don't confuse with it.
+		entry_temp.channelId = section_len; // this place is dispatched for new use.	
+		entry_temp.nl = 0;
+		entry_temp.nt = 0;
+		entry_temp.bunchId = bunchID[0];
+		if(Is_BunchidMisAlign) entry_temp.channelId = -2; // marking bunchId misalignment
+		if(index >= fIndex0) treeData->Fill();
+	} // end if
 
 	cout << "\n\n>>>>>>>>>>>>> PXI DATA Total Event Count <<<<<<<<<<<<<<<<<<<:\n" << endl;
 	cout << "       \033[1m" << fEventCnt << "\033[0m        \n" << endl;
@@ -641,14 +652,14 @@ int TARawDataProcessor::ReadOfflineVME(){
 						switch(slot){
 							case 5: // QDC v965; slot 5
 								entry_temp.channelId = chId + 8401;
-								entry_temp.leadingTime[0] = (chData & 0xFFF) + rand0_5();
+								entry_temp.leadingTime[0] = (chData & 0xFFF) +  rand0_5();
 								if(chId >= 32) TAPopMsg::Error("TARawDataProcessor", "ReadOfflineVME: abnormal chId for qdc plugin: %d", chId);
 								evt.qdc[0][chId] = chData & 0xFFF;
 								break;
 							case 17: // ADC v785; slot 17
 								entry_temp.channelId = chId + 8501;
-								entry_temp.leadingTime[0] = (chData & 0xFFF) + rand0_5();
-								if(31 == chId) pileUp = entry_temp.leadingTime[0];
+								entry_temp.leadingTime[0] = (chData & 0xFFF);
+								if(31 == chId) pileUp = entry_temp.leadingTime[0] +  rand0_5();
 								if(chId >= 32) TAPopMsg::Error("TARawDataProcessor", "ReadOfflineVME: abnormal chId for adc plugin: %d", chId);
 								evt.adc[chId] = chData & 0xFFF;
 								break;
@@ -701,7 +712,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 
 							for(int k = 0; k < nhl[chid] && k < edge_num_limit; k++){
 								entry_temp.leadingTime[k] = 
-									(hl[chid][k] + rand0_5()) * H_BLIP;
+									(hl[chid][k] +  rand0_5()) * H_BLIP;
 								// fill tree - vme with mtdc data //
 								// only leading edges are collected
 								if(9 == id_v1190) evt.mtdc0[chid][k] = hl[chid][k];
@@ -791,7 +802,14 @@ int TARawDataProcessor::ReadOfflineVME(){
 			} // end loop over channels in an event
 			// copy channel data of ch-8532, because two MUSICs share the same pileUp channel
 			if(-9999. != pileUp){ // pileUp channel has been fired
+				// MUSIC-L
 				entry_temp.channelId = 8533;
+				entry_temp.nl = 1;
+				entry_temp.nt = 0;
+				entry_temp.leadingTime[0] = pileUp;
+				if(index >= fIndex0) treeDataVME->Fill();
+				// Si
+				entry_temp.channelId = 8534;
 				entry_temp.nl = 1;
 				entry_temp.nt = 0;
 				entry_temp.leadingTime[0] = pileUp;
@@ -817,6 +835,15 @@ int TARawDataProcessor::ReadOfflineVME(){
 		cout << "Block " << block_num << " processed.\r" << flush;
 		memset(buffer, 0, sizeof(buffer)); // initialize block buffer
 	} // end while over blocks
+	// ensure a normal ending at the end of a data file //
+	if(entry_temp.nl != 0){
+		entry_temp.index = -2;
+		entry_temp.channelId = ev_len;
+		entry_temp.nl = 0;
+		entry_temp.nt = 0;
+		entry_temp.bunchId = 0;
+	} // end if
+
 	fVMEEventCnt = event_num;
 
 	cout << "\n\n>>>>>>>>>>>>> VME DATA Total BLOCK Count <<<<<<<<<<<<<<<<<<<\n" << endl;

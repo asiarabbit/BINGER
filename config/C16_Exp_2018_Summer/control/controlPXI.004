@@ -114,7 +114,7 @@
 # L-DownstreamMag
 31  10000.
 # W-DownstreamMag
-32  3000.
+32  5000.
 
 # T0_1UV_delay
 33  -1.23
@@ -268,7 +268,7 @@
 # MWDC global delay - delay_DCR2
 92 -71.0
 # TOFW global delay - delay_TOFWR
-93 -95.1
+93 -95.9
 ######### DCTa - Array U-D ################
 # MWDCTa global delay - delay_DCU0
 94 28.

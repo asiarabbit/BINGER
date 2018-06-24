@@ -70,9 +70,9 @@ protected:
 	double fAngleTaOut[2]; // [0-1]: [k1, k2] -> x=k1z+b1; y=k2z+b2
 	double fTotalTrackLength;
 
-	bool fIsFlied;
 	TATOFWall *fTOFWall[2]; // the TOF walls used in ETF facility [0-1]: [DCArrL-R]
 	TAT0_1 *fT0_1; // TOF start detector just upstream of the target
+	bool fIsFlied;
 };
 
 #endif

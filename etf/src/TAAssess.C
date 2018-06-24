@@ -335,7 +335,7 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 ///////////////////////////////////////// END OF THE HISTOGRAM DEFINITION //////////////////////////
 
 
-	const int n = 70000.; //treeTrack->GetEntries(); // number of data sections
+	const int n = treeTrack->GetEntries(); // number of data sections
 	int ntrTot[3]{}, n3DtrTot = 0; // total number of tracks of all kinds of DC types (X-U-V)
 	int ntrPerSec[3][100]{}, n3DtrPerSec[ntrMax3D]{}; // [XUV][n3Dtr]
 	cout << "Totally " << n << " data sections would be processed.\n";
@@ -541,13 +541,21 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 
 	// print some information to the screen
 	cout << "\n\nhasXCnt: \033[1m" << hasXUVCnt[0];
-	cout << "\t\033[0mhasUCnt: \033[1m" << hasXUVCnt[1];
-	cout << "\t\033[0mhasVCnt: \033[1m" << hasXUVCnt[2] << "\n\033[0m";
-	cout << "\n\033[0mXTrkCnt: \033[1m" << ntrTot[0];
-	cout << "\t\033[0mUTrkCnt: \033[1m" << ntrTot[1];
-	cout << "\t\033[0mVTrkCnt: \033[1m" << ntrTot[2] << endl;
-	cout << "\n\033[0mhasAllCnt: \033[1m" << hasAllCnt;
-	cout << "\033[0m\tTotal 3D track count: \033[1m" << n3DtrTot;
+	cout << "\033[0m\teff: \033[1m" << hasXUVCnt[0] / double(n) << endl;
+	cout << "\033[0mhasUCnt: \033[1m" << hasXUVCnt[1];
+	cout << "\033[0m\teff: \033[1m" << hasXUVCnt[1] / double(n) << endl;
+	cout << "\033[0mhasVCnt: \033[1m" << hasXUVCnt[2];
+	cout << "\033[0m\teff: \033[1m" << hasXUVCnt[2] / double(n) << endl;
+	cout << "\033[0mXTrkCnt: \033[1m" << ntrTot[0];
+	cout << "\033[0m\teff: \033[1m" << ntrTot[0] / double(n) << endl;
+	cout << "\033[0mUTrkCnt: \033[1m" << ntrTot[1];
+	cout << "\033[0m\teff: \033[1m" << ntrTot[1] / double(n) << endl;
+	cout << "\033[0mVTrkCnt: \033[1m" << ntrTot[2];
+	cout << "\033[0m\teff: \033[1m" << ntrTot[2] / double(n) << endl;
+	cout << "\033[0mhasAllCnt: \033[1m" << hasAllCnt;
+	cout << "\033[0m\teff: \033[1m" << hasAllCnt / double(n) << endl;
+	cout << "\033[0mTotal 3D track count: \033[1m" << n3DtrTot;
+	cout << "\033[0m\teff: \033[1m" << n3DtrTot / double(n) << endl;
 	cout << "\033[0m\nMatch Success rate (n3DtrTot/ntrTotX): \033[1m";
 	cout << double(n3DtrTot) / ntrTot[0] << "\033[0m\n";
 	cout << "\n\033[31;1m_______________ \033[32;1msoftware efficiency ";
@@ -573,9 +581,9 @@ void TAAssess::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid, b
 	cout << "\n\n\033[33;1mDONE\033[0m\n\n";
 
 	// write //
-	cout << "The results would be stored in ROOT file directory \"\033[36;1m" << topdir << "\"\n\n\n\033[0m";
+	cout << "The results would be stored in ROOT file directory \"\033[36;1m" << topdir << "\033[0m\"\n\n\n";
 //	if(!f->FindObjectAny(topdir)) f->mkdir(topdir); f->cd(topdir);
-	
+
 	char tail[96]; strcpy(tail, rootfile.c_str());
 	char s[128]; strcpy(s, ("assess" + string(basename(tail))).c_str());
 //	if(0 == runid && 0 == access(s, F_OK)) system(("rm "+string(s)).c_str());

@@ -75,6 +75,7 @@ public:
 	// V0: particle velocity in RIBLL2, tof2: TOF after RIBLL2, L: track length after RIBLL2
 	// x: the current track length. unit: mm, ns
 	void UpdateQoP(double x);
+	virtual void Initialize(); // clear and initialize for next event
 	// two kinds of Runge-Kutta method
 	static const int kClassic = 0;
 	static const int kNystrom = 1;
@@ -88,7 +89,7 @@ private:
 	void f(double *ypp, const double x, const double *y, const double *yp);
 	// variable step length Runge-Kutta method for one iteration
 	// h0 is the initial step length of the iteration
-	void RKvl(double &x, double *y, double *yp, double h0);
+	void RKvl(double &x, double *y, double *yp, const double h0);
 	// Runge-Kutta method: fourth order, two dimensional, second order derivative
 	void RK(double *yNew, double *ypNew, const double x, const double *y, const double *yp, const double h);
 	// the so-called Nystrom fourth order Runge-Kutta method
@@ -111,7 +112,7 @@ private:
 	double fV0; // V0: particle velocity in RIBLL2
 	double fTOF2; // TOF corresponding to L
 	double fL; // total track length
-	double fL0; // from PL2 to MWPC2
+	double fL0; // from TOF stop to MWPC2
 	double fL1; // from MWPC2 to the exit of the magnetic field
 	double fL2; // from the exit of the magnetic field to the TOF Wall
 

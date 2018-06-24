@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2018/1/27, SUN Yazhou.										     //
+// Last modified: 2018/6/24, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -31,8 +31,6 @@
 #include "TAPopMsg.h"
 #include "TAMath.h"
 
-//#define VERBOSE // show TAPopMsg::Info() information
-
 using std::ifstream;
 using std::cout;
 using std::endl;
@@ -43,10 +41,9 @@ TAMagnet::TAMagnet(const string &name, const string &title, unsigned uid)
 		: TAStuff(name, title, uid){ // the default constructor
 	fRKMethod = 1; fScale = 1.;
 	fh0 = 1E1; fStepError = 1E1;
-	fIsFileLoaded = false; fTrackLength = -9999.;
+	fIsFileLoaded = false;
 	memset(fB, 0, sizeof(fB)); fEnableEnergyLoss = false;
-	fQoP = -9999.; fTrackVec.clear(); fAoZ = -9999.;
-	fOutOfRangeError = false; // out of the active volume of the magnet
+	Initialize();
 } // end of the default constructor
 TAMagnet::~TAMagnet(){}
 
@@ -76,17 +73,20 @@ void TAMagnet::TransportIon(double *y, double *yp, double zi, double zf, bool is
 		if(fabs(x - zf) < fabs(h) && fabs(h/fh0) > 0.01){
 			h /= 5.;
 		}
-		double x0 = x, y0[2] = {y[0], y[1]}; // store the previous position
-		double ypp[2], rho; // the second order derivative
+		double x0 = x, y0[2] = {y[0], y[1]}; // store the last position
 
 		RKvl(x, y, yp, h); // one iteration //////&&&&&&&////#####$$$$%%%%%%/////
-
-		f(ypp, x, y, yp); // assign ypp using Lorentz equation
-		p[0] = y[0]; p[1] = y[1]; p[2] = x; // x, y, z
-		GetMagneticIntensity(B, p); // assign B
-		rho = pow(1.+yp[0]*yp[0], 1.5) / fabs(ypp[0]) / 1000.; // unit: m
-		tra.x = y[0]; tra.y = y[1]; tra.z = x; tra.rho = rho; tra.brho = B[1]*rho;
+#ifdef DEBUG
+		isTracking = true;
+#endif
 		if(isTracking){
+			double ypp[2], rho; // the second order derivative
+			f(ypp, x, y, yp); // assign ypp using Lorentz equation
+			p[0] = y[0]; p[1] = y[1]; p[2] = x; // x, y, z
+			GetMagneticIntensity(B, p); // assign B
+			rho = pow(1.+yp[0]*yp[0], 1.5) / fabs(ypp[0]) / 1000.; // unit: m
+			tra.x = y[0]; tra.y = y[1]; tra.z = x; tra.rho = rho; tra.brho = B[1]*rho;
+
 			fTrackVec.push_back(tra);
 #ifdef DEBUG
 			cout << "x: " << x << "\tzf: " << zf << endl; // DEBUG
@@ -158,18 +158,18 @@ void TAMagnet::TransportIon(double *y, double *yp, double zi, double zf, bool is
 
 // variable step length Runge-Kutta method for one iteration
 // h0 is the initial step length of the iteration
-void TAMagnet::RKvl(double &x, double *y, double *yp, double h0){
+void TAMagnet::RKvl(double &x, double *y, double *yp, const double h0){
 //	cout << "This is TAMagnet::RKvl(...):\n"; getchar(); // DEBUG
 	double yy[2]{}, yyp[2]{}; // for the next step
 	double yyh[2]{}, yyph[2]{}; // for the next step, halfed step length
 	// delta/15. is the approximate error of rk(h/2.)
 	double delta = 1E200, h = h0;
-	if(fRKMethod == kClassic) RK(yy, yyp, x, y, yp, h);
+	if(kClassic == fRKMethod) RK(yy, yyp, x, y, yp, h);
 	else RK_Nys(yy, yyp, x, y, yp, h);
 	while(1){
 		if(fOutOfRangeError) break;
 		h /= 2.;
-		if(fRKMethod == kClassic) RK(yyh, yyph, x, y, yp, h);
+		if(kClassic == fRKMethod) RK(yyh, yyph, x, y, yp, h);
 		else RK_Nys(yyh, yyph, x, y, yp, h);
 		double dy[2] = {yy[0] - yyh[0], yy[1] - yyh[1]};
 		delta = sqrt(dy[0]*dy[0]+dy[1]*dy[1]);
@@ -281,7 +281,7 @@ void TAMagnet::RK_Nys(double *yNew, double *ypNew, const double x, const double 
 	yNew[1]  = y[1] + h*(yp[1] + (k[0][1]+k[1][1]+k[2][1])/6.);
 	ypNew[0] = yp[0] + (k[0][0]+2.*k[1][0]+2.*k[2][0]+k[3][0])/6.;
 	ypNew[1] = yp[1] + (k[0][1]+2.*k[1][1]+2.*k[2][1]+k[3][1])/6.;
-} // end of function RK
+} // end of function RK_Nys
 
 // 2nd order derivative: f0(x;y0,y1;yp0,yp1), f0(x;y0,y1;yp0,yp1) // y'=z; z'=g(x,y,z);
 void TAMagnet::f(double *ypp, const double x, const double *y, const double *yp){
@@ -295,8 +295,8 @@ void TAMagnet::f(double *ypp, const double x, const double *y, const double *yp)
 	double sp = sqrt(1.+yp[0]*yp[0]+yp[1]*yp[1]); // ds/dz
 	// the following two equations is the dynamics equation set.
 	// QoP is in SI unit
-	ypp[0] = fQoP*sp*(yp[0]*yp[1]*B[0] - (1.+yp[0]*yp[0])*B[1] + yp[1]*B[2]);
-	ypp[1] = fQoP*sp*((1.+yp[1]*yp[1])*B[0] - yp[0]*yp[1]*B[1] - yp[0]*B[2]);
+	ypp[0] = fQoP*sp*(yp[0]*yp[1]*B[0] - (1.+yp[0]*yp[0])*B[1] + yp[1]*B[2]); // d^2x/dz^2
+	ypp[1] = fQoP*sp*((1.+yp[1]*yp[1])*B[0] - yp[0]*yp[1]*B[1] - yp[0]*B[2]); // d^2y/dz^2
 //	cout << "fQoP: " << fQoP << endl; // DEBUG
 //	cout << "sp: " << sp << endl; // DEBUG
 //	cout << "yp[0]: " << yp[0] << "\typ[1]: " << yp[1] << endl; // DEBUG
@@ -366,9 +366,7 @@ void TAMagnet::LoadMagneticFieldFile(const string &file){
 //		cout << "current: " << current << "\tx: " << x << "\ty: " << y << "\tz: " << z << "\tBx: " << Bx << "\tBy: " << By << "\tBz: " << Bz << endl; getchar(); // DEBUG
 	} // end while
 	if(inFile.eof()){
-#ifdef VERBOSE
-		TAPopMsg::Info("TAMagnet", "LoadMagneticFieldFile: End of the file reached.\nFile %s loaded successfully.\n", filename);
-#endif
+		TAPopMsg::ConfigInfo("TAMagnet", "LoadMagneticFieldFile: End of the file reached.\nFile %s loaded successfully.\n", filename);
 		fIsFileLoaded = true;
 	} // end if
 	else if(inFile.fail()){
@@ -456,7 +454,7 @@ void TAMagnet::GetMagneticIntensity(double *B, const double *p){
 	B[0] *= 1E-4; B[1] *= 1E-4; B[2] *= 1E-4;
 
 #ifdef DEBUG
-	cout << "fOutOfRangeError: " << fOutOfRangeError << endl; // DEBUG
+/*	cout << "fOutOfRangeError: " << fOutOfRangeError << endl; // DEBUG
 	cout << "fScale: " << fScale << endl; // DEBUG
 	cout << "p[0]: " << p[0] << "\tp[1]: " << p[1] << "\tp[2]: " << p[2] << endl; // DEBUG
 	cout << "ii[0]: " << ii[0] << "\tii[1]: " << ii[1] << "\tii[2]: " << ii[2] << endl; // DEBUG
@@ -471,8 +469,11 @@ void TAMagnet::GetMagneticIntensity(double *B, const double *p){
 		} // end for over j // DEBUG
 		getchar(); // DEBUG
 	} // end for over i // DEBUG
+*/
 #endif
+
 } // end of function GetMagneticIntensity
+
 double TAMagnet::GetTrackLength() const{
 	if(fTrackLength == -9999.){
 		cout << "\033[31;1mTAMagnet::GetTrackLength():\n";
@@ -574,5 +575,10 @@ double TAMagnet::trilinear(const double *f, const double *dp){
 } // end of function trilinear interpolation
 
 
-
+void TAMagnet::Initialize(){
+	fTrackLength = -9999.;
+	fQoP = -9999.; fAoZ = -9999.;
+	fOutOfRangeError = false; // out of the active volume of the magnet	
+	if(fTrackVec.size()) fTrackVec.clear();
+}
 

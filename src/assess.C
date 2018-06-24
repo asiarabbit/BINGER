@@ -13,7 +13,8 @@ using std::endl;
 
 int main(int argc, char *argv[]){
 	if(argc < 4){
-		cout << "./ass <rootfile> <isDCArrR> <round_id>. 3 Parameters have to be given\n";
+		cout << "./ass <rootfile> <isDCArrR> <round_id> [<DCArrOption>] (0-1-2: LR-TaUD-PDCUD)." << endl;
+		cout << "At least 3 Parameters have to be given\n";
 		exit(1);
 	}
 	const int DCArrOption = atoi(argv[2]);
@@ -27,9 +28,20 @@ int main(int argc, char *argv[]){
 	TAEventProcessor *ep = TAEventProcessor::Instance();
 	ep->Configure();
 	TAAssess *ass = nullptr; TAAssessTa *assTa = nullptr; TAAssessPDC *assPDC = nullptr;
-//	ass = TAAssess::Instance();
-	assTa = TAAssessTa::Instance();
-//	assPDC = TAAssessPDC::Instance();
+	short dcArrOption = 0;
+	if(argc >= 5) dcArrOption = atoi(argv[4]);
+	switch(dcArrOption){
+		case 0:
+			cout << "\n\033[1mdcArr Option: DCArrLR\033[0m" << endl;
+			ass = TAAssess::Instance(); break;
+		case 1:
+			cout << "\n\033[1mdcArr Option: DCArrTa\033[0m" << endl;
+			assTa = TAAssessTa::Instance(); break;
+		case 2:
+			cout << "\n\033[1mdcArr Option: DCArrPDC\033[0m" << endl;
+			assPDC = TAAssessPDC::Instance(); break;
+		default: ass = TAAssess::Instance(); break;
+	} // end of switch
 
 	
 	if(ass){

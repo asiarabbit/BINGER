@@ -506,11 +506,17 @@ void TAAssessPDC::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid
 
 	// print some information to the screen
 	cout << "\n\nhasXCnt: \033[1m" << hasXYCnt[0];
-	cout << "\t\033[0mhasYCnt: \033[1m" << hasXYCnt[1];
-	cout << "\n\033[0mXTrkCnt: \033[1m" << ntrTot[0];
-	cout << "\t\033[0mYTrkCnt: \033[1m" << ntrTot[1];
-	cout << "\n\033[0mhasAllCnt: \033[1m" << hasAllCnt;
-	cout << "\033[0m\tTotal 3D track count: \033[1m" << n3DtrTot;
+	cout << "\033[0m\teff: \033[1m" << hasXYCnt[0] / double(n) << endl;
+	cout << "\033[0mhasYCnt: \033[1m" << hasXYCnt[1];
+	cout << "\033[0m\teff: \033[1m" << hasXYCnt[1] / double(n) << endl;
+	cout << "\033[0mXTrkCnt: \033[1m" << ntrTot[0];
+	cout << "\033[0m\teff: \033[1m" << ntrTot[0] / double(n) << endl;
+	cout << "\033[0mYTrkCnt: \033[1m" << ntrTot[1];
+	cout << "\033[0m\teff: \033[1m" << ntrTot[1] / double(n) << endl;
+	cout << "\033[0mhasAllCnt: \033[1m" << hasAllCnt;
+	cout << "\033[0m\teff: \033[1m" << hasAllCnt / double(n) << endl;
+	cout << "\033[0mTotal 3D track count: \033[1m" << n3DtrTot;
+	cout << "\033[0m\teff: \033[1m" << n3DtrTot / double(n) << endl;
 	cout << "\n\033[31;1m_______________ \033[32;1msoftware efficiency ";
 	cout << "\033[31;1m__________________\033[0m\n\n";
 	cout.setf(std::ios_base::fixed);
@@ -532,7 +538,7 @@ void TAAssessPDC::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid
 	cout << "\n\n\033[33;1mDONE\033[0m\n\n";
 
 	// write //
-	cout << "The results would be stored in ROOT file directory \"\033[36;1m" << topdir << "\"\n\033[0m";
+	cout << "The results would be stored in ROOT file directory \"\033[36;1m" << topdir << "\033[0m\"\n\n\n";
 //	if(!f->FindObjectAny(topdir)) f->mkdir(topdir); f->cd(topdir);
 	char tail[96]; strcpy(tail, rootfile.c_str());
 	char s[128]; strcpy(s, ("assess" + string(basename(tail))).c_str());
