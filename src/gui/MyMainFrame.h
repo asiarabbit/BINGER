@@ -24,6 +24,11 @@
 class TRootEmbeddedCanvas;
 class TCanvas;
 class TGStatusBar;
+class TGRadioButton;
+class TGComboBox;
+class TGButtonGroup;
+class TGLabel;
+
 class TTree;
 class TFile;
 
@@ -37,6 +42,8 @@ public:
 	void DoClose();
 	void SetStatusText(const char *txt, Int_t pi); // set status bar field information
 	void EventInfo(Int_t event, Int_t px, Int_t py, TObject *selected); // capture cusor info
+	void SetGroupEnabled(int id);
+	void HandleButtonOption(int widgetid, int id);
 	// Initialize: extract root objs from input root file; (ass)rootfile: origin rootfile and assess root file
 	virtual void Initialize(const char *rootfile, const char *assrootfile = "");
 
@@ -46,6 +53,10 @@ protected:
 	TRootEmbeddedCanvas *fECanvas;
 	TGStatusBar *fStatusBar;
 	TCanvas *fMyCanvas; // Canvas of fECanvas
+	TGComboBox *fComboBox[3];
+	TGRadioButton *fRadioButton[3];
+	TGLabel *fLabel[3];
+	TGButtonGroup *fButtonGroup;
 private:
 	TFile *fFile[5]; // ROOT file containing data analysis results
 	TTree *treeTrack; // main data analysis result tree

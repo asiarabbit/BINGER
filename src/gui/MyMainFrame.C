@@ -18,6 +18,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
+#include <string>
+#include <sstream>
 
 #include "MyMainFrame.h"
 #include "TGButton.h"
@@ -25,6 +27,10 @@
 #include "TRootEmbeddedCanvas.h"
 #include "TCanvas.h"
 #include "TGStatusBar.h"
+#include "TGButtonGroup.h"
+#include "TGLayout.h"
+#include "TGComboBox.h"
+#include "TGLabel.h"
 
 #include "TFile.h"
 #include "TTree.h"
@@ -36,11 +42,12 @@
 
 using std::cout;
 using std::endl;
+using std::string;
+using std::ostringstream;
 
 MyMainFrame::MyMainFrame(const TGWindow *p, int w, int h)
 	 : TGMainFrame(p, w, h), fECanvas(0), fMyCanvas(0), fFile{0},
 		treeTrack(0), vme(0), treeshoot(0){
-	SetWindowName("ETF Data Analysis Display"); //  - By SUN Yazhou
 	Connect("CloseWindow()", "MyMainFrame", this, "DoClose()");
 
 	// Create canvas widget
@@ -53,18 +60,54 @@ MyMainFrame::MyMainFrame(const TGWindow *p, int w, int h)
 	fStatusBar->SetParts(parts, 4);
 	fMyCanvas->Connect("ProcessedEvent(int, int, int, TObject *)", "MyMainFrame", this,
 					"EventInfo(int, int, int, TObject *)");
+	// Radio button for function set selection
+	// constructor(parentWindow, hotString, signalCode)
+	fButtonGroup = new TGButtonGroup(this, "Mode Selection", kHorizontalFrame);
+	fButtonGroup->SetLayoutManager(new TGMatrixLayout(fButtonGroup, 3, 3));
+	fRadioButton[0] = new TGRadioButton(fButtonGroup, new TGHotString("&Beam_Position(X:Y)                        "), 1);
+	fRadioButton[1] = new TGRadioButton(fButtonGroup, new TGHotString("&DC_Efficiency(%)                          "), 2);
+	fRadioButton[2] = new TGRadioButton(fButtonGroup, new TGHotString("&PID                                       "), 3);
+	fButtonGroup->Connect("Pressed(int)", "MyMainFrame", this, "SetGroupEnabled(int)");
+	// Combo boxes and a list box for each function set
+	fLabel[0] = new TGLabel(fButtonGroup, "Beam Position At z of:");
+	fLabel[1] = new TGLabel(fButtonGroup, "DC Efficiency - Draw Option:");
+	fLabel[2] = new TGLabel(fButtonGroup, "PID - Histogram Type:");
+	fComboBox[0] = new TGComboBox(fButtonGroup, 100);
+	fComboBox[1] = new TGComboBox(fButtonGroup, 200);
+	fComboBox[2] = new TGComboBox(fButtonGroup, 300);
+	// add entry to the combo and list boxes
+	string optList0[] = {"VETO_0", "TOF stop", "PDC0", "PDC1", "target-U", "target-D", "PDC2", "PDC3", "taPosMatch-X", "taPosMatch-Y"};
+	string optList1[] = {"text", "col", "LEGO", "CONT"};
+	string optList2[] = {"aoz", "poz:beta", "aoz:Z"};
+	for(const string &s : optList0)
+		fComboBox[0]->AddEntry(s.c_str(), fComboBox[0]->GetNumberOfEntries() + 1);
+	for(const string &s : optList1){
+		fComboBox[1]->AddEntry(s.c_str(), fComboBox[1]->GetNumberOfEntries() + 1);
+	}
+	for(const string &s : optList2){
+		fComboBox[2]->AddEntry(s.c_str(), fComboBox[2]->GetNumberOfEntries() + 1);
+	}
+	fComboBox[0]->Select(0); fComboBox[1]->Select(0); fComboBox[2]->Select(0); // set default option
+	// group each combo and label in one button group
+	for(int i = 0; i < 3; i++)
+		fButtonGroup->AddFrame(fLabel[i], new TGLayoutHints(kLHintsTop | kLHintsCenterX | kLHintsExpandX, 2, 2, 2, 1));
+	for(int i = 0; i < 3; i++){
+		fButtonGroup->AddFrame(fComboBox[i], new TGLayoutHints(kLHintsTop | kLHintsCenterX | kLHintsExpandX, 2, 2, 2, 1));
+		fComboBox[i]->Resize(150, 20);
+	}
+	fRadioButton[0]->SetState(kButtonDown); fComboBox[1]->SetEnabled(0); fComboBox[2]->SetEnabled(0); // set the default option
+	for(int i = 3; i--;) fComboBox[i]->Connect("Selected(int, int)", "MyMainFrame", this, "HandleButtonOption(int, int)");
+	
 	// Create a horizontal frame widget with buttons
 	TGHorizontalFrame *hframe = new TGHorizontalFrame(this, 800, 40);
-	// Draw and Exit button
-	TGTextButton *drawB = new TGTextButton(hframe, "&Draw");
-	drawB->Connect("Clicked()", "MyMainFrame", this, "DoDraw(=0)");
+	// Exit button
 	TGTextButton *exitB = new TGTextButton(hframe, "&Exit", "gApplication->Terminate(0)");
-	hframe->AddFrame(drawB, new TGLayoutHints(kLHintsCenterX, 5, 5, 3, 4));
 	hframe->AddFrame(exitB, new TGLayoutHints(kLHintsCenterX, 5, 5, 3, 4));
 
 	// add all child frames in the main TGFrame
 	AddFrame(fECanvas, new TGLayoutHints(kLHintsExpandX | kLHintsExpandY, 10, 10, 10, 1));
-	AddFrame(fStatusBar, new TGLayoutHints(kLHintsExpandX, 0, 0, 2, 0));
+	AddFrame(fStatusBar, new TGLayoutHints(kLHintsExpandX, 0, 0, 2, 1));
+	AddFrame(fButtonGroup, new TGLayoutHints(kLHintsTop | kLHintsCenterX | kLHintsExpandX, 2, 2, 2, 1));
 	AddFrame(hframe, new TGLayoutHints(kLHintsCenterX, 2, 2, 2, 2));
 
 	// arrange the accessories and make everything visible on screen
@@ -75,6 +118,16 @@ MyMainFrame::MyMainFrame(const TGWindow *p, int w, int h)
 
 void MyMainFrame::SetStatusText(const char *txt, int pi){ // pi: part id
 	fStatusBar->SetText(txt, pi); // set text in status bar
+}
+void MyMainFrame::SetGroupEnabled(int id){
+	id -= 1;
+	for(int i = 0; i < 3; i++){
+		fComboBox[i]->SetEnabled(0);
+	}
+	fComboBox[id]->SetEnabled(1);
+}
+void MyMainFrame::HandleButtonOption(int widgetId, int id){
+	DoDraw(widgetId+id);
 }
 
 void MyMainFrame::EventInfo(int event, int px, int py, TObject *selected){

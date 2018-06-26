@@ -93,8 +93,8 @@ void shoot(const char *rootfile){
 	ostringstream name, title;
 	TH1F *hTaPos1D[2][2]{}; // [0-1][0-1]: [U-D][X-Y]
 	TH2F *hTaPos2D[2]{}, *hTaPos1DMatch[2]{}; // [0-1]: [U-D]; 1DMatch: [0-1]: [X-Y]
-	TH2F *hT0_1Pos = new TH2F("hT0_1Pos", "T0_1 Hit Position;X [mm];Y [mm]", 1000, -100., 100., 1000, -100., 100.);
-	TH2F *hVetoPos = new TH2F("hVetoPos", "VETO Hit Position;X [mm];Y [mm]", 1000, -100., 100., 1000, -100., 100.);
+	TH2F *hT0_1Pos = new TH2F("hT0_1Pos", "T0_1 Hit Position;X [mm];Y [mm]", 1000, -70., 70., 1000, -70., 70.);
+	TH2F *hVetoPos = new TH2F("hVetoPos", "VETO Hit Position;X [mm];Y [mm]", 1000, -70., 70., 1000, -70., 70.);
 	TH2F *hPDCPos[4];
 	objls.push_back(hT0_1Pos); objls.push_back(hVetoPos);
 	for(int i = 0; i < 2; i++){ // loop over PDCArrU-D
@@ -103,24 +103,24 @@ void shoot(const char *rootfile){
 			name << "hTaPos1D-" << ud[i] << xy[j];
 			title << "Target Hit Position " << xy[j] << " - PDCArray" << ud[i];
 			title << ";" << xy[j] << " [mm]";
-			hTaPos1D[i][j] = new TH1F(name.str().c_str(), title.str().c_str(), 1000, -100., 100.);
+			hTaPos1D[i][j] = new TH1F(name.str().c_str(), title.str().c_str(), 1000, -70., 70.);
 			objls.push_back(hTaPos1D[i][j]);
 		} // end for over j
 		name.str(""); title.str(""); // clear name and title
 		name << "hTaPos2D-" << ud[i];
 		title << "Target Hit Position X v.s. Y" << " - PDCArray" << ud[i] << ";X [mm];Y [mm]";
-		hTaPos2D[i] = new TH2F(name.str().c_str(), title.str().c_str(), 1000, -100., 100., 1000, -100., 100.);
+		hTaPos2D[i] = new TH2F(name.str().c_str(), title.str().c_str(), 1000, -70., 70., 1000, -70., 70.);
 		objls.push_back(hTaPos2D[i]);
 		name.str(""); title.str("");
 		name << "hTaHitPos1DMatch-" << xy[i];
 		title << "Target Hit Postion - " << xy[i] << " - PDCArray U-D Match;DCArrU [mm];DCArrD [mm]";
-		hTaPos1DMatch[i] = new TH2F(name.str().c_str(), title.str().c_str(), 1000, -100., 100., 1000, -100., 100.);
+		hTaPos1DMatch[i] = new TH2F(name.str().c_str(), title.str().c_str(), 1000, -70., 70., 1000, -70., 70.);
 
 		for(int j = 0; j < 2; j++){	// DC0-1
 			name.str(""); title.str("");
 			name << "hPDCPos-" << ud[i] << "DC-" << j;
 			title << "Beam Position PDC-" << ud[i] << "DC-" << j << ";X [mm];Y [mm]";
-			hPDCPos[i*2+j] = new TH2F(name.str().c_str(), title.str().c_str(), 1000, -100., 100., 1000, -100., 100.);
+			hPDCPos[i*2+j] = new TH2F(name.str().c_str(), title.str().c_str(), 1000, -70., 70., 1000, -70., 70.);
 			objls.push_back(hPDCPos[i*2+j]);
 		} // end loop over j
 		objls.push_back(hTaPos1DMatch[i]);
