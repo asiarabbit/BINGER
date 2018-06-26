@@ -8,7 +8,7 @@
 # Last Modified: 2018/5/16, SUN Yazhou
 ##################################################################################################
 
-cmake_minimum_required(VERSION 3.6)
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 set(PROJECT_NAME BINGER)
 project(${PROJECT_NAME})
 

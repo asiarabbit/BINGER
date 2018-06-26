@@ -25,6 +25,7 @@ const double tRef_pos_HB = 0.43;
 const double zTa = -1863.235;
 const double zT0_1 = -2699.08;
 const double zVeto = zT0_1  - 100.;
+const double zPDC[4] = {-2560.91, -2018.2, -1730.02, -939.039};
 
 int main(int argc, char **argv){
 	if(argc < 2){
@@ -72,6 +73,7 @@ void shoot(const char *rootfile){
 	// hit point on the target and the track information
 	double taHitPos[2][2], kTa[2][2], bTa[2][2]; // [0-1][0-1]: [U-D][X-Y]
 	double vetoPos[2], t0_1Pos[2];
+	double PDCPos[4][2]; // [0-3][0-1]: [PDCU0-1--PDCD0-1][X-Y]
 	double chiTa[2][2][6]; // [U-D][X-Y]
 	bool t0_1_ok = false; // if TOF stop signal is good
 	TTree *treeshoot = new TTree("treeshoot", "shoot! haha~");
@@ -79,6 +81,7 @@ void shoot(const char *rootfile){
 	treeshoot->Branch("taHitPos", taHitPos, "taHitPos[2][2]/D");
 	treeshoot->Branch("vetoPos", vetoPos, "vetoPos[2]/D");
 	treeshoot->Branch("t0_1Pos", t0_1Pos, "t0_1Pos[2]/D");
+	treeshoot->Branch("PDCPos", PDCPos, "PDCPos[4][2]/D");
 	treeshoot->Branch("kTa", kTa, "kTa[2][2]/D");
 	treeshoot->Branch("bTa", bTa, "bTa[2][2]/D");
 	treeshoot->Branch("kTa", kTa, "kTa[2][2]/D");
@@ -90,8 +93,9 @@ void shoot(const char *rootfile){
 	ostringstream name, title;
 	TH1F *hTaPos1D[2][2]{}; // [0-1][0-1]: [U-D][X-Y]
 	TH2F *hTaPos2D[2]{}, *hTaPos1DMatch[2]{}; // [0-1]: [U-D]; 1DMatch: [0-1]: [X-Y]
-	TH2F *hT0_1Pos = new TH2F("hT0_1Pos", "T0_1 Hit Position;X [mm];Y [mm]", 500, -100., 100., 500, -100., 100.);
-	TH2F *hVetoPos = new TH2F("hVetoPos", "VETO Hit Position;X [mm];Y [mm]", 500, -100., 100., 500, -100., 100.);
+	TH2F *hT0_1Pos = new TH2F("hT0_1Pos", "T0_1 Hit Position;X [mm];Y [mm]", 1000, -100., 100., 1000, -100., 100.);
+	TH2F *hVetoPos = new TH2F("hVetoPos", "VETO Hit Position;X [mm];Y [mm]", 1000, -100., 100., 1000, -100., 100.);
+	TH2F *hPDCPos[4];
 	objls.push_back(hT0_1Pos); objls.push_back(hVetoPos);
 	for(int i = 0; i < 2; i++){ // loop over PDCArrU-D
 		for(int j = 0; j < 2; j++){ // loop over X and Y
@@ -111,6 +115,14 @@ void shoot(const char *rootfile){
 		name << "hTaHitPos1DMatch-" << xy[i];
 		title << "Target Hit Postion - " << xy[i] << " - PDCArray U-D Match;DCArrU [mm];DCArrD [mm]";
 		hTaPos1DMatch[i] = new TH2F(name.str().c_str(), title.str().c_str(), 1000, -100., 100., 1000, -100., 100.);
+
+		for(int j = 0; j < 2; j++){	// DC0-1
+			name.str(""); title.str("");
+			name << "hPDCPos-" << ud[i] << "DC-" << j;
+			title << "Beam Position PDC-" << ud[i] << "DC-" << j << ";X [mm];Y [mm]";
+			hPDCPos[i*2+j] = new TH2F(name.str().c_str(), title.str().c_str(), 1000, -100., 100., 1000, -100., 100.);
+			objls.push_back(hPDCPos[i*2+j]);
+		} // end loop over j
 		objls.push_back(hTaPos1DMatch[i]);
 	} // end for over i
 
@@ -129,6 +141,9 @@ void shoot(const char *rootfile){
 						kTa[k][l] = k_[j]; bTa[k][l] = b[j];
 						for(int ii = 0; ii < 6; ii++) chiTa[k][l][ii] = chi[j][ii];
 						taHitPos[k][l] = kTa[k][l] * zTa + bTa[k][l];
+						for(int m = 0; m < 2; m++){ // loop over PDC[UD]DC0-1
+							PDCPos[2*k+m][l] = kTa[k][l] * zPDC[2*k+m] + bTa[k][l];
+						} // end for over m
 						if(1 == ntrLs[2+k][l]) hTaPos1D[k][l]->Fill(taHitPos[k][l]);
 						if(0 == k){	// PDCArrU
 							t0_1Pos[l] = kTa[k][l] * zT0_1 + bTa[k][l];
@@ -141,6 +156,9 @@ void shoot(const char *rootfile){
 		for(int j = 0; j < 2; j++){
 			if(1 == ntrLs[2+j][0] && 1 == ntrLs[2+j][1]){ // j: U-D
 				hTaPos2D[j]->Fill(taHitPos[j][0], taHitPos[j][1]);
+				for(int m = 0; m < 2; m++){ // DC0-1
+					hPDCPos[2*j+m]->Fill(PDCPos[2*j+m][0], PDCPos[2*j+m][1]);
+				}
 				if(0 == j){ // PDCArrU
 					hT0_1Pos->Fill(t0_1Pos[0], t0_1Pos[1]);
 					hVetoPos->Fill(vetoPos[0], vetoPos[1]);

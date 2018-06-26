@@ -5,7 +5,7 @@
 #
 # Created Time: 2017/10/18
 # Author: SUN Yazhou, asia.rabbit@163.com
-# Last Modified: 2018/6/8, SUN Yazhou
+# Last Modified: 2018/6/24, SUN Yazhou
 ##################################################################################################
 
 find_package(ROOT REQUIRED)
@@ -49,5 +49,17 @@ target_link_libraries(te ${LIB_LIST})
 
 add_executable(sho shoot.C)
 target_link_libraries(sho ${ROOT_LIBRARIES})
+
+# build code for target - gui
+set(MG "MAMKE_GUI")
+add_custom_command(OUTPUT ${MG}
+	COMMAND make -C ${PROJECT_SOURCE_DIR}/src/gui
+	COMMAND cp ${PROJECT_SOURCE_DIR}/src/gui/gui ${PROJECT_BINARY_DIR}
+	COMMAND cp ${PROJECT_SOURCE_DIR}/src/gui/MyMainFrameDict_rdict.pcm ${PROJECT_BINARY_DIR}
+	COMMENT "Preparing for the buiding of gui"
+)
+add_custom_target(gui ALL DEPENDS ${MG})
+
+
 
 

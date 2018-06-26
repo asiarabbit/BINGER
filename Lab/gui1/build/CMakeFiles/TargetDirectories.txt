@@ -1,0 +1,3 @@
+/home/asia/pionExp2017/Lab/gui/build/CMakeFiles/rebuild_cache.dir
+/home/asia/pionExp2017/Lab/gui/build/CMakeFiles/T1.dir
+/home/asia/pionExp2017/Lab/gui/build/CMakeFiles/edit_cache.dir

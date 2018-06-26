@@ -561,7 +561,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 
 	// read VME binary data file
 	const int blkSize = 8192; // size of one block, in sizeof(int)
-	int buffer[blkSize]; // cache block data
+	int buffer[blkSize]{}; // cache block data
 	int pos = 0; // the current pos of reading pointer in a block
 	int event_num = 0; // number of events processed
 	int block_num = 0; // number of blocks processed
@@ -573,12 +573,21 @@ int TARawDataProcessor::ReadOfflineVME(){
 	// event header
 	int ev_len, ev_index; // event length, event index
 
-	// dump the first block, which contains no valid data
+	// dump the first block, which contains no valid data but comment
 	if(fread(buffer, sizeof(int), blkSize, fp) <= 0){ // reading failure
 		cout << strerror(errno) << endl;
 		exit(EXIT_FAILURE);
 	} // end if
-	else memset(buffer, 0, sizeof(buffer)); // abandon the first block
+	else{
+//#define VME_COMMENT
+#ifdef VME_COMMENT
+		char comment[sizeof(buffer)] = ""; // store the first block
+		memcpy(comment, buffer, sizeof(buffer));
+		for(char c : comment) if(c) cout << c;
+		getchar();
+#endif
+		memset(buffer, 0, sizeof(buffer)); // abandon the first block
+	}
 	block_num++;
 	
 	int index, index0 = -1; // index0: to make the first index to be zero
