@@ -141,7 +141,7 @@
 		objLs[7].push_back(hTOFWToTRef[i]);
 		for(int j = 0; j < 3; j++){ // loop over the three MWDCs
 			for(int k = 0; k < 3; k++){ // loop over XUV SLayers
-				for(int l = 0; l < 2; l++){
+				for(int l = 0; l < 2; l++){ // loop over X[UV]1-2
 					// DC hit multiplicity
 					sprintf(name, "hDCMultiDCArr%c_DC%d_%c%d", LR[i], j, xuv[k], l);
 					sprintf(title, "DC Hit Multiplicity of DC Array%c - DC%d - %c%d;multiplicity", LR[i], j, xuv[k], l);
@@ -223,7 +223,7 @@
 
 	//////////////////// histograms for DCs around the target //////////////////////
 	// DCs made by P. Ma //
-	char xy[] = "XY", UD[] = "UD";
+	const char xy[] = "XY", UD[] = "UD";
 	TH1F *hDCTaFiredDist[2][2][2], *hDCTaToTRef[2][2][2]; // [dcArrU-D], [dcArrU-D][DC0-1][X-Y];
 	TH1F *hDCTaMulti[2][2][2][2], *hdtTa[2][3][3]; // [dcArrU-D], [dcArrU-D][DC0-1][X-Y][1-2];
 	for(int i = 0; i < 2; i++){ // loop over MWDC arrays

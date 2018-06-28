@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/6/24.															     //
-// Last modified: 2018/6/25, SUN Yazhou.										     //
+// Last modified: 2018/6/28, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -20,6 +20,7 @@
 #include <cstring>
 #include <string>
 #include <sstream>
+#include <unistd.h>
 
 #include "MyMainFrame.h"
 #include "TGButton.h"
@@ -48,13 +49,15 @@ using std::ostringstream;
 MyMainFrame::MyMainFrame(const TGWindow *p, int w, int h)
 	 : TGMainFrame(p, w, h), fECanvas(0), fMyCanvas(0), fFile{0},
 		treeTrack(0), vme(0), treeshoot(0){
+	fCurrentOption = -1;
 	Connect("CloseWindow()", "MyMainFrame", this, "DoClose()");
 
 	// Create canvas widget
 	fECanvas  = new TRootEmbeddedCanvas("ECanvas", this, 800, 600);
 	fMyCanvas = fECanvas->GetCanvas();
+	fMyCanvas->SetGrid();
 	// add a status bar
-	int parts[] = {33, 10, 10, 47}; // length proportions of the bar parts
+	int parts[] = {20, 20, 10, 50}; // length proportions of the bar parts
 	fStatusBar = new TGStatusBar(this, 800, 10);
 	fStatusBar->Draw3DCorner(false);
 	fStatusBar->SetParts(parts, 4);
@@ -76,7 +79,12 @@ MyMainFrame::MyMainFrame(const TGWindow *p, int w, int h)
 	fComboBox[1] = new TGComboBox(fButtonGroup, 200);
 	fComboBox[2] = new TGComboBox(fButtonGroup, 300);
 	// add entry to the combo and list boxes
-	string optList0[] = {"VETO_0", "TOF stop", "PDC0", "PDC1", "target-U", "target-D", "PDC2", "PDC3", "taPosMatch-X", "taPosMatch-Y"};
+	string optList0[] = {"VETO_0", "TOF stop", "PDC0", "PDC1", "target-U", "target-D",
+		"PDC2", "PDC3", "taPosMatch-X", "taPosMatch-Y",
+		"WireIdDC0X1", "WireIdDC0X2", "Pos-DC0", // DC0-X0-X1
+		"WireIdDC1X1", "WireIdDC1X2", "Pos-DC1", // DC1-X0-X1
+		"WireIdDC2X1", "WireIdDC2X2", "Pos-DC2", // DC2-X0-X1
+		"TOFWStripId", "Pos-TOFW"};
 	string optList1[] = {"text", "col", "LEGO", "CONT"};
 	string optList2[] = {"aoz", "poz:beta", "aoz:Z"};
 	for(const string &s : optList0)
@@ -94,20 +102,31 @@ MyMainFrame::MyMainFrame(const TGWindow *p, int w, int h)
 	for(int i = 0; i < 3; i++){
 		fButtonGroup->AddFrame(fComboBox[i], new TGLayoutHints(kLHintsTop | kLHintsCenterX | kLHintsExpandX, 2, 2, 2, 1));
 		fComboBox[i]->Resize(150, 20);
+		fNComboBoxEntry[i] = fComboBox[i]->GetNumberOfEntries();
 	}
+	fButtonGroup->SetExclusive();
 	fRadioButton[0]->SetState(kButtonDown); fComboBox[1]->SetEnabled(0); fComboBox[2]->SetEnabled(0); // set the default option
 	for(int i = 3; i--;) fComboBox[i]->Connect("Selected(int, int)", "MyMainFrame", this, "HandleButtonOption(int, int)");
 	
 	// Create a horizontal frame widget with buttons
 	TGHorizontalFrame *hframe = new TGHorizontalFrame(this, 800, 40);
 	// Exit button
-	TGTextButton *exitB = new TGTextButton(hframe, "&Exit", "gApplication->Terminate(0)");
-	hframe->AddFrame(exitB, new TGLayoutHints(kLHintsCenterX, 5, 5, 3, 4));
+	fPrevious = new TGTextButton(hframe, "&Previous");
+	fPrevious->Connect("Clicked()", "MyMainFrame", this, "PreviousOption()");
+	fNext = new TGTextButton(hframe, "&Next");
+	fNext->Connect("Clicked()", "MyMainFrame", this, "NextOption()");
+	fExit = new TGTextButton(hframe, "&Exit", "gApplication->Terminate(0)");
+	hframe->AddFrame(fPrevious, new TGLayoutHints(kLHintsCenterX, 5, 5, 3, 4));
+	hframe->AddFrame(fNext, new TGLayoutHints(kLHintsCenterX, 5, 5, 3, 4));
+	hframe->AddFrame(fExit, new TGLayoutHints(kLHintsCenterX, 5, 5, 3, 4));
+	fPrevious->SetEnabled(0); fNext->SetEnabled(0);
+	ULong_t ycolor; gClient->GetColorByName("yellow", ycolor);
+	fExit->SetBackgroundColor(ycolor);
 
 	// add all child frames in the main TGFrame
+	AddFrame(fButtonGroup, new TGLayoutHints(kLHintsTop | kLHintsCenterX | kLHintsExpandX, 2, 2, 2, 1));
 	AddFrame(fECanvas, new TGLayoutHints(kLHintsExpandX | kLHintsExpandY, 10, 10, 10, 1));
 	AddFrame(fStatusBar, new TGLayoutHints(kLHintsExpandX, 0, 0, 2, 1));
-	AddFrame(fButtonGroup, new TGLayoutHints(kLHintsTop | kLHintsCenterX | kLHintsExpandX, 2, 2, 2, 1));
 	AddFrame(hframe, new TGLayoutHints(kLHintsCenterX, 2, 2, 2, 2));
 
 	// arrange the accessories and make everything visible on screen
@@ -125,9 +144,28 @@ void MyMainFrame::SetGroupEnabled(int id){
 		fComboBox[i]->SetEnabled(0);
 	}
 	fComboBox[id]->SetEnabled(1);
+	fCurrentOption = (id + 1) * 100;
 }
 void MyMainFrame::HandleButtonOption(int widgetId, int id){
 	DoDraw(widgetId+id);
+	if(!fPrevious->IsEnabled() && fCurrentOption > 0) fPrevious->SetEnabled();
+	if(!fNext->IsEnabled() && fCurrentOption > 0) fNext->SetEnabled();
+	cout << "widgetId: " << widgetId << "\tid: " << id << endl; // DEBUG
+	cout << "fCurrentOption: " << fCurrentOption << endl; // DEBUG
+}
+void MyMainFrame::PreviousOption(){
+	int widgetId = fCurrentOption / 100 - 1;
+	int option = fCurrentOption % 100 - 1;
+	option = option % fNComboBoxEntry[widgetId];
+	if(0 == option) option = fNComboBoxEntry[widgetId];
+	fComboBox[widgetId]->Select(option);
+}
+void MyMainFrame::NextOption(){
+	int widgetId = fCurrentOption / 100 - 1;
+	int option = fCurrentOption % 100 + 1;
+	option = option % fNComboBoxEntry[widgetId];
+	if(0 == option) option = fNComboBoxEntry[widgetId];
+	fComboBox[widgetId]->Select(option);
 }
 
 void MyMainFrame::EventInfo(int event, int px, int py, TObject *selected){
@@ -149,6 +187,7 @@ void MyMainFrame::DoClose(){
 } // end of member function DoClose()
 MyMainFrame::~MyMainFrame(){
 	for(auto &f : fFile) if(f) delete f;
+//	if(0 == access("gui.root", F_OK)) system("rm gui.root");
 	Cleanup();
 } // end of the destructor
 

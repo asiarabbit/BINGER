@@ -11,6 +11,17 @@
 #include "TH1F.h"
 #include "TH2F.h"
 
+#include "TAEventProcessor.h"
+#include "TAGPar.h"
+#include "TAParaManager.h"
+#include "TADetectorPara.h"
+#include "TAMWDCArray.h"
+#include "TAMWDCArray2.h"
+#include "TAMWDC.h"
+#include "TAMWDCTa.h"
+#include "TATOFWall.h"
+#include "TAMath.h"
+
 using std::endl;
 using std::cout;
 using std::flush;
@@ -22,10 +33,6 @@ void shoot(const char *rootfile);
 
 const double tRef_pos_LB = -0.43;
 const double tRef_pos_HB = 0.43;
-const double zTa = -1863.235;
-const double zT0_1 = -2699.08;
-const double zVeto = zT0_1  - 100.;
-const double zPDC[4] = {-2560.91, -2018.2, -1730.02, -939.039};
 
 int main(int argc, char **argv){
 	if(argc < 2){
@@ -38,13 +45,57 @@ int main(int argc, char **argv){
 } // end of the main function
 
 void shoot(const char *rootfile){
+	TAEventProcessor *ep = TAEventProcessor::Instance();
+	ep->Configure();
+	TAParaManager::ArrDet_t &det_vec = ep->GetParaManager()->GetDetList();
+	TAMWDCArray *dcArr[2]{0}; // MWDC arrays downstream of the dipole magnet
+	TAMWDCArray2 *pdcArr2[2]{0}; // PDC arrays upstream of the dipole magnet
+	dcArr[0] = (TAMWDCArray*)det_vec[3]; // dc array L
+	dcArr[1] = (TAMWDCArray*)det_vec[4]; // dc array R
+	pdcArr2[0] = (TAMWDCArray2*)det_vec[8]; // pdc array U
+	pdcArr2[1] = (TAMWDCArray2*)det_vec[9]; // pdc array D
+	TATOFWall *tofw[2]{0};
+	if(dcArr[0]) tofw[0] = dcArr[0]->GetTOFWall();
+	if(dcArr[1]) tofw[1] = dcArr[1]->GetTOFWall();
+	// dc downstream and upstream of the dipole magnet, pdc: same role as dc2
+	TAMWDC *dc[2][3]{0}, *pdc2[2][2]{0};
+	for(int i = 2; i--;) for(int j = 3; j--;) if(dcArr[i]) dc[i][j] = dcArr[i]->GetMWDC(j);
+	for(int i = 2; i--;) for(int j = 2; j--;) if(pdcArr2[i]) pdc2[i][j] = pdcArr2[i]->GetMWDC(j);
+	
+	TAGPar *gp = TAGPar::Instance();
+	const double zTa = gp->Val(84); // -1863.235
+	const double zT0_1 = gp->Val(85); // -2699.08;
+	const double zVeto = zT0_1  - 100.;
+	double zPDC[4]{};
+	// {-2560.91, -2018.2, -1730.02, -939.039};
+	for(int i = 0; i < 2; i++) for(int j = 0; j < 2; j++){
+		zPDC[i*2+j] = pdc2[i][j]->GetDetPara()->GetZ();
+	}
+	double kDC[3], bDC[3], kTOFW, bTOFW;
+	double zDC[3], xDC[3], zTOFW, xTOFW;
+	for(int i = 0; i < 3; i++){
+		double phi = dc[1][i]->GetDetPara()->GetPhi();
+		double zc = dc[1][i]->GetDetPara()->GetZ();
+		double xc = dc[1][i]->GetDetPara()->GetX();
+		kDC[i] = tan(phi+TAMath::Pi()/2.);
+		bDC[i] = xc - kDC[i] * zc;
+		zDC[i] = zc; xDC[i] = xc;
+	}
+	double phi = tofw[1]->GetDetPara()->GetPhi();
+	double zc = tofw[1]->GetDetPara()->GetZ();
+	double xc = tofw[1]->GetDetPara()->GetX();
+	kTOFW = tan(phi+TAMath::Pi()/2.);
+	bTOFW = xc - kTOFW * zc;
+	zTOFW = zc; xTOFW = xc;
+
+
     TFile *f = new TFile(rootfile, "UPDATE");
 
 	// read the track tree
 	TTree *treeTrack = (TTree*)f->Get("treeTrack");
 	const int ntrMax = 100;
 	int ntr, ntrT, index, nu[ntrMax][6]{}, gGOOD[ntrMax]{};
-	int type[ntrMax]{}, id[ntrMax]{};
+	int type[ntrMax]{}, id[ntrMax]{}, firedStripId[ntrMax];
 	int ntrLs[6][3]{}; // N of TrkProjs; DCArr-L-R-U-D -- [XUV - XY]
 	double t[ntrMax][6]{}, r[ntrMax][6]{}, k_[ntrMax]{}, b[ntrMax]{};
 	double chi[ntrMax][6]{}, chi2[ntrMax]{}, Chi[ntrMax]{}, TOF[ntrMax]{};
@@ -63,6 +114,7 @@ void shoot(const char *rootfile){
 	treeTrack->SetBranchAddress("chi", chi);
 	treeTrack->SetBranchAddress("chi2", chi2);
 	treeTrack->SetBranchAddress("Chi", Chi);
+	treeTrack->SetBranchAddress("firedStripId", firedStripId);
 	treeTrack->SetBranchAddress("gGOOD", gGOOD);
 	treeTrack->SetBranchAddress("type", type);
 	treeTrack->SetBranchAddress("id", id);
@@ -75,6 +127,8 @@ void shoot(const char *rootfile){
 	double vetoPos[2], t0_1Pos[2];
 	double PDCPos[4][2]; // [0-3][0-1]: [PDCU0-1--PDCD0-1][X-Y]
 	double chiTa[2][2][6]; // [U-D][X-Y]
+	int nuTa[2][2][6], nuDCR[6]; // only the first track would be stored
+	double DCRPos[6][2], TOFWPos[2]; // DCRPos: [DC0X1X2-DC1X1X2-DC2X1X2][X-Y]
 	bool t0_1_ok = false; // if TOF stop signal is good
 	TTree *treeshoot = new TTree("treeshoot", "shoot! haha~");
 	treeshoot->Branch("index", &index, "index/I");
@@ -86,8 +140,12 @@ void shoot(const char *rootfile){
 	treeshoot->Branch("bTa", bTa, "bTa[2][2]/D");
 	treeshoot->Branch("kTa", kTa, "kTa[2][2]/D");
 	treeshoot->Branch("chiTa", chiTa, "chiTa[2][2][6]/D");
+	treeshoot->Branch("nuTa", nuTa, "nuTa[2][2][6]/I"); // U-D -- X-Y -- DC0X1-X2-DC1-X1-X2
+	treeshoot->Branch("nuDCR", nuDCR, "nuDCR[6]/I");
+	treeshoot->Branch("DCRPos", DCRPos, "DCRPos[3][2]/D");
+	treeshoot->Branch("TOFWPos", TOFWPos, "TOFWPos[2]/D");
 	treeshoot->Branch("t0_1_ok", &t0_1_ok, "t0_1_ok/O");
-	
+
 
 	const char ud[] = "UD", xy[] = "XY";
 	ostringstream name, title;
@@ -125,12 +183,33 @@ void shoot(const char *rootfile){
 		} // end loop over j
 		objls.push_back(hTaPos1DMatch[i]);
 	} // end for over i
+	TH1F *hNu[3][2], *hDCRPosX[3], *hTOFWFiredStrip, *hTOFWPosX;
+	for(int i = 0; i < 3; i++){ // loop over DCs in DCArrR
+		for(int j = 0; j < 2; j++){ // loop over X1-2
+			name.str(""); title.str("");
+			name << "hNuDC" << i << "X" << j + 1;
+			title << "Hit Sense wire Distribution of DCArrR-DC" << i << "X" << j + 1 << ";Sense Wire Id";
+			hNu[i][j] = new TH1F(name.str().c_str(), title.str().c_str(), 101, -10.5, 90.5);
+			objls.push_back(hNu[i][j]);
+		}
+		name.str(""); title.str("");
+		name << "hDCRPosX-DC" << i;
+		title << "Hit Position Distribution of DCArrR-DC" << i << "X;X (from Hit Point to DC Center) [mm]";
+		hDCRPosX[i] = new TH1F(name.str().c_str(), title.str().c_str(), 600, -600., 600.);
+		objls.push_back(hDCRPosX[i]);
+	} // end for over i
+	hTOFWFiredStrip = new TH1F("hTOFWFiredStrip", "Hit TOF Wall Distribution;Strip Id", 32, -1.5, 30.5);
+	objls.push_back(hTOFWFiredStrip);
+	hTOFWPosX = new TH1F("hTOFWPosX", "Hit Position Distribution of TOFWR;X [mm]", 800, -800, 800);
+	objls.push_back(hTOFWPosX);
 
 
 	const int n = treeTrack->GetEntries(); // number of data sections
 	cout << "Totally " << n << " data sections would be processed.\n";
 	for(int i = 0; i < n; i++){
 		treeTrack->GetEntry(i);
+		memset(nuTa, -1, sizeof(nuTa));
+		memset(nuDCR, -1, sizeof(nuDCR));
 		for(int k = 0; k < 2; k++){ // loop over U-D
 			for(int l = 0; l < 2; l++){ // loop over X-Y
 				kTa[k][l] = -9999.; bTa[k][l] = -9999.; taHitPos[k][l] = -9999.;
@@ -139,7 +218,10 @@ void shoot(const char *rootfile){
 				for(int j = 0; j < ntrT; j++){ // loop over tracks
 					if(TYPE == type[j]){
 						kTa[k][l] = k_[j]; bTa[k][l] = b[j];
-						for(int ii = 0; ii < 6; ii++) chiTa[k][l][ii] = chi[j][ii];
+						for(int ii = 0; ii < 6; ii++){
+							chiTa[k][l][ii] = chi[j][ii];
+							nuTa[k][l][ii] = nu[j][ii];
+						}
 						taHitPos[k][l] = kTa[k][l] * zTa + bTa[k][l];
 						for(int m = 0; m < 2; m++){ // loop over PDC[UD]DC0-1
 							PDCPos[2*k+m][l] = kTa[k][l] * zPDC[2*k+m] + bTa[k][l];
@@ -153,6 +235,33 @@ void shoot(const char *rootfile){
 				} // end loop over tracks
 			} // end loop over X-Y
 		} // end for over k
+		for(int j = 0; j < ntrT; j++){ // loop over tracks
+			if(110 == type[j]){
+				for(int k = 0; k < 3; k++){ // loop over DC0-1-2
+					for(int l = 0; l < 2; l++){ // loop over X1-X2
+						if(nu[j][k*2+l] >= 0 && 1 == ntrLs[1][0]){
+							int NU = k*2+l;
+							hNu[k][l]->Fill(nu[j][NU]);
+							nuDCR[NU] = nu[j][NU];
+						}
+					} // end loop over X1-X2
+					double zhit = (b[j] - bDC[k]) / (kDC[k] - k_[j]);
+					double xhit = (b[j]*kDC[k] - bDC[k]*k_[j]) / (kDC[k] - k_[j]);
+					// from hit to the detector center
+					double sHit = sqrt((zhit-zDC[k])*(zhit-zDC[k]) + (xhit-xDC[k])*(xhit-xDC[k]));
+					if(xhit < xDC[k]) sHit *= -1.; // on the beam side of the DC
+					DCRPos[k][0] = sHit;
+					hDCRPosX[k]->Fill(sHit);
+				} // end loop over 3 DCs
+				double zhit = (b[j] - bTOFW) / (kTOFW - k_[j]);
+				double xhit = (b[j]*kTOFW - bTOFW*k_[j]) / (kTOFW - k_[j]);
+				double sHit = sqrt((zhit-zTOFW)*(zhit-zTOFW) + (xhit-xTOFW)*(xhit-xTOFW));
+				if(xhit < xTOFW) sHit *= -1.; // on the beam side of the DC
+				TOFWPos[0] = sHit;
+				hTOFWPosX->Fill(sHit);
+				hTOFWFiredStrip->Fill(firedStripId[j]);
+			} // end if
+		} // end loop over tracks
 		for(int j = 0; j < 2; j++){
 			if(1 == ntrLs[2+j][0] && 1 == ntrLs[2+j][1]){ // j: U-D
 				hTaPos2D[j]->Fill(taHitPos[j][0], taHitPos[j][1]);
