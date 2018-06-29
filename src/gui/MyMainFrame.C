@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/6/24.															     //
-// Last modified: 2018/6/28, SUN Yazhou.										     //
+// Last modified: 2018/6/29, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -49,7 +49,8 @@ using std::ostringstream;
 MyMainFrame::MyMainFrame(const TGWindow *p, int w, int h)
 	 : TGMainFrame(p, w, h), fECanvas(0), fMyCanvas(0), fFile{0},
 		treeTrack(0), vme(0), treeshoot(0){
-	fCurrentOption = -1;
+	fCurrentOption = -1; fCUTOption = -1;
+	fCUT = " 1";
 	Connect("CloseWindow()", "MyMainFrame", this, "DoClose()");
 
 	// Create canvas widget
@@ -71,6 +72,7 @@ MyMainFrame::MyMainFrame(const TGWindow *p, int w, int h)
 	fRadioButton[1] = new TGRadioButton(fButtonGroup, new TGHotString("&DC_Efficiency(%)                          "), 2);
 	fRadioButton[2] = new TGRadioButton(fButtonGroup, new TGHotString("&PID                                       "), 3);
 	fButtonGroup->Connect("Pressed(int)", "MyMainFrame", this, "SetGroupEnabled(int)");
+	fButtonGroup->SetExclusive(); fRadioButton[0]->SetState(kButtonDown);
 	// Combo boxes and a list box for each function set
 	fLabel[0] = new TGLabel(fButtonGroup, "Beam Position At z of:");
 	fLabel[1] = new TGLabel(fButtonGroup, "DC Efficiency - Draw Option:");
@@ -104,29 +106,42 @@ MyMainFrame::MyMainFrame(const TGWindow *p, int w, int h)
 		fComboBox[i]->Resize(150, 20);
 		fNComboBoxEntry[i] = fComboBox[i]->GetNumberOfEntries();
 	}
-	fButtonGroup->SetExclusive();
-	fRadioButton[0]->SetState(kButtonDown); fComboBox[1]->SetEnabled(0); fComboBox[2]->SetEnabled(0); // set the default option
+	fComboBox[1]->SetEnabled(0); fComboBox[2]->SetEnabled(0); // set the default option
 	for(int i = 3; i--;) fComboBox[i]->Connect("Selected(int, int)", "MyMainFrame", this, "HandleButtonOption(int, int)");
+	// veto check box and cut radio buttons
+	fBGCut = new TGButtonGroup(this, "Cut Selection", kHorizontalFrame);
+	fRBCut[0] = new TGRadioButton(fBGCut, new TGHotString("No CUT                "), 0);
+	fRBCut[1] = new TGRadioButton(fBGCut, new TGHotString("CUT0 Z = 8            "), 1);
+	fRBCut[2] = new TGRadioButton(fBGCut, new TGHotString("CUT1 Z = 7            "), 2);
+	fRBCut[3] = new TGRadioButton(fBGCut, new TGHotString("CUT2 Z = 6            "), 3);
+	fRBCut[4] = new TGRadioButton(fBGCut, new TGHotString("CUT2 Z = 5            "), 4);
+	fBGCut->Connect("Pressed(int)", "MyMainFrame", this, "UpdateCut(int)");
+	fBGCut->SetExclusive();
+	fRBCut[0]->SetState(kButtonDown);
 	
 	// Create a horizontal frame widget with buttons
 	TGHorizontalFrame *hframe = new TGHorizontalFrame(this, 800, 40);
-	// Exit button
+	// navigation and Exit buttons
 	fPrevious = new TGTextButton(hframe, "&Previous");
 	fPrevious->Connect("Clicked()", "MyMainFrame", this, "PreviousOption()");
 	fNext = new TGTextButton(hframe, "&Next");
 	fNext->Connect("Clicked()", "MyMainFrame", this, "NextOption()");
 	fExit = new TGTextButton(hframe, "&Exit", "gApplication->Terminate(0)");
+	ULong_t ycolor; gClient->GetColorByName("yellow", ycolor);
+	fExit->SetBackgroundColor(ycolor);
+	fPrevious->SetEnabled(0); fNext->SetEnabled(0);
+	fCBVeto = new TGCheckButton(hframe, "&Veto", 10);
+	fCBVeto->Connect("Toggled(bool)", "MyMainFrame", this, "ToggleVeto(bool)");
+	hframe->AddFrame(fCBVeto, new TGLayoutHints(kLHintsCenterX, 5, 5, 3, 4));
 	hframe->AddFrame(fPrevious, new TGLayoutHints(kLHintsCenterX, 5, 5, 3, 4));
 	hframe->AddFrame(fNext, new TGLayoutHints(kLHintsCenterX, 5, 5, 3, 4));
 	hframe->AddFrame(fExit, new TGLayoutHints(kLHintsCenterX, 5, 5, 3, 4));
-	fPrevious->SetEnabled(0); fNext->SetEnabled(0);
-	ULong_t ycolor; gClient->GetColorByName("yellow", ycolor);
-	fExit->SetBackgroundColor(ycolor);
 
 	// add all child frames in the main TGFrame
 	AddFrame(fButtonGroup, new TGLayoutHints(kLHintsTop | kLHintsCenterX | kLHintsExpandX, 2, 2, 2, 1));
 	AddFrame(fECanvas, new TGLayoutHints(kLHintsExpandX | kLHintsExpandY, 10, 10, 10, 1));
 	AddFrame(fStatusBar, new TGLayoutHints(kLHintsExpandX, 0, 0, 2, 1));
+	AddFrame(fBGCut, new TGLayoutHints(kLHintsCenterX, 2, 2, 2, 2));
 	AddFrame(hframe, new TGLayoutHints(kLHintsCenterX, 2, 2, 2, 2));
 
 	// arrange the accessories and make everything visible on screen
@@ -148,6 +163,14 @@ void MyMainFrame::SetGroupEnabled(int id){
 	if(id0 <= 0) id0 = 1;
 	fComboBox[id]->Select(0);
 	fComboBox[id]->Select(id0);
+	if(1 == id){ // DC efficiency
+		fBGCut->SetState(0); // shut down cut selection
+		fCBVeto->SetEnabled(0);
+	}
+	else if(!fCBVeto->IsEnabled()){
+		fBGCut->SetState(1);
+		fCBVeto->SetEnabled(1);
+	}
 }
 void MyMainFrame::HandleButtonOption(int widgetId, int id){
 	DoDraw(widgetId+id);
@@ -155,6 +178,41 @@ void MyMainFrame::HandleButtonOption(int widgetId, int id){
 	if(!fNext->IsEnabled() && fCurrentOption > 0) fNext->SetEnabled();
 	cout << "widgetId: " << widgetId << "\tid: " << id << endl; // DEBUG
 	cout << "fCurrentOption: " << fCurrentOption << endl; // DEBUG
+}
+void MyMainFrame::UpdateCut(int opt){
+	string cut = " 1", veto = " && mtdc0[3][0] == -9999. && mtdc0[4][0] == -9999.";
+	switch(opt){
+		case 0: // no cut
+			fCUTOption = opt;
+			fCUT = cut;
+			break;
+		case 1: case 2: case 3: case 4:
+			if(fCutG[opt - 1]){
+				cut = fCutG[opt - 1]->GetName();
+				fCUTOption = opt;
+			}
+			fCUT = cut;
+			break;
+		case 10: // veto
+			if(fCUTOption >= 1) cut = fCutG[fCUTOption - 1]->GetName();
+			fCUT = cut + veto;
+		break;
+		case 11: // veto
+			if(fCUTOption >= 1) cut = fCutG[fCUTOption - 1]->GetName();
+			fCUT = cut;
+		break;
+		default:
+			cout << "MyMainFrame::UpdateCut: abnormal opt: " << opt << endl;
+			break;
+	}
+	cout << "Update cut, fCUT: " << fCUT << endl; // DEBUG
+	
+	// redraw the current histogram
+	int widgetId = fCurrentOption / 100 - 1;
+	int option = fCurrentOption % 100;
+	// only changed option would trigger TGComboBox::Selected
+	fComboBox[widgetId]->Select(0);
+	fComboBox[widgetId]->Select(option);
 }
 void MyMainFrame::PreviousOption(){
 	int widgetId = fCurrentOption / 100 - 1;
@@ -183,6 +241,10 @@ void MyMainFrame::EventInfo(int event, int px, int py, TObject *selected){
 	SetStatusText(txt2, 2);
 	txt3 = selected->GetObjectInfo(px, py);
 	SetStatusText(txt3, 3);
+}
+void MyMainFrame::ToggleVeto(bool on){
+	if(on) UpdateCut(10);
+	else UpdateCut(11);
 }
 
 void MyMainFrame::DoClose(){

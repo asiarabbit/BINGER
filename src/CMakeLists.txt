@@ -50,6 +50,9 @@ target_link_libraries(te ${LIB_LIST})
 add_executable(sho shoot.C)
 target_link_libraries(sho ${LIB_LIST})
 
+add_executable(cut cut.C)
+target_link_libraries(cut ${LIB_LIST})
+
 # build code for target - gui
 set(MG "MAMKE_GUI")
 add_custom_command(OUTPUT ${MG}

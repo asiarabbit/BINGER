@@ -8,7 +8,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/21.															     //
-// Last modified: 2018/4/22, SUN Yazhou.										     //
+// Last modified: 2018/6/29, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -80,8 +80,8 @@
 	treeTrack->Branch("TOTDV", TOTDV, "TOTDV[ntrT]/D"); // time over threshold, down side, V
 	treeTrack->Branch("TOTDH", TOTDH, "TOTDH[ntrT]/D"); // time over threshold, down side, H
 	treeTrack->Branch("TOF_T1", &TOF_T1, "TOF_T1/D"); // time tag of T1 plastic scintillator
-	treeTrack->Branch("firedStripId", firedStripId, "firedStripId[ntrT]/I");
-	treeTrack->Branch("nStripStray", nStripStray, "nStripStray[ntrT]/D"); // distance of track to fired TOF Wall strip center
+	treeTrack->Branch("firedStripId", firedStripId, "firedStripId[ntr]/I");
+	treeTrack->Branch("nStripStray", nStripStray, "nStripStray[ntr]/D"); // distance of track to fired TOF Wall strip center
 	// sipmArr part //
 	if(sipmArr){
 		treeTrack->Branch("taHitX", taHitX, "taHitX[ntr]/D");

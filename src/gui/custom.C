@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/6/25.															     //
-// Last modified: 2018/6/29, SUN Yazhou.										     //
+// Last modified: 2018/6/30, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -18,20 +18,161 @@
 
 void MyMainFrame::DoDraw(const int opt){
 //	cout << "opt: " << opt << endl; // DEBUG
+//	fCUT += " && t0_1_ok";
+//	fCUT += " && 1==pileUpSCA";
+	cout << "fCUT: " << fCUT << endl; // DEBUG
 	fCurrentOption = opt;
+	string cut;
 	const char *drawopt[4] = {"textcolz", "text", "LEGO", "colz"};
 	switch(opt){
-		case 101: case 102: case 103: case 104: case 105:
-		case 106: case 107: case 108: case 109: case 110:
-		case 111: case 112: case 113: case 114: case 115:
-		case 116: case 117: case 118: case 119: case 120: case 121:
-			((TH1*)(fObjArr[opt%100 - 1]))->Draw("col"); break;
-		case 201: case 202: case 203: case 204:
-			((TH2F*)fObjArr[21])->Draw(drawopt[opt%100-1]); break;
+		case 101:
+			cut = fCUT;
+			cut += " && 1==ntrLs[2][0] && 1==ntrLs[2][1]";
+			cutDraw(opt, "vetoPos[1]:vetoPos[0]", "(1000, -70., 70., 1000, -70., 70.)",
+				cut.c_str(), "col", ";X [mm];Y [mm]");
+			break;
+		case 102:
+			cut = fCUT;
+			cut += " && 1==ntrLs[2][0] && 1==ntrLs[2][1]";
+			cutDraw(opt, "t0_1Pos[1]:t0_1Pos[0]", "(1000, -70., 70., 1000, -70., 70.)",
+				cut.c_str(), "col", ";X [mm];Y [mm]");
+			break;
+		case 103:
+			cut = fCUT;
+			cut += " && 1==ntrLs[2][0] && 1==ntrLs[2][1]";
+			cutDraw(opt, "PDCPos[0][1]:PDCPos[0][0]", "(1000, -70., 70., 1000, -70., 70.)",
+				cut.c_str(), "col", ";X [mm];Y [mm]");
+			break;
+		case 104:
+			cut = fCUT;
+			cut += " && 1==ntrLs[2][0] && 1==ntrLs[2][1]";
+			cutDraw(opt, "PDCPos[1][1]:PDCPos[1][0]", "(1000, -70., 70., 1000, -70., 70.)",
+				cut.c_str(), "col", ";X [mm];Y [mm]");
+			break;
+		case 105:
+			cut = fCUT;
+			cut += " && 1==ntrLs[2][0] && 1==ntrLs[2][1]";
+			cutDraw(opt, "taHitPos[0][1]:taHitPos[0][0]", "(1000, -70., 70., 1000, -70., 70.)",
+				cut.c_str(), "col", ";X [mm];Y [mm]");
+			break;
+		case 106:
+			cut = fCUT;
+			cut += " && 1==ntrLs[3][0] && 1==ntrLs[3][1]";
+			cutDraw(opt, "taHitPos[1][1]:taHitPos[1][0]", "(1000, -70., 70., 1000, -70., 70.)",
+				cut.c_str(), "col", ";X [mm];Y [mm]");
+			break;
+		case 107:
+			cut = fCUT;
+			cut += " && 1==ntrLs[3][0] && 1==ntrLs[3][1]";
+			cutDraw(opt, "PDCPos[2][1]:PDCPos[2][0]", "(1000, -70., 70., 1000, -70., 70.)",
+				cut.c_str(), "col", ";X [mm];Y [mm]");
+			break;
+		case 108:
+			cut = fCUT;
+			cut += " && 1==ntrLs[3][0] && 1==ntrLs[3][1]";
+			cutDraw(opt, "PDCPos[3][1]:PDCPos[3][0]", "(1000, -70., 70., 1000, -70., 70.)",
+				cut.c_str(), "col", ";X [mm];Y [mm]");
+			break;
+		case 109:
+			cut = fCUT;
+			cut += " && 1==ntrLs[2][0] && 1==ntrLs[3][0]";
+			cutDraw(opt, "taHitPos[0][0]:taHitPos[1][0]", "(1000, -70., 70., 1000, -70., 70.)",
+				cut.c_str(), "col", ";DCArrU-X [mm];DCArrD-X [mm]");
+			break;
+		case 110:
+			cut = fCUT;
+			cut += " && 1==ntrLs[2][1] && 1==ntrLs[3][1]";
+			cutDraw(opt, "taHitPos[0][1]:taHitPos[1][1]", "(1000, -70., 70., 1000, -70., 70.)",
+				cut.c_str(), "col", ";DCArrU-Y [mm];DCArrD-Y [mm]");
+			break;
+		case 111:
+			cut = fCUT;
+			cut += " && ntrLs[1][0] && nu[0][0] >= 0";
+			cutDraw(opt, "nu[0][0]", "(101, -10.5, 90.5)",
+				cut.c_str(), "", ";Sense Wire Id");
+			break;
+		case 112:
+			cut = fCUT;
+			cut += " && 1==ntrLs[1][0] && nu[0][1] >= 0";
+			cutDraw(opt, "nu[0][1]", "(101, -10.5, 90.5)",
+				cut.c_str(), "", ";Sense Wire Id");
+			break;
+		case 113:
+			cut = fCUT;
+			cut += " && ntrLs[1][0] >= 1";
+			cutDraw(opt, "DCRPos[0][0]", "(600, -600., 600.)",
+				cut.c_str(), "", ";X(from Hit Point to DC Center) [mm]");
+			break;
+		case 114:
+			cut = fCUT;
+			cut += " && ntrLs[1][0] >= 1 && nu[0][2] >= 0";
+			cutDraw(opt, "nu[0][2]", "(101, -10.5, 90.5)",
+				cut.c_str(), "", ";Sense Wire Id");
+			break;
+		case 115:
+			cut = fCUT;
+			cut += " && ntrLs[1][0] >= 1 && nu[0][3] >= 0";
+			cutDraw(opt, "nu[0][3]", "(101, -10.5, 90.5)",
+				cut.c_str(), "", ";Sense Wire Id");
+			break;
+		case 116:
+			cut = fCUT;
+			cut += " && ntrLs[1][0] >= 1";
+			cutDraw(opt, "DCRPos[1][0]", "(600, -600., 600.)",
+				cut.c_str(), "", ";X(from Hit Point to DC Center) [mm]");
+			break;
+		case 117:
+			cut = fCUT;
+			cut += " && ntrLs[1][0] >= 1 && nu[0][4] >= 0";
+			cutDraw(opt, "nu[0][4]", "(101, -10.5, 90.5)",
+				cut.c_str(), "", ";Sense Wire Id");
+			break;
+		case 118:
+			cut = fCUT;
+			cut += " && ntrLs[1][0] >= 1 && nu[0][5] >= 0";
+			cutDraw(opt, "nu[0][5]", "(101, -10.5, 90.5)",
+				cut.c_str(), "", ";Sense Wire Id");
+			break;
+		case 119:
+			cut = fCUT;
+			cut += " && ntrLs[1][0] >= 1";
+			cutDraw(opt, "DCRPos[2][0]", "(600, -600., 600.)",
+				cut.c_str(), "", ";X(from Hit Point to DC Center) [mm]");
+			break;
+		case 120:
+			cut = fCUT;
+			cut += " && ntrLs[1][0] >= 1";
+			cutDraw(opt, "firedStripId[0]", "(32, -1.5, 30.5)",
+				cut.c_str(), "", ";Strip Id");
+			break;
+		case 121:
+			cut = fCUT;
+			cut += " && ntrLs[1][0] >= 1";
+			cutDraw(opt, "TOFWPos[0]", "(800, -800., 800.)",
+				cut.c_str(), "", ";X [mm]");
+			break;
 
-		case 301: cutDraw(301, "aoz", "(500, 1., 3.)", "", ""); break;
-		case 302: cout << "302" << endl; break;
-		case 303: cout << "303" << endl; break;
+		case 201: case 202: case 203: case 204:
+			((TH2F*)fObjArr[21])->Draw(drawopt[opt%100-1]);
+			break;
+
+		case 301:
+			cut = fCUT;
+			cut += "";
+			cutDraw(opt, "aoz", "(500, 1., 3.)", cut.c_str(), "", ";aoz [amu]");
+			break;
+		case 302:
+			cut = fCUT;
+			cut += "";
+			cutDraw(opt, "poz:beta2", "(400, 0.6, 0.75, 400, 1100., 2300.)",
+				cut.c_str(), "col", ";beta;poz [MeV/c]");
+			break;
+		case 303:
+			cut = fCUT;
+			cut += "";
+			cutDraw(opt, "firedStripId:aoz", "(1000, 1., 3., 34, -1.5, 32.5)",
+				cut.c_str(), "col", ";aoz [amu];Strip Id");
+			break;
 		default:
 			cout << "\033[31;1mUnknown User Operation Detected\033[0m" << endl;
 			break;
@@ -60,6 +201,7 @@ void MyMainFrame::Initialize(const char *rootfile, const char *assrootfile){
 
 	treeTrack = (TTree*)fFile[1]->Get("treeTrack");
 	vme = (TTree*)fFile[1]->Get("vme");
+	TTree *treeSi = (TTree*)fFile[1]->Get("treeSi");
 	treeshoot = (TTree*)fFile[1]->Get("treeshoot");
 	if(!treeTrack || !vme || !treeshoot){
 		cout << "\033[31;1m\t[BINGER GUI] - MyMainFrame::Initialize: null tree pointer(s) detected" << endl;
@@ -69,6 +211,7 @@ void MyMainFrame::Initialize(const char *rootfile, const char *assrootfile){
 	}
 	treeTrack->AddFriend(vme);
 	treeTrack->AddFriend(treeshoot);
+	treeTrack->AddFriend(treeSi);
 
 	fNObj = 0;
 	fObjArr[0] = fFile[1]->Get("/SHOOT/hVetoPos"); fNObj++;
@@ -205,10 +348,16 @@ void MyMainFrame::Initialize(const char *rootfile, const char *assrootfile){
 
 	isCalled = true;
 
+	fCutG[0] = (TCutG*)fFile[1]->Get("CUTG0");
+	fCutG[1] = (TCutG*)fFile[1]->Get("CUTG1");
+	fCutG[2] = (TCutG*)fFile[1]->Get("CUTG2");
+	fCutG[3] = (TCutG*)fFile[1]->Get("CUTG3");
+
 	fFile[0] = new TFile("gui.root", "RECREATE"); // store derivative objects
 } // end member function Initialize
 
 void nullError(const char *objName){
+	cout << "\033[31;1m\t[BINGER GUI] - MyMainFrame::Initialize: ";
 	cout << "null pointer in obj-extration: ";
 	cout << objName << endl;
 	getchar();
@@ -216,13 +365,23 @@ void nullError(const char *objName){
 }
 
 // head: X or Y:X or Z:X:Y; binning: (NbinsX, xmin, xmax, NbinsY, ymin, ymax...)
-void MyMainFrame::cutDraw(int id, const char *head, const char *binning, const char *cut, const char *drawopt){
+void MyMainFrame::cutDraw(int id, const char *head, const char *binning, const char *cut,
+		 const char *drawopt, const char *title){
 	ostringstream cmd(""), hname(""); // the draw command
 	hname << "h" << id << cut;
 	cmd << head << ">>" << hname.str() << binning;
 	if(!fFile[0]->Get(hname.str().c_str())){
 		treeTrack->Draw(cmd.str().c_str(), cut, drawopt);
-		TObject *obj = fFile[0]->Get(hname.str().c_str());
+		TNamed *obj = dynamic_cast<TNamed*>(fFile[0]->Get(hname.str().c_str()));
+		if(!obj){
+			cout << "\033[31;1m\t[BINGER GUI] - MyMainFrame::cutDraw: ";
+			cout << "nullpointer in object extraction: ";
+			cout << hname.str() << "\033[0m" << endl;
+			getchar();
+			exit(1);
+		}
+		string titleC = obj->GetTitle(); titleC += title;
+		obj->SetTitle(titleC.c_str());
 		obj->Write("", TObject::kOverwrite);
 	}
 	else{

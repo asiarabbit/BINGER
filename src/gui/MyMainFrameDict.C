@@ -53,7 +53,7 @@ namespace ROOT {
       ::MyMainFrame *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::MyMainFrame >(0);
       static ::ROOT::TGenericClassInfo 
-         instance("MyMainFrame", ::MyMainFrame::Class_Version(), "MyMainFrame.h", 38,
+         instance("MyMainFrame", ::MyMainFrame::Class_Version(), "MyMainFrame.h", 42,
                   typeid(::MyMainFrame), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::MyMainFrame::Dictionary, isa_proxy, 16,
                   sizeof(::MyMainFrame) );
