@@ -328,7 +328,8 @@ void TAAssessTa::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid,
 	objLs[0].push_back(hnF3D);
 	objLs[0].push_back(hXMag); objLs[0].push_back(hYMag);
 	TH1F *heff = new TH1F("heff", "MWDC efficiency - Number of X-Y Tracks;X:Tot-DC0(X1-X2)-DC1--Y", 30, -2.5, 27.5);
-	objLs[0].push_back(heff);
+	TH1F *heffF = new TH1F("heffF", "MWDC efficiency - Number of X-U-V Tracks - 3D or not;X:Tot-DC0(X1-X2)-DC1-DC2--U--V", 30, -2.5, 27.5);
+	objLs[0].push_back(heff); objLs[0].push_back(heffF);
 	TH1F *hr_ = new TH1F("hr_", "hr_", 500, -6.5, 6.5); // a temporary histogram for testing
 	objLs[0].push_back(hr_);
 ///////////////////////////////////////// END OF THE HISTOGRAM DEFINITION //////////////////////////
@@ -537,6 +538,8 @@ void TAAssessTa::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid,
 		cout << setw(13) << "\033[32;1m" << effDC0;
 		cout << setw(12) << effDC1 << "\033[0m\n";
 		if(j%2 == 1) cout << endl;
+		heffF->SetBinContent(2+i*8+0*2+j, effDC0); // 4 significant digits
+		heffF->SetBinContent(2+i*8+1*2+j, effDC1);
 	}
 	cout << "\n\n\033[33;1mDONE\033[0m\n\n";
 

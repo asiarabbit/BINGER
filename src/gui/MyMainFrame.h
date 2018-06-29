@@ -53,6 +53,11 @@ public:
 	ClassDef(MyMainFrame, 0);
 
 protected:
+	// draw using tree->Draw(s) with cut
+	// id: current option; head: variable list; binning: histogram binning;
+	// head: X or Y:X or Z:X:Y; binning: (NbinsX, xmin, xmax, NbinsY, ymin, ymax...)
+	void cutDraw(int id, const char *head, const char *binning, const char *cut, const char *drawopt);
+
 	TRootEmbeddedCanvas *fECanvas;
 	TGStatusBar *fStatusBar;
 	TCanvas *fMyCanvas; // Canvas of fECanvas

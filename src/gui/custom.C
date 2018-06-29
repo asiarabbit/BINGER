@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/6/25.															     //
-// Last modified: 2018/6/28, SUN Yazhou.										     //
+// Last modified: 2018/6/29, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -19,7 +19,7 @@
 void MyMainFrame::DoDraw(const int opt){
 //	cout << "opt: " << opt << endl; // DEBUG
 	fCurrentOption = opt;
-	const char *drawopt[4] = {"text", "textcolz", "LEGO", "CONTZ"};
+	const char *drawopt[4] = {"textcolz", "text", "LEGO", "colz"};
 	switch(opt){
 		case 101: case 102: case 103: case 104: case 105:
 		case 106: case 107: case 108: case 109: case 110:
@@ -28,8 +28,8 @@ void MyMainFrame::DoDraw(const int opt){
 			((TH1*)(fObjArr[opt%100 - 1]))->Draw("col"); break;
 		case 201: case 202: case 203: case 204:
 			((TH2F*)fObjArr[21])->Draw(drawopt[opt%100-1]); break;
-			
-		case 301: cout << "301" << endl; break;
+
+		case 301: cutDraw(301, "aoz", "(500, 1., 3.)", "", ""); break;
 		case 302: cout << "302" << endl; break;
 		case 303: cout << "303" << endl; break;
 		default:
@@ -49,7 +49,6 @@ void MyMainFrame::Initialize(const char *rootfile, const char *assrootfile){
 		return;
 	}
 	ostringstream name(""), title("");
-	fFile[0] = new TFile("gui.root", "RECREATE"); // store derivative objects
 	fFile[1] = new TFile(rootfile);
 	if(strcmp(assrootfile, "") || !assrootfile) fFile[2] = new TFile(assrootfile);
 	if(!fFile[2]){
@@ -105,12 +104,12 @@ void MyMainFrame::Initialize(const char *rootfile, const char *assrootfile){
 	// ****** for PDCs ******
 	const char xy[] = "XY", UD[] = "UD";
 	for(int i = 0; i < 2; i++){ // loop over MWDC arrays
-		for(int j = 0; j < 2; j++){ // loop over the two MWDCs
-			for(int k = 0; k < 2; k++){ // loop over XY SLayers
+		for(int j = 0; j < 2; j++){ // loop over XY SLayers
+			for(int k = 0; k < 2; k++){ // loop over the two MWDCs
 				for(int l = 0; l < 2; l++){ // loop over two sense wire layers in one SLayer
 					// DC hit multiplicity
 					name.str("");
-					name << "/Multiplicity/hPDCMultiDCArr" << UD[i]  << "_DC" << j << "_" << xy[k] << l;
+					name << "/Multiplicity/hPDCMultiDCArr" << UD[i]  << "_DC" << k << "_" << xy[j] << l;
 					TH1F *hmulti = (TH1F*)fFile[1]->Get(name.str().c_str());
 					if(!hmulti) nullError(name.str().c_str());
 					if(0. != hmulti->GetBinCenter(5)){
@@ -139,48 +138,53 @@ void MyMainFrame::Initialize(const char *rootfile, const char *assrootfile){
 		} // end loop over two adjacent layers
 	} // end loop over the three MWDCs
 	if(fFile[2]){
-		TH1F *heffU = (TH1F*)fFile[2]->Get("/assessTa0U/miscTa0U/heff");
-		if(!heffU) nullError("/assessTa0U/miscTa0U/heff");
+		TH1F *heffU = (TH1F*)fFile[2]->Get("/assessTa0U/miscTa0U/heffF");
+		if(!heffU) nullError("/assessTa0U/miscTa0U/heffF");
 		for(int i = 0; i < 2; i++){ // loop over X-Y
 			for(int j = 0; j < 4; j++){
-				hEff->SetBinContent(2+i*4+j, 3, heffU->GetBinContent(5+i*8+1+j) / heffU->GetBinContent(5+i*8));
+				hEff->SetBinContent(2+i*4+j, 3, heffU->GetBinContent(2+i*8+j));
 				name.str(""); name << "ntrLs[2][" << i << "] > 0";
 				hEff->SetBinContent(2+i*4+j, 4, treeTrack->GetEntries(name.str().c_str()) / double(n_ev));
 			} // end for over 8 sense wire layers in DCTaU
 		} // end for over i
 
-		TH1F *heffD = (TH1F*)fFile[2]->Get("/assessTa0D/miscTa0D/heff");
-		if(!heffD) nullError("/assessTa0D/miscTa0D/heff");
+		TH1F *heffD = (TH1F*)fFile[2]->Get("/assessTa0D/miscTa0D/heffF");
+		if(!heffD) nullError("/assessTa0D/miscTa0D/heffF");
 		for(int i = 0; i < 2; i++){ // loop over X-Y
 			for(int j = 0; j < 4; j++){
-				hEff->SetBinContent(2+8+i*4+j, 3, heffD->GetBinContent(5+i*8+1+j) / heffD->GetBinContent(5+i*8));
+				hEff->SetBinContent(2+8+i*4+j, 3, heffD->GetBinContent(2+i*8+j));
 				name.str(""); name << "ntrLs[3][" << i << "] > 0";
 				hEff->SetBinContent(2+8+i*4+j, 4, treeTrack->GetEntries(name.str().c_str()) / double(n_ev));
 			} // end for over 8 sense wire layers in DCTaD
 		} // end for over i
 
-		TH1F *heffR = (TH1F*)fFile[2]->Get("/assess0R/misc0R/heff");
-		if(!heffU) nullError("/assess0R/misc0R/heff");
+		TH1F *heffR = (TH1F*)fFile[2]->Get("/assess0R/misc0R/heffF");
+		if(!heffU) nullError("/assess0R/misc0R/heffF");
 		for(int i = 0; i < 6; i++){
-			hEff->SetBinContent(18+i, 3, heffR->GetBinContent(5+i+1) / heffR->GetBinContent(5));
+			hEff->SetBinContent(18+i, 3, heffR->GetBinContent(2+0*8+i));
 			hEff->SetBinContent(18+i, 4, treeTrack->GetEntries("ntrLs[1][0] > 0") / double(n_ev));
 		} // end for over 6 sense wire layers in DCArrR
 	} // end if
-	
+
 	// change the order of the heff bins to make it "beamwise" for PDCs //
-	double effOld[3][16]{}; // bin content of hEff
-	for(int i = 0; i < 3; i++){ // loop over rows
-		for(int j = 0; j < 16; j++){ // loop over columns
-			effOld[i][j] = hEff->GetBinContent(i+2, j+2);
+	double effOld[22][3]{}; // bin content of hEff
+	for(int i = 0; i < 22; i++){ // loop over columns
+		for(int j = 0; j < 3; j++){ // loop over rows
+			double tmp = hEff->GetBinContent(i+2, j+2);
+//			cout << "i: " << i << "\tj: " << j << "\ttmp: " << tmp << endl; // DEBUG
+			tmp = int((tmp)*100+0.5); // (2d)%
+//			cout << "tmp: " << tmp << endl; getchar(); // DEBUG
+			hEff->SetBinContent(i+2, j+2, tmp);
+			effOld[i][j] = tmp;
 		} // end for over j
 	} // end for over i
 	const int newOrder[16] = {
 		5,   6,   1,   2,   7,   8,   3,   4,
 		1+8, 2+8, 5+8, 6+8, 3+8, 4+8, 7+8, 8+8
 	};
-	for(int i = 0; i < 3; i++){ // loop over rows
-		for(int j = 0; j < 16; j++){ // loop over columns
-			hEff->GetBinContent(i+2, j+2, effOld[i][newOrder[j] - 1]);
+	for(int i = 0; i < 16; i++){ // loop over columns
+		for(int j = 0; j < 3; j++){ // loop over rows
+			hEff->SetBinContent(i+2, j+2, effOld[newOrder[i] - 1][j]);
 		} // end for over j
 	} // end for over i
 	hEff->GetXaxis()->SetBinLabel(2,  "U0Y1"); hEff->GetXaxis()->SetBinLabel(3,  "U0Y2");
@@ -192,14 +196,16 @@ void MyMainFrame::Initialize(const char *rootfile, const char *assrootfile){
 	hEff->GetXaxis()->SetBinLabel(14, "D1X1"); hEff->GetXaxis()->SetBinLabel(15, "D1X2");
 	hEff->GetXaxis()->SetBinLabel(16, "D1Y1"); hEff->GetXaxis()->SetBinLabel(17, "D1Y2");
 	hEff->GetXaxis()->SetBinLabel(18, "R0X1"); hEff->GetXaxis()->SetBinLabel(19, "R0X2");
-	hEff->GetXaxis()->SetBinLabel(20, "R0X1"); hEff->GetXaxis()->SetBinLabel(21, "R0X2");
-	hEff->GetXaxis()->SetBinLabel(22, "R0X1"); hEff->GetXaxis()->SetBinLabel(23, "R0X2");
+	hEff->GetXaxis()->SetBinLabel(20, "R1X1"); hEff->GetXaxis()->SetBinLabel(21, "R1X2");
+	hEff->GetXaxis()->SetBinLabel(22, "R2X1"); hEff->GetXaxis()->SetBinLabel(23, "R2X2");
 
-	hEff->GetYaxis()->SetBinLabel(2, "nHit/n_ev");
+	hEff->GetYaxis()->SetBinLabel(2, "nHit/nev");
 	hEff->GetYaxis()->SetBinLabel(3, "software eff");
-	hEff->GetYaxis()->SetBinLabel(4, "nWithTrk/n_ev");
+	hEff->GetYaxis()->SetBinLabel(4, "nTrkOK/nev");
 
 	isCalled = true;
+
+	fFile[0] = new TFile("gui.root", "RECREATE"); // store derivative objects
 } // end member function Initialize
 
 void nullError(const char *objName){
@@ -209,7 +215,21 @@ void nullError(const char *objName){
 	exit(1);
 }
 
-
+// head: X or Y:X or Z:X:Y; binning: (NbinsX, xmin, xmax, NbinsY, ymin, ymax...)
+void MyMainFrame::cutDraw(int id, const char *head, const char *binning, const char *cut, const char *drawopt){
+	ostringstream cmd(""), hname(""); // the draw command
+	hname << "h" << id << cut;
+	cmd << head << ">>" << hname.str() << binning;
+	if(!fFile[0]->Get(hname.str().c_str())){
+		treeTrack->Draw(cmd.str().c_str(), cut, drawopt);
+		TObject *obj = fFile[0]->Get(hname.str().c_str());
+		obj->Write("", TObject::kOverwrite);
+	}
+	else{
+//		cout << "BINGO 1" << endl; // DEBUG
+		((TH1*)fFile[0]->Get(hname.str().c_str()))->Draw(drawopt);
+	}
+}
 
 
 

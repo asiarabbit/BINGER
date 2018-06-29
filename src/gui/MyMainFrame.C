@@ -85,7 +85,7 @@ MyMainFrame::MyMainFrame(const TGWindow *p, int w, int h)
 		"WireIdDC1X1", "WireIdDC1X2", "Pos-DC1", // DC1-X0-X1
 		"WireIdDC2X1", "WireIdDC2X2", "Pos-DC2", // DC2-X0-X1
 		"TOFWStripId", "Pos-TOFW"};
-	string optList1[] = {"text", "col", "LEGO", "CONT"};
+	string optList1[] = {"textcolz", "text", "LEGO", "colz"};
 	string optList2[] = {"aoz", "poz:beta", "aoz:Z"};
 	for(const string &s : optList0)
 		fComboBox[0]->AddEntry(s.c_str(), fComboBox[0]->GetNumberOfEntries() + 1);
@@ -144,7 +144,10 @@ void MyMainFrame::SetGroupEnabled(int id){
 		fComboBox[i]->SetEnabled(0);
 	}
 	fComboBox[id]->SetEnabled(1);
-	fCurrentOption = (id + 1) * 100;
+	int id0 = fComboBox[id]->GetSelected();
+	if(id0 <= 0) id0 = 1;
+	fComboBox[id]->Select(0);
+	fComboBox[id]->Select(id0);
 }
 void MyMainFrame::HandleButtonOption(int widgetId, int id){
 	DoDraw(widgetId+id);
