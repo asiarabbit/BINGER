@@ -88,7 +88,7 @@ MyMainFrame::MyMainFrame(const TGWindow *p, int w, int h)
 		"WireIdDC2X1", "WireIdDC2X2", "Pos-DC2", // DC2-X0-X1
 		"TOFWStripId", "Pos-TOFW"};
 	string optList1[] = {"textcolz", "text", "LEGO", "colz"};
-	string optList2[] = {"aoz", "poz:beta", "aoz:Z"};
+	string optList2[] = {"aoz", "poz:beta", "firedStripId:aoz", "MU_0-MU_1", "MU_1_Si", "MU_0-Si", "Z^{2}@MU_1-_Si"};
 	for(const string &s : optList0)
 		fComboBox[0]->AddEntry(s.c_str(), fComboBox[0]->GetNumberOfEntries() + 1);
 	for(const string &s : optList1){

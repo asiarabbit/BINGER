@@ -173,6 +173,32 @@ void MyMainFrame::DoDraw(const int opt){
 			cutDraw(opt, "firedStripId:aoz", "(1000, 1., 3., 34, -1.5, 32.5)",
 				cut.c_str(), "col", ";aoz [amu];Strip Id");
 			break;
+
+
+		case 304:
+			cut = fCUT;
+			cut += "";
+			cutDraw(opt, "(adc[9]+adc[10]+adc[11]):(adc[7]+adc[8])", "(500, 0., 2500., 500, 0., 1800.)",
+				cut.c_str(), "col", ";MUSIC_BeforeTA [ch];MUSIC_AfterTA [ch]");
+			break;
+		case 305:
+			cut = fCUT;
+			cut += "";
+			cutDraw(opt, "adc[12]:(adc[9]+adc[10]+adc[11])", "(500, 0., 3000., 500, 0., 3500.)",
+				cut.c_str(), "col", ";MUSIC_AfterTA [ch];Si_AfterTA [ch]");
+			break;
+		case 306:
+			cut = fCUT;
+			cut += "";
+			cutDraw(opt, "adc[12]:(adc[7]+adc[8])", "(500, 0., 2500., 500, 0., 3000.)",
+				cut.c_str(), "col", ";MUSIC_BeforeTA [ch];Si_AfterTA [ch]");
+			break;
+		case 307:
+			cut = fCUT;
+			cut += "";
+			cutDraw(opt, "adc[12]*pow(beta2[0],2):(adc[9]+adc[10]+adc[11])*pow(beta2[0],2)", "(500, 0., 1200., 500, 0., 2000.)",
+				cut.c_str(), "col", ";Z^{2}-MUSIC_AfterTA [arb.];Z^{2}-Si_AfterTA [arb.]");
+			break;
 		default:
 			cout << "\033[31;1mUnknown User Operation Detected\033[0m" << endl;
 			break;
