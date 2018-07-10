@@ -235,15 +235,17 @@ void shoot(const char *rootfile){
 				} // end loop over tracks
 			} // end loop over X-Y
 		} // end for over k
-		for(int j = 0; j < ntrT; j++){ // loop over tracks
-			// *** initialization *** //
-			for(int ii = 0; ii < 2; ii++){ // loop over X-Y
-//				if(1 == ii) continue;
-				for(int jj = 0; jj < 3; jj++){ // loop over MWDCs
-					DCRPos[jj][ii] = -9999.;
-				}
-				TOFWPos[ii] = -9999.;
+
+		// *** initialization *** //
+		for(int ii = 0; ii < 2; ii++){ // loop over X-Y
+//			if(1 == ii) continue;
+			for(int jj = 0; jj < 3; jj++){ // loop over MWDCs
+				DCRPos[jj][ii] = -9999.;
 			}
+			TOFWPos[ii] = -9999.;
+		} // end for over i
+
+		for(int j = 0; j < ntrT; j++){ // loop over tracks
 			if(110 == type[j]){
 				for(int k = 0; k < 3; k++){ // loop over DC0-1-2
 					for(int l = 0; l < 2; l++){ // loop over X1-X2

@@ -25,7 +25,7 @@
 TAT0CalibDCArrTaD::TAT0CalibDCArrTaD(const string &rootfile, TAMWDCArrayD *dcArrD)
 		: TAT0CalibDCArrTa(rootfile, dcArrD){
 	if(!fDCArr){
-		fDCArr = (TAMWDCArray2*)TAParaManager::Instance()->GetDetList()[7];
+		fDCArr = (TAMWDCArray2*)TAParaManager::Instance()->GetDetList()[9];
 		if(!fDCArr) TAPopMsg::Error("TAT0CalibDCArrTaD", "TAT0CaliDCArrTaD: DC array from TAParaManager is null. TAEventProcessor::Configure() not run yet?");
 	}
 }

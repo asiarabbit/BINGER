@@ -173,31 +173,83 @@ void MyMainFrame::DoDraw(const int opt){
 			cutDraw(opt, "firedStripId:aoz", "(1000, 1., 3., 34, -1.5, 32.5)",
 				cut.c_str(), "col", ";aoz [amu];Strip Id");
 			break;
-
-
 		case 304:
 			cut = fCUT;
 			cut += "";
-			cutDraw(opt, "(adc[9]+adc[10]+adc[11]):(adc[7]+adc[8])", "(500, 0., 2500., 500, 0., 1800.)",
-				cut.c_str(), "col", ";MUSIC_BeforeTA [ch];MUSIC_AfterTA [ch]");
+			cutDraw(opt, "atan(kTa[0][0])/0.0174533", "(500, -5., 5.)",
+				cut.c_str(), "", ";kXU [DEGREE]");
 			break;
 		case 305:
 			cut = fCUT;
 			cut += "";
-			cutDraw(opt, "adc[12]:(adc[9]+adc[10]+adc[11])", "(500, 0., 3000., 500, 0., 3500.)",
-				cut.c_str(), "col", ";MUSIC_AfterTA [ch];Si_AfterTA [ch]");
+			cutDraw(opt, "atan(kTa[0][1])/0.0174533", "(500, -5., 5.)",
+				cut.c_str(), "", ";kYU [DEGREE]");
 			break;
 		case 306:
 			cut = fCUT;
 			cut += "";
-			cutDraw(opt, "adc[12]:(adc[7]+adc[8])", "(500, 0., 2500., 500, 0., 3000.)",
-				cut.c_str(), "col", ";MUSIC_BeforeTA [ch];Si_AfterTA [ch]");
+			cutDraw(opt, "atan(kTa[1][0])/0.0174533", "(500, -5., 5.)",
+				cut.c_str(), "", ";kXD [DEGREE]");
 			break;
 		case 307:
 			cut = fCUT;
 			cut += "";
-			cutDraw(opt, "adc[12]*pow(beta2[0],2):(adc[9]+adc[10]+adc[11])*pow(beta2[0],2)", "(500, 0., 1200., 500, 0., 2000.)",
-				cut.c_str(), "col", ";Z^{2}-MUSIC_AfterTA [arb.];Z^{2}-Si_AfterTA [arb.]");
+			cutDraw(opt, "atan(kTa[1][1])/0.0174533", "(500, -5., 5.)",
+				cut.c_str(), "", ";kYD [DEGREE]");
+			break;
+		case 308:
+			cut = fCUT;
+			cut += "";
+			cutDraw(opt, "atan(kTa[0][1])/0.0174533:atan(kTa[0][0])/0.0174533", "(500, -5., 5., 500, -5., 5.)",
+				cut.c_str(), "col", ";kXU [DEGREE];kYU [DEGREE]");
+			break;
+		case 309:
+			cut = fCUT;
+			cut += "";
+			cutDraw(opt, "atan(kTa[1][1])/0.0174533:atan(kTa[1][0])/0.0174533", "(500, -5., 5., 500, -5., 5.)",
+				cut.c_str(), "col", ";kXD [DEGREE];kYD [DEGREE]");
+			break;
+		case 310:
+			cut = fCUT;
+			cut += "";
+			cutDraw(opt, "(adc[16]+adc[17]):((-0.010217*adc[0]-0.0104695*adc[1])/2.+143.7)", "(500, 117., 130, 500, 0., 8000.)",
+				cut.c_str(), "col", ";tof1 [ns];MUSIC_U [ch]");
+			break;
+		case 311:
+			cut = fCUT;
+			cut += "";
+			cutDraw(opt, "(adc[16]+adc[17]):taHitPos[0][1]", "(500, -80., 80., 500, 0., 8000.)",
+				cut.c_str(), "col", ";YU [mm];MUSIC_U [ch]");
+			break;
+		case 312:
+			cut = fCUT;
+			cut += "";
+			cutDraw(opt, "(adc[22]+adc[23]+adc[24]):taHitPos[1][1]", "(500, -80., 80., 500, 0., 8000.)",
+				cut.c_str(), "col", ";YD [mm];MUSIC_D [ch]");
+			break;
+		case 313:
+			cut = fCUT;
+			cut += "";
+			cutDraw(opt, "(adc[16]+adc[17]):adc[18]", "(500, 0., 5000., 500, 0., 8000.)",
+				cut.c_str(), "col", ";Si_U [ch];MUSIC_U [ch]");
+			break;
+		case 314:
+			cut = fCUT;
+			cut += "";
+			cutDraw(opt, "(adc[20]+adc[21]):(adc[22]+adc[23]+adc[24])", "(500, 0., 12000., 500, 0., 12000.)",
+				cut.c_str(), "col", ";MUSIC_D [ch];Si_D [ch]");
+			break;
+		case 315:
+			cut = fCUT;
+			cut += "";
+			cutDraw(opt, "(adc[22]+adc[23]+adc[24]):(adc[16]+adc[17])", "(500, 0., 12000., 500, 0., 12000.)",
+				cut.c_str(), "col", ";MUSIC_U [ch];MUSIC_D [ch]");
+			break;
+		case 316:
+			cut = fCUT;
+			cut += "";
+			cutDraw(opt, "(adc[20]+adc[21]):adc[18]", "(500, 0., 6000., 500, 0., 8000.)",
+				cut.c_str(), "col", ";Si_U [ch];Si_D [ch]");
 			break;
 		default:
 			cout << "\033[31;1mUnknown User Operation Detected\033[0m" << endl;
@@ -311,7 +363,9 @@ void MyMainFrame::Initialize(const char *rootfile, const char *assrootfile){
 		if(!heffU) nullError("/assessTa0U/miscTa0U/heffF");
 		for(int i = 0; i < 2; i++){ // loop over X-Y
 			for(int j = 0; j < 4; j++){
-				hEff->SetBinContent(2+i*4+j, 3, heffU->GetBinContent(2+i*8+j));
+				double softwareEff = heffU->GetBinContent(2+i*8+j);
+				if(isnan(softwareEff)) softwareEff = 0.;
+				hEff->SetBinContent(2+i*4+j, 3, softwareEff);
 				name.str(""); name << "ntrLs[2][" << i << "] > 0";
 				hEff->SetBinContent(2+i*4+j, 4, treeTrack->GetEntries(name.str().c_str()) / double(n_ev));
 			} // end for over 8 sense wire layers in DCTaU
@@ -321,16 +375,20 @@ void MyMainFrame::Initialize(const char *rootfile, const char *assrootfile){
 		if(!heffD) nullError("/assessTa0D/miscTa0D/heffF");
 		for(int i = 0; i < 2; i++){ // loop over X-Y
 			for(int j = 0; j < 4; j++){
-				hEff->SetBinContent(2+8+i*4+j, 3, heffD->GetBinContent(2+i*8+j));
+				double softwareEff = heffD->GetBinContent(2+i*8+j);
+				if(isnan(softwareEff)) softwareEff = 0.;
+				hEff->SetBinContent(2+8+i*4+j, 3, softwareEff);
 				name.str(""); name << "ntrLs[3][" << i << "] > 0";
 				hEff->SetBinContent(2+8+i*4+j, 4, treeTrack->GetEntries(name.str().c_str()) / double(n_ev));
 			} // end for over 8 sense wire layers in DCTaD
 		} // end for over i
 
 		TH1F *heffR = (TH1F*)fFile[2]->Get("/assess0R/misc0R/heffF");
-		if(!heffU) nullError("/assess0R/misc0R/heffF");
+		if(!heffR) nullError("/assess0R/misc0R/heffF");
 		for(int i = 0; i < 6; i++){
-			hEff->SetBinContent(18+i, 3, heffR->GetBinContent(2+0*8+i));
+			double softwareEff = heffR->GetBinContent(2+0*8+i);
+			if(isnan(softwareEff)) softwareEff = 0.;
+			hEff->SetBinContent(18+i, 3, softwareEff);
 			hEff->SetBinContent(18+i, 4, treeTrack->GetEntries("ntrLs[1][0] > 0") / double(n_ev));
 		} // end for over 6 sense wire layers in DCArrR
 	} // end if
@@ -398,13 +456,15 @@ void MyMainFrame::cutDraw(int id, const char *head, const char *binning, const c
 	cmd << head << ">>" << hname.str() << binning;
 	if(!fFile[0]->Get(hname.str().c_str())){
 		treeTrack->Draw(cmd.str().c_str(), cut, drawopt);
+		cout << cmd.str() << " " << cut << " " << drawopt << endl;
 		TNamed *obj = dynamic_cast<TNamed*>(fFile[0]->Get(hname.str().c_str()));
 		if(!obj){
 			cout << "\033[31;1m\t[BINGER GUI] - MyMainFrame::cutDraw: ";
 			cout << "nullpointer in object extraction: ";
 			cout << hname.str() << "\033[0m" << endl;
-			getchar();
-			exit(1);
+			return;
+//			getchar();
+//			exit(1);
 		}
 		string titleC = obj->GetTitle(); titleC += title;
 		obj->SetTitle(titleC.c_str());

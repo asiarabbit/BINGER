@@ -142,9 +142,21 @@ double TAAnode::GetDriftDistance(double dt, double k){
 	int type[6]{}; TAUIDParser::DNS(type, GetUID());
 	int id = GetAnodePara()->GetSTRid(k, type[2]);
 	return GetDriftDistance(dt, id);
-} // end of function GetDriftDistance().
+} // end of function GetDriftDistance()
 double TAAnode::GetDriftDistance(double dt, int STR_id){ // k is the track slope
 	double r_base = GetAnodePara()->GetSTR(STR_id)->Eval(dt); // the base drift distance
+	const short detId = GetAnodePara()->GetDetId();
+	if(8 == detId || 9 == detId){ // PDC array, large drift cells - 10mm max drift distance
+		static const double p[7] = {0.123177, 0.0170163, 0.000514, -4.0726e-06, 1.33772e-08, -2.07198e-11, 1.23748e-14};
+		if(dt < -10.1) r_base = 0;
+		else
+			r_base = p[6]*pow(dt,6)+p[5]*pow(dt,5)+p[4]*pow(dt,4)+p[3]*dt*dt*dt+p[2]*dt*dt+p[1]*dt+p[0]; // DEBUG
+		if(r_base < 0.) r_base = 0.; // DEBUG
+		if(r_base > 10.) r_base = 10.; // DEBUG
+//		cout << "dt: " << dt << "\tr_base: " << r_base << endl; // DEBUG
+//		getchar(); // DEBUG
+		return r_base;
+	}
 	double r_correct = GetDriftDistanceCorrection(r_base, STR_id); // the anode-specific drift distance corection, determined by STR autocalibration
 	r_correct = GetDriftDistanceCorrection(r_base+r_correct, STR_id); // so the drift distance bin would be more accurate.
 	double r = r_base + r_correct;

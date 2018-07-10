@@ -579,12 +579,15 @@ int TARawDataProcessor::ReadOfflineVME(){
 		exit(EXIT_FAILURE);
 	} // end if
 	else{
-//#define VME_COMMENT
+#define VME_COMMENT
 #ifdef VME_COMMENT
 		char comment[sizeof(buffer)] = ""; // store the first block
 		memcpy(comment, buffer, sizeof(buffer));
+		cout << "\n\n\033[36;1m";
 		for(char c : comment) if(c) cout << c;
-		getchar();
+		cout << "\n\n\033[0m";
+//		sleep(5);
+//		getchar();
 #endif
 		memset(buffer, 0, sizeof(buffer)); // abandon the first block
 	}
@@ -745,9 +748,9 @@ int TARawDataProcessor::ReadOfflineVME(){
 				if(21 == slot && !id_v1190){ // scaler v830 header
 					id_v830++;
 					nsca = 0;
-					memset(sca, 0, sizeof(sca));
-					memset(psca, 0, sizeof(psca));
-					memset(dsca, 0, sizeof(dsca));
+//					memset(sca, 0, sizeof(sca));
+//					memset(psca, 0, sizeof(psca));
+//					memset(dsca, 0, sizeof(dsca));
 #ifdef DEBUG_VME
 					cout << "v830 header encountered" << endl; // DEBUG
 					getchar(); // DEBUG
@@ -795,7 +798,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 					} // end else (trailing edge)
 					continue;
 				} // end if HPTDC physical data zone
-				
+
 				if(id_v830){
 					psca[nsca] = sca[nsca];
 					sca[nsca] = chData;
@@ -803,9 +806,24 @@ int TARawDataProcessor::ReadOfflineVME(){
 					evt.sca[nsca] = sca[nsca];
 					evt.dsca[nsca] = dsca[nsca];
 					nsca++;
+//					cout << "nsca: " << nsca << endl; // DEBUG
+					if(0)if(11 == nsca){ // DEBUG
+						cout << "index: " << index << endl; // DEBUG
+						cout << "psca[11]: " << psca[11] << endl; // DEBUG
+						cout << "dsca[11]: " << dsca[11] << "\tsca[11]: " << sca[11] << endl; // DEBUG
+						getchar(); // DEBUG
+					} // DEBUG
 					if(16 == nsca){
 						id_v830 = 0;
 						if(index >= fIndex0) treeSCA->Fill();
+
+//						cout << "index: " << index << endl; // DEBUG
+//						for(int i = 0; i < 16; i++){ // DEBUG
+//							cout << "sca[" << i << "]: " << sca[i]; // DEBUG
+//							cout << "\tpsca[" << i << "]: " << psca[i]; // DEBUG
+//							cout << "\tdsca[" << i << "]: " << dsca[i] << endl; // DEBUG
+//						}
+//						getchar(); // DEBUG
 					} // end if
 				} // end if(id_v830)
 			} // end loop over channels in an event

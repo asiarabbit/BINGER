@@ -20,6 +20,7 @@
 
 #include <array>
 #include <string>
+#include <cmath>
 #include "TGFrame.h"
 
 class TRootEmbeddedCanvas;
@@ -72,7 +73,7 @@ protected:
 	TGLabel *fLabel[3];
 	TGButtonGroup *fButtonGroup, *fBGCut;
 	TGTextButton *fPrevious, *fNext, *fExit;
-	TGCheckButton *fCBVeto;
+	TGCheckButton *fCBVeto, *fCBPileUpSCA, *fCBPileUpAMP;
 	int fCurrentOption, fCUTOption; // the current status of option and cut
 	short fNComboBoxEntry[3];
 	string fCUT; // cut for tree draw

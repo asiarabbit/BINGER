@@ -84,6 +84,8 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut_, short dcArrId,
 	if(-9999. == pIn[1]) pIn[1] = 0.; // k2_in
 	if(-9999. == pIn[3]) pIn[3] = 0.; // b2_in
 	double pIn0[4] = {pIn0_[0], pIn0_[1], pIn0_[2], pIn0_[3]}; // track before the target //
+	if(-9999. == pIn0[0]) pIn0[0] = 0.; // k1_in0
+	if(-9999. == pIn0[2]) pIn0[2] = 0.; // b1_in0
 	if(-9999. == pIn0[1]) pIn0[1] = 0.; // k2_in0
 	if(-9999. == pIn0[3]) pIn0[3] = 0.; // b2_in0
 
@@ -175,7 +177,7 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut_, short dcArrId,
 			return;
 		}
 		fGamma = TAMath::Gamma(fBeta);
-//		cout << "fBeta: " << fBeta << "\tfTotalTrackLength: " << fTotalTrackLength << endl; 
+//		cout << "fBeta: " << fBeta << "\tfTotalTrackLength: " << fTotalTrackLength << endl;
 //		getchar(); // DEBUG
 		// 0.321840605 = e0/(u0*c0*1E6) SI unit
 		fAoZ = B * (rho/1000.) * 0.321840605 / (fBeta * fGamma);
@@ -205,9 +207,9 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut_, short dcArrId,
 	double ddmin[2]{}; // quality estimator
 #endif
 	const double zf = 1000.; // the zmax border of the magnetic field
-	double aoz, aozc = 2., d2; // aozc: the central aoz; d2: LSM Qsquare
+	double aoz, aozc = 2.5, d2; // aozc: the central aoz; d2: LSM Qsquare
 	if(kOpt3 == option){ aozc = fAoZ; }
-	const double span0 = 1.;
+	const double span0 = 2.;
 	double span = span0; // search scope, aozc-span ~ aozc+span
 	int ln = 1, n = 20;
 	// loop laps for iter==0, which is to refne beta
@@ -217,7 +219,7 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut_, short dcArrId,
 		if(1 == iter){
 			// reset search domin, narrow the scope and coodinate the center
 			span = span0 / n * 3.;
-			n = 10; ln = 3;
+			n = 5; ln = 3;
 			aozc = fAoZ;
 			fAoZdmin = 9999.; // reset dmin
 			if(kOpt0 == option){ n = 5; ln = 3; }
@@ -236,7 +238,7 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut_, short dcArrId,
 //				getchar(); // DEBUG
 //				aoz = 2.0; // DEBUG
 				if(aoz < 0.03) continue;
-				if(fabs(aoz) > 3.5) continue;
+				if(fabs(aoz) > 5.) continue;
 				SetQoP(aoz, beta);
 				// initialize the RK propagation
 				y[0] = xi; y[1] = yi;
@@ -283,12 +285,14 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut_, short dcArrId,
 					const double trajectoryLength2 = GetTrackLength(); // arc length in the Mag Field
 					const double trajectoryLength3 = TAMath::L(pMagOut, pTOFWHit); // from Mag Field to TOFW
 					fTotalTrackLength = trajectoryLength0 + trajectoryLength1 + trajectoryLength2 + trajectoryLength3;
+					memcpy(fAngleTaOut, yp, sizeof(fAngleTaOut));
 					//////////////////////////////////////////////////////////////
 #ifdef DEBUG
 					ddmin[0] = dd[0]; ddmin[1] = dd[1];
+					cout << "fAoZdmin: " << fAoZdmin << "\tdd[0]: " << dd[0] << "\tdd[1]: "; // DEBUG
+					cout << dd[1] << "\tfAoZ: " << fAoZ << endl; // DEBUG
+					getchar(); // DEBUG
 #endif
-					memcpy(fAngleTaOut, yp, sizeof(fAngleTaOut));
-//					cout << "fAoZdmin: " << fAoZdmin << "dd[0]: " << dd[0] << "\tdd[1]: " << dd[1] << "\tfAoZ: " << fAoZ << endl; getchar(); // DEBUG
 				} // end if
 				if(fAoZdmin < 1E-8) break;
 			} // end for over ll
@@ -311,9 +315,13 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut_, short dcArrId,
 	if(beta < 0. || beta >= 1.){ // bad beta, failed PID
 		fBeta = -1.; fTotalTrackLength = -9999.;
 		fAoZ = -9999.; fAoZdmin = 9999.;
+//		cout << "tof2: " << tof2 << "\tfTotalTrackLength: " << fTotalTrackLength << endl; // DEUBG
+//		cout << "beta: " << beta << endl; getchar(); // DEBUG
 		return;
 	}
-	if(9999. == fAoZdmin) return; // PID failure
+	if(9999. == fAoZdmin){
+		return; // PID failure
+	}
 	fGamma = TAMath::Gamma(fBeta);
 	fPoZ = fAoZ * fBeta * fGamma * u0MeV; // MeV/c
 	fBrho = fPoZ / (0.321840605 * u0MeV);

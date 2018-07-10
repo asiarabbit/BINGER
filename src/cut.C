@@ -1,4 +1,5 @@
 // cut.C -- to select cut for gui
+// Created: Jun. 29th, 2018; Last Modified: Jun. 30th, 2018, Author: SUN Yazhou
 
 #include <iostream>
 #include <cstdlib>
@@ -17,6 +18,10 @@ using std::endl;
 using std::string;
 
 TFile *cut(const char *file){
+	if(0 != access(file, F_OK)){
+		cout << file << " does not exist. Exiting...\n";
+		exit(1);
+	}
 	TFile *f = new TFile(file, "UPDATE");
 	TTree *treeTrack = (TTree*)f->Get("treeTrack");
 	TTree *vme = (TTree*)f->Get("vme");
@@ -32,7 +37,7 @@ TFile *cut(const char *file){
 	TCut cut0("pileUpSCA==1"); // &&t0_1_ok
 	string title;
 	c->cd(1);
-	treeTrack->Draw("(adc[9]+adc[10]+adc[11]):(adc[7]+adc[8])>>h0(500, 0., 2500., 500, 0., 1800.)", cut0, "col");
+	treeTrack->Draw("(adc[9]+adc[10]+adc[11]):(adc[8])>>h0(500, 0., 2500., 500, 0., 1800.)", cut0, "col");
 	// set the name of the X-axis and the Y-axis
 	TH2F *h0 = (TH2F*)f->Get("h0"); title = h0->GetTitle();
 	title += ";MUSIC_BeforeTA [ch];MUSIC_AfterTA [ch]"; h0->SetTitle(title.c_str());
@@ -43,7 +48,7 @@ TFile *cut(const char *file){
 	title += ";MUSIC_AfterTA [ch];Si_AfterTA [ch]"; h1->SetTitle(title.c_str());
 
 	c->cd(3);
-	treeTrack->Draw("adc[12]:(adc[7]+adc[8])>>h2(500, 0., 2500., 500, 0., 3000.)", cut0, "col");
+	treeTrack->Draw("adc[12]:(adc[8])>>h2(500, 0., 2500., 500, 0., 3000.)", cut0, "col");
 	// set the name of the X-axis and the Y-axis
 	TH2F *h2 = (TH2F*)f->Get("h2"); title = h2->GetTitle();
 	title += ";MUSIC_BeforeTA [ch];Si_AfterTA [ch]"; h2->SetTitle(title.c_str());

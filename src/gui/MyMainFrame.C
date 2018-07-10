@@ -45,6 +45,7 @@ using std::cout;
 using std::endl;
 using std::string;
 using std::ostringstream;
+using std::isnan;
 
 MyMainFrame::MyMainFrame(const TGWindow *p, int w, int h)
 	 : TGMainFrame(p, w, h), fECanvas(0), fMyCanvas(0), fFile{0},
@@ -88,7 +89,10 @@ MyMainFrame::MyMainFrame(const TGWindow *p, int w, int h)
 		"WireIdDC2X1", "WireIdDC2X2", "Pos-DC2", // DC2-X0-X1
 		"TOFWStripId", "Pos-TOFW"};
 	string optList1[] = {"textcolz", "text", "LEGO", "colz"};
-	string optList2[] = {"aoz", "poz:beta", "firedStripId:aoz", "MU_0-MU_1", "MU_1_Si", "MU_0-Si", "Z^{2}@MU_1-_Si"};
+	string optList2[] = {"aoz", "poz:beta", "firedStripId:aoz", // 301, 302, 303
+		"kTa[0][0]", "kTa[0][1]", "kTa[1][0]", "kTa[1][1]", "ta_U_k_XY", "ta_D_k_XY", // 304 - 309
+		"MUSIC_U:tof1", "MUSIC_U:ta_UY", "MUSIC_D:ta_DY", // 310 - 312
+		"MUSIC_U:Si_U", "MUSIC_D:Si_D", "MUSIC_D:MUSIC_U", "Si_D:Si_U"}; // 313 - 316
 	for(const string &s : optList0)
 		fComboBox[0]->AddEntry(s.c_str(), fComboBox[0]->GetNumberOfEntries() + 1);
 	for(const string &s : optList1){
@@ -131,11 +135,17 @@ MyMainFrame::MyMainFrame(const TGWindow *p, int w, int h)
 	fExit->SetBackgroundColor(ycolor);
 	fPrevious->SetEnabled(0); fNext->SetEnabled(0);
 	fCBVeto = new TGCheckButton(hframe, "&Veto", 10);
+	fCBPileUpSCA = new TGCheckButton(hframe, "PileUpSCA", 11);
+	fCBPileUpAMP = new TGCheckButton(hframe, "PileUpAMP", 12);
 	fCBVeto->Connect("Toggled(bool)", "MyMainFrame", this, "ToggleVeto(bool)");
-	hframe->AddFrame(fCBVeto, new TGLayoutHints(kLHintsCenterX, 5, 5, 3, 4));
-	hframe->AddFrame(fPrevious, new TGLayoutHints(kLHintsCenterX, 5, 5, 3, 4));
-	hframe->AddFrame(fNext, new TGLayoutHints(kLHintsCenterX, 5, 5, 3, 4));
-	hframe->AddFrame(fExit, new TGLayoutHints(kLHintsCenterX, 5, 5, 3, 4));
+	fCBPileUpSCA->Connect("Toggled(bool)", "MyMainFrame", this, "ToggleVeto(bool)");
+	fCBPileUpAMP->Connect("Toggled(bool)", "MyMainFrame", this, "ToggleVeto(bool)");
+	hframe->AddFrame(fCBVeto, new TGLayoutHints(kLHintsCenterX, 1, 1, 1, 1));
+	hframe->AddFrame(fCBPileUpSCA, new TGLayoutHints(kLHintsCenterX, 1, 1, 1, 1));
+	hframe->AddFrame(fCBPileUpAMP, new TGLayoutHints(kLHintsCenterX, 1, 1, 1, 1));
+	hframe->AddFrame(fPrevious, new TGLayoutHints(kLHintsCenterX, 1, 1, 1, 1));
+	hframe->AddFrame(fNext, new TGLayoutHints(kLHintsCenterX, 1, 1, 1, 1));
+	hframe->AddFrame(fExit, new TGLayoutHints(kLHintsCenterX, 1, 1, 1, 1));
 
 	// add all child frames in the main TGFrame
 	AddFrame(fButtonGroup, new TGLayoutHints(kLHintsTop | kLHintsCenterX | kLHintsExpandX, 2, 2, 2, 1));
@@ -180,7 +190,11 @@ void MyMainFrame::HandleButtonOption(int widgetId, int id){
 	cout << "fCurrentOption: " << fCurrentOption << endl; // DEBUG
 }
 void MyMainFrame::UpdateCut(int opt){
-	string cut = " 1", veto = " && mtdc0[3][0] == -9999. && mtdc0[4][0] == -9999.";
+	string cut = " 1";
+	string veto = " && mtdc0[3][0] == -9999. && mtdc0[4][0] == -9999.";
+	string pileUpSCA = " && dsca[10] == 1";
+	string pileUpAMP = " && dsca[11] == 0";
+//	string veto = " && k > -0.0106 && k < 0.0008";
 	switch(opt){
 		case 0: // no cut
 			fCUTOption = opt;
@@ -191,20 +205,18 @@ void MyMainFrame::UpdateCut(int opt){
 				cut = fCutG[opt - 1]->GetName();
 				fCUTOption = opt;
 			}
-			fCUT = cut;
 			break;
-		case 10: // veto
+		case 10: case 11: // veto, pileUpSCA, pileUpAMP, etc.
 			if(fCUTOption >= 1) cut = fCutG[fCUTOption - 1]->GetName();
-			fCUT = cut + veto;
-		break;
-		case 11: // veto
-			if(fCUTOption >= 1) cut = fCutG[fCUTOption - 1]->GetName();
-			fCUT = cut;
 		break;
 		default:
 			cout << "MyMainFrame::UpdateCut: abnormal opt: " << opt << endl;
 			break;
 	}
+	fCUT = cut;
+	if(fCBVeto->GetState()) fCUT += veto;
+	if(fCBPileUpSCA->GetState()) fCUT += pileUpSCA;
+	if(fCBPileUpAMP->GetState()) fCUT += pileUpAMP;
 	cout << "Update cut, fCUT: " << fCUT << endl; // DEBUG
 	
 	// redraw the current histogram

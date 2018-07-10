@@ -47,6 +47,7 @@
 			}
 			// track information
 			const double &kl = k[j]; // to distinguish slope k from incremental k below
+			static const bool usingPDC = bool(TAGPar::Instance()->Val(83));
 			for(int k = 0; k < 6; k++){ // loop over anode layers
 				short dcId = k/2; // DC[0-1-2]
 				short layerOption = k%2+1; // 1: X(U,V)1; 2: X(U,V)2
@@ -65,8 +66,12 @@
 				if(nu[j][k] >= 0){
 					TAMWDC *dc = nullptr;
 					if(0 == dcArrId || 1 == dcArrId) dc = dcArr[dcArrId]->GetMWDC(dcId);
-					if(2 == dcArrId || 3 == dcArrId) dc = dcArr2[dcArrId-2]->GetMWDC(dcId);
-					if(4 == dcArrId || 5 == dcArrId) dc = pdcArr2[dcArrId-4]->GetMWDC(dcId);
+					if((usingPDC && (2 == dcArrId || 3 == dcArrId))){
+						dc = pdcArr2[dcArrId-2]->GetMWDC(dcId);
+					}
+					if((!usingPDC && (2 == dcArrId || 3 == dcArrId))){
+						dc = dcArr2[dcArrId-2]->GetMWDC(dcId);
+					}
 					TAAnode *ano = dc->GetAnode(dcType, layerOption, nu[j][k]);
 					TOT_DC[j][k] = tra->dcTOT[k] = ano->GetTOT();
 					sfe16Id[j][k] = ano->GetAnodePara()->GetSFE16Id();
@@ -320,8 +325,11 @@
 				beta2[0] = pid->GetBeta(); poz[0] = pid->GetPoZ(); // MeV/c
 				brho[0] = pid->GetBrho(); // T.m
 				pid->GetTargetExitAngle(yp[0]); trkLenT[0] = pid->GetTotalTrackLength();
-				if(aozdmin[0] > 100. || -9999. == aoz[0]) cntaozWrong++;
-				if(0)if(aoz[0] > 0.){
+				if(aozdmin[0] > 100. || -9999. == aoz[0]){
+					cntaozWrong++;
+//					cout << "index: " << index << endl; // DEBUG
+				}
+				if(0) if(aoz[0] > 0.){ // 
 					cout << "index: " << index << endl; // DEBUG
 					cout << "aoz: " << aoz[0] << "\ttrkLenT: " << trkLenT[0] << endl; // DEBUG
 					cout << "aozdmin: " << aozdmin[0] << endl; // DEBUG
@@ -330,6 +338,8 @@
 					cout << "brhoc[0]: " << poz[0] / (0.321840605 * 931.493582); // DEBUG
 					cout << "rho: " << brho[0]*1000./1.3848 << endl; // DEBUG
 					cout << "rhoc: " << brho[0]*1000./1.3848 << endl; // DEBUG
+					cout << "beta: " << pid->GetBeta() << endl; // DEBUG
+					cout << "tof2[0]: " << tof2[0] << endl; // DEBUG
 					getchar(); // DEBUG
 				} // end if
 
@@ -380,7 +390,8 @@
 
 		if(0) vis->FillHitMap();
 		static int jj = 0;
-		if(jj < 100){
+		if(jj < 10){
+//			if(gGOOD[1] != 1 && gGOOD[2] != 1) continue;
 			jj++;
 			static int i0 = 0;
 			if(0 == i0){ // to make sure that this block would only be carried out once

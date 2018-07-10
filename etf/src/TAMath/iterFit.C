@@ -19,6 +19,7 @@ double TAMath::iterativeFit(const double *x, const double *y, const double *r, d
 //	cout << "Welcome, this is IterFit." << endl; getchar(); // DEBUG
 	double kl, bl, d2, d2_tmp;
 	d2 = Dsquare(x, y, kl, bl, gGOOD, LAYER, d2PerDot); // set the iteration origin - kl and bl
+//	return d2;
 //	kL = kl; bL = bl; return d2; // DEBUG
 //	cout << "the 0-th iteration, kl: " << kl << "\tbl: " << bl << endl; getchar(); // DEBUG
 	double xd; // abscissa of the foot point
@@ -26,7 +27,7 @@ double TAMath::iterativeFit(const double *x, const double *y, const double *r, d
 	double xNew[6] = {-9999., -9999., -9999., -9999., -9999., -9999.};
 	double yNew[6] = {-9999., -9999., -9999., -9999., -9999., -9999.};
 	short sign = 0;
-	for(int i = 0; i < 10; i++){ // i: the iteration times
+	for(int i = 0; i < 3; i++){ // i: the iteration times
 		// update x, y coordinates using drift distance information
 		for(int j = 0; j < 6; j++){
 			if(x[j] != -9999.){
@@ -42,7 +43,7 @@ double TAMath::iterativeFit(const double *x, const double *y, const double *r, d
 		d2_tmp = d2;
 		d2 = Dsquare(xNew, yNew, kl, bl, gGOOD, LAYER, d2PerDot); // update kl and bl
 //		cout << "fabs((d2_tmp - d2) / d2): " << fabs((d2_tmp - d2) / d2) << endl;
-		if(fabs((d2_tmp - d2) / d2) < 0.001 && i > 0) break;
+		if(fabs((d2_tmp - d2) / d2) < 0.01 && i > 0) break;
 
 //		cout << "the " << i << "-th iteration, kl: " << kl << "\tbl: " << bl << endl; getchar(); // DEBUG
 	} // end for over i

@@ -144,7 +144,7 @@
 # TimeThreHB
 43 400.
 # ChiThrePD
-44 0.8
+44 1.0
 # Vicinity
 45 3
 # StripTolerance
@@ -159,9 +159,9 @@
 # NStripStrayMaxL
 50 0.8
 # NStripStrayMinR
-51 -0.6
+51 -1.2
 # NStripStrayMaxR
-52 0.6
+52 1.2
 # T0_0Delay
 53 -0.
 # dcTOTNoiseLevel unit: ns, DC TOT exceeding it would be invalidized

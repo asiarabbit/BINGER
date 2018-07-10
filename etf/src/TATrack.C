@@ -462,7 +462,7 @@ void TATrack::FillTrack(TGraph *gTrack, TGraph *gTrack_R){
 	}
 	// next fill the drift distance circle
 	for(int i = 6; i--;) if(fR[i] > 0.){
-		for(int j = nCir; j--;) {
+		for(int j = nCir; j--;){
 			theta = (2.*j/nCir - 1.) * TAMath::Pi(); // +-Pi
 			z = fZ[i] + fR[i] * cos(theta);
 			x = fX[i] + fR[i] * sin(theta);

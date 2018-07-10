@@ -188,8 +188,9 @@ void TAEventProcessor::Configure(){
 		return;
 	}
 	// select an experiment, to direct to a directory containing the exp config parameters
-	const char dir[6][64] = {"pion_2017Oct", "beamTest_2016Nov", "C16_Exp_2018_Summer", "tripletDC_P_Ma_Test", "tripletDC_P_Ma_Test_ETF", "OpticFiber"};
-	const char *sdir = dir[2];
+	const char dir[7][64] = {"pion_2017Oct", "beamTest_2016Nov", "C16_Exp_2018_Summer",
+		"tripletDC_P_Ma_Test", "tripletDC_P_Ma_Test_ETF", "OpticFiber", "C16_Exp_2018_July"};
+	const char *sdir = dir[6];
 	TAPopMsg::Info("TAEventProcessor", "Configure: selected Exp Config Dir: %s", sdir);
 	SetConfigExpDir(sdir);
 	// STR_spline.root || STR_stiff.root || STR_aaa900.root
@@ -207,8 +208,8 @@ void TAEventProcessor::Configure(){
 	detList[4] = new TAMWDCArrayR("DCArrayR", "DCArrayR@Post-Magnet", 4);
 //	detList[4] = new TAMWDCArrayM("DCArrayM", "DCArrayM@P.Ma_TEST", 4);
 //	detList[5] = new TASiPMPlaBarrel("SiPMPlaBarrel", "SiPMPlaBarrel@Hug-Target", 5);
-	detList[6] = new TAMWDCArrayU("DCArrayU", "DCArrayU@Pre-Target", 6);
-	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7);
+//	detList[6] = new TAMWDCArrayU("DCArrayU", "DCArrayU@Pre-Target", 6);
+//	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7);
 	detList[8] = new TAPDCArrayU("PDCArrayU", "PDCArrayU@Pre-Target", 8);
 	detList[9] = new TAPDCArrayD("PDCArrayD", "PDCArrayD@Post-Target", 9);
 	detList[10] = new TAMUSICM("MUSICM", "MUSICM@Pre-Target", 10);
@@ -571,7 +572,7 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 	cout << "\033[0m tracks and \033[1m" << cnt3DTrk / 3;
 	cout << "\033[0m 3D tracks have been processed.\n";
 	cout << " cntaoz " << cntaoz << " cntaozWrong " << cntaozWrong << endl;
-	cout << "The result has been written in " << rootfile << ". Exiting the Run function.\n\n";
+	cout << "The result has been written in " << rootfile << " Exiting the Run function.\n\n";
 	f->Close(); delete f;
 //	delete treeTrack;
 } // end of member function Run

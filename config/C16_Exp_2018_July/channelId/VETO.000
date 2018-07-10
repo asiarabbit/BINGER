@@ -1,0 +1,19 @@
+##################################################################################################
+# Data Analysis Code Project for the External Target Facility, CSR-HIRFL, @IMP
+#
+# Channel Id file for plastic scintillator placed in the egress of RIBLL2, for beam alignment.
+#
+# File format is as follows:
+# channelId	uid
+# up to down -> VETO1L-R - VETO2L-R. Note that H channels are not defined
+#
+# Created Time: 2018/4/23
+# Author: SUN Yazhou, asia.rabbit@163.com
+# Last Modified: 2018/4/23, SUN Yazhou
+##################################################################################################
+
+8004	12
+8005	140
+8006	13
+8007	141
+

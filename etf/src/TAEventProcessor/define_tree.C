@@ -39,12 +39,21 @@
 	double TOT_T0[6]; // [1-6: T0V, T0H, T1LV, T1LH, T1RV, T1RH]
 	double TOF_T1; // time tag of T1 plastic scintillator, beside the target.
 	double tRef, tRef_pos, tof1; // T reference -> ~ 500+-100 to trigger
+	double tof1vme = -9999., tof1tac = -9999.; // tof1 measured by VME Daq
+	double dE0 = -9999., dE1 = -9999.; // energy loss before-after TA
+	int dsca10, dsca11; // pileupSCA, pileUpAMP
 	int tRef_UV_NL, tRef_DV_NL;
 	TTree *treeTrack = new TTree("treeTrack", "pattern recognition tracks");
 //	treeTrack->SetAutoSave(1e7);
 	treeTrack->Branch("index", &index, "index/I");
 	treeTrack->Branch("bunchId", &bunchId, "bunchId/I");
 	treeTrack->Branch("tof1", &tof1, "tof1/D"); // tof from T0_0 to T0_1
+	treeTrack->Branch("tof1vme", &tof1vme, "tof1vme/D"); // tof from T0_0 to T0_1
+	treeTrack->Branch("tof1tac", &tof1tac, "tof1tac/D"); // tof from T0_0 to T0_1
+	treeTrack->Branch("dE0", &dE0, "dE0/D"); // energy loss before TA
+	treeTrack->Branch("dE1", &dE1, "dE1/D"); // energy loss after TA
+	treeTrack->Branch("dsca10", &dsca10, "dsca10/I"); // energy loss after TA
+	treeTrack->Branch("dsca11", &dsca11, "dsca11/I"); // energy loss after TA
 	treeTrack->Branch("tRef", &tRef, "tRef/D");
 	treeTrack->Branch("tRef_pos", &tRef_pos, "tRef_pos/D");
 	treeTrack->Branch("tRef_UV_NL", &tRef_UV_NL, "tRef_UV_NL/I"); // number of leading edge(s)
@@ -97,6 +106,17 @@
 		treeTrack->Branch("aozdmin", aozdmin, "aozdmin[ntr]/D"); // start for iterative fit, necessary
 	} // end if(IsPID())
 	objLsTree.push_back(treeTrack);
+
+
+	short multi_DC[2][3][3][2]; // DCArr[L-R][DC0-1-2][XUV][X1-2]
+	short multi_DCTa[2][2][2][2]; // DCTaArr[U-D][DC0-1][XY][X1-2]
+	short multi_PDC[2][2][2][2]; // PDCArr[U-D][DC0-1][XY][X1-2]
+	TTree *treeMulti = new TTree("treeMulti", "PDC multiplicity");
+	treeMulti->Branch("multi_DC", multi_DC, "multi_DC[2][3][3][2]/S");
+	treeMulti->Branch("multi_DCTa", multi_DCTa, "multi_DCTa[2][2][2][2]/S");
+	treeMulti->Branch("multi_PDC", multi_PDC, "multi_PDC[2][2][2][2]/S");
+	objLsTree.push_back(treeMulti);
+
 
 	int multiSipmArr_pre,  hitIdLsSipmArr_pre[10];
 	int multiSipmArr_post, hitIdLsSipmArr_post[10];

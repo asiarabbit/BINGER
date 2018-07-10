@@ -121,19 +121,29 @@
 #endif
 		// calculate beta in RIBLL2 //
 		// Time of Flight and beam energy measurement in RIBLL2
+		// vme tof1 //
+		if(vme){
+			tof1vme = ((evt.mtdc0[1][0] + evt.mtdc0[2][0]) / 2. -  evt.mtdc0[0][0]) * 0.09765625 + 141.3;
+			tof1tac = (-0.010217 * evt.adc[0] -0.0104695 * evt.adc[1]) / 2. + 158.3;
+			dE0 = (evt.adc[16] + evt.adc[17]) / 2000.;
+			dE1 = (evt.adc[22] + evt.adc[23] + evt.adc[24]) / 3000.;
+			dsca10 = evt.dsca[10]; dsca11 = evt.dsca[11];
+		}
+		// vme tof1
+		
 		beta = -1.; // initialization
-		static const double L = 25.88 * 1000.; // the length of RIBLL2
+		static const double L = 25.881 * 1000.; // the length of RIBLL2
 		tof1 = -9999.; // time of flight in RIBLL2
 		if(-9999. != tRef){
-			const double t0_0 = T0_0->GetTime(tRef, -180., -100.);
+			const double t0_0 = T0_0->GetTime(tRef);
 			if(-9999. != t0_0){
 				tof1 = tRef - t0_0;
 				beta = L / tof1 / c0;
-				htof1->Fill(tof1-8600.);
+				htof1->Fill(tof1);
 //				cout << "t0_0: " << t0_0 << "\ttRef: " << tRef << endl; // DEBUG
-//				cout << "index: " << index << "\ttof1: " << tof1-10600. << endl; // DEBUG
+//				cout << "index: " << index << "\ttof1: " << tof1 << endl; // DEBUG
+//				cout << "beta: " << beta << endl; // DEBUG
 //				getchar(); // DEBUG
-//				cout << "beta: " << beta << endl; getchar(); // DEBUG
 			}
 		}
 
@@ -206,6 +216,7 @@
 //								if(1 == ii && 0 == j && 0 == k) ano->GetData()->SetFiredStatus(false);
 							}
 						} // end for over anode of one layer
+						multi_DC[ii][j][k][l] = dc[ii][j]->GetNFiredAnodePerLayer(k, l+1);
 						hDCMulti[ii][j][k][l]->Fill(dc[ii][j]->GetNFiredAnodePerLayer(k, l+1));
 					} // end for over layer 1 and 2
 				} // end for over X-U-V
@@ -235,6 +246,7 @@
 //								if(1 == ii && 0 == j && 0 == k) ano->GetData()->SetFiredStatus(false);
 							}
 						} // end for over anode of one layer
+						multi_DCTa[ii][j][k][l] = dc2[ii][j]->GetNFiredAnodePerLayer(k, l+1);
 						hDCTaMulti[ii][j][k][l]->Fill(dc2[ii][j]->GetNFiredAnodePerLayer(k, l+1));
 					} // end for over layer 1 and 2
 				} // end for over X-U-V
@@ -263,6 +275,7 @@
 //								if(1 == ii && 0 == j && 0 == k) ano->GetData()->SetFiredStatus(false);
 							}
 						} // end for over anode of one layer
+						multi_PDC[ii][j][k][l] = pdc2[ii][j]->GetNFiredAnodePerLayer(k, l+1);
 						hPDCMulti[ii][j][k][l]->Fill(pdc2[ii][j]->GetNFiredAnodePerLayer(k, l+1));
 					} // end for over layer 1 and 2
 				} // end for over X-U-V

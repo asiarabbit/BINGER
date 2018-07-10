@@ -8,10 +8,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/22.															     //
-// Last modified: 2018/5/22, SUN Yazhou.										     //
+// Last modified: 2018/7/1, SUN Yazhou.											     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -34,10 +34,14 @@
 #include "TADeployPara.h"
 #include "TAPID.h"
 #include "TAGPar.h"
+#include "TAMath.h"
+#include "TACtrlPara.h"
+
 
 static const TAGPar *gp = TAGPar::Instance();
 static const double z_SiPMArr = TADeployPara::Instance()->GetSiPMArrayZ0(); // z of SiPM Pla Array
 static const double z_Ta = TADeployPara::Instance()->GetTargetZ0(); // z of the target
+static const TACtrlPara *clp = TACtrlPara::Instance();
 
 TAVisual *TAVisual::fInstance = nullptr;
 
@@ -80,11 +84,11 @@ void TAVisual::Configure(){
 		fGAnodeDumb->SetPoint(fGAnodeDumb->GetN(), para->GetProjectionZ(), para->GetProjectionX());
 	}
 	fGAnodeFired = new TGraph(); fGAnodeFired->SetNameTitle("AnodeFired", "AnodeFired");
-	fGAnodeFired->SetMarkerColor(2); fGAnodeFired->SetMarkerStyle(7);
+	fGAnodeFired->SetMarkerColor(kGreen); fGAnodeFired->SetMarkerStyle(7);
 	fGTrack = new TGraph(); fGTrack->SetNameTitle("Track", "Track");
 	fGTrack->SetMarkerColor(4); fGTrack->SetMarkerStyle(1);
 	fGTrack_R = new TGraph(); fGTrack_R->SetNameTitle("Track_R", "Track_R");
-	fGTrack_R->SetMarkerColor(6); fGTrack_R->SetMarkerStyle(6);
+	fGTrack_R->SetMarkerColor(6); fGTrack_R->SetMarkerStyle(6); fGTrack->SetMarkerSize(3);
 	fGCurve = new TGraph(); fGCurve->SetNameTitle("aoz", "Curve in the Diple Magnet");
 	fGCurve->SetMarkerStyle(1); fGCurve->SetMarkerSize(3);
 	fGCurve->SetMarkerColor(6); fGCurve->SetLineColor(6);
@@ -154,7 +158,24 @@ void TAVisual::FillEvent(){
 	for(TAAnode *&ano : fAnodeArr){
 		TAAnodePara *pra = (TAAnodePara*)ano->GetPara();
 		if(ano->GetFiredStatus()){
-			gaf->SetPoint(gaf->GetN(), pra->GetProjectionZ(), pra->GetProjectionX());
+			// draw anode projection
+			const double zc = pra->GetProjectionZ(), xc = pra->GetProjectionX();
+			gaf->SetPoint(gaf->GetN(), zc, xc);
+			// draw all drift distance circles
+			const int nCir = 50;
+			double t = ano->GetDriftTime();
+			unsigned uid = ano->GetUID();
+			t += clp->T_tofDCtoTOFW(uid) - clp->T_wireMean(uid);
+			const double r = ano->GetDriftDistance(t, 3); // 3: STR_id
+//			cout << "ano->GetName(): " << ano->GetName() << endl; // DEBUG
+//			cout << "t: " << t << "\tr: " << r << endl; getchar(); // DEBUG
+			double z, x, theta; // temporary variables
+			if(r > 0.) for(int i = nCir; i--;){
+				theta = (2.* i / nCir - 1.) * TAMath::Pi(); // +-Pi
+				z = zc + r * cos(theta);
+				x = xc + r * sin(theta);
+				gaf->SetPoint(gaf->GetN(), z, x);
+			} // end for over i
 //			TAPopMsg::Debug("TAVisual", "Fill: GetN(): %d\t%f\t%f)", gaf->GetN(), pra->GetProjectionZ(), pra->GetProjectionX());
 		}
 	} // end for over anodes

@@ -29,6 +29,9 @@ target_link_libraries(ass ${LIB_LIST})
 add_executable(t0 t0cali.C)
 target_link_libraries(t0 ${LIB_LIST})
 
+add_executable(t0pdc t0cali_pdc.C)
+target_link_libraries(t0pdc ${LIB_LIST})
+
 add_executable(str strcali.C)
 target_link_libraries(str ${LIB_LIST})
 
