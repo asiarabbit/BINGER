@@ -164,10 +164,10 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 				// t_TOF-t_DC=(t_tof-t_wire) - t_drift; => delta-t_drift;
 				// (as small and correct as possible while inclusive)
 				// drift time bound for drift time start selection
-				double drfTA = -40., drfTB = 250.;
+				double drfTA = gp->Val(42), drfTB = gp->Val(43);
 				static const short detId = GetDetId(); // 8-9: PDCArr; 6-7: DCTaArr
 				if(8 == detId || 9 == detId){ // PDCArr
-					drfTA = -40.; drfTB = 400.; // corresponds to larger drfit time
+					drfTA = gp->Val(103); drfTB = gp->Val(104); // corresponds to larger drfit time
 				}
 				const double t1 = delta - drfTB, t2 = delta - drfTA; // the range borders
 				TOF = GetPlaT0()->GetTime(t0, t1, t2);

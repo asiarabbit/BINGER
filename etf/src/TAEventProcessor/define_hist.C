@@ -187,9 +187,12 @@
 	TH2F *haoz_vs_poz = new TH2F("haoz_vs_poz", "aoz v.s. poz;p/z/ MeV/c;aoz", 5000, -1000., 4000., 500, -5.0, 5.0);
 	TH2F *hdcTOT_vs_poz = new TH2F("hdcTOT_vs_poz", "Averaged DC Anode TOT v.s. poz;p/z/ MeV/c;dcTOT [ns]", 5000, -1000., 4000., 500, -100., 1000.);
 	TH1F *hTOF_T1_pos = new TH1F("TOF_T1_pos", "TOF_T1_pos(U - D);pos [ns]", 10000, -50., 50.);
+	TH2F *hpid00 = new TH2F("hpid00", "PID TOF-dE0 - RIBLL2;tof1 [ns];dE0 arb.", 2000, 110., 160., 1000, 0., 5.);
+	TH2F *hpid01 = new TH2F("hpid01", "PID TOF-dE1 - RIBLL2;tof1 [ns];dE1 arb.", 2000, 110., 160., 1000, 0., 5.);
 	objLs[5].push_back(hpoz); objLs[5].push_back(haoz); objLs[5].push_back(htof2);
 	objLs[5].push_back(hbeta2); objLs[5].push_back(hdcTOT); objLs[5].push_back(htof2_vs_poz);
 	objLs[5].push_back(haoz_vs_poz); objLs[5].push_back(hdcTOT_vs_poz);
+	objLs[5].push_back(hpid00); objLs[5].push_back(hpid01);
 
 	// ************************ MISC miscellaneous ****************************************** //
 	TH2F *htof2sipmArr = new TH2F("htof2sipmArr", "htof2sipmArr;stripId;tof2 [ns]", 13, -1.5, 11.5, 500, -300., 500.);
@@ -203,7 +206,7 @@
 	hTOFWToTrigUV[0] = new TH2F("hLTOFWToTrigUV", "hLTOFWToTrigUV;edgeNumId;timeToTrig [ns]", 7, -1.5, 5.5, 8000, -4000., 6000.);
 	hTOFWToTrigUV[1] = new TH2F("hRTOFWToTrigUV", "hRTOFWToTrigUV;edgeNumId;timeToTrig [ns]", 7, -1.5, 5.5, 8000, -4000., 6000.);
 	TH2F *hDCToTrig = new TH2F("hDCToTrig", "hDCToTrig;edgeNumId;timeToTrig [ns]", 7, -1.5, 5.5, 8000, -4000., 6000.);
-	TH1F *htof1 = new TH1F("htof1", "tof1", 500, -10., 100.);
+	TH1F *htof1 = new TH1F("htof1", "tof1", 1000, -10., 300.);
 	objLs[6].push_back(htof2sipmArr); objLs[6].push_back(hsipmArrToTrig);
 	objLs[6].push_back(hTOF_T1_pos); objLs[6].push_back(hDCToTrig);
 	objLs[6].push_back(hT0_1ToTrigUV); objLs[6].push_back(hT0_1ToTrigDV);

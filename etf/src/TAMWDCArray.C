@@ -51,9 +51,9 @@ const double DEGREE = TAMath::DEGREE();
 static TAGPar *gp = TAGPar::Instance();
 
 TAMWDCArray::TAMWDCArray(const string &name, const string &title, unsigned uid)
-		: TAStuff(name, title, uid), TADetUnion(uid), fMWDC{0}, fTOFWall(0){
+		: TAStuff(name, title, uid), TADetUnion(uid), fMWDC{0}, fTOFWall(0), fPlaT0(0){
 	fPhiAvrg = -9999.;
-	// would be overwritten later in the derived classes 
+	// would be overwritten later in the derived classes
 	// using values from TACtrlPara::DsquareThresholdPerDot()
 	fDsquareThresholdPerDot = 100.;
 }
@@ -103,6 +103,17 @@ TATOFWall *TAMWDCArray::GetTOFWall() const{
 	}
 	return fTOFWall;
 }
+TAPlaStrip *TAMWDCArray::GetPlaT0() const{
+	if(!fPlaT0) TAPopMsg::Error(GetName().c_str(), "GetPlaT0: requested PlaT0 pointer is null");
+	return fPlaT0;
+}
+void TAMWDCArray::SetPlaT0(TAPlaStrip *t0){
+	if(!t0) TAPopMsg::Error(GetName().c_str(), "SetPlaT0: input t0 is a null pointer");
+	if(fPlaT0){
+		TAPopMsg::Warn(GetName().c_str(), "SetPlaT0: fPlaT0 has already been assigned: %s", fPlaT0->GetName().c_str());
+	}
+	fPlaT0 = t0;
+}
 double TAMWDCArray::GetPhiAvrg(){
 	if(-9999. == fPhiAvrg){
 		fPhiAvrg = 0.;
@@ -133,7 +144,10 @@ void TAMWDCArray::AssignTracks(vector<tTrack *> &track_ls){ // assign tracks
 void TAMWDCArray::Map(){ // map the fired channels in one data section once and for all.
 //	cout << GetName() << endl; // DEBUG
 //	cout << "GetTOFWall()->GetNFiredStrip(): " << GetTOFWall()->GetNFiredStrip() << endl; getchar(); // DEBUG
-	if(GetTOFWall()->GetNFiredStrip() <= 0) return; // event filter
+	if(GetTOFWall()->GetNFiredStrip() <= 0
+//	  && 4 != GetPlaT0()->GetFiredStatus()
+//	  && 3 != GetPlaT0()->GetFiredStatus()
+	) return; // event filter
 
 	Map(fMWDC, fTrackList[0], 0); // X
 	if(ctrlPara->Is3DTracking()){

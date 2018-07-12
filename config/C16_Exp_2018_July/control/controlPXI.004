@@ -142,7 +142,7 @@
 # TimeThreLB
 42 -40.
 # TimeThreHB
-43 400.
+43 600.
 # ChiThrePD
 44 1.6
 # Vicinity
@@ -262,7 +262,7 @@
 89 1E-3
 ######### MWDC Array R ###################
 # MWDC global delay - delay_DCR0
-90 -67.6
+90 -72.6
 # MWDC global delay - delay_DCR1
 91 -72.3
 # MWDC global delay - delay_DCR2
@@ -293,7 +293,7 @@
 # TimeThreLB - PDC
 103 -40.
 # TimeThreHB - PDC
-104 500.
+104 800.
 # ChiThrePD - PDC
 105 2.0
 

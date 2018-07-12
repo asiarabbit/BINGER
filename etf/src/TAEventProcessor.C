@@ -229,10 +229,12 @@ void TAEventProcessor::Configure(){
 	TAT0_1 *str_t0_1_0 = (TAT0_1*)detList[15]; // v1190 - slot_9
 	TAT0_1 *str_t0_1_1 = (TAT0_1*)detList[17]; // v1190 - slot_11
 	if(!str_t0_1) TAPopMsg::Error("TAEvProsr", "Configure: T0_1 is nullptr");
+	if(detList[3]) ((TAMWDCArray*)detList[3])->SetPlaT0(str_t0_1);
+	if(detList[4]) ((TAMWDCArray*)detList[4])->SetPlaT0(str_t0_1);
 	if(detList[6]) ((TAMWDCArray2*)detList[6])->SetPlaT0(str_t0_1);
 	if(detList[7]) ((TAMWDCArray2*)detList[7])->SetPlaT0(str_t0_1);
 	if(detList[8]) ((TAMWDCArray2*)detList[8])->SetPlaT0(str_t0_1_0); // PDCArrU
-	if(detList[9]) ((TAMWDCArray2*)detList[9])->SetPlaT0(str_t0_1_1); // PDCArrD // should be 1_1 for beam exp.
+	if(detList[9]) ((TAMWDCArray2*)detList[9])->SetPlaT0(str_t0_1_1); // PDCArrD // should be 1_1 for beam exp
 	// for P. Ma's test
 	bool isPMaTest = false;
 	if(isPMaTest && detList[4]){

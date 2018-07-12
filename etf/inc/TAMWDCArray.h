@@ -29,6 +29,7 @@ class TGraph;
 
 class TAMWDC;
 class TATOFWall;
+class TAPlaStrip;
 class TATrack;
 class TASimulation;
 struct tTrack;
@@ -41,6 +42,8 @@ public:
 	vector<TATrack *> &GetTrackList(int dcType);
 	TAMWDC *GetMWDC(int dcId) const; // get MWDC #dcId
 	TATOFWall *GetTOFWall() const;
+	TAPlaStrip *GetPlaT0() const;
+	void SetPlaT0(TAPlaStrip *t0);
 	double GetPhiAvrg();
 	double GetDsquareThresholdPerDot() const{ return fDsquareThresholdPerDot; }
 	void SetDsquareThresholdPerDot(double d2Thre);
@@ -83,6 +86,8 @@ protected:
 
 	TAMWDC *fMWDC[3]; // three MWDCs in the MWDC array
 	TATOFWall *fTOFWall; // the TOF wall
+	TAPlaStrip *fPlaT0; // the plastic scintillator placed around the target for beam timing
+
 	// projection of 3-D track to normal planes of [X-U-V] sense wire layers
 	vector<TATrack *> fTrackList[3];
 	int fN3DTrk; // number of 3D tracks

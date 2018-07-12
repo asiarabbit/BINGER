@@ -10,7 +10,7 @@ using std::endl;
 int main(int argc, char *argv[]){
 	TAUI *usr = TAUI::Instance();
 	usr->GetOpt(argc, argv); // parse the user input parameter list
-	usr->SetMagneticIntensity(1.44975); // unit: Telsa 0.24835 1.456
+	usr->SetMagneticIntensity(1.2006); // unit: Telsa 0.24835 1.456
 //	usr->Silent(); // don't show TAPopMsg::Info() printings
 	usr->Go(); // pattern recognition, track fit, and particle identification
 

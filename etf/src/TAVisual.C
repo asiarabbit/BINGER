@@ -88,7 +88,7 @@ void TAVisual::Configure(){
 	fGTrack = new TGraph(); fGTrack->SetNameTitle("Track", "Track");
 	fGTrack->SetMarkerColor(4); fGTrack->SetMarkerStyle(1);
 	fGTrack_R = new TGraph(); fGTrack_R->SetNameTitle("Track_R", "Track_R");
-	fGTrack_R->SetMarkerColor(6); fGTrack_R->SetMarkerStyle(6); fGTrack->SetMarkerSize(3);
+	fGTrack_R->SetMarkerColor(6); fGTrack_R->SetMarkerStyle(6); fGTrack->SetMarkerSize(4);
 	fGCurve = new TGraph(); fGCurve->SetNameTitle("aoz", "Curve in the Diple Magnet");
 	fGCurve->SetMarkerStyle(1); fGCurve->SetMarkerSize(3);
 	fGCurve->SetMarkerColor(6); fGCurve->SetLineColor(6);
@@ -162,11 +162,11 @@ void TAVisual::FillEvent(){
 			const double zc = pra->GetProjectionZ(), xc = pra->GetProjectionX();
 			gaf->SetPoint(gaf->GetN(), zc, xc);
 			// draw all drift distance circles
-			const int nCir = 50;
 			double t = ano->GetDriftTime();
 			unsigned uid = ano->GetUID();
 			t += clp->T_tofDCtoTOFW(uid) - clp->T_wireMean(uid);
 			const double r = ano->GetDriftDistance(t, 3); // 3: STR_id
+			const int nCir = r/5.*20 < 5 ? 5 : r/5.*20;
 //			cout << "ano->GetName(): " << ano->GetName() << endl; // DEBUG
 //			cout << "t: " << t << "\tr: " << r << endl; getchar(); // DEBUG
 			double z, x, theta; // temporary variables

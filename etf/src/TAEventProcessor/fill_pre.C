@@ -119,17 +119,6 @@
 			T0_1->GetUV()->GetData()->Show(); T0_1->GetDV()->GetData()->Show(); getchar(); // DEBUG
 		}
 #endif
-		// calculate beta in RIBLL2 //
-		// Time of Flight and beam energy measurement in RIBLL2
-		// vme tof1 //
-		if(vme){
-			tof1vme = ((evt.mtdc0[1][0] + evt.mtdc0[2][0]) / 2. -  evt.mtdc0[0][0]) * 0.09765625 + 141.3;
-			tof1tac = (-0.010217 * evt.adc[0] -0.0104695 * evt.adc[1]) / 2. + 158.3;
-			dE0 = (evt.adc[16] + evt.adc[17]) / 2000.;
-			dE1 = (evt.adc[22] + evt.adc[23] + evt.adc[24]) / 3000.;
-			dsca10 = evt.dsca[10]; dsca11 = evt.dsca[11];
-		}
-		// vme tof1
 		
 		beta = -1.; // initialization
 		static const double L = 25.881 * 1000.; // the length of RIBLL2
@@ -146,6 +135,20 @@
 //				getchar(); // DEBUG
 			}
 		}
+
+		// calculate beta in RIBLL2 //
+		// Time of Flight and beam energy measurement in RIBLL2
+		// vme tof1 //
+		if(vme){
+			tof1vme = ((evt.mtdc0[1][0] + evt.mtdc0[2][0]) / 2. -  evt.mtdc0[0][0]) * 0.09765625 + 141.3;
+			tof1tac = (-0.010217 * evt.adc[0] -0.0104695 * evt.adc[1]) / 2. + 158.3;
+			dE0 = (evt.adc[16] + evt.adc[17]) / 2000.;
+			dE1 = (evt.adc[22] + evt.adc[23] + evt.adc[24]) / 3000.;
+			dsca10 = evt.dsca[10]; dsca11 = evt.dsca[11];
+			hpid00->Fill(tof1vme, dE0);
+			hpid01->Fill(tof1vme, dE1);
+		}
+		// vme tof1
 
 		TOF_T1 = T0_1->GetTime();
 		TOT_T0[0] = T0_0->GetUV()->GetTOT(); TOT_T0[1] = T0_0->GetUH()->GetTOT();

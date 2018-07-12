@@ -52,6 +52,7 @@ double Dsquare5(const double *x, const double *y, double &k, double &b, const in
 	for(int i = 0; i < 6; i++){
 		if(i == LAYER[0] || i == LAYER[1] || i == LAYER[2] || i == LAYER[3] || i == LAYER[4]){ // X1 of each MWDC // JULY THE FIRST //
 			increment = (k1m * x[i] - y[i] + b1m) * (k1m * x[i] - y[i] + b1m) / denominator; 
+//			cout << "increment: " << increment << endl; // DEBUG
 			if(increment > DsqThrePerDot){
 				increment *= punishment;
 			} // end if
