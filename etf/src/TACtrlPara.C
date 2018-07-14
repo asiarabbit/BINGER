@@ -258,12 +258,12 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 	// ----------------- set STRs ---------------------- //
 	// use base STRs from garfield simualtion results
 	static TFile *f = new TFile(kSTRROOTFile.c_str());
-	static const int nAngBin = TAAnodePara::kSTRCorAngleNBins, nHV = 5;
+	static const int nAngBin = TAAnodePara::kSTRCorAngleNBins, nHV = 6;
 	// STRs for DC downstream of the dipole magnet
 	// HV: 900V, 1000V, 1300V, 1350V, 1500V
 	static TF1 *rt[nHV][nAngBin]{0}; // [HVs] [six track-cell angle intervals]
 //	static TF1 *rtDumb = (TF1*)f->Get("RTDumb"); // constant zero
-	static const int HV[nHV] = {900, 1000, 1300, 1350, 1500}; // V
+	static const int HV[nHV] = {900, 1000, 1300, 1350, 1500, 1030}; // V
 	static char name[64];
 	if(!rt[0][0]){ // to make sure that this assignment will only be carried out once
 		for(int i = 0; i < nHV; i++){
@@ -324,6 +324,10 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 				TAPopMsg::Error("TACtrlPara", "AssignSTR: required rt is nullptr: hv: %d, nang: %d", hv, i);
 //			else para->SetSTR(rtM[hv][i], i); // XXX: note that this is only for P. Ma triplet-DCTaM Test
 			else para->SetSTR(rt[hv][i], i);
+//			cout << "hv: " << hv << "\ti: " << i << endl; // DEBUG
+//			cout << "rt[hv][i]: " << rt[hv][i]->GetName() << endl; // DEBUG
+//			cout << "rt[hv][i]->Eval(100.): " << rt[hv][i]->Eval(43.) << endl; // DEBUG
+//			getchar(); // DEBUG
 		} // end for over i
 	} // end if(3 == type[0] || 4 == type[0])
 	else if(6 == type[0] || 7 == type[0] || 8 == type[0] || 9 == type[0]){ // MWDC array U-D

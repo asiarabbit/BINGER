@@ -172,6 +172,7 @@
 		////////////// detector performance statistics //////////////
 		// the MWDC arrays downstream of the target //
 		for(int ii = 0; ii < 2; ii++) if(dcArr[ii]){ // loop over MWDC arrays
+			ttRef_TOFW[ii] = -9999.;
 			tofw[ii]->GetFiredStripArr(multiTOFW_pre[ii], hitIdLsTOFW_pre[ii], hitStaLsTOFW_pre[ii], uvlTLsTOFW_pre[ii], dvlTLsTOFW_pre[ii]);
 			for(TAPlaStrip *&str : tofw[ii]->GetStripArr()){
 				const int sta = str->GetFiredStatus();
@@ -188,7 +189,10 @@
 					hTOFWHitPos[ii]->Fill(strId, str->GetHitPosition());
 					double tofwToTrig = str->GetTime(0., gpar->Val(5), gpar->Val(6));
 					double tofwToTRef = tofwToTrig - tofw[ii]->GetDelayAvrg() - tRef;
-					if(-9999. != tRef) hTOFWToTRef[ii]->Fill(strId, tofwToTRef);
+					if(-9999. != tRef){
+						hTOFWToTRef[ii]->Fill(strId, tofwToTRef);
+						ttRef_TOFW[ii] = tofwToTRef;
+					}
 					// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
 //					cout << "tofwToTrig: " << tofwToTrig << endl; getchar(); // DEBUG
 					if(!(tofwToTrig > gpar->Val(5) && tofwToTrig < gpar->Val(6))){ // belongs to the trigger-generating particle // (300., 700.)->pion2017; (1120., 1160.)->beamTest2016
@@ -203,12 +207,16 @@
 				const int na = dc[ii][j]->GetNAnodePerLayer();
 				for(int k = 0; k < nsl; k++){ // loop over XUV SLayers
 					for(int l = 0; l < 2; l++){ // loop over layer option (1, 2)
+						ttRef_DC[ii][j][k][l] = -9999.;
 						for(int m = 0; m < na; m++){ // loop over anode per layer
 							TAAnode *ano = dc[ii][j]->GetAnode(k, l + 1, m);
 							if(ano->GetFiredStatus()){
 								hDCFiredDist[ii][j][k]->Fill(l*na+m);
 								double dcToTrig = ano->GetTime();
-								if(tRef != -9999.) hDCToTRef[ii][j][k]->Fill(dcToTrig - tRef);
+								if(tRef != -9999.){
+									hDCToTRef[ii][j][k]->Fill(dcToTrig - tRef);
+									ttRef_DC[ii][j][k][l] = dcToTrig - tRef;
+								}
 //								if(0 == ii && 0 == k && 0 == j)
 								{
 									for(int i = 0; i < ano->GetData()->GetNLeadingEdge(); i++)
@@ -230,15 +238,19 @@
 		// DCs made by P. Ma
 		for(int ii = 0; ii < 2; ii++) if(dcArr2[ii]){ // loop over MWDC arrays around the target
 			for(int j = 0; j < 2; j++){ // loop over two MWDCs
+				const int na = dc2[ii][j]->GetNAnodePerLayer();
 				for(int k = 0; k < 2; k++){ // loop over XY SLayers
 					for(int l = 0; l < 2; l++){ // loop over layer option (1, 2)
-						const int na = dc2[ii][j]->GetNAnodePerLayer();
+						ttRef_DCTa[ii][j][k][l] = -9999.;
 						for(int m = 0; m < na; m++){ // loop over anode per layer
 							TAAnode *ano = dc2[ii][j]->GetAnode(k, l + 1, m);
 							if(ano->GetFiredStatus()){
 								hDCTaFiredDist[ii][j][k]->Fill(l*na+m);
 								double dcToTrig = ano->GetTime();
-								if(tRef != -9999.) hDCTaToTRef[ii][j][k]->Fill(dcToTrig - tRef);
+								if(tRef != -9999.){
+									hDCTaToTRef[ii][j][k]->Fill(dcToTrig - tRef);
+									ttRef_DCTa[ii][j][k][l] = dcToTrig - tRef;
+								}
 //								if(0 == ii && 0 == k && 0 == j)
 								{
 									for(int i = 0; i < ano->GetData()->GetNLeadingEdge(); i++)
@@ -258,23 +270,27 @@
 		// DCs made from BUAA, made by Japan
 		for(int ii = 0; ii < 2; ii++) if(pdcArr2[ii]){ // loop over MWDC arrays around the target
 			for(int j = 0; j < 2; j++){ // loop over two MWDCs
+				const int na = pdc2[ii][j]->GetNAnodePerLayer();
 				for(int k = 0; k < 2; k++){ // loop over XY SLayers
 					for(int l = 0; l < 2; l++){ // loop over layer option (1, 2)
-						const int na = pdc2[ii][j]->GetNAnodePerLayer();
+						ttRef_PDC[ii][j][k][l] = -9999.;
 						for(int m = 0; m < na; m++){ // loop over anode per layer
 							TAAnode *ano = pdc2[ii][j]->GetAnode(k, l + 1, m);
 							if(ano->GetFiredStatus()){
 								hPDCFiredDist[ii][j][k]->Fill(l*na+m);
-								double dcToTrig = ano->GetTime();
+								const double t0 = pdcArr2[ii]->GetPlaT0()->GetTime();
+								const double dcToTrig = ano->GetTime();
+								const double dcToTRef = dcToTrig - t0;
 								// tRef has been subtracted from dc meansuresments by VME Daq
-								hPDCToTRef[ii][j][k]->Fill(dcToTrig);
+								hPDCToTRef[ii][j][k]->Fill(dcToTRef);
+								ttRef_PDC[ii][j][k][l] = dcToTRef;
 //								if(0 == ii && 0 == k && 0 == j)
 								{
 									for(int i = 0; i < ano->GetData()->GetNLeadingEdge(); i++)
 									hPDCToTrig->Fill(i, ano->GetTime(i));
 								}
 								// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
-								if(!(dcToTrig > gpar->Val(81) && dcToTrig < gpar->Val(82))) ano->GetData()->SetFiredStatus(false); // (340., 840.)->pion2017; (1000., 1400.)->beamTest2016
+								if(!(dcToTrig > gpar->Val(81) && dcToTrig < gpar->Val(82))) ano->GetData()->SetFiredStatus(false);
 //								if(1 == ii && 0 == j && 0 == k) ano->GetData()->SetFiredStatus(false);
 							}
 						} // end for over anode of one layer
@@ -380,8 +396,13 @@
 					}
 				}
 			}
+			int tmp = 0;
+			for(int i = 0; i < 40; i++){
+				if(-9999. == pos_opfa[i]) tmp++;
+			}
+			if(40 == tmp) cntII++;
 		} // end if(opfa)
-		
+
 
 
 

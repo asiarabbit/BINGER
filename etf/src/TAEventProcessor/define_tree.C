@@ -107,15 +107,27 @@
 	} // end if(IsPID())
 	objLsTree.push_back(treeTrack);
 
-
+	// Multiplicity
 	short multi_DC[2][3][3][2]; // DCArr[L-R][DC0-1-2][XUV][X1-2]
 	short multi_DCTa[2][2][2][2]; // DCTaArr[U-D][DC0-1][XY][X1-2]
 	short multi_PDC[2][2][2][2]; // PDCArr[U-D][DC0-1][XY][X1-2]
-	TTree *treeMulti = new TTree("treeMulti", "PDC multiplicity");
+	TTree *treeMulti = new TTree("treeMulti", "DC multiplicity");
 	treeMulti->Branch("multi_DC", multi_DC, "multi_DC[2][3][3][2]/S");
 	treeMulti->Branch("multi_DCTa", multi_DCTa, "multi_DCTa[2][2][2][2]/S");
 	treeMulti->Branch("multi_PDC", multi_PDC, "multi_PDC[2][2][2][2]/S");
 	objLsTree.push_back(treeMulti);
+
+	// time to T-Reference
+	double ttRef_DC[2][3][3][2]; // DCArr[L-R][DC0-1-2][XUV][X1-2]
+	double ttRef_DCTa[2][2][2][2]; // DCTaArr[U-D][DC0-1][XY][X1-2]
+	double ttRef_PDC[2][2][2][2]; // PDCArr[U-D][DC0-1][XY][X1-2]
+	double ttRef_TOFW[2]; // DCArr[L-R]
+	TTree *treeTTRef = new TTree("treeTTRef", "Time to Reference");
+	treeTTRef->Branch("ttRef_DC", ttRef_DC, "ttRef_DC[2][3][3][2]/D");
+	treeTTRef->Branch("ttRef_DCTa", ttRef_DCTa, "ttRef_DCTa[2][2][2][2]/D");
+	treeTTRef->Branch("ttRef_PDC", ttRef_PDC, "ttRef_PDC[2][2][2][2]/D");
+	treeTTRef->Branch("ttRef_TOFW", ttRef_TOFW, "ttRef_TOFW[2]/D");
+	objLsTree.push_back(treeTTRef);
 
 
 	int multiSipmArr_pre,  hitIdLsSipmArr_pre[10];
@@ -268,6 +280,6 @@
 		objLsTree.push_back(treeOpticFiberArr);
 	}
 
-
+	int cntII = 0;
 
 

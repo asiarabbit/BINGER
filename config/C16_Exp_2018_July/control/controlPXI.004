@@ -59,8 +59,8 @@
 # Note that only a selected set of HVs are simulated by Garfield to get STRs,
 # the HV thus can not be set continuously nor unlimitedly.
 # HVs can only be set according to the given options:
-# HV (V):		900 1000 1300 1350 1500
-# HV option:	0   1    2    3    4
+# HV (V):		900 1000 1300 1350 1500 1030
+# HV option:	0   1    2    3    4	5
 # HV option should be set to -1 when no HV is applied
 # HVDCR0X: HVs for X sense wires of DC0 from DCArray-R
 # MWDC array L
@@ -84,23 +84,23 @@
 21  0
 # MWDC array R
 # HVDCR0X
-22  1
+22  5
 # HVDCR0U
-23  1
+23  5
 # HVDCR0V
-24  1
+24  5
 # HVDCR1X
-25  1
+25  5
 # HVDCR1U
-26  1
+26  5
 # HVDCR1V
-27  1
+27  5
 # HVDCR2X
-28  1
+28  5
 # HVDCR2U
-29  1
+29  5
 # HVDCR2V
-30  1
+30  5
 
 # Experiment visualization canvas size
 # used for the size of event visualization
@@ -221,18 +221,18 @@
 # DC sense wire high voltage (HV) for MWDC arrays around the target #
 # PDC array U: [0-3]: [1000V-1400V-1200V-1150V]
 # HVPDCU0X
-73  3
+73  2
 # HVPDCU0Y
-74  3
+74  2
 # HVPDCU1X
 75  2
 # HVPDCU1Y
 76  2
 # PDC array D
 # HVPDCD0X
-77  3
+77  2
 # HVPDCD0Y
-78  3
+78  2
 # HVPDCD1X
 79  2
 # HVPDCD1Y
@@ -295,7 +295,7 @@
 # TimeThreHB - PDC
 104 800.
 # ChiThrePD - PDC
-105 2.0
+105 2.5
 
 ############ TOF STOP OPTION ##############
 # 1: PXI channel; 15: VME channel

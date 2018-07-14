@@ -343,7 +343,7 @@ void TAEventProcessor::Initialize(){
 	fEntryList.clear();
 	for(tTrack *&t : fTrackList) if(t){ delete t; t = nullptr; }
 	fTrackList.clear();
-	
+
 	for(TADetUnion *&det : GetParaManager()->GetDetList()){
 		if(det) det->Initialize();
 	}
