@@ -12,7 +12,7 @@
 #
 # Created Time: 2017/12/26
 # Author: SUN Yazhou, asia.rabbit@163.com
-# Last Modified: 2018/6/9, SUN Yazhou
+# Last Modified: 2018/08/16, SUN Yazhou
 ##################################################################################################
 
 # time unit: ns; length unit: mm;
@@ -84,23 +84,23 @@
 21  0
 # MWDC array R
 # HVDCR0X
-22  5
+22  1
 # HVDCR0U
-23  5
+23  1
 # HVDCR0V
-24  5
+24  1
 # HVDCR1X
-25  5
+25  1
 # HVDCR1U
-26  5
+26  1
 # HVDCR1V
-27  5
+27  1
 # HVDCR2X
-28  5
+28  1
 # HVDCR2U
-29  5
+29  1
 # HVDCR2V
-30  5
+30  1
 
 # Experiment visualization canvas size
 # used for the size of event visualization
@@ -159,9 +159,9 @@
 # NStripStrayMaxL
 50 0.8
 # NStripStrayMinR
-51 -1.2
+51 -0.8
 # NStripStrayMaxR
-52 1.2
+52 0.8
 # T0_0Delay
 53 139.6
 # dcTOTNoiseLevel unit: ns, DC TOT exceeding it would be invalidized
@@ -221,22 +221,22 @@
 # DC sense wire high voltage (HV) for MWDC arrays around the target #
 # PDC array U: [0-3]: [1000V-1400V-1200V-1150V]
 # HVPDCU0X
-73  2
+73  3
 # HVPDCU0Y
-74  2
+74  3
 # HVPDCU1X
-75  2
+75  3
 # HVPDCU1Y
-76  2
+76  3
 # PDC array D
 # HVPDCD0X
-77  2
+77  3
 # HVPDCD0Y
-78  2
+78  3
 # HVPDCD1X
-79  2
+79  3
 # HVPDCD1Y
-80  2
+80  3
 ## time to trig for DCs around the target
 # pdcToTrigLB
 81  3500.
@@ -248,7 +248,7 @@
 
 
 # target z position - targetZ0
-84 -1773.235
+84 -1806.49
 # T0_1 z position - T0_1Z0
 85 -2699.08
 ######### MWDC Array L ###################
@@ -282,7 +282,7 @@
 # PDC global delay - delay_PDCU0
 98 -14.0
 # PDC global delay - delay_PDCU1
-99 -11.5
+99 -16.5
 # PDC global delay - delay_PDCD0
 100 -32.0
 # PDC global delay - delay_PDCD1
@@ -293,7 +293,7 @@
 # TimeThreLB - PDC
 103 -40.
 # TimeThreHB - PDC
-104 800.
+104 1000.
 # ChiThrePD - PDC
 105 2.5
 

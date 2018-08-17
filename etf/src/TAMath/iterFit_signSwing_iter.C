@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/9.															     //
-// Last modified: 2018/8/17, SUN Yazhou.											 //
+// Last modified: 2018/8/18, SUN Yazhou.											 //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -28,7 +28,9 @@ double TAMath::iterativeFit(const double *x, const double *y, const double *r,
 	double xt[6], yt[6]; short sign[6]{};
 	for(int i = 6; i--;){ xt[i] = yt[i] = -9999.; }	
 	
+	for(int I = 0; I < 2; I++){ // iterative calculation
 	const double cosTheta = 1. / sqrt(1. + kL*kL), sinTheta = kL * cosTheta;
+
 	for(int i = n; i--;){
 		for(int j = 0; j < nF; j++){
 			const short s = LAYER[j];
@@ -41,6 +43,7 @@ double TAMath::iterativeFit(const double *x, const double *y, const double *r,
 			kL = kl; bL = bl; d2min = d2;
 		}
 	} // end for over i
+	} // end for over I
 
 //	cout << "kL: " << kL << "\tbL: " << bL << "\td2min: " << d2min << endl;
 	return d2min;

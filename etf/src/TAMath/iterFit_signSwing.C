@@ -18,17 +18,19 @@
 
 double TAMath::iterativeFit(const double *x, const double *y, const double *r,
 		double &kL, double &bL, int gGOOD, const int *LAYER, double d2PerDot){
+	double d2, kl, bl;
+	// initialize kL and bL using LSM
+	double d2min = Dsquare(x, y, kL, bL, gGOOD, LAYER, d2PerDot);
+	
+	const double cosTheta = 1. / sqrt(1. + kL*kL), sinTheta = kL * cosTheta;
+	double xt[6], yt[6]; short sign[6]{};
+	for(int i = 6; i--;){ xt[i] = yt[i] = -9999.; }
+	
 	int nF = gGOOD; // number of fired sense wire layers
 	if(2 == gGOOD) nF = 4; // 2 layers for each of the two DCs
 	if(1 == gGOOD) nF = 3; // 1 layer for 1 DC and 2 for another
 	const short n = pow(2, nF); // number of drift distance sign combinations
-	double d2, kl, bl;
-	// initialize kL and bL using LSM
-	double d2min = Dsquare(x, y, kL, bL, gGOOD, LAYER, d2PerDot);
-	double xt[6], yt[6]; short sign[6]{};
-	for(int i = 6; i--;){ xt[i] = yt[i] = -9999.; }	
-	
-	const double cosTheta = 1. / sqrt(1. + kL*kL), sinTheta = kL * cosTheta;
+
 	for(int i = n; i--;){
 		for(int j = 0; j < nF; j++){
 			const short s = LAYER[j];

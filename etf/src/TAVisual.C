@@ -187,7 +187,7 @@ void TAVisual::FillEvent(){
 	TAEventProcessor::Instance()->FillTrack(fGTrack, fGTrack_R);
 	// fill fired TOFWall strips
 	if(!fGPlaStrip) TAPopMsg::Error("TAVisual", "Fill: fGPlaStrip is null");
-	TGraph *&gpla = fGPlaStrip;
+	TGraph *gpla = fGPlaStrip;
 	while(gpla->GetN()) gpla->RemovePoint(0); // clear the graph
 	for(TAPlaStrip *&str : fPlaStripArr){
 		if(4 == str->GetFiredStatus()){

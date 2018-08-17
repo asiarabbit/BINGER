@@ -84,11 +84,15 @@ void TAUI::GetOpt(int argc, char *argv[]){
 			} // end the final else
 		} // end if argv[optind]
 	} // end for over I
+
+	// construct all the detector objects
+	Configure();
+
 	if(cnt[0] > 1) TAPopMsg::Error("TAUI", "GetOpt: more than 1 PXI data file is offered");
 	if(cnt[1] > 1) TAPopMsg::Error("TAUI", "GetOpt: more than 1 root file is offered");
 	if(cnt[2] > 1) TAPopMsg::Error("TAUI", "GetOpt: more than 1 VME data file is offered");
 	
-	// input file name validity check
+	// input file name validity check //
 	if(strcmp(fROOTFile, "") && strcmp(fDataFile, ""))
 		TAPopMsg::Error("TAUI", "GetOpt: The data file and root file are designated at the same time, which is conflicting.\n\t(The rootfile ought be generated from the datafile.)");
 	if(!strcmp(fROOTFile, "") && !strcmp(fDataFile, "") && !strcmp(fVMEDataFile, ""))
@@ -99,7 +103,7 @@ void TAUI::GetOpt(int argc, char *argv[]){
 	if(strcmp(fROOTFile, "") && strcmp(fROOTFile+strlen(fROOTFile)-5, ".root"))
 		TAPopMsg::Error("TAUI", "GetOpt: rootfile name is invalid: %s", fROOTFile);
 
-	// echo user input
+	// echo user input //
 //	return;
 	cout << "       --- USER INPUT CHECK LIST ---\n"; // DEBUG
 	cout << "fDataFile: " << fDataFile << "   fROOTFile: " << fROOTFile; // DEBUG

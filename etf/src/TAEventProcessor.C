@@ -11,7 +11,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/13.															     //
-// Last modified: 2018/6/7, SUN Yazhou.											     //
+// Last modified: 2018/8/17, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -84,7 +84,7 @@ using std::setw;
 TAEventProcessor* TAEventProcessor::fInstance = nullptr;
 
 TAEventProcessor::TAEventProcessor(const string &datafile, int runId)
-		: fIsPID(false), fIsTracking(true),
+		: fIsPID(false), fIsTracking(true), fChkChId(-1),
 		fRawDataProcessor(0), fParaManager(0), fCtrlPara(0),
 		fVisual(0), fPID(0), fGPar(0){
 	fEntryList.reserve(100);
@@ -98,6 +98,7 @@ TAEventProcessor::TAEventProcessor(const string &datafile, int runId)
 	fGPar = TAGPar::Instance();
 	TAPopMsg::Verbose(false); // TAPopMsg::Silent();
 	if(strcmp("", datafile.c_str())) SetDataFile(datafile, runId);
+	fRawDataProcessor->SetBunchIdCheck(true);
 }
 TAEventProcessor::~TAEventProcessor(){
 	if(fRawDataProcessor){
@@ -214,13 +215,13 @@ void TAEventProcessor::Configure(){
 	detList[9] = new TAPDCArrayD("PDCArrayD", "PDCArrayD@Post-Target", 9);
 	detList[10] = new TAMUSICM("MUSICM", "MUSICM@Pre-Target", 10);
 	detList[11] = new TAMUSICL("MUSICL", "MUSICL@Post-Target", 11);
-	detList[12] = new TAT0_1("VETO_0", "VETO_0@Pre-MSUICF", 12);
-	detList[13] = new TAT0_1("VETO_1", "VETO_1@Post-MSUICF", 13);
+//	detList[12] = new TAT0_1("VETO_0", "VETO_0@Pre-MSUICF", 12);
+//	detList[13] = new TAT0_1("VETO_1", "VETO_1@Post-MSUICF", 13);
 	detList[14] = new TAT0_0("T0_0_VME0", "T0_0_VME0@Mid-RIBLL2", 14); // for PDCArrU
 	detList[15] = new TAT0_1("T0_1_VME0", "T0_1_VME1@End-RIBLL2", 15); // for PDCArrU
 	detList[16] = new TAT0_0("T0_0_VME1", "T0_0_VME0@Mid-RIBLL2", 16); // for PDCArrD
 	detList[17] = new TAT0_1("T0_1_VME1", "T0_1_VME1@End-RIBLL2", 17); // for PDCArrD
-	detList[18] = new TAMUSICM("Si", "Si@Post-Target", 18);
+//	detList[18] = new TAMUSICM("Si", "Si@Post-Target", 18);
 	detList[19] = new TAOpticFiberArray("OpticFiberArray", "OpticFiberArray", 19);
 
 	for(TADetUnion *&p : detList) if(p) p->Configure(); // build the detectors
@@ -263,7 +264,27 @@ void TAEventProcessor::Configure(){
 		if(detList[9]) ((TAMWDCArray2*)detList[9])->Info();
 	}
 	isCalled = true; // has been called
+	CheckChannelId();
 } // end of member function Configure
+// check the the channel with channelId being chId
+void TAEventProcessor::CheckChannelId() const{
+	if(fChkChId < 0) return;
+	static const TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
+	int uid = GetParaManager()->GetUID(fChkChId);
+	if(TAParaManager::UID_DUMMY == uid){ // entry with homeless channel id
+		TAPopMsg::Info("TAEventProcessor", "CheckChannelId: \033[31mDUMMY_CHANNEL\033[0m");
+		return;
+	}
+	if(TAParaManager::UID_DUMMY == uid){ // entry with uninitialized channel id
+		TAPopMsg::Info("TAEventProcessor", "CheckChannelId: \033[31mEMPTY_CHANNEL\033[0m");
+		return;
+	}
+	int type[6]{}; TAUIDParser::DNS(type, uid); int detId = type[0]; // resolute UID
+
+	if(detList[detId]) detList[detId]->GetChannel(uid)->Info();
+	else TAPopMsg::Warn("TAEventProcessor", "CheckChannelId: Detector List element #%d is null.", detId);
+	getchar();
+} // end of member function CheckChannelId
 // assign an event to the detectors by distributing channel data to the matching channel objects
 void TAEventProcessor::Assign(){
 	// special treatment for T0_1 with single-end readout
@@ -309,7 +330,7 @@ void TAEventProcessor::Assign(tEntry *entry){
 		strcpy(entry->name, "\033[31mDUMMY_CHANNEL\033[0m");
 		return;
 	}
-	if(2 * TAParaManager::UID_DUMMY == uid){ // entry with homeless channel id
+	if(TAParaManager::UID_DUMMY == uid){ // entry with uninitialized channel id
 		strcpy(entry->name, "\033[31mEMPTY_CHANNEL\033[0m");
 		return;
 	}
@@ -322,16 +343,10 @@ void TAEventProcessor::Assign(tEntry *entry){
 void TAEventProcessor::FillTrack(TGraph *gTrack, TGraph *gTrack_R) const{
 	if(!gTrack || !gTrack_R)
 		TAPopMsg::Error("TAEventProcessor", "FillTrack: input TGraph pointer is null");
-	TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
-	TAMWDCArray *dcArr[2]{0};
-	TAMWDCArray2 *dcArr2[2]{0};
-	TAMWDCArray2 *pdcArr2[2]{0};
-	dcArr[0] = (TAMWDCArray*)detList[3];
-	dcArr[1] = (TAMWDCArray*)detList[4];
-	dcArr2[0] = (TAMWDCArray2*)detList[6];
-	dcArr2[1] = (TAMWDCArray2*)detList[7];
-	pdcArr2[0] = (TAMWDCArray2*)detList[8];
-	pdcArr2[1] = (TAMWDCArray2*)detList[9];
+	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
+	static TAMWDCArray *dcArr[2] = {(TAMWDCArray*)detList[3], (TAMWDCArray*)detList[4]};
+	static TAMWDCArray2 *dcArr2[2] = {(TAMWDCArray2*)detList[6], (TAMWDCArray2*)detList[7]};
+	static TAMWDCArray2 *pdcArr2[2] = {(TAMWDCArray2*)detList[8], (TAMWDCArray2*)detList[9]};
 	for(int i = 2; i--;){
 		if(dcArr[i]) dcArr[i]->FillTrack(gTrack, gTrack_R);
 		if(dcArr2[i]) dcArr2[i]->FillTrack(gTrack, gTrack_R);
@@ -402,7 +417,6 @@ inline void correctCycleClear(double &x, const double bunchIdTime){
 // (id0, id1): index range for analysis; secLenLim: event length limit; rawrtfile: raw rootfile
 void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtfile){
 	secLenLim = secLenLim < 2000 ? secLenLim : 2000; // 2000 word (7.8KiB) is the event length limit
-	Configure(); // prepare ETF setup
 	if(id0 >= id1)
 		TAPopMsg::Error("TAEventProcessor", "Run: index0 %d is not smaller than index1 %d", id0, id1);
 	string rootfile = rawrtfile; // name of the ROOT file storing raw data - treeData

@@ -184,6 +184,7 @@
 					{
 						for(int j = 0; j < str->GetUV()->GetData()->GetNLeadingEdge(); j++){
 							hTOFWToTrigUV[ii]->Fill(j, str->GetUV()->GetTime(j));
+							hTOFWTOTUV[ii]->Fill(j, str->GetUV()->GetTOT(j));
 						}
 					}
 					hTOFWHitPos[ii]->Fill(strId, str->GetHitPosition());

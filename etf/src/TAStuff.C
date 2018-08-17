@@ -9,10 +9,10 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/24.															     //
-// Last modified: 2017/10/13, SUN Yazhou.										     //
+// Last modified: 2018/8/16, SUN Yazhou.										     //
 //																				     //
 //																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
+// Copyright (C) 2017-2018, SUN Yazhou.											     //
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -33,5 +33,8 @@ TAChPara *TAStuff::GetPara() const{
 TAChData *TAStuff::GetData() const{
 	TAPopMsg::Warn(GetName().c_str(), "TAStuff::GetData: Method not defined.");
 	return nullptr;
+}
+void TAStuff::Info() const{
+	TAPopMsg::Info(GetName().c_str(), "TAStuff::Info: object title: %s", GetTitle().c_str());
 }
 

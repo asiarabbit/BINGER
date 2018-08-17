@@ -11,7 +11,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/13.															     //
-// Last modified: 2017/12/27, SUN Yazhou.										     //
+// Last modified: 2018/8/16, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -74,6 +74,8 @@ public:
 	void CoarseFit(bool opt = true){ GetCtrlPara()->CoarseFit(opt); } // rough ye fast fit
 	void SetPeriod(int index0, int index1); // analyze index0 to index1
 	virtual void Configure(); // create detectors
+	void CheckChannelId() const; // check the the channel with channelId being chId
+	void CheckChannelId(int chId){ fChkChId = chId; } // check the the channel with channelId being chId
 	// assign an event to the detectors by distributing channel data to the matching channel objects
 	virtual void Assign();
 	virtual void Assign(tEntry *entry);
@@ -95,6 +97,7 @@ protected:
 	static TAEventProcessor* fInstance;
 	bool fIsPID; // whether or not to implement the rigidity analysis
 	bool fIsTracking; // whether or not to implement particle tracking
+	int fChkChId; // channel with chid input by user for checking and showing
 	vector<tEntry *> fEntryList; // store channel data entry of one data section
 	vector<tTrack *> fTrackList; // store particle track of one data section
 	TARawDataProcessor *fRawDataProcessor; // to read raw binary data file into a ROOT tree

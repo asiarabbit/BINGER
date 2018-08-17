@@ -30,7 +30,7 @@
 			k[j] = tra->k; b[j] = tra->b; TOF[j] = tra->TOF; d2[j] = tra->dsquare;
 			gGOOD[j] = tra->gGOOD; chi2[j] = tra->chi2; Chi[j] = tra->Chi;
 
-			const short dcArrId = (type[j]/10)%10; // 0: dcArrL; 1: dcArrR; 2: dcArrrU; 3: dcArrD
+			const short dcArrId = (type[j]/10)%10; // 0: dcArrL; 1: dcArrR; 2: dcArrrU; 3: dcArrD;
 			if(   0 != dcArrId && 1 != dcArrId // DCArr-LR
 			   && 2 != dcArrId && 3 != dcArrId // DCArr-UD
 			   && 4 != dcArrId && 5 != dcArrId ) // DCArr-PDC-UD
@@ -59,8 +59,14 @@
 				const double dt = tra->t[k];
 				if(-9999. != dt){
 					if(0 == dcArrId || 1 == dcArrId) hdt[dcArrId][dcId][dcType]->Fill(dt);
-					if(2 == dcArrId || 3 == dcArrId) hdtTa[dcArrId-2][dcId][dcType]->Fill(dt);
-					if(4 == dcArrId || 5 == dcArrId) hdtp[dcArrId-2][dcId][dcType]->Fill(dt);
+					if(2 == dcArrId || 3 == dcArrId){
+						if(!usingPDC) hdtTa[dcArrId-2][dcId][dcType]->Fill(dt);
+						else hdtp[dcArrId-2][dcId][dcType]->Fill(dt);
+					}
+					if(4 == dcArrId || 5 == dcArrId){
+						if(!usingPDC) hdtp[dcArrId-2][dcId][dcType]->Fill(dt);
+						else hdtTa[dcArrId-2][dcId][dcType]->Fill(dt);
+					}
 				} // end if
 				// TOT of DC signals
 				if(nu[j][k] >= 0){
@@ -390,7 +396,7 @@
 
 		if(0) vis->FillHitMap();
 		static int jj = 0;
-		if(jj < 50){
+		if(jj < 1){
 //			if(gGOOD[1] != 1 && gGOOD[2] != 1) continue;
 			jj++;
 			static int i0 = 0;

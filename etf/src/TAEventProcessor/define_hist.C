@@ -79,7 +79,6 @@
 
 
 
-
 	// ######################### RAW DETECTOR STATISTICS & PID ############################## //
 	// 0: eve stat(misc); 1: FiredDist; 2: multi; 3: hdt; 4: pla hit pos; 5: PID 6: misc 7: timeToTRef
 	vector<TObject *> objLs[8];
@@ -202,15 +201,18 @@
 	TH2F *hsipmBarrToTRef = new TH2F("hsipmBarrToTRef", "hsipmBarrToTRef;stripId;timeToTRef [ns]", 27, -1.5, 25.5, 3000, -500., 1500.);
 	TH2F *hT0_1ToTrigUV = new TH2F("hT0_1ToTrigUV", "hT0_1ToTrigUV;edgeNumId;timeToTrig [ns]", 7, -1.5, 5.5, 8000, -4000., 6000.);
 	TH2F *hT0_1ToTrigDV = new TH2F("hT0_1ToTrigDV", "hT0_1ToTrigDV;edgeNumId;timeToTrig [ns]", 7, -1.5, 5.5, 8000, -4000., 6000.);
-	TH2F *hTOFWToTrigUV[2];
+	TH2F *hTOFWToTrigUV[2], *hTOFWTOTUV[2];
 	hTOFWToTrigUV[0] = new TH2F("hLTOFWToTrigUV", "hLTOFWToTrigUV;edgeNumId;timeToTrig [ns]", 7, -1.5, 5.5, 8000, -4000., 6000.);
 	hTOFWToTrigUV[1] = new TH2F("hRTOFWToTrigUV", "hRTOFWToTrigUV;edgeNumId;timeToTrig [ns]", 7, -1.5, 5.5, 8000, -4000., 6000.);
+	hTOFWTOTUV[0] = new TH2F("hLTOFWTOTUV", "hLTOFWTOTUV;edgeNumId;TOT [ns]", 7, -1.5, 5.5, 8000, -4000., 6000.);
+	hTOFWTOTUV[1] = new TH2F("hRTOFWTOTUV", "hRTOFWTOTUV;edgeNumId;TOT [ns]", 7, -1.5, 5.5, 8000, -4000., 6000.);
 	TH2F *hDCToTrig = new TH2F("hDCToTrig", "hDCToTrig;edgeNumId;timeToTrig [ns]", 7, -1.5, 5.5, 8000, -4000., 6000.);
 	TH1F *htof1 = new TH1F("htof1", "tof1", 1000, -10., 300.);
 	objLs[6].push_back(htof2sipmArr); objLs[6].push_back(hsipmArrToTrig);
 	objLs[6].push_back(hTOF_T1_pos); objLs[6].push_back(hDCToTrig);
 	objLs[6].push_back(hT0_1ToTrigUV); objLs[6].push_back(hT0_1ToTrigDV);
 	objLs[6].push_back(hTOFWToTrigUV[0]); objLs[6].push_back(hTOFWToTrigUV[1]);
+	objLs[6].push_back(hTOFWTOTUV[0]); objLs[6].push_back(hTOFWTOTUV[1]);
 	objLs[7].push_back(hsipmArrToTRef); objLs[7].push_back(hsipmBarrToTRef);
 	objLs[6].push_back(hsipmBarrToTrig);
 	objLs[6].push_back(htof1);
@@ -282,7 +284,7 @@
 				// DC drift time distribution
 				sprintf(name, "HdtPDCArr%c_DC%d_%c", UD[i], j, xy[k]);
 				sprintf(title, "Drift Time Distribution of PDC Array%c - DC%d - %c;drift time [ns]", UD[i], j, xy[k]);
-				hdtp[i][j][k] = new TH1F(name, title, 500, -100., 400.);
+				hdtp[i][j][k] = new TH1F(name, title, 500, -100., 600.);
 				objLs[3].push_back(hdtp[i][j][k]);
 				// DC time to T-reference
 				sprintf(name, "hPDCToTRefArr%c_DC%d_%c", UD[i], j, xy[k]);

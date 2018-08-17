@@ -38,21 +38,21 @@ public:
 	int GetNLeadingEdge() const { return fNLeadingEdge; }
 	int GetNTrailingEdge() const { return fNTrailingEdge; }
 	bool IsV() const { return fIs_V; }
-	double GetTOT(int n = 0) const; // get the time over threshold information of the n-th pulse.
+	double GetTOT(int n = 0) const; // get the time over threshold information of the n-th pulse
 	void SetFiredStatus(bool sta){ fFired = sta; }
 
 	virtual void Initialize(); // initialize the data member
 	virtual bool Assign(tEntry *entry);
-	virtual void Show() const; // for debugging purposes.
+	virtual void Show() const; // for debugging purposes
 protected:
-	bool fFired; // fired status. false: not fired. true: fired.
+	bool fFired; // fired status. false: not fired. true: fired
 	int fEventIndex; // event index;	
 	int fNLeadingEdge; // count of leading edges
 	int fNTrailingEdge; // counf of trailing edges.
-	static const int NLMAX = 5, NTMAX = 5; // maximum number of leading and trailing edges per event.
-	double fLeadingTime[NLMAX]; // signal leading edge time tag.
-	double fTrailingTime[NTMAX]; // signal trailing edge time tag.
-	bool fIs_V; // mark if the channel is HPTDC very high resolution mode data.
+	static const int NLMAX = 5, NTMAX = 5; // maximum number of leading and trailing edges per event
+	double fLeadingTime[NLMAX]; // signal leading edge time tag
+	double fTrailingTime[NTMAX]; // signal trailing edge time tag
+	bool fIs_V; // mark if the channel is HPTDC very high resolution mode data
 };
 
 #endif

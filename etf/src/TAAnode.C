@@ -146,7 +146,7 @@ double TAAnode::GetDriftDistance(double dt, double k){
 double TAAnode::GetDriftDistance(double dt, int STR_id){ // k is the track slope
 	double r_base = GetAnodePara()->GetSTR(STR_id)->Eval(dt); // the base drift distance
 	const short detId = GetAnodePara()->GetDetId();
-	if(0) if(8 == detId || 9 == detId){ // PDC array, large drift cells - 10mm max drift distance
+	if(8 == detId || 9 == detId){ // PDC array, large drift cells - 10mm max drift distance
 		static const double p[7] = {0.15774, 0.0212614, 0.000404477, -3.02031e-06, 8.88275e-09, -1.21066e-11, 6.31554e-15};
 		r_base = p[6]*pow(dt,6)+p[5]*pow(dt,5)+p[4]*pow(dt,4)+p[3]*dt*dt*dt+p[2]*dt*dt+p[1]*dt+p[0]; // DEBUG
 		if(r_base < 0. || dt < -10.) r_base = 0.; // DEBUG

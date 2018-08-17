@@ -583,7 +583,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 #ifdef VME_COMMENT
 		char comment[sizeof(buffer)] = ""; // store the first block
 		memcpy(comment, buffer, sizeof(buffer));
-		cout << "\n\n\033[36;1m";
+		cout << "\n\nVME datafile comment\n\033[36;1m";
 		for(char c : comment) if(c) cout << c;
 		cout << "\n\n\033[0m";
 //		sleep(5);

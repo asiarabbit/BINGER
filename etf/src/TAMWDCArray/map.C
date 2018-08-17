@@ -79,7 +79,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 	bool normalEvent = false, specialEvent = false;
 
 	//////////////////////////////// THE 6-FOLD NESTED LOOP ////////////////////////////////
-	// to loop over all the possible combinations of fired sense wires 
+	// to loop over all the possible combinations of fired sense wires
 	// for the least-Dsquare tracks for a specific event
 	// i == nAnodePerLayer# corresponds to the one situation where all the fired anodes
 	// in the layer is deemed as invalid (caused by noise, unwanted particles, etc.).

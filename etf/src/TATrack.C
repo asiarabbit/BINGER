@@ -39,7 +39,7 @@ TATrack::TATrack(const string &name, const string &title, unsigned uid)
 	fXc = -9999.; fZc = -9999.;
 	fFitMethod = TATrack::kBFGSFit; fFitPrecision = 0;
 	fDsquareThresholdPerDot = 65.;
-	
+
 	fIsDEBUG = false; marked = false;
 } // end of the constructor.
 // copy constructor
@@ -453,13 +453,14 @@ void TATrack::FillTrack(TGraph *gTrack, TGraph *gTrack_R){
 	// first fill the track line
 	// calculate the interpolation pattern for drawing gTrack
 	static const double L = gp->Val(31), W = gp->Val(32), M = (L - W) / 2., S = (L + W) / 2.;
-	static const int nTr = int(L), nCir = 300; // number of points to be filled.
+	static const int nTr = int(L), nCir = 300; // number of points to be filled
 	const double k = GetSlope(), b = GetIntercept();
 	for(int i = nTr; i--;){
 		z = M + (2.*i/nTr - 1.) * S;
 		x = k*z+b;
 		gTrack->SetPoint(gTrack->GetN(), z, x);
 	}
+	return;
 	// next fill the drift distance circle
 	for(int i = 6; i--;) if(fR[i] > 0.){
 		for(int j = nCir; j--;){

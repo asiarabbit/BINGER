@@ -61,6 +61,12 @@ double Dsquare5(const double *x, const double *y, double &k, double &b, const in
 		} // JULY THE FIRST //
 	}
 	result1 = dsquare;
+
+	////////////  track slope would be very small ////////////////
+	k = k1m;
+	b = b1m;
+	return result1;
+	/////////// 2018/8/17 ////////////////////////////////////////
 //	cout << "For the almost vertical line case, the least square method yield result as below: " << endl;
 //	cout << "kc = " << k1m << " bc = " << b1m << endl;
 

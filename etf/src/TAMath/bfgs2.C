@@ -24,20 +24,20 @@ static unsigned long long ii = 0, jj = 0; // DEBUG
 
 double TAMath::refinedFitBFGS(const double *x, const double *y, const double *r, double &kL, double &bL, int gGOOD, const int *LAYER, double d2PerDot){
 	double par[20] = {0.};
+	//	par[18] = k0; par[19] = b0;
+	//	Dsquare(x, y, par[18], par[19], gGOOD, LAYER, d2PerDot); // deprecated
+	// set the iteration origin
+	double d2min; // the minimum value of fun.
+	d2min = iterativeFit(x, y, r, par[18], par[19], gGOOD, LAYER, d2PerDot);
+//	cout << "TACtrlPara::Instance()->IsCoarseFit(): " << TACtrlPara::Instance()->IsCoarseFit() << endl; getchar(); // DEBUG
+	if(TACtrlPara::Instance()->IsCoarseFit()){ // if use dsquare as the fit method
+		kL = par[18]; bL = par[19]; return d2min;
+	} // end if
 	for(int i = 0; i < 6; i++){
 		par[i]      = x[i];
 		par[6 + i]  = y[i];
 		par[12 + i] = r[i];
 	}
-	//	par[18] = k0; par[19] = b0;
-	//	Dsquare(x, y, par[18], par[19], gGOOD, LAYER, d2PerDot); // deprecated
-	// set the iteration origin.
-	double d2min; // the minimum value of fun.
-	d2min = iterativeFit(x, y, r, par[18], par[19], gGOOD, LAYER, d2PerDot);
-//	cout << "TACtrlPara::Instance()->IsCoarseFit(): " << TACtrlPara::Instance()->IsCoarseFit() << endl; getchar(); // DEBUG
-	if(TACtrlPara::Instance()->IsCoarseFit()){ // if use dsquare as the fit method.
-		kL = par[18]; bL = par[19]; return d2min;
-	} // end if
 
 	double xk[2] = {0., 0.}; // start of the iteration; xk[0]: dk, xk[1]: db
 //	cout << "Initially, fun(" << xk[0] << ", "; // DEBUG
@@ -119,10 +119,11 @@ double TAMath::refinedFitBFGS(const double *x, const double *y, const double *r,
 //	cout << "fun(" << xk[0] << ", " << xk[1] << ") = " << d2min << endl; // DEBUG
 
 //	cout << setprecision(9); // DEBUG
+//	cout << "xkm[0]: " << xkm[0] << "\txkm[1]: " << xkm[1] << endl; // DEBUG
 //	cout << "k0: " << par[18] << "\tb0: " << par[19] << endl; // DEBUG
 //	cout << "kL: " << kL << "\tbL: " << bL << endl; // DEBUG
-//	cout << "kr: " << kr << "\tbr: " << br << endl; // DEBUG
 //	cout << "______fun has been called " << ii - jj << " times." << endl; // DEBUG
+//	cout << "d2min: " << d2min << endl; // DEBUG
 //	cout << "ii: " << ii << "\tjj: " << jj << endl;
 //	getchar(); // DEBUG
 
@@ -132,7 +133,7 @@ double TAMath::refinedFitBFGS(const double *x, const double *y, const double *r,
 
 
 double fun(const double *xk, const double *par, int gGOOD, const int *LAYER){
-//	ii++; // DEBUG
+	ii++; // DEBUG
 //	double x[6], y[6], r[6];
 //	for(int i = 0; i < 6; i++){
 //		x[i] = par[i];

@@ -107,28 +107,28 @@ protected:
 	double fT[6]; // drift time
 	double fWeight[6]; // weight for weighted addition of chi to chi2
 	double fTOF;
-	double fNStripStray; // count of strips from a fired strips to the fitted track.
-	int fFiredStripId; // serial id of the fired TOF wall strip for the track.
-	int fNu[6]; // the fired anode serial id in each of the six anode layers for the track specifically.
-	int fLAYER[6]; // to tell the condition of the 6 fired andoe layers.
+	double fNStripStray; // count of strips from a fired strips to the fitted track
+	int fFiredStripId; // serial id of the fired TOF wall strip for the track
+	int fNu[6]; // the fired anode serial id in each of the six anode layers for the track specifically
+	int fLAYER[6]; // to tell the condition of the 6 fired andoe layers
 	int f3DId; // 3-D track identifier
-	int fNFiredAnodeLayer; // count of fired anodes for the track. 
+	int fNFiredAnodeLayer; // count of fired anodes for the track
 	int fgGOOD; // count of fired anodes for the track, but a little different from fNFiredAnodeLayer. 3, 4, 5 and 6. Less than 3 is not allowed, except 2, which has a special meaning. Three MWDC must all be fired, or value 2. You know that. It is the avatar of gGOOD. It is a very important variable and not to be messed with.
 
 	double fK; // the slope of the linear track
 	double fB; // the intercept of the linear track
-	double fChi2; // the sum of squares of fitting residuals of all the fired anodes.
-	double fDsquare; // the Dsquare of least square fit of the fired andoes, regardless of drift time.
+	double fChi2; // the sum of squares of fitting residuals of all the fired anodes
+	double fDsquare; // the Dsquare of least square fit of the fired andoes, regardless of drift time
 	double fChi[6]; // fit residue
-	// the value of fIsFitted can only be assigned true through Fit function.
-	bool fIsFitted; // to tell if the data is fitted after either the data or the fit precision has been altered.
-	bool fIsAssigned; // to tell if the track is not assigned.
+	// the value of fIsFitted can only be assigned true through Fit function
+	bool fIsFitted; // to tell if the data is fitted after either the data or the fit precision has been altered
+	bool fIsAssigned; // to tell if the track is not assigned
 	double fBeta; // particle speed, while it zipps along this track; mainly for drift time correction
 
-	// coordinate of the rotating center for the track fitting.
-	// geometirc center of the MWDC array.
+	// coordinate of the rotating center for the track fitting
+	// geometirc center of the MWDC array
 	int fFitMethod; // 0: normal fit; 1: BFGS fit
-	int fFitPrecision; // the calculation precision.
+	int fFitPrecision; // the calculation precision
 	double fZc; // MWDC_X(U, V)[1]->GetZc()
 	double fXc; // MWDC_X(U, V)[1]->GetXc()
 	double fDsquareThresholdPerDot;

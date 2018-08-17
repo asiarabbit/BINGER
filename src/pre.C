@@ -12,6 +12,7 @@ int main(int argc, char *argv[]){
 	usr->GetOpt(argc, argv); // parse the user input parameter list
 	usr->SetMagneticIntensity(1.2006); // unit: Telsa 0.24835 1.456
 //	usr->Silent(); // don't show TAPopMsg::Info() printings
+//	usr->CheckChannelId(403); // see channel with channelId
 	usr->Go(); // pattern recognition, track fit, and particle identification
 
 	return 0;

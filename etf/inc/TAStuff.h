@@ -56,6 +56,7 @@ public:
 	void SetTitle(const char *title){ fTitle = title; }
 	void AppendTitle(const string &tail){ fTitle += tail; }
 	void AppendTitle(const char *tail){ fTitle += tail; }
+	virtual void Info() const;
 
 	// to mark the shared part of TAChannel and TAAnode
 	virtual TAChPara *GetPara() const;
