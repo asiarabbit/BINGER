@@ -42,8 +42,10 @@ static const TAGPar *gp = TAGPar::Instance();
 static const double z_SiPMArr = TADeployPara::Instance()->GetSiPMArrayZ0(); // z of SiPM Pla Array
 static const double z_Ta = TADeployPara::Instance()->GetTargetZ0(); // z of the target
 static const TACtrlPara *clp = TACtrlPara::Instance();
+static TAPID *pid = TAPID::Instance();
 
 TAVisual *TAVisual::fInstance = nullptr;
+
 
 TAVisual::TAVisual() : fGMainFrame(0), fGAnodeDumb(0), fGAnodeFired(0),
 		fGMagnet(0), fGPlaStrip(0), fGPlaStripDumb(0), fGChannel(0),
@@ -92,7 +94,7 @@ void TAVisual::Configure(){
 	fGCurve = new TGraph(); fGCurve->SetNameTitle("aoz", "Curve in the Diple Magnet");
 	fGCurve->SetMarkerStyle(1); fGCurve->SetMarkerSize(3);
 	fGCurve->SetMarkerColor(6); fGCurve->SetLineColor(6);
-	TAPID::Instance()->SetCurveGraph(fGCurve); // fill fGCurve in TAPID::TransportIon method
+	pid->SetCurveGraph(fGCurve);
 	fGTarget = new TGraph(); fGTarget->SetNameTitle("Target", "Target");
 	fGTarget->SetMarkerStyle(29); fGTarget->SetMarkerColor(6); fGTarget->SetMarkerSize(1);
 	fGTarget->SetPoint(0, z_Ta, 0.);
@@ -209,6 +211,9 @@ void TAVisual::FillEvent(){
 			gch->SetPoint(gch->GetN(), z_SiPMArr, ch->GetPara()->GetValue());
 		}
 	}
+	// draw trajectory in the dipole magnet
+	pid->FillGraphTrajectory();
+//	pid->SetCurveGraph(nullptr);
 } // end of member function FillEvent(...)
 void TAVisual::FillHitMap(){
 	// fill the hit distribution 2-D graph

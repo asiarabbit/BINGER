@@ -98,7 +98,6 @@ TAEventProcessor::TAEventProcessor(const string &datafile, int runId)
 	fGPar = TAGPar::Instance();
 	TAPopMsg::Verbose(false); // TAPopMsg::Silent();
 	if(strcmp("", datafile.c_str())) SetDataFile(datafile, runId);
-	fRawDataProcessor->SetBunchIdCheck(true);
 }
 TAEventProcessor::~TAEventProcessor(){
 	if(fRawDataProcessor){
@@ -251,9 +250,9 @@ void TAEventProcessor::Configure(){
 	// read all the parameters required and assign positiion parameters to every channel and alike
 	GetParaManager()->ReadParameters();
 
+	if(IsPID()) GetPID()->Configure();
 	// TAVisual::Configure can only be implemented AFTER all the other detectors are created
 	GetVisual()->Configure();
-	if(IsPID()) GetPID()->Configure();
 	// show some information
 	if(TAPopMsg::IsVerbose()){
 		if(detList[3]) ((TAMWDCArray*)detList[3])->Info();
@@ -285,6 +284,10 @@ void TAEventProcessor::CheckChannelId() const{
 	else TAPopMsg::Warn("TAEventProcessor", "CheckChannelId: Detector List element #%d is null.", detId);
 	getchar();
 } // end of member function CheckChannelId
+void TAEventProcessor::BunchIdMisAlignCheck(bool opt) const{
+	GetRawDataProcessor()->SetBunchIdCheck(opt);
+}
+
 // assign an event to the detectors by distributing channel data to the matching channel objects
 void TAEventProcessor::Assign(){
 	// special treatment for T0_1 with single-end readout

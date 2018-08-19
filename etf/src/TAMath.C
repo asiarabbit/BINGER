@@ -35,8 +35,8 @@ using std::complex;
 typedef complex<double> cdouble;
 
 static TACtrlPara *clp = TACtrlPara::Instance();
-const double TAMath::kzMagIn = -475.;
-const double TAMath::kzMagOut = 475.;
+const double TAMath::kzMagIn = -600.;
+const double TAMath::kzMagOut = 600.;
 
 // length of the vector, len: vector dimension
 double TAMath::norm(const double *p, int len){
@@ -194,6 +194,7 @@ double TAMath::Gamma(double beta){
 	}
 	return 1./sqrt(1.-beta*beta);
 }
+// double rho(...): solve rho of track arc in the magnetic field //
 // (zo, xo): rotating center of the arc
 double TAMath::rho(double kin, double bin, double kout, double bout, double *zo, double *xo){
 	if(fabs(kin - kout) < 1e-8){
@@ -208,7 +209,8 @@ double TAMath::rho(double kin, double bin, double kout, double bout, double *zo,
 
 	if(zo && xo){
 		zo[0] = (k1 * z2 - k2 * z1 + k1 * k2 * (x2 - x1)) / (k1 - k2);
-		xo[0] = (k1 * x1 - k2 * x2 + z1 - z2) / (k1 - k2);
+		xo[0] = (z1 - zo[0]) / k1 + x1;
+//		xo[0] = (k1 * x1 - k2 * x2 + z1 - z2) / (k1 - k2);
 	}
 
 	// x2 solved from equatioin L1 == L2

@@ -48,7 +48,7 @@ TAMagnet::TAMagnet(const string &name, const string &title, unsigned uid)
 TAMagnet::~TAMagnet(){}
 
 // i: initial; f: final
-void TAMagnet::TransportIon(double *y, double *yp, double zi, double zf, bool isTracking){
+void TAMagnet::TransportIon(double *y, double *yp, double zi, double zf, const bool isTracking){
 	if(-9999. == fQoP){
 		cout << "\033[31;1mTAMagnet::TransportIon(...):\n";
 		cout << "QoP = -9999. fQoP not set?\033[0m\n";

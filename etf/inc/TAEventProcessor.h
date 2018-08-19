@@ -76,6 +76,7 @@ public:
 	virtual void Configure(); // create detectors
 	void CheckChannelId() const; // check the the channel with channelId being chId
 	void CheckChannelId(int chId){ fChkChId = chId; } // check the the channel with channelId being chId
+	void BunchIdMisAlignCheck(bool opt = true) const;
 	// assign an event to the detectors by distributing channel data to the matching channel objects
 	virtual void Assign();
 	virtual void Assign(tEntry *entry);

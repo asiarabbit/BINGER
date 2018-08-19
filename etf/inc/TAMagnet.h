@@ -49,7 +49,7 @@ public:
 	// note that z is the independent variable.
 	// fourth-order Runge-Kutta method is utilized to solve the differential equation.
 	// isTracking: whether to store particle trajectories for showcase purposes
-	void TransportIon(double *y, double *yp, double zi, double zf, bool isTracking = false);
+	void TransportIon(double *y, double *yp, double zi, double zf, const bool isTracking = false);
 	// assign B with the magnetic intensity vector at position p
 	void GetMagneticIntensity(double *B, const double *p);
 	double GetTrackLength() const; // return fTrackLength

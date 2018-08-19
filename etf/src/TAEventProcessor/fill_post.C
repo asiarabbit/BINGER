@@ -9,7 +9,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/29.															     //
-// Last modified: 2018/4/30, SUN Yazhou.										     //
+// Last modified: 2018/8/19, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -326,7 +326,7 @@
 						} // end if
 					} // end for over jj
 				} // end outer if
-				pid->Fly(tof2[0], -9999., pOut, 1, TAPID::kOpt1, pIn, pIn0);
+				pid->Fly(tof2[0], -9999., pOut, 1, TAPID::kOpt4, pIn, pIn0);
 				aoz[0] = pid->GetAoZ(); aozdmin[0] = pid->GetChi();
 				beta2[0] = pid->GetBeta(); poz[0] = pid->GetPoZ(); // MeV/c
 				brho[0] = pid->GetBrho(); // T.m

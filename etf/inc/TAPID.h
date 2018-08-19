@@ -38,7 +38,7 @@ public:
 	// particle transportation in the dipole magnet
 	// kOpt0: nonuniform magnetic field low precision
 	// kOpt1: nonuniform magnetic field high precision
-	// kOpt2: uniform magnetic field analytic solution - piont+trk
+	// kOpt2: uniform magnetic field analytic solution - point+trk
 	// kOpt3: result of option 2 used as the start for iteration of option 1
 	// kOpt4: uniform magnetic field analytic solution - trk+trk
 	// pIn[0-3]: {k1_Ta, k2_Ta, b1_Ta, b2_Ta}

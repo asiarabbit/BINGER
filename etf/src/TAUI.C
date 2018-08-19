@@ -84,35 +84,9 @@ void TAUI::GetOpt(int argc, char *argv[]){
 			} // end the final else
 		} // end if argv[optind]
 	} // end for over I
-
-	// construct all the detector objects
-	Configure();
-
 	if(cnt[0] > 1) TAPopMsg::Error("TAUI", "GetOpt: more than 1 PXI data file is offered");
 	if(cnt[1] > 1) TAPopMsg::Error("TAUI", "GetOpt: more than 1 root file is offered");
 	if(cnt[2] > 1) TAPopMsg::Error("TAUI", "GetOpt: more than 1 VME data file is offered");
-	
-	// input file name validity check //
-	if(strcmp(fROOTFile, "") && strcmp(fDataFile, ""))
-		TAPopMsg::Error("TAUI", "GetOpt: The data file and root file are designated at the same time, which is conflicting.\n\t(The rootfile ought be generated from the datafile.)");
-	if(!strcmp(fROOTFile, "") && !strcmp(fDataFile, "") && !strcmp(fVMEDataFile, ""))
-		TAPopMsg::Error("TAUI", "GetOpt: Neither a data file or root file is given.");
-	// check data type by filename suffixes
-	if(strcmp(fDataFile, "") && strcmp(fDataFile+strlen(fDataFile)-4, ".dat"))
-		TAPopMsg::Error("TAUI", "GetOpt: datafile name is invalid: %s", fDataFile);
-	if(strcmp(fROOTFile, "") && strcmp(fROOTFile+strlen(fROOTFile)-5, ".root"))
-		TAPopMsg::Error("TAUI", "GetOpt: rootfile name is invalid: %s", fROOTFile);
-
-	// echo user input //
-//	return;
-	cout << "       --- USER INPUT CHECK LIST ---\n"; // DEBUG
-	cout << "fDataFile: " << fDataFile << "   fROOTFile: " << fROOTFile; // DEBUG
-	cout << "   fAnaDepth: " << fAnaDepth;
-	if(!strcmp(fROOTFile, "")) cout << "   fRunId: " << fRunId << endl; // DEBUG
-	else cout << "   fRunId: (null)" << endl; // DEBUG
-	cout  << "fEvLenLim: " << fEvLenLim << "   fIndex0: " << fIndex0; // DEBUG
-	cout << "   fIndex1: " << fIndex1 << endl; // DEBUG
-	cout << "       -------------------------------\n"; // DEBUG
 }
 // show manual for input rules
 void TAUI::PromptHelp(bool isVerbose){
@@ -166,12 +140,36 @@ void TAUI::Go(){
 		if(strcmp(fVMEDataFile, ""))
 			SetDataFile(fVMEDataFile, fRunId, false);
 	} // end if(!strcmp(fROOTFile, ""))
+	// construct all the detector objects
+	Configure();
+
+
+	////// input data files' validity check //////
+	// input file name validity check //
+	if(strcmp(fROOTFile, "") && strcmp(fDataFile, ""))
+		TAPopMsg::Error("TAUI", "GetOpt: The data file and root file are designated at the\
+ same time, which is conflicting.\n\t(The rootfile ought be generated from the datafile.)");
+	if(!strcmp(fROOTFile, "") && !strcmp(fDataFile, "") && !strcmp(fVMEDataFile, ""))
+		TAPopMsg::Error("TAUI", "GetOpt: Neither a data file or root file is given.");
+	// check data type by filename suffixes
+	if(strcmp(fDataFile, "") && strcmp(fDataFile+strlen(fDataFile)-4, ".dat"))
+		TAPopMsg::Error("TAUI", "GetOpt: datafile name is invalid: %s", fDataFile);
+	if(strcmp(fROOTFile, "") && strcmp(fROOTFile+strlen(fROOTFile)-5, ".root"))
+		TAPopMsg::Error("TAUI", "GetOpt: rootfile name is invalid: %s", fROOTFile);
+//	return;
+
+	////// echo user input //////
+	cout << "       --- USER INPUT CHECK LIST ---\n"; // DEBUG
+	cout << "fDataFile: " << fDataFile << "   fROOTFile: " << fROOTFile; // DEBUG
+	cout << "   fAnaDepth: " << fAnaDepth;
+	if(!strcmp(fROOTFile, "")) cout << "   fRunId: " << fRunId << endl; // DEBUG
+	else cout << "   fRunId: (null)" << endl; // DEBUG
+	cout  << "fEvLenLim: " << fEvLenLim << "   fIndex0: " << fIndex0; // DEBUG
+	cout << "   fIndex1: " << fIndex1 << endl; // DEBUG
+	cout << "       -------------------------------\n"; // DEBUG
 
 	Run(fIndex0, fIndex1, fEvLenLim, fROOTFile);
 }
-
-
-
 
 
 

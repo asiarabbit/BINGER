@@ -56,4 +56,7 @@ misc/*
 !build/*.C
 data/
 !config/
-Lab/online_pxi_OPF/
+Lab/avatar/ 
+Lab/beihang/ 
+Lab/go.sh 
+Lab/gui1/ 

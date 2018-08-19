@@ -1,5 +1,5 @@
 // pre.C -- pre analysis of 2017 Pion experiment.
-// Created: 2017/12/1, Lasted modified: 2018/6/12, Author: SUN Yazhou
+// Created: 2017/12/1, Lasted modified: 2018/8/18, Author: SUN Yazhou
 #include <iostream>
 #include <cstdlib>
 #include "TAUI.h"
@@ -10,9 +10,13 @@ using std::endl;
 int main(int argc, char *argv[]){
 	TAUI *usr = TAUI::Instance();
 	usr->GetOpt(argc, argv); // parse the user input parameter list
-	usr->SetMagneticIntensity(1.2006); // unit: Telsa 0.24835 1.456
+
+	//user options
+	usr->SetMagneticIntensity(1.2002); // unit: Telsa 0.24835 1.456
+//	usr->BunchIdMisAlignCheck();
 //	usr->Silent(); // don't show TAPopMsg::Info() printings
 //	usr->CheckChannelId(403); // see channel with channelId
+
 	usr->Go(); // pattern recognition, track fit, and particle identification
 
 	return 0;

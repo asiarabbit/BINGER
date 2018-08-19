@@ -288,6 +288,7 @@ void shoot(const char *rootfile){
 			}
 		} // end for over j
 		t0_1_ok = tRef_pos > tRef_pos_LB && tRef_pos < tRef_pos_HB;
+
 		treeshoot->Fill();
 		cout << "Processing data section " << i << "\r" << flush;
 	} // end for over entries
