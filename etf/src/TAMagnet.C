@@ -342,7 +342,7 @@ void TAMagnet::LoadMagneticFieldFile(const string &file){
 	} // end if
 	string s_t;
 	for(int i = 5; i--;){
-		getline(inFile, s_t); // skip the commentary lines.
+		getline(inFile, s_t); // skip the commentary lines
 //		cout << s_t << endl; // DEBUG
 	} // end for over i
 

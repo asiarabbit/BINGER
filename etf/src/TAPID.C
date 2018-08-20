@@ -36,7 +36,7 @@
 #include "TAPlaStripPara.h"
 #include "TAT0_1.h"
 
-//#define DEBUG
+#define DEBUG
 
 TAPID *TAPID::fInstance = nullptr;
 

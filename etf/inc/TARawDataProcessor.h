@@ -32,7 +32,7 @@ public:
 	int GetVMEEventCnt() const { return fVMEEventCnt; }
 	int GetBunchIdMisAlignCnt() const { return fBunchIdMisAlignCnt; }
 	const char *GetROOTFileName() const { return fROOTFile.c_str(); }
-	const char *GetDataFileName() const;
+	const char *GetPXIDataFileName() const { return fPXIDataFile.c_str(); }
 	const char *GetVMEDataFileName() const { return fVMEDataFile.c_str(); }
 	int ReadOffline(); // read offline binary data file and store them in a tree and a rootfile
 	int ReadOfflinePXI();

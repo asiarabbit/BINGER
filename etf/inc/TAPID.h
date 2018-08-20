@@ -33,6 +33,7 @@ public:
 
 	virtual void Configure();
 	void SetMagneticIntensity(double B){ fExB = B; } // unit: Telsa
+	double GetExtMag() const{ return fExB; } // unit: Telsa
 	// l: x = k1*z+b1; y = k2*z+b2; ki:(k1, k2); bi(b1, b2);
 	// tof2: from target to TOFWall; p[0-3]: k1-k2-b1-b2;
 	// particle transportation in the dipole magnet

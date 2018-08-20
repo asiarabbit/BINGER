@@ -78,11 +78,6 @@ void TARawDataProcessor::SetDataFileName(const string &name, int runId, bool isP
 	}
 //	TAPopMsg::Debug("TARawDataProcessor", "SetDataFileName: fROOTFile: %s", fROOTFile.c_str());
 }
-const char *TARawDataProcessor::GetDataFileName() const{
-	if(strcmp(fPXIDataFile.c_str(), "")) return fPXIDataFile.c_str();
-	if(strcmp(fVMEDataFile.c_str(), "")) return fVMEDataFile.c_str();
-	return "";
-}
 
 void TARawDataProcessor::SetPeriod(int index0, int index1){
 	if(fIndex0 >= fIndex1)
@@ -526,7 +521,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 	vme->Branch("qdc", evt.qdc[0], "qdc[32]/I");
 	vme->Branch("mtdc0", evt.mtdc0, "mtdc0[128][10]/I");
 	vme->Branch("mtdc1", evt.mtdc1, "mtdc1[128][10]/I");
-	vme->Branch("sca", evt.sca, "sca[16]/I");
+	vme->Branch("sca", evt.sca, "sca[16]/i");
 	vme->Branch("dsca", evt.dsca, "dsca[16]/I");
 
 	// define the data tree

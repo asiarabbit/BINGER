@@ -33,8 +33,8 @@ struct tVME_event{
 	int mtdc0[128][10]; // 
 	int mtdc1[128][10]; // 
 	int hit[32];
-	int sca[16];
-	int psca[16];
+	unsigned sca[16];
+	unsigned psca[16];
 	int dsca[16];
 	tVME_event(){ // the default constructor
 		initialize();

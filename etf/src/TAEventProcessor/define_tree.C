@@ -17,9 +17,9 @@
 
 	vector<TTree *> objLsTree; // a vector to manage tree pointers
 	int bunchId; // trigger time
-	double beta; // particle speed in RIBLL2
+	double mag, beta; // magnetic field/Telsa, particle speed in RIBLL2
 	int type[ntrMax], gGOOD[ntrMax]; // type: XUV; gGOOD: nFiredAnodePerLayer, ==2 specially...
-	int id[ntrMax]; // tracks with the same track Id and different track type are projections of the same 3-D track.
+	int id[ntrMax]; // tracks with the same track Id and different track type are projections of the same 3-D track
 	int nu[ntrMax][6], sfe16Id[ntrMax][6]; // fired anode id, SFE16 chip id
 	double t[ntrMax][6], TOT_DC[ntrMax][6], TOT_DC_Avrg[ntrMax], r[ntrMax][6]; // hit pattern
 	double k[ntrMax], b[ntrMax], d2[ntrMax]; // track
@@ -47,6 +47,7 @@
 //	treeTrack->SetAutoSave(1e7);
 	treeTrack->Branch("index", &index, "index/I");
 	treeTrack->Branch("bunchId", &bunchId, "bunchId/I");
+	treeTrack->Branch("mag", &mag, "mag/D");
 	treeTrack->Branch("tof1", &tof1, "tof1/D"); // tof from T0_0 to T0_1
 	treeTrack->Branch("tof1vme", &tof1vme, "tof1vme/D"); // tof from T0_0 to T0_1
 	treeTrack->Branch("tof1tac", &tof1tac, "tof1tac/D"); // tof from T0_0 to T0_1
@@ -223,7 +224,7 @@
 	bool isDCArrR[n3DtrMax];
 	double Chi3D[n3DtrMax], chi2_3D[n3DtrMax], chi3D[n3DtrMax][18];
 	double k1[n3DtrMax], b1[n3DtrMax], k2[n3DtrMax], b2[n3DtrMax]; // x=k1*z+b1; y=k2*z+b2;
-	// hit position in TOFW strip, rough and refine, from Down End to up end (0-1200).
+	// hit position in TOFW strip, rough and refine, from Down End to up end (0-1200)
 	double TOF_posY[n3DtrMax], TOF_posY_refine[n3DtrMax]; // refine: calculate through 3D trks
 	// 3D counterpart of treeTrack
 	int firedStripId3D[n3DtrMax];
