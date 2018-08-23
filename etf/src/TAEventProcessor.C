@@ -253,7 +253,7 @@ void TAEventProcessor::Configure(){
 	// select an experiment, to direct to a directory containing the exp config parameters
 	const char dir[7][64] = {"pion_2017Oct", "beamTest_2016Nov", "C16_Exp_2018_Summer",
 		"tripletDC_P_Ma_Test", "tripletDC_P_Ma_Test_ETF", "OpticFiber", "C16_Exp_2018_July"};
-	const char *sdir = dir[0];
+	const char *sdir = dir[6];
 	TAPopMsg::Info("TAEventProcessor", "Configure: selected Exp Config Dir: %s", sdir);
 	SetConfigExpDir(sdir);
 	// STR_spline.root || STR_stiff.root || STR_aaa900.root
