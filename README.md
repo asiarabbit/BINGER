@@ -4,4 +4,5 @@
 * This code project depend on libraries of ROOT project. The anaroot project of SUMARAI, BigRIPS, RIKEN is referenced for enlightenments.
 
 ## About Installation
-* The code relies on channel Id configuration files and magnetic map to function, which is not included in the code itself due to its size. Consult the author for the configuration files via asia.rabbit@163.com. Those files would be integrated in the project in future development of the code. 
+* The code relies on channel Id configuration files and magnetic map to function, which is not included in the code itself due to its size. Consult the author for the configuration files via asia.rabbit@163.com. Those files would be integrated in the project in future development of the code.
+
