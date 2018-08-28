@@ -225,18 +225,18 @@
 # HVPDCU0Y
 74  3
 # HVPDCU1X
-75  2
+75  3
 # HVPDCU1Y
-76  2
+76  3
 # PDC array D
 # HVPDCD0X
 77  3
 # HVPDCD0Y
 78  3
 # HVPDCD1X
-79  2
+79  3
 # HVPDCD1Y
-80  2
+80  3
 ## time to trig for DCs around the target
 # pdcToTrigLB
 81  3500.

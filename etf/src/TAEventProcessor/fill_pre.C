@@ -10,7 +10,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/29.															     //
-// Last modified: 2018/5/20, SUN Yazhou.										     //
+// Last modified: 2018/8/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -209,6 +209,8 @@
 				for(int k = 0; k < nsl; k++){ // loop over XUV SLayers
 					for(int l = 0; l < 2; l++){ // loop over layer option (1, 2)
 						ttRef_DC[ii][j][k][l] = -9999.;
+						DC_NLM[ii][j][k][l] = 0; // maximum number of leading edges in a wire layer
+						DC_LTM[ii][j][k][l] = 0.; // maximum leading edge time over all the edges of a wire layer
 						for(int m = 0; m < na; m++){ // loop over anode per layer
 							TAAnode *ano = dc[ii][j]->GetAnode(k, l + 1, m);
 							if(ano->GetFiredStatus()){
@@ -220,8 +222,15 @@
 								}
 //								if(0 == ii && 0 == k && 0 == j)
 								{
-									for(int i = 0; i < ano->GetData()->GetNLeadingEdge(); i++)
-									hDCToTrig->Fill(i, ano->GetTime(i));
+									int DC_NL = ano->GetData()->GetNLeadingEdge();
+									if(DC_NL > DC_NLM[ii][j][k][l]) DC_NLM[ii][j][k][l] = DC_NL;
+									for(int i = 0; i < DC_NL; i++){
+										const double tt = ano->GetTime(i);
+										hDCToTrig->Fill(i, tt);
+										if(vme && dsca11 == 0)
+											hDCToTrigNoPU->Fill(i, tt);
+										if(tt > DC_LTM[ii][j][k][l]) DC_LTM[ii][j][k][l] = tt;
+									}
 								}
 								// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
 								if(!(dcToTrig > gpar->Val(7) && dcToTrig < gpar->Val(8))) ano->GetData()->SetFiredStatus(false); // (340., 840.)->pion2017; (1000., 1400.)->beamTest2016
@@ -275,6 +284,8 @@
 				for(int k = 0; k < 2; k++){ // loop over XY SLayers
 					for(int l = 0; l < 2; l++){ // loop over layer option (1, 2)
 						ttRef_PDC[ii][j][k][l] = -9999.;
+						PDC_NLM[ii][j][k][l] = 0; // maximum number of leading edges in a wire layer
+						PDC_LTM[ii][j][k][l] = 0.; // maximum leading edge time over all the edges of a wire layer
 						for(int m = 0; m < na; m++){ // loop over anode per layer
 							TAAnode *ano = pdc2[ii][j]->GetAnode(k, l + 1, m);
 							if(ano->GetFiredStatus()){
@@ -283,17 +294,26 @@
 								const double dcToTrig = ano->GetTime();
 								const double dcToTRef = dcToTrig - t0;
 								// tRef has been subtracted from dc meansuresments by VME Daq
-								hPDCToTRef[ii][j][k]->Fill(dcToTRef);
-								ttRef_PDC[ii][j][k][l] = dcToTRef;
+								if(-9999. != t0){
+									hPDCToTRef[ii][j][k]->Fill(dcToTRef);
+									ttRef_PDC[ii][j][k][l] = dcToTRef;
+								}
 //								if(0 == ii && 0 == k && 0 == j)
 								{
-									for(int i = 0; i < ano->GetData()->GetNLeadingEdge(); i++)
-									hPDCToTrig->Fill(i, ano->GetTime(i));
+									int PDC_NL = ano->GetData()->GetNLeadingEdge();
+									if(PDC_NL > PDC_NLM[ii][j][k][l]) PDC_NLM[ii][j][k][l] = PDC_NL;
+									for(int i = 0; i < PDC_NL; i++){
+										const double tt = ano->GetTime(i);
+										hPDCToTrig->Fill(i, tt);
+										if(vme && dsca11 == 0)
+											hPDCToTrigNoPU->Fill(i, tt);
+										if(tt > PDC_LTM[ii][j][k][l]) PDC_LTM[ii][j][k][l] = tt;
+									} // end for over PDC LED edges
 								}
 								// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
 								if(!(dcToTrig > gpar->Val(81) && dcToTrig < gpar->Val(82))) ano->GetData()->SetFiredStatus(false);
 //								if(1 == ii && 0 == j && 0 == k) ano->GetData()->SetFiredStatus(false);
-							}
+							} // end if the anode is fired
 						} // end for over anode of one layer
 						multi_PDC[ii][j][k][l] = pdc2[ii][j]->GetNFiredAnodePerLayer(k, l+1);
 						hPDCMulti[ii][j][k][l]->Fill(pdc2[ii][j]->GetNFiredAnodePerLayer(k, l+1));
@@ -401,7 +421,6 @@
 			for(int i = 0; i < 40; i++){
 				if(-9999. == pos_opfa[i]) tmp++;
 			}
-			if(40 == tmp) cntII++;
 		} // end if(opfa)
 
 

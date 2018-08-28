@@ -12,7 +12,7 @@
 #
 # Created Time: 2017/12/26
 # Author: SUN Yazhou, asia.rabbit@163.com
-# Last Modified: 2018/08/23, SUN Yazhou
+# Last Modified: 2018/08/16, SUN Yazhou
 ##################################################################################################
 
 # time unit: ns; length unit: mm;
@@ -31,17 +31,17 @@
 # T0_1ToTrigLBUV
 0   140.
 # T0_1ToTrigHBUV
-1   280.
+1   220.
 # T0_1ToTrigLBDV
 2   140.
 # T0_1ToTrigHBDV
-3   280.
+3   220.
 # T0_1DelayAvrg: average delay for T0_1, applying to both UV and DV
 4   -0.
 # tofwToTrigLB
 5   120.
 # tofwToTrigHB
-6   240.
+6   180.
 # dcToTrigLB
 7   0.
 # dcToTrigHB

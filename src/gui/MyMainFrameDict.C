@@ -139,8 +139,8 @@ namespace {
 0
     };
     static const char* includePaths[] = {
-"/home/asia/Downloads/rootbuild/include",
-"/home/asia/Documents/pionExp2017/src/gui/",
+"/home/asia/Documents/root/install/include",
+"/home/asia/pionExp2017/src/gui/",
 0
     };
     static const char* fwdDeclCode = R"DICTFWDDCLS(
@@ -171,7 +171,7 @@ nullptr};
     if (!isInitialized) {
       TROOT::RegisterModule("MyMainFrameDict",
         headers, includePaths, payloadCode, fwdDeclCode,
-        TriggerDictionaryInitialization_MyMainFrameDict_Impl, {}, classesHeaders);
+        TriggerDictionaryInitialization_MyMainFrameDict_Impl, {}, classesHeaders, /*has no C++ module*/false);
       isInitialized = true;
     }
   }

@@ -93,6 +93,8 @@ void shoot(const char *rootfile){
 
 	// read the track tree
 	TTree *treeTrack = (TTree*)f->Get("treeTrack");
+	TTree *vme = (TTree*)f->Get("vme");
+	treeTrack->AddFriend(vme);
 	const int ntrMax = 100;
 	int ntr, ntrT, index, nu[ntrMax][6]{}, gGOOD[ntrMax]{};
 	int type[ntrMax]{}, id[ntrMax]{}, firedStripId[ntrMax];
@@ -100,6 +102,7 @@ void shoot(const char *rootfile){
 	double t[ntrMax][6]{}, r[ntrMax][6]{}, k_[ntrMax]{}, b[ntrMax]{};
 	double chi[ntrMax][6]{}, chi2[ntrMax]{}, Chi[ntrMax]{}, TOF[ntrMax]{};
 	double tRef_pos; // hit position of T0_1
+	unsigned sca[16];
 	treeTrack->SetBranchAddress("index", &index);
 	treeTrack->SetBranchAddress("tRef_pos", &tRef_pos);
 	treeTrack->SetBranchAddress("ntr", &ntr);
@@ -118,6 +121,7 @@ void shoot(const char *rootfile){
 	treeTrack->SetBranchAddress("gGOOD", gGOOD);
 	treeTrack->SetBranchAddress("type", type);
 	treeTrack->SetBranchAddress("id", id);
+	vme->SetBranchAddress("sca", sca);
 
 	// vector for ROOT objects management
 	vector<TObject *> objls;
@@ -127,9 +131,11 @@ void shoot(const char *rootfile){
 	double vetoPos[2], t0_1Pos[2];
 	double PDCPos[4][2]; // [0-3][0-1]: [PDCU0-1--PDCD0-1][X-Y]
 	double chiTa[2][2][6]; // [U-D][X-Y]
+	double kDC_, bDC_;
 	int nuTa[2][2][6], nuDCR[6]; // only the first track would be stored
 	double DCRPos[6][2], TOFWPos[2]; // DCRPos: [DC0X1X2-DC1X1X2-DC2X1X2][X-Y]
 	bool t0_1_ok = false; // if TOF stop signal is good
+	double sca1drv = 0.;
 	TTree *treeshoot = new TTree("treeshoot", "shoot! haha~");
 	treeshoot->Branch("index", &index, "index/I");
 	treeshoot->Branch("taHitPos", taHitPos, "taHitPos[2][2]/D");
@@ -139,12 +145,16 @@ void shoot(const char *rootfile){
 	treeshoot->Branch("kTa", kTa, "kTa[2][2]/D");
 	treeshoot->Branch("bTa", bTa, "bTa[2][2]/D");
 	treeshoot->Branch("kTa", kTa, "kTa[2][2]/D");
+	treeshoot->Branch("kDC", &kDC_, "kDC/D");
+	treeshoot->Branch("bDC", &bDC_, "bDC/D");
 	treeshoot->Branch("chiTa", chiTa, "chiTa[2][2][6]/D");
 	treeshoot->Branch("nuTa", nuTa, "nuTa[2][2][6]/I"); // U-D -- X-Y -- DC0X1-X2-DC1-X1-X2
 	treeshoot->Branch("nuDCR", nuDCR, "nuDCR[6]/I");
 	treeshoot->Branch("DCRPos", DCRPos, "DCRPos[3][2]/D");
 	treeshoot->Branch("TOFWPos", TOFWPos, "TOFWPos[2]/D");
 	treeshoot->Branch("t0_1_ok", &t0_1_ok, "t0_1_ok/O");
+	// d(#)/dt - derivative of daq and beam over time
+	treeshoot->Branch("sca1drv", &sca1drv, "sca1drv/D"); // sca1: trigger request
 
 
 	const char ud[] = "UD", xy[] = "XY";
@@ -205,6 +215,7 @@ void shoot(const char *rootfile){
 
 
 	const int n = treeTrack->GetEntries(); // number of data sections
+//	n = 100000; // DEBUG
 	cout << "Totally " << n << " data sections would be processed.\n";
 	for(int i = 0; i < n; i++){
 		treeTrack->GetEntry(i);
@@ -245,9 +256,12 @@ void shoot(const char *rootfile){
 			TOFWPos[ii] = -9999.;
 		} // end for over i
 
+		kDC_ = -9999.; bDC_ = -9999.;
 		for(int j = 0; j < ntrT; j++){ // loop over tracks
 			if(110 == type[j]){
+				kDC_ = k_[j]; bDC_ = b[j];
 				for(int k = 0; k < 3; k++){ // loop over DC0-1-2
+					
 					for(int l = 0; l < 2; l++){ // loop over X1-X2
 						if(nu[j][k*2+l] >= 0 && 1 == ntrLs[1][0]){
 							int NU = k*2+l;
@@ -288,6 +302,23 @@ void shoot(const char *rootfile){
 			}
 		} // end for over j
 		t0_1_ok = tRef_pos > tRef_pos_LB && tRef_pos < tRef_pos_HB;
+
+
+		//////// calculate derivatives of daq over time //////////
+		// dsca1/dsca15
+		int sca1ph, sca1mh; // +h, -h; trigger request count
+		int sca15ph, sca15mh; // +h, -h; 1khz clock
+		if(i < 30 || i > n - 31) sca1drv = 0.;
+		else{
+			vme->GetEntry(i); sca1ph = sca[1]; sca15ph = sca[15];
+			vme->GetEntry(i-30); sca1mh = sca[1]; sca15mh = sca[15];
+			if(sca15ph-sca15mh > 10000.){ // spill crossed
+				vme->GetEntry(i); sca1ph = sca[1]; sca15ph = sca[15];
+				vme->GetEntry(i+30); sca1mh = sca[1]; sca15mh = sca[15];
+			}
+			sca1drv = 1. * (sca1ph - sca1mh) / (sca15ph - sca15mh);
+		}
+
 
 		treeshoot->Fill();
 		cout << "Processing data section " << i << "\r" << flush;

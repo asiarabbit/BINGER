@@ -289,9 +289,9 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 
 } // end of Map function
 
-
 int TAMWDCArray2::compare(TATrack2 *newTrack, TATrack2 *oldTrack, int dcType, bool show){
-	const int vicinity = clp->Vicinity();
+	int vicinity = clp->Vicinity();
+	if(8 == GetDetId() || 9 == GetDetId()) vicinity = 2;
 //	cout << "vicinity: " << vicinity << endl; getchar(); // DEBUG
 	int nValid_nu = 0, nValid_nu_temp = 0; // count of positive elements in the array
 	

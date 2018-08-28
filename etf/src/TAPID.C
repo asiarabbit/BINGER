@@ -36,7 +36,7 @@
 #include "TAPlaStripPara.h"
 #include "TAT0_1.h"
 
-#define DEBUG
+//#define DEBUG
 
 TAPID *TAPID::fInstance = nullptr;
 
@@ -189,18 +189,18 @@ void TAPID::FlyPion(double tof2, double x0TaHit, const double *pOut_, short dcAr
 	double ddmin[2]{}; // quality estimator
 #endif
 	const double zf = z0_TA; // the end of the RK propogation
-	double aoz, aozc = 0., d2; // aozc: the central aoz; d2: LSM Qsquare
+	double aoz, aozc = 2.2, d2; // aozc: the central aoz; d2: LSM Qsquare
 	if(kOpt3 == option){ aozc = fAoZ; }
-	const double span0 = 3.;
+	const double span0 = 1.;
 	double span = span0; // search scope, aozc-span ~ aozc+span
-	int ln = 1, n = 30;
+	int ln = 2, n = 40;
 	// loop laps for iter==0, which is to refine beta
 	if(kOpt0 == option){ n = 15; }
 	for(int iter = 0; iter < 2; iter++){ // iteration to refine beta2
 		if(1 == iter){
 			// reset search domin, narrow the scope and coodinate the center
 			span = span0 / n * 3.;
-			n = 10; ln = 2;
+			n = 20; ln = 3;
 			aozc = fAoZ;
 			fAoZdmin = 9999.; // reset dmin
 			if(kOpt0 == option){ n = 5; ln = 3; }

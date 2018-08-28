@@ -1,21 +1,23 @@
-void tmp(){
-	TFile *f = new TFile("20180707_2052.dat_0.root", "update");
+void tmp1(){
+	TFile *f = new TFile("20180707_1649.dat_0.root", "update");
 	TTree *treeTrack = (TTree*)f->Get("treeTrack");
 	TTree *treeshoot = (TTree*)f->Get("treeshoot");
 	TTree *treeTOFWR = (TTree*)f->Get("treeTOFWR");
 	TTree *treeMulti = (TTree*)f->Get("treeMulti");
+	TTree *treePDCPileUp = (TTree*)f->Get("treePDCPileUp");
 	TTree *vme = (TTree*)f->Get("vme");
 	treeTrack->AddFriend(treeshoot);
 	treeTrack->AddFriend(treeTOFWR);
 	treeTrack->AddFriend(treeMulti);
+	treeTrack->AddFriend(treePDCPileUp);
 	treeTrack->AddFriend(vme);
 
 	// PID
 //	treeTrack->Draw("dE0:tof1>>(500, 133., 137., 500, -0.5, 4.5)", "", "col")
-	treeTrack->Draw("dE1:dE0>>(500, -1., 5., 500, -1., 5.)", "", "col");
+//	treeTrack->Draw("dE1:dE0>>(500, -1., 5., 500, -1., 5.)", "", "col")
 //	treeTrack->Draw("aoz>>(500, 1.4, 2.7)", "")
 	// overall PID
-//	treeTrack->Draw("dE1:aoz>>(500, 1.4, 3., 500, 0., 4.5)", "", "col");
+//	treeTrack->Draw("dE1:aoz>>(500, 1.4, 3., 500, 0., 4.5)", "", "col")
 //	treeTrack->Draw("dE1:aoz>>(500, 1.4, 3., 500, 0., 4.5)", "dsca11<=0&&dsca10<=1", "col")
 //	treeTrack->Draw("dE1:aoz>>(500, 1.4, 3., 500, 0., 4.5)", "!(dsca11<=0&&dsca10<=1)", "col")
 //	treeTrack->Draw("adc[22]:adc[23]>>(500, 0, 4500, 500, 0, 4500)", "dsca11==0&&A2", "col")

@@ -115,10 +115,10 @@ MyMainFrame::MyMainFrame(const TGWindow *p, int w, int h)
 	// veto check box and cut radio buttons
 	fBGCut = new TGButtonGroup(this, "Cut Selection", kHorizontalFrame);
 	fRBCut[0] = new TGRadioButton(fBGCut, new TGHotString("No CUT                "), 0);
-	fRBCut[1] = new TGRadioButton(fBGCut, new TGHotString("CUT0 Z = 8            "), 1);
-	fRBCut[2] = new TGRadioButton(fBGCut, new TGHotString("CUT1 Z = 7            "), 2);
-	fRBCut[3] = new TGRadioButton(fBGCut, new TGHotString("CUT2 Z = 6            "), 3);
-	fRBCut[4] = new TGRadioButton(fBGCut, new TGHotString("CUT2 Z = 5            "), 4);
+	fRBCut[1] = new TGRadioButton(fBGCut, new TGHotString("CUT0             "), 1);
+	fRBCut[2] = new TGRadioButton(fBGCut, new TGHotString("CUT1             "), 2);
+	fRBCut[3] = new TGRadioButton(fBGCut, new TGHotString("CUT2             "), 3);
+	fRBCut[4] = new TGRadioButton(fBGCut, new TGHotString("CUT3             "), 4);
 	fBGCut->Connect("Pressed(int)", "MyMainFrame", this, "UpdateCut(int)");
 	fBGCut->SetExclusive();
 	fRBCut[0]->SetState(kButtonDown);

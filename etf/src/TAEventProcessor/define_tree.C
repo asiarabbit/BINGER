@@ -8,7 +8,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/21.															     //
-// Last modified: 2018/6/29, SUN Yazhou.										     //
+// Last modified: 2018/8/27, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -49,12 +49,6 @@
 	treeTrack->Branch("bunchId", &bunchId, "bunchId/I");
 	treeTrack->Branch("mag", &mag, "mag/D");
 	treeTrack->Branch("tof1", &tof1, "tof1/D"); // tof from T0_0 to T0_1
-	treeTrack->Branch("tof1vme", &tof1vme, "tof1vme/D"); // tof from T0_0 to T0_1
-	treeTrack->Branch("tof1tac", &tof1tac, "tof1tac/D"); // tof from T0_0 to T0_1
-	treeTrack->Branch("dE0", &dE0, "dE0/D"); // energy loss before TA
-	treeTrack->Branch("dE1", &dE1, "dE1/D"); // energy loss after TA
-	treeTrack->Branch("dsca10", &dsca10, "dsca10/I"); // energy loss after TA
-	treeTrack->Branch("dsca11", &dsca11, "dsca11/I"); // energy loss after TA
 	treeTrack->Branch("tRef", &tRef, "tRef/D");
 	treeTrack->Branch("tRef_pos", &tRef_pos, "tRef_pos/D");
 	treeTrack->Branch("tRef_UV_NL", &tRef_UV_NL, "tRef_UV_NL/I"); // number of leading edge(s)
@@ -106,12 +100,20 @@
 		treeTrack->Branch("angTaOut", yp, "angTaOut[ntr][2]/D"); // out angle at the target hit point
 		treeTrack->Branch("aozdmin", aozdmin, "aozdmin[ntr]/D"); // start for iterative fit, necessary
 	} // end if(IsPID())
+	if(vme){ // vme - integrated Daq part
+		treeTrack->Branch("tof1vme", &tof1vme, "tof1vme/D"); // tof from T0_0 to T0_1
+		treeTrack->Branch("tof1tac", &tof1tac, "tof1tac/D"); // tof from T0_0 to T0_1
+		treeTrack->Branch("dE0", &dE0, "dE0/D"); // energy loss before TA
+		treeTrack->Branch("dE1", &dE1, "dE1/D"); // energy loss after TA
+		treeTrack->Branch("dsca10", &dsca10, "dsca10/I"); // pileUp - count TOF stop
+		treeTrack->Branch("dsca11", &dsca11, "dsca11/I"); // pileUp - count AMP gates
+	}
 	objLsTree.push_back(treeTrack);
 
 	// Multiplicity
-	short multi_DC[2][3][3][2]; // DCArr[L-R][DC0-1-2][XUV][X1-2]
-	short multi_DCTa[2][2][2][2]; // DCTaArr[U-D][DC0-1][XY][X1-2]
-	short multi_PDC[2][2][2][2]; // PDCArr[U-D][DC0-1][XY][X1-2]
+	short multi_DC[2][3][3][2]{}; // DCArr[L-R][DC0-1-2][XUV][X1-2]
+	short multi_DCTa[2][2][2][2]{}; // DCTaArr[U-D][DC0-1][XY][X1-2]
+	short multi_PDC[2][2][2][2]{}; // PDCArr[U-D][DC0-1][XY][X1-2]
 	TTree *treeMulti = new TTree("treeMulti", "DC multiplicity");
 	treeMulti->Branch("multi_DC", multi_DC, "multi_DC[2][3][3][2]/S");
 	treeMulti->Branch("multi_DCTa", multi_DCTa, "multi_DCTa[2][2][2][2]/S");
@@ -119,10 +121,11 @@
 	objLsTree.push_back(treeMulti);
 
 	// time to T-Reference
-	double ttRef_DC[2][3][3][2]; // DCArr[L-R][DC0-1-2][XUV][X1-2]
-	double ttRef_DCTa[2][2][2][2]; // DCTaArr[U-D][DC0-1][XY][X1-2]
-	double ttRef_PDC[2][2][2][2]; // PDCArr[U-D][DC0-1][XY][X1-2]
-	double ttRef_TOFW[2]; // DCArr[L-R]
+	// ********* this is for the last fired anode in a certain sense wire layer for convenience
+	double ttRef_DC[2][3][3][2]{}; // DCArr[L-R][DC0-1-2][XUV][X1-2]
+	double ttRef_DCTa[2][2][2][2]{}; // DCTaArr[U-D][DC0-1][XY][X1-2]
+	double ttRef_PDC[2][2][2][2]{}; // PDCArr[U-D][DC0-1][XY][X1-2]
+	double ttRef_TOFW[2]{}; // DCArr[L-R]
 	TTree *treeTTRef = new TTree("treeTTRef", "Time to Reference");
 	treeTTRef->Branch("ttRef_DC", ttRef_DC, "ttRef_DC[2][3][3][2]/D");
 	treeTTRef->Branch("ttRef_DCTa", ttRef_DCTa, "ttRef_DCTa[2][2][2][2]/D");
@@ -280,7 +283,35 @@
 		treeOpticFiberArr->Branch("pos", pos_opfa, "pos[40]/D");
 		objLsTree.push_back(treeOpticFiberArr);
 	}
+	
+	
+	// pile up evidence provided by DCs //
+	// for PDCs
+	int PDC_NLM[2][2][2][2]{}; // [U-D][PDC0-1][X-Y][X1-X2]
+	double PDC_LTM[2][2][2][2]{};
+	TTree *treePDCPileUp = new TTree("treePDCPileUp", "treePDCPileUp");
+	if(vme){
+		treePDCPileUp->Branch("index", &index, "index/I");
+		treePDCPileUp->Branch("PDC_NLM", PDC_NLM, "PDC_NLM[2][2][2][2]/I");
+		treePDCPileUp->Branch("PDC_LTM", PDC_LTM, "PDC_LTM[2][2][2][2]/D");
+		objLsTree.push_back(treePDCPileUp);
+	}
+	// for DCs
+	int DC_NLM[2][3][3][2]{}; // [L-R][DC0-1-2][X-U-V][X1-X2]
+	double DC_LTM[2][3][3][2]{};
+	TTree *treeDCPileUp[2]{};
+	treeDCPileUp[0] = new TTree("treeDCLPileUp", "PileUp tree for DCArr L");
+	treeDCPileUp[1] = new TTree("treeDCRPileUp", "PileUp tree for DCArr R");
+	for(int i = 0; i < 2; i++){
+		if(dcArr[i]){
+			treeDCPileUp[i]->Branch("index", &index, "index/I");
+			treeDCPileUp[i]->Branch("DC_NLM", DC_NLM[i], "DC_NLM[3][3][2]/I");
+			treeDCPileUp[i]->Branch("DC_LTM", DC_LTM[i], "DC_LTM[3][3][2]/D");
+			objLsTree.push_back(treeDCPileUp[i]);
+		} // end if
+	} // end for over DCArrL-R
 
-	int cntII = 0;
+
+
 
 

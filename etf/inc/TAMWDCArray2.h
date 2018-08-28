@@ -63,7 +63,7 @@ protected:
 	// 0: the two tracks are different; 1: newTrack is defeated by  oldTrack
 	// 2: newTrack defeats oldTrack
 	// dcType: [0-1]: [X-Y]
-	static int compare(TATrack2 *newTrack, TATrack2 *oldTATrack, int dcType = 0, bool show = false);
+	int compare(TATrack2 *newTrack, TATrack2 *oldTATrack, int dcType = 0, bool show = false);
 
 	TAMWDC *fMWDC[2]; // two MWDCs in the MWDC array
 	// projection of 3-D track to the normals of [X-Y] sense wire layers

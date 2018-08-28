@@ -8,7 +8,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/21.															     //
-// Last modified: 2018/6/9, SUN Yazhou.											     //
+// Last modified: 2018/8/27, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -207,9 +207,11 @@
 	hTOFWTOTUV[0] = new TH2F("hLTOFWTOTUV", "hLTOFWTOTUV;edgeNumId;TOT [ns]", 7, -1.5, 5.5, 8000, -4000., 6000.);
 	hTOFWTOTUV[1] = new TH2F("hRTOFWTOTUV", "hRTOFWTOTUV;edgeNumId;TOT [ns]", 7, -1.5, 5.5, 8000, -4000., 6000.);
 	TH2F *hDCToTrig = new TH2F("hDCToTrig", "hDCToTrig;edgeNumId;timeToTrig [ns]", 7, -1.5, 5.5, 8000, -4000., 6000.);
+	TH2F *hDCToTrigNoPU = new TH2F("hDCToTrigNoPU", "hDCToTrig - dsca11==0;edgeNumId;timeToTrig [ns]", 7, -1.5, 5.5, 8000, -4000., 6000.);
 	TH1F *htof1 = new TH1F("htof1", "tof1", 1000, -10., 300.);
 	objLs[6].push_back(htof2sipmArr); objLs[6].push_back(hsipmArrToTrig);
 	objLs[6].push_back(hTOF_T1_pos); objLs[6].push_back(hDCToTrig);
+	if(vme) objLs[6].push_back(hDCToTrigNoPU);
 	objLs[6].push_back(hT0_1ToTrigUV); objLs[6].push_back(hT0_1ToTrigDV);
 	objLs[6].push_back(hTOFWToTrigUV[0]); objLs[6].push_back(hTOFWToTrigUV[1]);
 	objLs[6].push_back(hTOFWTOTUV[0]); objLs[6].push_back(hTOFWTOTUV[1]);
@@ -296,6 +298,8 @@
 	} // end for over DC arrays
 	TH2F *hPDCToTrig = new TH2F("hPDCToTrig", "hPDCToTrig;edgeNumId;timeToTrig [ns]", 7, -1.5, 5.5, 10000, -4000., 16000.);
 	objLs[6].push_back(hPDCToTrig);
+	TH2F *hPDCToTrigNoPU = new TH2F("hPDCToTrigNoPU", "hPDCToTrig - dsca11==0;edgeNumId;timeToTrig [ns]", 7, -1.5, 5.5, 10000, -4000., 16000.);
+	if(vme) objLs[6].push_back(hPDCToTrigNoPU);
 
 
 
