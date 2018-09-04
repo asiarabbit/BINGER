@@ -50,7 +50,7 @@ TATrack::TATrack(const TATrack &track){
 TATrack &TATrack::operator=(const TATrack &track){
 	if(this == &track) return *this;
 	SetName(track.GetName()); SetTitle(track.GetTitle());
-	for(int i = 0; i < 8; i++){
+	for(int i = 0; i < 6; i++){
 		fZ[i] = track.fZ[i]; fX[i] = track.fX[i];
 		fR[i] = track.fR[i]; fT[i] = track.fT[i];
 		fWeight[i] = track.fWeight[i];

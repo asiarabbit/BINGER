@@ -289,7 +289,7 @@ int TARawDataProcessor::ReadOfflinePXI(){
 				if(fread(offset, sizeof(int), va_ch_nu, fp) <= 0) break; // read offset table at a time
 				for(int j = 0; j < va_ch_nu - 1; j++) edge_num[j] = (offset[j + 1] - offset[j]) / 4; // obtain edge number of each fired channel in the fragment. The last word of the data of the fragment is a group header, which is not processed here.
 			} // end else
-
+			
 
 ////////////////////////////////// processing one channel //////////////////////////////////////////////////////////////////////////////////////////////
 			// within the circle of fired fragment(s)

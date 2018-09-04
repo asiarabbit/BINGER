@@ -48,7 +48,7 @@
 			// track information
 			const double &kl = k[j]; // to distinguish slope k from incremental k below
 			static const bool usingPDC = bool(TAGPar::Instance()->Val(83));
-			for(int k = 0; k < 8; k++){ // loop over anode layers
+			for(int k = 0; k < 6; k++){ // loop over anode layers
 				short dcId = k/2; // DC[0-1-2]
 				short layerOption = k%2+1; // 1: X(U,V)1; 2: X(U,V)2
 				nu[j][k] = tra->nu[k];
@@ -308,8 +308,7 @@
 					for(int jj = n3Dtr; jj < n3DtrT; jj++){
 						if(0 == trk3DIf[jj].isDCArrR){ // DCArrU
 							if(-2 != trk3DIf[jj].firedStripId)
-								TAPopMsg::Error("TAEventProcessor", "Run: fill_post: abnormal firedStripId\
- for 3D DCArrUD tracks: %d", trk3DIf[jj].firedStripId);
+								TAPopMsg::Error("TAEventProcessor", "Run: fill_post: abnormal firedStripId for 3D DCArrUD tracks: %d", trk3DIf[jj].firedStripId);
 							pIn0[0] = trk3DIf[jj].k1; pIn0[2] = trk3DIf[jj].b1;
 							pIn0[1] = trk3DIf[jj].k2; pIn0[3] = trk3DIf[jj].b2;
 							break;
@@ -320,8 +319,7 @@
 					for(int jj = n3Dtr; jj < n3DtrT; jj++){
 						if(1 == trk3DIf[jj].isDCArrR){ // DCArrD
 							if(-2 != trk3DIf[jj].firedStripId)
-								TAPopMsg::Error("TAEventProcessor", "Run: fill_post: abnormal firedStripId\
- for 3D DCArrUD tracks: %d", trk3DIf[jj].firedStripId);
+								TAPopMsg::Error("TAEventProcessor", "Run: fill_post: abnormal firedStripId for 3D DCArrUD tracks: %d", trk3DIf[jj].firedStripId);
 							pIn[0] = trk3DIf[jj].k1; pIn[2] = trk3DIf[jj].b1;
 							pIn[1] = trk3DIf[jj].k2; pIn[3] = trk3DIf[jj].b2;
 							break;
@@ -384,7 +382,7 @@
 		// update drift time and drift distance
 		for(int j = 0; j < ntrT; j++){
 			tTrack *&tra = track_ls[j];
-			for(int k = 0; k < 8; k++){
+			for(int k = 0; k < 6; k++){
 				t[j][k] = tra->t[k];
 				r[j][k] = tra->r[k];
 				TOT_DC[j][k] = tra->dcTOT[k]; // update TOT

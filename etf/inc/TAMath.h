@@ -78,7 +78,6 @@ public:
 	// minimization and Least Squares Method functions, serving TATrack track fitting
 	// the least square fit of fired andoes
 	static double Dsquare(const double *x, const double *y, double &kL, double &bL, int gGOOD, const int *LAYER, double DsqThrePerDot); // a global function
-	static double Dsquare8(const double *x, const double *y, double &kL, double &bL, int gGOOD, const int *LAYER, double DsqThrePerDot); // a global function
 	// calculate chi of line(k, b) to drift distance set (x, y, r).
 	static double minid2(const double *x, const double *y, const double *r, double k, double b, int gGOOD, const int *LAYER); // a global function
 	// distance between two skew lines
@@ -92,7 +91,6 @@ public:
 	// fit using BFGS minimization algorithm
 	static double refinedFitBFGS(const double *z, const double *x, const double *r, double &k, double &b, int gGOOD, const int *LAYER, double d2ThrePerDot);
 	static double iterativeFit(const double *z, const double *x, const double *r, double &k, double &b, int gGOOD, const int *LAYER, double d2ThrePerDot);
-	static double iterativeFit8(const double *z, const double *x, const double *r, double &k, double &b, int gGOOD, const int *LAYER, double d2ThrePerDot);
 	static const double kzMagIn, kzMagOut;
 };
 

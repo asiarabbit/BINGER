@@ -25,7 +25,7 @@ using std::endl;
 
 tTrack::tTrack(){ initialize(); } // the default constructor
 void tTrack::initialize(){
-	for(int i = 0; i < 8; i++){
+	for(int i = 0; i < 6; i++){
 		nu[i] = -1; LAYER[i] = -1;
 		z[i] = -9999.; x[i] = -9999.;
 		t[i] = -9999.; r[i] = -9999.;

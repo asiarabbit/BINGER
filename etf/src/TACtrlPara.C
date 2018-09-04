@@ -138,7 +138,6 @@ bool TACtrlPara::TOFWallStripStrayTest(double strayMin, unsigned uid) const{
 }
 double TACtrlPara::T_tofDCtoTOFW(unsigned uid){
 	int type[6]{}; TAUIDParser::DNS(type, uid);
-	if(4 == type[0] && 3 == type[1]) type[1] = 2;
 	if(3 != type[0] && 4 != type[0] && 6 != type[0] && 7 != type[0] && 8 != type[0] && 9 != type[0])
 		TAPopMsg::Error("TACtrlPara", "T_tofDCtoTOFW: Not an MWDC array");
 	// MWDC Array L-R
@@ -167,7 +166,6 @@ double TACtrlPara::T_tofDCtoTOFW(unsigned uid){
 }
 double TACtrlPara::T_wireMean(unsigned uid){
 	int type[6]{}; TAUIDParser::DNS(type, uid);
-	if(4 == type[0] && 3 == type[1]) type[1] = 2;
 	if(3 != type[0] && 4 != type[0] && 6 != type[0] && 7 != type[0] && 8 != type[0] && 9 != type[0])
 		TAPopMsg::Error("TACtrlPara", "T_wireMean: Not an MWDC array");
 	// MWDC Array L-R
@@ -314,7 +312,6 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 
 	unsigned uid = para->GetUID();
 	int type[6]{}; TAUIDParser::DNS(type, uid);
-	if(4 == type[0] && 3 == type[1]) type[1] = 2;
 	if(3 == type[0] || 4 == type[0]){ // MWDC array L-R
 			if(type[1] < 0 || type[1] > 2) TAPopMsg::Error("TACtrlPara", "AssignSTR: input anode para uid error: DCid: type[1]: %d", type[1]);
 			if(type[2] < 0 || type[2] > 2) TAPopMsg::Error("TACtrlPara", "AssignSTR: input anode para uid error: DCType: type[2]: %d", type[2]);

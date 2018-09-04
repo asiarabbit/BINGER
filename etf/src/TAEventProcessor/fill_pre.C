@@ -125,7 +125,7 @@
 		beta = -1.; // initialization
 		static const double L = 25.881 * 1000.; // the length of RIBLL2
 		tof1 = -9999.; // time of flight in RIBLL2
-		if(T0_0 && -9999. != tRef){
+		if(-9999. != tRef){
 			const double t0_0 = T0_0->GetTime(tRef);
 			if(-9999. != t0_0){
 				tof1 = tRef - t0_0;
@@ -153,7 +153,7 @@
 		// vme tof1
 
 		TOF_T1 = T0_1->GetTime();
-//		TOT_T0[0] = T0_0->GetUV()->GetTOT(); TOT_T0[1] = T0_0->GetUH()->GetTOT();
+		TOT_T0[0] = T0_0->GetUV()->GetTOT(); TOT_T0[1] = T0_0->GetUH()->GetTOT();
 		TOT_T0[2] = T0_1->GetUV()->GetTOT(); TOT_T0[3] = T0_1->GetUH()->GetTOT();
 		TOT_T0[4] = T0_1->GetDV()->GetTOT(); TOT_T0[5] = T0_1->GetDH()->GetTOT();
 
@@ -171,44 +171,41 @@
 //		}
 //		getchar(); // DEBUG
 
-
 		////////////// detector performance statistics //////////////
 		// the MWDC arrays downstream of the target //
 		for(int ii = 0; ii < 2; ii++) if(dcArr[ii]){ // loop over MWDC arrays
-			if(tofw[ii]){
-				ttRef_TOFW[ii] = -9999.;
-				tofw[ii]->GetFiredStripArr(multiTOFW_pre[ii], hitIdLsTOFW_pre[ii], hitStaLsTOFW_pre[ii], uvlTLsTOFW_pre[ii], dvlTLsTOFW_pre[ii]);
-				for(TAPlaStrip *&str : tofw[ii]->GetStripArr()){
-					const int sta = str->GetFiredStatus();
-					const int strId = str->GetStripId();
-	//				cout << "strId: " << strId << "\tsta: " << sta << endl; getchar(); // DEBUG
-					if(4 == sta) hTOFWFiredDist[ii]->Fill(strId);
-					if(4 == sta || 3 == sta){
-	//					if(15 == strId)
-						{
-							for(int j = 0; j < str->GetUV()->GetData()->GetNLeadingEdge(); j++){
-								hTOFWToTrigUV[ii]->Fill(j, str->GetUV()->GetTime(j));
-								hTOFWTOTUV[ii]->Fill(j, str->GetUV()->GetTOT(j));
-							}
-						}
-						hTOFWHitPos[ii]->Fill(strId, str->GetHitPosition());
-						double tofwToTrig = str->GetTime(0., gpar->Val(5), gpar->Val(6));
-						double tofwToTRef = tofwToTrig - tofw[ii]->GetDelayAvrg() - tRef;
-						if(-9999. != tRef){
-							hTOFWToTRef[ii]->Fill(strId, tofwToTRef);
-							ttRef_TOFW[ii] = tofwToTRef;
-						}
-						// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
-	//					cout << "tofwToTrig: " << tofwToTrig << endl; getchar(); // DEBUG
-						if(!(tofwToTrig > gpar->Val(5) && tofwToTrig < gpar->Val(6))){ // belongs to the trigger-generating particle // (300., 700.)->pion2017; (1120., 1160.)->beamTest2016
-							str->GetStripData()->SetFiredStatus(-10); // manually altered
+			ttRef_TOFW[ii] = -9999.;
+			tofw[ii]->GetFiredStripArr(multiTOFW_pre[ii], hitIdLsTOFW_pre[ii], hitStaLsTOFW_pre[ii], uvlTLsTOFW_pre[ii], dvlTLsTOFW_pre[ii]);
+			for(TAPlaStrip *&str : tofw[ii]->GetStripArr()){
+				const int sta = str->GetFiredStatus();
+				const int strId = str->GetStripId();
+//				cout << "strId: " << strId << "\tsta: " << sta << endl; getchar(); // DEBUG
+				if(4 == sta) hTOFWFiredDist[ii]->Fill(strId);
+				if(4 == sta || 3 == sta){
+//					if(15 == strId)
+					{
+						for(int j = 0; j < str->GetUV()->GetData()->GetNLeadingEdge(); j++){
+							hTOFWToTrigUV[ii]->Fill(j, str->GetUV()->GetTime(j));
+							hTOFWTOTUV[ii]->Fill(j, str->GetUV()->GetTOT(j));
 						}
 					}
-				} // end for over TOFW strips
-				tofw[ii]->GetFiredStripArr(multiTOFW_post[ii], hitIdLsTOFW_post[ii]);
-				hTOFWMulti[ii]->Fill(tofw[ii]->GetNFiredStrip());
-			} // end if(tofw[ii])
-			for(int j = 0; j < 4; j++){ // loop over the four MWDCs
+					hTOFWHitPos[ii]->Fill(strId, str->GetHitPosition());
+					double tofwToTrig = str->GetTime(0., gpar->Val(5), gpar->Val(6));
+					double tofwToTRef = tofwToTrig - tofw[ii]->GetDelayAvrg() - tRef;
+					if(-9999. != tRef){
+						hTOFWToTRef[ii]->Fill(strId, tofwToTRef);
+						ttRef_TOFW[ii] = tofwToTRef;
+					}
+					// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
+//					cout << "tofwToTrig: " << tofwToTrig << endl; getchar(); // DEBUG
+					if(!(tofwToTrig > gpar->Val(5) && tofwToTrig < gpar->Val(6))){ // belongs to the trigger-generating particle // (300., 700.)->pion2017; (1120., 1160.)->beamTest2016
+						str->GetStripData()->SetFiredStatus(-10); // manually altered
+					}
+				}
+			} // end for over TOFW strips
+			tofw[ii]->GetFiredStripArr(multiTOFW_post[ii], hitIdLsTOFW_post[ii]);
+			hTOFWMulti[ii]->Fill(tofw[ii]->GetNFiredStrip());
+			for(int j = 0; j < 3; j++){ // loop over the three MWDCs
 				const int nsl = dc[ii][j]->GetNSLayer();
 				const int na = dc[ii][j]->GetNAnodePerLayer();
 				for(int k = 0; k < nsl; k++){ // loop over XUV SLayers
@@ -243,13 +240,11 @@
 							}
 						} // end for over anode of one layer
 						multi_DC[ii][j][k][l] = dc[ii][j]->GetNFiredAnodePerLayer(k, l+1);
-						hDCMulti[ii][j][k][l]->Fill(multi_DC[ii][j][k][l]);
-//cout << "mark 1" << endl; getchar();
+						hDCMulti[ii][j][k][l]->Fill(dc[ii][j]->GetNFiredAnodePerLayer(k, l+1));
 					} // end for over layer 1 and 2
 				} // end for over X-U-V
 			} // end for over DCs
 		} // end for over DC arrays
-
 
 		// MWDC arrays around the target //
 		// DCs made by P. Ma
@@ -429,6 +424,7 @@
 				if(-9999. == pos_opfa[i]) tmp++;
 			}
 		} // end if(opfa)
+
 
 
 
