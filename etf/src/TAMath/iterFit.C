@@ -32,7 +32,7 @@ double TAMath::iterativeFit(const double *x, const double *y, const double *r,
 	for(int i = n; i--;){
 		for(int j = 0; j < nF; j++){
 			const short s = LAYER[j];
-			sign[s] = 2 * ((i>>j) & 1) - 1;
+			sign[s] = 2 * ((i>>j) & 0x1) - 1;
 			xt[s] = x[s] + sign[s] * r[s] * sinTheta;
 			yt[s] = y[s] - sign[s] * r[s] * cosTheta;
 		}

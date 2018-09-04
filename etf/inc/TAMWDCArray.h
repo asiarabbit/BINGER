@@ -40,7 +40,7 @@ public:
 	virtual ~TAMWDCArray() = 0; // abstract base class
 
 	vector<TATrack *> &GetTrackList(int dcType);
-	TAMWDC *GetMWDC(int dcId) const; // get MWDC #dcId
+	virtual TAMWDC *GetMWDC(int dcId) const; // get MWDC #dcId
 	TATOFWall *GetTOFWall() const;
 	TAPlaStrip *GetPlaT0() const;
 	void SetPlaT0(TAPlaStrip *t0);
@@ -84,7 +84,7 @@ protected:
 	double GetWirePropagationLength(const double *b, const double *B, int nu, int j, int k);
 	double GetDistanceOfFlight(const double *b, const double *B, int nu, int j, int k, int firedStripId);
 
-	TAMWDC *fMWDC[3]; // three MWDCs in the MWDC array
+	TAMWDC *fMWDC[4]; // three MWDCs in the MWDC array
 	TATOFWall *fTOFWall; // the TOF wall
 	TAPlaStrip *fPlaT0; // the plastic scintillator placed around the target for beam timing
 

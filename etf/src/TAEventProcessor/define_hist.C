@@ -46,7 +46,8 @@
 	TAMWDCArray2 *dcArr2[2]{0}; // MWDC arrays upstream of the dipole magnet
 	TAMWDCArray2 *pdcArr2[2]{0}; // PDC arrays upstream of the dipole magnet
 	dcArr[0] = (TAMWDCArray*)det_vec[3]; // dc array L
-	dcArr[1] = (TAMWDCArray*)det_vec[4]; // dc array R
+//	dcArr[1] = (TAMWDCArray*)det_vec[4]; // dc array R
+	dcArr[1] = (TAMWDCArray4*)det_vec[4]; // dc array 4 // XXX: for Ma's DCs
 	dcArr2[0] = (TAMWDCArray2*)det_vec[6]; // dc array U
 	dcArr2[1] = (TAMWDCArray2*)det_vec[7]; // dc array D
 	pdcArr2[0] = (TAMWDCArray2*)det_vec[8]; // pdc array U
@@ -58,10 +59,10 @@
 	TAOpticFiberArray *opfa = (TAOpticFiberArray*)det_vec[19]; // optic fiber array made by Cheng
 	TATOFWall *tofw[2]{0};
 	if(dcArr[0]) tofw[0] = dcArr[0]->GetTOFWall();
-	if(dcArr[1]) tofw[1] = dcArr[1]->GetTOFWall();
+//	if(dcArr[1]) tofw[1] = dcArr[1]->GetTOFWall();
 	// dc downstream and upstream of the dipole magnet, pdc: same role as dc2
-	TAMWDC *dc[2][3]{0}, *dc2[2][2]{0}, *pdc2[2][2]{0};
-	for(int i = 2; i--;) for(int j = 3; j--;) if(dcArr[i]) dc[i][j] = dcArr[i]->GetMWDC(j);
+	TAMWDC *dc[2][4]{0}, *dc2[2][2]{0}, *pdc2[2][2]{0};
+	for(int i = 2; i--;) for(int j = 4; j--;) if(dcArr[i]) dc[i][j] = dcArr[i]->GetMWDC(j);
 	for(int i = 2; i--;) for(int j = 2; j--;) if(dcArr2[i]) dc2[i][j] = dcArr2[i]->GetMWDC(j);
 	for(int i = 2; i--;) for(int j = 2; j--;) if(pdcArr2[i]) pdc2[i][j] = pdcArr2[i]->GetMWDC(j);
 //	TAAnode *ano = dc[1][1]->GetAnodeL1(1, 58); // DEBUG
@@ -107,12 +108,12 @@
 
 	// ------- comprehensive performance indicators for individual detectors ------- //
 	// fired distributions, multiplicities and drift time distributions specifically for MWDCs
-	TH1F *hTOFWFiredDist[2], *hDCFiredDist[2][3][3]; // [dcArrL-R], [dcArrL-R][DC0-1-2][X-U-V];
-	TH2F *hTOFWToTRef[2]; TH1F *hDCToTRef[2][3][3]; // [dcArrL-R], [dcArrL-R][DC0-1-2][X-U-V];
-	TH1F *hTOFWMulti[2], *hDCMulti[2][3][3][2]; // [dcArrL-R], [dcArrL-R][DC0-1-2][X-U-V][1,2];
+	TH1F *hTOFWFiredDist[2], *hDCFiredDist[2][4][3]; // [dcArrL-R], [dcArrL-R][DC0-1-2][X-U-V];
+	TH2F *hTOFWToTRef[2]; TH1F *hDCToTRef[2][4][3]; // [dcArrL-R], [dcArrL-R][DC0-1-2][X-U-V];
+	TH1F *hTOFWMulti[2], *hDCMulti[2][4][3][2]; // [dcArrL-R], [dcArrL-R][DC0-1-2][X-U-V][1,2];
 	// PosCmp: hit position in TOFW strip, rough and refine, from Down End to up end (0-1200).
 	TH2F *hTOFWHitPos[2], *hTOFWHitPosCmp[2]; // [dcArrL-R], Cmp: posY calculated via dt v.s. 3D trks
-	TH1F *hdt[2][3][3]; // [dcArrL-R][DC0-1-2][X-U-V]
+	TH1F *hdt[2][4][3]; // [dcArrL-R][DC0-1-2][X-U-V]
 	for(int i = 0; i < 2; i++){ // loop over MWDC arrays
 		// TOFWall fired distribution
 		sprintf(name, "hTOFWFiredDistDCArr%c", LR[i]);
@@ -138,7 +139,7 @@
 		sprintf(title, "h%cTOFWToTRefUV;stripId;timeToTRef [ns]", LR[i]);
 		hTOFWToTRef[i] = new TH2F(name, title, 33, -1.5, 31.5, 30000, -200., 800.);
 		objLs[7].push_back(hTOFWToTRef[i]);
-		for(int j = 0; j < 3; j++){ // loop over the three MWDCs
+		for(int j = 0; j < 4; j++){ // loop over the four MWDCs
 			for(int k = 0; k < 3; k++){ // loop over XUV SLayers
 				for(int l = 0; l < 2; l++){ // loop over X[UV]1-2
 					// DC hit multiplicity

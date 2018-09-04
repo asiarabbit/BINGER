@@ -33,7 +33,7 @@ public:
 	virtual ~TATrack();
 	
 	// the get functions
-	double GetDsquare();
+	virtual double GetDsquare();
 	double GetChi2();
 	double GetChi(); // sqrt(chi2) / nFiredAnodeLayer
 	double GetSlope();
@@ -77,11 +77,11 @@ public:
 	void Set3DId(int id){ f3DId = id; }
 	
 	// the fit method
-	void Fit();
+	virtual void Fit();
 	// show information about the track
 	virtual void Show();
 	// a method dedicated for TAVisual::Fill()
-	void FillTrack(TGraph *gTrack, TGraph *gTrack_R);
+	virtual void FillTrack(TGraph *gTrack, TGraph *gTrack_R);
 
 	virtual void Initialize();
 
@@ -96,21 +96,21 @@ protected:
 	// fit functions
 	// general recursive fit
 	void NormalFit(); // fit using normal and conventional searching minimization method.
-	void BFGSFit(); // fit using BFGS minimization method.
-	void IterFit(); // fit using iteartion minimization method, relatively coarse, but fast, so is more preferrable and recommended.
+	virtual void BFGSFit(); // fit using BFGS minimization method.
+	virtual void IterFit(); // fit using iteartion minimization method, relatively coarse, but fast, so is more preferrable and recommended.
 
-	// there are six anode layers for each MWDC array in the External Target Facility,
-	// hence the length of the data array being 6.
-	double fZ[6];
-	double fX[6];
-	double fR[6];
-	double fT[6]; // drift time
-	double fWeight[6]; // weight for weighted addition of chi to chi2
+	// there are six or eight anode layers for each MWDC array in the External Target Facility,
+	// hence the length of the data array being 8.
+	double fZ[8];
+	double fX[8];
+	double fR[8];
+	double fT[8]; // drift time
+	double fWeight[8]; // weight for weighted addition of chi to chi2
 	double fTOF;
 	double fNStripStray; // count of strips from a fired strips to the fitted track
 	int fFiredStripId; // serial id of the fired TOF wall strip for the track
-	int fNu[6]; // the fired anode serial id in each of the six anode layers for the track specifically
-	int fLAYER[6]; // to tell the condition of the 6 fired andoe layers
+	int fNu[8]; // the fired anode serial id in each of the six or eight anode layers for the track specifically
+	int fLAYER[8]; // to tell the condition of the 6 fired andoe layers
 	int f3DId; // 3-D track identifier
 	int fNFiredAnodeLayer; // count of fired anodes for the track
 	int fgGOOD; // count of fired anodes for the track, but a little different from fNFiredAnodeLayer. 3, 4, 5 and 6. Less than 3 is not allowed, except 2, which has a special meaning. Three MWDC must all be fired, or value 2. You know that. It is the avatar of gGOOD. It is a very important variable and not to be messed with.
@@ -119,7 +119,7 @@ protected:
 	double fB; // the intercept of the linear track
 	double fChi2; // the sum of squares of fitting residuals of all the fired anodes
 	double fDsquare; // the Dsquare of least square fit of the fired andoes, regardless of drift time
-	double fChi[6]; // fit residue
+	double fChi[8]; // fit residue
 	// the value of fIsFitted can only be assigned true through Fit function
 	bool fIsFitted; // to tell if the data is fitted after either the data or the fit precision has been altered
 	bool fIsAssigned; // to tell if the track is not assigned

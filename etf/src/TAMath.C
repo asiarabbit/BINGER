@@ -236,6 +236,7 @@ double TAMath::rho(double kin, double bin, double kout, double bout, double *zo,
 // definitions for fit functions serving class TATrack.
 #include "TAMath/deviaFun.C" // Dsquare, minid2 - global functions.
 #include "TAMath/iterFit.C" // iterativeFit - TAMath member function
+#include "TAMath/iterFit8.C" // iterativeFit - TAMath member function
 #include "TAMath/refinedFit.C" // refinedFit - TAMath member function.
 #include "TAMath/bfgs2.C" // refinedFitBFGS - TAMath member function.
 #include "TAMath/bfgs4.C" // BFGS4 - TAMath member function for 3D linear tracking

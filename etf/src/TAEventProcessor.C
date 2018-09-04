@@ -44,6 +44,7 @@
 #include "TASiPMPlaArray.h"
 #include "TAMWDCArrayL.h"
 #include "TAMWDCArrayR.h"
+#include "TAMWDCArray4.h"
 #include "TAMWDCArrayM.h" // derived from TAMWDCArrayR
 #include "TASiPMPlaArray.h"
 #include "TAMWDCArrayU.h"
@@ -251,9 +252,10 @@ void TAEventProcessor::Configure(){
 		return;
 	}
 	// select an experiment, to direct to a directory containing the exp config parameters
-	const char dir[7][64] = {"pion_2017Oct", "beamTest_2016Nov", "C16_Exp_2018_Summer",
-		"tripletDC_P_Ma_Test", "tripletDC_P_Ma_Test_ETF", "OpticFiber", "C16_Exp_2018_July"};
-	const char *sdir = dir[6];
+	const char dir[8][64] = {"pion_2017Oct", "beamTest_2016Nov", "C16_Exp_2018_Summer",
+		"tripletDC_P_Ma_Test", "tripletDC_P_Ma_Test_ETF", "OpticFiber", "C16_Exp_2018_July",
+		 "quadrupleDC_P_Ma_Test"};
+	const char *sdir = dir[7];
 	TAPopMsg::Info("TAEventProcessor", "Configure: selected Exp Config Dir: %s", sdir);
 	SetConfigExpDir(sdir);
 	// STR_spline.root || STR_stiff.root || STR_aaa900.root
@@ -264,27 +266,28 @@ void TAEventProcessor::Configure(){
 	GetParaManager()->ReadParameters(nignore, typeignore);
 	// NOTE THAT THE SUBSCRIPT FOR EACH DETECTOR CANNOT in ANY CIRCUMSTANCES BE ALTERED //
 	// note that the detector UID has to be equal to the array detList subscript
-	detList[0] = new TAT0_0("T0_0", "T0_0@Mid-RIBLL2", 0); // shutdown: FORBIDDEN
+//	detList[0] = new TAT0_0("T0_0", "T0_0@Mid-RIBLL2", 0); // shutdown: FORBIDDEN
 	detList[1] = new TAT0_1("T0_1", "T0_1@End-RIBLL2", 1); // shutdown: FORBIDDEN
 //	detList[2] = new TASiPMPlaArray("SiPMPlaArray", "SiPMPlaArray@Post-Target", 2);
 //	detList[3] = new TAMWDCArrayL("DCArrayL", "DCArrayL@Post-Magnet", 3);
-	detList[4] = new TAMWDCArrayR("DCArrayR", "DCArrayR@Post-Magnet", 4);
+//	detList[4] = new TAMWDCArrayR("DCArrayR", "DCArrayR@Post-Magnet", 4);
+	detList[4] = new TAMWDCArray4("DCArray4", "DCArray4@P.Ma_LOWPRESSURE", 4);
 //	detList[4] = new TAMWDCArrayM("DCArrayM", "DCArrayM@P.Ma_TEST", 4);
 //	detList[5] = new TASiPMPlaBarrel("SiPMPlaBarrel", "SiPMPlaBarrel@Hug-Target", 5);
 //	detList[6] = new TAMWDCArrayU("DCArrayU", "DCArrayU@Pre-Target", 6);
 //	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7);
-	detList[8] = new TAPDCArrayU("PDCArrayU", "PDCArrayU@Pre-Target", 8);
-	detList[9] = new TAPDCArrayD("PDCArrayD", "PDCArrayD@Post-Target", 9);
+//	detList[8] = new TAPDCArrayU("PDCArrayU", "PDCArrayU@Pre-Target", 8);
+//	detList[9] = new TAPDCArrayD("PDCArrayD", "PDCArrayD@Post-Target", 9);
 //	detList[10] = new TAMUSICM("MUSICM", "MUSICM@Pre-Target", 10);
 //	detList[11] = new TAMUSICL("MUSICL", "MUSICL@Post-Target", 11);
 //	detList[12] = new TAT0_1("VETO_0", "VETO_0@Pre-MSUICF", 12);
 //	detList[13] = new TAT0_1("VETO_1", "VETO_1@Post-MSUICF", 13);
-	detList[14] = new TAT0_0("T0_0_VME0", "T0_0_VME0@Mid-RIBLL2", 14); // for PDCArrU
-	detList[15] = new TAT0_1("T0_1_VME0", "T0_1_VME1@End-RIBLL2", 15); // for PDCArrU
-	detList[16] = new TAT0_0("T0_0_VME1", "T0_0_VME0@Mid-RIBLL2", 16); // for PDCArrD
-	detList[17] = new TAT0_1("T0_1_VME1", "T0_1_VME1@End-RIBLL2", 17); // for PDCArrD
+//	detList[14] = new TAT0_0("T0_0_VME0", "T0_0_VME0@Mid-RIBLL2", 14); // for PDCArrU
+//	detList[15] = new TAT0_1("T0_1_VME0", "T0_1_VME1@End-RIBLL2", 15); // for PDCArrU
+//	detList[16] = new TAT0_0("T0_0_VME1", "T0_0_VME0@Mid-RIBLL2", 16); // for PDCArrD
+//	detList[17] = new TAT0_1("T0_1_VME1", "T0_1_VME1@End-RIBLL2", 17); // for PDCArrD
 //	detList[18] = new TAMUSICM("Si", "Si@Post-Target", 18);
-	detList[19] = new TAOpticFiberArray("OpticFiberArray", "OpticFiberArray", 19);
+//	detList[19] = new TAOpticFiberArray("OpticFiberArray", "OpticFiberArray", 19);
 
 	for(TADetUnion *&p : detList) if(p) p->Configure(); // build the detectors
 	// time start for DCArrU-D is TAT0_1
@@ -299,15 +302,15 @@ void TAEventProcessor::Configure(){
 	if(detList[8]) ((TAMWDCArray2*)detList[8])->SetPlaT0(str_t0_1_0); // PDCArrU
 	if(detList[9]) ((TAMWDCArray2*)detList[9])->SetPlaT0(str_t0_1_1); // PDCArrD // should be 1_1 for beam exp
 	// for P. Ma's test
-	bool isPMaTest = false;
+	bool isPMaTest = true;
 	if(isPMaTest && detList[4]){
-		TATOFWall *tofw = ((TAMWDCArrayM*)detList[4])->GetTOFWall();
-		vector<TAPlaStrip *> &stripArr = tofw->GetStripArr();
-		if(!stripArr.size()){ // strip array is empty
-			tofw->SetNStrip(1);
-			stripArr.push_back((TAPlaStrip*)str_t0_1);
-		}
-		if(!strcmp("tripletDC_P_Ma_Test_ETF", sdir)) str_t0_1->SetIsSingleEnd(true);
+//		TATOFWall *tofw = ((TAMWDCArrayM*)detList[4])->GetTOFWall();
+//		vector<TAPlaStrip *> &stripArr = tofw->GetStripArr();
+//		if(!stripArr.size()){ // strip array is empty
+//			tofw->SetNStrip(1);
+//			stripArr.push_back((TAPlaStrip*)str_t0_1);
+//		}
+		if(!strcmp("quadrupleDC_P_Ma_Test", sdir)) str_t0_1->SetIsSingleEnd(true);
 	} // end configuration of TOFWall for P. Ma's Test
 
 	// read all the parameters required and assign positiion parameters to every channel and alike
@@ -381,7 +384,8 @@ void TAEventProcessor::Assign(){
 				fEntryList.push_back(eUV);
 			}
 			if(DVF && UVF)
-				TAPopMsg::Error("TAEventProcessor", "Assign(): T0_1 singe-end readout, while DV and UV are both fired");
+				TAPopMsg::Error("TAEventProcessor", "Assign(): T0_1 singe-end readout,\
+ while DV and UV are both fired");
 		} // end for over entries
 	} // end if(T0_1->IsSingleEnd())
 
@@ -393,10 +397,10 @@ void TAEventProcessor::Assign(tEntry *entry){
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
 	int uid = GetParaManager()->GetUID(entry->channelId);
 	if(TAParaManager::UID_DUMMY == uid){ // entry with homeless channel id
-		strcpy(entry->name, "\033[31mDUMMY_CHANNEL\033[0m");
+		strcpy(entry->name, "\033[31mHOMELESS_CHANNEL\033[0m");
 		return;
 	}
-	if(TAParaManager::UID_DUMMY == uid){ // entry with uninitialized channel id
+	if(TAParaManager::UID_DUMMY * 2 == uid){ // entry with uninitialized channel id
 		strcpy(entry->name, "\033[31mEMPTY_CHANNEL\033[0m");
 		return;
 	}
@@ -439,24 +443,26 @@ void TAEventProcessor::Analyze(){
 	if(!IsTracking()) return;
 
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
-	static TAMWDCArrayL *dcArrL = (TAMWDCArrayL*)detList[3];
-	static TAMWDCArrayR *dcArrR = (TAMWDCArrayR*)detList[4];
+//	static TAMWDCArrayL *dcArrL = (TAMWDCArrayL*)detList[3];
+//	static TAMWDCArrayR *dcArrR = (TAMWDCArrayR*)detList[4];
 	// XXX: should be changed to R for 16C
 //	static TAMWDCArrayR *dcArrR = dynamic_cast<TAMWDCArrayM*>(detList[4]);
+	static TAMWDCArray4 *dcArrR = dynamic_cast<TAMWDCArray4*>(detList[4]);
 //	if(!dcArrR && detList[4]) TAPopMsg::Error("TAEvPsr", "Analyze: DCArrD not TAMWDCArrayM object.");
-	static TAMWDCArrayU *dcArrU = (TAMWDCArrayU*)detList[6];
-	static TAMWDCArrayD *dcArrD = (TAMWDCArrayD*)detList[7];
-	static TAPDCArrayU *pdcArrU = (TAPDCArrayU*)detList[8];
-	static TAPDCArrayD *pdcArrD = (TAPDCArrayD*)detList[9];
+//	static TAMWDCArrayU *dcArrU = (TAMWDCArrayU*)detList[6];
+//	static TAMWDCArrayD *dcArrD = (TAMWDCArrayD*)detList[7];
+//	static TAPDCArrayU *pdcArrU = (TAPDCArrayU*)detList[8];
+//	static TAPDCArrayD *pdcArrD = (TAPDCArrayD*)detList[9];
 
 	// pattern recognition and rough fit for particle tracking
 	//  XXX THE FOLLOWING ORDER CANNOT BE MESSED UP WITH XXX  //
-	if(dcArrL){ dcArrL->Map(); dcArrL->AssignTracks(fTrackList); }
+//	if(dcArrL){ dcArrL->Map(); dcArrL->AssignTracks(fTrackList); }
+//	if(dcArrR){ dcArrR->Map(); dcArrR->AssignTracks(fTrackList); }
 	if(dcArrR){ dcArrR->Map(); dcArrR->AssignTracks(fTrackList); }
-	if(dcArrU){ dcArrU->Map(); dcArrU->AssignTracks(fTrackList); }
-	if(dcArrD){ dcArrD->Map(); dcArrD->AssignTracks(fTrackList); }
-	if(pdcArrU){ pdcArrU->Map(); pdcArrU->AssignTracks(fTrackList); }
-	if(pdcArrD){ pdcArrD->Map(); pdcArrD->AssignTracks(fTrackList); }
+//	if(dcArrU){ dcArrU->Map(); dcArrU->AssignTracks(fTrackList); }
+//	if(dcArrD){ dcArrD->Map(); dcArrD->AssignTracks(fTrackList); }
+//	if(pdcArrU){ pdcArrU->Map(); pdcArrU->AssignTracks(fTrackList); }
+//	if(pdcArrD){ pdcArrD->Map(); pdcArrD->AssignTracks(fTrackList); }
 	// assign and output beta and index
 	int index = GetEntryList()[0]->index;
 	const int n3DTrkR = dcArrR->GetN3DTrack(); // number of 3D tracks in DCArrR

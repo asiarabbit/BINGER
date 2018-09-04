@@ -107,7 +107,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 		if(jjj < nAnodePerLayer2 && MWDC[2]->GetAnodeL2(dcType, jjj)->GetFiredStatus()) nu[5] = jjj; // DC2-X2 --------------------------------------
 		if(-1 == nu[5] && jjj < nAnodePerLayer2) continue;
 		
-			normalEvent = (nu[0] >= 0 || nu[1] >= 0) && (nu[2] >= 0 || nu[3] >= 0) && (nu[4] >= 0 || nu[5] >= 0); // Each MWDC has fired anode(s).
+			normalEvent = (nu[0] >= 0 || nu[1] >= 0) && (nu[2] >= 0 || nu[3] >= 0) && (nu[4] >= 0 || nu[5] >= 0); // Each MWDC has fired anode(s)
 //			if(!normalEvent) continue;
 			specialEvent = false;
 			if(!normalEvent){

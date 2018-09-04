@@ -23,21 +23,21 @@ struct tTrack{ // struct of tracks.
 	int index; // sec index
 	int gGOOD;
 	int nFiredAnodeLayer;
-	int nu[6];
-	int LAYER[6];
-	double z[6];
-	double x[6];
-	double t[6];
-	double dcTOT[6];
-	double w[6]; // weight
-	double r[6];
+	int nu[8];
+	int LAYER[8];
+	double z[8];
+	double x[8];
+	double t[8];
+	double dcTOT[8];
+	double w[8]; // weight
+	double r[8];
 	double TOF; // time tag from TOF Wall
 	double nStripStray; // count of strips from a fired strips to the fitted track
 	int firedStripId; // serial id of fired TOF wall strip for the track.
 	double k; // ->thetaOut
 	double b;
 	double dsquare;
-	double chi[6];
+	double chi[8];
 	double Chi; // sqrt(chi2 / nFiredAnodeLayer)
 	double chi2;
 	int type; // 1[LR][XUV] <=> 1[01][012]

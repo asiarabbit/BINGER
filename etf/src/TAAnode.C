@@ -99,7 +99,7 @@ double TAAnode::GetDriftTime(double &weight) const{
 		GetAnodePara()->DriftTimeQtCorrection(driftTime, GetTOT(), weight);
 	else weight = 1.; // the default weight value
 	return driftTime;
-} // end of function GetDriftTime().
+} // end of function GetDriftTime()
 // for generate simulation data //
 double TAAnode::GetDriftTime(double rr, double k){ // k is the track slope
 //	rr = 5.2273836; // DEBUG
@@ -146,17 +146,17 @@ double TAAnode::GetDriftDistance(double dt, double k){
 double TAAnode::GetDriftDistance(double dt, int STR_id){ // k is the track slope
 	double r_base = GetAnodePara()->GetSTR(STR_id)->Eval(dt); // the base drift distance
 	const short detId = GetAnodePara()->GetDetId();
-	if(8 == detId || 9 == detId){ // PDC array, large drift cells - 10mm max drift distance
-		static const double p[7] = {0.15774, 0.0212614, 0.000404477, -3.02031e-06, 8.88275e-09, -1.21066e-11, 6.31554e-15};
+	if(4 == detId || 9 == detId){ // PDC array, large drift cells - 10mm max drift distance
+		static const double p[7] = {0.150324, 0.110309, -0.00379359, 5.13088e-05, 3.62186e-06, -1.27e-07, 1.08317e-09};
 		r_base = p[6]*pow(dt,6)+p[5]*pow(dt,5)+p[4]*pow(dt,4)+p[3]*dt*dt*dt+p[2]*dt*dt+p[1]*dt+p[0]; // DEBUG
-		if(r_base < 0. || dt < -10.) r_base = 0.; // DEBUG
-		if(r_base > 10. || dt > 550.) r_base = 10.; // DEBUG
+		if(r_base < 0. || dt < -1.) r_base = 0.; // DEBUG
+		if(r_base > 2.5 || dt > 50.) r_base = 2.5; // DEBUG
 //		cout << "dt: " << dt << "\tr_base: " << r_base << endl; // DEBUG
 //		getchar(); // DEBUG
 		return r_base;
 	}
 	double r_correct = GetDriftDistanceCorrection(r_base, STR_id); // the anode-specific drift distance corection, determined by STR autocalibration
-	r_correct = GetDriftDistanceCorrection(r_base+r_correct, STR_id); // so the drift distance bin would be more accurate
+//	r_correct = GetDriftDistanceCorrection(r_base+r_correct, STR_id); // so the drift distance bin would be more accurate
 	double r = r_base + r_correct;
 //	cout << "dt: " << dt << "\tr_base: " << r_base << endl; getchar(); // DEBUG
 	return r > 0. ? r : 0.;

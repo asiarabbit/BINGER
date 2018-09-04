@@ -33,7 +33,8 @@ double TAMath::refinedFitBFGS(const double *x, const double *y, const double *r,
 	if(TACtrlPara::Instance()->IsCoarseFit()){ // if use dsquare as the fit method
 		kL = par[18]; bL = par[19]; return d2min;
 	} // end if
-	for(int i = 0; i < 6; i++){
+	const int n = 6; // number of sense wire layers
+	for(int i = 0; i < n; i++){
 		par[i]      = x[i];
 		par[6 + i]  = y[i];
 		par[12 + i] = r[i];

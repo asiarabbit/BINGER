@@ -354,15 +354,9 @@ void TAParaManager::AssignDetPos(const char *fname) const{
 		if(3 == detId || 4 == detId){ // valid TAMWDCArray pointer
 			TAMWDCArray* dcArr = (TAMWDCArray*)fDetList[detId];
 			if(dcArr){
-				if(subDetId < 3){ // MWDC
+				if(subDetId < 4){ // MWDC
 					TAMWDC *dc = dcArr->GetMWDC(subDetId);
 					dc->GetDetPara()->SetPosition(value);
-					isAssigned = true;
-				}
-				else if(3 == subDetId){ // TOF Wall
-					TATOFWall *tofw = dcArr->GetTOFWall();
-					tofw->GetDetPara()->SetPosition(value);
-					tofw->AssignStripPosition();
 					isAssigned = true;
 				}
 			} // end if(dcArr)
@@ -388,7 +382,7 @@ void TAParaManager::AssignDetPos(const char *fname) const{
 	for(int i = 0; i < 2; i++){ // loop over MWDC array L-R
 		TAMWDCArray* dcArr = (TAMWDCArray*)fDetList[i + 3];
 		if(!dcArr || !dcArr->IsDCArr()) continue;
-		for(int j = 0; j < 3; j++){ // loop over MWDCs
+		for(int j = 0; j < 4; j++){ // loop over MWDCs
 			dcArr->GetMWDC(j)->AssignAnodePosition();
 		} // end for over j
 	} // end for over i
@@ -410,7 +404,7 @@ void TAParaManager::AssignSTR() const{
 	dcArr[0] = (TAMWDCArray*)fDetList[3];
 	dcArr[1] = (TAMWDCArray*)fDetList[4];
 	for(int i = 2; i--;) if(dcArr[i]){ // loop over two DC arrays
-		for(int j = 3; j--;){ // loop over DCs in an array
+		for(int j = 4; j--;){ // loop over DCs in an array
 			TAMWDC *dc = dcArr[i]->GetMWDC(j);
 			const int nsl = dc->GetNSLayer();
 			const int n = dc->GetNAnodePerLayer();

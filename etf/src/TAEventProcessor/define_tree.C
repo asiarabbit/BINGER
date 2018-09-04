@@ -20,29 +20,30 @@
 	double mag, beta; // magnetic field/Telsa, particle speed in RIBLL2
 	int type[ntrMax], gGOOD[ntrMax]; // type: XUV; gGOOD: nFiredAnodePerLayer, ==2 specially...
 	int id[ntrMax]; // tracks with the same track Id and different track type are projections of the same 3-D track
-	int nu[ntrMax][6], sfe16Id[ntrMax][6]; // fired anode id, SFE16 chip id
-	double t[ntrMax][6], TOT_DC[ntrMax][6], TOT_DC_Avrg[ntrMax], r[ntrMax][6]; // hit pattern
+	int nu[ntrMax][8], sfe16Id[ntrMax][8]; // fired anode id, SFE16 chip id
+	double t[ntrMax][8], TOT_DC[ntrMax][8], TOT_DC_Avrg[ntrMax], r[ntrMax][8]; // hit pattern
 	double k[ntrMax], b[ntrMax], d2[ntrMax]; // track
 	double aoz[ntrMax], aozdmin[ntrMax], poz[ntrMax], brho[ntrMax]; // aoz
 	double yp[ntrMax][2]; // dx/dz; dy/dz, on the target hit position
 	// w: weight for weight addition of chi to chi2
 	// chit: drift time error suggested by fitted tracks
-	double chi[ntrMax][6], chi2[ntrMax], Chi[ntrMax], w[ntrMax][6], chit[ntrMax][6];
+	double chi[ntrMax][8], chi2[ntrMax], Chi[ntrMax], w[ntrMax][8], chit[ntrMax][8];
 	double TOF[ntrMax], nStripStray[ntrMax], xMiss3D[ntrMax][3];
 	// beta2: w.r.t. tof2, trkLenT: total track length from the target to the TOF wall
 	double beta2[ntrMax], trkLenT[ntrMax];
 	double tof2[ntrMax], taHitX[ntrMax]; // tof2: from T0_1 to TOFWall; taHitX: hit pos in target
 	int firedStripId[ntrMax], sipmArrStripId[ntrMax];
-	// TOT: time over threshold.    for a certain strip, U: upside; D: downside,
+	// TOT: time over threshold.    for a certain strip, U: upside; D: downside
 	// V: very high resolution mode, H: high resolutio mode
 	double TOTUV[ntrMax], TOTUH[ntrMax], TOTDV[ntrMax], TOTDH[ntrMax];
-	double TOT_T0[6]; // [1-6: T0V, T0H, T1LV, T1LH, T1RV, T1RH]
-	double TOF_T1; // time tag of T1 plastic scintillator, beside the target.
+	double TOT_T0[8]; // [1-6: T0V, T0H, T1LV, T1LH, T1RV, T1RH]
+	double TOF_T1; // time tag of T1 plastic scintillator, beside the target
 	double tRef, tRef_pos, tof1; // T reference -> ~ 500+-100 to trigger
 	double tof1vme = -9999., tof1tac = -9999.; // tof1 measured by VME Daq
 	double dE0 = -9999., dE1 = -9999.; // energy loss before-after TA
 	int dsca10, dsca11; // pileupSCA, pileUpAMP
 	int tRef_UV_NL, tRef_DV_NL;
+	double tRefLT_U[5]{}, tRefLT_D[5]{}; // array of leading times belonging to multiple leading edges
 	TTree *treeTrack = new TTree("treeTrack", "pattern recognition tracks");
 //	treeTrack->SetAutoSave(1e7);
 	treeTrack->Branch("index", &index, "index/I");
@@ -50,34 +51,36 @@
 	treeTrack->Branch("mag", &mag, "mag/D");
 	treeTrack->Branch("tof1", &tof1, "tof1/D"); // tof from T0_0 to T0_1
 	treeTrack->Branch("tRef", &tRef, "tRef/D");
+	treeTrack->Branch("tRefLT_U", tRefLT_U, "tRefLT_U[5]/D");
+	treeTrack->Branch("tRefLT_D", tRefLT_D, "tRefLT_D[5]/D");
 	treeTrack->Branch("tRef_pos", &tRef_pos, "tRef_pos/D");
 	treeTrack->Branch("tRef_UV_NL", &tRef_UV_NL, "tRef_UV_NL/I"); // number of leading edge(s)
 	treeTrack->Branch("tRef_DV_NL", &tRef_DV_NL, "tRef_DV_NL/I");
 	treeTrack->Branch("beta", &beta, "beta/D");
-	treeTrack->Branch("TOT_T0", TOT_T0, "TOT_T0[6]/D"); // see the comment above
+	treeTrack->Branch("TOT_T0", TOT_T0, "TOT_T0[8]/D"); // see the comment above
 	treeTrack->Branch("ntr", &ntr, "ntr/I");
 	treeTrack->Branch("ntrT", &ntrT, "ntrT/I");
-	treeTrack->Branch("ntrLs", ntrLs, "ntrLs[6][3]/I"); // DCArr-L-R-U-D -- [XUV - XY]
-	treeTrack->Branch("nu", nu, "nu[ntrT][6]/I");
-	treeTrack->Branch("SFE16Id", sfe16Id, "SFE16Id[ntrT][6]/I");
+	treeTrack->Branch("ntrLs", ntrLs, "ntrLs[8][3]/I"); // DCArr-L-R-U-D -- [XUV - XY]
+	treeTrack->Branch("nu", nu, "nu[ntrT][8]/I");
+	treeTrack->Branch("SFE16Id", sfe16Id, "SFE16Id[ntrT][8]/I");
 	treeTrack->Branch("gGOOD", gGOOD, "gGOOD[ntrT]/I");
 	treeTrack->Branch("type", type, "type[ntrT]/I"); // track type: 1[LR][XUV]
 	treeTrack->Branch("id", id, "id[ntrT]/I"); // 3-D track id
 	treeTrack->Branch("xMiss3D", xMiss3D, "xMiss3D[ntrT][3]/D"); // 3D track coincidence test at z coordinates of the three DCs
-	treeTrack->Branch("t", t, "t[ntrT][6]/D");
-	treeTrack->Branch("w", w, "w[ntrT][6]/D");
-	treeTrack->Branch("r", r, "r[ntrT][6]/D");
+	treeTrack->Branch("t", t, "t[ntrT][8]/D");
+	treeTrack->Branch("w", w, "w[ntrT][8]/D");
+	treeTrack->Branch("r", r, "r[ntrT][8]/D");
 	treeTrack->Branch("k", k, "k[ntrT]/D"); // start for iterative fit, necessary
 	treeTrack->Branch("b", b, "b[ntrT]/D"); // start for iterative fit, necessary
 	treeTrack->Branch("d2", d2, "d2[ntrT]/D");
-	treeTrack->Branch("chi", chi, "chi[ntrT][6]/D"); // residuals for each hit
+	treeTrack->Branch("chi", chi, "chi[ntrT][8]/D"); // residuals for each hit
 	treeTrack->Branch("chi2", chi2, "chi2[ntrT]/D"); // sum of chi^2
 	treeTrack->Branch("Chi", Chi, "Chi[ntrT]/D"); // sqrt(chi2/nFiredAnodeLayer)
 	treeTrack->Branch("TOF", TOF, "TOF[ntrT]/D");
-	treeTrack->Branch("chit", chit, "chit[ntrT][6]/D"); // drift time error suggested by fitted tracks
+	treeTrack->Branch("chit", chit, "chit[ntrT][8]/D"); // drift time error suggested by fitted tracks
 	treeTrack->Branch("tof2", tof2, "tof2[ntr]/D"); // tof from T0_1 to TOFW
 	treeTrack->Branch("beta2", beta2, "beta2[ntr]/D"); // beta from T0_1 to TOFW
-	treeTrack->Branch("TOT_DC", TOT_DC, "TOT_DC[ntrT][6]/D");
+	treeTrack->Branch("TOT_DC", TOT_DC, "TOT_DC[ntrT][8]/D");
 	treeTrack->Branch("TOT_DC_Avrg", TOT_DC_Avrg, "TOT_DC_Avrg[ntrT]/D");
 	treeTrack->Branch("TOTUV", TOTUV, "TOTUV[ntrT]/D"); // time over threshold, up side, V
 	treeTrack->Branch("TOTUH", TOTUH, "TOTUH[ntrT]/D"); // time over threshold, up side, H
@@ -287,6 +290,8 @@
 	
 	// pile up evidence provided by DCs //
 	// for PDCs
+	// NLM: maximum number of leading edges
+	// LTM: maximum leading time
 	int PDC_NLM[2][2][2][2]{}; // [U-D][PDC0-1][X-Y][X1-X2]
 	double PDC_LTM[2][2][2][2]{};
 	TTree *treePDCPileUp = new TTree("treePDCPileUp", "treePDCPileUp");

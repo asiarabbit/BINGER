@@ -95,11 +95,11 @@ double TADeployPara::GetTOFWallDelayAvrg(unsigned uid) const{
 double TADeployPara::GetMWDCDelay(unsigned uid) const{
 	int type[6]{}; TAUIDParser::DNS(type, uid);
 	if(3 != type[0] && 4 != type[0] && 6 != type[0] && 7 != type[0] && 8 != type[0] && 9 != type[0])
-		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an MWDC array");
-	if((3 == type[0] || 4 == type[0]) && type[1] >= 3)
-		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an MWDC");
+		TAPopMsg::Error("TADeployPara", "GetMWDCDelay: Not an MWDC array");
+	if((3 == type[0] && type[1] >= 3) || (4 == type[0] && type[1] >= 4))
+		TAPopMsg::Error("TADeployPara", "GetMWDCDelay: Not an MWDC");
 	if((6 == type[0] || 7 == type[0] || 8 == type[0] || 9 == type[0]) && type[1] >= 2)
-		TAPopMsg::Error("TADeployPara", "GetTOFWallStripDelay: Not an MWDC");
+		TAPopMsg::Error("TADeployPara", "GetMWDCDelay: Not an MWDC");
 
 	const double offset0[6][3] = {
 		{gp->Val(86), gp->Val(87), gp->Val(88)}, // MWDC Array L
@@ -114,6 +114,7 @@ double TADeployPara::GetMWDCDelay(unsigned uid) const{
 	if(3 == type[0] || 4 == type[0]) dcArrId = type[0] - 3; // 0-1: L-R
 	if(6 == type[0] || 7 == type[0] || 8 == type[0] || 9 == type[0])
 		dcArrId = type[0] - 6 + 2; // 2-3-4-5: U-D-PDCU-D
+	if(4 == type[0] && 3 == type[1]) return -14.;
 	double delay = offset0[dcArrId][type[1]];
 //	delay += -TACtrlPara::Instance()->T_wireMean(uid);
 	return delay;

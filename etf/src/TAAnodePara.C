@@ -187,7 +187,7 @@ void TAAnodePara::SetSTRCorArr(const int *vaBinNumArr,
 	int STRCorRNBins = kSTRCorRNBins;
 	const short detId = GetDetId();
 	if(8 == detId || 9 == detId){ // PDC array, large drift cells - 10mm max drift distance
-		STRCorRNBins = kSTRCorRNBins * 2;
+		STRCorRNBins = kSTRCorRNBins * 3;
 	}
 	if(va_bin_cnt > STRCorRNBins){
 		TAPopMsg::Error(GetName().c_str(), "SetSTRCorArr: va_bin_cnt out of range. valid_bin_cnt: %d", va_bin_cnt);
