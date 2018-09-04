@@ -43,6 +43,7 @@
 	double dE0 = -9999., dE1 = -9999.; // energy loss before-after TA
 	int dsca10, dsca11; // pileupSCA, pileUpAMP
 	int tRef_UV_NL, tRef_DV_NL;
+	double tRefLT_U[5]{}, tRefLT_D[5]{}; // array of leading times belonging to multiple leading edges
 	TTree *treeTrack = new TTree("treeTrack", "pattern recognition tracks");
 //	treeTrack->SetAutoSave(1e7);
 	treeTrack->Branch("index", &index, "index/I");
@@ -50,6 +51,8 @@
 	treeTrack->Branch("mag", &mag, "mag/D");
 	treeTrack->Branch("tof1", &tof1, "tof1/D"); // tof from T0_0 to T0_1
 	treeTrack->Branch("tRef", &tRef, "tRef/D");
+	treeTrack->Branch("tRefLT_U", tRefLT_U, "tRefLT_U[5]/D");
+	treeTrack->Branch("tRefLT_D", tRefLT_D, "tRefLT_D[5]/D");
 	treeTrack->Branch("tRef_pos", &tRef_pos, "tRef_pos/D");
 	treeTrack->Branch("tRef_UV_NL", &tRef_UV_NL, "tRef_UV_NL/I"); // number of leading edge(s)
 	treeTrack->Branch("tRef_DV_NL", &tRef_DV_NL, "tRef_DV_NL/I");
@@ -287,6 +290,8 @@
 	
 	// pile up evidence provided by DCs //
 	// for PDCs
+	// NLM: maximum number of leading edges
+	// LTM: maximum leading time
 	int PDC_NLM[2][2][2][2]{}; // [U-D][PDC0-1][X-Y][X1-X2]
 	double PDC_LTM[2][2][2][2]{};
 	TTree *treePDCPileUp = new TTree("treePDCPileUp", "treePDCPileUp");

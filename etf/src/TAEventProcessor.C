@@ -396,7 +396,7 @@ void TAEventProcessor::Assign(tEntry *entry){
 		strcpy(entry->name, "\033[31mDUMMY_CHANNEL\033[0m");
 		return;
 	}
-	if(TAParaManager::UID_DUMMY == uid){ // entry with uninitialized channel id
+	if(TAParaManager::UID_DUMMY * 2 == uid){ // entry with uninitialized channel id
 		strcpy(entry->name, "\033[31mEMPTY_CHANNEL\033[0m");
 		return;
 	}

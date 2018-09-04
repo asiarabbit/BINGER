@@ -27,7 +27,7 @@ int main(int argc, char *argv[]){
 	char cmd[128];
 	sprintf(cmd, "mv STRCorrection/*.003 %s/STR_cor/", ep->GetCtrlPara()->ConfigExpDir());
 	system(cmd);
-	
+
 	delete str; str = nullptr;
 	return 0;
 }

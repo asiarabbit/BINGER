@@ -460,7 +460,7 @@ void TATrack::FillTrack(TGraph *gTrack, TGraph *gTrack_R){
 		x = k*z+b;
 		gTrack->SetPoint(gTrack->GetN(), z, x);
 	}
-	return;
+//	return;
 	// next fill the drift distance circle
 	for(int i = 6; i--;) if(fR[i] > 0.){
 		for(int j = nCir; j--;){

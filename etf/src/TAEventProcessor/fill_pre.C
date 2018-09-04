@@ -54,6 +54,7 @@
 			cout << "\ttimeToTrigHighBoundUV: " << timeToTrigHighBoundUV; getchar(); // DEBUG
 #endif
 			hT0_1ToTrigUV->Fill(j, time);
+			if(j < 5) tRefLT_U[j] = time;
 			if(time > timeToTrigLowBoundUV && time < timeToTrigHighBoundUV){
 				if(!hasIncre_ValidityUV){
 					cnt_timeToTrig_T0_1UV++;
@@ -64,7 +65,6 @@
 		// T0_1 DV validity check
 		for(int j = 0; j < nDVLEdge_T0_1; j++){
 			double time = T0_1->GetDV()->GetTime(j) - T0_1_delayAvrg;
-			hT0_1ToTrigDV->Fill(j, time);
 #ifdef DEBUG
 			cout << "time: " << time; // DEBUG
 			cout << "T0_1->GetDV()->GetTime(j): " << T0_1->GetDV()->GetTime(j) << endl; // DEBUG
@@ -72,6 +72,8 @@
 			cout << "\ttimeToTrigHighBoundDV: " << timeToTrigHighBoundDV; // DEBUG
 			getchar(); // DEBUG
 #endif
+			hT0_1ToTrigDV->Fill(j, time);
+			if(j < 5) tRefLT_D[j] = time;
 			if(time > timeToTrigLowBoundDV && time < timeToTrigHighBoundDV){
 //				cout << "cnt_timeToTrig_T0_1DV: " << cnt_timeToTrig_T0_1DV << endl; getchar(); // DEBUG
 				if(!hasIncre_ValidityDV){

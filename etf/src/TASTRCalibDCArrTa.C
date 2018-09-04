@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/6/8.															     //
-// Last modified: 2018/6/9, SUN Yazhou.											     //
+// Last modified: 2018/8/28, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -69,12 +69,17 @@ void TASTRCalibDCArrTa::ChiHistogramming(bool is3D){
 }
 // is3D: whether to use 3D chi to fill the histograms
 void TASTRCalibDCArrTa::ChiHistogramming(const string &rootfile, TAMWDCArray2 *dcArr, bool is3D, bool isBigSta){
-	
+
 	if(!dcArr) TAPopMsg::Error("TASTRCalibDCArrTa", "ChiHistogramming: null dcArr pointer");
 	const short DETID = dcArr->GetDetId(); // 6: DCArrTaU; 7: DCArrTaD, 8: PDCArrU, 9: PDCArrD
-	// for PDCs, the rmx and nr should be doubled
-	double coeff = 1.; if(8 == DETID || 9 == DETID) coeff = 2.;
-	const short nr = coeff * nr_; const double rmx = coeff * rmx_;
+	// for PDCs, the rmx is doubled, and the nr is tripled
+	// to accommodate for the large drift cell and good data abundance for PDCs
+	double coeff_nr = 1., coeff_rmx = 1.;
+	if(8 == DETID || 9 == DETID){
+		coeff_nr = 3.;
+		coeff_rmx = 2.;
+	}
+	const short nr = coeff_nr * nr_; const double rmx = coeff_rmx * rmx_;
 	bool usingPDC = TAGPar::Instance()->Val(83);
 	if(usingPDC){ // DCTas and PDCs are exchanged
 		// dcArrId: 0 1 2 3 4 5
@@ -84,14 +89,17 @@ void TASTRCalibDCArrTa::ChiHistogramming(const string &rootfile, TAMWDCArray2 *d
 	}
 
 	if(0 != access(rootfile.c_str(), F_OK))
-		TAPopMsg::Error("TASTRCalibDCArrTa", "ChiHistogramming: Input rootfile %s doesn't exist", rootfile.c_str());
+		TAPopMsg::Error("TASTRCalibDCArrTa", "ChiHistogramming: Input rootfile\
+ %s doesn't exist", rootfile.c_str());
 	TAPopMsg::Info("TASTRCalibDCArrTa", "ChiHistogramming: Input rootfile name: %s", rootfile.c_str());
-	TAPopMsg::Info("TASTRCalibDCArrTa", "ChiHistogramming: number of drift distance bins for STR auto-calibration %d; Maximum drift distance: %f", nr, rmx);
+	TAPopMsg::Info("TASTRCalibDCArrTa", "ChiHistogramming: number of drift distance bins\
+ for STR auto-calibration %d; Maximum drift distance: %f", nr, rmx);
 	TFile *f = new TFile(rootfile.c_str());
 	if(!f->FindObjectAny("treeTrack"))
 		TAPopMsg::Error("TASTRCalibDCArrTa", "ChiHistogramming: treeTrack not found in input rootfile");
 	if(is3D && !f->FindObjectAny("treePID3D"))
-		TAPopMsg::Error("TASTRCalibDCArrTa", "ChiHistogramming: 3D chi histogramming is required, yet treePID3D is not found");
+		TAPopMsg::Error("TASTRCalibDCArrTa", "ChiHistogramming: 3D chi histogramming\
+ is required, yet treePID3D is not found");
 //	TAParaManager::Instance()->UpdateSTRCorrection(); // keep up-to-date with the newest calibration
 	fNAnodePerLayer = dcArr->GetMWDC(0)->GetNAnodePerLayer();
 	// The x-axis of xX, xY, to calculate angle-alpha
@@ -103,7 +111,7 @@ void TASTRCalibDCArrTa::ChiHistogramming(const string &rootfile, TAMWDCArray2 *d
 	}
 
 	const int ntrMax = 100, ntrMax3D = ntrMax / 3;
-	int ntrT, index, type[ntrMax], id[ntrMax], nu[ntrMax][6];
+	int ntrT, index, type[ntrMax], id[ntrMax], nu[ntrMax][6], gGOOD[ntrMax];
 	double kl[ntrMax];
 	double t[ntrMax][6], r[ntrMax][6], chi[ntrMax][6], Chi[ntrMax];
 	TTree *treeTrack = (TTree*)f->Get("treeTrack");
@@ -115,6 +123,7 @@ void TASTRCalibDCArrTa::ChiHistogramming(const string &rootfile, TAMWDCArray2 *d
 	treeTrack->SetBranchAddress("chi", chi); // R
 	treeTrack->SetBranchAddress("Chi", Chi); // R
 	treeTrack->SetBranchAddress("k", kl); // R, to get the STRid
+	treeTrack->SetBranchAddress("gGOOD", gGOOD); // track type: 1[LR][XUV]
 	treeTrack->SetBranchAddress("type", type); // track type: 1[LR][XUV]
 	treeTrack->SetBranchAddress("id", id); // 3-D track id
 
@@ -151,7 +160,7 @@ void TASTRCalibDCArrTa::ChiHistogramming(const string &rootfile, TAMWDCArray2 *d
 						hDCSTRCor[i][j][m][k][l] = new TH2F(name, title, nr, 0., rmx, 300, -3.0, 3.0);
 						sprintf(name, "hDCSTR_RT_%d_%d_%d_%d_%d", i, j, m, k, l);
 						sprintf(title, "%s - DCA-t Relation;t [ns];DCA [mm]", name);
-						hDCSTR_RT[i][j][m][k][l] = new TH2F(name, title, 35, 0., 280., 100, -0.5, 5.5);
+						hDCSTR_RT[i][j][m][k][l] = new TH2F(name, title, 500, 0., 550., 500, -0.5, 10.5);
 					} // end for over i
 				} // end for over k
 			} // end for over m
@@ -170,6 +179,7 @@ void TASTRCalibDCArrTa::ChiHistogramming(const string &rootfile, TAMWDCArray2 *d
 				int dcType = type[j]%10; // X-Y
 //				if(-1 == id[j]) continue; // not a successful match
 				if(Chi[j] > 0.9) continue; // nasty tracks
+				if(1 == gGOOD[j]) continue; // fitting residuals of three fired sense wires are not to be trusted
 				nTrk++;
 				for(int l = 0; l < 4; l++){
 					if(nu[j][l] != -1){
@@ -209,7 +219,8 @@ void TASTRCalibDCArrTa::ChiHistogramming(const string &rootfile, TAMWDCArray2 *d
 				} // end loop over X-U-V track types
 			} // end for over j and if
 			if(n3DtrXY[0] != n3DtrXY[1]){
-				TAPopMsg::Error("TASTRCaliDCArr", "ChiHistogramming: This is odd... track projections of X and Y are not consistent: n3DtrX: %d, n3DtrY: %d, ntrT: %d", n3DtrXY[0], n3DtrXY[1], ntrT);
+				TAPopMsg::Error("TASTRCaliDCArr", "ChiHistogramming: This is odd... track projections\
+ of X and Y are not consistent: n3DtrX: %d, n3DtrY: %d, ntrT: %d", n3DtrXY[0], n3DtrXY[1], ntrT);
 			} // end if
 			n3Dtr = n3DtrXY[0];
 			// // // ^^^^^^^ circulation over 3-D tracks in one data section ^^^^^^^ // // //
@@ -287,12 +298,25 @@ void TASTRCalibDCArrTa::GenerateCalibFile(const string &rootfile, TAMWDCArray2 *
 	if(!dcArr) TAPopMsg::Error("TASTRCalibDCArrTa", "GenerateCalibFile: null dcArr pointer");
 	fNAnodePerLayer = dcArr->GetMWDC(0)->GetNAnodePerLayer();
 	const short DETID = dcArr->GetDetId(); // 6: DCArrTaU; 7: DCArrTaD, 8: PDCArrU, 9: PDCArrD
-	// for PDCs, the rmx and nr should be doubled
-	double coeff = 1.; if(8 == DETID || 9 == DETID) coeff = 2.;
-	const int nr = coeff * nr_; const double rmx = coeff * rmx_;
+	// for PDCs, the rmx is doubled, and the nr is tripled
+	// to accommodate for the large drift cell and good data abundance for PDCs
+	double coeff_nr = 1., coeff_rmx = 1.;
+	if(8 == DETID || 9 == DETID){
+		coeff_nr = 3.;
+		coeff_rmx = 2.;
+	}
+	const short nr = coeff_nr * nr_; const double rmx = coeff_rmx * rmx_;
+	bool usingPDC = TAGPar::Instance()->Val(83);
+	if(usingPDC){ // DCTas and PDCs are exchanged
+		// dcArrId: 0 1 2 3 4 5
+		// detId:   3 4 8 9 6 7
+		detIdMap[2] = 8; detIdMap[3] = 9;
+		detIdMap[4] = 6; detIdMap[5] = 7;
+	}
 
 
-	TAPopMsg::Info("TASTRCalibDCArrTa", "GenerateCalibFile: Input rootfile name: %s, STR auto-calibration round id: %d, MWDC Array Name: %s", rootfile.c_str(), round, dcArr->GetName().c_str());
+	TAPopMsg::Info("TASTRCalibDCArrTa", "GenerateCalibFile: Input rootfile name: %s, STR auto-calibration\
+ round id: %d, MWDC Array Name: %s", rootfile.c_str(), round, dcArr->GetName().c_str());
 	if(0 != access(rootfile.c_str(), F_OK))
 		TAPopMsg::Error("TASTRCalibDCArrTa", "GenerateCalibFile: Input rootfile %s doesn't exist", rootfile.c_str());
 	TFile *f = new TFile(("assess"+rootfile).c_str(), "UPDATE");
@@ -300,7 +324,8 @@ void TASTRCalibDCArrTa::GenerateCalibFile(const string &rootfile, TAMWDCArray2 *
 	sprintf(name, "STRCali-%s", dcArr->GetName().c_str());
 	sprintf(title, "%s/histo", name); // directory storing drift time histograms
 	if(!f->FindObjectAny(name)){
-		TAPopMsg::Error("TASTRCalibDCArrTa", "GenerateCalibFile: Directory %s doesn't exist. Maybe TASTRCalibDCArrTa::ChiHistogramming(...) hasn't been run yet.", name);
+		TAPopMsg::Error("TASTRCalibDCArrTa", "GenerateCalibFile: Directory %s doesn't exist. Maybe\
+ TASTRCalibDCArrTa::ChiHistogramming(...) hasn't been run yet.", name);
 	}
 
 	TH1F *hmeanTot = new TH1F("hmeanTot", "hmeanTot", 500, -0.8, 0.8);
@@ -324,7 +349,7 @@ void TASTRCalibDCArrTa::GenerateCalibFile(const string &rootfile, TAMWDCArray2 *
 	// filling the recording tree
 	int anodeId[4];
 	double sigma_tree[nAng][nr], mean_tree[nAng][nr];
-	if(nAng > 6 || nr > 120)
+	if(nAng > 6 || nr > 180)
 		TAPopMsg::Error("TASTRCalibDCArrTa", "GenerateCalibFile: nAng or nr is too large: nAng: %d, nr: %d", nAng, nr);
 	int nAng_tree = nAng, nr_tree = nr;
 	TTree *treeSigma = new TTree("treeSigma", "Spatial Resolution and STR Correction");
