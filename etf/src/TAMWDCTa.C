@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/27.															     //
-// Last modified: 2018/4/26, SUN Yazhou.										     //
+// Last modified: 2018/9/6, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -35,6 +35,7 @@ TAMWDCTa::~TAMWDCTa(){}
 
 void TAMWDCTa::GetAnodeGlobalDirection(int dcType, double *ag) const{
 	double a[2][3] = {{0., 1., 0.}, {1., 0., 0.}}; // X-Y
+	if(4 == dcType) dcType = 1;
 	GetDetPara()->GetGlobalRotation(a[dcType], ag);
 }
 void TAMWDCTa::GetAnodeGlobalProjection(int dcType, const double *globalCenter, double *globalProjection) const{

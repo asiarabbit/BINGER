@@ -38,7 +38,7 @@ TAAnodePara::TAAnodePara(const string &name, const string &title, unsigned uid)
 		fGlobalCenter[i] = -9999.;
 		fGlobalProjection[i] = -9999.;
 	}
-	for(const double *&p : fSTRCorArr) p = kSTRCorArrDummy; // initialized to a zero array.
+	for(const double *&p : fSTRCorArr) p = kSTRCorArrDummy; // initialized to a zero array
 	fDelay = TADeployPara::Instance()->GetMWDCDelay(GetUID());
 //	TAPopMsg::Debug(GetName().c_str(), "Just to pop a bubble :)");
 	if(kSTRCorAngleNBins %2 != 0) TAPopMsg::Error(GetName().c_str(), "kSTRCorAngleNBins is odd...");

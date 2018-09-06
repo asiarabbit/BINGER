@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/11/23.															     //
-// Last modified: 2017/12/28, SUN Yazhou.										     //
+// Last modified: 2018/9/5, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -25,6 +25,7 @@ struct t3DPIDInfo{
 	double angTaOut[2], beta2;
 	double trkLenT;
 	double poz;
+	double brho;
 	
 	t3DPIDInfo();
 	void initialize();

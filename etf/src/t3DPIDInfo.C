@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/11/23.															     //
-// Last modified: 2017/12/28, SUN Yazhou.										     //
+// Last modified: 2018/9/5, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017, SUN Yazhou.												     //
@@ -26,5 +26,5 @@ t3DPIDInfo::t3DPIDInfo(){
 void t3DPIDInfo::initialize(){
 	aoz = -9999.; aozdmin = -9999.;
 	angTaOut[0] = -9999.; angTaOut[1] = -9999.;
-	trkLenT = -9999.; poz = -9999.;
+	trkLenT = -9999.; poz = -9999.; brho = -9999;
 }

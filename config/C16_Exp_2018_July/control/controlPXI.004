@@ -128,11 +128,11 @@
 # T_tofDC2toTOFWLX
 36  2.1
 # T_tofDC0toTOFWRX
-37  30.0
+37  35.2
 # T_tofDC1toTOFWRX
-38  20.9
+38  26.5
 # T_tofDC2toTOFWRX
-39  15.1
+39  18.2
 
 # Parameters owned by class TACtrlPara
 # 3DCoincideWindow
@@ -146,7 +146,7 @@
 # ChiThrePD
 44 1.6
 # Vicinity
-45 2
+45 3
 # StripTolerance
 46 1
 # FitMethod => kNormalFit: 0; kBFGSFit: 1 kIterFit: 2
@@ -164,8 +164,8 @@
 52 0.8
 # T0_0Delay
 53 139.6
-# dcTOTNoiseLevel unit: ns, DC TOT exceeding it would be invalidized
-54 20.
+# dcTOTNoiseLevel unit: ns, DC TOT lower than it would be invalidated
+54 0.
 
 ######################## DCs around the target ######################################
 ## ## ## ## ## ## ## ## DCs made by P. Ma ## ## ## ## ## ## ## ## ## ## ## ## ## ## 
@@ -262,11 +262,11 @@
 89 1E-3
 ######### MWDC Array R ###################
 # MWDC global delay - delay_DCR0
-90 -72.6
+90 -67.4
 # MWDC global delay - delay_DCR1
-91 -72.3
+91 -66.7
 # MWDC global delay - delay_DCR2
-92 -71.8
+92 -68.7
 # TOFW global delay - delay_TOFWR
 93 -92.8
 ######### DCTa - Array U-D ################

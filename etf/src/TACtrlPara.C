@@ -86,7 +86,7 @@ double TACtrlPara::ChiThrePD(unsigned uid){
 	if(8 == type[0] || 9 == type[0]) return gp->Val(105); // 105: exclusive for PDCs
 	return gp->Val(44);
 }
-// threshold for chi. (sqrt(chi2 / nFiredAnodeLayer)) unit: mm map.C 1.0 1.5
+// threshold for chi. (sqrt(chi2 / nFiredAnodeLayer)-2) unit: mm map.C 1.0 1.5
 double TACtrlPara::ChiThre(unsigned uid){
 		double chiThre = 0.8 * ChiThrePD(uid) * (IsDriftTimeQtCorrection() ? kDriftTimeQtCorrectionWeight : 1.);
 	return chiThre;

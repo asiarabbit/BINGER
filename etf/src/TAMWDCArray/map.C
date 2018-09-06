@@ -34,6 +34,10 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 	if(track.size() != 0) track.clear();
 
 	bool cmpShow = false; // function compare debug
+#ifdef DEBUG_MAP
+	cmpShow = true;
+#endif
+
 	// GetDsquareThresholdPerDot(); // stores the minimum of Dsquares of all the combinations
 	const int UID = GetUID();
 	const double d2Thre = clp->D2Thre(UID);
@@ -159,6 +163,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 			// Here it's Dsquare(z, x...), NOT Dsquare(x, z...), because the coordinate system is different from those conventional ones now
 			d2 = TAMath::Dsquare(z, x, kl, bl, gGOOD, LAYER, GetDsquareThresholdPerDot());
 #ifdef DEBUG_MAP
+			cout << "GetDsquareThresholdPerDot(): " << GetDsquareThresholdPerDot() << endl; // DEBUG
 			cout << endl << "d2: " << d2; // DEBUG
 			cout << "\tkl: " << kl; // DEBUG
 			cout << "\tbl: " << bl << endl; // DEBUG
@@ -305,7 +310,8 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 					track.push_back(new TATrack(newTrack));
 #ifdef DEBUG_MAP
 					cout << "track.size(): " << track.size(); // DEBUG
-					track[0]->Show(); getchar(); // DEBUG
+					for(TATrack *t : track) t->Show();
+					getchar(); // DEBUG
 #endif
 				}
 
@@ -339,7 +345,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 // 2: newTrack defeats oldTrack
 // Here tracks with good == 2 are despised and discriminated
 int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, char type, bool show){
-	if('X' != type && 'Y' != type) return 0; // no conclusion could be reached for U(V)projs
+	if('X' != type && 'Y' != type) return 0; // no conclusion could be reached for U(V)projs // XXX
 
 	int nstripDeviation = fabs(newTrack->GetFiredStripId() - oldTrack->GetFiredStripId());
 	const int vicinity = clp->Vicinity();
@@ -366,6 +372,9 @@ int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, char type, bool s
 			oldTrack->SetName("OBSOLETE");
 			return 2; // oldTrack is nasty
 		} // end if
+		// Special treatment for UV tracks with gGOOD == 2 XXX
+		// They are not favored, especially in the presense of gGOOD > 2 tracks
+//		if('X' != type && 'Y' != type) return 0;
 		if(2 == newTrack->GetgGOOD() && 2 == oldTrack->GetgGOOD()){
 			if('X' == type || 'Y' == type){
 				if(newTrack->GetChi() >= oldTrack->GetChi()){

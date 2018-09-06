@@ -104,7 +104,7 @@ double TAPlaStrip::GetTime(double t0x, double t1x, double t2x){ // get hit time
 	if(!(ft0 == t0x && ft1 == t1x && ft2 == t2x)) time = -9999.;
 	if(-9999. == time){ // not assigned
 		ft0 = t0x; ft1 = t1x; ft2 = t2x;
-		double tt = GetUV()->GetLT(ft0,ft1,ft2)+GetDV()->GetLT(ft0,ft1,ft2);
+		double tt = GetUV()->GetLT(ft0,ft1,ft2) + GetDV()->GetLT(ft0,ft1,ft2);
 //		cout << GetName() << endl; // DEBUG
 //		GetUV()->GetData()->Show(); // DEBUG
 //		cout << "GetUV()->GetLT(t0,t1,t2): " << GetUV()->GetLT(t0,t1,t2) << endl; // DEBUG
