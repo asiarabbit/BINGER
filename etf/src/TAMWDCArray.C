@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/7.															     //
-// Last modified: 2018/6/8, SUN Yazhou.											     //
+// Last modified: 2018/9/6, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -175,7 +175,7 @@ bool TAMWDCArray::Compatible(double k, double b, double ku, double bu, double kv
 	k2 = TAMath::kUV_Y(phi, ku, kv); // DEBUG
 	b2 = TAMath::bUV_Y(phi, ku, kv, bu, bv); // DEBUG
 	cout << "k2: " << k2 << "\tb2: " << b2 << endl; // DEBUG
-	cout << "Coincidence test begin: \n"; getchar(); // DEBUG
+	cout << "Coincidence test begin: \n"; // DEBUG
 #endif
 
 	bool coincide = true;
@@ -185,13 +185,17 @@ bool TAMWDCArray::Compatible(double k, double b, double ku, double bu, double kv
 		xMiss3D[i] = x-xt;
 #ifdef DEBUG
 		cout << "z: " << z << "\txt: " << xt << "\tx: " << x << endl; // DEBUG
-		cout << "fabs(x-xt): " << fabs(x-xt) << endl; getchar(); // DEBUG
+		cout << "fabs(x-xt): " << fabs(x-xt) << endl; // DEBUG
 #endif
 		// test coincidence in every MWDC.
 		if(fabs(x-xt) > TACtrlPara::Get3DCoincideWindow()){
 			coincide = false; // 105: 10.5 DC cells, given all kinds of errors
 		}
-	}
+	} // end for over i
+#ifdef DEBUG
+	cout << "______________ end of Compatible function _____________" << endl; // DEBUG
+	getchar(); // DEBUG
+#endif
 	if(!coincide) return false;
 
 	k2 = TAMath::kUV_Y(phi, ku, kv);
@@ -203,14 +207,14 @@ void TAMWDCArray::TrackMerger(){ // assembly projections to 3-D tracks
 #ifdef DEBUG
 	cout << "\033[32;1m" << GetName() << "\033[0m" << endl; // DEBUG
 	cout << "This is TAMWDCArray::TrackMerger():" << endl; // DEBUG
+	cout << "x.size(): " << fTrackList[0].size(); cout << "\tu.size(): " << fTrackList[1].size(); // DEBUG
+	cout << "\tv.size(): " << fTrackList[2].size(); // DEBUG
 	cout << "____________________________________________" << endl; getchar(); // DEBUG
 //	for(TATrack *&x : fTrackList[0]) x->Show(); // DEBUG
 //	for(TATrack *&u : fTrackList[1]) u->Show(); // DEBUG
 //	for(TATrack *&v : fTrackList[2]) v->Show(); // DEBUG
 	cout << "____________________________________________" << endl; getchar(); // DEBUG
 	cout << "\n\n\033[33;1m____________________________________________\n\033[0m"; // DEBUG
-	cout << "x.size(): " << fTrackList[0].size(); cout << "\tu.size(): " << fTrackList[1].size(); // DEBUG
-	cout << "\tv.size(): " << fTrackList[2].size(); // DEBUG
 	getchar(); // DEBUG
 #endif
 	if(fTrackList[0].size() > 0){
@@ -244,21 +248,21 @@ void TAMWDCArray::TrackMerger(){ // assembly projections to 3-D tracks
 //			u.Show(); // DEBUG
 //			cout << "u.marked: " << u.marked << endl; getchar(); // DEBUG
 			int id0 = id + 1; if(isMatched) id0 = id; // the current 3D track id
-			if(u->Get3DId() != -1 && u->Get3DId() < id0)
-				continue; // owned by previous Xes.
+			// One projection cannot be matched with multiple 3-D tracks
+			if(u->Get3DId() != -1 && u->Get3DId() < id0) continue; // owned by previous  X-tracks
 			for(unsigned k = 0; k < fTrackList[2].size(); k++){ // loop over track V
 				TATrack *&v = fTrackList[2][k];
 //				v->Show(); // DEBUG
 //				cout << "v->marked: " << v->marked << endl; getchar(); // DEBUG
-				// One projection cannot be matched with multiple 3-D tracks.
-				if(v->marked) continue;
+				// One projection cannot be matched with multiple 3-D tracks
+				if(v->Get3DId() != -1 && v->Get3DId() < id0) continue; // owned by previous X-tracks
 				double xMiss3D[3]{};
 				BINGO = Compatible(x->GetSlope(), x->GetIntercept(), u->GetSlope(), u->GetIntercept(), v->GetSlope(), v->GetIntercept(), k2, b2, xMiss3D);
 				if(BINGO){
 					// make use of the TOF information of X track projection //
-					double TOF = x->GetTOF();
-					double firedStripId = x->GetFiredStripId();
-					double nStripStray = x->GetNStripStray();
+					const double TOF = x->GetTOF();
+					const double firedStripId = x->GetFiredStripId();
+					const double nStripStray = x->GetNStripStray();
 					double tu[6] = {-9999., -9999., -9999., -9999., -9999., -9999.};
 					double ru[6] = {-9999., -9999., -9999., -9999., -9999., -9999.};
 					double tv[6] = {-9999., -9999., -9999., -9999., -9999., -9999.};
@@ -272,7 +276,7 @@ void TAMWDCArray::TrackMerger(){ // assembly projections to 3-D tracks
 					for(int l = 0; l < 6; l++){
 						if(-1 != nuU[l]){
 							TAAnode *ano = fMWDC[l/2]->GetAnode(1, l%2+1, nuU[l]);
-							((TAAnodeData*)ano->GetData())->SetTOF(TOF);
+							ano->GetAnodeData()->SetTOF(TOF);
 							tu[l] = ano->GetDriftTime(weightU[l]);
 							// rough correction for time of flight from DC to TOF wall
 							tu[l] += ctrlPara->T_tofDCtoTOFW(ano->GetUID()) - ctrlPara->T_wireMean(ano->GetUID());
@@ -280,17 +284,22 @@ void TAMWDCArray::TrackMerger(){ // assembly projections to 3-D tracks
 						} // end if
 						if(-1 != nuV[l]){
 							TAAnode *ano = fMWDC[l/2]->GetAnode(2, l%2+1, nuV[l]);
-							((TAAnodeData*)ano->GetData())->SetTOF(TOF);
+							ano->GetAnodeData()->SetTOF(TOF);
 							tv[l] = ano->GetDriftTime(weightV[l]);
 							// rough correction for time of flight from DC to TOF wall
 							tv[l] += ctrlPara->T_tofDCtoTOFW(ano->GetUID()) - ctrlPara->T_wireMean(ano->GetUID());
 							rv[l] = ano->GetDriftDistance(tv[l], v->GetSlope());
 						} // end if
 					} // end for over i
-					u->SetTOF(TOF, firedStripId, nStripStray);
-					v->SetTOF(TOF, firedStripId, nStripStray);
-					u->SetDriftTime(tu, weightU); u->SetDriftDistance(ru);
-					v->SetDriftTime(tv, weightV); v->SetDriftDistance(rv);
+					if(TOF != u->GetTOF()){ // so that TOF would be assigned or altered only if their owner X-track is changed
+						// which would save Fit() invocation for one time
+						u->SetTOF(TOF, firedStripId, nStripStray);
+						u->SetDriftTime(tu, weightU); u->SetDriftDistance(ru);
+					}
+					if(TOF != v->GetTOF()){
+						v->SetTOF(TOF, firedStripId, nStripStray);
+						v->SetDriftTime(tv, weightV); v->SetDriftDistance(rv);
+					}
 					// check the validity of U and V tracks
 					short badTrk = 0;
 					for(double tt : tu) if(-9999. != tt && !ctrlPara->TimeThre(tt)) { badTrk = 1; break; }
@@ -304,15 +313,16 @@ void TAMWDCArray::TrackMerger(){ // assembly projections to 3-D tracks
 					cout << "badTrk: " << badTrk << endl; getchar(); // DEBUG
 					if(badTrk) continue; // nasty combination
 #endif
-					if(fabs(u->GetChi()) > ctrlPara->ChiThre()) continue; // nasty combination
-					if(fabs(v->GetChi()) > ctrlPara->ChiThre()) continue; // nasty combination
+					if(fabs(u->GetChi()) > 1.5 * ctrlPara->ChiThre()) break; // nasty combination, break to next U track
+					if(fabs(v->GetChi()) > 1.5 * ctrlPara->ChiThre()) continue; // nasty combination, skip the current V track
+
 					double chi[6]{};
 					u->GetChi(chi);
 					for(double cc : chi)
-						if(-9999. != cc && fabs(cc) > ctrlPara->ChiThrePD()){ badTrk = 3; break; }
+						if(-9999. != cc && fabs(cc) > 1.5 * ctrlPara->ChiThrePD()){ badTrk = 3; break; }
 					v->GetChi(chi);
 					for(double cc : chi)
-						if(-9999. != cc && fabs(cc) > ctrlPara->ChiThrePD()){ badTrk = 4; break; }
+						if(-9999. != cc && fabs(cc) > 1.5 * ctrlPara->ChiThrePD()){ badTrk = 4; break; }
 #ifdef DEBUG
 					cout << "badTrk: " << badTrk << endl; getchar(); // DEBUG
 #endif
@@ -325,14 +335,18 @@ void TAMWDCArray::TrackMerger(){ // assembly projections to 3-D tracks
 					memcpy(x->fXMiss3D, xMiss3D, sizeof(xMiss3D));
 					memcpy(u->fXMiss3D, xMiss3D, sizeof(xMiss3D));
 					memcpy(v->fXMiss3D, xMiss3D, sizeof(xMiss3D));
+
+//					cout << "ultimately, u and v:" << endl; // DEBUG
+//					u->Show(); v->Show(); // DEBUG
 #ifdef DEBUG
 					// // // // // // // // // // // // // // // // // // //
-					cout << "x3DMiss: " << x->fXMiss3D[0] << " ";
-					cout << x->fXMiss3D[1] << " " << x->fXMiss3D[2] << endl;
+					cout << "x3DMiss: " << x->fXMiss3D[0] << " "; // DEBUG
+					cout << x->fXMiss3D[1] << " " << x->fXMiss3D[2] << endl; // DEBUG
 					cout << "k1: " << x->GetSlope(); // DEBUG
 					cout << "\tb1: " << x->GetIntercept() << endl; // DEBUG
 					cout << "k2: " << k2 << "\tb2: " << b2; // DEBUG
 					cout << "\tid: " << id << endl; // DEBUG
+//					Compatible(x->GetSlope(), x->GetIntercept(), u->GetSlope(), u->GetIntercept(), v->GetSlope(), v->GetIntercept(), k2, b2, xMiss3D);
 //					x->Show(); u->Show(); v->Show(); getchar(); // DEBUG
 #endif
 				} // end if
@@ -364,7 +378,7 @@ void TAMWDCArray::TrackMerger(){ // assembly projections to 3-D tracks
 void TAMWDCArray::cleanUp(vector<TATrack *> &tr, const int n){
 	// eliminate inferior tracks for every 3D track
 //	cout << "n: " << n << endl; // DEBUG
-//	for(TATrack &x : tr) cout << x.Get3DId() << " "; // DEBUG
+//	for(TATrack *x : tr) cout << x->Get3DId() << " "; // DEBUG
 	for(int i = 0; i < n; i++){
 		TATrack *tm = nullptr; // the optimal track
 //		cout << "\ni: " << i << endl; getchar(); // DEBUG
@@ -375,7 +389,7 @@ void TAMWDCArray::cleanUp(vector<TATrack *> &tr, const int n){
 			TATrack *tt = tr[j];
 //			cout << "tm: " << tm << "\ttt: " << tt << endl; // DEBUG
 			if(tt != tm){
-				const int overlap = compare(tt, tm, 0);
+				const int overlap = compare(tt, tm, 'X', 0);
 //				cout << "overlap: " << overlap << endl; getchar(); // DEBUG
 				if(1 == overlap){ // tt is defeated
 					tt->Set3DId(-1);
@@ -398,7 +412,7 @@ void TAMWDCArray::cleanUp(vector<TATrack *> &tr, const int n){
 	} // end for over i
 
 //	cout << "HAHAHAHAHn: " << n << endl; // DEBUG
-//	for(TATrack &x : tr) cout << x.Get3DId() << ""; // DEBUG
+//	for(TATrack *x : tr) cout << x->Get3DId() << ""; // DEBUG
 	// erase the unmatched and defeated tracks
 	for(unsigned i = 0; i < tr.size(); i++){
 		if(-1 == tr[i]->Get3DId()){
@@ -414,7 +428,7 @@ void TAMWDCArray::cleanUp(vector<TATrack *> &tr, const int n){
 // p[4]: [0-3]: [k1, k2, b1, b2]; a[0-1]: [layer0~layer18, nu]
 // t = T_DC - T_TOF
 void TAMWDCArray::DriftTimeCorrection(double &t, double &r, const double *a, const double *p, int firedStripId, double beta){
-	if(beta < 0. || beta > 1.) return; // invalid beta
+	if(beta <= 0. || beta > 1.) return; // invalid beta
 	int LAYER = int(a[0]); // 0~17: nuX, nuU+6, nuV+6
 	int j = LAYER / 6; // j: 0-1-2: X-U-V
 	int k = LAYER % 6; // k: DC0X1-DC0X2-DC1X1-DC1X2-DC2X1-DC2X2
@@ -473,7 +487,7 @@ double TAMWDCArray::GetWirePropagationLength(const double *b, const double *B, i
 	const TAAnode *ano = dc->GetAnode(j, k%2+1, nu);
 	double p0[3]{}, p1[3]{}; // p0: the hit point on the anode; p1: anode center position
 	double ag[3]{}; ((TAAnodePara*)ano->GetPara())->GetGlobalDirection(ag); // global direction
-	((TAAnodePara*)ano->GetPara())->GetGlobalCenter(p1);
+	ano->GetAnodePara()->GetGlobalCenter(p1);
 	TAMath::GetHitPoint(b, B, ag, p1, p0);
 	p0[1] -= dc->GetDetPara()->GetY(); // p0[1] now is roughly in the detector-local coordinate system
 #ifdef DEBUG

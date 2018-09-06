@@ -734,9 +734,9 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 					// substract T_wire and T_tof from the time measurement
 					// recover the rough correction of time of flight from DC to TOF wall for a refined one
 					trk->t[j] -= TACtrlPara::T_tofDCtoTOFW(uid) - TACtrlPara::T_wireMean(uid);
-					double beta_t[2] = {0.5, 0.6}; // for simulation test only XXX XXX XXX
+//					double beta_t[2] = {0.5, 0.6}; // for simulation test only XXX XXX XXX
 					dcArr->DriftTimeCorrection(trk->t[j], trk->r[j], anodeId[tmp], trkVec,
-					 trk->firedStripId, beta_t[isDCArrR[jj]]); // trk->beta
+						trk->firedStripId, 0.62); // trk->beta beta_t[isDCArrR[jj]]
 					rr[tmp] = trk->r[j];
 #ifdef DEBUG
 					cout << "After correction,\n";
@@ -750,12 +750,14 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 		} // end for over l
 
 		// fit the track with the new drift time and drift distance // DEBUG
-//		cout << "Before correction,\n"; // DEBUG
-//		cout << "k1: " << trkVec[0] << "\tk2: " << trkVec[1] << "\tb1: " << trkVec[2] << "\tb2: " << trkVec[3] << endl; // DEBUG
+		cout << "Before correction,\n"; // DEBUG
+		cout << "k1: " << trkVec[0] << "\tk2: " << trkVec[1] << "\tb1: " << trkVec[2] << "\tb2: " << trkVec[3] << endl; // DEBUG
 		TAMath::BFGS4(Ag, ag, trkVec, rr, nF); // update trkVec
-//		cout << "After correction,\n"; // DEBUG
-//		cout << "k1: " << trkVec[0] << "\tk2: " << trkVec[1] << "\tb1: " << trkVec[2] << "\tb2: " << trkVec[3] << endl; // DEBUG
-		for(double &x : trk3DIf[jj].chi) x = -9999.;
+		cout << "After correction,\n"; // DEBUG
+		cout << "k1: " << trkVec[0] << "\tk2: " << trkVec[1] << "\tb1: " << trkVec[2] << "\tb2: " << trkVec[3] << endl; // DEBUG
+
+		trk3DIf[jj].initialize(); // initialization
+
 		tmp = 0; trk3DIf[jj].chi2 = 0.;
 		// assign residuals and prepare for the tree filling
 		for(int l = 0; l < 3; l++){ // loop over X-U-V
@@ -765,21 +767,21 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 					trk3DIf[jj].chi[l*6+j] = TAMath::dSkew(Ag[tmp], ag[tmp], trkVec) - rr[tmp];
 					trk3DIf[jj].chi2 += trk3DIf[jj].chi[l*6+j] * trk3DIf[jj].chi[l*6+j];
 					tmp++;
-//					cout << "chi[" << l*6+j << "]: " << trk3DIf[jj].chi[l*6+j] << endl; // DEBUG
+					cout << "chi[" << l*6+j << "]: " << trk3DIf[jj].chi[l*6+j] << endl; // DEBUG
 				} // end if
 			} // end for over j
 		} // end for over l
-		const int it = trkId[jj][0];
+		const int it = trkId[jj][0]; // the track id of jj-th 3D track's Xproj
 		trk3DIf[jj].Chi = sqrt(trk3DIf[jj].chi2/(nF-4));
 		trk3DIf[jj].k1 = trkVec[0]; trk3DIf[jj].b1 = trkVec[2];
 		trk3DIf[jj].k2 = trkVec[1]; trk3DIf[jj].b2 = trkVec[3];
 		trk3DIf[jj].isDCArrR = isDCArrR[jj];
 		trk3DIf[jj].tof2 = tof2[it];
 		trk3DIf[jj].taHitX = taHitX[it];
-//		cout << "isDCArrR: " << trk3DIf[jj].isDCArrR << endl; // DEBUG
-//		cout << "chi2: " << trk3DIf[jj].chi2 << endl; // DEBUG
-//		cout << "Chi: " << trk3DIf[jj].Chi << endl; // DEBUG
-//		cout << "tof2: " << trk3DIf[jj].tof2 << endl; getchar(); // DEBUG
+		cout << "isDCArrR: " << trk3DIf[jj].isDCArrR << endl; // DEBUG
+		cout << "chi2: " << trk3DIf[jj].chi2 << endl; // DEBUG
+		cout << "Chi: " << trk3DIf[jj].Chi << endl; // DEBUG
+		cout << "tof2: " << trk3DIf[jj].tof2 << endl; getchar(); // DEBUG
 
 		//// calculate TOF hit position ////
 		double p2[3]{}; // p2: fired strip projection
@@ -787,18 +789,20 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 		TAPlaStrip *strip = dcArr->GetTOFWall()->GetStrip(tl[it]->firedStripId);
 		strip->GetStripPara()->GetGlobalProjection(p2); // retrieve fired strip projection
 		p2[1] = trkVec[1] * p2[2] + trkVec[3]; // y = k2 z + b2;
-//		p2[0] = trkVec[0] * p2[2] + trkVec[2]; // x = k1 z + b1;
+		cout << "0.p2[0]: " << p2[0] << endl; // DEBUG
+		p2[0] = trkVec[0] * p2[2] + trkVec[2]; // x = k1 z + b1; // DEBUG
+//		cout << "1.p2[0]: " << p2[0] << endl; // DEBUG
 		trk3DIf[jj].TOF_posY_refine = p2[1]+600.; // 600.=1200./2. [0-1-2]: [x-y-z]
 		trk3DIf[jj].TOF_posY = strip->GetHitPosition();
-//		cout << "TOF_posY: " << trk3DIf[jj].TOF_posY << endl; // DEBUG
-//		cout << "TOF_posY_refine: " << trk3DIf[jj].TOF_posY_refine << endl; getchar(); // DEBUG
+		cout << "TOF_posY: " << trk3DIf[jj].TOF_posY << endl; // DEBUG
+		cout << "TOF_posY_refine: " << trk3DIf[jj].TOF_posY_refine << endl; getchar(); // DEBUG
 		//// Get averaged TOT of DC signals ////
 		// calculate averaged TOT over all the hit anode layers
 		double TOTAvrgtmp = 0.; int TOTcnt = 0;
 		// get the average, temporary, for the following filtering
 		for(int j = 0; j < 3; j++){ // loop over XUV
 			const int it = trkId[jj][j]; // trk id
-			for(int k = 0; k < 6; k++){ // loop over six anode layers in the  three MWDCs
+			for(int k = 0; k < 6; k++){ // loop over six anode layers in the three MWDCs
 				if(tl[it]->dcTOT[k] >= GetGPar()->Val(54)){
 					TOTAvrgtmp += tl[it]->dcTOT[k]; TOTcnt++;
 				}
@@ -814,6 +818,8 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 //				cout << "TOTAvrgtmp: " << TOTAvrgtmp << "\ttl[it]->dcTOT[k]: " << tl[it]->dcTOT[k] << endl; getchar(); // DEBUG
 				if(tl[it]->dcTOT[k] >= TOTAvrgtmp*0.6){ // or it is deemed as noise
 					trk3DIf[jj].dcTOTAvrg += tl[it]->dcTOT[k]; TOTcnt++;
+//					cout << "trk3DIf[jj].dcTOTAvrg: " << trk3DIf[jj].dcTOTAvrg << endl; // DEBUG
+//					getchar(); // DEBUG
 				}
 				else tl[it]->dcTOT[k] = -9999.; // 2018-01-15, slick, rule out noise-like TOTs
 			} // end for over k
@@ -830,7 +836,7 @@ void TAEventProcessor::RefinePID(const int n3Dtr, const t3DTrkInfo *trk3DIf, t3D
 	for(int i = 0; i < n3Dtr; i++) if(-9999. != trk3DIf[i].taHitX){
 		const t3DTrkInfo &t = trk3DIf[i]; t3DPIDInfo &pi = pid3DIf[i];
 		double pOut[4] = {t.k1, t.k2, t.b1, t.b2};
-		pid->Fly(t.tof2, t.taHitX, pOut, short(t.isDCArrR));
+		pid->Fly(t.tof2, t.taHitX, pOut, t.isDCArrR); // TAPID::kOpt1
 		pi.aoz = pid->GetAoZ();
 		pi.aozdmin = pid->GetChi();
 		pid->GetTargetExitAngle(pi.angTaOut);

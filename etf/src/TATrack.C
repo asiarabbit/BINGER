@@ -305,9 +305,14 @@ void TATrack::Fit(){
 		cout << "\tTATrack::kIterFit: " << kIterFit;
 		getchar();
 	}
+
+	// initialize chi
+	for(double &xx : fChi) xx = -9999.;
+	fChi2 = 0.;
+
 	// to tell whether drift time has been assigned //
 	int cnt = 0; // count of void r[i]
-	for(double x : fR) if(-9999 == x) cnt++;
+	for(double x : fR) if(-9999. == x) cnt++;
 	if(6 == cnt){
 		fChi2 = 0.; GetDsquare();
 		for(int i = 0; i < 6; i++){
@@ -323,8 +328,6 @@ void TATrack::Fit(){
 	else if(kBFGSFit == fFitMethod) BFGSFit();
 	else IterFit();
 	// assign array fChi
-	for(double &xx : fChi) xx = -9999.;
-	fChi2 = 0.;
 //	fK = 0.225525; fB = -37.8764; // XXX XXX XXX XXX DEBUG DEBUG DEBUG XXX XXX XXX XXX
 	for(int i = 0; i < 6; i++){
 		if(fLAYER[i] != -1){

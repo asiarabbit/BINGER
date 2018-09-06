@@ -9,7 +9,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/29.															     //
-// Last modified: 2018/8/19, SUN Yazhou.										     //
+// Last modified: 2018/9/6, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -90,7 +90,6 @@
 			} // end for over k
 			TOT_DC_Avrg[j] = tra->dcTOTAvrg();
 			index = tra->index; // indexes are the same in the loop
-			tra->beta = beta2[j];
 
 			// particle identification //
 			int ii = 0; taHitX[j] = -9999.; tof2[j] = -9999.; sipmArrStripId[j] = -1;
@@ -142,6 +141,7 @@
 					cntaoz++;
 				}
 			} // end the lengthy if
+			tra->beta = beta2[j];
 			if(-9999. != tof2[j]) htof2->Fill(tof2[j]);
 			if(beta2[j] >= 0.) hbeta2->Fill(beta2[j]);
 			if(-9999. != TOT_DC_Avrg[j]) hdcTOT->Fill(TOT_DC_Avrg[j]);
@@ -161,7 +161,7 @@
 		n3Dtr = 0;
 		if(ntr >= 3) RefineTracks(n3Dtr, trk3DIf, tof2, taHitX);
 		if(IsPID() && n3Dtr > 0) RefinePID(n3Dtr, trk3DIf, pid3DIf);
-		// calculate N of 3D trk from DCArrL and DCArrR
+		// count 3D trks from DCArrL and DCArrR
 		for(int j = 0; j < n3Dtr; j++){
 			if(trk3DIf[j].isDCArrR) n3DtrLs[1]++; // DCArrR
 			else n3DtrLs[0]++; // DCArrL
@@ -209,9 +209,16 @@
 							tmp++;
 						} // end for over k (anode layer)
 					} // end for over l (X-Y)
+//					cout << "UD, Before correction,\n"; // DEBUG
+//					cout << "UD, k1: " << trkVec[0] << "\tk2: " << trkVec[1] << "\tb1: " << trkVec[2] << "\tb2: " << trkVec[3] << endl; // DEBUG
 					TAMath::BFGS4(Ag, ag, trkVec, rr, nF); // refine and refresh trkVec
+//					cout << "UD, After correction,\n"; // DEBUG
+//					cout << "UD, k1: " << trkVec[0] << "\tk2: " << trkVec[1] << "\tb1: " << trkVec[2] << "\tb2: " << trkVec[3] << endl; // DEBUG
+//					getchar(); // DEBUG
 					// pass the fitting result to treePID3D //
-					for(double &x : trk3DIf[n3DtrT].chi) x = -9999.;
+
+					trk3DIf[n3DtrT].initialize(); // initialization
+
 					tmp = 0; trk3DIf[n3DtrT].chi2 = 0.;
 					// assign residuals and prepare for the tree filling
 					for(int l = 0; l < 2; l++){ // loop over X-Y
@@ -220,6 +227,7 @@
 								trk3DIf[n3DtrT].chi[l*6+j] = TAMath::dSkew(Ag[tmp], ag[tmp], trkVec) - rr[tmp];
 								trk3DIf[n3DtrT].chi2 += trk3DIf[n3DtrT].chi[l*6+j] * trk3DIf[n3DtrT].chi[l*6+j];
 								tmp++;
+//								cout << "chi[" << l*6+j << "]: " << trk3DIf[n3DtrT].chi[l*6+j] << endl; // DEBUG
 							} // end if
 						} // end for over j
 					} // end for over l
@@ -228,8 +236,6 @@
 					trk3DIf[n3DtrT].k2 = trkVec[1]; trk3DIf[n3DtrT].b2 = trkVec[3];
 					trk3DIf[n3DtrT].isDCArrR = jj;
 					trk3DIf[n3DtrT].firedStripId = -2; // -2: typical value for trks in DCArrUD
-					n3DtrT++;
-					n3DtrLs[2+jj]++;
 					//// Get averaged TOT of DC signals ////
 					// calculate averaged TOT over all the hit anode layers
 					double TOTAvrgtmp = 0.; int TOTcnt = 0;
@@ -241,8 +247,7 @@
 							}
 						} // end for over k
 					} // end for over XY
-					if(0 == TOTcnt) continue;
-					TOTAvrgtmp /= TOTcnt; // the temporary average
+					if(0 != TOTcnt) TOTAvrgtmp /= TOTcnt; // the temporary average
 					TOTcnt = 0; trk3DIf[n3DtrT].dcTOTAvrg = 0.; // initialization for average update
 					for(int j = 0; j < 2; j++){ // loop over XY
 						for(int k = 0; k < 4; k++){ // loop over six anode layers in the two MWDCs
@@ -254,6 +259,10 @@
 					} // end for voer XY
 					if(0 == TOTcnt) trk3DIf[n3DtrT].dcTOTAvrg = -9999.; // failed
 					else trk3DIf[n3DtrT].dcTOTAvrg /= TOTcnt; // the updated average
+
+					// increment the number of tracks //
+					n3DtrT++;
+					n3DtrLs[2+jj]++;
 				} // end for over jj (3D tracks, or DC Arr)
 			} // end if(there's only one track in DCArrU or DCArrD)
 		} // end outer if
@@ -304,7 +313,7 @@
 					pOut[1] = trk3DIf[0].k2; pOut[3] = trk3DIf[0].b2;
 				}
 				// XXX XXX XXX XXX //
-				if(0) if(1 == n3DtrLs[3]){ // use DCArrU-3D trk or not
+				if(1 == n3DtrLs[3]){ // use DCArrU-3D trk or not
 					for(int jj = n3Dtr; jj < n3DtrT; jj++){
 						if(0 == trk3DIf[jj].isDCArrR){ // DCArrU
 							if(-2 != trk3DIf[jj].firedStripId)
@@ -315,7 +324,7 @@
 						} // end if
 					} // end for over jj
 				} // end outer if
-				if(0) if(1 == n3DtrLs[3]){ // use DCArrD-3D trk or not
+				if(1 == n3DtrLs[3]){ // use DCArrD-3D trk or not
 					for(int jj = n3Dtr; jj < n3DtrT; jj++){
 						if(1 == trk3DIf[jj].isDCArrR){ // DCArrD
 							if(-2 != trk3DIf[jj].firedStripId)
@@ -334,6 +343,17 @@
 				if(aozdmin[0] > 100. || -9999. == aoz[0]){
 					cntaozWrong++;
 //					cout << "index: " << index << endl; // DEBUG
+				}
+				// assign 3D PID result //
+				if(Is3DTracking()){
+					t3DPIDInfo &pi = pid3DIf[0];
+					pi.aoz = pid->GetAoZ();
+					pi.aozdmin = pid->GetChi();
+					pi.beta2 = pid->GetBeta();
+					pi.poz = pid->GetPoZ();
+					pi.brho = pid->GetBrho();
+					pid->GetTargetExitAngle(pi.angTaOut);
+					pi.trkLenT = pid->GetTotalTrackLength();
 				}
 				if(0) if(aoz[0] > 0.){ // 
 					cout << "index: " << index << endl; // DEBUG
@@ -355,36 +375,40 @@
 
 //		cout << "n3Dtr: " << n3Dtr << endl; getchar(); // DEBUG
 		// assignment for the filling of treePID3D
+		dcTOTAvrg3D_Total = 0.; // TOT: DCArr-D + DCArr-R
 		for(int jj = 0; jj < n3DtrT; jj++){
 			const t3DTrkInfo &t = trk3DIf[jj];
-			const t3DPIDInfo &p = pid3DIf[jj];
 			// 3D trk
 			isDCArrR[jj] = t.isDCArrR;
 			Chi3D[jj] = t.Chi; chi2_3D[jj] = t.chi2;
 			memcpy(chi3D[jj], t.chi, sizeof(chi3D[jj]));
 			k1[jj] = t.k1; k2[jj] = t.k2; b1[jj] = t.b1; b2[jj] = t.b2;
-			TOF_posY[jj] = t.TOF_posY; // hit Y position in TOFW strips, calculated via
-			TOF_posY_refine[jj] = t.TOF_posY_refine; // dt or 3D trks
+			// hit Y position in TOFW strips, calculated via dt or 3D trks
+			TOF_posY[jj] = t.TOF_posY;
+			TOF_posY_refine[jj] = t.TOF_posY_refine;
 			firedStripId3D[jj] = t.firedStripId; tof2_3D[jj] = t.tof2;
 			dcTOTAvrg3D[jj] = t.dcTOTAvrg;
+			if(t.isDCArrR) dcTOTAvrg3D_Total += t.dcTOTAvrg; // DCArrR or DCArrD - for secondary beam experiment
 			hTOFWHitPosCmp[isDCArrR[jj]]->Fill(TOF_posY[jj], TOF_posY_refine[jj]);
 //			cout << "t.firedStripId: " << t.firedStripId << endl; // DEBUG
 //			cout << "t.tof2: " << t.tof2 << endl; // DEBUG
 //			getchar(); // DEBUG
 			// 3D trk PID
-			if(IsPID()){
+			const t3DPIDInfo &p = pid3DIf[jj];
+			if(IsPID() && p.aoz != -9999.){
 				aoz3D[jj] = p.aoz; aozdmin3D[jj] = p.aozdmin;
-				beta2_3D[jj] = p.beta2; poz3D[jj] = p.poz;
+				beta2_3D[jj] = p.beta2; poz3D[jj] = p.poz; brho3D[jj] = p.brho;
 				yp3D[jj][0] = p.angTaOut[0]; yp3D[jj][1] = p.angTaOut[1];
 				trkLenT3D[jj] = p.trkLenT;
 			} // end if(IsPID())
 		} // end for over 3D tracks
+
 		// update drift time and drift distance
 		for(int j = 0; j < ntrT; j++){
 			tTrack *&tra = track_ls[j];
 			for(int k = 0; k < 6; k++){
-				t[j][k] = tra->t[k];
-				r[j][k] = tra->r[k];
+				t[j][k] = tra->t[k]; // altered by DriftTimeCorrection()
+				r[j][k] = tra->r[k]; // updated with the altered time
 				TOT_DC[j][k] = tra->dcTOT[k]; // update TOT
 			}
 			TOT_DC_Avrg[j] = tra->dcTOTAvrg(); // update TOTAvrg

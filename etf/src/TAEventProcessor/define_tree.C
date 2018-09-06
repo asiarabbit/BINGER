@@ -8,7 +8,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/21.															     //
-// Last modified: 2018/8/27, SUN Yazhou.										     //
+// Last modified: 2018/9/6, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -82,10 +82,10 @@
 	treeTrack->Branch("beta2", beta2, "beta2[ntr]/D"); // beta from T0_1 to TOFW
 	treeTrack->Branch("TOT_DC", TOT_DC, "TOT_DC[ntrT][6]/D");
 	treeTrack->Branch("TOT_DC_Avrg", TOT_DC_Avrg, "TOT_DC_Avrg[ntrT]/D");
-	treeTrack->Branch("TOTUV", TOTUV, "TOTUV[ntrT]/D"); // time over threshold, up side, V
-	treeTrack->Branch("TOTUH", TOTUH, "TOTUH[ntrT]/D"); // time over threshold, up side, H
-	treeTrack->Branch("TOTDV", TOTDV, "TOTDV[ntrT]/D"); // time over threshold, down side, V
-	treeTrack->Branch("TOTDH", TOTDH, "TOTDH[ntrT]/D"); // time over threshold, down side, H
+	treeTrack->Branch("TOTUV", TOTUV, "TOTUV[ntrT]/D"); // time over threshold for TOFWall fired strip, up side, V
+	treeTrack->Branch("TOTUH", TOTUH, "TOTUH[ntrT]/D"); // time over threshold for TOFWall fired strip, up side, H
+	treeTrack->Branch("TOTDV", TOTDV, "TOTDV[ntrT]/D"); // time over threshold for TOFWall fired strip, down side, V
+	treeTrack->Branch("TOTDH", TOTDH, "TOTDH[ntrT]/D"); // time over threshold for TOFWall fired strip, down side, H
 	treeTrack->Branch("TOF_T1", &TOF_T1, "TOF_T1/D"); // time tag of T1 plastic scintillator
 	treeTrack->Branch("firedStripId", firedStripId, "firedStripId[ntr]/I");
 	treeTrack->Branch("nStripStray", nStripStray, "nStripStray[ntr]/D"); // distance of track to fired TOF Wall strip center
@@ -234,9 +234,9 @@
 	double TOF_posY[n3DtrMax], TOF_posY_refine[n3DtrMax]; // refine: calculate through 3D trks
 	// 3D counterpart of treeTrack
 	int firedStripId3D[n3DtrMax];
-	double tof2_3D[n3DtrMax], dcTOTAvrg3D[n3DtrMax];
+	double tof2_3D[n3DtrMax], dcTOTAvrg3D[n3DtrMax], dcTOTAvrg3D_Total; // DCArr-D + DCArr-R
 	double aoz3D[n3DtrMax], aozdmin3D[n3DtrMax], beta2_3D[n3DtrMax];
-	double yp3D[n3DtrMax][2], poz3D[n3DtrMax], trkLenT3D[n3DtrMax];
+	double yp3D[n3DtrMax][2], poz3D[n3DtrMax], brho3D[n3DtrMax], trkLenT3D[n3DtrMax];
 	t3DTrkInfo trk3DIf[n3DtrMax]; t3DPIDInfo pid3DIf[n3DtrMax];
 	TTree *treePID3D = new TTree("treePID3D", "PID using 3D Tracking and Refinement");
 //	treePID3D->SetAutoSave(1e7);
@@ -256,14 +256,16 @@
 	treePID3D->Branch("firedStripId", firedStripId3D, "firedStripId[n3DtrT]/I");
 	treePID3D->Branch("tof2", tof2_3D, "tof2[n3DtrT]/D");
 	treePID3D->Branch("TOT_DC_Avrg", dcTOTAvrg3D, "TOT_DC_Avrg[n3DtrT]/D");
+	treePID3D->Branch("TOT_DC_Avrg", &dcTOTAvrg3D_Total, "TOT_DC_Avrg_Total/D"); // TOT: DCArr-D + DCArr-R
 	// 3D PID result using the same PID method
 	if(IsPID()){
 		treePID3D->Branch("aoz", aoz3D, "aoz[n3Dtr]/D");
 		treePID3D->Branch("aozdmin", aozdmin3D, "aozdmin[n3Dtr]/D");
 		treePID3D->Branch("beta2", beta2_3D, "beta2[n3Dtr]/D");
+		treePID3D->Branch("poz", poz3D, "poz[n3Dtr]/D"); // MeV/c
+		treePID3D->Branch("brho", brho3D, "brho[n3Dtr]/D"); // T.m
 		treePID3D->Branch("angTaOut", yp3D, "angTaOut[n3Dtr][2]/D"); // out angle at the target hit point
 		treePID3D->Branch("trkLenT", trkLenT3D, "trkLenT[n3Dtr]/D");
-		treePID3D->Branch("poz", poz3D, "poz[n3Dtr]/D"); // MeV/c
 	} // end if(IsPID())
 	objLsTree.push_back(treePID3D);
 
