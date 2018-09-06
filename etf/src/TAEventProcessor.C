@@ -619,6 +619,7 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 		Analyze();
 		// assgin ntr variables
 		memset(ntrLs, 0, sizeof(ntrLs));
+		memset(n3DtrLs, 0, sizeof(n3DtrLs));
 		for(tTrack *&t : track_ls){
 			const int dcArrId = t->type / 10 % 10, dcType = t->type % 10;
 			ntrLs[dcArrId][dcType]++;
@@ -636,7 +637,6 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 #endif
 		cntTrk += ntrT;
 		cnt3DTrk += n3DtrT;
-//		cout << "ntrT: " << ntrT << "\tn3DtrT: " << n3DtrT << endl; getchar(); // DEBUG
 		if(index % 1 == 0){
 			cout << setw(10) << index << setw(10) << cntSec << setw(10) << cntTrkX;
 			cout << setw(10) << cntTrk << setw(10) << cnt3DTrk;
@@ -645,6 +645,7 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 //			cout << cntTrk - (cnt3DTrk/3)*2 << " totTrk " << cntTrk << " 3Dtrk " << cnt3DTrk / 3;
 //			cout << " naoz " << cntaoz << " naozBad " << cntaozWrong << "\r" << flush; // cntaozWrong
 		}
+//		cout << endl << "ntrT: " << ntrT << "\tn3DtrT: " << n3DtrT << endl; getchar(); // DEBUG
 	} // end while over treeData entries
 	cout << std::right;
 #ifdef GO
@@ -739,7 +740,7 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 						trk->firedStripId, 0.62); // trk->beta beta_t[isDCArrR[jj]]
 					rr[tmp] = trk->r[j];
 #ifdef DEBUG
-					cout << "After correction,\n";
+					cout << "After correction,\n"; // DEBUG
 					cout << "trk->t[j]: " << trk->t[j] << endl; // DEBUG
 					cout << "trk->r[j]: " << trk->r[j] << endl; // DEBUG
 					getchar(); // DEBUG
@@ -750,11 +751,11 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 		} // end for over l
 
 		// fit the track with the new drift time and drift distance // DEBUG
-		cout << "Before correction,\n"; // DEBUG
-		cout << "k1: " << trkVec[0] << "\tk2: " << trkVec[1] << "\tb1: " << trkVec[2] << "\tb2: " << trkVec[3] << endl; // DEBUG
+//		cout << "Before correction,\n"; // DEBUG
+//		cout << "k1: " << trkVec[0] << "\tk2: " << trkVec[1] << "\tb1: " << trkVec[2] << "\tb2: " << trkVec[3] << endl; // DEBUG
 		TAMath::BFGS4(Ag, ag, trkVec, rr, nF); // update trkVec
-		cout << "After correction,\n"; // DEBUG
-		cout << "k1: " << trkVec[0] << "\tk2: " << trkVec[1] << "\tb1: " << trkVec[2] << "\tb2: " << trkVec[3] << endl; // DEBUG
+//		cout << "After correction,\n"; // DEBUG
+//		cout << "k1: " << trkVec[0] << "\tk2: " << trkVec[1] << "\tb1: " << trkVec[2] << "\tb2: " << trkVec[3] << endl; // DEBUG
 
 		trk3DIf[jj].initialize(); // initialization
 
@@ -767,7 +768,7 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 					trk3DIf[jj].chi[l*6+j] = TAMath::dSkew(Ag[tmp], ag[tmp], trkVec) - rr[tmp];
 					trk3DIf[jj].chi2 += trk3DIf[jj].chi[l*6+j] * trk3DIf[jj].chi[l*6+j];
 					tmp++;
-					cout << "chi[" << l*6+j << "]: " << trk3DIf[jj].chi[l*6+j] << endl; // DEBUG
+//					cout << "chi[" << l*6+j << "]: " << trk3DIf[jj].chi[l*6+j] << endl; // DEBUG
 				} // end if
 			} // end for over j
 		} // end for over l
@@ -778,10 +779,10 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 		trk3DIf[jj].isDCArrR = isDCArrR[jj];
 		trk3DIf[jj].tof2 = tof2[it];
 		trk3DIf[jj].taHitX = taHitX[it];
-		cout << "isDCArrR: " << trk3DIf[jj].isDCArrR << endl; // DEBUG
-		cout << "chi2: " << trk3DIf[jj].chi2 << endl; // DEBUG
-		cout << "Chi: " << trk3DIf[jj].Chi << endl; // DEBUG
-		cout << "tof2: " << trk3DIf[jj].tof2 << endl; getchar(); // DEBUG
+//		cout << "isDCArrR: " << trk3DIf[jj].isDCArrR << endl; // DEBUG
+//		cout << "chi2: " << trk3DIf[jj].chi2 << endl; // DEBUG
+//		cout << "Chi: " << trk3DIf[jj].Chi << endl; // DEBUG
+//		cout << "tof2: " << trk3DIf[jj].tof2 << endl; getchar(); // DEBUG
 
 		//// calculate TOF hit position ////
 		double p2[3]{}; // p2: fired strip projection
@@ -789,13 +790,13 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 		TAPlaStrip *strip = dcArr->GetTOFWall()->GetStrip(tl[it]->firedStripId);
 		strip->GetStripPara()->GetGlobalProjection(p2); // retrieve fired strip projection
 		p2[1] = trkVec[1] * p2[2] + trkVec[3]; // y = k2 z + b2;
-		cout << "0.p2[0]: " << p2[0] << endl; // DEBUG
+//		cout << "0.p2[0]: " << p2[0] << endl; // DEBUG
 		p2[0] = trkVec[0] * p2[2] + trkVec[2]; // x = k1 z + b1; // DEBUG
 //		cout << "1.p2[0]: " << p2[0] << endl; // DEBUG
 		trk3DIf[jj].TOF_posY_refine = p2[1]+600.; // 600.=1200./2. [0-1-2]: [x-y-z]
 		trk3DIf[jj].TOF_posY = strip->GetHitPosition();
-		cout << "TOF_posY: " << trk3DIf[jj].TOF_posY << endl; // DEBUG
-		cout << "TOF_posY_refine: " << trk3DIf[jj].TOF_posY_refine << endl; getchar(); // DEBUG
+//		cout << "TOF_posY: " << trk3DIf[jj].TOF_posY << endl; // DEBUG
+//		cout << "TOF_posY_refine: " << trk3DIf[jj].TOF_posY_refine << endl; getchar(); // DEBUG
 		//// Get averaged TOT of DC signals ////
 		// calculate averaged TOT over all the hit anode layers
 		double TOTAvrgtmp = 0.; int TOTcnt = 0;

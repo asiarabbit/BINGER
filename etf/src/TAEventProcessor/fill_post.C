@@ -370,6 +370,7 @@
 				} // end if
 
 				cntaoz++;
+//				cout << "mark 1, cntaoz: " << cntaoz << endl; getchar(); // DEBUG
 			} // end inner if
 		} // end the outer if
 
