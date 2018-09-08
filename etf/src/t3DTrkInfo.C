@@ -30,7 +30,7 @@ void t3DTrkInfo::initialize(){
 	TOF_posY = -9999.; TOF_posY_refine = -9999.;
 	for(double &x : chi) x = -9999.;
 	chi2 = -9999.; Chi = -9999.; dcTOTAvrg = -9999.;
-	isDCArrR = true; firedStripId = -1;
+	isDCArrR = true; firedStripId = -1; dcTOTcnt = 0;
 }
 
 

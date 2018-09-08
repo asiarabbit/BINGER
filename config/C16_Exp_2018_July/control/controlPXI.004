@@ -301,3 +301,5 @@
 # 1: PXI channel; 15: VME channel
 106 1
 
+# tof2 offset: tof2 += tof2_ofst; unit: ns
+107 1.8

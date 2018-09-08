@@ -445,9 +445,13 @@ void TAGPar::DefineParameters(){
 	p->SetValue(5.); fParVec[105] = p; p = nullptr;
 
 	// TOFSTOP OPTION //
-	// ---- PARAMETER 105 --- //
+	// ---- PARAMETER 106 --- //
 	p = new TAParameter("TOFSTOP-OPTION", "TOFSTOP OPTION");
 	p->SetValue(1); fParVec[106] = p; p = nullptr;
+
+	// ---- PARAMETER 107 --- //
+	p = new TAParameter("tof2 offset", "tof2 += tof2_ofst; unit: ns");
+	p->SetValue(0); fParVec[107] = p; p = nullptr;
 
 } // end of member function DefineParameters
 

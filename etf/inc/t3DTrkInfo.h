@@ -10,7 +10,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/11/23.															     //
-// Last modified: 2018/1/14, SUN Yazhou.										     //
+// Last modified: 2018/9/7, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -28,6 +28,7 @@ struct t3DTrkInfo{
 	double chi[18], chi2, Chi;
 	// time over threshold of DC signals, indicator of dE/dx
 	double dcTOTAvrg; // averaged over all hit anode layers for a 3D track (maximum: 18)
+	int dcTOTcnt; // number of valid dcTOTs
 	bool isDCArrR; // false: L; true: R;     false: U; true: D;
 
 	t3DTrkInfo();

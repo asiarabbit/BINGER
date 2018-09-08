@@ -6,12 +6,14 @@ void tmp(){
 	TTree *treeMulti = (TTree*)f->Get("treeMulti");
 	TTree *treePDCPileUp = (TTree*)f->Get("treePDCPileUp");
 	TTree *treeDCPileUp = (TTree*)f->Get("treeDCPileUp");
+	TTree *treePID3D = (TTree*)f->Get("treePID3D");
 	TTree *vme = (TTree*)f->Get("vme");
 	treeTrack->AddFriend(treeshoot);
 	treeTrack->AddFriend(treeTOFWR);
 	treeTrack->AddFriend(treeMulti);
 	treeTrack->AddFriend(treePDCPileUp);
 	treeTrack->AddFriend(treeDCPileUp);
+	treeTrack->AddFriend(treePID3D);
 	treeTrack->AddFriend(vme);
 
 	// stored cuts //
@@ -24,12 +26,21 @@ void tmp(){
 	TCanvas *c = new TCanvas("c", "c", 800, 600);
 //	treeTrack->Draw("dE0:tof1>>h(500, 133., 137., 500, -0.5, 4.5)", "dsca11==0;tof1 [ns];dE0-corrected arb.;", "col");
 //	treeTrack->Draw("dE0+0.00623053*PDCPos[1][1]:tof1>>h(500, 133., 137., 500, -0.5, 4.5)", "dsca11==0", "col");
-	treeTrack->Draw("dE1:dE0+0.00623053*PDCPos[1][1]>>h(500, -1., 5., 500, -1., 5.)", "dsca11==0&&aoz>0;dE0-corrected arb.;dE1 arb.;", "col");
+//	treeTrack->Draw("dE1:dE0+0.00623053*PDCPos[1][1]>>h(500, -1., 5., 500, -1., 5.)", "dsca11==0&&aoz>0;dE0-corrected arb.;dE1 arb.;", "col");
 //	treeTrack->Draw("aoz:TOFWPos>>h(500, -700., 700., 500, 1.4, 3.)", "CUTG", "colbox");
 ////	treeTrack->Draw("dE0+0.00623053*PDCPos[1][1]:tof1>>h(500, 133., 137., 500, -0.5, 4.5)", "dsca11==0", "col");
 //	treeTrack->Draw("dE0+0.00623053*PDCPos[1][1]:tof1>>h(500, 133., 137., 500, -0.5, 4.5)", "dsca11==0;tof1[ns];dE0-corrected arb.;", "col");
 //	treeTrack->Draw("taHitPos[0][1]:taHitPos[0][0]>>h(500, -40., 40., 500, -40., 40.)", "dsca11==0;taHitPosX [mm];taHitPosY [mm];", "col");
-//	treeTrack->Draw("dE1:aoz>>h(500, 1.4, 3., 500, 0., 4.5)", "dsca11==0&&(A0t0||A0t1)&&B0;aoz;dE1 arb.;", "col");
+//	treeTrack->Draw("poz[0]:beta2[0]>>h(500, 0.5, 0.66, 500, 1000., 2600.)", "dsca11==0&&(A0t0||A0t1)&&B0&&dE1>1.5;beta2;poz;", "col");
+//	treeTrack->Draw("dE1:aoz[0]>>h(500, 1.4, 3., 500, 0., 4.5)", "dsca11==0&&(A0t0||A0t1)&&B0;aoz;dE1 arb.;", "col");
+	treeTrack->Draw("TOF_posY_refine[0]:firedStripId[0]>>h(33, -1.5, 31.5, 500, -10, 1300.)", "dsca11==0&&(A0t0||A0t1)&&B0", "col");
+	treeTrack->Draw("TOT_UH[0]")
+//	treeTrack->Draw("(TOT_DC_Avrg[0]+TOT_DC_Avrg[1]+TOT_DC_Avrg[2])/3.:dE1>>h(500, -0.1, 4.5, 500, 0., 700.)", "ntrLs[1][0]>=1&&ntrLs[1][1]==1&&ntrLs[1][2]==1 && dsca11==0&&(A0t0||A0t1)&&B0");
+//	treeTrack->Draw("(TOT_Avrg_Ta[0][0]*TOTcnt_Ta[0][0]+TOT_Avrg_Ta[0][1]*TOTcnt_Ta[0][1])/(TOTcnt_Ta[0][0]+TOTcnt_Ta[0][1]):dE0+0.00623053*PDCPos[1][1]>>h(500, -1., 4.5, 500, 0., 500.)", "", "col");
+//	treeTrack->Draw("(TOT_Avrg_Ta[0][0]+TOT_Avrg_Ta[0][1])/2.:dE0+0.00623053*PDCPos[1][1]>>h(500, -1., 4.5, 500, 0., 500.)", "", "col");
+//	treeTrack->Draw("(TOT_Avrg_Ta[1][0]+TOT_Avrg_Ta[1][1])/2.:dE1>>h(500, -1., 4.5, 500, 0., 500.)", "", "col");
+//	treeTrack->Draw("(TOT_DC_Avrg[0]+TOT_DC_Avrg[1]+TOT_DC_Avrg[2])/3.:dE1>>h(500, -1., 4.5, 500, 0., 500.)", "ntrLs[1][0]==1&&ntrLs[1][1]==1&&ntrLs[1][2]==1&&(A0t0||A0t1)", "col");
+//	treeTrack->Draw("(TOT_DC_Avrg[0]+TOT_DC_Avrg[1]+TOT_DC_Avrg[2])/300.:aoz>>h(500, 1.4, 4., 500, 0., 6.)", "ntrLs[1][0]==1&&ntrLs[1][1]==1&&ntrLs[1][2]==1&&(A0t0||A0t1)", "col");
 	TNamed *h = (TNamed*)f->Get("h");
 	h->SetTitle((string(h->GetTitle())+"}").c_str());
 //	A0t0->Draw("same");

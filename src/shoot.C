@@ -94,12 +94,15 @@ void shoot(const char *rootfile){
 	// read the track tree
 	TTree *treeTrack = (TTree*)f->Get("treeTrack");
 	TTree *vme = (TTree*)f->Get("vme");
+	TTree *treePID3D = (TTree*)f->Get("treePID3D");
 	treeTrack->AddFriend(vme);
+	treeTrack->AddFriend(treePID3D);
 	const int ntrMax = 100;
 	int ntr, ntrT, index, nu[ntrMax][6]{}, gGOOD[ntrMax]{};
 	int type[ntrMax]{}, id[ntrMax]{}, firedStripId[ntrMax];
 	int ntrLs[6][3]{}; // N of TrkProjs; DCArr-L-R-U-D -- [XUV - XY]
 	double t[ntrMax][6]{}, r[ntrMax][6]{}, k_[ntrMax]{}, b[ntrMax]{};
+	double TOT_DC[ntrMax][6]; // TOT dcs, having already checked
 	double chi[ntrMax][6]{}, chi2[ntrMax]{}, Chi[ntrMax]{}, TOF[ntrMax]{};
 	double tRef_pos; // hit position of T0_1
 	unsigned sca[16];
@@ -110,6 +113,7 @@ void shoot(const char *rootfile){
 	treeTrack->SetBranchAddress("ntrLs", ntrLs);
 	treeTrack->SetBranchAddress("nu", nu);
 	treeTrack->SetBranchAddress("TOF", TOF);
+	treeTrack->SetBranchAddress("TOT_DC", TOT_DC);
 	treeTrack->SetBranchAddress("t", t);
 	treeTrack->SetBranchAddress("r", r);
 	treeTrack->SetBranchAddress("k", k_);
@@ -128,6 +132,8 @@ void shoot(const char *rootfile){
 
 	// hit point on the target and the track information
 	double taHitPos[2][2], kTa[2][2], bTa[2][2]; // [0-1][0-1]: [U-D][X-Y]
+	double TOT_Ta[2][2][6], TOT_Avrg_Ta[2][2]; // [0-1][0-1]: [U-D][X-Y]
+	int TOTcnt_Ta[2][2]; // [0-1][0-1]: [U-D][X-Y]
 	double vetoPos[2], t0_1Pos[2];
 	double PDCPos[4][2]; // [0-3][0-1]: [PDCU0-1--PDCD0-1][X-Y]
 	double chiTa[2][2][6]; // [U-D][X-Y]
@@ -147,6 +153,8 @@ void shoot(const char *rootfile){
 	treeshoot->Branch("kTa", kTa, "kTa[2][2]/D");
 	treeshoot->Branch("kDC", &kDC_, "kDC/D");
 	treeshoot->Branch("bDC", &bDC_, "bDC/D");
+	treeshoot->Branch("TOT_Avrg_Ta", TOT_Avrg_Ta, "TOT_Avrg_Ta[2][2]/D");
+	treeshoot->Branch("TOTcnt_Ta", TOTcnt_Ta, "TOTcnt_Ta[2][2]/I");
 	treeshoot->Branch("chiTa", chiTa, "chiTa[2][2][6]/D");
 	treeshoot->Branch("nuTa", nuTa, "nuTa[2][2][6]/I"); // U-D -- X-Y -- DC0X1-X2-DC1-X1-X2
 	treeshoot->Branch("nuDCR", nuDCR, "nuDCR[6]/I");
@@ -232,6 +240,7 @@ void shoot(const char *rootfile){
 						for(int ii = 0; ii < 6; ii++){
 							chiTa[k][l][ii] = chi[j][ii];
 							nuTa[k][l][ii] = nu[j][ii];
+							TOT_Ta[k][l][ii] = TOT_DC[j][ii];
 						}
 						taHitPos[k][l] = kTa[k][l] * zTa + bTa[k][l];
 						for(int m = 0; m < 2; m++){ // loop over PDC[UD]DC0-1
@@ -291,7 +300,20 @@ void shoot(const char *rootfile){
 				hTaPos2D[j]->Fill(taHitPos[j][0], taHitPos[j][1]);
 				for(int m = 0; m < 2; m++){ // DC0-1
 					hPDCPos[2*j+m]->Fill(PDCPos[2*j+m][0], PDCPos[2*j+m][1]);
-				}
+					TOT_Avrg_Ta[j][m] = 0.; TOTcnt_Ta[j][m] = 0;
+					for(int l = 0; l < 4; l++) if(-9999. != TOT_Ta[j][m][l]){
+						TOT_Avrg_Ta[j][m] += TOT_Ta[j][m][l];
+						TOTcnt_Ta[j][m]++;
+//						cout << "index: " << index << endl; // DEBUG
+//						cout << "TOT_Ta[j][m][l]: " << TOT_Ta[j][m][l] << endl; // DEBUG
+//						cout << "TOT_Avrg_Ta[j][m]: " << TOT_Avrg_Ta[j][m] << endl; // DEBUG
+//						cout << "TOTcnt_Ta[j][m]: " << TOTcnt_Ta[j][m] << endl; // DEBUG
+					} // end for over l
+					if(0 != TOTcnt_Ta[j][m]) TOT_Avrg_Ta[j][m] /= TOTcnt_Ta[j][m];
+					else TOT_Avrg_Ta[j][m] = -9999.;
+//					cout << "TOT_Avrg_Ta[j][m]: " << TOT_Avrg_Ta[j][m] << endl; // DEBUG
+				} // end for over m
+//				getchar(); // DEBUG
 				if(0 == j){ // PDCArrU
 					hT0_1Pos->Fill(t0_1Pos[0], t0_1Pos[1]);
 					hVetoPos->Fill(vetoPos[0], vetoPos[1]);

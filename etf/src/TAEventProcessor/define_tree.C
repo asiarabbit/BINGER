@@ -233,7 +233,7 @@
 	// hit position in TOFW strip, rough and refine, from Down End to up end (0-1200)
 	double TOF_posY[n3DtrMax], TOF_posY_refine[n3DtrMax]; // refine: calculate through 3D trks
 	// 3D counterpart of treeTrack
-	int firedStripId3D[n3DtrMax];
+	int firedStripId3D[n3DtrMax], dcTOT3Dcnt[n3DtrMax];
 	double tof2_3D[n3DtrMax], dcTOTAvrg3D[n3DtrMax], dcTOTAvrg3D_Total; // DCArr-D + DCArr-R
 	double aoz3D[n3DtrMax], aozdmin3D[n3DtrMax], beta2_3D[n3DtrMax];
 	double yp3D[n3DtrMax][2], poz3D[n3DtrMax], brho3D[n3DtrMax], trkLenT3D[n3DtrMax];
@@ -256,7 +256,8 @@
 	treePID3D->Branch("firedStripId", firedStripId3D, "firedStripId[n3DtrT]/I");
 	treePID3D->Branch("tof2", tof2_3D, "tof2[n3DtrT]/D");
 	treePID3D->Branch("TOT_DC_Avrg", dcTOTAvrg3D, "TOT_DC_Avrg[n3DtrT]/D");
-	treePID3D->Branch("TOT_DC_Avrg", &dcTOTAvrg3D_Total, "TOT_DC_Avrg_Total/D"); // TOT: DCArr-D + DCArr-R
+	treePID3D->Branch("TOT_DC_cnt", dcTOT3Dcnt, "TOT_DC_cnt[n3DtrT]/I"); // number of valid TOTs
+	treePID3D->Branch("TOT_DC_Avrg_Total", &dcTOTAvrg3D_Total, "TOT_DC_Avrg_Total/D"); // TOT: DCArr-D + DCArr-R
 	// 3D PID result using the same PID method
 	if(IsPID()){
 		treePID3D->Branch("aoz", aoz3D, "aoz[n3Dtr]/D");

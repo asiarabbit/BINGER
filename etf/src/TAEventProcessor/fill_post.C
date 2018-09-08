@@ -47,7 +47,7 @@
 			}
 			// track information
 			const double &kl = k[j]; // to distinguish slope k from incremental k below
-			static const bool usingPDC = bool(TAGPar::Instance()->Val(83));
+			static const bool usingPDC = bool(GetGPar()->Val(83));
 			for(int k = 0; k < 6; k++){ // loop over anode layers
 				short dcId = k/2; // DC[0-1-2]
 				short layerOption = k%2+1; // 1: X(U,V)1; 2: X(U,V)2
@@ -121,7 +121,8 @@
 				} // end for over channels
 			} // end outer if
 			if(tRef != -9999. && firedStripId[j] >= 0 && dcArrId < 2){
-				tof2[j] = tofw[dcArrId]->GetStripTime(firedStripId[j], tRef, 40., 90.) - tRef; // 
+				tof2[j] = tofw[dcArrId]->GetStripTime(firedStripId[j], tRef, 40., 90.) - tRef;
+				tof2[j] += GetGPar()->Val(107);
 			}
 			yp[j][0] = -9999.; yp[j][1] = -9999.; trkLenT[j] = -9999.;
 			aoz[j] = -9999.; aozdmin[j] = -9999.; beta2[j] = -1.;
@@ -258,7 +259,10 @@
 						} // end for over k
 					} // end for voer XY
 					if(0 == TOTcnt) trk3DIf[n3DtrT].dcTOTAvrg = -9999.; // failed
-					else trk3DIf[n3DtrT].dcTOTAvrg /= TOTcnt; // the updated average
+					else{
+						trk3DIf[n3DtrT].dcTOTAvrg /= TOTcnt; // the updated average
+						trk3DIf[n3DtrT].dcTOTcnt = TOTcnt;
+					}
 
 					// increment the number of tracks //
 					n3DtrT++;
@@ -389,6 +393,7 @@
 			TOF_posY_refine[jj] = t.TOF_posY_refine;
 			firedStripId3D[jj] = t.firedStripId; tof2_3D[jj] = t.tof2;
 			dcTOTAvrg3D[jj] = t.dcTOTAvrg;
+			dcTOT3Dcnt[jj] = t.dcTOTcnt;
 			if(t.isDCArrR) dcTOTAvrg3D_Total += t.dcTOTAvrg; // DCArrR or DCArrD - for secondary beam experiment
 			hTOFWHitPosCmp[isDCArrR[jj]]->Fill(TOF_posY[jj], TOF_posY_refine[jj]);
 //			cout << "t.firedStripId: " << t.firedStripId << endl; // DEBUG
@@ -404,7 +409,7 @@
 			} // end if(IsPID())
 		} // end for over 3D tracks
 
-		// update drift time and drift distance
+		// update drift time, drift distance and dcTOTs before filling the trees
 		for(int j = 0; j < ntrT; j++){
 			tTrack *&tra = track_ls[j];
 			for(int k = 0; k < 6; k++){

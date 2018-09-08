@@ -80,6 +80,7 @@ using std::setw;
 #define GO // do the filling of ROOT objects
 //#define VERBOSE // show TAPopMsg::Info() information
 //#define SHOW_ENTRY
+//#define SHOW_TRACK // show track projection information
 
 TAEventProcessor* TAEventProcessor::fInstance = nullptr;
 
@@ -253,7 +254,7 @@ void TAEventProcessor::Configure(){
 	// select an experiment, to direct to a directory containing the exp config parameters
 	const char dir[7][64] = {"pion_2017Oct", "beamTest_2016Nov", "C16_Exp_2018_Summer",
 		"tripletDC_P_Ma_Test", "tripletDC_P_Ma_Test_ETF", "OpticFiber", "C16_Exp_2018_July"};
-	const char *sdir = dir[6];
+	const char *sdir = dir[0];
 	TAPopMsg::Info("TAEventProcessor", "Configure: selected Exp Config Dir: %s", sdir);
 	SetConfigExpDir(sdir);
 	// STR_spline.root || STR_stiff.root || STR_aaa900.root
@@ -264,27 +265,27 @@ void TAEventProcessor::Configure(){
 	GetParaManager()->ReadParameters(nignore, typeignore);
 	// NOTE THAT THE SUBSCRIPT FOR EACH DETECTOR CANNOT in ANY CIRCUMSTANCES BE ALTERED //
 	// note that the detector UID has to be equal to the array detList subscript
-	detList[0] = new TAT0_0("T0_0", "T0_0@Mid-RIBLL2", 0); // shutdown: FORBIDDEN
+//	detList[0] = new TAT0_0("T0_0", "T0_0@Mid-RIBLL2", 0); // shutdown: FORBIDDEN
 	detList[1] = new TAT0_1("T0_1", "T0_1@End-RIBLL2", 1); // shutdown: FORBIDDEN
-//	detList[2] = new TASiPMPlaArray("SiPMPlaArray", "SiPMPlaArray@Post-Target", 2);
-//	detList[3] = new TAMWDCArrayL("DCArrayL", "DCArrayL@Post-Magnet", 3);
+	detList[2] = new TASiPMPlaArray("SiPMPlaArray", "SiPMPlaArray@Post-Target", 2);
+	detList[3] = new TAMWDCArrayL("DCArrayL", "DCArrayL@Post-Magnet", 3);
 	detList[4] = new TAMWDCArrayR("DCArrayR", "DCArrayR@Post-Magnet", 4);
 //	detList[4] = new TAMWDCArrayM("DCArrayM", "DCArrayM@P.Ma_TEST", 4);
-//	detList[5] = new TASiPMPlaBarrel("SiPMPlaBarrel", "SiPMPlaBarrel@Hug-Target", 5);
+	detList[5] = new TASiPMPlaBarrel("SiPMPlaBarrel", "SiPMPlaBarrel@Hug-Target", 5);
 //	detList[6] = new TAMWDCArrayU("DCArrayU", "DCArrayU@Pre-Target", 6);
 //	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7);
-	detList[8] = new TAPDCArrayU("PDCArrayU", "PDCArrayU@Pre-Target", 8);
-	detList[9] = new TAPDCArrayD("PDCArrayD", "PDCArrayD@Post-Target", 9);
+//	detList[8] = new TAPDCArrayU("PDCArrayU", "PDCArrayU@Pre-Target", 8);
+//	detList[9] = new TAPDCArrayD("PDCArrayD", "PDCArrayD@Post-Target", 9);
 //	detList[10] = new TAMUSICM("MUSICM", "MUSICM@Pre-Target", 10);
 //	detList[11] = new TAMUSICL("MUSICL", "MUSICL@Post-Target", 11);
 //	detList[12] = new TAT0_1("VETO_0", "VETO_0@Pre-MSUICF", 12);
 //	detList[13] = new TAT0_1("VETO_1", "VETO_1@Post-MSUICF", 13);
-	detList[14] = new TAT0_0("T0_0_VME0", "T0_0_VME0@Mid-RIBLL2", 14); // for PDCArrU
-	detList[15] = new TAT0_1("T0_1_VME0", "T0_1_VME1@End-RIBLL2", 15); // for PDCArrU
-	detList[16] = new TAT0_0("T0_0_VME1", "T0_0_VME0@Mid-RIBLL2", 16); // for PDCArrD
-	detList[17] = new TAT0_1("T0_1_VME1", "T0_1_VME1@End-RIBLL2", 17); // for PDCArrD
+//	detList[14] = new TAT0_0("T0_0_VME0", "T0_0_VME0@Mid-RIBLL2", 14); // for PDCArrU
+//	detList[15] = new TAT0_1("T0_1_VME0", "T0_1_VME1@End-RIBLL2", 15); // for PDCArrU
+//	detList[16] = new TAT0_0("T0_0_VME1", "T0_0_VME0@Mid-RIBLL2", 16); // for PDCArrD
+//	detList[17] = new TAT0_1("T0_1_VME1", "T0_1_VME1@End-RIBLL2", 17); // for PDCArrD
 //	detList[18] = new TAMUSICM("Si", "Si@Post-Target", 18);
-	detList[19] = new TAOpticFiberArray("OpticFiberArray", "OpticFiberArray", 19);
+//	detList[19] = new TAOpticFiberArray("OpticFiberArray", "OpticFiberArray", 19);
 
 	for(TADetUnion *&p : detList) if(p) p->Configure(); // build the detectors
 	// time start for DCArrU-D is TAT0_1
@@ -465,7 +466,7 @@ void TAEventProcessor::Analyze(){
 		// rearrange trkid to make it global and unique
 		if(0 == t->type/10%10) // MWDCArray L
 			if(-1 != t->id) t->id += n3DTrkR;
-#ifdef DEBUG
+#ifdef SHOW_TRACK
 		t->show(); // DEBUG
 #endif
 	} // end for over tracks
@@ -826,8 +827,10 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 			} // end for over k
 		} // end for voer XUV
 		if(0 == TOTcnt) trk3DIf[jj].dcTOTAvrg = -9999.; // failed
-		else trk3DIf[jj].dcTOTAvrg /= TOTcnt; // the updated average
-
+		else{
+			trk3DIf[jj].dcTOTAvrg /= TOTcnt; // the updated average
+			trk3DIf[jj].dcTOTcnt = TOTcnt;
+		}
 	} // end for over jj
 } // end of member function RefineTracks
 // refine PID using the refined 3D track information
@@ -837,7 +840,7 @@ void TAEventProcessor::RefinePID(const int n3Dtr, const t3DTrkInfo *trk3DIf, t3D
 	for(int i = 0; i < n3Dtr; i++) if(-9999. != trk3DIf[i].taHitX){
 		const t3DTrkInfo &t = trk3DIf[i]; t3DPIDInfo &pi = pid3DIf[i];
 		double pOut[4] = {t.k1, t.k2, t.b1, t.b2};
-		pid->Fly(t.tof2, t.taHitX, pOut, t.isDCArrR); // TAPID::kOpt1
+		pid->FlyPion(t.tof2, t.taHitX, pOut, t.isDCArrR); // TAPID::kOpt1
 		pi.aoz = pid->GetAoZ();
 		pi.aozdmin = pid->GetChi();
 		pid->GetTargetExitAngle(pi.angTaOut);

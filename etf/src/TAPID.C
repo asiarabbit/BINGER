@@ -193,7 +193,7 @@ void TAPID::FlyPion(double tof2, double x0TaHit, const double *pOut_, short dcAr
 	if(kOpt3 == option){ aozc = fAoZ; }
 	const double span0 = 1.;
 	double span = span0; // search scope, aozc-span ~ aozc+span
-	int ln = 2, n = 40;
+	int ln = 3, n = 40;
 	// loop laps for iter==0, which is to refine beta
 	if(kOpt0 == option){ n = 15; }
 	for(int iter = 0; iter < 2; iter++){ // iteration to refine beta2
@@ -443,6 +443,7 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut_, short dcArrId,
 //		getchar(); // DEBUG
 		// 0.321840605 = e0/(u0*c0*1E6) SI unit
 		fAoZ = B * (rho/1000.) * 0.321840605 / (fBeta * fGamma);
+		fAoZ *= 0.9675; // calibration - 2018/09/07
 		fAoZdmin = 0.;
 		fAngleTaOut[0] = atan(ki); fAngleTaOut[1] = 0.;
 		fPoZ = B * (rho/1000.) * 0.321840605 * u0MeV; // MeV/c
