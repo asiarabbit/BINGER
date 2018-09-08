@@ -103,7 +103,13 @@
 		treeTrack->Branch("angTaOut", yp, "angTaOut[ntr][2]/D"); // out angle at the target hit point
 		treeTrack->Branch("aozdmin", aozdmin, "aozdmin[ntr]/D"); // start for iterative fit, necessary
 	} // end if(IsPID())
+	// for timing starts of two PDCArrays, v1190-slot9 and v1190-slot11
+	double tRef_vme0ul[5], tRef_vme1ul[5], tRef_vme0dl[5], tRef_vme1dl[5];
 	if(vme){ // vme - integrated Daq part
+		treeTrack->Branch("tRef_vme0ul", tRef_vme0ul, "tRef_vme0ul");
+		treeTrack->Branch("tRef_vme1ul", tRef_vme1ul, "tRef_vme1ul");
+		treeTrack->Branch("tRef_vme0dl", tRef_vme0dl, "tRef_vme0dl");
+		treeTrack->Branch("tRef_vme1dl", tRef_vme1dl, "tRef_vme1dl");
 		treeTrack->Branch("tof1vme", &tof1vme, "tof1vme/D"); // tof from T0_0 to T0_1
 		treeTrack->Branch("tof1tac", &tof1tac, "tof1tac/D"); // tof from T0_0 to T0_1
 		treeTrack->Branch("dE0", &dE0, "dE0/D"); // energy loss before TA
@@ -273,6 +279,7 @@
 
 	int multi_opfa;
 	double ul_opfa[40][5], dl_opfa[40][5];
+	double ut_opfa[40][5], dt_opfa[40][5];
 	double pos_opfa[40];
 	for(int i = 0; i < 40; i++){
 		for(int j = 0; j < 5; j++){
@@ -286,6 +293,8 @@
 		treeOpticFiberArr->Branch("multi", &multi_opfa, "multi/I");
 		treeOpticFiberArr->Branch("ul", ul_opfa, "ul[40][5]/D");
 		treeOpticFiberArr->Branch("dl", dl_opfa, "dl[40][5]/D");
+		treeOpticFiberArr->Branch("ut", ut_opfa, "ut[40][5]/D");
+		treeOpticFiberArr->Branch("dt", dt_opfa, "dt[40][5]/D");
 		treeOpticFiberArr->Branch("pos", pos_opfa, "pos[40]/D");
 		objLsTree.push_back(treeOpticFiberArr);
 	}

@@ -9,6 +9,7 @@ void opf(){
 	treeTrack->AddFriend(vme);
 
 //	treeTrack->Draw("dE1:tof1>>(500, 130., 180., 500, -0.03, 4.5)", "dsca10<=1&&dsca11==0", "col");
-	treeTrack->Draw("tRef-(ul[10][0]+dl[10][0])/2.:(kTa[0][0]*(-1981.08)+bTa[0][0])>>(500, -30, 0, 500, 90, 110)", "multi==2", "col");
-	treeTrack->Draw("multi>>(10, -1.5, 8.5)");
+//	treeTrack->Draw("tRef-(ul[10][0]+dl[10][0])/2.:(kTa[0][0]*(-1981.08)+bTa[0][0])>>(500, -30, 0, 500, 90, 110)", "multi==2", "col");
+//	treeTrack->Draw("multi>>(10, -1.5, 8.5)");
+	treeOpticFiber->Draw("ul[20][0]-ut[20][0]>>(500, -1000, 1000)", "ul[20][0]!=-9999&&ut[20][0]!=-9999");
 }

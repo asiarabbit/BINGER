@@ -8,7 +8,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/21.															     //
-// Last modified: 2018/8/27, SUN Yazhou.											     //
+// Last modified: 2018/9/8, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -40,6 +40,8 @@
 
 	TAT0_1 *VETO_0 = (TAT0_1*)det_vec[12];
 	TAT0_1 *VETO_1 = (TAT0_1*)det_vec[13];
+	TAT0_1 *T0_1_VME0 = (TAT0_1*)det_vec[15];
+	TAT0_1 *T0_1_VME1 = (TAT0_1*)det_vec[17];
 	TASiPMPlaArray *sipmArr = (TASiPMPlaArray*)det_vec[2];
 	TASiPMPlaBarrel *sipmBarr = (TASiPMPlaBarrel*)det_vec[5];
 	TAMWDCArray *dcArr[2]{0}; // MWDC arrays downstream of the dipole magnet

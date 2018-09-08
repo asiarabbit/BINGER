@@ -149,6 +149,12 @@
 			dsca10 = evt.dsca[10]; dsca11 = evt.dsca[11];
 			hpid00->Fill(tof1vme, dE0);
 			hpid01->Fill(tof1vme, dE1);
+			for(int i = 0; i < 5; i++){
+				tRef_vme0ul[i] = T0_1_VME0->GetUV()->GetLeadingTime(i);
+				tRef_vme0dl[i] = T0_1_VME0->GetDV()->GetLeadingTime(i);
+				tRef_vme1ul[i] = T0_1_VME1->GetUV()->GetLeadingTime(i);
+				tRef_vme1dl[i] = T0_1_VME1->GetDV()->GetLeadingTime(i);
+			}
 		}
 		// vme tof1
 
@@ -403,6 +409,8 @@
 				pos_opfa[j] = -9999.;
 				for(double &x : ul_opfa[j]) x = -9999.;
 				for(double &x : dl_opfa[j]) x = -9999.;
+				for(double &x : ut_opfa[j]) x = -9999.;
+				for(double &x : dt_opfa[j]) x = -9999.;
 				TAPlaStrip *str = opfa->GetStrip(j);
 				const short sta = str->GetFiredStatus();
 				if(3 == sta || 4 == sta){
@@ -413,12 +421,16 @@
 //					dv->GetData()->Show(); // DEBUG
 //					getchar(); // DEBUG
 					for(int k = 0; k < 5; k++){
-						double tu = uv->GetLeadingTime(k);
-						double td = dv->GetLeadingTime(k);
-						ul_opfa[j][k] = tu;
-						dl_opfa[j][k] = td;
-						if(0 == k && -9999. != tu && -9999. != td)
-							pos_opfa[j] = tu - td;
+						double tul = uv->GetLeadingTime(k);
+						double tdl = dv->GetLeadingTime(k);
+						double tut = uv->GetData()->GetTrailingTime(k);
+						double tdt = dv->GetData()->GetTrailingTime(k);
+						ul_opfa[j][k] = tul;
+						dl_opfa[j][k] = tdl;
+						ut_opfa[j][k] = tut;
+						dt_opfa[j][k] = tdt;
+						if(0 == k && -9999. != tul && -9999. != tdl)
+							pos_opfa[j] = tul - tdl;
 					}
 				}
 			}
