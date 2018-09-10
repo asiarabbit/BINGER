@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/24.															     //
-// Last modified: 2018/6/9, SUN Yazhou.											     //
+// Last modified: 2018/9/8, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -190,7 +190,7 @@ void TAAnode::SetChId(int id){
 }
 
 void TAAnode::Initialize(){
-	GetData()->Initialize();
+	GetAnodeData()->Initialize();
 }
 
 

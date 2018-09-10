@@ -105,11 +105,15 @@
 	} // end if(IsPID())
 	// for timing starts of two PDCArrays, v1190-slot9 and v1190-slot11
 	double tRef_vme0ul[5], tRef_vme1ul[5], tRef_vme0dl[5], tRef_vme1dl[5];
+	for(int i = 5; i--;){
+		tRef_vme0ul[i] = -9999.; tRef_vme1ul[i] = -9999.;
+		tRef_vme0dl[i] = -9999.; tRef_vme1dl[i] = -9999.;
+	}
 	if(vme){ // vme - integrated Daq part
-		treeTrack->Branch("tRef_vme0ul", tRef_vme0ul, "tRef_vme0ul");
-		treeTrack->Branch("tRef_vme1ul", tRef_vme1ul, "tRef_vme1ul");
-		treeTrack->Branch("tRef_vme0dl", tRef_vme0dl, "tRef_vme0dl");
-		treeTrack->Branch("tRef_vme1dl", tRef_vme1dl, "tRef_vme1dl");
+		treeTrack->Branch("tRef_vme0ul", tRef_vme0ul, "tRef_vme0ul[5]/D");
+		treeTrack->Branch("tRef_vme1ul", tRef_vme1ul, "tRef_vme1ul[5]/D");
+		treeTrack->Branch("tRef_vme0dl", tRef_vme0dl, "tRef_vme0dl[5]/D");
+		treeTrack->Branch("tRef_vme1dl", tRef_vme1dl, "tRef_vme1dl[5]/D");
 		treeTrack->Branch("tof1vme", &tof1vme, "tof1vme/D"); // tof from T0_0 to T0_1
 		treeTrack->Branch("tof1tac", &tof1tac, "tof1tac/D"); // tof from T0_0 to T0_1
 		treeTrack->Branch("dE0", &dE0, "dE0/D"); // energy loss before TA
@@ -248,6 +252,7 @@
 //	treePID3D->SetAutoSave(1e7);
 	treePID3D->Branch("index", &index, "index/I");
 	treePID3D->Branch("n3Dtr", &n3Dtr, "n3Dtr/I");
+	treePID3D->Branch("n3DtrLs", n3DtrLs, "n3DtrLs[6]/I");
 	treePID3D->Branch("n3DtrT", &n3DtrT, "n3DtrT/I");
 	treePID3D->Branch("isDCArrR", isDCArrR, "isDCArrR[n3DtrT]/O");
 	treePID3D->Branch("Chi", Chi3D, "Chi[n3DtrT]/D");

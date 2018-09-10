@@ -54,7 +54,6 @@
 			cout << "\ttimeToTrigHighBoundUV: " << timeToTrigHighBoundUV; getchar(); // DEBUG
 #endif
 			hT0_1ToTrigUV->Fill(j, time);
-			if(j < 5) tRefLT_U[j] = time;
 			if(time > timeToTrigLowBoundUV && time < timeToTrigHighBoundUV){
 				if(!hasIncre_ValidityUV){
 					cnt_timeToTrig_T0_1UV++;
@@ -73,7 +72,6 @@
 			getchar(); // DEBUG
 #endif
 			hT0_1ToTrigDV->Fill(j, time);
-			if(j < 5) tRefLT_D[j] = time;
 			if(time > timeToTrigLowBoundDV && time < timeToTrigHighBoundDV){
 //				cout << "cnt_timeToTrig_T0_1DV: " << cnt_timeToTrig_T0_1DV << endl; getchar(); // DEBUG
 				if(!hasIncre_ValidityDV){
@@ -150,11 +148,23 @@
 			hpid00->Fill(tof1vme, dE0);
 			hpid01->Fill(tof1vme, dE1);
 			for(int i = 0; i < 5; i++){
-				tRef_vme0ul[i] = T0_1_VME0->GetUV()->GetLeadingTime(i);
-				tRef_vme0dl[i] = T0_1_VME0->GetDV()->GetLeadingTime(i);
-				tRef_vme1ul[i] = T0_1_VME1->GetUV()->GetLeadingTime(i);
-				tRef_vme1dl[i] = T0_1_VME1->GetDV()->GetLeadingTime(i);
-			}
+				tRef_vme0ul[i] = -9999.; tRef_vme0dl[i] = -9999.;
+				tRef_vme1ul[i] = -9999.; tRef_vme1dl[i] = -9999.;
+				tRefLT_U[i] = -9999.; tRefLT_D[i] = -9999.;
+//				if(T0_1_VME0->GetUV()->GetData()->GetNLeadingEdge() == 2)
+					tRef_vme0ul[i] = T0_1_VME0->GetUV()->GetLeadingTime(i);
+//				if(T0_1_VME0->GetDV()->GetData()->GetNLeadingEdge() == 2)
+					tRef_vme0dl[i] = T0_1_VME0->GetDV()->GetLeadingTime(i);
+//				if(T0_1_VME1->GetUV()->GetData()->GetNLeadingEdge() == 2)
+					tRef_vme1ul[i] = T0_1_VME1->GetUV()->GetLeadingTime(i);
+//				if(T0_1_VME1->GetDV()->GetData()->GetNLeadingEdge() == 2)
+					tRef_vme1dl[i] = T0_1_VME1->GetDV()->GetLeadingTime(i);
+
+//				if(T0_1->GetUV()->GetData()->GetNLeadingEdge() == 2)
+					tRefLT_U[i] = T0_1->GetUV()->GetLeadingTime(i);
+//				if(T0_1->GetDV()->GetData()->GetNLeadingEdge() == 2)
+					tRefLT_D[i] = T0_1->GetDV()->GetLeadingTime(i);
+			} // end for over edges
 		}
 		// vme tof1
 

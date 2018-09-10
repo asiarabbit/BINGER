@@ -101,7 +101,7 @@ int TACtrlPara::FitMethod(){ return gp->Val(47); }
 // allowed value: -2, -1, 0, 1, 2, 3, with calculation depth increasing. unit: mm^2
 int TACtrlPara::Precision(){ return gp->Val(48); }
 // MWDCArrayR_DC1_U: installation error
-double TACtrlPara::DCArrR_DC1UHorizontalDeviation(){ return 4.; }
+double TACtrlPara::DCArrR_DC1UHorizontalDeviation(){ return 0.; } // 4.;
 
 void TACtrlPara::GetNStripStrayRangeL(double &minL, double &maxL) const{
 	minL = gp->Val(49); maxL = gp->Val(50); // DCArrayL

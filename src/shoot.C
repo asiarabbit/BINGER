@@ -72,21 +72,23 @@ void shoot(const char *rootfile){
 		zPDC[i*2+j] = pdc2[i][j]->GetDetPara()->GetZ();
 	}
 	double kDC[3], bDC[3], kTOFW, bTOFW;
-	double zDC[3], xDC[3], zTOFW, xTOFW;
+	double zDC[3], xDC[3], yDC[3], zTOFW, xTOFW, yTOFW;
 	for(int i = 0; i < 3; i++){
 		double phi = dc[1][i]->GetDetPara()->GetPhi();
 		double zc = dc[1][i]->GetDetPara()->GetZ();
 		double xc = dc[1][i]->GetDetPara()->GetX();
+		double yc = dc[1][i]->GetDetPara()->GetY();
 		kDC[i] = tan(phi+TAMath::Pi()/2.);
 		bDC[i] = xc - kDC[i] * zc;
-		zDC[i] = zc; xDC[i] = xc;
+		zDC[i] = zc; xDC[i] = xc; yDC[i] = yc;
 	}
 	double phi = tofw[1]->GetDetPara()->GetPhi();
 	double zc = tofw[1]->GetDetPara()->GetZ();
 	double xc = tofw[1]->GetDetPara()->GetX();
+	double yc = tofw[1]->GetDetPara()->GetY();
 	kTOFW = tan(phi+TAMath::Pi()/2.);
 	bTOFW = xc - kTOFW * zc;
-	zTOFW = zc; xTOFW = xc;
+	zTOFW = zc; xTOFW = xc; yTOFW = yc;
 
 
     TFile *f = new TFile(rootfile, "UPDATE");
@@ -97,15 +99,16 @@ void shoot(const char *rootfile){
 	TTree *treePID3D = (TTree*)f->Get("treePID3D");
 	treeTrack->AddFriend(vme);
 	treeTrack->AddFriend(treePID3D);
-	const int ntrMax = 100;
+	const int ntrMax = 100, n3DtrMax = ntrMax / 3.;
 	int ntr, ntrT, index, nu[ntrMax][6]{}, gGOOD[ntrMax]{};
 	int type[ntrMax]{}, id[ntrMax]{}, firedStripId[ntrMax];
 	int ntrLs[6][3]{}; // N of TrkProjs; DCArr-L-R-U-D -- [XUV - XY]
-	double t[ntrMax][6]{}, r[ntrMax][6]{}, k_[ntrMax]{}, b[ntrMax]{};
+	double t[ntrMax][6]{}, r[ntrMax][6]{}, k_[ntrMax]{}, b[ntrMax]{}, aoz[ntrMax]{};
 	double TOT_DC[ntrMax][6]; // TOT dcs, having already checked
 	double chi[ntrMax][6]{}, chi2[ntrMax]{}, Chi[ntrMax]{}, TOF[ntrMax]{};
 	double tRef_pos; // hit position of T0_1
 	unsigned sca[16];
+	double k2[n3DtrMax], b2[n3DtrMax];
 	treeTrack->SetBranchAddress("index", &index);
 	treeTrack->SetBranchAddress("tRef_pos", &tRef_pos);
 	treeTrack->SetBranchAddress("ntr", &ntr);
@@ -125,7 +128,10 @@ void shoot(const char *rootfile){
 	treeTrack->SetBranchAddress("gGOOD", gGOOD);
 	treeTrack->SetBranchAddress("type", type);
 	treeTrack->SetBranchAddress("id", id);
+	treeTrack->SetBranchAddress("aoz", aoz);
 	vme->SetBranchAddress("sca", sca);
+	treePID3D->SetBranchAddress("k2", k2);
+	treePID3D->SetBranchAddress("b2", b2);
 
 	// vector for ROOT objects management
 	vector<TObject *> objls;
@@ -163,7 +169,6 @@ void shoot(const char *rootfile){
 	treeshoot->Branch("t0_1_ok", &t0_1_ok, "t0_1_ok/O");
 	// d(#)/dt - derivative of daq and beam over time
 	treeshoot->Branch("sca1drv", &sca1drv, "sca1drv/D"); // sca1: trigger request
-
 
 	const char ud[] = "UD", xy[] = "XY";
 	ostringstream name, title;
@@ -227,6 +232,8 @@ void shoot(const char *rootfile){
 	cout << "Totally " << n << " data sections would be processed.\n";
 	for(int i = 0; i < n; i++){
 		treeTrack->GetEntry(i);
+//		if(-9999. == aoz[0]) continue; // only valid physical events are of our interest
+
 		memset(nuTa, -1, sizeof(nuTa));
 		memset(nuDCR, -1, sizeof(nuDCR));
 		for(int k = 0; k < 2; k++){ // loop over U-D
@@ -284,6 +291,7 @@ void shoot(const char *rootfile){
 					double sHit = sqrt((zhit-zDC[k])*(zhit-zDC[k]) + (xhit-xDC[k])*(xhit-xDC[k]));
 					if(xhit < xDC[k]) sHit *= -1.; // on the beam side of the DC
 					DCRPos[k][0] = sHit;
+					if(k2[0] != -9999.) DCRPos[k][1] = k2[0]*zhit+b2[0]-yDC[k];
 					hDCRPosX[k]->Fill(sHit);
 				} // end loop over 3 DCs
 				double zhit = (b[j] - bTOFW) / (kTOFW - k_[j]);
@@ -291,6 +299,7 @@ void shoot(const char *rootfile){
 				double sHit = sqrt((zhit-zTOFW)*(zhit-zTOFW) + (xhit-xTOFW)*(xhit-xTOFW));
 				if(xhit < xTOFW) sHit *= -1.; // on the beam side of the DC
 				TOFWPos[0] = sHit;
+				if(k2[0] != -9999.) TOFWPos[1] = k2[0]*zhit+b2[0]-yTOFW;
 				hTOFWPosX->Fill(sHit);
 				hTOFWFiredStrip->Fill(firedStripId[j]);
 			} // end if

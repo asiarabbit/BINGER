@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/3.															     //
-// Last modified: 2018/5/22, SUN Yazhou.										     //
+// Last modified: 2018/9/9, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -118,11 +118,12 @@ void TAMWDC::GetAnodeCenterPosition(int dcType, int layerOption, int anodeId, do
 		p_local[1] = -p_local[0] * tan(30. * degree); // y
 		p_local[2] = 10. * l - 40.8; // z
 
-		// modified in May 23rd, 2017.
-		// installation error, verified by exp data 20161125_2031.dat.
-		int whoami[6]; TAUIDParser::DNS(whoami, fUID);
-		if(4 == whoami[0] && 1 == whoami[1]) // DCArr(R) && DC(1)
-			p_local[0] += TACtrlPara::DCArrR_DC1UHorizontalDeviation();
+		// modified on May 23rd, 2017
+		// installation error, verified by exp data 20161125_2031.dat
+		// XXX: This correction should not exist, annuled by 20180707_2052.dat, on Sept. 9th, 2018
+//		int whoami[6]; TAUIDParser::DNS(whoami, fUID);
+//		if(4 == whoami[0] && 1 == whoami[1]) // DCArr(R) && DC(1)
+//			p_local[0] += TACtrlPara::DCArrR_DC1UHorizontalDeviation();
 	}
 	if(TAMWDC::kV == type){
 		// + 4. -> DEBUG

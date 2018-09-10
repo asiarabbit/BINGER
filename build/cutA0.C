@@ -75,16 +75,46 @@ void cutA0(){
 	TCutG *B2 = new TCutG("B2", 5);
 	B2->SetLineColor(2);
 	B2->SetLineWidth(2);
-	B2->SetVarX("PDCPos[0][0]");
-	B2->SetVarY("PDCPos[0][1]");
+	B2->SetVarX("kTa[0][0]");
+	B2->SetVarY("kTa[0][1]");
 	B2->SetTitle("B2");
 	B2->SetFillStyle(100);
-	B2->SetPoint(0,-5.,-5.);
-	B2->SetPoint(1,5.,-5.);
-	B2->SetPoint(2,5.,5.);
-	B2->SetPoint(3,-5.,5.);
-	B2->SetPoint(4,-5.,-5.);
+	B2->SetPoint(0,-0.01,0.008);
+	B2->SetPoint(1,-0.01,-0.008);
+	B2->SetPoint(2,0.005,-0.008);
+	B2->SetPoint(3,0.005,0.008);
+	B2->SetPoint(4,-0.01,0.008);
 	B2->Write("", TObject::kOverwrite);
+
+	TCutG *B3 = new TCutG("B3", 5);
+	B3->SetLineColor(2);
+	B3->SetLineWidth(1);
+	B3->SetLineStyle(2);
+	B3->SetVarX("TOFWPos[0]");
+	B3->SetVarY("DCRPos[2][1]");
+	B3->SetTitle("B3");
+	B3->SetFillStyle(100);
+	B3->SetPoint(0,-625., 300.);
+	B3->SetPoint(1,-625.,-300.);
+	B3->SetPoint(2, 625.,-300.);
+	B3->SetPoint(3, 625., 300.);
+	B3->SetPoint(4,-625., 300.);
+	B3->Write("", TObject::kOverwrite);
+
+	TCutG *B4 = new TCutG("B4", 5);
+	B4->SetLineColor(2);
+	B4->SetLineWidth(1);
+	B4->SetLineStyle(2);
+	B4->SetVarX("PDCPos[3][0]");
+	B4->SetVarY("PDCPos[3][1]");
+	B4->SetTitle("B4");
+	B4->SetFillStyle(100);
+	B4->SetPoint(0,-75., 75.);
+	B4->SetPoint(1,-75.,-75.);
+	B4->SetPoint(2, 75.,-75.);
+	B4->SetPoint(3, 75., 75.);
+	B4->SetPoint(4,-75., 75.);
+	B4->Write("", TObject::kOverwrite);
 }
 
 
