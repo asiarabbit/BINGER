@@ -5,7 +5,7 @@ void errDiv(double x1, double dx1, double x2, double dx2);
 void errProd(double x1, double dx1, double x2, double dx2);
 
 void eff(){
-	TFile *f = new TFile("20180707_2052.dat_2.root", "update"); // 2052 1848 1649
+	TFile *f = new TFile("20180707_2052.dat_0.root", "update"); // 2052 1848 1649
 	TTree *treeTrack = (TTree*)f->Get("treeTrack");
 	TTree *treeshoot = (TTree*)f->Get("treeshoot");
 	TTree *treeTOFWR = (TTree*)f->Get("treeTOFWR");
@@ -28,10 +28,10 @@ void eff(){
 
 	// the general cut
 	string cut0 = "1"; // "(A0t0||A0t1)&&B0&&B2&&dsca11==0"; // 
-//	cut0 += "&&dE1>1.5"; // O
-	cut0 += "&&dE1>1.2&&dE1<1.5"; // N
+	cut0 += "&&dE1>1.5"; // O
+//	cut0 += "&&dE1>1.2&&dE1<1.5"; // N
 //	cut0 += "&&dE1>0.93&&dE1<1.2"; // C
-//	cut0 += "&&dE1>0.7&&dE1<0.93"; // C
+//	cut0 += "&&dE1>0.7&&dE1<0.93"; // B
 	double n1, n2;
 	double p[4]{}; // to pass result
 

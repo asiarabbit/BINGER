@@ -1,7 +1,7 @@
 // cutA0.C -- a graphical cut made of two ellipses, for selecting incident 18O from dE0-tof spectrum
 
 void cutA0(){
-	TFile *f = new TFile("20180707_2052.dat_0.root", "update");
+	TFile *f = new TFile("20180707_1649.dat_0.root", "update");
 	const double pi = TMath::Pi();
 
 	// ellipse parameter: (x0, y0), a, b
