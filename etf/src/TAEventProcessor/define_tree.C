@@ -37,7 +37,7 @@
 	// V: very high resolution mode, H: high resolutio mode
 	double TOTUV[ntrMax], TOTUH[ntrMax], TOTDV[ntrMax], TOTDH[ntrMax];
 	double TOT_T0[6]; // [1-6: T0V, T0H, T1LV, T1LH, T1RV, T1RH]
-	double TOF_T1; // time tag of T1 plastic scintillator, beside the target.
+	double TOF_T1; // time tag of T1 plastic scintillator, beside the target
 	double tRef, tRef_pos, tof1; // T reference -> ~ 500+-100 to trigger
 	double tof1vme = -9999., tof1tac = -9999.; // tof1 measured by VME Daq
 	double dE0 = -9999., dE1 = -9999.; // energy loss before-after TA
@@ -95,6 +95,7 @@
 		treeTrack->Branch("sipmArrStripId", sipmArrStripId, "sipmArrStripId[ntr]/I");
 	} // end if(sipmArr)
 	// PID part //
+	double x2_PID[ntrMax][2], dx2_PID[ntrMax];
 	if(IsPID()){
 		treeTrack->Branch("aoz", aoz, "aoz[ntr]/D"); // mass over z; mass unit: amu
 		treeTrack->Branch("poz", poz, "poz[ntr]/D"); // momentum over z; momentum unit: MeV/c
@@ -102,6 +103,8 @@
 		treeTrack->Branch("trkLenT", trkLenT, "trkLenT[ntr]/D"); // total trk len from Ta to TOFW
 		treeTrack->Branch("angTaOut", yp, "angTaOut[ntr][2]/D"); // out angle at the target hit point
 		treeTrack->Branch("aozdmin", aozdmin, "aozdmin[ntr]/D"); // start for iterative fit, necessary
+		treeTrack->Branch("x2", x2_PID, "x2[ntr][2]/D");
+		treeTrack->Branch("dx2", dx2_PID, "dx2[ntr]/D");
 	} // end if(IsPID())
 	// for timing starts of two PDCArrays, v1190-slot9 and v1190-slot11
 	double tRef_vme0ul[5], tRef_vme1ul[5], tRef_vme0dl[5], tRef_vme1dl[5];

@@ -242,7 +242,7 @@ void TAAnodePara::DriftTimeQtCorrection(double &driftTime, double TOT, double &w
 	}
 	if(TOT < 300.){ // the fomula can be invalid
 		driftTime += -9.89;
-		weight = clp->DriftTimeQtCorrectionWeight() * 0.8; // because the correction for low TOT is relatively not accurate.
+		weight = clp->DriftTimeQtCorrectionWeight() * 0.8; // because the correction for low TOT is relatively not accurate
 		return;
 	} // end if
 	double p0 = 512.125, p1 = 48.5836, p2 = 2.72877; // the fitted parabola TOT-dt relation. unit: ns

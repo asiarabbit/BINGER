@@ -112,7 +112,8 @@
 		cout << "T0_1_delayAvrg: " << T0_1_delayAvrg << "\tT0_1_delayUV: " << T0_1_delayUV << endl; // DEBUG
 		cout << "timeUV_T0_1 - timeDV_T0_1: " << timeUV_T0_1 - timeDV_T0_1 << endl; // DEBUG
 		getchar(); // DEBUG
-		if(!(tRef > timeToTrigHighBoundUV || tRef < timeToTrigLowBoundUV)){
+//		if(!(tRef > timeToTrigHighBoundUV || tRef < timeToTrigLowBoundUV))
+		{
 			cout << "\n\nnl: " << nUVLEdge_T0_1 << "\tnDVLEdge_T0_1: " << nDVLEdge_T0_1 << endl; // DEBUG
 			cout << "timeUV_T0_1: " << timeUV_T0_1 << "\ttimeDV_T0_1: " << timeDV_T0_1 << endl; // DEBUG
 			cout << "dmin_T0_1: " << dmin_T0_1 << "\ttRef: " << tRef << endl; // DEBUG
@@ -209,7 +210,7 @@
 						}
 					}
 					hTOFWHitPos[ii]->Fill(strId, str->GetHitPosition());
-					double tofwToTrig = str->GetTime(0., gpar->Val(5), gpar->Val(6));
+					double tofwToTrig = str->GetTime(); // 0., gpar->Val(5), gpar->Val(6)
 					double tofwToTRef = tofwToTrig - tofw[ii]->GetDelayAvrg() - tRef;
 					if(-9999. != tRef){
 						hTOFWToTRef[ii]->Fill(strId, tofwToTRef);

@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/23.															     //
-// Last modified: 2018/6/11, SUN Yazhou.										     //
+// Last modified: 2018/9/13, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -60,6 +60,7 @@ public:
 	double GetChi() const;
 	void GetTargetExitAngle(double *a) const;
 	double GetTotalTrackLength() const;
+	void GetX2Arr(double *x2) const;
 	virtual void Initialize();
 protected:
 	TAPID(const string &name = "PID-ETF", const string &title = "Magnet-Rigidity-Analysis");
@@ -72,6 +73,9 @@ protected:
 	double fBeta, fGamma, fPoZ, fBrho;
 	double fAngleTaOut[2]; // [0-1]: [k1, k2] -> x=k1z+b1; y=k2z+b2
 	double fTotalTrackLength;
+	// X2: abscissa of Mag exit point from real trk and calculated arc,
+	// as a PID estimator; 0-1: real-calcu. Note that this is only for kOpt4 method
+	double fX2Arr[2];
 
 	TATOFWall *fTOFWall[2]; // the TOF walls used in ETF facility [0-1]: [DCArrL-R]
 	TAT0_1 *fT0_1; // TOF start detector just upstream of the target

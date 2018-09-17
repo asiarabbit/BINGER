@@ -147,6 +147,10 @@ void shoot(const char *rootfile){
 	int nuTa[2][2][6], nuDCR[6]; // only the first track would be stored
 	double DCRPos[6][2], TOFWPos[2]; // DCRPos: [DC0X1X2-DC1X1X2-DC2X1X2][X-Y]
 	bool t0_1_ok = false; // if TOF stop signal is good
+	// if the particle hit around the TOF Wall strip gaps,
+	// which would result in a longer tof2
+	double stripGap = -9999.;
+	const double stripGapP0 = -0.327509, stripGapP1 = 40.3689; // strip Gap function: s(stripId) = p0+stripId*p1
 	double sca1drv = 0.;
 	TTree *treeshoot = new TTree("treeshoot", "shoot! haha~");
 	treeshoot->Branch("index", &index, "index/I");
@@ -156,7 +160,6 @@ void shoot(const char *rootfile){
 	treeshoot->Branch("PDCPos", PDCPos, "PDCPos[4][2]/D");
 	treeshoot->Branch("kTa", kTa, "kTa[2][2]/D");
 	treeshoot->Branch("bTa", bTa, "bTa[2][2]/D");
-	treeshoot->Branch("kTa", kTa, "kTa[2][2]/D");
 	treeshoot->Branch("kDC", &kDC_, "kDC/D");
 	treeshoot->Branch("bDC", &bDC_, "bDC/D");
 	treeshoot->Branch("TOT_Avrg_Ta", TOT_Avrg_Ta, "TOT_Avrg_Ta[2][2]/D");
@@ -169,6 +172,7 @@ void shoot(const char *rootfile){
 	treeshoot->Branch("t0_1_ok", &t0_1_ok, "t0_1_ok/O");
 	// d(#)/dt - derivative of daq and beam over time
 	treeshoot->Branch("sca1drv", &sca1drv, "sca1drv/D"); // sca1: trigger request
+	treeshoot->Branch("stripGap", &stripGap, "stripGap/D");
 
 	const char ud[] = "UD", xy[] = "XY";
 	ostringstream name, title;
@@ -238,8 +242,17 @@ void shoot(const char *rootfile){
 		memset(nuDCR, -1, sizeof(nuDCR));
 		for(int k = 0; k < 2; k++){ // loop over U-D
 			for(int l = 0; l < 2; l++){ // loop over X-Y
-				kTa[k][l] = -9999.; bTa[k][l] = -9999.; taHitPos[k][l] = -9999.;
-				for(int ii = 0; ii < 6; ii++) chiTa[k][l][ii] = -9999.;
+
+				// initilization //
+				kTa[k][l] = -9999.; bTa[k][l] = -9999.;
+				taHitPos[k][l] = -9999.;
+				PDCPos[2*k][l] = -9999.; PDCPos[2*k+1][l] = -9999.;
+				vetoPos[l] = -9999.; t0_1Pos[l] = -9999.;
+				for(int ii = 0; ii < 6; ii++){
+					chiTa[k][l][ii] = -9999.; TOT_Ta[k][l][ii] = -9999.;
+					nuTa[k][l][ii] = -1;
+				} // end for over ii
+
 				const int TYPE = 100 + (k + 2) * 10 + l; // 120-121-130-131: UX-UY-DX-DY
 				for(int j = 0; j < ntrT; j++){ // loop over tracks
 					if(TYPE == type[j]){
@@ -271,13 +284,14 @@ void shoot(const char *rootfile){
 			}
 			TOFWPos[ii] = -9999.;
 		} // end for over i
-
 		kDC_ = -9999.; bDC_ = -9999.;
+		for(int j = 0; j < 6; j++) nuDCR[j] = -9999.;
+		stripGap = -9999.;
+
 		for(int j = 0; j < ntrT; j++){ // loop over tracks
 			if(110 == type[j]){
 				kDC_ = k_[j]; bDC_ = b[j];
 				for(int k = 0; k < 3; k++){ // loop over DC0-1-2
-					
 					for(int l = 0; l < 2; l++){ // loop over X1-X2
 						if(nu[j][k*2+l] >= 0 && 1 == ntrLs[1][0]){
 							int NU = k*2+l;
@@ -298,10 +312,21 @@ void shoot(const char *rootfile){
 				double xhit = (b[j]*kTOFW - bTOFW*k_[j]) / (kTOFW - k_[j]);
 				double sHit = sqrt((zhit-zTOFW)*(zhit-zTOFW) + (xhit-xTOFW)*(xhit-xTOFW));
 				if(xhit < xTOFW) sHit *= -1.; // on the beam side of the DC
-				TOFWPos[0] = sHit;
+				TOFWPos[0] = sHit;				
 				if(k2[0] != -9999.) TOFWPos[1] = k2[0]*zhit+b2[0]-yTOFW;
 				hTOFWPosX->Fill(sHit);
 				hTOFWFiredStrip->Fill(firedStripId[j]);
+				
+				// get the distance from hit point in the TOFWall to the nearest strip gap
+				stripGap = 1E200;
+				for(int m = firedStripId[j] - 15; m < firedStripId[j] - 13; m++){
+					double tmp = fabs(sHit-(stripGapP0 + stripGapP1*m));
+					if(tmp < stripGap) stripGap = tmp;
+				} // end for over m
+//				cout.setf(std::ios_base::fixed, std::ios_base::floatfield); // DEBUG
+//				cout << "sHit: " << sHit << endl; // DEBUG
+//				cout << "stripGap: " << stripGap << endl; // DEBUG
+//				getchar(); // DEBUG
 			} // end if
 		} // end loop over tracks
 		for(int j = 0; j < 2; j++){

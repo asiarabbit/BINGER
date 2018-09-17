@@ -12,7 +12,8 @@ int main(int argc, char *argv[]){
 	usr->GetOpt(argc, argv); // parse the user input parameter list
 
 	//user options
-	usr->SetMagneticIntensity(1.2001); // unit: Telsa 0.24835 1.456 1.0755 1.27
+	// 0.24835 1.456 1.0755 1.27 1.2001 1.449825
+	usr->SetMagneticIntensity(1.449825); // unit: Telsa
 //	usr->BunchIdMisAlignCheck();
 //	usr->Silent(); // don't show TAPopMsg::Info() printings
 //	usr->CheckChannelId(403); // see channel with channelId

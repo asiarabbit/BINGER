@@ -9,7 +9,7 @@
 //																					 //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/29.															     //
-// Last modified: 2018/9/6, SUN Yazhou.											     //
+// Last modified: 2018/9/13, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -124,9 +124,11 @@
 				tof2[j] = tofw[dcArrId]->GetStripTime(firedStripId[j], tRef, 40., 90.) - tRef;
 				tof2[j] += GetGPar()->Val(107);
 			}
+			// initialization //
 			yp[j][0] = -9999.; yp[j][1] = -9999.; trkLenT[j] = -9999.;
 			aoz[j] = -9999.; aozdmin[j] = -9999.; beta2[j] = -1.;
 			poz[j] = -9999.; brho[j] = -9999.;
+			x2_PID[j][0] = -9999.; x2_PID[j][1] = -9999.; dx2_PID[j] = -9999.;
 			if(0 == dcType && tof2[j] > 0. && -9999. != taHitX[j]){ // X tracks
 				if(IsPID()){
 					double p[4] = {k[j], 0., b[j], 0.}; // {k1, k2, b1, b2}
@@ -321,7 +323,8 @@
 					for(int jj = n3Dtr; jj < n3DtrT; jj++){
 						if(0 == trk3DIf[jj].isDCArrR){ // DCArrU
 							if(-2 != trk3DIf[jj].firedStripId)
-								TAPopMsg::Error("TAEventProcessor", "Run: fill_post: abnormal firedStripId for 3D DCArrUD tracks: %d", trk3DIf[jj].firedStripId);
+								TAPopMsg::Error("TAEventProcessor", "Run: fill_post: abnormal firedStripId\
+ for 3D DCArrUD tracks: %d", trk3DIf[jj].firedStripId);
 							pIn0[0] = trk3DIf[jj].k1; pIn0[2] = trk3DIf[jj].b1;
 							pIn0[1] = trk3DIf[jj].k2; pIn0[3] = trk3DIf[jj].b2;
 							break;
@@ -332,18 +335,25 @@
 					for(int jj = n3Dtr; jj < n3DtrT; jj++){
 						if(1 == trk3DIf[jj].isDCArrR){ // DCArrD
 							if(-2 != trk3DIf[jj].firedStripId)
-								TAPopMsg::Error("TAEventProcessor", "Run: fill_post: abnormal firedStripId for 3D DCArrUD tracks: %d", trk3DIf[jj].firedStripId);
+								TAPopMsg::Error("TAEventProcessor", "Run: fill_post: abnormal firedStripId for\
+ 3D DCArrUD tracks: %d", trk3DIf[jj].firedStripId);
 							pIn[0] = trk3DIf[jj].k1; pIn[2] = trk3DIf[jj].b1;
 							pIn[1] = trk3DIf[jj].k2; pIn[3] = trk3DIf[jj].b2;
 							break;
 						} // end if
 					} // end for over jj
 				} // end outer if
-				pid->Fly(tof2[0], -9999., pOut, 1, TAPID::kOpt4, pIn, pIn0);
+				pid->Fly(tof2[0], -9999., pOut, 1, TAPID::kOpt1, pIn, pIn0);
 				aoz[0] = pid->GetAoZ(); aozdmin[0] = pid->GetChi();
 				beta2[0] = pid->GetBeta(); poz[0] = pid->GetPoZ(); // MeV/c
 				brho[0] = pid->GetBrho(); // T.m
 				pid->GetTargetExitAngle(yp[0]); trkLenT[0] = pid->GetTotalTrackLength();
+				pid->GetX2Arr(x2_PID[0]);
+				if(-9999. == x2_PID[0][0] || -9999. == x2_PID[0][1]) dx2_PID[0] = -9999.;
+				else dx2_PID[0] = x2_PID[0][0] - x2_PID[0][1];
+//				cout << "x2_PID[0][0]: " << x2_PID[0][0] << "\tx2_PID[0][1]: " << x2_PID[0][1] << endl; // DEBUG
+//				cout << "dx2_PID[0]: " << dx2_PID[0] << endl; // DEBUG
+//				getchar(); // DEBUG
 				if(aozdmin[0] > 100. || -9999. == aoz[0]){
 					cntaozWrong++;
 //					cout << "index: " << index << endl; // DEBUG
@@ -426,7 +436,7 @@
 
 		if(0) vis->FillHitMap();
 		static int jj = 0;
-		if(jj < 10){
+		if(jj < 1){
 //			if(gGOOD[1] != 1 && gGOOD[2] != 1) continue;
 			jj++;
 			static int i0 = 0;

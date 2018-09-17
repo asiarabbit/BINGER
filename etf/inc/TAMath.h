@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/25.															     //
-// Last modified: 2018/6/11, SUN Yazhou.										     //
+// Last modified: 2018/9/13, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -69,7 +69,7 @@ public:
 	// result: [0-5]: [thetaDeflect, rho, ki, bi, zo, xo]
 	static void UniformMagneticSolution(double k1, double b1, double zMagOut, double zMagIn, double zTa, double xTa, double *result);
 	// analytic PID method using DCTaArr
-	static double rho(double kin, double bin, double kout, double bout, double *zo = nullptr, double *xo = nullptr);
+	static double rho(double kin, double bin, double kout, double bout, double *zo = nullptr, double *xo = nullptr, double *x2Arr = nullptr);
 	static double Gamma(double beta);
 	static double BetaGamma(double beta){ return Gamma(beta) * beta; }
 	static double GammaBeta(double beta){ return BetaGamma(beta); }

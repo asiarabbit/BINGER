@@ -15,11 +15,11 @@ using std::string;
 
 int main(int argc, char **argv){
 	if(argc < 2){
-		cout << "usage: ./gui <rootfile> [<assrootfile>]" << endl;
+		cout << "usage: ./gui <rootfile>" << endl;
 		exit(1);
 	}
-	string rootfile = argv[1], assrootfile;
-	if(argv[2]) assrootfile = argv[2];
+	string rootfile = argv[1];
+	string assrootfile = ("assess"+rootfile).c_str();
 
 	TApplication theApp("App", &argc, argv);
 	MyMainFrame *gui = new MyMainFrame(gClient->GetRoot(), 800, 800);

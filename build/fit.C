@@ -1,5 +1,5 @@
 void fit(){
-	TFile *f = new TFile("20180707_2052.dat_0.root", "update");
+	TFile *f = new TFile("20180708_0153.dat_0.root", "update");
 	TH1F *h0x = (TH1F*)f->Get("h0x");
 	TF1 *g0 = new TF1("g0", "gaus", 133.8, 134.5);
 	TF1 *g1 = new TF1("g1", "gaus", 134.6, 135.2);

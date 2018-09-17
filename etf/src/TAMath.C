@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/25.															     //
-// Last modified: 2018/6/20, SUN Yazhou.										     //
+// Last modified: 2018/9/13, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -196,7 +196,9 @@ double TAMath::Gamma(double beta){
 }
 // double rho(...): solve rho of track arc in the magnetic field //
 // (zo, xo): rotating center of the arc
-double TAMath::rho(double kin, double bin, double kout, double bout, double *zo, double *xo){
+// x2Arr: the two x2-s. x2 is the x coordinate of the exit trk from Mag
+// the difference between x2-s from real trk and the calculated arc gives the pid estimation
+double TAMath::rho(double kin, double bin, double kout, double bout, double *zo, double *xo, double *x2Arr){
 	if(fabs(kin - kout) < 1e-8){
 		TAPopMsg::Warn("TAMath", "rho: |k1-k2| too small: k1: %f, k2: %f", kin, kout);
 		kout = kin + 1e-7;
@@ -230,14 +232,18 @@ double TAMath::rho(double kin, double bin, double kout, double bout, double *zo,
 	getchar(); // DEBUG
 #endif
 
+	if(x2Arr){
+		x2Arr[0] = x2;
+		x2Arr[1] = x2p;
+	} // end if
 	return L2p;
 } // end of member function rho
 
-// definitions for fit functions serving class TATrack.
-#include "TAMath/deviaFun.C" // Dsquare, minid2 - global functions.
+// definitions for fit functions serving class TATrack
+#include "TAMath/deviaFun.C" // Dsquare, minid2 - global functions
 #include "TAMath/iterFit.C" // iterativeFit - TAMath member function
-#include "TAMath/refinedFit.C" // refinedFit - TAMath member function.
-#include "TAMath/bfgs2.C" // refinedFitBFGS - TAMath member function.
+#include "TAMath/refinedFit.C" // refinedFit - TAMath member function
+#include "TAMath/bfgs2.C" // refinedFitBFGS - TAMath member function
 #include "TAMath/bfgs4.C" // BFGS4 - TAMath member function for 3D linear tracking
 
 

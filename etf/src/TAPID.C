@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/23.															     //
-// Last modified: 2018/8/19, SUN Yazhou.										     //
+// Last modified: 2018/9/13, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -411,7 +411,8 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut_, short dcArrId,
 				TAPopMsg::Error("TAPID", "Fly: deficient incident XTrk or(and) exit XTrk.\
 					\nOption: %d, kin: %f, bin: %f, kout: %f, bOut: %f", option, pIn[0], pIn[2], pOut[0], pOut[2]);
 			}
-			rho = TAMath::rho(pIn[0], pIn[2], pOut[0], pOut[2], &zo, &xo);
+			rho = TAMath::rho(pIn[0], pIn[2], pOut[0], pOut[2], &zo, &xo, fX2Arr);
+//			cout << "fX2Arr[0]: " << fX2Arr[0] << "\tfX2Arr[1]: " << fX2Arr[1] << endl; getchar(); // DEBUG
 			dtheta = atan(pOut[0]) - atan(pIn[0]); ki = pIn[0];
 			double pT0_1[3] = {0., 0., z0_T0_1}, pTaHit[3] = {0., 0., z0_TA};
 			double pMagIn[3] = {0., 0., TAMath::kzMagIn}, pMagOut[3] = {0., 0., TAMath::kzMagOut};
@@ -487,9 +488,9 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut_, short dcArrId,
 #ifdef DEBUG
 	double ddmin[2]{}; // quality estimator
 #endif
-	double aoz, aozc = 2.1, d2; // aozc: the central aoz; d2: LSM Qsquare
+	double aoz, aozc = 2.0, d2; // aozc: the central aoz; d2: LSM Qsquare
 	if(kOpt3 == option){ aozc = fAoZ; }
-	const double span0 = 1.;
+	const double span0 = 1.5;
 	double span = span0; // search scope, aozc-span ~ aozc+span
 	int ln = 1, n = 30;
 	// loop laps for iter==0, which is to refine beta
@@ -702,9 +703,12 @@ void TAPID::Configure(){
 	// assign TOF wall pionters
 	TAParaManager::ArrDet_t &dec_vec = TAParaManager::Instance()->GetDetList();
 	if(!dec_vec[3] && !dec_vec[4])
-		TAPopMsg::Error("TAPID", "Configure: MWDC arrays in paraManger are null. Consider to put this TOFWall pointer assignment in TAPID::Configure(), and put TAPID::Configure in the last of TAEventProcessor::Configure to lick the problem");
+		TAPopMsg::Error("TAPID", "Configure: MWDC arrays in paraManger are null. Consider to put\
+ this TOFWall pointer assignment in TAPID::Configure(), and put TAPID::Configure in the last\
+ of TAEventProcessor::Configure to lick the problem");
 	if(!dec_vec[1])
-		TAPopMsg::Error("TAPID", "Configure: T0_1 in paraManager is null. Note that detector construction should be implemented prior to the current function in TAEventProcessor::Configure");
+		TAPopMsg::Error("TAPID", "Configure: T0_1 in paraManager is null. Note that detector construction\
+ should be implemented prior to the current function in TAEventProcessor::Configure");
 
 	// assign TOFWall and T0_1
 	TAMWDCArray *dcArr[2]{0};
@@ -721,6 +725,12 @@ void TAPID::Configure(){
 	TAPopMsg::ConfigInfo("TAPID", "Configure: B(0,0,0): |(%f, %f, %f)| = %f", B0[0], B0[1], B0[2], B0m); // DEBUG
 }
 
+void TAPID::GetX2Arr(double *x2) const{
+	if(!x2) return;
+	if(!IsFlied()) TAPopMsg::Error("TAPID", "GetX2: Particle Not Flied");
+	memcpy(x2, fX2Arr, sizeof(fX2Arr));
+}
+
 void TAPID::Initialize(){
 	TAMagnet::Initialize();
 //	if(!IsFlied()) return;
@@ -728,6 +738,7 @@ void TAPID::Initialize(){
 	fBeta = -1.; fGamma = -1.; fPoZ = -9999.; fBrho = -9999.;
 	fAngleTaOut[0] = -9999.; fAngleTaOut[1] = -9999.;
 	fTotalTrackLength = -9999; fIsFlied = false;
+	fX2Arr[0] = -9999.; fX2Arr[1] = -9999.;
 }
 
 

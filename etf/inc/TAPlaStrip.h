@@ -37,13 +37,13 @@ public:
 	// Note that for U channels, the returned value is added with 10
 	int GetFiredStatus() const; // not simply return fFired, but based on the data members
 	// t0, t1 and t2 are set for choosing ch->GetLT over edges
-	// (ch->GetLT-t0) within t1 and t2 is chosen. 
+	// (ch->GetLT-t0) within t1 and t2 is chosen
 	// t0, t1 and t2 using default values, choose the 1st edge
 	double GetTime(double t0 = -9999., double t1 = -9999., double t2 = -9999.); // get TOF time
-	TAChannel *GetUV() const; // return up end of the strip, HPTDC very high resolution mode.
-	TAChannel *GetUH() const; // return up end of the strip, HPTDC high resolution mode.
-	TAChannel *GetDV() const; // return down end of the strip, HPTDC very high resolution mode.
-	TAChannel *GetDH() const; // return down end of the strip, HPTDC high resolution mode.
+	TAChannel *GetUV() const; // return up end of the strip, HPTDC very high resolution mode
+	TAChannel *GetUH() const; // return up end of the strip, HPTDC high resolution mode
+	TAChannel *GetDV() const; // return down end of the strip, HPTDC very high resolution mode
+	TAChannel *GetDH() const; // return down end of the strip, HPTDC high resolution mode
 	TAPlaStripPara *GetStripPara() const;
 	TAPlaStripData *GetStripData() const;
 	bool IsSingleEnd() const{ return fIsSingleEnd; } // whether to use only one end
