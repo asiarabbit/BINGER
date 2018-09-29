@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/23.															     //
-// Last modified: 2018/9/13, SUN Yazhou.										     //
+// Last modified: 2018/9/18, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -149,7 +149,7 @@ void TAPID::FlyPion(double tof2, double x0TaHit, const double *pOut_, short dcAr
 		// 0.321840605 = e0/(u0*c0*1E6) SI unit
 		fAoZ = B * (rho/1000.) * 0.321840605 / (fBeta * fGamma);
 		fAoZdmin = 0.;
-		fAngleTaOut[0] = atan(ki); fAngleTaOut[1] = 0.;
+		fAngleTaOut[0] = atan(ki); fAngleTaOut[1] = atan(k2);
 		fPoZ = B * (rho/1000.) * 0.321840605 * u0MeV; // MeV/c
 		fBrho = B * rho / 1000.; // T.m
 		fIsFlied = true; // fIsflied should be assigned immediately after flying

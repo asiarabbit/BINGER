@@ -5,7 +5,7 @@
 #
 # Created Time: 2017/10/18
 # Author: SUN Yazhou, asia.rabbit@163.com
-# Last Modified: 2018/6/24, SUN Yazhou
+# Last Modified: 2018/9/19, SUN Yazhou
 ##################################################################################################
 
 find_package(ROOT REQUIRED)
@@ -16,6 +16,9 @@ set(LIB_LIST libetf ${ROOT_LIBRARIES})
 
 add_executable(pre pre.C)
 target_link_libraries(pre ${LIB_LIST})
+
+add_executable(pre1 pre1.C)
+target_link_libraries(pre1 ${LIB_LIST})
 
 add_executable(sim sim.C)
 target_link_libraries(sim ${LIB_LIST})

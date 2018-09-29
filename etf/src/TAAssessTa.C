@@ -210,9 +210,9 @@ void TAAssessTa::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid,
 			objLs[5].push_back(hrt03_3D[i][j]);
 		} // end loop over DCs
 	} // end loop over XY
-	TH2F *hrt04 = new TH2F("hrt04", "Distribution of DCA v.s. Drift Time for DC0X1Anode40;t [mm];DCA [mm]", 600, -100., 700., 1300, -0.5, 12.5);
+	TH2F *hrt04 = new TH2F("hrt04", "Distribution of DCA v.s. Drift Time for DC0X1Anode4;t [ns];DCA [mm]", 600, -100., 700., 1300, -0.5, 12.5);
 	objLs[1].push_back(hrt04);
-	TH2F *hrt04_3D = new TH2F("hrt04_3D", "Distribution of DCA v.s. Drift Time for DC0X1Anode40(3D Tracks);t [mm];DCA [mm]", 600, -100., 700., 1300, -0.5, 12.5);
+	TH2F *hrt04_3D = new TH2F("hrt04_3D", "Distribution of DCA v.s. Drift Time for DC0X1Anode4(3D Tracks);t [ns];DCA [mm]", 600, -100., 700., 1300, -0.5, 12.5);
 	objLs[5].push_back(hrt04_3D);
 
 	TH2F *hrt04_STR[nAng];

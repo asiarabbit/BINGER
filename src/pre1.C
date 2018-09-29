@@ -1,5 +1,5 @@
-// pre.C -- pre analysis of 2017 Pion experiment.
-// Created: 2017/12/1, Lasted modified: 2018/8/18, Author: SUN Yazhou
+// pre1.C -- pre analysis of 2017 Pion experiment ----- a clone of pre.C
+// Created: 2018/9/19, Lasted modified: 2018/9/19, Author: SUN Yazhou
 #include <iostream>
 #include <cstdlib>
 #include "TAUI.h"
@@ -13,7 +13,7 @@ int main(int argc, char *argv[]){
 
 	//user options
 	// 0.24835 1.456 1.0755 1.27 1.2001 1.449825
-	usr->SetMagneticIntensity(1.234); // unit: Telsa
+	usr->SetMagneticIntensity(0.9535); // unit: Telsa
 //	usr->BunchIdMisAlignCheck();
 //	usr->Silent(); // don't show TAPopMsg::Info() printings
 //	usr->CheckChannelId(403); // see channel with channelId

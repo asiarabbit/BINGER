@@ -5,7 +5,7 @@ void errDiv(double x1, double dx1, double x2, double dx2);
 void errProd(double x1, double dx1, double x2, double dx2);
 
 void eff(){
-	TFile *f = new TFile("20180707_2052.dat_0.root", "update"); // 2052 1848 1649
+	TFile *f = new TFile("~/pionExp2017/build/20180713_0508.dat_0.root", "update"); // 2052 1848 1649 0920
 	TTree *treeTrack = (TTree*)f->Get("treeTrack");
 	TTree *treeshoot = (TTree*)f->Get("treeshoot");
 	TTree *treeTOFWR = (TTree*)f->Get("treeTOFWR");
@@ -22,35 +22,79 @@ void eff(){
 	treeTrack->AddFriend(treePID3D);
 	treeTrack->AddFriend(vme);
 
+	// cuts //
+	TCutG *A0 = (TCutG*)f->Get("A0");
+	TCutG *B0 = (TCutG*)f->Get("B0");
 
-	cout << "treeTrack->GetEntries(): " << treeTrack->GetEntries() << endl;
-	cout << "treeTrack->GetEntries(aoz>0): " << treeTrack->GetEntries("aoz>0") << endl;
+
+	double n0 = treeTrack->GetEntries(), n0aoz = treeTrack->GetEntries("aoz[0]>0");
+	cout << "treeTrack->GetEntries(): " << n0 << endl;
+	cout << "treeTrack->GetEntries(\"aoz[0]>0\"): " << n0aoz << endl;
+	cout << "aoz rate: \033[31;1m" << n0aoz / n0 << "\033[m" << endl;
+	// selected events
+	n0 = treeTrack->GetEntries("dsca11==0&&A0&&B0"), n0aoz = treeTrack->GetEntries("dsca11==0&&A0&&B0&&aoz[0]>0");
+	cout << "____treeTrack->GetEntries(): " << n0 << endl;
+	cout << "treeTrack->GetEntries(\"aoz[0]>0\"): " << n0aoz << endl;
+	cout << "aoz rate: \033[31;1m" << n0aoz / n0 << "\033[m" << endl;
 
 	// the general cut
 	string cut0 = "1"; // "(A0t0||A0t1)&&B0&&B2&&dsca11==0"; // 
-	cut0 += "&&dE1>1.5"; // O
-//	cut0 += "&&dE1>1.2&&dE1<1.5"; // N
-//	cut0 += "&&dE1>0.93&&dE1<1.2"; // C
-//	cut0 += "&&dE1>0.7&&dE1<0.93"; // B
-	double n1, n2;
+	const char *cutOpt[] = {"dE1>2.75", "dE1>2.17&&dE1<2.75", "dE1>1.65&&dE1<2.17", "dE1>1.14&&dE1<1.65"}; // [0-3]: [O-N-C-B]
+//	const char *cutOpt[] = {"dE1>2.64", "dE1>2.06&&dE1<2.64", "dE1>1.55&&dE1<2.06", "dE1>1.05&&dE1<1.55"}; // [0-3]: [O-N-C-B]
+	cut0 = cutOpt[3];
+
+	string cut1, cut2; // temporary varibles
+	double n1, n2; // temporary variables
 	double p[4]{}; // to pass result
 
-	cout << endl << "e_eP: " << endl;
-	string cut1 = "ntrLs[1][0]==1&&" + cut0;
-	string cut2 = "ntrLs[1][0]==1&&ntrLs[3][0]==1&&" + cut0;
+	cout << endl << "PDC detection effciency - e_eP: " << endl;
+	cut1 = "A0&&B0&&ntrLs[1][0]==1&&" + cut0;
+	cut2 = "A0&&B0&&ntrLs[1][0]==1&&ntrLs[3][0]==1&&" + cut0;
+	cout << "cut1: " << cut1 << endl;
 	n1 = treeTrack->GetEntries(cut1.c_str());
 	n2 = treeTrack->GetEntries(cut2.c_str());
 	rate(n1, n2, &p[0]);
 
-	cout << endl << "e_eR: " << endl;
-	string cut3 = "ntrLs[3][0]==1&&" + cut0;
-	string cut4 = "ntrLs[3][0]==1&&ntrLs[1][0]==1&&" + cut0;
-	n1 = treeTrack->GetEntries(cut3.c_str());
-	n2 = treeTrack->GetEntries(cut4.c_str());
+	cout << endl << "DCR detection effciency - e_eR: " << endl;
+	cut1 = "A0&&B0&&ntrLs[3][0]==1&&" + cut0;
+	cut2 = "A0&&B0&&ntrLs[3][0]==1&&ntrLs[1][0]==1&&" + cut0;
+	n1 = treeTrack->GetEntries(cut1.c_str());
+	n2 = treeTrack->GetEntries(cut2.c_str());
 	rate(n1, n2, &p[2]);
 	cout << endl;
 
-	errProd(p[0], p[1], p[2], p[3]);
+	cout << "dx2 efficiency - e_dx2 (-6, 2): " << endl;
+	cut1 = "dsca11==0&&A0&&B0&&dx2[0]!=-9999.&&" + cut0;
+	cut2 = "dsca11==0&&A0&&B0&&(dx2[0]>-6&&dx2[0]<2)&&" + cut0;
+	n1 = treeTrack->GetEntries(cut1.c_str());
+	n2 = treeTrack->GetEntries(cut2.c_str());
+	rate(n1, n2, &p[2]);
+	cout << endl;
+
+	cout << "dx2 efficiency - e_dx2 (-9, 4): " << endl;
+	cut1 = "dsca11==0&&A0&&B0&&dx2[0]!=-9999.&&" + cut0;
+	cut2 = "dsca11==0&&A0&&B0&&(dx2[0]>-9&&dx2[0]<4)&&" + cut0;
+	n1 = treeTrack->GetEntries(cut1.c_str());
+	n2 = treeTrack->GetEntries(cut2.c_str());
+	rate(n1, n2, &p[2]);
+	cout << endl;
+
+	// C: 0.068~0.18; B: 0.09~0.208
+	const double x0 = 0.068, x1 = 0.18;
+	const double eff_tof2 = fabs((x0+x1)*(x0-x1)/2.7);
+	// 0.027: tof2 tail proportion
+	// eff_tof2: overlap from the left neighboring nuclide
+	cout << "tof2 efficiency - e_tof2: " << 1. - (0.027 - eff_tof2) << endl;
+	cout << endl;
+
+	const double eff_PU = 1.0;
+	cout << "Pile-Up efficiency: " << eff_PU << endl;
+	cout << endl;
+
+	const double eff_g = 1.0;
+	cout << "geometrical efficiency: " << eff_g << endl;
+	cout << endl;
+//	errProd(p[0], p[1], p[2], p[3]);
 }
 
 

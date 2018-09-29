@@ -433,8 +433,8 @@ void MyMainFrame::Initialize(const char *rootfile, const char *assrootfile){
 	isCalled = true;
 
 	fCutG[0] = (TCutG*)fFile[1]->Get("A0");
-	fCutG[1] = (TCutG*)fFile[1]->Get("A02");
-	fCutG[2] = (TCutG*)fFile[1]->Get("A03");
+	fCutG[1] = (TCutG*)fFile[1]->Get("B0");
+	fCutG[2] = (TCutG*)fFile[1]->Get("C0");
 	fCutG[3] = (TCutG*)fFile[1]->Get("A04");
 
 	fFile[0] = new TFile("gui.root", "RECREATE"); // store derivative objects

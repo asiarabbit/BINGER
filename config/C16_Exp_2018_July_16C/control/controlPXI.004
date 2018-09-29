@@ -303,3 +303,15 @@
 
 # tof2 offset: tof2 += tof2_ofst; unit: ns
 107 1.8
+
+############# PID OPTION ##################
+#0-1-2-3-4: TAPID::kOpt0-1-2-3-4
+# see TAPID.h for the option interpretation
+# for pion exp #
+108 1
+# for 16O exp #
+109 4
+
+
+
+

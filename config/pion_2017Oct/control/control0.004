@@ -285,6 +285,30 @@
 # PDC global delay - delay_PDCD1
 101 1E-3
 
+######### PDC Tracking Control ############
+# D2Thre - PDC
+102 40.
+# TimeThreLB - PDC
+103 -40.
+# TimeThreHB - PDC
+104 1000.
+# ChiThrePD - PDC
+105 2.5
+
+############ TOF STOP OPTION ##############
+# 1: PXI channel; 15: VME channel
+106 1
+
+# tof2 offset: tof2 += tof2_ofst; unit: ns
+107 1.8
+
+############# PID OPTION ##################
+#0-1-2-3-4: TAPID::kOpt0-1-2-3-4
+# see TAPID.h for the option interpretation
+# for pion exp #
+108 1
+# for 16O exp #
+109 4
 
 
 

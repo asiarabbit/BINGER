@@ -453,6 +453,15 @@ void TAGPar::DefineParameters(){
 	p = new TAParameter("tof2 offset", "tof2 += tof2_ofst; unit: ns");
 	p->SetValue(0); fParVec[107] = p; p = nullptr;
 
+	// PID METHOD OPTION //
+	// ---- PARAMETER 108 --- //
+	p = new TAParameter("PIDOpt for PION", "VALID_CHOICE: 0-1-2-3");
+	p->SetValue(0); fParVec[108] = p; p = nullptr;
+
+	// ---- PARAMETER 109 --- //
+	p = new TAParameter("PIDOpt for 16C", "VALID_CHOICE: 0-1-2-3");
+	p->SetValue(0); fParVec[109] = p; p = nullptr;
+
 } // end of member function DefineParameters
 
 void TAGPar::DefineAgents(){

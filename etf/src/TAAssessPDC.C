@@ -207,9 +207,9 @@ void TAAssessPDC::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid
 			objLs[5].push_back(hrt03_3D[i][j]);
 		} // end loop over DCs
 	} // end loop over XY
-	TH2F *hrt04 = new TH2F("hrt04", "Distribution of DCA v.s. Drift Time for DC0X1Anode40;t [mm];DCA [mm]", 600, -100., 500., 1300, -0.5, 12.5);
+	TH2F *hrt04 = new TH2F("hrt04", "Distribution of DCA v.s. Drift Time for DC0X1Anode40;t [ns];DCA [mm]", 600, -100., 500., 1300, -0.5, 12.5);
 	objLs[1].push_back(hrt04);
-	TH2F *hrt04_3D = new TH2F("hrt04_3D", "Distribution of DCA v.s. Drift Time for DC0X1Anode40(3D Tracks);t [mm];DCA [mm]", 600, -100., 500., 1300, -0.5, 12.5);
+	TH2F *hrt04_3D = new TH2F("hrt04_3D", "Distribution of DCA v.s. Drift Time for DC0X1Anode40(3D Tracks);t [ns];DCA [mm]", 600, -100., 500., 1300, -0.5, 12.5);
 	objLs[5].push_back(hrt04_3D);
 
 	TH2F *hrt04_STR[nAng];
@@ -251,20 +251,20 @@ void TAAssessPDC::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid
 			objLs[6].push_back(hdrt03_3D[i][j]);
 		} // end loop over DCs
 	} // end loop over XY
-	TH2F *hdrt04 = new TH2F("hdrt04", "Distribution of Residual and Drift Time for DC0X1Anode40;t [ns];dr [mm]", 600, -100., 500., 800, -4.0, 4.0);
+	TH2F *hdrt04 = new TH2F("hdrt04", "Distribution of Residual and Drift Time for DC0X1Anode4;t [ns];dr [mm]", 600, -100., 500., 800, -4.0, 4.0);
 	objLs[2].push_back(hdrt04);
-	TH2F *hdrt04_3D = new TH2F("hdrt04_3D", "Distribution of Residual and Drift Time for DC0X1Anode40(3D tracks);t [ns];dr [mm]", 600, -100., 500., 800, -4.0, 4.0);
+	TH2F *hdrt04_3D = new TH2F("hdrt04_3D", "Distribution of Residual and Drift Time for DC0X1Anode4(3D tracks);t [ns];dr [mm]", 600, -100., 500., 800, -4.0, 4.0);
 	objLs[6].push_back(hdrt04_3D);
 
 	TH2F *hdrt04_STR[nAng]{};
 	TH2F *hdrt04_3D_STR[nAng]{};
 	for(int i = 0; i < nAng; i++){
 		sprintf(name, "hdrt04_STR_%d", i);
-		sprintf(title, "Distribution of Residual and Drift Time for DC0X1Anode40STR_%d(alpha: %f~%f);t [ns];dr [mm]", i, (i-nAng/2.)*angStep/DEGREE, (i-nAng/2.+1.)*angStep/DEGREE);
+		sprintf(title, "Distribution of Residual and Drift Time for DC0X1Anode4STR_%d(alpha: %f~%f);t [ns];dr [mm]", i, (i-nAng/2.)*angStep/DEGREE, (i-nAng/2.+1.)*angStep/DEGREE);
 		hdrt04_STR[i] = new TH2F(name, title, 600, -100., 500., 800, -4.0, 4.0);
 		objLs[2].push_back(hdrt04_STR[i]);
 		sprintf(name, "hdrt04_3D_STR_%d", i);
-		sprintf(title, "Distribution of Residual and Drift Time for DC0X1Anode40STR_%d(alpha: %f~%f)(3D tracks);t [ns];dr [mm]", i, (i-nAng/2.)*angStep/DEGREE, (i-nAng/2.+1.)*angStep/DEGREE);
+		sprintf(title, "Distribution of Residual and Drift Time for DC0X1Anode4STR_%d(alpha: %f~%f)(3D tracks);t [ns];dr [mm]", i, (i-nAng/2.)*angStep/DEGREE, (i-nAng/2.+1.)*angStep/DEGREE);
 		hdrt04_3D_STR[i] = new TH2F(name, title, 600, -100., 500., 800, -4.0, 4.0);
 		objLs[6].push_back(hdrt04_3D_STR[i]);
 	}

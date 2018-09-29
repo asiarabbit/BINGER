@@ -1,12 +1,12 @@
 // cutA0.C -- a graphical cut made of two ellipses, for selecting incident 16C from dE0-tof spectrum
 
 void cutA0(){
-	TFile *f = new TFile("20180708_0153.dat_0.root", "update");
+	TFile *f = new TFile("~/pionExp2017/build/20180713_0920.dat_0.root", "update");
 	const double pi = TMath::Pi();
 
 	// ellipse parameter: (x0, y0), a, b
-	const double px[3] = {1.19757e+04, 1.37466e+02, 2.09673e-01};
-	const double py[3] = {8.45852e+03, 1.29339e+00, 4.58293e-02};
+	const double px[3] = {1., 138.49, 0.226};
+	const double py[3] = {1., 2.184, 0.05532};
 	const double x0 = px[1], y0 = py[1]; // ellipse position
 	const double a = 3.*px[2], b = 3.*py[2]; // ellipse axis length: 3 sigma
 	
@@ -15,7 +15,7 @@ void cutA0(){
 	A0->SetLineColor(2);
 	A0->SetLineWidth(2);
 	A0->SetVarX("tof1");
-	A0->SetVarY("dE0+(PDCPos[1][1]*(0.004*dE0-0.0016))");
+	A0->SetVarY("dE0+(PDCPos[1][1]*(0.005*dE0-0.0016))");
 	A0->SetTitle("A0");
 	A0->SetFillStyle(100);
 
@@ -35,11 +35,11 @@ void cutA0(){
 	B0->SetVarY("taHitPos[0][1]");
 	B0->SetTitle("B0");
 	B0->SetFillStyle(100);
-	const double rTA = 25.; // r = 25 mm
+	const double rTA = 22.; // r = 25 mm
 	for(int i = 0; i <= n; i++){
 		double theta = 2.*pi*i/n;
-		double x = rTA*cos(theta);
-		double y = rTA*sin(theta);
+		double x = rTA*cos(theta) + 0.;
+		double y = rTA*sin(theta) - 1.;
 		B0->SetPoint(i, x, y);
 	}
 	B0->Write("", TObject::kOverwrite);

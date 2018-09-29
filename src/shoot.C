@@ -247,7 +247,10 @@ void shoot(const char *rootfile){
 				kTa[k][l] = -9999.; bTa[k][l] = -9999.;
 				taHitPos[k][l] = -9999.;
 				PDCPos[2*k][l] = -9999.; PDCPos[2*k+1][l] = -9999.;
-				vetoPos[l] = -9999.; t0_1Pos[l] = -9999.;
+				if(0 == k){ // only effective for PDCU
+					vetoPos[l] = -9999.;
+					t0_1Pos[l] = -9999.;
+				}
 				for(int ii = 0; ii < 6; ii++){
 					chiTa[k][l][ii] = -9999.; TOT_Ta[k][l][ii] = -9999.;
 					nuTa[k][l][ii] = -1;
@@ -270,6 +273,10 @@ void shoot(const char *rootfile){
 						if(0 == k){	// PDCArrU
 							t0_1Pos[l] = kTa[k][l] * zT0_1 + bTa[k][l];
 							vetoPos[l] = kTa[k][l] * zVeto + bTa[k][l];
+//							cout << endl << "index: " << index << endl; // DEBUG
+//							cout << "kTa[" << k << "][" << l << "]: " << kTa[k][l] << endl;
+//							cout << "t0_1Pos[0]: " << t0_1Pos[0] << "\tt0_1Pos[1]: " << t0_1Pos[1] << endl; // DEBUG
+//							getchar(); // DEBUG
 						}
 					} // end if
 				} // end loop over tracks
@@ -329,6 +336,7 @@ void shoot(const char *rootfile){
 //				getchar(); // DEBUG
 			} // end if
 		} // end loop over tracks
+
 		for(int j = 0; j < 2; j++){
 			if(1 == ntrLs[2+j][0] && 1 == ntrLs[2+j][1]){ // j: U-D
 				hTaPos2D[j]->Fill(taHitPos[j][0], taHitPos[j][1]);
