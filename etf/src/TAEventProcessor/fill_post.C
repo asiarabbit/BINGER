@@ -132,7 +132,7 @@
 			if(0 == dcType && tof2[j] > 0. && -9999. != taHitX[j]){ // X tracks
 				if(IsPID()){
 					double p[4] = {k[j], 0., b[j], 0.}; // {k1, k2, b1, b2}
-					pid->FlyPion(tof2[j], taHitX[j], p, dcArrId, TAPID::kOpt2);
+					pid->FlyPion(tof2[j], taHitX[j], p, dcArrId, (TAPID::OPTION)(GetGPar()->Val(108)));
 					aoz[j] = pid->GetAoZ(); aozdmin[j] = pid->GetChi();
 					beta2[j] = pid->GetBeta(); poz[j] = pid->GetPoZ(); // MeV/c
 					brho[j] = pid->GetBrho(); // T.m
@@ -343,7 +343,7 @@
 						} // end if
 					} // end for over jj
 				} // end outer if
-				pid->Fly(tof2[0], -9999., pOut, 1, TAPID::kOpt1, pIn, pIn0);
+				pid->Fly(tof2[0], -9999., pOut, 1, (TAPID::OPTION)(GetGPar()->Val(109)), pIn, pIn0);
 				aoz[0] = pid->GetAoZ(); aozdmin[0] = pid->GetChi();
 				beta2[0] = pid->GetBeta(); poz[0] = pid->GetPoZ(); // MeV/c
 				brho[0] = pid->GetBrho(); // T.m
