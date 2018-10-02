@@ -343,14 +343,19 @@
 						} // end if
 					} // end for over jj
 				} // end outer if
-				pid->Fly(tof2[0], -9999., pOut, 1, (TAPID::OPTION)(GetGPar()->Val(109)), pIn, pIn0);
+				static TAPID::OPTION pidOpt = (TAPID::OPTION)(GetGPar()->Val(109));
+				pid->Fly(tof2[0], -9999., pOut, 1, pidOpt, pIn, pIn0);
 				aoz[0] = pid->GetAoZ(); aozdmin[0] = pid->GetChi();
 				beta2[0] = pid->GetBeta(); poz[0] = pid->GetPoZ(); // MeV/c
 				brho[0] = pid->GetBrho(); // T.m
 				pid->GetTargetExitAngle(yp[0]); trkLenT[0] = pid->GetTotalTrackLength();
 				pid->GetX2Arr(x2_PID[0]);
 				if(-9999. == x2_PID[0][0] || -9999. == x2_PID[0][1]) dx2_PID[0] = -9999.;
-				else dx2_PID[0] = x2_PID[0][0] - x2_PID[0][1];
+				else{
+					if(TAPID::kOpt4 == pidOpt) dx2_PID[0] = x2_PID[0][0] - x2_PID[0][1];
+					if(TAPID::kOpt0 == pidOpt || TAPID::kOpt1 == pidOpt || TAPID::kOpt3 == pidOpt)
+						dx2_PID[0] = sqrt(x2_PID[0][0]*x2_PID[0][0] + x2_PID[0][1]*x2_PID[0][1]); // d - taHitCal v.s. taHitReal
+				}
 //				cout << "x2_PID[0][0]: " << x2_PID[0][0] << "\tx2_PID[0][1]: " << x2_PID[0][1] << endl; // DEBUG
 //				cout << "dx2_PID[0]: " << dx2_PID[0] << endl; // DEBUG
 //				getchar(); // DEBUG
@@ -436,8 +441,8 @@
 
 		if(0) vis->FillHitMap();
 		static int jj = 0;
-		if(jj < 1){
-//			if(gGOOD[1] != 1 && gGOOD[2] != 1) continue;
+		static const int jjM = 1;
+		if(jj < jjM){ //  && -9999 != aoz[0]
 			jj++;
 			static int i0 = 0;
 			if(0 == i0){ // to make sure that this block would only be carried out once
@@ -448,7 +453,7 @@
 			vis->DrawEventSnap(index);
 		} // end if
 		// stop filling the curved track in the dipole magnet
-		else TAPID::Instance()->SetCurveGraph(nullptr);
+		if(jjM == jj) TAPID::Instance()->SetCurveGraph(nullptr);
 
 
 

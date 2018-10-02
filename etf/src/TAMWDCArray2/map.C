@@ -96,12 +96,13 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 
 			normalEvent = nu[0] >= 0 && nu[1] >= 0 && nu[2] >= 0 && nu[3] >= 0; // all the 4 sense wire layers are fired
 			specialEvent = false;
+			bool inert[4]{};
 			if(!normalEvent){
-				bool inert0 = nu[0] <  0 && nu[1] >= 0 && nu[2] >= 0 && nu[3] >= 0;
-				bool inert1 = nu[0] >= 0 && nu[1] <  0 && nu[2] >= 0 && nu[3] >= 0;
-				bool inert2 = nu[0] >= 0 && nu[1] >= 0 && nu[2] <  0 && nu[3] >= 0;
-				bool inert3 = nu[0] >= 0 && nu[1] >= 0 && nu[2] >= 0 && nu[3] <  0;
-				specialEvent = inert0 || inert1 || inert2 || inert3; // only one sense wire layer is inert
+				inert[0] = nu[0] <  0 && nu[1] >= 0 && nu[2] >= 0 && nu[3] >= 0;
+				inert[1] = nu[0] >= 0 && nu[1] <  0 && nu[2] >= 0 && nu[3] >= 0;
+				inert[2] = nu[0] >= 0 && nu[1] >= 0 && nu[2] <  0 && nu[3] >= 0;
+				inert[3] = nu[0] >= 0 && nu[1] >= 0 && nu[2] >= 0 && nu[3] <  0;
+				specialEvent = inert[0] || inert[1] || inert[2] || inert[3]; // only one sense wire layer is inert
 			} // end if(!normalEvent)
 			if(!normalEvent && !specialEvent) continue; // each sense wire layer has to be fired, or at least three sense wire layers have to be fired
 #ifdef DEBUG_MAP
@@ -117,6 +118,9 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 			gGOOD = -1;
 			if(normalEvent) gGOOD = 2;
 			if(specialEvent) gGOOD = 1;
+//			if(1 == gGOOD) continue; // TEST - 20180930-22:33 XXX XXX XXX
+
+
 			nFiredAnodeLayer = 0;
 			for(int i = 0; i < 4; i++){
 				x[i] = -9999.; z[i] = -9999.; t[i] = -9999.; r[i] = -9999.;
@@ -198,6 +202,37 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 				for(double rr : r) cout << "r: " << rr << endl; // DEBUG
 				getchar(); // DEBUG
 #endif
+				// to tell whether pattern exist where a drift circle is shared
+				// by two other ones in the neighbouring layer
+				if(1 == gGOOD){
+					for(int l = 0; l < 4; l++) if(inert[l]){
+						int nuF[2]{}; // the two fired anodes in one DC
+						TAMWDC *dc = MWDC[1-l/2];
+						if(0 == l || 1 == l){ nuF[0] = nu[2]; nuF[1] = nu[3]; }
+						if(2 == l || 3 == l){ nuF[0] = nu[0]; nuF[1] = nu[1]; }
+						// find the two friends of nuFa
+						double rr[2][2]; TAAnode *ano[2][2]{}; // nuF[2] - two friends
+						for(int i = 0; i < 2; i++){ // loop over two fired anodes
+							rr[i][0] = -9999.; rr[i][0] = -9999.;
+							if(nuF[i] <= 0 || nuF[i] >= nAnodePerLayer0 - 1) continue;
+							ano[i][0] = dc->GetAnodeL2(dcType, nuF[i] - i);
+							ano[i][1] = dc->GetAnodeL2(dcType, nuF[i] + 1 - i);
+							if(!ano[i][0]->GetFiredStatus() || !ano[i][1]->GetFiredStatus()) continue;
+							for(int j = 0; j < 2; j++){ // loop over two friends of each
+								ano[i][j]->GetAnodeData()->SetTOF(TOF);
+								double tt = ano[i][j]->GetDriftTime();
+								unsigned uid = ano[i][j]->GetUID();
+								tt += clp->T_tofDCtoTOFW(uid) - clp->T_wireMean(uid);
+								rr[i][j] = ano[i][j]->GetDriftDistance(tt, 3); // 3: STR_id
+							} // end for over j
+							if(fabs(10. - (rr[i][0]+r[nuF[i]])) < 2*chiThrePD && fabs(10. - (rr[i][1]+r[nuF[i]])) < 2*chiThrePD){
+								isBadTrack = true;
+							} // end the damnly lengthy if
+						} // end for over i
+					} // end if(inert)
+				} // end if
+
+
 				// test the validity of drift time for X tracks
 				for(double tt : t){
 					if(-9999. != tt && !clp->TimeThre(tt, GetUID()))

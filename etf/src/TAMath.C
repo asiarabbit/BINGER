@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/25.															     //
-// Last modified: 2018/9/13, SUN Yazhou.										     //
+// Last modified: 2018/9/29, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -35,8 +35,8 @@ using std::complex;
 typedef complex<double> cdouble;
 
 static TACtrlPara *clp = TACtrlPara::Instance();
-const double TAMath::kzMagIn = -600.;
-const double TAMath::kzMagOut = 600.;
+const double TAMath::kzMagIn = -575.5;
+const double TAMath::kzMagOut = 575.5;
 
 // length of the vector, len: vector dimension
 double TAMath::norm(const double *p, int len){
@@ -209,16 +209,17 @@ double TAMath::rho(double kin, double bin, double kout, double bout, double *zo,
 	const double z1 = kzMagIn,  x1 = k1 * z1 + b1; // incident point
 	const double z2 = kzMagOut, x2 = k2 * z2 + b2; // exit point
 
-	if(zo && xo){
-		zo[0] = (k1 * z2 - k2 * z1 + k1 * k2 * (x2 - x1)) / (k1 - k2);
-		xo[0] = (z1 - zo[0]) / k1 + x1;
-//		xo[0] = (k1 * x1 - k2 * x2 + z1 - z2) / (k1 - k2);
-	}
-
 	// x2 solved from equatioin L1 == L2
 	const double x2p = x1 + 
 		(z2 - z1) / (k1 + k2) * (k1 * k2 + sqrt(1. + k1 * k1) * sqrt(1. + k2 * k2) - 1.);
 	const double L2p = fabs(((z1 - z2) + k1 * (x1 - x2p)) / (k1 - k2)) * sqrt(1. + k2 * k2);
+//	const double L2p = fabs(((z1 - z2) + 0. * (x1 - x2p)) / (0. - k2)) * sqrt(1. + k2 * k2); // DEBUG
+
+	if(zo && xo){
+		zo[0] = (k1 * z2 - k2 * z1 + k1 * k2 * (x2p - x1)) / (k1 - k2);
+		xo[0] = (z1 - zo[0]) / k1 + x1;
+//		xo[0] = (k1 * x1 - k2 * x2 + z1 - z2) / (k1 - k2);
+	}
 
 
 #ifdef DEBUG

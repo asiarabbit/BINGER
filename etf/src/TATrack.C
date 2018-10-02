@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2018/4/30, SUN Yazhou.										     //
+// Last modified: 2018/9/30, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -97,7 +97,7 @@ double TATrack::GetChi2(){
 } // end of function GetChi2
 // fit residue = sqrt( chi2/ndf ). ndf = N - L or N - L + K
 double TATrack::GetChi(){
-	int ndf = GetNFiredAnodeLayer() - 2;
+	int ndf = GetNFiredAnodeLayer();
 	return sqrt(GetChi2() / ndf);
 } //
 double TATrack::GetSlope(){

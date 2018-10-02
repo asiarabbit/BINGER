@@ -155,6 +155,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 			} // end of for over i
 			nFiredAnodeLayer = gGOOD;
 			if(specialEvent) gGOOD = 2; // 4 fired anode layers. But here gGOOD is specially assigned with 2 for a special treatment
+//			if(2 == gGOOD) continue; // TEST - 20180930-22:33 XXX XXX XXX
 
 			// initialization
 			kl = -9999.; bl = -9999.; d2 = -9999.; TOF = -9999.;

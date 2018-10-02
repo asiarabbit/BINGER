@@ -159,7 +159,7 @@ void TAPID::FlyPion(double tof2, double x0TaHit, const double *pOut_, short dcAr
 		if(fGCurve){
 			fTrackVec.clear();
 			tra_t tra;
-			const int n = 2000;
+			const int n = 20000;
 			for(int i = 0; i <= n; i++){
 				double ai = (1. - 2.*i/n)*TAMath::Pi();
 				double zi = zo+fabs(rho)*cos(ai);
@@ -444,7 +444,6 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut_, short dcArrId,
 //		getchar(); // DEBUG
 		// 0.321840605 = e0/(u0*c0*1E6) SI unit
 		fAoZ = B * (rho/1000.) * 0.321840605 / (fBeta * fGamma);
-		fAoZ *= 0.9675; // calibration - 2018/09/07
 		fAoZdmin = 0.;
 		fAngleTaOut[0] = atan(ki); fAngleTaOut[1] = 0.;
 		fPoZ = B * (rho/1000.) * 0.321840605 * u0MeV; // MeV/c
@@ -543,8 +542,9 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut_, short dcArrId,
 				// use track position information -- EXPERIMENTAL //
 				if(pIn){
 					dp[0] = y[0] - pOut[0]*zf + pOut[2]; dp[1] = y[1] - pOut[1]*zf + pOut[3];
-					if(0. == pOut[2]) dp[1] = 0.; // y trk not assigned
-					d2 += sqrt(dp[0]*dp[0]+dp[1]*dp[1]) * 1e-6; // XXX still experimental XXX
+					if(0. == pOut[1]) dp[1] = 0.; // y trk not assigned
+					fX2Arr[0] = dp[0]; fX2Arr[1] = dp[1];
+//					dx2 = sqrt(dp[0]*dp[0]+dp[1]*dp[1]); // XXX still experimental XXX
 				}
 				if(d2 < fAoZdmin){
 					fAoZdmin = d2; fAoZ = aoz; fBeta = beta;
