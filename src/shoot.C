@@ -107,7 +107,7 @@ void shoot(const char *rootfile){
 	double TOT_DC[ntrMax][6]; // TOT dcs, having already checked
 	double chi[ntrMax][6]{}, chi2[ntrMax]{}, Chi[ntrMax]{}, TOF[ntrMax]{};
 	double tRef_pos; // hit position of T0_1
-	unsigned sca[16];
+	unsigned sca[16]; int dsca[16];
 	double k2[n3DtrMax], b2[n3DtrMax];
 	treeTrack->SetBranchAddress("index", &index);
 	treeTrack->SetBranchAddress("tRef_pos", &tRef_pos);
@@ -130,6 +130,7 @@ void shoot(const char *rootfile){
 	treeTrack->SetBranchAddress("id", id);
 	treeTrack->SetBranchAddress("aoz", aoz);
 	vme->SetBranchAddress("sca", sca);
+	vme->SetBranchAddress("dsca", dsca);
 	treePID3D->SetBranchAddress("k2", k2);
 	treePID3D->SetBranchAddress("b2", b2);
 
@@ -147,6 +148,7 @@ void shoot(const char *rootfile){
 	int nuTa[2][2][6], nuDCR[6]; // only the first track would be stored
 	double DCRPos[6][2], TOFWPos[2]; // DCRPos: [DC0X1X2-DC1X1X2-DC2X1X2][X-Y]
 	bool t0_1_ok = false; // if TOF stop signal is good
+	int dsca4; // TOF stop count between two adjacent events
 	// if the particle hit around the TOF Wall strip gaps,
 	// which would result in a longer tof2
 	double stripGap = -9999.;
@@ -173,6 +175,7 @@ void shoot(const char *rootfile){
 	// d(#)/dt - derivative of daq and beam over time
 	treeshoot->Branch("sca1drv", &sca1drv, "sca1drv/D"); // sca1: trigger request
 	treeshoot->Branch("stripGap", &stripGap, "stripGap/D");
+	treeshoot->Branch("dsca4", &dsca4, "dsca4/I");
 
 	const char ud[] = "UD", xy[] = "XY";
 	ostringstream name, title;
@@ -231,11 +234,12 @@ void shoot(const char *rootfile){
 	objls.push_back(hTOFWPosX);
 
 
-	const int n = treeTrack->GetEntries(); // number of data sections
+	const int n = treeTrack->GetEntries(); // number of data sections; NEVER use vme->GetEntires() here !!!
 //	n = 100000; // DEBUG
 	cout << "Totally " << n << " data sections would be processed.\n";
 	for(int i = 0; i < n; i++){
 		treeTrack->GetEntry(i);
+		dsca4 = dsca[4];
 //		if(-9999. == aoz[0]) continue; // only valid physical events are of our interest
 
 		memset(nuTa, -1, sizeof(nuTa));

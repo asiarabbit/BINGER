@@ -54,6 +54,7 @@ misc/*
 !misc/tools/chidGenerator/
 !build/*.sh
 !build/*.C
+!build/PID/
 data/
 !config/
 Lab/avatar/ 

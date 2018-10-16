@@ -12,7 +12,7 @@
 #
 # Created Time: 2017/12/26
 # Author: SUN Yazhou, asia.rabbit@163.com
-# Last Modified: 2018/09/13, SUN Yazhou
+# Last Modified: 2018/10/11, SUN Yazhou
 ##################################################################################################
 
 # time unit: ns; length unit: mm;
@@ -45,7 +45,7 @@
 # dcToTrigLB
 7   0.
 # dcToTrigHB
-8   800.
+8   600.
 # sipmPlaArrToTrigLB
 9   200.
 # sipmPlaArrToTrigHB
@@ -84,23 +84,23 @@
 21  0
 # MWDC array R
 # HVDCR0X
-22  1
+22  5
 # HVDCR0U
-23  1
+23  5
 # HVDCR0V
-24  1
+24  5
 # HVDCR1X
-25  1
+25  5
 # HVDCR1U
-26  1
+26  5
 # HVDCR1V
-27  1
+27  5
 # HVDCR2X
-28  1
+28  5
 # HVDCR2U
-29  1
+29  5
 # HVDCR2V
-30  1
+30  5
 
 # Experiment visualization canvas size
 # used for the size of event visualization
@@ -136,13 +136,13 @@
 
 # Parameters owned by class TACtrlPara
 # 3DCoincideWindow
-40 20.
+40 10.
 # D2Thre
-41 20.
+41 17.
 # TimeThreLB
-42 -40.
+42 -20.
 # TimeThreHB
-43 600.
+43 350.
 # ChiThrePD
 44 1.6
 # Vicinity
@@ -155,13 +155,13 @@
 48 2
 # nstripstray unit: /(strip width)
 # NStripStrayMinL
-49 -0.8
+49 -0.6
 # NStripStrayMaxL
-50 0.8
+50 0.6
 # NStripStrayMinR
-51 -0.8
+51 -0.6
 # NStripStrayMaxR
-52 0.8
+52 0.6
 # T0_0Delay
 53 139.6
 # dcTOTNoiseLevel unit: ns, DC TOT lower than it would be invalidated
@@ -292,11 +292,11 @@
 # D2Thre - PDC
 102 40.
 # TimeThreLB - PDC
-103 -40.
+103 -30.
 # TimeThreHB - PDC
-104 1000.
+104 750.
 # ChiThrePD - PDC
-105 2.5
+105 5.
 
 ############ TOF STOP OPTION ##############
 # 1: PXI channel; 15: VME channel

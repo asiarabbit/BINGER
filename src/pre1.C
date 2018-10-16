@@ -13,7 +13,7 @@ int main(int argc, char *argv[]){
 
 	//user options
 	// 0.24835 1.456 1.0755 1.27 1.2001 1.449825
-	usr->SetMagneticIntensity(0.9535); // unit: Telsa
+	usr->SetMagneticIntensity(1.449825); // unit: Telsa 1.45: C16
 //	usr->BunchIdMisAlignCheck();
 //	usr->Silent(); // don't show TAPopMsg::Info() printings
 //	usr->CheckChannelId(403); // see channel with channelId
