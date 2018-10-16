@@ -11,7 +11,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/13.															     //
-// Last modified: 2018/10/2, SUN Yazhou.										     //
+// Last modified: 2018/10/16, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -462,7 +462,8 @@ void TAEventProcessor::Analyze(){
 	if(pdcArrD){ pdcArrD->Map(); pdcArrD->AssignTracks(fTrackList); }
 	// assign and output beta and index
 	int index = GetEntryList()[0]->index;
-	const int n3DTrkR = dcArrR->GetN3DTrack(); // number of 3D tracks in DCArrR
+	int n3DTrkR = 0;
+	if(dcArrR) n3DTrkR = dcArrR->GetN3DTrack(); // number of 3D tracks in DCArrR
 	for(tTrack *&t: fTrackList){
 		t->index = index;
 		// rearrange trkid to make it global and unique
