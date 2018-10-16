@@ -11,7 +11,7 @@
 #
 # Created Time: 2017/12/26
 # Author: SUN Yazhou, asia.rabbit@163.com
-# Last Modified: 2018/4/30, SUN Yazhou
+# Last Modified: 2018/10/16, SUN Yazhou
 ##################################################################################################
 
 # time unit: ns; length unit: mm;
@@ -29,13 +29,13 @@
 # Detector time to trig range: to select signals belonging to the same one particle in an event
 # Global delay accounted for
 # T0_1ToTrigLBUV
-0   1285.
+0   0.
 # T0_1ToTrigHBUV
-1   1315.
+1   1000.
 # T0_1ToTrigLBDV
-2   1285.
+2   0.
 # T0_1ToTrigHBDV
-3   1315.
+3   1000.
 # T0_1DelayAvrg: average delay for T0_1, applying to both UV and DV
 4   0.
 # tofwToTrigLB
@@ -132,7 +132,7 @@
 # T_tofDC1toTOFWRX
 38  -0.915
 # T_tofDC2toTOFWRX
-39  -1.14
+39  -1.93
 
 # Parameters owned by class TACtrlPara
 # 3DCoincideWindow
@@ -170,13 +170,13 @@
 # T_tof: time of flight: used to correct drift time -> for MWDC Array U and D
 # T_tofDC0toTOFWUX: T_tof from X sense wires of DC0 to TOFW (plaSci-T0_det), for MWDC array L
 # T_tofDC0toTOFWUX
-55  -0.5
+55  -0.
 # T_tofDC1toTOFWUX
-56  -2.8
+56  -0.
 # T_tofDC0toTOFWDX
-57  -0.32
+57  -0.
 # T_tofDC1toTOFWDX
-58  -0.62
+58  -0.
 
 # DC sense wire high voltage (HV) for MWDC arrays around the target #
 # MWDC array U
@@ -199,9 +199,9 @@
 66  0
 ################ time to trig for DCs around the target ##########################
 # dcTaToTrigLB
-67   1250.
+67   500.
 # dcTaToTrigHB
-68   1800.
+68   900.
 
 
 ## ## ## ## ## ## ## ## DCs from BUAA, made in Japan ## ## ## ## ## ## ## ## ## ## ## ## ##
@@ -269,13 +269,13 @@
 93 1e-7
 ######### DCTa - Array U-D ################
 # MWDCTa global delay - delay_DCU0
-94 9.97
+94 -54.0
 # MWDCTa global delay - delay_DCU1
-95 13.1
+95 -43.0
 # MWDCTa global delay - delay_DCD0
-96 5.1
+96 -54.0
 # MWDCTa global delay - delay_DCD1
-97 4.7
+97 -53.3
 ######### PDC - Array U-D #################
 # PDC global delay - delay_PDCU0
 98 1e-7

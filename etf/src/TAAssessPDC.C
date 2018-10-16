@@ -529,8 +529,14 @@ void TAAssessPDC::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid
 		else{ effDC0 /= effTot; effDC1 /= effTot; }
 		if(!n3DtrTot && 0 == i){ // only calculate X efficiencies
 			const double n = double(ntrTot[0]);
-			effDC0 = heff->GetBinContent(6+0*2+j) / n;
-			effDC1 = heff->GetBinContent(6+1*2+j) / n;
+			if(0. == n){
+				effDC0 = 0.;
+				effDC1 = 0.;
+			}
+			else{
+				effDC0 = heff->GetBinContent(6+0*2+j+i*8) / n;
+				effDC1 = heff->GetBinContent(6+1*2+j+i*8) / n;
+			}
 		}
 		cout << setw(13) << "\033[32;1m" << effDC0;
 		cout << setw(12) << effDC1 << "\033[0m\n";
