@@ -4,8 +4,8 @@ void rate(double N1, double N2, double *pp);
 void errDiv(double x1, double dx1, double x2, double dx2, double *pp);
 void errProd(double x1, double dx1, double x2, double dx2, double *pp);
 
-void effF(){
-	TFile *f = new TFile("~/pionExp2017/build/C16TA.root", "update"); // 2052 1848 1649 0920
+void eff(){
+	TFile *f = new TFile("~/pionExp2017/build/20180708_0153.dat_0.root", "update"); // 2052 1848 1649 0920
 	TTree *treeTrack = (TTree*)f->Get("treeTrack");
 	TTree *treeshoot = (TTree*)f->Get("treeshoot");
 	TTree *treeTOFWR = (TTree*)f->Get("treeTOFWR");
@@ -47,16 +47,16 @@ void effF(){
 	double p[4]{}; // to pass result
 
 	cout << endl << "PDC detection effciency - e_eP: " << endl;
-	cut1 = "dsca11==0&&A0&&B0&&ntrLs[1][0]==1&&sca1drv<10&&" + cut0;
-	cut2 = "dsca11==0&&A0&&B0&&ntrLs[1][0]==1&&ntrLs[3][0]==1&&sca1drv<10&&" + cut0;
+	cut1 = "dsca11==0&&A0&&B0&&ntrLs[1][0]==1&&" + cut0;
+	cut2 = "dsca11==0&&A0&&B0&&ntrLs[1][0]==1&&ntrLs[3][0]==1&&" + cut0;
 	cout << "cut1: " << cut1 << endl;
 	n1 = treeTrack->GetEntries(cut1.c_str());
 	n2 = treeTrack->GetEntries(cut2.c_str());
 	rate(n1, n2, &p[0]);
 
 	cout << endl << "DCR detection effciency - e_eR: " << endl;
-	cut1 = "dsca11==0&&A0&&B0&&ntrLs[3][0]==1&&sca1drv<10&&" + cut0;
-	cut2 = "dsca11==0&&A0&&B0&&ntrLs[3][0]==1&&ntrLs[1][0]==1&&sca1drv<10&&" + cut0;
+	cut1 = "dsca11==0&&A0&&B0&&ntrLs[3][0]==1&&" + cut0;
+	cut2 = "dsca11==0&&A0&&B0&&ntrLs[3][0]==1&&ntrLs[1][0]==1&&" + cut0;
 	n1 = treeTrack->GetEntries(cut1.c_str());
 	n2 = treeTrack->GetEntries(cut2.c_str());
 	rate(n1, n2, &p[2]);
@@ -73,7 +73,7 @@ void effF(){
 	cut2 = "dsca11==0&&A0&&B0&&(dx2[0]>-6&&dx2[0]<2)&&" + cut0;
 	n1 = treeTrack->GetEntries(cut1.c_str());
 	n2 = treeTrack->GetEntries(cut2.c_str());
-	rate(n1, n2, &pdx2[0]);
+	rate(n1, n2, &pdx2[2]);
 	cout << endl;
 
 	cout << "dx2 efficiency - e_dx2 (-9, 4): " << endl;
@@ -82,18 +82,6 @@ void effF(){
 	n1 = treeTrack->GetEntries(cut1.c_str());
 	n2 = treeTrack->GetEntries(cut2.c_str());
 	rate(n1, n2, &pdx2[2]);
-	cout << endl;
-
-	// penetration rate
-	double pPEN[4];
-	cout << "Penetration rate: " << endl;
-	cut1 = "dsca11==0&&A0&&B0";
-	cut2 = "dsca11==0&&A0&&B0&&aoz[0]>0&&" + cut0;
-	n1 = treeTrack->GetEntries(cut1.c_str());
-	n2 = treeTrack->GetEntries(cut2.c_str());
-	rate(n1, n2, &pPEN[0]);
-	errDiv(pPEN[0], pPEN[1], eff_Final[0], eff_Final[1], &pPEN[2]);
-	cout << "Penetration rate: \033[33;1m" << pPEN[2] << "(" << pPEN[3] << ")\033[0m" << endl;
 	cout << endl;
 }
 
@@ -118,7 +106,7 @@ void errDiv(double x1, double dx1, double x2, double dx2, double *pp){
 
 //	cout << "x1: " << x1 << "\tdx1: " << dx1 << endl;
 //	cout << "x2: " << x2 << "\tdx2: " << dx2 << endl;
-//	cout << "relative error: " << rel << endl;
+//  cout << "relative error: " << rel << endl;
 	cout << rate << "(" << sigma << ")" << endl;
 
     pp[0] = rate; pp[1] = sigma;

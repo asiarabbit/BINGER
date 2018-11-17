@@ -242,7 +242,7 @@ void TAMagnet::RK(double *yNew, double *ypNew, const double x, const double *y, 
 
 // NOTE that mm is used as the unit of length in the RK method. //
 // the so-called Nystrom fourth order Runge-Kutta method
-// quotated from Data Analysis Techniques for High-Energy Physics.
+// quotated from Data Analysis Techniques for High-Energy Physics
 void TAMagnet::RK_Nys(double *yNew, double *ypNew, const double x, const double *y, const double *yp, const double h){
 	double ypp[2]{}, k[4][2]{}; // k: ypp*h
 	double xx, yy[2], yyp[2]; // updated values of x, y and yp

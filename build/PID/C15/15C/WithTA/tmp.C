@@ -103,7 +103,7 @@ void tmp(){
 	if(pidShow) for(TCutG *c : cutgLs){
 		c->Draw("same");
 		const double tmp = treeTrack->GetEntries((string("dsca11==0&&A0&&B0&&C0&&") + c->GetName()).c_str());
-		cout << c->GetName() << ": " << tmp << endl;		
+		cout << c->GetName() << ": " << tmp << endl;
 	}
 	cout << "N0: " << treeTrack->GetEntries("dsca11==0&&A0&&B0&&C0") << endl;
 
