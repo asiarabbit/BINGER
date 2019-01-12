@@ -143,7 +143,7 @@ void shoot(const char *rootfile){
 	int TOTcnt_Ta[2][2]; // [0-1][0-1]: [U-D][X-Y]
 	double vetoPos[2], t0_1Pos[2];
 	double PDCPos[4][2]; // [0-3][0-1]: [PDCU0-1--PDCD0-1][X-Y]
-	double chiTa[2][2][6]; // [U-D][X-Y]
+	double chiTa[2][2][6]; // [U-D][X-Y][PDC0X1-X2--PDC1X1-X2]
 	double kDC_, bDC_;
 	int nuTa[2][2][6], nuDCR[6]; // only the first track would be stored
 	double DCRPos[6][2], TOFWPos[2]; // DCRPos: [DC0X1X2-DC1X1X2-DC2X1X2][X-Y]

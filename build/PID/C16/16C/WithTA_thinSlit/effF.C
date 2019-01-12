@@ -5,7 +5,7 @@ void errDiv(double x1, double dx1, double x2, double dx2, double *pp);
 void errProd(double x1, double dx1, double x2, double dx2, double *pp);
 
 void effF(){
-	TFile *f = new TFile("~/pionExp2017/build/C16TA.root", "update"); // 2052 1848 1649 0920
+	TFile *f = new TFile("~/pionExp2017/build/20180708_0153.dat_0.root", "update"); // 2052 1848 1649 0920
 	TTree *treeTrack = (TTree*)f->Get("treeTrack");
 	TTree *treeshoot = (TTree*)f->Get("treeshoot");
 	TTree *treeTOFWR = (TTree*)f->Get("treeTOFWR");
@@ -47,16 +47,16 @@ void effF(){
 	double p[4]{}; // to pass result
 
 	cout << endl << "PDC detection effciency - e_eP: " << endl;
-	cut1 = "dsca11==0&&A0&&B0&&ntrLs[1][0]==1&&sca1drv<10&&" + cut0;
-	cut2 = "dsca11==0&&A0&&B0&&ntrLs[1][0]==1&&ntrLs[3][0]==1&&sca1drv<10&&" + cut0;
+	cut1 = "dsca11==0&&A0&&B0&&ntrLs[1][0]==1&&" + cut0;
+	cut2 = "dsca11==0&&A0&&B0&&ntrLs[1][0]==1&&ntrLs[3][0]==1&&" + cut0;
 	cout << "cut1: " << cut1 << endl;
 	n1 = treeTrack->GetEntries(cut1.c_str());
 	n2 = treeTrack->GetEntries(cut2.c_str());
 	rate(n1, n2, &p[0]);
 
 	cout << endl << "DCR detection effciency - e_eR: " << endl;
-	cut1 = "dsca11==0&&A0&&B0&&ntrLs[3][0]==1&&sca1drv<10&&" + cut0;
-	cut2 = "dsca11==0&&A0&&B0&&ntrLs[3][0]==1&&ntrLs[1][0]==1&&sca1drv<10&&" + cut0;
+	cut1 = "dsca11==0&&A0&&B0&&ntrLs[3][0]==1&&" + cut0;
+	cut2 = "dsca11==0&&A0&&B0&&ntrLs[3][0]==1&&ntrLs[1][0]==1&&" + cut0;
 	n1 = treeTrack->GetEntries(cut1.c_str());
 	n2 = treeTrack->GetEntries(cut2.c_str());
 	rate(n1, n2, &p[2]);

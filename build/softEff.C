@@ -1,5 +1,5 @@
 void softEff(){
-	TFile *f = new TFile("~/pionExp2017/build/20180713_0508.dat_0.root", "update");
+	TFile *f = new TFile("~/pionExp2017/build/O18TA.root", "update");
 	TTree *treeTrack = (TTree*)f->Get("treeTrack");
 	TTree *treeshoot = (TTree*)f->Get("treeshoot");
 	TTree *treeTOFWR = (TTree*)f->Get("treeTOFWR");
@@ -17,9 +17,10 @@ void softEff(){
 	treeTrack->AddFriend(vme);
 
 
-	const char *cutOpt[] = {"dE1>2.65", "dE1>2.2&&dE1<2.65", "dE1>1.7&&dE1<2.15", "dE1>1.2&&dE1<1.6"}; // [0-3]: [O-N-C-B]
+//	const char *cutOpt[] = {"dE1>2.65", "dE1>2.2&&dE1<2.65", "dE1>1.7&&dE1<2.15", "dE1>1.2&&dE1<1.6"}; // [0-3]: [O-N-C-B]
+	const char *cutOpt[] = {"dE1>1.5", "dE1>2.2&&dE1<2.65", "dE1>1.7&&dE1<2.15", "dE1>1.2&&dE1<1.6"}; // [0-3]: [O-N-C-B]
 	string cut = "aoz[0]>0&&";
-	cut += cutOpt[3];
+	cut += cutOpt[0];
 	const double naoz = treeTrack->GetEntries(cut.c_str());
 	cout << "fileName: " << f->GetName() << "\t";
 	cout << "n: " << treeTrack->GetEntries() << "\taoz: " << naoz << endl;;
