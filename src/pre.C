@@ -16,10 +16,11 @@ int main(int argc, char *argv[]){
 	usr->GetOpt(argc, argv); // parse the user input parameter list
 
 	//user options
-	usr->SetMagneticIntensity(B[5]);
+	usr->SetMagneticIntensity(B[4]);
 //	usr->BunchIdMisAlignCheck();
 //	usr->Silent(); // don't show TAPopMsg::Info() printings
 //	usr->CheckChannelId(403); // see channel with channelId
+//	usr->CoarseFit();
 
 	usr->Go(); // pattern recognition, track fit, and particle identification
 

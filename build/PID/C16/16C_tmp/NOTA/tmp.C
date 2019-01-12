@@ -4,7 +4,7 @@
 
 void errDiv(double x1, double dx1, double x2, double dx2, double *pp = nullptr);
 void tmp(){
-	TFile *f = new TFile("~/pionExp2017/build/C12TA.root", "update"); // 0920 0508
+	TFile *f = new TFile("~/pionExp2017/build/C16NOTA.root", "update"); // 0920 0508
 	TTree *treeTrack = (TTree*)f->Get("treeTrack");
 	TTree *treeshoot = (TTree*)f->Get("treeshoot");
 	TTree *treeTOFWR = (TTree*)f->Get("treeTOFWR");
@@ -36,16 +36,16 @@ void tmp(){
 //	treeTrack->Draw("dE0:tof1>>h(500, 120., 152., 500, -0.5, 4.5)", "dsca11==0;tof1 [ns];dE0;", "col");
 //	treeTrack->Draw("dE0:PDCPos[2][1]>>h(500, -50., 50., 500, -0.5, 4.5)", "dsca11==0&&PDCPos[2][1]!=-9999.;PDCPos[2][1] [mm];dE1 arb.;", "");
 //	treeTrack->Draw("dE0+(PDCPos[1][1]*(0.005*dE0-0.0016)):PDCPos[1][1]>>h(500, -50., 50., 500, -0.5, 4.5)", "dsca11==0&&PDCPos[1][1]!=-9999.;PDCPos[1][1] [mm];dE0-corrected arb.;", "col");
-//	treeTrack->Draw("dE0+(PDCPos[1][1]*(0.005*dE0-0.0016)):tof1>>h(500, 133., 159., 500, -0.5, 4.5)", "dsca11==0&&PDCPos[1][1]!=-9999.&&C0;tof1 [ns];dE0-corrected arb.;", "col");
+//	treeTrack->Draw("dE0+(PDCPos[1][1]*(0.005*dE0-0.0016)):tof1>>h(500, 120., 150., 500, 0., 4.5)", "dsca11==0&&PDCPos[1][1]!=-9999.;tof1 [ns];dE0-corrected arb.;", "col");
 //	treeTrack->Draw("dE1:dE0+(PDCPos[1][1]*(0.005*dE0-0.0016))>>h(500, -1., 5., 500, -1., 5.)", "1;dE0-corrected arb.;dE1 arb.;", "col");
-//	treeTrack->Draw("dE0+(PDCPos[1][1]*(0.005*dE0-0.0016)):tof1>>h(500, 120., 152., 500, -0.5, 4.5)", "dsca11==0;tof1[ns];dE0-corrected arb.;", "col");
+//	treeTrack->Draw("dE0+(PDCPos[1][1]*(0.005*dE0-0.0016)):tof1>>h(500, 120., 152., 500, -0.5, 4.5)", "dsca11==0&&PDCPos[1][1]!=-9999.;;tof1[ns]dE0-corrected arb.;", "col");
 
 //	const char *cutOpt[] = {"dE1>2.65", "dE1>2.2&&dE1<2.65", "dE1>1.7&&dE1<2.15", "dE1>1.2&&dE1<1.6"}; // [0-3]: [O-N-C-B]
-//	treeTrack->Draw("aoz[0]:TOFWPos[0]>>h(500, -700., 700., 500, 1.4, 3.)", "dsca11==0&&A0&&B0&&C0&&(dx2[0]>-9&&dx2[0]<4)&&dE1>2.2&&dE1<2.65;TOFWPosX [mm];aoz;", "colbox");
+//	treeTrack->Draw("aoz[0]:TOFWPos[0]>>h(500, -700., 700., 500, 1.4, 3.)", "dsca11==0&&A0&&(dx2[0]>-9&&dx2[0]<4)&&dE1>2.2&&dE1<2.65;TOFWPosX [mm];aoz;", "colbox");
 //	treeTrack->Draw("taHitPos[0][1]:taHitPos[0][0]>>h(500, -40., 40., 500, -40., 40.)", "dsca11==0&&A0;taHitPosX [mm];taHitPosY [mm];", "col");
 //	treeTrack->Draw("poz[0]:tof2[0]>>h(500, 50., 80., 500, 800., 2200.)", "dsca11==0&&A0&&B0&&C0;tof2;poz;", "col");
 //	treeTrack->Draw("tof2[0]:aoz[0]>>h(500, 1.4, 2.6, 500, 63., 73.)", "dsca11==0&&A0&&B0&&C0&&dE1>2.75;aoz;tof2;", "col");
-	treeTrack->Draw("dE1:aoz[0]>>h(500, 1.2, 3.4, 500, 0., 4.5)", "dsca11==0&&A0&&B0&&C0&&(dx2[0]>-9&&dx2[0]<4);aoz;dE1 arb.;", "colbox");
+	treeTrack->Draw("dE1:aoz[0]>>h(500, 1.8, 3.7, 500, 0., 4.5)", "dsca11==0&&A0&&B0&&C0&&(dx2[0]>-9&&dx2[0]<4)&&dsca[4]==1;aoz;dE1 arb.;", "colbox");
 //	treeTrack->Draw("dE1:aoz[0]>>h(500, 1.4, 3., 500, 0., 4.5)", "dsca11==0&&A0&&B0&&C0&&(dx2[0]>-9&&dx2[0]<4)&&sca1drv<0.5;aoz;dE1 arb;", "colbox"); // 
 //	treeTrack->Draw("TOT_DC_Avrg[0]:dE1>>h(500, 0., 4.5, 500, -10., 1000.)", "A0&&B0&&C0&&ntrT==7", "colbox");
 
@@ -98,14 +98,14 @@ void tmp(){
 
 	vector<TCutG *> cutgLs;
 	// list of nuclides to be shown in the PID spectrum //
-	vector<const char *> nclLs = {"O16", "N15", "N14", "N13", "C14", "C13", "C12", "C11", "C10", "B11", "B10", "Be7", "Li6", "objL", "objR", "objD"};
+	vector<const char *> nclLs = {"C16", "C15", "C14", "C13", "B15", "B14", "B13", "B12", "B11", "Be12", "Be11", "Be10", "Be9"};
 	for(const char *n: nclLs) cutgLs.push_back((TCutG*)f->Get(n));
 	if(pidShow) for(TCutG *c : cutgLs){
 		c->Draw("same");
-		const double tmp = treeTrack->GetEntries((string("dsca11==0&&A0&&B0&&C0&&") + c->GetName()).c_str());
+		const double tmp = treeTrack->GetEntries((string("dsca11==0&&A0&&B0&&C0&&(dx2[0]>-9&&dx2[0]<4)&&dsca[4]==1&&") + c->GetName()).c_str());
 		cout << c->GetName() << ": " << tmp << endl;		
 	}
-	cout << "N0: " << treeTrack->GetEntries("dsca11==0&&A0&&B0&&C0") << endl;
+	cout << "N0: " << treeTrack->GetEntries("dsca11==0&&A0&&B0&&C0&&(dx2[0]>-9&&dx2[0]<4)&&dsca[4]==1") << endl;
 
 	c->SetGrid();
 	c->ToggleToolBar();
@@ -130,17 +130,10 @@ void tmp(){
 //	treeTrack->Draw("dE1:dE0>>(500, -1., 5., 500, -1., 5.)", "multi_PDC[0][0][0][0]==1&&multi_PDC[0][0][0][1]==1&&multi_PDC[0][0][1][0]==1&&multi_PDC[0][0][1][1]==1&&multi_PDC[0][1][0][0]==1&&multi_PDC[0][1][0][1]==1&&multi_PDC[0][1][1][0]==1&&multi_PDC[0][1][1][1]==1&&dsca11==0&&dsca10==1&&multi_PDC[1][0][0][0]==1&&multi_PDC[1][0][0][1]==1&&multi_PDC[1][0][1][0]==1&&multi_PDC[1][0][1][1]==1&&multi_PDC[1][1][0][0]==1&&multi_PDC[1][1][0][1]==1&&multi_PDC[1][1][1][0]==1&&multi_PDC[1][1][1][1]==1&&multi_DC[1][0][0][0]==1&&multi_DC[1][0][0][1]==1&&multi_DC[1][0][1][0]==1&&multi_DC[1][0][1][1]==1&&multi_DC[1][0][2][0]==1&&multi_DC[1][0][2][1]==1&&multi_DC[1][1][0][0]==1&&multi_DC[1][1][0][1]==1&&multi_DC[1][1][1][0]==1&&multi_DC[1][1][1][1]==1&&multi_DC[1][1][2][0]==1&&multi_DC[1][1][2][1]==1&&multi_DC[1][2][0][0]==1&&multi_DC[1][2][0][1]==1&&multi_DC[1][2][1][0]==1&&multi_DC[1][2][1][1]==1&&multi_DC[1][2][2][0]==1&&multi_DC[1][2][2][1]==1", "col")
 
 
-	const double mainBeam = treeTrack->GetEntries("dsca11==0&&A0&&B0&&C0&&dE1>2.75&&aoz[0]>0.");
-	const double bullsEye = treeTrack->GetEntries("dsca11==0&&A0&&B0&&C0&&O16");
-	cout << "tof2_PU eff: "; // << bullsEye << "/" << mainBeam << ": ";
+	const double mainBeam = treeTrack->GetEntries("dsca11==0&&A0&&B0&&C0&&dE1>1.50&&aoz[0]>0.");
+	const double bullsEye = treeTrack->GetEntries("dsca11==0&&A0&&B0&&C0&&C16");
+	cout << "tof2_PU eff: " << bullsEye << "/" << mainBeam << ": ";
 	errDiv(bullsEye, sqrt(bullsEye), mainBeam, sqrt(mainBeam));
-	
-	const double cnt_objL = treeTrack->GetEntries("dsca11==0&&A0&&B0&&C0&&objL");
-	const double cnt_objR = treeTrack->GetEntries("dsca11==0&&A0&&B0&&C0&&objR");
-	const double cnt_objD = treeTrack->GetEntries("dsca11==0&&A0&&B0&&C0&&objD");
-	cout << "objL rate: "; errDiv(cnt_objL, sqrt(cnt_objL), mainBeam, sqrt(mainBeam));
-	cout << "objR rate: "; errDiv(cnt_objR, sqrt(cnt_objR), mainBeam, sqrt(mainBeam));
-	cout << "objD rate: "; errDiv(cnt_objD, sqrt(cnt_objD), mainBeam, sqrt(mainBeam));
 
 	return;
 
@@ -188,7 +181,6 @@ void errDiv(double x1, double dx1, double x2, double dx2, double *pp){
 //	cout << "x1: " << x1 << "\tdx1: " << dx1 << endl;
 //	cout << "x2: " << x2 << "\tdx2: " << dx2 << endl;
 //  cout << "relative error: " << rel << endl;
-	cout << x1 << "/" << x2 << ": ";
 	cout << rate << "(" << sigma << ")" << endl;
 
 	if(pp){

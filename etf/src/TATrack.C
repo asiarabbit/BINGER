@@ -354,7 +354,7 @@ void TATrack::NormalFit(){
 		return;
 	} // end of if
 	int gGOOD = GetgGOOD();
-	
+
 	// Here it's refinedFit(fZ, fX, ...), NOT refinedFit(fX, fZ, ...), because the coordinate system is different from those conventional ones now.
 	TAMath::refinedFit(fZ, fX, fR, fK, fB, gGOOD, fLAYER, fFitPrecision, fZc, fXc, fDsquareThresholdPerDot, fIsDEBUG);
 

@@ -26,7 +26,7 @@ double TAMath::iterativeFit(const double *x, const double *y, const double *r,
 	// initialize kL and bL using LSM
 	double d2min = Dsquare(x, y, kL, bL, gGOOD, LAYER, d2PerDot);
 	double xt[6], yt[6]; short sign[6]{};
-	for(int i = 6; i--;){ xt[i] = yt[i] = -9999.; }	
+	for(int i = 6; i--;){ xt[i] = yt[i] = -9999.; }
 	
 	const double cosTheta = 1. / sqrt(1. + kL*kL), sinTheta = kL * cosTheta;
 	for(int i = n; i--;){

@@ -384,7 +384,7 @@ void shoot(const char *rootfile){
 				vme->GetEntry(i); sca1ph = sca[1]; sca15ph = sca[15];
 				vme->GetEntry(i+30); sca1mh = sca[1]; sca15mh = sca[15];
 			}
-			sca1drv = 1. * (sca1ph - sca1mh) / (sca15ph - sca15mh);
+			sca1drv = 1. * (sca1ph - sca1mh) / (sca15ph - sca15mh); // particles per milli-second
 		}
 
 

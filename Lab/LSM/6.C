@@ -27,6 +27,8 @@ int main(){
 	double dc2X1C = norm(1335.77, 4999.67);
 	double zDC[6] = {dc0X1C, dc0X1C+10., dc1X1C, dc1X1C+10., dc2X1C, dc2X1C+10.};
 	
+	for(int i = 0; i < 6; i++) cout << "zDC[" << i << "]: " << zDC[i] << endl;
+	
 	double vPDC[2][2]{}, vDC[2][2]{};
 	vLSM(4, vPDC, zPDC);
 	vLSM(6, vDC, zDC);

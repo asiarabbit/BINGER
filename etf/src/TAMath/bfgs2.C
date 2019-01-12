@@ -27,6 +27,7 @@ double TAMath::refinedFitBFGS(const double *x, const double *y, const double *r,
 	//	par[18] = k0; par[19] = b0;
 	//	Dsquare(x, y, par[18], par[19], gGOOD, LAYER, d2PerDot); // deprecated
 	// set the iteration origin
+//	cout << "Mark 1" << endl; getchar(); // DEBUG
 	double d2min; // the minimum value of fun.
 	d2min = iterativeFit(x, y, r, par[18], par[19], gGOOD, LAYER, d2PerDot);
 //	cout << "TACtrlPara::Instance()->IsCoarseFit(): " << TACtrlPara::Instance()->IsCoarseFit() << endl; getchar(); // DEBUG
@@ -126,6 +127,8 @@ double TAMath::refinedFitBFGS(const double *x, const double *y, const double *r,
 //	cout << "d2min: " << d2min << endl; // DEBUG
 //	cout << "ii: " << ii << "\tjj: " << jj << endl;
 //	getchar(); // DEBUG
+
+//	cout << "Mark 1" << endl; getchar(); // DEBUG
 
 	return d2min;
 	
