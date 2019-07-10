@@ -1,19 +1,13 @@
-///////////////////////////////////////////////////////////////////////////////////////
-// Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TACtrlPara.h													     //
-//   TACtrlPara.h -- header file for class TACtrlPara							     //
-//   Introduction: mainly for holding global parameters used for program control in  //
-// tracking precision level and tracking procedures.								 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2017/10/7.															     //
-// Last modified: 2018/6/7, SUN Yazhou.											     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
-///////////////////////////////////////////////////////////////////////////////////////
+/**
+	\file TACtrlPara.h
+	\class TACtrlPara
+	\brief mainly for holding global parameters used for program control in
+	tracking precision level and tracking procedures.
+	\author SUN Yazhou, asia.rabbit@163.com.
+	\date Created: 2017/10/7 Last revised: 2018/6/7, SUN Yazhou.
+	\copyright 2017-2018, SUN Yazhou.
+*/
+
 
 #ifndef _TACTRLPARA_H_
 #define _TACTRLPARA_H_
@@ -32,44 +26,44 @@ public:
 	static bool IsDriftTimeQtCorrection();
 	bool IsCoarseFit();
 	bool Is3DTracking();
-	// tolerance window for 3D coincidence test of X U and V track projections
-	// 5: half a DC cell, given all kinds of errors
+	/// tolerance window for 3D coincidence test of X U and V track projections
+	/// 5: half a DC cell, given all kinds of errors
 	static double Get3DCoincideWindow();
-	static double D2Thre(unsigned uid = 999999999); // for eliminating falsely fired andoes. unit: mm^2
+	static double D2Thre(unsigned uid = 999999999); ///< for eliminating falsely fired andoes. unit: mm^2
 	static double DsquareThresholdPerDot(unsigned uid);
-	static bool TimeThre(double t, unsigned uid = 999999999); // if time is within set range
-	double ChiThre(unsigned uid = 999999999); // threshold for chi average
-	// threshold for chi per dot, to eliminate false combinations. 4.0
+	static bool TimeThre(double t, unsigned uid = 999999999); ///< if time is within set range
+	double ChiThre(unsigned uid = 999999999); ///< threshold for chi average
+	/// threshold for chi per dot, to eliminate false combinations. 4.0
 	double ChiThrePD(unsigned uid = 999999999);
-	static int Vicinity(); // used in discerning multiple tracks, unit: cell
-	static int StripTolerance(); // used in discerning multiple tracks, unit: strip
-	// TATrack::kBFGSFit; // kNormalFit: 0; kBFGSFit: 1 kIterFit: 2
+	static int Vicinity(); ///< used in discerning multiple tracks, unit: cell
+	static int StripTolerance(); ///< used in discerning multiple tracks, unit: strip
+	/// TATrack::kBFGSFit; // kNormalFit: 0; kBFGSFit: 1 kIterFit: 2
 	static int FitMethod();
-	// only effective if input fit method is kNormalFit
-	// allowed value: -2, -1, 0, 1, 2, 3, with calculation depth increasing. unit: mm^2
+	/// only effective if input fit method is kNormalFit
+	/// allowed value: -2, -1, 0, 1, 2, 3, with calculation depth increasing. unit: mm^2
 	static int Precision();
-	// MWDCArrayR_DC1_U: installation error
+	/// MWDCArrayR_DC1_U: installation error
 	static double DCArrR_DC1UHorizontalDeviation();
-	// as its name indicates, used in TAAnode::GetDriftTime
+	/// as its name indicates, used in TAAnode::GetDriftTime
 	double DriftTimeQtCorrectionWeight() const{ return kDriftTimeQtCorrectionWeight; }
 	const char *DataFileName() const;
 	const char *RootFileName() const;
 	const char *ConfigExpDir() const;
 	const char *STRROOTFile() const;
-	// calculate the minmum deviation of a track off the fired strips in a TOF wall
+	/// calculate the minmum deviation of a track off the fired strips in a TOF wall
 	void GetNStripStrayRangeR(double &minR, double &maxR) const;
 	void GetNStripStrayRangeL(double &minL, double &maxL) const;
 	bool TOFWallStripStrayTest(double strayMin, unsigned uid) const;
 	void AssignSTR(TAAnodePara *para) const;
 
-	// spatial resolution used to smear drift distance during the generation of simulation data
-	// This method is used in TAAnodePara::GetSpatialResolution()
+	/// spatial resolution used to smear drift distance during the generation of simulation data
+	/// This method is used in TAAnodePara::GetSpatialResolution()
 	static double GetSimSpatialResolution();
 	void SetSimSpatialResolution(double sigmar);
 
-	// rough time of flight from DC to TOF wall unit: ns
-	// for pattern recognition purposes only
-	// PION: {12.5, 7.5, 2.5}; BEAM TEST: {29.06, 20.34, 18.23} - 17.73 - 1.5
+	/// rough time of flight from DC to TOF wall unit: ns
+	/// for pattern recognition purposes only
+	/// PION: {12.5, 7.5, 2.5}; BEAM TEST: {29.06, 20.34, 18.23} - 17.73 - 1.5
 	static double T_tofDCtoTOFW(unsigned uid);
 	static double T_wireMean(unsigned uid);
 
@@ -81,20 +75,20 @@ private:
 	TACtrlPara();
 	static TACtrlPara *kInstance;
 
-	bool kIsCoarseFit; // true then only iterative fit would be used
-	bool kIs3DTracking; // whether or not to implement 3D tracking
+	bool kIsCoarseFit; ///< true then only iterative fit would be used
+	bool kIs3DTracking; ///< whether or not to implement 3D tracking
 
 	//---------  for pattern recognition -------------------//
-	// for map function
-	double kDriftTimeQtCorrectionWeight; // as its name indicates, used in TAAnode.C
-	static double fSigmaR; // spatial resolution used to smear drift distance during the generation of simulation data
+	/// for map function
+	double kDriftTimeQtCorrectionWeight; ///< as its name indicates, used in TAAnode.C
+	static double fSigmaR; ///< spatial resolution used to smear drift distance during the generation of simulation data
 
-	string kDataFile; // for extra use
-	// the directory name in config directory holding the selected experiment config files
+	string kDataFile; ///< for extra use
+	/// the directory name in config directory holding the selected experiment config files
 	string kConfigExpDir;
-	// STRs for MWDC calculated from simulation
-	string kSTRROOTFile; // root file containing TF1 objects for MWDCs: aaa%d.root 1500 1000 900 [V]
-	string kRootFile; // used in refined fit and calibration phase //  20161126_0522.dat.root
+	/// STRs for MWDC calculated from simulation
+	string kSTRROOTFile; ///< root file containing TF1 objects for MWDCs: aaa%d.root 1500 1000 900 [V]
+	string kRootFile; ///< used in refined fit and calibration phase //  20161126_0522.dat.root
 };
 
 #endif

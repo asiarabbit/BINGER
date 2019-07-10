@@ -1,0 +1,23 @@
+# set the verbosities all to quiet to speed up the simulation
+/control/verbose 0
+/run/verbose 0
+/run/printProgress 0
+/event/verbose 0
+/tracking/verbose 0
+
+/run/initialize
+
+
+
+
+# C12 setting, B: 0.9535 tesla
+/ETF/field/value 0.9535 tesla
+
+# no angle and Ek smear #
+/ETF/generator/kineticEnergyPerAmu 240. MeV
+/ETF/generator/sigmaEkPerAmu 0. MeV
+/ETF/generator/sigmaAngle 0. deg
+
+#### carbon isotopes ###
+# C12: 1000
+/run/beamOn 1000 # default particle is C12 @240MeV/u

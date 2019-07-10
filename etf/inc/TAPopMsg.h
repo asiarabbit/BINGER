@@ -1,19 +1,12 @@
-///////////////////////////////////////////////////////////////////////////////////////
-// Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TAPopMsg.h													     //
-//   TAPopMsg.h -- header file for class TAPopMsg								     //
-//   Introduction: print prompt message - warnings, debuggings, errors and plain	 //
-// message.																			 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2017/9/24.															     //
-// Last modified: 2017/11/26, SUN Yazhou.										     //
-//																				     //
-//																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
-// All rights reserved.															     //
-///////////////////////////////////////////////////////////////////////////////////////
+/**
+	\file TAPopMsg.h
+	\class TAPopMsg
+	\brief Print prompt message - warnings, debuggings, errors and plain message.
+	\author SUN Yazhou, asia.rabbit@163.com.
+	\date Created: 2017/9/24 Last revised: 2017/11/26, SUN Yazhou.
+	\copyright 2017-2018, SUN Yazhou.
+*/
+
 
 #ifndef _TAPOPMSG_H_
 #define _TAPOPMSG_H_
@@ -36,12 +29,12 @@ public:
 	static void SetDebug(bool opt = true){ fIsDebug = opt; }
 	static bool IsDebug() { return fIsDebug; }
 
-	// isName (true): no comma in the returned string, suitable for path and file name
-	static const char *time0(bool isName = false); // current time year-month-day_hour-Min
+	/// \param isName (true): no comma in the returned string, suitable for path and file name
+	static const char *time0(bool isName = false); ///< current time year-month-day_hour-Min
 protected:
-	static bool fIsVerbose; // to switch ConfigInfo() method
-	static bool fIsSilent; // to switch Info() method
-	static bool fIsDebug; // to swithc Debug() method
+	static bool fIsVerbose; ///< to switch ConfigInfo() method
+	static bool fIsSilent; ///< to switch Info() method
+	static bool fIsDebug; ///< to switch Debug() method
 };
 
 #endif

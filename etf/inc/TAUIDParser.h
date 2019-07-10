@@ -1,19 +1,13 @@
-///////////////////////////////////////////////////////////////////////////////////////
-// Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TAUIDParser.h													     //
-//   TAUIDParser.h -- header file for class TAUIDParser							     //
-//   Introduction: resolve and interpret uid to comprehensible results, used for	 //
-// objects identification.															 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2017/10/16.															     //
-// Last modified: 2017/10/16, SUN Yazhou.										     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
-///////////////////////////////////////////////////////////////////////////////////////
+/**
+	\file TAUIDParser.h
+	\class TAUIDParser
+	\brief Resolve and interpret uid to comprehensible results, used for
+	objects identification.
+	\author SUN Yazhou, asia.rabbit@163.com.
+	\date Created: 2017/10/16 Last revised: 2017/10/16, SUN Yazhou.
+	\copyright 2017-2018, SUN Yazhou.
+*/
+
 
 #ifndef _TAUIDPARSER_H_
 #define _TAUIDPARSER_H_

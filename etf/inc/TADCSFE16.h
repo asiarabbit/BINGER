@@ -1,20 +1,14 @@
-///////////////////////////////////////////////////////////////////////////////////////
-// Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TADCSFE16.h														 //
-//   TADCSFE16.h -- header file for class TADCSFE16									 //
-//   Introduction: result of an elaborated classification of DC anodes, a container  //
-// class, storing TAAnode objects that belongs to the same SFE16 Ampli-Shape-Discri  //
-// chip, which is desigend to contain 16 channels.									 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2017/10/1.															     //
-// Last modified: 2017/10/12, SUN Yazhou.										     //
-//																				     //
-//																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
-// All rights reserved.															     //
-///////////////////////////////////////////////////////////////////////////////////////
+/**
+	\file TADCSFE16.h
+	\class TADCSFE16
+	\brief result of an elaborated classification of DC anodes, a container
+	class, storing TAAnode objects that belongs to the same SFE16 Ampli-Shape-Discri
+	chip, which is desigend to contain 16 channels.
+	\author SUN Yazhou, asia.rabbit@163.com.
+	\date Created: 2017/10/1 Last revised: 2017/10/12, SUN Yazhou.
+	\copyright 2017-2018, SUN Yazhou.
+*/
+
 
 #ifndef _TADCSFE16_H_
 #define _TADCSFE16_H_

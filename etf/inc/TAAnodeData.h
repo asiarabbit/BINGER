@@ -1,18 +1,11 @@
-///////////////////////////////////////////////////////////////////////////////////////
-// Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TAAnodeData.h														 //
-//   TAAnodeData.h -- header file for class TAAnodeData								 //
-//   Introduction: derived from TAAnodeData, embodiment of DC anodes.				 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2017/9/30.															     //
-// Last modified: 2017/10/15, SUN Yazhou.										     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
-///////////////////////////////////////////////////////////////////////////////////////
+/**
+	\file TAAnodeData.h
+	\class TAAnodeData
+	\brief Derived from TAAnodeData, embodiment of DC anodes.
+	\author SUN Yazhou, asia.rabbit@163.com.
+	\date Created: 2017/9/30 Last revised: 2017/10/15, SUN Yazhou.
+	\copyright 2017-2018, SUN Yazhou.
+*/
 
 #ifndef _TAANODEDATA_H
 #define _TAANODEDATA_H
@@ -30,7 +23,7 @@ public:
 	double GetTOF() const;
 	void SetTOF(double tof){ fTOF = tof; }
 protected:
-	double fTOF; // time that a particle crossing the TOF array.
+	double fTOF; //!< time that a particle crossing the TOF array.
 };
 
 #endif

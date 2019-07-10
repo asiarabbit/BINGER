@@ -1,20 +1,14 @@
-///////////////////////////////////////////////////////////////////////////////////////
-// Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TAMWDCTa.h														 //
-//   TAMWDCTa.h -- header file for class TAMWDCTa									 //
-//   Introduction: A class derived from TAMWDC. TA stands for target. This class is	 //
-// for MWDCs around the target.	Note that this class is designed to be an abstract 	 //
-// base class, to be derived before instantiation.									 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2018/3/27.															     //
-// Last modified: 2018/4/26, SUN Yazhou.										     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
-///////////////////////////////////////////////////////////////////////////////////////
+/**
+	\file TAMWDCTa.h
+	\class TAMWDCTa
+	\brief A class derived from TAMWDC. TA stands for target. This class is
+	for MWDCs around the target.	Note that this class is designed to be an abstract
+	base class, to be derived before instantiation.
+	\author SUN Yazhou, asia.rabbit@163.com.
+	\date Created: 2018/3/27 Last revised: 2018/4/26, SUN Yazhou.
+	\copyright 2017-2018, SUN Yazhou.
+*/
+
 
 #ifndef _TAMWDCTA_H_
 #define _TAMWDCTA_H_

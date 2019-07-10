@@ -1,19 +1,13 @@
-///////////////////////////////////////////////////////////////////////////////////////
-// Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TADetector.h														 //
-//   TADetector.h -- header file for class TADetector								 //
-//   Introduction: Detector base class for detectors that could move freely in space,//
-// a container class, including parameters for a detector.							 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2017/9/30.															     //
-// Last modified: 2018/4/4, SUN Yazhou.											     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
-///////////////////////////////////////////////////////////////////////////////////////
+/**
+	\file TADetector.h
+	\class TADetector
+	\brief Detector base class for detectors that could move freely in space,
+	a container class, including parameters for a detector.
+	\author SUN Yazhou, asia.rabbit@163.com.
+	\date Created: 2017/9/30 Last revised: 2018/4/4, SUN Yazhou.
+	\copyright 2017-2018, SUN Yazhou.
+*/
+
 
 #ifndef _TADETECTOR_H_
 #define _TADETECTOR_H_
@@ -29,7 +23,7 @@ public:
 	TADetectorPara *GetDetPara() const;
 
 	virtual void Initialize() = 0;
-	virtual void Configure(); // build the class
+	virtual void Configure(); ///< build the class
 protected:
 	TADetectorPara *fDetPara;
 };

@@ -1,19 +1,13 @@
-///////////////////////////////////////////////////////////////////////////////////////
-// Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TAVisual.h													     //
-//   TAVisual.h -- header file for class TAVisual									 //
-//   Introduction: visualize the particle tracks and fired detectors. This is a user //
-// interface, so is rather important to show the quality of the whole code.			 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2017/10/22.															     //
-// Last modified: 2017/10/23, SUN Yazhou.										     //
-//																				     //
-//																				     //
-// Copyright (C) 2017, SUN Yazhou.												     //
-// All rights reserved.															     //
-///////////////////////////////////////////////////////////////////////////////////////
+/**
+	\file TAVisual.h
+	\class TAVisual
+	\brief Visualize the particle tracks and fired detectors. This is a user
+	interface, so is rather important to show the quality of the whole code.
+	\author SUN Yazhou, asia.rabbit@163.com.
+	\date Created: 2017/10/22 Last revised: 2017/10/23, SUN Yazhou.
+	\copyright 2017-2018, SUN Yazhou.
+*/
+
 
 #ifndef _TAVISUAL_H_
 #define _TAVISUAL_H_
@@ -35,7 +29,7 @@ class TH2F;
 
 class TAVisual{
 public:
-	struct tHitMap{ float x, z;}; // for filling fG2HitMap
+	struct tHitMap{ float x, z;}; ///< for filling fG2HitMap
 
 	static TAVisual *Instance();
 	virtual ~TAVisual();
@@ -45,7 +39,7 @@ public:
 	void AddChannel(TAChannel *ch);
 	void FillEvent();
 	void FillHitMap();
-	void DrawEventSnap(int index = -1); // draw a snap of the event
+	void DrawEventSnap(int index = -1); ///< draw a snap of the event
 	void DrawHitMap();
 	TCanvas *GetCanvas();
 	virtual void Configure();
@@ -65,14 +59,14 @@ protected:
 	TGraph *fGPlaStripDumb;
 	TGraph *fGChannel;
 	TGraph *fGTrack;
-	TGraph *fGTrack_R; // drift distance circles
-	TGraph *fGCurve; // distorted track in the dipole magnet
-	TGraph *fGTarget; // the target
-	TGraph *fGBeamline; // the central beam line
-	TLegend *fGLegend; // to show some text in the graph
+	TGraph *fGTrack_R; ///< drift distance circles
+	TGraph *fGCurve; ///< distorted track in the dipole magnet
+	TGraph *fGTarget; ///< the target
+	TGraph *fGBeamline; ///< the central beam line
+	TLegend *fGLegend; ///< to show some text in the graph
 
 	TH2F *fH2HitMap;
-	tHitMap *fHitMapData; // array for the function value to fH2HitMap
+	tHitMap *fHitMapData; ///< array for the function value to fH2HitMap
 	TCanvas *fCanvas;
 };
 

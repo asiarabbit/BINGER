@@ -23,9 +23,11 @@
 #include "TADeployPara.h"
 #include "TAUIDParser.h"
 
-const double TAAnodePara::kSTRCorRMax = 6.; // unit: mm positive
-const double TAAnodePara::kSTRCorAngleMax = 10. * TAMath::DEGREE(); // unit: rad
-const double TAAnodePara::kSTRCorRStep = TAAnodePara::kSTRCorRMax / TAAnodePara::kSTRCorRNBins;
+const double TAAnodePara::kSTRCorRMax = 6.; ///< unit: mm positive
+const double TAAnodePara::kSTRCorAngleMax =
+			10. * TAMath::DEGREE(); ///< unit: rad
+const double TAAnodePara::kSTRCorRStep =
+			TAAnodePara::kSTRCorRMax / TAAnodePara::kSTRCorRNBins;
 const double TAAnodePara::kSTRCorAngleStep = 
 			TAAnodePara::kSTRCorAngleMax * 2. / (TAAnodePara::kSTRCorAngleNBins - 2);
 const double TAAnodePara::kSTRCorArrDummy[TAAnodePara::kSTRCorRNBins*3]{0.};

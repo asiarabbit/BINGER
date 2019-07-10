@@ -1,19 +1,13 @@
-///////////////////////////////////////////////////////////////////////////////////////
-// Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TAMWDCTaM.h														 //
-//   TAMWDCTaM.h -- header file for class TAMWDCTaM									 //
-//   Introduction: A class derived from TAMWDCTa. This class is for medium size DCs	 //
-// downstream of the target.														 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2018/3/28.															     //
-// Last modified: 2018/4/3, SUN Yazhou.											     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
-///////////////////////////////////////////////////////////////////////////////////////
+/**
+	\file TAMWDCTaM.h
+	\class TAMWDCTaM
+	\brief A class derived from TAMWDCTa. This class is for medium size DCs
+	downstream of the target.
+	\author SUN Yazhou, asia.rabbit@163.com.
+	\date Created: 2018/3/28 Last revised: 2018/4/3, SUN Yazhou.
+	\copyright 2017-2018, SUN Yazhou.
+*/
+
 
 #ifndef _TAMWDCTAM_H_
 #define _TAMWDCTAM_H_

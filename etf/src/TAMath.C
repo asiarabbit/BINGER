@@ -163,6 +163,8 @@ void TAMath::GetHitPoint(const double *b, const double *B, const double *a, cons
 // x=kiz+bi, track before Target
 // result: [0-5]: [thetaDeflect, rho, ki, bi, zo, xo]
 // zMagOut->z2; zMagIn->z1; zTa->z0; xTa->x0
+/// \struct tSolve
+/// \brief The solution struct for solving particle trajectories in a uniform magnetic field.
 struct tSolve{
 	double x1, ki, bi, zh, xh, dtheta, dd2, rho, zo, xo; // solution struct
 };

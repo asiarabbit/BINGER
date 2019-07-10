@@ -1,20 +1,14 @@
-///////////////////////////////////////////////////////////////////////////////////////
-// Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TASTRCalibPDCArrU.h												 //
-//   TASTRCalibPDCArrU.h -- header file for class TASTRCalibPDCArrU					 //
-//   Introduction: a tool class to calibrate DC STRs using auto-calibration. A		 //
-// derived class of TASTRCalibPDCArr, specifically for the DCTas upstream of the	 //
-// target. Note that this is for DCs around the target made in Japan.				 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2018/6/8.															     //
-// Last modified: 2018/6/8, SUN Yazhou.											     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
-///////////////////////////////////////////////////////////////////////////////////////
+/**
+	\file TASTRCalibPDCArrU.h
+	\class TASTRCalibPDCArrU
+	\brief A tool class to calibrate DC STRs using auto-calibration.
+	A derived class of TASTRCalibDCArrTa, specifically for the right DCTas upstream of
+	the target. Note that this is for DCs around the target made in Japan.
+	\author SUN Yazhou, asia.rabbit@163.com.
+	\date Created: 2018/6/8 Last revised: 2018/6/8, SUN Yazhou.
+	\copyright 2017-2018, SUN Yazhou.
+*/
+
 
 #ifndef _TASTRCALIBPDCARRU_H_
 #define _TASTRCALIBPDCARRU_H_

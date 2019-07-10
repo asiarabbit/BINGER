@@ -1,3 +1,11 @@
+/**
+	\file assess.C
+	\example assess.C
+	\brief assess the tracking result output in various indicators stored in a ROOT file
+	\author SUN Yazhou, asia.rabbit@163.com.
+	\date Created: 2017/12/1 Last revised: 2018/5/24, SUN Yazhou.
+	\copyright 2017-2018, SUN Yazhou.
+*/
 // assess.C -- assess the data analysis result
 // Created: 2017/12/1, Lasted modified: 2018/5/24, Author: SUN Yazhou
 

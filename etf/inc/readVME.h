@@ -1,20 +1,12 @@
-///////////////////////////////////////////////////////////////////////////////////////
-// Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// etf/inc/readVME.h																 //
-//   readVME.h -- header file for structs used in class TABUAA						 //
-//   Introduction: struct for reading binary data file from VME data acquisition 	 //
-// system, which works coorperatively with PXI Daq to provide particle energy loss	 //
-// information.																		 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2016/11/21, transported: 2018/1/9.									     //
-// Last modified: 2018/1/9, SUN Yazhou.											     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
-///////////////////////////////////////////////////////////////////////////////////////
+/**
+	\file readVME.h
+	\brief The header file for structs used in class TABUAA, struct for reading binary data
+	file from VME data acquisition system, which works coorperatively with PXI Daq to
+	provide particle energy loss and tracking information before the reaction target.
+	\author SUN Yazhou, asia.rabbit@163.com.
+	\date Created: 2016/11/21 Last revised: 2018/1/9, SUN Yazhou.
+	\copyright 2017-2018, SUN Yazhou.
+*/
 
 #ifndef __READVME_H__
 #define __READVME_H__
@@ -23,20 +15,22 @@
 
 using std::vector;
 
+/// \struct tVME_event
+/// \brief Struct to store a VME event 
 struct tVME_event{
-	int index; // event index in a block
-	int length; // event length
+	int index; //!< event index in a block
+	int length; //!< event length
 	int VMEReadCount; // ?
-	int adc[32]; // MUlti-Sampling Ionization Chamber (music) data
-	int tdc[2][32]; // MWPC1 and MWDC2 upstream the target and MWPC3 downstream the target.
-	int qdc[3][32]; // 3 modules * 32 channels.
+	int adc[32]; //!< MUlti-Sampling Ionization Chamber (music) data
+	int tdc[2][32]; //!< MWPC1 and MWDC2 upstream the target and MWPC3 downstream the target.
+	int qdc[3][32]; //!< 3 modules * 32 channels.
 	int mtdc0[128][10]; // 
 	int mtdc1[128][10]; // 
 	int hit[32];
 	unsigned sca[16];
 	unsigned psca[16];
 	int dsca[16];
-	tVME_event(){ // the default constructor
+	tVME_event(){ //!< the default constructor
 		initialize();
 	} // end of the default constructor
 	void initialize(){
@@ -55,12 +49,15 @@ struct tVME_event{
 	} // end of function initialize.
 };
 
+/// \struct tVME_block
+/// \brief a struct to store a VME data block which encapsulated many events
 struct tVME_block{
-	int index; // block index
-	int event_num; // number of events contained.
+	int index; //!< block index
+	int event_num; //!< number of events contained.
 	int lastPos; // ?
-	vector<tVME_event> event; // events in the block
-	tVME_block(){ // the default constuctor
+	vector<tVME_event> event; //!< events in the block
+	/// the default constuctor
+	tVME_block(){
 		initialize();
 	} // end of the default constructor.
 	void initialize(){
@@ -69,6 +66,7 @@ struct tVME_block{
 		event.reserve(200);
 	} // end of function initialize.
 };
-// read one event from VME binary data file.
+/// read one event from VME binary data file.
+/// \param data: one data block - 8192 bytes containing several events
 void analyze(const int *data, tVME_event &event);
 #endif

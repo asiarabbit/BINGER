@@ -1,19 +1,13 @@
-///////////////////////////////////////////////////////////////////////////////////////
-// Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TAMWDC.h															 //
-//   TAMWDC.h -- header file for class TAMWDC										 //
-//   Introduction: MWDC class, providing position calculation service for wires in	 //
-// the MWDC. A container class, storing TADCSuperLayer objects.						 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2017/10/3.															     //
-// Last modified: 2018/4/15, SUN Yazhou.										     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
-///////////////////////////////////////////////////////////////////////////////////////
+/**
+	\file TAMWDC.h
+	\class TAMWDC
+	\brief MWDC class, providing position calculation service for wires in
+	the MWDC. A container class, storing TADCSuperLayer objects.
+	\author SUN Yazhou, asia.rabbit@163.com.
+	\date Created: 2017/10/3 Last revised: 2018/4/15, SUN Yazhou.
+	\copyright 2017-2018, SUN Yazhou.
+*/
+
 
 #ifndef _TAMWDC_H_
 #define _TAMWDC_H_
@@ -35,16 +29,16 @@ public:
 	short GetMWDCId() const;
 	virtual short GetNAnodePerLayer() const;
 	TADCSuperLayer *GetSLayer(int id) const;
-	int GetNSLayer() const; // number of constructed SLayer
+	int GetNSLayer() const; ///< number of constructed SLayer
 	TAMWDCArray *GetMotherDCArr() const;
 	void SetSLayer(int n, TADCSuperLayer *sl);
 	void SetMWDCId(int id);
 	void SetMotherDCArr(TAMWDCArray *mother){ fMotherDCArr = mother; }
-	double Acceptance() const; // detector acceptance
+	double Acceptance() const; ///< detector acceptance
 	int GetNFiredAnodePerLayer(int dcType, int layerOption) const;
 	int GetSTRid(double k, int dcType) const;
 
-	// coordinate of the anode center of the sense wire. serialId: 0-159
+	/// coordinate of the anode center of the sense wire. serialId: 0-159
 	void AssignAnodePosition();
 	virtual void GetAnodeCenterPosition(int dcType, int layerOption, int anodeId, double *Ag) const;
 	virtual void GetAnodeGlobalDirection(int dcType, double *ag) const;
@@ -60,7 +54,7 @@ public:
 	
 	static const int kX = 0, kU = 1, kV = 2, kY = 1;
 protected:
-	array<TADCSuperLayer *, 3> fSLayerArr; // [0-1-2] -> [X,U,V] or [0-1] -> [X-Y]
+	array<TADCSuperLayer *, 3> fSLayerArr; ///< [0-1-2] -> [X,U,V] or [0-1] -> [X-Y]
 	short fMWDCId;
 	short fNAnodePerLayer;
 	TAMWDCArray *fMotherDCArr;

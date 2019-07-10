@@ -48,7 +48,9 @@ content
 
 # ignore directories
 build/*
-doc/
+doc/*
+!doc/html/*
+!doc/Doxyfile
 misc/*
 !misc/tools/Garfield/
 !misc/tools/chidGenerator/
@@ -57,7 +59,5 @@ misc/*
 !build/PID/
 data/
 !config/
-Lab/avatar/ 
-Lab/beihang/ 
-Lab/go.sh 
-Lab/gui1/ 
+Lab/
+!Lab/theory/MOMDIS/

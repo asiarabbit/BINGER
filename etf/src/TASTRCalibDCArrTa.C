@@ -146,8 +146,10 @@ void TASTRCalibDCArrTa::ChiHistogramming(const string &rootfile, TAMWDCArray2 *d
 	// create TH2F objects for the STR correction fittings //
 	if(fNAnodePerLayer <= 0) TAPopMsg::Error("TASTRCalibDCArrTa", "ChiHistogramming: minus fNAnodePerLayer");
 	const int nAnodePerLayer = fNAnodePerLayer;
-	TH2F *hDCSTRCor[2][2][2][nAnodePerLayer][nAng]{0}; // [DC#][XY][Layer][nu][STR_id]
-	TH2F *hDCSTR_RT[2][2][2][nAnodePerLayer][nAng]{0}; // [DC#][XY][Layer][nu][STR_id] r-t 2D graph
+	TH2F *hDCSTRCor[2][2][2][nAnodePerLayer][nAng]; // [DC#][XY][Layer][nu][STR_id]
+	TH2F *hDCSTR_RT[2][2][2][nAnodePerLayer][nAng]; // [DC#][XY][Layer][nu][STR_id] r-t 2D graph
+	memset(hDCSTRCor, 0, sizeof(hDCSTRCor));
+	memset(hDCSTR_RT, 0, sizeof(hDCSTR_RT));
 	char name[64], title[256];
 	for(int i = 0; i < 2; i++){ // loop over DCs
 		for(int j = 0; j < 2; j++){ // loop over X-Y

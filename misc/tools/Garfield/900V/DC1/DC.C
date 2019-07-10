@@ -32,8 +32,8 @@
 
 //#define SIGNAL // calculate induced signal
 //#define GRAPH // show and store drift time of certain anodes for certain track
-//#define VERBOSE // verbose mode
-//#define SHOW_DRIFT_LINE
+#define VERBOSE // verbose mode
+#define SHOW_DRIFT_LINE
 
 using namespace Garfield;
 using std::cout;
@@ -46,7 +46,7 @@ void sort(const int size, double *x, double *t, int &max_t);
 
 // DC HV/V
 const double vSenseWire = 900.;
-const int nEvents = 3000;
+const int nEvents = 1;
 int main(int argc, char *argv[]){
 	TApplication app("app", &argc, argv);
 	char filename[128]; sprintf(filename, "garfield%d.root", int(vSenseWire));
@@ -327,7 +327,7 @@ int main(int argc, char *argv[]){
 	file->Close();
 
 	cout << "\nDONE\n";
-//	app.Run(true);
+	app.Run(true);
 }
 
 

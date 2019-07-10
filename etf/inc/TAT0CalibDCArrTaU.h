@@ -1,21 +1,14 @@
-///////////////////////////////////////////////////////////////////////////////////////
-// Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TAT0CalibDCArrTaU.h												 //
-//   TAT0CalibDCArrTaU.h -- header file for class TAT0CalibDCArrTaU					 //
-//   Introduction: a tool class to calibrate DC anode T0(delay)s anode by anode by	 //
-// fitting drift time distribution. A derived class of TAT0CalibDCArrTa, specifically//
-// for the DC array upstream of the target.											 //
-// 																					 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2018/4/3.															     //
-// Last modified: 2018/4/4, SUN Yazhou.											     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
-///////////////////////////////////////////////////////////////////////////////////////
+/**
+	\file TAT0CalibDCArrTaU.h
+	\class TAT0CalibDCArrTaU
+	\brief A tool class to calibrate DC anode T0(delay)s anode by anode by
+	fitting drift time distribution. A derived class of TAT0CalibDCArrTa, specifically
+	for the DC array upstream of the target and upstream of the magnet.
+	\author SUN Yazhou, asia.rabbit@163.com.
+	\date Created: 2018/4/3 Last revised: 2018/4/4, SUN Yazhou.
+	\copyright 2017-2018, SUN Yazhou.
+*/
+
 
 #ifndef _TAT0CALIBDCARRTAU_H_
 #define _TAT0CALIBDCARRTAU_H_

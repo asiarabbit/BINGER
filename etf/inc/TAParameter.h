@@ -1,19 +1,13 @@
-///////////////////////////////////////////////////////////////////////////////////////
-// Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TAParameter.h														 //
-//   TAParameter.h -- header file for class TAParameter								 //
-//   Introduction: base class for unit parameter storage, derived from TAStuff.		 //
-// Direct instantiation of this class is supposed to store physical constants.		 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2017/9/24.															     //
-// Last modified: 2018/1/27, SUN Yazhou.										     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
-///////////////////////////////////////////////////////////////////////////////////////
+/**
+	\file TAParameter.h
+	\class TAParameter
+	\brief Base class for unit parameter storage, derived from TAStuff.
+	Direct instantiation of this class is supposed to store physical constants.
+	\author SUN Yazhou, asia.rabbit@163.com.
+	\date Created: 2017/9/24 Last revised: 2018/1/27, SUN Yazhou.
+	\copyright 2017-2018, SUN Yazhou.
+*/
+
 
 #ifndef _TAPARAMETER_H_
 #define _TAPARAMETER_H_

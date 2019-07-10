@@ -1,5 +1,14 @@
-// pre.C -- pre analysis of 2017 Pion experiment.
-// Created: 2017/12/1, Lasted modified: 2018/8/18, Author: SUN Yazhou
+/**
+	\file pre.C
+	\example pre.C
+	\brief Input a PXI and a VME binary raw data file to be decoded and analyzed for Daq evaluation,
+	 detector debugging, or PID output.
+	\author SUN Yazhou, asia.rabbit@163.com.
+	\date Created: 2017/12/1 Last revised: 2018/8/18, SUN Yazhou.
+	\copyright 2017-2018, SUN Yazhou.
+*/
+
+
 #include <iostream>
 #include <cstdlib>
 #include "TAUI.h"

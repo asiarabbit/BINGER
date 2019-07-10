@@ -1,24 +1,19 @@
-///////////////////////////////////////////////////////////////////////////////////////
-// Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TADeployPara.h												     //
-//   TADeployPara.h -- header file for class TADeployPara						     //
-//   Introduction: an information class for storing and conveying detector design	 //
-// parameters, mainly used to pass specifications when creating detector objects.	 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2017/10/12.															     //
-// Last modified: 2018/3/26, SUN Yazhou.										     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
-///////////////////////////////////////////////////////////////////////////////////////
+/**
+	\file TADeployPara.h
+	\class TADeployPara
+	\brief An information class for storing and conveying detector design
+	parameters, mainly used to pass specifications when creating detector objects.
+	accommodates TADCCable objects.
+	** unit: mm **
+	\author SUN Yazhou, asia.rabbit@163.com.
+	\date Created: 2017/10/12 Last revised: 2018/3/26, SUN Yazhou.
+	\copyright 2017-2018, SUN Yazhou.
+*/
+
 
 #ifndef _TADEPLOYPARA_H_
 #define _TADEPLOYPARA_H_
 
-// ** unit: mm ** //
 
 class TADeployPara{
 public:
@@ -39,9 +34,9 @@ protected:
 	TADeployPara();
 
 	static TADeployPara *fInstance;
-	// MWDC design parameters
-	short fNDCCable[2][3]; // DCArr[L-R], MWDC[0-1-2]	
-	// TOF design parameters
+	/// MWDC design parameters
+	short fNDCCable[2][3]; // DCArr[L-R], MWDC[0-1-2]
+	/// TOF design parameters
 	short fNTOFWallStrip;
 };
 

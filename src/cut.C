@@ -1,3 +1,12 @@
+/**
+	\file assess.C
+	\example assess.C
+	\brief to select cut for gui
+	\author SUN Yazhou, asia.rabbit@163.com.
+	\date Created: 2018/6/29 Last revised: 2018/6/30, SUN Yazhou.
+	\copyright 2017-2018, SUN Yazhou.
+*/
+
 // cut.C -- to select cut for gui
 // Created: Jun. 29th, 2018; Last Modified: Jun. 30th, 2018, Author: SUN Yazhou
 

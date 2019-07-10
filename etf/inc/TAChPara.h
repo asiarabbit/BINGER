@@ -1,18 +1,11 @@
-///////////////////////////////////////////////////////////////////////////////////////
-// Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TAChPara.h														 //
-//   TAChPara.h -- header file for class TAChPara									 //
-//   Introduction: class for holding general electronic channel parameter.			 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2017/9/24.															     //
-// Last modified: 2017/11/25, SUN Yazhou.										     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
-///////////////////////////////////////////////////////////////////////////////////////
+/**
+	\file TAChPara.h
+	\class TAChPara
+	\brief class for holding general electronic channel parameter.
+	\author SUN Yazhou, asia.rabbit@163.com.
+	\date Created: 2017/9/24 Last revised: 2017/11/25, SUN Yazhou.
+	\copyright 2017-2018, SUN Yazhou.
+*/
 
 #ifndef _TACHPARA_H_
 #define _TACHPARA_H_
@@ -29,10 +22,10 @@ public:
 	void SetChannelId(int chid){ fChId = chid; }
 	void AppendDelay(double delay) { fDelay += delay; }
 protected:
-	void SetDelay(double delay){ fDelay = delay; } // should be called with caution
+	void SetDelay(double delay){ fDelay = delay; } ///< should be called with caution
 
-	double fDelay; // time offset
-	int fChId; // channel id
+	double fDelay; ///< time offset
+	int fChId; ///< channel id
 };
 
 #endif

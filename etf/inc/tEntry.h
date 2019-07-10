@@ -1,36 +1,30 @@
-///////////////////////////////////////////////////////////////////////////////////////
-// Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/tEntry.h														     //
-//   tEntry.h -- header file for struct tEntry									     //
-//   Introduction: for holding raw data information of a data section defined in GDAQ//
-// system. This class is used in binary data reading and data distribution.			 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2017/10/10.															     //
-// Last modified: 2018/5/26, SUN Yazhou.										     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
-///////////////////////////////////////////////////////////////////////////////////////
+/**
+	\file tEntry.h
+	\struct tEntry
+	\brief For holding raw data information of a data section defined in GDAQ
+	system. This struct is used in binary data reading and data distribution, and holds
+	one channel from an event in the binary file.
+	\author SUN Yazhou, asia.rabbit@163.com.
+	\date Created: 2017/10/10 Last revised: 2018/5/26, SUN Yazhou.
+	\copyright 2017-2018, SUN Yazhou.
+*/
+
 
 #ifndef _tENTRY_H_
 #define _tENTRY_H_
 
 
-/////////////////////////////// DATA STRUCT ///////////////////////////
 struct tEntry{ // struct of reading one channel from binary files
-	char name[256]; // entry name, showing the identity of the entry
+	char name[256]; ///< entry name, showing the identity of the entry
 	int index;
 	int channelId;
-	int nl; // count of leading edges in one data section
-	int nt; // count of trailing edges in one dat section
-	static const int NMAX = 10; // edge number limit
+	int nl; ///< count of leading edges in one data section
+	int nt; ///< count of trailing edges in one dat section
+	static const int NMAX = 10; ///< edge number limit
 	double leadingTime[NMAX];
 	double trailingTime[NMAX];
 	bool is_V;
-	int bunchId; // trigger time in one time cycle
+	int bunchId; ///< trigger time in one time cycle
 
 	tEntry();
 	void initialize();

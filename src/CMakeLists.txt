@@ -17,8 +17,8 @@ set(LIB_LIST libetf ${ROOT_LIBRARIES})
 add_executable(pre pre.C)
 target_link_libraries(pre ${LIB_LIST})
 
-add_executable(pre1 pre1.C)
-target_link_libraries(pre1 ${LIB_LIST})
+#add_executable(pre1 pre1.C)
+#target_link_libraries(pre1 ${LIB_LIST})
 
 add_executable(sim sim.C)
 target_link_libraries(sim ${LIB_LIST})
@@ -50,24 +50,24 @@ target_link_libraries(strdcta ${LIB_LIST})
 #add_executable(pid3 pid3.C)
 #target_link_libraries(pid3 ${ROOT_LIBRARIES})
 
-add_executable(te test.C)
-target_link_libraries(te ${LIB_LIST})
+#add_executable(te test.C)
+#target_link_libraries(te ${LIB_LIST})
 
 add_executable(sho shoot.C)
 target_link_libraries(sho ${LIB_LIST})
 
-add_executable(cut cut.C)
-target_link_libraries(cut ${LIB_LIST})
+#add_executable(cut cut.C)
+#target_link_libraries(cut ${LIB_LIST})
 
 # build code for target - gui
-set(MG "MAMKE_GUI")
-add_custom_command(OUTPUT ${MG}
-	COMMAND make -C ${PROJECT_SOURCE_DIR}/src/gui
-	COMMAND cp ${PROJECT_SOURCE_DIR}/src/gui/gui ${PROJECT_BINARY_DIR}
-	COMMAND cp ${PROJECT_SOURCE_DIR}/src/gui/MyMainFrameDict_rdict.pcm ${PROJECT_BINARY_DIR}
-	COMMENT "Preparing for the buiding of gui"
-)
-add_custom_target(gui ALL DEPENDS ${MG})
+#set(MG "MAMKE_GUI")
+#add_custom_command(OUTPUT ${MG}
+#	COMMAND make -C ${PROJECT_SOURCE_DIR}/src/gui
+#	COMMAND cp ${PROJECT_SOURCE_DIR}/src/gui/gui ${PROJECT_BINARY_DIR}
+#	COMMAND cp ${PROJECT_SOURCE_DIR}/src/gui/MyMainFrameDict_rdict.pcm ${PROJECT_BINARY_DIR}
+#	COMMENT "Preparing for the buiding of gui"
+#)
+#add_custom_target(gui ALL DEPENDS ${MG})
 
 
 

@@ -1,20 +1,14 @@
-///////////////////////////////////////////////////////////////////////////////////////
-// Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TASTRCalibDCArrTaU.h												 //
-//   TASTRCalibDCArrTaU.h -- header file for class TASTRCalibDCArrTaU				 //
-//   Introduction: a tool class to calibrate DC STRs using auto-calibration. A		 //
-// derived class of TASTRCalibDCArrTa, specifically for the DCTas upstream of the	 //
-// target. Note that this is for DCs around the target made by P.Ma.				 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2018/6/8.															     //
-// Last modified: 2018/6/8, SUN Yazhou.											     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
-///////////////////////////////////////////////////////////////////////////////////////
+/**
+	\file TASTRCalibDCArrTaU.h
+	\class TASTRCalibDCArrTaU
+	\brief A tool class to calibrate DC STRs using auto-calibration.
+	A derived class of TASTRCalibDCArrTa, specifically for the right DCTas downstream of
+	the target. Note that this is for DCs around the target made by P.Ma.
+	\author SUN Yazhou, asia.rabbit@163.com.
+	\date Created: 2018/6/8 Last revised: 2018/6/8, SUN Yazhou.
+	\copyright 2017-2018, SUN Yazhou.
+*/
+
 
 #ifndef _TASTRCALIBDCARRTAU_H_
 #define _TASTRCALIBDCARRTAU_H_

@@ -1,19 +1,13 @@
-///////////////////////////////////////////////////////////////////////////////////////
-// Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TAMWDCArrayM.h													 //
-//   TAMWDCArrayM.h -- header file for class TAMWDCArrayM							 //
-//   Introduction: an MWDC array composed of three medium sized DCs. A derived class //
-// from TAMWDCArray with distinct features of the medium DCs.						 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2018/4/13.															     //
-// Last modified: 2018/4/13, SUN Yazhou.										     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
-///////////////////////////////////////////////////////////////////////////////////////
+/**
+	\file TAMWDCArrayM.h
+	\class TAMWDCArrayM
+	\brief An MWDC array composed of three medium sized DCs. A derived class
+	from TAMWDCArray with distinct features of the medium DCs.
+	\author SUN Yazhou, asia.rabbit@163.com.
+	\date Created: 2018/4/13 Last revised: 2018/4/13, SUN Yazhou.
+	\copyright 2017-2018, SUN Yazhou.
+*/
+
 
 #ifndef _TAMWDCARRAYM_H_
 #define _TAMWDCARRAYM_H_
@@ -26,10 +20,9 @@ public:
 	virtual ~TAMWDCArrayM();
 
 	using TAMWDCArray::Map;
-	virtual void Map() override; // Map for XY-DCs
-	virtual void Configure() override; // create detectors of the MWDC array
+	virtual void Map() override; ///< Map for XY-DCs
+	virtual void Configure() override; ///< create detectors of the MWDC array
 protected:
 };
 
 #endif
-
