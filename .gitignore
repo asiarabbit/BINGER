@@ -48,9 +48,9 @@ content
 
 # ignore directories
 build/*
-doc/*
-!doc/html/
-!doc/Doxyfile
+docs/*
+!docs/html/
+!docs/Doxyfile
 misc/*
 !misc/tools/Garfield/
 !misc/tools/chidGenerator/
