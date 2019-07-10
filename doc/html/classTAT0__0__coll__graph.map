@@ -1,0 +1,10 @@
+<map id="TAT0_0" name="TAT0_0">
+<area shape="rect" id="node1" title="Start time detector, located at the middle of RIBLL2 to measure particle time of flight...." alt="" coords="70,480,138,507"/>
+<area shape="rect" id="node2" href="$classTAStuff.html" title="abstract base class" alt="" coords="67,109,135,136"/>
+<area shape="rect" id="node5" href="$classTAChannel.html" title="Representating an electronic channel. A container class." alt="" coords="59,376,149,403"/>
+<area shape="rect" id="node7" href="$classTAParameter.html" title="Base class for unit parameter storage, derived from TAStuff. Direct instantiation of this class is su..." alt="" coords="94,185,199,212"/>
+<area shape="rect" id="node8" href="$classTAChData.html" title="base class for holding experiment data per channel, also responsible for data initialization,..." alt="" coords="191,236,278,263"/>
+<area shape="rect" id="node3" title=" " alt="" coords="72,5,131,32"/>
+<area shape="rect" id="node4" href="$classTADetUnion.html" title="Abstract base class, providing a common interface to detector classes that has UID resolution functio..." alt="" coords="173,376,272,403"/>
+<area shape="rect" id="node6" href="$classTAChPara.html" title="class for holding general electronic channel parameter." alt="" coords="99,287,181,313"/>
+</map>

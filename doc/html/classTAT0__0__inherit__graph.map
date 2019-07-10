@@ -1,0 +1,5 @@
+<map id="TAT0_0" name="TAT0_0">
+<area shape="rect" id="node1" title="Start time detector, located at the middle of RIBLL2 to measure particle time of flight...." alt="" coords="59,80,127,107"/>
+<area shape="rect" id="node2" href="$classTAStuff.html" title="abstract base class" alt="" coords="5,5,73,32"/>
+<area shape="rect" id="node3" href="$classTADetUnion.html" title="Abstract base class, providing a common interface to detector classes that has UID resolution functio..." alt="" coords="98,5,197,32"/>
+</map>

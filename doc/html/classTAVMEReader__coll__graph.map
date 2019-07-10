@@ -1,0 +1,4 @@
+<map id="TAVMEReader" name="TAVMEReader">
+<area shape="rect" id="node1" title="read binary data file from VME Daq and transform it into root tree." alt="" coords="5,109,116,136"/>
+<area shape="rect" id="node2" title=" " alt="" coords="31,5,90,32"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="TAMWDCTa" name="TAMWDCTa">
+<area shape="rect" id="node1" title="A class derived from TAMWDC. TA stands for target. This class is for MWDCs around the target...." alt="" coords="195,229,289,256"/>
+<area shape="rect" id="node5" href="$classTAMWDCTaL.html" title="A class derived from TAMWDCTa. This class is for large size DCs downstream of the target." alt="" coords="5,304,108,331"/>
+<area shape="rect" id="node6" href="$classTAMWDCTaM.html" title="A class derived from TAMWDCTa. This class is for medium size DCs downstream of the target." alt="" coords="133,304,239,331"/>
+<area shape="rect" id="node7" href="$classTAPDCL.html" title="A class derived from TAMWDCTa. This class is for MWDCs from BUAA which was R&amp;D&#45;ed by Japan researcher..." alt="" coords="263,304,335,331"/>
+<area shape="rect" id="node8" href="$classTAPDCR.html" title="A class derived from TAMWDCTa. This class is for MWDCs from BUAA which was R&amp;D&#45;ed by Japan researcher..." alt="" coords="359,304,434,331"/>
+<area shape="rect" id="node2" href="$classTAMWDC.html" title="MWDC class, providing position calculation service for wires in the MWDC. A container class,..." alt="" coords="201,155,283,181"/>
+<area shape="rect" id="node3" href="$classTADetector.html" title="Detector base class for detectors that could move freely in space, a container class,..." alt="" coords="195,80,289,107"/>
+<area shape="rect" id="node4" href="$classTAStuff.html" title="abstract base class" alt="" coords="208,5,276,32"/>
+</map>

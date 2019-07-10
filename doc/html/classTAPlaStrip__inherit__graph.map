@@ -1,0 +1,5 @@
+<map id="TAPlaStrip" name="TAPlaStrip">
+<area shape="rect" id="node1" title="Designed for both&#45;end&#45;readout plastic scintillator strip. Container class, representating all the att..." alt="" coords="5,80,93,107"/>
+<area shape="rect" id="node3" href="$classTAT0__1.html" title="Start time detector, located at the end of RIBLL2 to measure particle time of flight...." alt="" coords="15,155,83,181"/>
+<area shape="rect" id="node2" href="$classTAStuff.html" title="abstract base class" alt="" coords="15,5,83,32"/>
+</map>

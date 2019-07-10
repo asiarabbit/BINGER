@@ -1,0 +1,5 @@
+<map id="TAChData" name="TAChData">
+<area shape="rect" id="node1" title="base class for holding experiment data per channel, also responsible for data initialization,..." alt="" coords="5,185,92,212"/>
+<area shape="rect" id="node2" href="$classTAStuff.html" title="abstract base class" alt="" coords="15,109,83,136"/>
+<area shape="rect" id="node3" title=" " alt="" coords="19,5,78,32"/>
+</map>

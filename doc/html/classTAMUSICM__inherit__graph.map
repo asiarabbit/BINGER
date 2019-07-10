@@ -1,0 +1,6 @@
+<map id="TAMUSICM" name="TAMUSICM">
+<area shape="rect" id="node1" title="A derived class from TAMUSIC. &quot;M&quot; stands for Medium. This MUSIC has 4 channels, i...." alt="" coords="47,155,138,181"/>
+<area shape="rect" id="node2" href="$classTAMUSIC.html" title="A class for multi&#45;sampleing ionization chamber. It is for the measurement of particle charge informat..." alt="" coords="53,80,133,107"/>
+<area shape="rect" id="node3" href="$classTAStuff.html" title="abstract base class" alt="" coords="5,5,73,32"/>
+<area shape="rect" id="node4" href="$classTADetUnion.html" title="Abstract base class, providing a common interface to detector classes that has UID resolution functio..." alt="" coords="98,5,197,32"/>
+</map>

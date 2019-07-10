@@ -1,0 +1,5 @@
+<map id="TAMagnet" name="TAMagnet">
+<area shape="rect" id="node1" title="Magnetic rigidity analysis for PID using fourth&#45;order Runge&#45;Kutta method to track particles in magnet..." alt="" coords="5,80,92,107"/>
+<area shape="rect" id="node3" href="$classTAPID.html" title="Derived from TAMagnet, particle identification using magnetic rigidity analysis. An interface class f..." alt="" coords="19,155,79,181"/>
+<area shape="rect" id="node2" href="$classTAStuff.html" title="abstract base class" alt="" coords="15,5,83,32"/>
+</map>

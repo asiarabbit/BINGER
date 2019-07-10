@@ -1,0 +1,4 @@
+<map id="TAUI" name="TAUI">
+<area shape="rect" id="node1" title="The user interface, inherited from TAEventProcessor. Providing user option parsing,..." alt="" coords="49,80,101,107"/>
+<area shape="rect" id="node2" href="$classTAEventProcessor.html" title="store PID result using 3D tracks, used to facilitate parameter passing" alt="" coords="5,5,144,32"/>
+</map>

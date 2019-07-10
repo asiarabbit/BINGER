@@ -1,0 +1,6 @@
+<map id="TATrack2" name="TATrack2">
+<area shape="rect" id="node1" title="A derived class from TATrack, specifically designed for DCs around the target. This class is mainly f..." alt="" coords="5,261,84,288"/>
+<area shape="rect" id="node2" href="$classTATrack.html" title="Class for track fitting, which is mainly a series of minimization algorithms. One of the core classes..." alt="" coords="9,185,80,212"/>
+<area shape="rect" id="node3" href="$classTAStuff.html" title="abstract base class" alt="" coords="11,109,79,136"/>
+<area shape="rect" id="node4" title=" " alt="" coords="15,5,74,32"/>
+</map>

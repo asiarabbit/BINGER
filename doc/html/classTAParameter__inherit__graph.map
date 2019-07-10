@@ -1,0 +1,6 @@
+<map id="TAParameter" name="TAParameter">
+<area shape="rect" id="node1" title="Base class for unit parameter storage, derived from TAStuff. Direct instantiation of this class is su..." alt="" coords="6,80,111,107"/>
+<area shape="rect" id="node3" href="$classTAChPara.html" title="class for holding general electronic channel parameter." alt="" coords="17,155,100,181"/>
+<area shape="rect" id="node2" href="$classTAStuff.html" title="abstract base class" alt="" coords="25,5,93,32"/>
+<area shape="rect" id="node4" href="$classTAAnodePara.html" title="derived from TAChPara, embodiment of DC anode parameter set." alt="" coords="5,229,112,256"/>
+</map>

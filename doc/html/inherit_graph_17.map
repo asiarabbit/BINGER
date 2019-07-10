@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classTASTRCalibDCArrTa.html" title="A tool class to calibrate DC STRs using auto&#45;calibration. An abstract base class. Note that this is f..." alt="" coords="5,81,152,108"/>
+<area shape="rect" id="node2" href="$classTASTRCalibDCArrTaD.html" title="A tool class to calibrate DC STRs using auto&#45;calibration. A derived class of TASTRCalibDCArrTa,..." alt="" coords="200,5,357,32"/>
+<area shape="rect" id="node3" href="$classTASTRCalibDCArrTaU.html" title="A tool class to calibrate DC STRs using auto&#45;calibration. A derived class of TASTRCalibDCArrTa,..." alt="" coords="200,56,357,83"/>
+<area shape="rect" id="node4" href="$classTASTRCalibPDCArrD.html" title="A tool class to calibrate DC STRs using auto&#45;calibration. A derived class of TASTRCalibDCArrTa,..." alt="" coords="203,107,354,133"/>
+<area shape="rect" id="node5" href="$classTASTRCalibPDCArrU.html" title="A tool class to calibrate DC STRs using auto&#45;calibration. A derived class of TASTRCalibDCArrTa,..." alt="" coords="203,157,354,184"/>
+</map>

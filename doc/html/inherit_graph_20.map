@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classTAT0CalibDCArrTa.html" title="A tool class to calibrate DCT0(delay)s anode by anode by fitting drift time distribution...." alt="" coords="5,31,144,57"/>
+<area shape="rect" id="node2" href="$classTAT0CalibDCArrTaD.html" title="A tool class to calibrate DC anode T0(delay)s anode by anode by fitting drift time distribution...." alt="" coords="192,5,340,32"/>
+<area shape="rect" id="node3" href="$classTAT0CalibDCArrTaU.html" title="A tool class to calibrate DC anode T0(delay)s anode by anode by fitting drift time distribution...." alt="" coords="192,56,340,83"/>
+</map>

@@ -49,7 +49,7 @@ content
 # ignore directories
 build/*
 doc/*
-!doc/html/*
+!doc/html/
 !doc/Doxyfile
 misc/*
 !misc/tools/Garfield/
@@ -60,4 +60,5 @@ misc/*
 data/
 !config/
 Lab/
-!Lab/theory/MOMDIS/
+!Lab/theory/MOMDIS/ 
+!anaG4SimBuild/

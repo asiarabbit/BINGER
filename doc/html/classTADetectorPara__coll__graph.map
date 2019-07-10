@@ -1,0 +1,5 @@
+<map id="TADetectorPara" name="TADetectorPara">
+<area shape="rect" id="node1" title="Store parameter set of Detector level(MWDC, TOFWall, etc.). Container class, storing position paramet..." alt="" coords="5,185,128,212"/>
+<area shape="rect" id="node2" href="$classTAStuff.html" title="abstract base class" alt="" coords="33,109,101,136"/>
+<area shape="rect" id="node3" title=" " alt="" coords="37,5,96,32"/>
+</map>

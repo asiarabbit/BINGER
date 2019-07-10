@@ -1,0 +1,9 @@
+<map id="TAMWDCArray2" name="TAMWDCArray2">
+<area shape="rect" id="node1" title="MWDC array class, implementing pattern recognition and 3&#45;D tracking through track projection matching..." alt="" coords="228,80,352,107"/>
+<area shape="rect" id="node4" href="$classTAMWDCArrayD.html" title="The MWDC array downstream of the target. A derived class from TAMWDCArray2. Note that there&#39;s only tw..." alt="" coords="5,155,132,181"/>
+<area shape="rect" id="node5" href="$classTAMWDCArrayU.html" title="The MWDC array upstream of the target. A derived class from TAMWDCArray2. Note that there&#39;s only two ..." alt="" coords="156,155,283,181"/>
+<area shape="rect" id="node6" href="$classTAPDCArrayD.html" title="The PDC array downstream of the target. A derived class from TAMWDCArray2. Note that there&#39;s only two..." alt="" coords="307,155,417,181"/>
+<area shape="rect" id="node7" href="$classTAPDCArrayU.html" title="The PDC array upstream of the target. A derived class from TAMWDCArray2. Note that there&#39;s only two D..." alt="" coords="441,155,552,181"/>
+<area shape="rect" id="node2" href="$classTAStuff.html" title="abstract base class" alt="" coords="203,5,271,32"/>
+<area shape="rect" id="node3" href="$classTADetUnion.html" title="Abstract base class, providing a common interface to detector classes that has UID resolution functio..." alt="" coords="295,5,394,32"/>
+</map>

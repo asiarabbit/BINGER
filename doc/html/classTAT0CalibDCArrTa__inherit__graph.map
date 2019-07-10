@@ -1,0 +1,5 @@
+<map id="TAT0CalibDCArrTa" name="TAT0CalibDCArrTa">
+<area shape="rect" id="node1" title="A tool class to calibrate DCT0(delay)s anode by anode by fitting drift time distribution...." alt="" coords="95,5,234,32"/>
+<area shape="rect" id="node2" href="$classTAT0CalibDCArrTaD.html" title="A tool class to calibrate DC anode T0(delay)s anode by anode by fitting drift time distribution...." alt="" coords="5,80,153,107"/>
+<area shape="rect" id="node3" href="$classTAT0CalibDCArrTaU.html" title="A tool class to calibrate DC anode T0(delay)s anode by anode by fitting drift time distribution...." alt="" coords="177,80,325,107"/>
+</map>

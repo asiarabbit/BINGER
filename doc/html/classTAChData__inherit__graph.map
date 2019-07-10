@@ -1,0 +1,6 @@
+<map id="TAChData" name="TAChData">
+<area shape="rect" id="node1" title="base class for holding experiment data per channel, also responsible for data initialization,..." alt="" coords="85,80,172,107"/>
+<area shape="rect" id="node3" href="$classTAAnodeData.html" title="Derived from TAAnodeData, embodiment of DC anodes." alt="" coords="5,155,116,181"/>
+<area shape="rect" id="node4" href="$classTAChDataVME.html" title="Derived from TAChData. This class is mainly for transformation of measured data, by polymorphic imple..." alt="" coords="141,155,255,181"/>
+<area shape="rect" id="node2" href="$classTAStuff.html" title="abstract base class" alt="" coords="95,5,163,32"/>
+</map>

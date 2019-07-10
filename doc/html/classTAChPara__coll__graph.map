@@ -1,0 +1,6 @@
+<map id="TAChPara" name="TAChPara">
+<area shape="rect" id="node1" title="class for holding general electronic channel parameter." alt="" coords="17,261,99,288"/>
+<area shape="rect" id="node2" href="$classTAParameter.html" title="Base class for unit parameter storage, derived from TAStuff. Direct instantiation of this class is su..." alt="" coords="5,185,111,212"/>
+<area shape="rect" id="node3" href="$classTAStuff.html" title="abstract base class" alt="" coords="24,109,92,136"/>
+<area shape="rect" id="node4" title=" " alt="" coords="29,5,87,32"/>
+</map>

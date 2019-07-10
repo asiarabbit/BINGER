@@ -1,0 +1,8 @@
+<map id="TAChannel" name="TAChannel">
+<area shape="rect" id="node1" title="Representating an electronic channel. A container class." alt="" coords="33,376,124,403"/>
+<area shape="rect" id="node2" href="$classTAStuff.html" title="abstract base class" alt="" coords="45,109,113,136"/>
+<area shape="rect" id="node5" href="$classTAParameter.html" title="Base class for unit parameter storage, derived from TAStuff. Direct instantiation of this class is su..." alt="" coords="26,185,131,212"/>
+<area shape="rect" id="node6" href="$classTAChData.html" title="base class for holding experiment data per channel, also responsible for data initialization,..." alt="" coords="125,236,211,263"/>
+<area shape="rect" id="node3" title=" " alt="" coords="49,5,108,32"/>
+<area shape="rect" id="node4" href="$classTAChPara.html" title="class for holding general electronic channel parameter." alt="" coords="37,287,120,313"/>
+</map>

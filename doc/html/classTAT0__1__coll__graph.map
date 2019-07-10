@@ -1,0 +1,13 @@
+<map id="TAT0_1" name="TAT0_1">
+<area shape="rect" id="node1" title="Start time detector, located at the end of RIBLL2 to measure particle time of flight...." alt="" coords="133,597,201,624"/>
+<area shape="rect" id="node2" href="$classTAPlaStrip.html" title="Designed for both&#45;end&#45;readout plastic scintillator strip. Container class, representating all the att..." alt="" coords="64,521,152,548"/>
+<area shape="rect" id="node3" href="$classTAStuff.html" title="abstract base class" alt="" coords="177,109,245,136"/>
+<area shape="rect" id="node5" href="$classTAPlaStripData.html" title="For caching data of an event relating to a TOF Wall plastic strip with both&#45;end&#45;readout uisng PMT cou..." alt="" coords="26,236,145,263"/>
+<area shape="rect" id="node6" href="$classTAChannel.html" title="Representating an electronic channel. A container class." alt="" coords="151,388,241,415"/>
+<area shape="rect" id="node8" href="$classTAParameter.html" title="Base class for unit parameter storage, derived from TAStuff. Direct instantiation of this class is su..." alt="" coords="203,185,309,212"/>
+<area shape="rect" id="node9" href="$classTAChData.html" title="base class for holding experiment data per channel, also responsible for data initialization,..." alt="" coords="297,236,383,263"/>
+<area shape="rect" id="node10" href="$classTAPlaStripPara.html" title="For caching Parameter of a TOF Wall plastic strip with both&#45;end&#45;readout uisng PMT coupling." alt="" coords="354,337,470,364"/>
+<area shape="rect" id="node4" title=" " alt="" coords="181,5,240,32"/>
+<area shape="rect" id="node7" href="$classTAChPara.html" title="class for holding general electronic channel parameter." alt="" coords="203,287,285,313"/>
+<area shape="rect" id="node11" href="$classTADetUnion.html" title="Abstract base class, providing a common interface to detector classes that has UID resolution functio..." alt="" coords="176,521,275,548"/>
+</map>

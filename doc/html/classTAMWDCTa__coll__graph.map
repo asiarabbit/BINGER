@@ -1,0 +1,21 @@
+<map id="TAMWDCTa" name="TAMWDCTa">
+<area shape="rect" id="node1" title="A class derived from TAMWDC. TA stands for target. This class is for MWDCs around the target...." alt="" coords="5,625,100,652"/>
+<area shape="rect" id="node2" href="$classTAMWDC.html" title="MWDC class, providing position calculation service for wires in the MWDC. A container class,..." alt="" coords="56,536,137,563"/>
+<area shape="rect" id="node7" href="$classTAMWDCArray.html" title="MWDC array class, implementing pattern recognition and 3&#45;D tracking through track projection matching..." alt="" coords="372,625,488,652"/>
+<area shape="rect" id="node3" href="$classTADetector.html" title="Detector base class for detectors that could move freely in space, a container class,..." alt="" coords="87,287,181,313"/>
+<area shape="rect" id="node17" href="$classTATOFWall.html" title="TOF wall class. A container class, accommodating plastic scintillator strips and choosing fired strip..." alt="" coords="247,395,338,422"/>
+<area shape="rect" id="node4" href="$classTAStuff.html" title="abstract base class" alt="" coords="553,109,621,136"/>
+<area shape="rect" id="node6" href="$classTADetectorPara.html" title="Store parameter set of Detector level(MWDC, TOFWall, etc.). Container class, storing position paramet..." alt="" coords="155,185,278,212"/>
+<area shape="rect" id="node10" href="$classTAPlaStrip.html" title="Designed for both&#45;end&#45;readout plastic scintillator strip. Container class, representating all the att..." alt="" coords="682,536,770,563"/>
+<area shape="rect" id="node11" href="$classTAPlaStripData.html" title="For caching data of an event relating to a TOF Wall plastic strip with both&#45;end&#45;readout uisng PMT cou..." alt="" coords="749,236,868,263"/>
+<area shape="rect" id="node12" href="$classTAChannel.html" title="Representating an electronic channel. A container class." alt="" coords="471,395,562,422"/>
+<area shape="rect" id="node14" href="$classTAParameter.html" title="Base class for unit parameter storage, derived from TAStuff. Direct instantiation of this class is su..." alt="" coords="535,185,640,212"/>
+<area shape="rect" id="node15" href="$classTAChData.html" title="base class for holding experiment data per channel, also responsible for data initialization,..." alt="" coords="388,236,475,263"/>
+<area shape="rect" id="node16" href="$classTAPlaStripPara.html" title="For caching Parameter of a TOF Wall plastic strip with both&#45;end&#45;readout uisng PMT coupling." alt="" coords="592,337,708,364"/>
+<area shape="rect" id="node5" title=" " alt="" coords="558,5,617,32"/>
+<area shape="rect" id="node8" href="$classTADetUnion.html" title="Abstract base class, providing a common interface to detector classes that has UID resolution functio..." alt="" coords="381,536,479,563"/>
+<area shape="rect" id="node9" title=" " alt="" coords="504,536,657,563"/>
+<area shape="rect" id="node13" href="$classTAChPara.html" title="class for holding general electronic channel parameter." alt="" coords="542,287,625,313"/>
+<area shape="rect" id="node18" title=" " alt="" coords="206,287,377,313"/>
+<area shape="rect" id="node19" title=" " alt="" coords="45,388,223,429"/>
+</map>

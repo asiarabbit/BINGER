@@ -1,0 +1,7 @@
+<map id="TATOFWall" name="TATOFWall">
+<area shape="rect" id="node1" title="TOF wall class. A container class, accommodating plastic scintillator strips and choosing fired strip..." alt="" coords="108,155,199,181"/>
+<area shape="rect" id="node4" href="$classTAOpticFiberArray.html" title="An optical fiber array to measure position and time of beams with high intensity. SiPM is used for th..." alt="" coords="5,229,144,256"/>
+<area shape="rect" id="node5" href="$classTASiPMPlaBarrel.html" title="A barrel with a regular octagon cross section, to measure hit multiplicity around the target,..." alt="" coords="168,229,296,256"/>
+<area shape="rect" id="node2" href="$classTADetector.html" title="Detector base class for detectors that could move freely in space, a container class,..." alt="" coords="106,80,201,107"/>
+<area shape="rect" id="node3" href="$classTAStuff.html" title="abstract base class" alt="" coords="119,5,187,32"/>
+</map>

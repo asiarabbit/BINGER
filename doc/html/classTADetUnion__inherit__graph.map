@@ -1,0 +1,20 @@
+<map id="TADetUnion" name="TADetUnion">
+<area shape="rect" id="node1" title="Abstract base class, providing a common interface to detector classes that has UID resolution functio..." alt="" coords="5,309,104,336"/>
+<area shape="rect" id="node2" href="$classTAMUSIC.html" title="A class for multi&#45;sampleing ionization chamber. It is for the measurement of particle charge informat..." alt="" coords="181,56,261,83"/>
+<area shape="rect" id="node5" href="$classTAMWDCArray.html" title="MWDC array class, implementing pattern recognition and 3&#45;D tracking through track projection matching..." alt="" coords="163,157,279,184"/>
+<area shape="rect" id="node9" href="$classTAMWDCArray2.html" title="MWDC array class, implementing pattern recognition and 3&#45;D tracking through track projection matching..." alt="" coords="159,233,283,260"/>
+<area shape="rect" id="node14" href="$classTAOpticFiberArray.html" title="An optical fiber array to measure position and time of beams with high intensity. SiPM is used for th..." alt="" coords="152,284,291,311"/>
+<area shape="rect" id="node15" href="$classTASiPMPlaArray.html" title="Fast particle tracking detector dedicated especially for high counting rates circumstances,..." alt="" coords="159,335,283,361"/>
+<area shape="rect" id="node16" href="$classTASiPMPlaBarrel.html" title="A barrel with a regular octagon cross section, to measure hit multiplicity around the target,..." alt="" coords="157,385,285,412"/>
+<area shape="rect" id="node17" href="$classTAT0__0.html" title="Start time detector, located at the middle of RIBLL2 to measure particle time of flight...." alt="" coords="187,436,255,463"/>
+<area shape="rect" id="node18" href="$classTAT0__1.html" title="Start time detector, located at the end of RIBLL2 to measure particle time of flight...." alt="" coords="187,487,255,513"/>
+<area shape="rect" id="node3" href="$classTAMUSICL.html" title="A derived class from TAMUSIC. &quot;L&quot; stands for large. This MUSIC has 8 channels, i.e...." alt="" coords="359,5,445,32"/>
+<area shape="rect" id="node4" href="$classTAMUSICM.html" title="A derived class from TAMUSIC. &quot;M&quot; stands for Medium. This MUSIC has 4 channels, i...." alt="" coords="357,56,447,83"/>
+<area shape="rect" id="node6" href="$classTAMWDCArrayL.html" title="The left arm of the MWDC arrays. A derived class from TAMWDCArray with distinct features of the left ..." alt="" coords="341,107,463,133"/>
+<area shape="rect" id="node7" href="$classTAMWDCArrayR.html" title="The right arm of the MWDC arrays. A derived class from TAMWDCArray with distinct features of the righ..." alt="" coords="339,157,465,184"/>
+<area shape="rect" id="node8" href="$classTAMWDCArrayM.html" title="An MWDC array composed of three medium sized DCs. A derived class from TAMWDCArray with distinct feat..." alt="" coords="513,157,640,184"/>
+<area shape="rect" id="node10" href="$classTAMWDCArrayD.html" title="The MWDC array downstream of the target. A derived class from TAMWDCArray2. Note that there&#39;s only tw..." alt="" coords="339,208,465,235"/>
+<area shape="rect" id="node11" href="$classTAMWDCArrayU.html" title="The MWDC array upstream of the target. A derived class from TAMWDCArray2. Note that there&#39;s only two ..." alt="" coords="339,259,465,285"/>
+<area shape="rect" id="node12" href="$classTAPDCArrayD.html" title="The PDC array downstream of the target. A derived class from TAMWDCArray2. Note that there&#39;s only two..." alt="" coords="347,309,457,336"/>
+<area shape="rect" id="node13" href="$classTAPDCArrayU.html" title="The PDC array upstream of the target. A derived class from TAMWDCArray2. Note that there&#39;s only two D..." alt="" coords="347,360,457,387"/>
+</map>

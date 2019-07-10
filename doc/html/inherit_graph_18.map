@@ -1,0 +1,48 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classTADetUnion.html" title="Abstract base class, providing a common interface to detector classes that has UID resolution functio..." alt="" coords="5,245,104,272"/>
+<area shape="rect" id="node2" href="$classTAMUSIC.html" title="A class for multi&#45;sampleing ionization chamber. It is for the measurement of particle charge informat..." alt="" coords="177,422,257,449"/>
+<area shape="rect" id="node5" href="$classTAMWDCArray.html" title="MWDC array class, implementing pattern recognition and 3&#45;D tracking through track projection matching..." alt="" coords="159,169,275,196"/>
+<area shape="rect" id="node9" href="$classTAMWDCArray2.html" title="MWDC array class, implementing pattern recognition and 3&#45;D tracking through track projection matching..." alt="" coords="155,220,279,246"/>
+<area shape="rect" id="node14" href="$classTAOpticFiberArray.html" title="An optical fiber array to measure position and time of beams with high intensity. SiPM is used for th..." alt="" coords="505,296,644,322"/>
+<area shape="rect" id="node15" href="$classTASiPMPlaArray.html" title="Fast particle tracking detector dedicated especially for high counting rates circumstances,..." alt="" coords="155,321,279,348"/>
+<area shape="rect" id="node16" href="$classTASiPMPlaBarrel.html" title="A barrel with a regular octagon cross section, to measure hit multiplicity around the target,..." alt="" coords="511,498,639,525"/>
+<area shape="rect" id="node17" href="$classTAT0__0.html" title="Start time detector, located at the middle of RIBLL2 to measure particle time of flight...." alt="" coords="183,372,251,398"/>
+<area shape="rect" id="node18" href="$classTAT0__1.html" title="Start time detector, located at the end of RIBLL2 to measure particle time of flight...." alt="" coords="360,422,428,449"/>
+<area shape="rect" id="node3" href="$classTAMUSICL.html" title="A derived class from TAMUSIC. &quot;L&quot; stands for large. This MUSIC has 8 channels, i.e...." alt="" coords="351,524,437,550"/>
+<area shape="rect" id="node4" href="$classTAMUSICM.html" title="A derived class from TAMUSIC. &quot;M&quot; stands for Medium. This MUSIC has 4 channels, i...." alt="" coords="349,473,439,500"/>
+<area shape="rect" id="node6" href="$classTAMWDCArrayL.html" title="The left arm of the MWDC arrays. A derived class from TAMWDCArray with distinct features of the left ..." alt="" coords="333,118,455,145"/>
+<area shape="rect" id="node7" href="$classTAMWDCArrayR.html" title="The right arm of the MWDC arrays. A derived class from TAMWDCArray with distinct features of the righ..." alt="" coords="331,169,457,196"/>
+<area shape="rect" id="node8" href="$classTAMWDCArrayM.html" title="An MWDC array composed of three medium sized DCs. A derived class from TAMWDCArray with distinct feat..." alt="" coords="511,169,638,196"/>
+<area shape="rect" id="node10" href="$classTAMWDCArrayD.html" title="The MWDC array downstream of the target. A derived class from TAMWDCArray2. Note that there&#39;s only tw..." alt="" coords="331,220,457,246"/>
+<area shape="rect" id="node11" href="$classTAMWDCArrayU.html" title="The MWDC array upstream of the target. A derived class from TAMWDCArray2. Note that there&#39;s only two ..." alt="" coords="331,270,457,297"/>
+<area shape="rect" id="node12" href="$classTAPDCArrayD.html" title="The PDC array downstream of the target. A derived class from TAMWDCArray2. Note that there&#39;s only two..." alt="" coords="339,321,449,348"/>
+<area shape="rect" id="node13" href="$classTAPDCArrayU.html" title="The PDC array upstream of the target. A derived class from TAMWDCArray2. Note that there&#39;s only two D..." alt="" coords="339,372,449,398"/>
+<area shape="rect" id="node19" href="$classTAStuff.html" title="abstract base class" alt="" coords="21,676,89,702"/>
+<area shape="rect" id="node20" href="$classTAAnode.html" title="Drift chamber anode class, representative of the physical entity. This is a container class,..." alt="" coords="178,726,257,753"/>
+<area shape="rect" id="node21" href="$classTAChannel.html" title="Representating an electronic channel. A container class." alt="" coords="172,777,263,804"/>
+<area shape="rect" id="node22" href="$classTAChData.html" title="base class for holding experiment data per channel, also responsible for data initialization,..." alt="" coords="174,828,261,854"/>
+<area shape="rect" id="node25" href="$classTADCCable.html" title="Result of an elaborated classification of DC anodes, a container class, storing two TASFE16 objects t..." alt="" coords="170,929,265,956"/>
+<area shape="rect" id="node26" href="$classTADCSFE16.html" title="result of an elaborated classification of DC anodes, a container class, storing TAAnode objects that ..." alt="" coords="169,980,265,1006"/>
+<area shape="rect" id="node27" href="$classTADCSuperLayer.html" title="A super layer is the combination of two adjacent layers in a DC, which of course share the same wire&#45;..." alt="" coords="152,1030,283,1057"/>
+<area shape="rect" id="node28" href="$classTADetector.html" title="Detector base class for detectors that could move freely in space, a container class,..." alt="" coords="170,1081,265,1108"/>
+<area shape="rect" id="node36" href="$classTADetectorPara.html" title="Store parameter set of Detector level(MWDC, TOFWall, etc.). Container class, storing position paramet..." alt="" coords="156,473,279,500"/>
+<area shape="rect" id="node37" href="$classTAMagnet.html" title="Magnetic rigidity analysis for PID using fourth&#45;order Runge&#45;Kutta method to track particles in magnet..." alt="" coords="174,574,261,601"/>
+<area shape="rect" id="node39" href="$classTAParameter.html" title="Base class for unit parameter storage, derived from TAStuff. Direct instantiation of this class is su..." alt="" coords="165,625,270,652"/>
+<area shape="rect" id="node42" href="$classTAPlaStrip.html" title="Designed for both&#45;end&#45;readout plastic scintillator strip. Container class, representating all the att..." alt="" coords="173,524,261,550"/>
+<area shape="rect" id="node43" href="$classTAPlaStripData.html" title="For caching data of an event relating to a TOF Wall plastic strip with both&#45;end&#45;readout uisng PMT cou..." alt="" coords="158,878,277,905"/>
+<area shape="rect" id="node44" href="$classTAPlaStripPara.html" title="For caching Parameter of a TOF Wall plastic strip with both&#45;end&#45;readout uisng PMT coupling." alt="" coords="159,1132,275,1158"/>
+<area shape="rect" id="node45" href="$classTATrack.html" title="Class for track fitting, which is mainly a series of minimization algorithms. One of the core classes..." alt="" coords="182,676,253,702"/>
+<area shape="rect" id="node23" href="$classTAAnodeData.html" title="Derived from TAAnodeData, embodiment of DC anodes." alt="" coords="339,777,449,804"/>
+<area shape="rect" id="node24" href="$classTAChDataVME.html" title="Derived from TAChData. This class is mainly for transformation of measured data, by polymorphic imple..." alt="" coords="337,828,451,854"/>
+<area shape="rect" id="node29" href="$classTAMWDC.html" title="MWDC class, providing position calculation service for wires in the MWDC. A container class,..." alt="" coords="353,1081,435,1108"/>
+<area shape="rect" id="node35" href="$classTATOFWall.html" title="TOF wall class. A container class, accommodating plastic scintillator strips and choosing fired strip..." alt="" coords="349,878,439,905"/>
+<area shape="rect" id="node30" href="$classTAMWDCTa.html" title="A class derived from TAMWDC. TA stands for target. This class is for MWDCs around the target...." alt="" coords="527,1081,622,1108"/>
+<area shape="rect" id="node31" href="$classTAMWDCTaL.html" title="A class derived from TAMWDCTa. This class is for large size DCs downstream of the target." alt="" coords="694,1005,797,1032"/>
+<area shape="rect" id="node32" href="$classTAMWDCTaM.html" title="A class derived from TAMWDCTa. This class is for medium size DCs downstream of the target." alt="" coords="692,1056,799,1082"/>
+<area shape="rect" id="node33" href="$classTAPDCL.html" title="A class derived from TAMWDCTa. This class is for MWDCs from BUAA which was R&amp;D&#45;ed by Japan researcher..." alt="" coords="709,1106,781,1133"/>
+<area shape="rect" id="node34" href="$classTAPDCR.html" title="A class derived from TAMWDCTa. This class is for MWDCs from BUAA which was R&amp;D&#45;ed by Japan researcher..." alt="" coords="708,1157,783,1184"/>
+<area shape="rect" id="node38" href="$classTAPID.html" title="Derived from TAMagnet, particle identification using magnetic rigidity analysis. An interface class f..." alt="" coords="364,574,424,601"/>
+<area shape="rect" id="node40" href="$classTAChPara.html" title="class for holding general electronic channel parameter." alt="" coords="353,625,435,652"/>
+<area shape="rect" id="node41" href="$classTAAnodePara.html" title="derived from TAChPara, embodiment of DC anode parameter set." alt="" coords="521,625,628,652"/>
+<area shape="rect" id="node46" href="$classTATrack2.html" title="A derived class from TATrack, specifically designed for DCs around the target. This class is mainly f..." alt="" coords="355,676,433,702"/>
+</map>

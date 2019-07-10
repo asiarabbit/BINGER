@@ -1,0 +1,5 @@
+<map id="TAAnodeData" name="TAAnodeData">
+<area shape="rect" id="node1" title="Derived from TAAnodeData, embodiment of DC anodes." alt="" coords="5,155,116,181"/>
+<area shape="rect" id="node2" href="$classTAChData.html" title="base class for holding experiment data per channel, also responsible for data initialization,..." alt="" coords="17,80,104,107"/>
+<area shape="rect" id="node3" href="$classTAStuff.html" title="abstract base class" alt="" coords="27,5,95,32"/>
+</map>
