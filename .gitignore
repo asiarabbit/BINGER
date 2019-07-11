@@ -57,7 +57,8 @@ misc/*
 !build/*.sh
 !build/*.C
 !build/PID/
-data/
+data/*
+!data/example/
 !config/
 Lab/
 !Lab/theory/MOMDIS/ 
