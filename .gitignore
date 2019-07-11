@@ -62,4 +62,4 @@ data/*
 !config/
 Lab/
 !Lab/theory/MOMDIS/ 
-anaG4SimBuild/
+anaG4SimBuild/*
