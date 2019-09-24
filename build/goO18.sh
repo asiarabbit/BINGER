@@ -12,7 +12,7 @@
 #mv 20180707_2052.dat_0.root O18TA.root
 
 # 29w; B: 1.2336 Tesla
-./preO18NOTA 20180707_1649.dat 20180707.011 -d6
-./sho 2018707_1649.dat_0.root
+#./preO18NOTA 20180707_1649.dat 20180707.011 -d6
+#./sho 2018707_1649.dat_0.root
 #mv 2018707_1649.dat_0.root O18NOTA.root
 

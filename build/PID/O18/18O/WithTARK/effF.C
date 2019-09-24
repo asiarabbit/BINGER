@@ -5,7 +5,7 @@ void errDiv(double x1, double dx1, double x2, double dx2, double *pp);
 void errProd(double x1, double dx1, double x2, double dx2, double *pp);
 
 void effF(){
-	TFile *f = new TFile("~/pionExp2017/build/O18TA.root", "update"); // 2052 1848 1649 0920
+	TFile *f = new TFile("~/pionExp2017/build/O18TARK.root", "update"); // 2052 1848 1649 0920
 	TTree *treeTrack = (TTree*)f->Get("treeTrack");
 	TTree *treeshoot = (TTree*)f->Get("treeshoot");
 	TTree *treeTOFWR = (TTree*)f->Get("treeTOFWR");

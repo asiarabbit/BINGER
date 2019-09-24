@@ -1,9 +1,0 @@
-/home/asia/pionExp2017/Lab/g4/buildB1/CMakeFiles/install/local.dir
-/home/asia/pionExp2017/Lab/g4/buildB1/CMakeFiles/install.dir
-/home/asia/pionExp2017/Lab/g4/buildB1/CMakeFiles/B1batch.dir
-/home/asia/pionExp2017/Lab/g4/buildB1/CMakeFiles/install/strip.dir
-/home/asia/pionExp2017/Lab/g4/buildB1/CMakeFiles/B1.dir
-/home/asia/pionExp2017/Lab/g4/buildB1/CMakeFiles/B1_.dir
-/home/asia/pionExp2017/Lab/g4/buildB1/CMakeFiles/edit_cache.dir
-/home/asia/pionExp2017/Lab/g4/buildB1/CMakeFiles/rebuild_cache.dir
-/home/asia/pionExp2017/Lab/g4/buildB1/CMakeFiles/list_install_components.dir

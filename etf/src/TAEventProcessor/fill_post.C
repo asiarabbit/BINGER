@@ -36,7 +36,7 @@
 			   && 4 != dcArrId && 5 != dcArrId ) // DCArr-PDC-UD
 				TAPopMsg::Error("TAEventProcessor", "Run: invalid dcArrId: %d", dcArrId);
 			if(0 == dcArrId || 1 == dcArrId){
-				firedStripId[j] = tra->firedStripId; nStripStray[j] = tra->nStripStray;	
+				firedStripId[j] = tra->firedStripId; nStripStray[j] = tra->nStripStray;
 				memcpy(xMiss3D[j], tra->xMiss3D, sizeof(xMiss3D[j]));
 			} // end if(0 == dcArrId || 1 == dcArrId)
 			const int dcType = type[j]%10; // [0-1-2 or 0-1]: [X-U-V or X-Y]
@@ -441,8 +441,20 @@
 
 		if(0) vis->FillHitMap();
 		static int jj = 0;
-		static const int jjM = 1;
-		if(jj < jjM){ //  && -9999 != aoz[0]
+		static const int jjM = 100;
+		// the CONDITION for visualization //
+		static const int indexArr1[] = { // for CUTG1
+			4265, 7277, 42704, 50557, 50820};
+		static const int indexArr2[] = { // for CUTG2
+			18348, 32388, 59837, 69127, 81555};
+		static const int indexArr3[] = { // for CUTG3
+			26499, 32159, 35916, 39277, 40944};
+		// to find a match
+		bool BINGO = false;
+		for(const int t : indexArr1) if(t == index) { BINGO = true; break; }
+		for(const int t : indexArr2) if(t == index) { BINGO = true; break; }
+		for(const int t : indexArr3) if(t == index) { BINGO = true; break; }
+		if(jj < jjM && BINGO){ //  && -9999 != aoz[0]
 			jj++;
 			static int i0 = 0;
 			if(0 == i0){ // to make sure that this block would only be carried out once

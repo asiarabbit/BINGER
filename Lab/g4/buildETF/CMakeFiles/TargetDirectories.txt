@@ -1,4 +1,0 @@
-/home/asia/pionExp2017/Lab/g4/buildETF/CMakeFiles/edit_cache.dir
-/home/asia/pionExp2017/Lab/g4/buildETF/CMakeFiles/ETF.dir
-/home/asia/pionExp2017/Lab/g4/buildETF/CMakeFiles/rebuild_cache.dir
-/home/asia/pionExp2017/Lab/g4/buildETF/CMakeFiles/ETFbatch.dir

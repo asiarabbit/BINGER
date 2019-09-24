@@ -33,6 +33,10 @@ void tmp(){
 	bool pidShow = 1;
 	string cut = "1"; // cut
 	TCanvas *c = new TCanvas("c", "c", 800, 600);
+	c->SetGrid();
+	c->ToggleToolBar();
+	c->ToggleEventStatus();
+
 //	treeTrack->Draw("dE0:tof1>>h(500, 120., 152., 500, -0.5, 4.5)", "dsca11==0;tof1 [ns];dE0;", "col");
 //	treeTrack->Draw("dE0:PDCPos[2][1]>>h(500, -50., 50., 500, -0.5, 4.5)", "dsca11==0&&PDCPos[2][1]!=-9999.;PDCPos[2][1] [mm];dE1 arb.;", "");
 //	treeTrack->Draw("dE0+(PDCPos[1][1]*(0.005*dE0-0.0016)):PDCPos[1][1]>>h(500, -50., 50., 500, -0.5, 4.5)", "dsca11==0&&PDCPos[1][1]!=-9999.;PDCPos[1][1] [mm];dE0-corrected arb.;", "col");
@@ -45,7 +49,20 @@ void tmp(){
 //	treeTrack->Draw("taHitPos[0][1]:taHitPos[0][0]>>h(500, -40., 40., 500, -40., 40.)", "dsca11==0&&A0;taHitPosX [mm];taHitPosY [mm];", "col");
 //	treeTrack->Draw("poz[0]:tof2[0]>>h(500, 50., 80., 500, 800., 2200.)", "dsca11==0&&A0&&B0&&C0;tof2;poz;", "col");
 //	treeTrack->Draw("tof2[0]:aoz[0]>>h(500, 1.4, 2.6, 500, 63., 73.)", "dsca11==0&&A0&&B0&&C0&&dE1>2.75;aoz;tof2;", "col");
-	treeTrack->Draw("dE1:aoz[0]>>h(500, 1.8, 3.7, 500, 0., 4.5)", "dsca11==0&&A0&&B0&&C0&&(dx2[0]>-9&&dx2[0]<4)&&dsca[4]==1;aoz;dE1 arb.;", "colbox");
+	treeTrack->Draw("dE1:aoz[0]>>h(500, 1.8, 3.7, 500, 0., 4.5)", "dsca11==0&&A0&&B0&&C0&&(dx2[0]>-9&&dx2[0]<5.5)&&dsca[4]==1;aoz;dE1 arb.;", "colbox");
+
+
+
+
+/// scriptlet to dissect dx2 smear ///
+//	treeTrack->Draw("kTa[0][0]-kTa[1][0]:dx2[0]>>(500, -100., 150., 500, -0.1, 0.1)", "A0&&B0&&C0&&(dE1>1.50)&&dsca11==0", "col");
+//	treeTrack->Draw("kTa[0][0]-kTa[1][0]:dx2[0]>>(500, -100., 150., 500, -0.1, 0.1)", "A0&&B0&&C0&&(dE1>1.50)&&dsca11==0&&C14", "col");
+//	treeTrack->Draw("kTa[0][0]-kTa[1][0]:dx2[0]>>(500, -100., 150., 500, -0.1, 0.1)", "A0&&!(B0&&C0)&&(dE1>1.50)&&dsca11==0&&C14", "col");
+
+
+
+
+	return;
 //	treeTrack->Draw("dE1:aoz[0]>>h(500, 1.4, 3., 500, 0., 4.5)", "dsca11==0&&A0&&B0&&C0&&(dx2[0]>-9&&dx2[0]<4)&&sca1drv<0.5;aoz;dE1 arb;", "colbox"); // 
 //	treeTrack->Draw("TOT_DC_Avrg[0]:dE1>>h(500, 0., 4.5, 500, -10., 1000.)", "A0&&B0&&C0&&ntrT==7", "colbox");
 
@@ -102,14 +119,11 @@ void tmp(){
 	for(const char *n: nclLs) cutgLs.push_back((TCutG*)f->Get(n));
 	if(pidShow) for(TCutG *c : cutgLs){
 		c->Draw("same");
-		const double tmp = treeTrack->GetEntries((string("dsca11==0&&A0&&B0&&C0&&(dx2[0]>-9&&dx2[0]<4)&&dsca[4]==1&&") + c->GetName()).c_str());
+		const double tmp = treeTrack->GetEntries((string("dsca11==0&&A0&&B0&&C0&&") + c->GetName()).c_str()); // &&(dx2[0]>-9&&dx2[0]<4)&&dsca[4]==1
 		cout << c->GetName() << ": " << tmp << endl;
 	}
-	cout << "N0: " << treeTrack->GetEntries("dsca11==0&&A0&&B0&&C0&&(dx2[0]>-9&&dx2[0]<4)&&dsca[4]==1") << endl;
+	cout << "N0: " << treeTrack->GetEntries("dsca11==0&&A0&&B0&&C0") << endl; // &&(dx2[0]>-9&&dx2[0]<4)&&dsca[4]==1
 
-	c->SetGrid();
-	c->ToggleToolBar();
-	c->ToggleEventStatus();
 //	c->SaveAs("4.pdf");
 //	h0->Write("", TObject::kOverwrite);
 //	treeTrack->Draw("dE0+(PDCPos[1][1]*(0.005*dE0-0.0016)):PDCPos[1][1]>>(500, -30, 30, 500, -0.2, 4.5)", "", "col")

@@ -29,7 +29,7 @@ int main(){
 	const double nBe9_n = 0, nBe10_n = 6, nBe11_n = 0, nBe12_n = 0;
 	const double nLi7_n = 0, nLi8_n = 0;
 
-	#include "C13.C"
+	#include "B14.C"
 
 	// ################ THE CALCULATION ROUTINE >>>>>>>>>>>>>>>>>>>>> //
 	// With Target

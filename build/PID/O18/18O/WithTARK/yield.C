@@ -2,7 +2,7 @@
 void yield(){
 	const double pi = TMath::Pi();
 
-	TFile *f = new TFile("~/pionExp2017/build/O18TA_RK.root", "update");
+	TFile *f = new TFile("~/pionExp2017/build/O18TARK.root", "update");
 	vector<TCutG *> cutgLs;
 
 	const int n = 100; // number of points for TCutG in the dE1-aoz spectrum

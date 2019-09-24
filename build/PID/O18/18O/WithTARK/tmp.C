@@ -4,7 +4,7 @@
 
 void errDiv(double x1, double dx1, double x2, double dx2, double *pp = nullptr);
 void tmp(){
-	TFile *f = new TFile("~/pionExp2017/build/O18TA_RK.root", "update"); // 0920 0508
+	TFile *f = new TFile("~/pionExp2017/build/O18TARK.root", "update"); // 0920 0508
 	TTree *treeTrack = (TTree*)f->Get("treeTrack");
 	TTree *treeshoot = (TTree*)f->Get("treeshoot");
 	TTree *treeTOFWR = (TTree*)f->Get("treeTOFWR");

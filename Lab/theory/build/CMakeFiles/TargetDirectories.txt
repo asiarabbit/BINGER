@@ -1,8 +1,0 @@
-/home/asia/pionExp2017/Lab/theory/build/CMakeFiles/rebuild_cache.dir
-/home/asia/pionExp2017/Lab/theory/build/CMakeFiles/edit_cache.dir
-/home/asia/pionExp2017/Lab/theory/build/eikonal/CMakeFiles/rebuild_cache.dir
-/home/asia/pionExp2017/Lab/theory/build/eikonal/CMakeFiles/libeik.dir
-/home/asia/pionExp2017/Lab/theory/build/eikonal/CMakeFiles/edit_cache.dir
-/home/asia/pionExp2017/Lab/theory/build/src/CMakeFiles/rebuild_cache.dir
-/home/asia/pionExp2017/Lab/theory/build/src/CMakeFiles/test.dir
-/home/asia/pionExp2017/Lab/theory/build/src/CMakeFiles/edit_cache.dir

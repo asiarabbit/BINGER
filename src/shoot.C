@@ -103,7 +103,8 @@ void shoot(const char *rootfile){
 	int ntr, ntrT, index, nu[ntrMax][6]{}, gGOOD[ntrMax]{};
 	int type[ntrMax]{}, id[ntrMax]{}, firedStripId[ntrMax];
 	int ntrLs[6][3]{}; // N of TrkProjs; DCArr-L-R-U-D -- [XUV - XY]
-	double t[ntrMax][6]{}, r[ntrMax][6]{}, k_[ntrMax]{}, b[ntrMax]{}, aoz[ntrMax]{};
+	double t[ntrMax][6]{}, r[ntrMax][6]{}, k_[ntrMax]{}, b[ntrMax]{};
+	double aoz[ntrMax]; for(double &x : aoz) x = -9999.;
 	double TOT_DC[ntrMax][6]; // TOT dcs, having already checked
 	double chi[ntrMax][6]{}, chi2[ntrMax]{}, Chi[ntrMax]{}, TOF[ntrMax]{};
 	double tRef_pos; // hit position of T0_1
@@ -149,6 +150,7 @@ void shoot(const char *rootfile){
 	double DCRPos[6][2], TOFWPos[2]; // DCRPos: [DC0X1X2-DC1X1X2-DC2X1X2][X-Y]
 	bool t0_1_ok = false; // if TOF stop signal is good
 	int dsca4; // TOF stop count between two adjacent events
+	int pdcgGOOD[2]; // [X-Y], gGOOD for post-TA pdc tracks that are valid for a pid-ed event.
 	// if the particle hit around the TOF Wall strip gaps,
 	// which would result in a longer tof2
 	double stripGap = -9999.;
@@ -176,6 +178,7 @@ void shoot(const char *rootfile){
 	treeshoot->Branch("sca1drv", &sca1drv, "sca1drv/D"); // sca1: trigger request
 	treeshoot->Branch("stripGap", &stripGap, "stripGap/D");
 	treeshoot->Branch("dsca4", &dsca4, "dsca4/I");
+	treeshoot->Branch("pdcgGOOD", pdcgGOOD, "pdcgGOOD[2]/I");
 
 	const char ud[] = "UD", xy[] = "XY";
 	ostringstream name, title;
@@ -387,8 +390,25 @@ void shoot(const char *rootfile){
 			sca1drv = 1. * (sca1ph - sca1mh) / (sca15ph - sca15mh); // particles per milli-second
 		}
 
+		// extract pdcgGOOD info
+		pdcgGOOD[0] = -1; pdcgGOOD[1] = -1;
+		if(aoz[0] != -9999.){
+			int cntPDCX = 0;
+			for(int j = 0; j < ntrT; j++){
+				if(130 == type[j]){
+					pdcgGOOD[0] = gGOOD[j];
+					cntPDCX++;
+				}
+				if(131 == type[j]) pdcgGOOD[1] = gGOOD[j];
+				if(cntPDCX >= 2){
+					cout << "More than 1 PDC-D X track in event " << i << endl;
+					getchar();
+				}
+			} // end for over j
+		} // end if
 
 		treeshoot->Fill();
+		for(int j = ntr; j--;) aoz[j] = -9999.; // initialization for next loop
 		cout << "Processing data section " << i << "\r" << flush;
 	} // end for over entries
 

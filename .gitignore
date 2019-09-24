@@ -32,7 +32,7 @@
 *.app
 
 # ROOT files
-#*.root
+*.root
 
 # raw binary data files
 *.data
