@@ -120,6 +120,7 @@ double TADeployPara::GetMWDCDelay(unsigned uid) const{
 }
 
 double TADeployPara::GetTargetZ0() const{
-	return gp->Val(84);
+	static const double z0 = gp->Val(84);
+	return z0;
 }
 

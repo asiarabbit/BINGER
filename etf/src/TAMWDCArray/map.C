@@ -229,6 +229,8 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 //							cout << "dt1: " << clp->T_tofDCtoTOFW(uid) << endl;
 //							cout << "dt2: " << clp->T_wireMean(uid) << endl;
 //							cout << "2, t[i]: " << t[i] << endl; getchar(); // DEBUG
+							// test the validity of drift time
+							if(!TAMath::Within(t[k], drfTA, drfTB)) isBadTrack = true;
 							if(('X' == type || 'Y' == type) && -9999. != TOF){ // X or Y
 								r[i] = ano->GetDriftDistance(t[i], kl);
 							} // end if
@@ -241,11 +243,6 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 				for(double rr: r) cout << "r: " << rr << endl; // DEBUG
 				getchar(); // DEBUG
 #endif
-				// test the validity of drift time for X tracks
-				if('X' == type || 'Y' == type) for(double tt : t){
-					if(-9999. != tt && !clp->TimeThre(tt))
-						isBadTrack = true;
-				} // end loop over drift time
 				if(isBadTrack) continue;
 				// Assign newTrack
 				newTrack.SetData(x, z, t, r, kl, bl, d2, gGOOD, nu, LAYER, weight);

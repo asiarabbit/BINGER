@@ -51,6 +51,7 @@ void TAGPar::Write(){
 }
 
 double TAGPar::Val(unsigned int id) const{
+	if(!HasRead()) TAPopMsg::Error("TAGPar", "Val: control.004 in config/exp/control folder has not been read, so the assignment may not be the lastest.");
 	return Par(id)->GetValue();
 }
 void TAGPar::ShowPar(unsigned int id) const{

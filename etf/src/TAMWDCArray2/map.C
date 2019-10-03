@@ -9,7 +9,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2018/3/19.															     //
-// Last modified: 2018/10/1, SUN Yazhou.										     //
+// Last modified: 2019/10/3, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -72,6 +72,12 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 	// specialEvent: of all the 4 sense wire layers, only one of them is not fired
 	// gGOOD: 1 -> specialEvent; 2 -> normalEvent
 	bool normalEvent = false, specialEvent = false;
+	// valid drift time range
+	double drfTA = gp->Val(42), drfTB = gp->Val(43);
+	const short detId = GetDetId(); // 8-9: PDCArr; 6-7: DCTaArr
+	if(8 == detId || 9 == detId){ // PDCArr
+		drfTA = gp->Val(103); drfTB = gp->Val(104); // corresponds to larger drfit time
+	}
 
 	//////////////////////////////// THE 4-FOLD NESTED LOOP ////////////////////////////////
 	// to loop over all the possible combinations of fired sense wires 
@@ -158,21 +164,16 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 
 				// get the lt time of the DC that is closest to the PlaT0,
 				// edges of PlaT0 would be compared to t0 for the suitable one
-				int lid = LAYER[0]; // using the layer closet to fPlaT0
+				int lid = LAYER[0]; // using the layer clot to fPlaT0
 				TAAnode *ano = MWDC[lid/2]->GetAnode(dcType, lid%2+1, nu[lid]);
 				const double t0 = ano->GetTime();
 				const unsigned uid = ano->GetUID();
-				const double delta = clp->T_tofDCtoTOFW(uid) - clp->T_wireMean(uid); // minor correction
+				const double delta = -clp->T_tofDCtoTOFW(uid) - clp->T_wireMean(uid); // minor correction
 				// -20 ~ 250: speculated drift time range
-				// 0+t_wire_t_drift=t_DC; 0+t_tof=t_TOF;
-				// t_TOF-t_DC=(t_tof-t_wire) - t_drift; => delta-t_drift;
+				// 0+t_wire+t_drift=t_DC; 0-t_tof=t_TOF;
+				// t_TOF-t_DC=(-t_tof-t_wire) - t_drift; => delta-t_drift
 				// (as small and correct as possible while inclusive)
 				// drift time bound for drift time start selection
-				double drfTA = gp->Val(42), drfTB = gp->Val(43);
-				static const short detId = GetDetId(); // 8-9: PDCArr; 6-7: DCTaArr
-				if(8 == detId || 9 == detId){ // PDCArr
-					drfTA = gp->Val(103); drfTB = gp->Val(104); // corresponds to larger drfit time
-				}
 				const double t1 = delta - drfTB, t2 = delta - drfTA; // the range borders
 				TOF = GetPlaT0()->GetTime(t0, t1, t2);
 				if(-9999. == TOF){ // drift time start is not available
@@ -190,7 +191,7 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 					// roughly correct time of flight from DC to PlaT0
 					unsigned uid = ano->GetUID();
 					t[i] +=
-						clp->T_tofDCtoTOFW(uid) - clp->T_wireMean(uid);
+						-clp->T_tofDCtoTOFW(uid) - clp->T_wireMean(uid);
 //					cout << "dt1: " << clp->T_tofDCtoTOFW(uid) << endl;
 //					cout << "dt2: " << clp->T_wireMean(uid) << endl;
 //					cout << "2, t[i]: " << t[i] << endl; getchar(); // DEBUG
@@ -326,17 +327,18 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 
 int TAMWDCArray2::compare(TATrack2 *newTrack, TATrack2 *oldTrack, int dcType, bool show){
 	int vicinity = clp->Vicinity();
+	// PDC requires specific vicinity condition (drift distance too large)
 	if(8 == GetDetId() || 9 == GetDetId()) vicinity = 2;
-//	cout << "vicinity: " << vicinity << endl; getchar(); // DEBUG
-	int nValid_nu = 0, nValid_nu_temp = 0; // count of positive elements in the array
-	
+
+	// fired anode layers
+	int nValid_nu = newTrack->GetNFiredAnodeLayer(),
+	int nValid_nu_temp = oldTrack->GetNFiredAnodeLayer();
+
 	if(show){ // DEBUG
 		cout << "nValid_nu: " << nValid_nu << "\tnValid_nu_temp: " << nValid_nu_temp << endl; // DEBUG
 		newTrack->Show(); oldTrack->Show(); // DEBUG
 	} // end if(show) // DEBUG
 
-	nValid_nu = newTrack->GetNFiredAnodeLayer();
-	nValid_nu_temp = oldTrack->GetNFiredAnodeLayer();
 
 	int nu[4], nu_temp[4];
 	newTrack->GetNu(nu);

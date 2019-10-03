@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/25.															     //
-// Last modified: 2018/9/29, SUN Yazhou.										     //
+// Last modified: 2019/9/29, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -37,6 +37,7 @@ typedef complex<double> cdouble;
 static TACtrlPara *clp = TACtrlPara::Instance();
 const double TAMath::kzMagIn = -575.5;
 const double TAMath::kzMagOut = 575.5;
+int TAMath::Chi3D::fCallCnt = 0; // count of calling of the objective function
 
 // length of the vector, len: vector dimension
 double TAMath::norm(const double *p, int len){
@@ -242,12 +243,33 @@ double TAMath::rho(double kin, double bin, double kout, double bout, double *zo,
 	return L2p;
 } // end of member function rho
 
+// distance between two skew lines
+// Ag[3], ag[3], p[4] = {k1, k2, b1, b2}; B[3], b[3]: counterpart of Ag and ag for another line
+double TAMath::dSkew(const double *Ag, const double *ag, const double *p){
+	// 3-D track line parameters. B[3]: one point in the line; b[3]: direction vector
+	double b[3] = {0., 0., 1.}, B[3] = {0., 0., 3000.}; // B[2] = 0. and b[2] = 1.; preset values.
+	B[0] = p[0]*B[2]+p[2]; // B[0] = k1*B[2]+b1;
+	B[1] = p[1]*B[2]+p[3]; // B[1] = k2*B[2]+b2;
+	b[0] = p[0]*b[2];	   // b[0] = k1*b[2];
+	b[1] = p[1]*b[2];	   // b[1] = k2*b[2];
+	return dSkew(Ag, ag, b, B);
+}
+double TAMath::dSkew(const double *Ag, const double *ag, const double *b, const double *B){
+	double ab[3] = // cross product of vector ag and b.  (dR.R.al)×b
+	 {ag[1]*b[2]-ag[2]*b[1], ag[2]*b[0]-ag[0]*b[2], ag[0]*b[1]-ag[1]*b[0]};
+	// (B-Ag).(ag×b)/|ag×b|
+	return fabs((B[0]-Ag[0])*ab[0]+(B[1]-Ag[1])*ab[1]+(B[2]-Ag[2])*ab[2])/
+	 sqrt(ab[0]*ab[0]+ab[1]*ab[1]+ab[2]*ab[2]);
+} // end of function dSkew
+
+
 // definitions for fit functions serving class TATrack
 #include "TAMath/deviaFun.C" // Dsquare, minid2 - global functions
 #include "TAMath/iterFit.C" // iterativeFit - TAMath member function
+#include "TAMath/iterFit4.C" // iterFit for TATrackTa4 chi2 minimization
 #include "TAMath/refinedFit.C" // refinedFit - TAMath member function
 #include "TAMath/bfgs2.C" // refinedFitBFGS - TAMath member function
-#include "TAMath/bfgs4.C" // BFGS4 - TAMath member function for 3D linear tracking
+//#include "TAMath/bfgs4.C" // BFGS4 - TAMath member function for 3D linear tracking
 
 
 

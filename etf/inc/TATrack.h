@@ -4,7 +4,7 @@
 	\brief Class for track fitting, which is mainly a series of minimization
 	algorithms. One of the core classes for the data analysis project.
 	\author SUN Yazhou, asia.rabbit@163.com.
-	\date Created: 2017/10/9 Last revised: 2018/4/3, SUN Yazhou.
+	\date Created: 2017/10/9 Last revised: 2019/10/2, SUN Yazhou.
 	\copyright 2017-2018, SUN Yazhou.
 */
 
@@ -58,7 +58,7 @@ public:
 	void SetFitPrecision(int fitPrecision); ///< set calculation depth.
 	/// \param x, z: fired anode position;
 	/// \param r: drift distance
-	virtual void SetData(const double *x, const double *z, const double *t, const double *r, double kL, double bL, double dsquare, int gGOOD, const int *nu, const int *LAYER, const double *weight);
+	virtual void SetData(const double *x, const double *z, const double *t, const double *r, double kL, double bL, double dsquare, int gGOOD, const int *nu, const int *LAYER, const double *weight = nullptr);
 	virtual void SetDriftTime(const double *t, const double *w = nullptr); ///< \param w: weight
 	virtual void SetDriftDistance(const double *r); ///< as the name indicates
 	void SetBeta(double beta){ fBeta = beta; }
@@ -72,7 +72,9 @@ public:
 	void SetFitRotationCenter(double xc, double zc); ///< 0: normal fit; 1: BFGS fit
 	void SetDsquareThresholdPerDot(double threshold);
 	void Set3DId(int id){ f3DId = id; }
-	
+	// update the fitting result using external data //
+	void UpdateFit(double k, double b, double *chi, double chi2);
+
 	/// the fit method
 	void Fit();
 	/// show information about the track
@@ -96,8 +98,8 @@ protected:
 	void BFGSFit(); ///< fit using BFGS minimization method.
 	void IterFit(); ///< fit using iteartion minimization method, relatively coarse, but fast, so is more preferrable and recommended.
 
-	/// there are six anode layers for each MWDC array in the External Target Facility,
-	/// hence the length of the data array being 6.
+	/// there are six anode layers for each MWDC array in the External Target Facility
+	/// hence the length of the data array being 6
 	double fZ[6];
 	double fX[6];
 	double fR[6];
@@ -122,10 +124,10 @@ protected:
 	bool fIsAssigned; ///< to tell if the track is not assigned
 	double fBeta; ///< particle speed, while it zipps along this track; mainly for drift time correction
 
-	/// coordinate of the rotating center for the track fitting
-	/// geometirc center of the MWDC array
 	int fFitMethod; ///< 0: normal fit; 1: BFGS fit
 	int fFitPrecision; ///< the calculation precision
+	/// coordinate of the rotating center for the track fitting
+	/// geometirc center of the MWDC array
 	double fZc; ///< MWDC_X(U, V)[1]->GetZc()
 	double fXc; ///< MWDC_X(U, V)[1]->GetXc()
 	double fDsquareThresholdPerDot;

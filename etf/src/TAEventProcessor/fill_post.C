@@ -279,6 +279,40 @@
 		if(1 || (4 != VETO_0->GetFiredStatus() && 4 != VETO_1->GetFiredStatus()))
 		if(IsPID() && 1 == ntrLs[3][0]){ // only one trk in DCArrD, or no pid is possible
 			if(1 == n3DtrLs[1] || (0 == n3DtrLs[1] && 1 == ntrLs[1][0])){
+
+
+				// ameliorate tracks around TA using new algorithm - Oct., 2019 //
+				pdcArrayTa4->SetIsReady(true); /// XXX-2019-09-26
+				pdcArrayTa4->SetPostMagXproj(pOut[0], pOut[2]); // k, b
+				pdcArrayTa4->Map();
+				if(pdcArrayTa4->ZeroTrack()) continue; // no TATrackTa4 trk is found
+				//////// UPDATE tof1 using TOF of trkTa4 /////////////////
+				// since the tracks around Ta have been updated
+				// their TOF is now more consistent and avaliable
+				double tRef_DCTa = pdcArrayTa4->GetTrackTa4List()[0]->GetTrackPreTa()->GetTOF();
+				// calculate beta in RIBLL2 //
+				beta = -1.; // initialization
+				static const double L = 25.881 * 1000.; // the length of RIBLL2
+				tof1 = -9999.; // time of flight in RIBLL2
+				if(T0_0 && -9999. != tRef_DCTa){
+					const double t0_0 = T0_0->GetTime(tRef_DCTa);
+					if(-9999. != t0_0){
+						tof1 = tRef_DCTa - t0_0;
+						beta = L / tof1 / c0;
+						htof1->Fill(tof1);
+		//				cout << "t0_0: " << t0_0 << "\ttRef: " << tRef << endl; // DEBUG
+		//				cout << "index: " << index << "\ttof1: " << tof1 << endl; // DEBUG
+		//				cout << "beta: " << beta << endl; // DEBUG
+		//				getchar(); // DEBUG
+					}
+				} // end if
+				//////// UPDATE tof2 /////////////////
+				tof2[0] = tofw[1]->GetStripTime(firedStripId[0], tRef_DCTa, 40., 90.) - tRef_DCTa;
+				tof2[0] += GetGPar()->Val(107);
+				// DONE //
+
+
+
 //				bool GOING = false; // DEBUG
 //				cout << "index: " << index << endl; // DEBUG
 //				cout << "Enter your option: "; // DEBUG
@@ -343,6 +377,8 @@
 						} // end if
 					} // end for over jj
 				} // end outer if
+
+
 				static TAPID::OPTION pidOpt = (TAPID::OPTION)(GetGPar()->Val(109));
 				pid->Fly(tof2[0], -9999., pOut, 1, pidOpt, pIn, pIn0);
 				aoz[0] = pid->GetAoZ(); aozdmin[0] = pid->GetChi();
@@ -392,6 +428,9 @@
 //				cout << "mark 1, cntaoz: " << cntaoz << endl; getchar(); // DEBUG
 			} // end inner if
 		} // end the outer if
+		
+		
+
 
 //		cout << "n3Dtr: " << n3Dtr << endl; getchar(); // DEBUG
 		// assignment for the filling of treePID3D

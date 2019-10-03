@@ -40,16 +40,12 @@ public:
 	unsigned GetUID() const;
 
 	// Set functions
-	void SetName(const string &name){ fName = name; }
-	void SetName(const char *name){ fName = name; }
-	void AppendName(const string &tail){ fName += tail; }
-	void AppendName(const char *tail){ fName += tail; }
+	virtual void SetName(const string &name){ fName = name; }
+	virtual void AppendName(const string &tail){ fName += tail; }
 	void SetUID(unsigned uid){ fUID = uid; }
 
-	void SetTitle(const string &title){ fTitle = title; }
-	void SetTitle(const char *title){ fTitle = title; }
-	void AppendTitle(const string &tail){ fTitle += tail; }
-	void AppendTitle(const char *tail){ fTitle += tail; }
+	virtual void SetTitle(const string &title){ fTitle = title; }
+	virtual void AppendTitle(const string &tail){ fTitle += tail; }
 	virtual void Info() const;
 
 	/// to mark the shared part of TAChannel and TAAnode

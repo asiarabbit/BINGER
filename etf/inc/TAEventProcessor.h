@@ -6,7 +6,7 @@
 	objects. After the event is fully assigned, event assembly routine would be
 	initiated. It is also this class' duty to provide analysis result output interface.
 	\author SUN Yazhou, asia.rabbit@163.com.
-	\date Created: 2017/10/13 Last revised: 2018/8/16, SUN Yazhou.
+	\date Created: 2017/10/13 Last revised: 2019/9/26, SUN Yazhou.
 	\copyright 2017-2018, SUN Yazhou.
 */
 
@@ -19,6 +19,7 @@
 #include <climits>
 #include "TAPopMsg.h"
 #include "TACtrlPara.h"
+#include "TAPDCArrayTa4.h"
 
 using std::string;
 using std::vector;
@@ -32,6 +33,7 @@ class TAParaManager;
 class TAVisual;
 class TAPID;
 class TAGPar;
+class TAPDCArrayTa4;
 
 struct tEntry; ///< store raw data of one channel of readout electronics
 struct tTrack; ///< store 2-D projection of straight particle track information
@@ -51,6 +53,7 @@ public:
 	TAVisual *GetVisual() const;
 	TAPID *GetPID() const;
 	TAGPar *GetGPar() const;
+	TAPDCArrayTa4 *GetPDCArrayTa4() const;
 	void SetConfigExpDir(const string &dir);
 	void SetSTRROOTFile(const string &file);
 	void SetDataFile(const string &datafile, int runId, bool isPXI = true);
@@ -87,6 +90,9 @@ public:
 	/// (id0, id1): index range for analysis; secLenLim: event length limit; rawrtfile: raw rootfile
 	virtual void Run(int id0 = 0, int id1 = INT_MAX, int secLenLim = INT_MAX, const string &rawrtfile = "");
 	virtual void Initialize();
+	
+	friend TAPDCArrayTa4::SetIsReady(bool isReady = true);
+
 protected:
 	TAEventProcessor(const string &datafile = "", int runId = 0);
 
@@ -102,6 +108,8 @@ protected:
 	TAVisual *fVisual; ///< for visualize the data analysis result
 	TAPID *fPID; ///< particle identification method object
 	TAGPar *fGPar; ///< a container storing global parameters
+	/// to improve the splined track around the target zone - 2019-09-26
+	TAPDCArrayTa4 *fPDCArrTa4;
 };
 
 #endif

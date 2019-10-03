@@ -80,12 +80,12 @@ double TAAnode::GetTime(int i){
 }
 
 double TAAnode::GetDriftTime() const{
-	double weight;
+	double weight = 1.;
 	return GetDriftTime(weight);
 }
 double TAAnode::GetDriftTime(double &weight) const{
 	if(!GetData()->GetFiredStatus()) TAPopMsg::Error(GetName().c_str(), "GetDriftTime: Not fired");
-	const double tof = ((TAAnodeData*)GetData())->GetTOF();
+	const double tof = GetAnodeData()->GetTOF();
 	if(-9999. == tof){ // usually this is for U or V anodes
 		return -9999.;
 	} // end if

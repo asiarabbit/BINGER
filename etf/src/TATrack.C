@@ -198,7 +198,8 @@ void TATrack::SetData(const double *x, const double *z, const double *t, const d
 		fX[i] = x[i];
 		fZ[i] = z[i];
 		fT[i] = t[i];
-		fWeight[i] = weight[i]; // weight for weighted addition of chi to chi2
+		// weight for weighted addition of chi to chi2
+		if(weight) fWeight[i] = weight[i];
 		fR[i] = r[i];
 		fNu[i] = nu[i];
 		fLAYER[i] = LAYER[i];
@@ -429,6 +430,11 @@ void TATrack::Show(){
 	getchar();
 } // end function Show().
 
+void TATrack::UpdateFit(double k, double b, double *chi, double chi2){
+	fK = k; fB = b; fChi2 = chi2;
+	memcpy(fChi, chi, sizeof(fChi));
+	fIsFitted = true;
+}
 
 // initialization functions.
 void TATrack::Initialize(){

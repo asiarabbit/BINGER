@@ -70,6 +70,7 @@
 #include "TAGPar.h" // Global parameters
 #include "readVME.h"
 #include "TAOpticFiberArray.h"
+#include "TAPDCArrayTa4.h"
 
 using std::cout;
 using std::endl;
@@ -82,12 +83,12 @@ using std::setw;
 //#define SHOW_ENTRY
 //#define SHOW_TRACK // show track projection information
 
-TAEventProcessor* TAEventProcessor::fInstance = nullptr;
+TAEventProcessor *TAEventProcessor::fInstance = nullptr;
 
 TAEventProcessor::TAEventProcessor(const string &datafile, int runId)
 		: fIsPID(false), fIsTracking(true), fChkChId(-1),
 		fRawDataProcessor(0), fParaManager(0), fCtrlPara(0),
-		fVisual(0), fPID(0), fGPar(0){
+		fVisual(0), fPID(0), fGPar(0), fPDCArrayTa4(0){
 	fEntryList.reserve(100);
 	fTrackList.reserve(50);
 
@@ -148,6 +149,11 @@ TAPID *TAEventProcessor::GetPID() const{
 TAGPar *TAEventProcessor::GetGPar() const{
 	if(!fGPar) TAPopMsg::Error("TAEventProcessor", "GetGPar(): pointer is null.");
 	return fGPar;
+}
+TAPDCArrayTa4 *TAEventProcessor::GetPDCArrayTa4() const{
+	if(!fPDCArrayTa4)
+		TAPopMsg::Error("TAEventProcessor", "GetPDCArrayTa4(): pointer is null.");
+	return fPDCArrayTa4;
 }
 bool TAEventProcessor::Is3DTracking() const{
 	return GetCtrlPara()->Is3DTracking();
@@ -330,6 +336,8 @@ void TAEventProcessor::Configure(){
 	}
 	isCalled = true; // has been called
 	CheckChannelId();
+
+	fPDCArrayTa4 = TAPDCArrayTa4::Instance();
 } // end of member function Configure
 // check the the channel with channelId being chId
 void TAEventProcessor::CheckChannelId() const{
@@ -348,7 +356,6 @@ void TAEventProcessor::CheckChannelId() const{
 
 	if(detList[detId]) detList[detId]->GetChannel(uid)->Info();
 	else TAPopMsg::Warn("TAEventProcessor", "CheckChannelId: Detector List element #%d is null.", detId);
-	getchar();
 } // end of member function CheckChannelId
 void TAEventProcessor::BunchIdMisAlignCheck(bool opt) const{
 	GetRawDataProcessor()->SetBunchIdCheck(opt);
@@ -432,6 +439,7 @@ void TAEventProcessor::Initialize(){
 		if(det) det->Initialize();
 	}
 	if(IsPID()) GetPID()->Initialize();
+	if(fPDCArrayTa4) fPDCArrayTa4->Initialize();
 }
 
 
@@ -533,6 +541,7 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 
 	vector<tEntry *> &entry_ls = GetEntryList();
 	vector<tTrack *> &track_ls = GetTrackList();
+	TAPDCArrayTa4 *pdcArrTa4 = GetPDCArrayTa4();
 
 	// read rootfile and assembly each event
 	int nPXI = 1, nVME = 1; // N of entries in the treeData for both PXI and VME daq systems
