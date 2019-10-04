@@ -331,7 +331,7 @@ int TAMWDCArray2::compare(TATrack2 *newTrack, TATrack2 *oldTrack, int dcType, bo
 	if(8 == GetDetId() || 9 == GetDetId()) vicinity = 2;
 
 	// fired anode layers
-	int nValid_nu = newTrack->GetNFiredAnodeLayer(),
+	int nValid_nu = newTrack->GetNFiredAnodeLayer();
 	int nValid_nu_temp = oldTrack->GetNFiredAnodeLayer();
 
 	if(show){ // DEBUG

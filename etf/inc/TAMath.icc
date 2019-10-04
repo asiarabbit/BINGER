@@ -2,11 +2,13 @@
 	\file TAMath.icc
 	\class TAMath
 	\brief Definitions of the member template functions for class TAMath
-	\date Created: 2019/9/28 Last revised: 2019/9/29, SUN Yazhou.
+	\date Created: 2019/9/28 Last revised: 2019/10/3, SUN Yazhou.
 	\copyright 2017-2019, SUN Yazhou.
 */
 
 //#define DEBUG
+
+static unsigned long long jj4 = 0;
 
 // a one-dimensional minimization method
 // pk: the optimal search direction, xk: the minimal point in the search direction
@@ -14,10 +16,6 @@ template <typename FUNCTOR>
 static void goldCut(FUNCTOR &fun, const double *pk, double *xk);
 
 static void Ak1(double (*Ak)[4], const double *dxk, const double *dgk); // CORE of the BFGS algorithm
-
-template <typename FUNCTOR>
-// the derivative of fun, stored in vector gk
-static double funxy(FUNCTOR &fun, const double *xk, double *gk);
 
 // the BFGS minimization algorithm
 template <typename FUNCTOR>
@@ -37,7 +35,7 @@ double TAMath::BFGS4(FUNCTOR &fun){
 //	cout << "The initial d2min: " << fun(xk, Ag, ag, p, r, nF); getchar(); // DEBUG
 	// the so-called Ak matrix: an asymptotic substitute for Hesse matrix
 	double Ak[4][4]{}; for(int i = 0; i < 4; i++) Ak[i][i] = 1.; // initialized to a unit matrix
-	funxy(fun, xk, gk); // assign gk
+	funxy4(fun, xk, gk); // assign gk
 	double pk[4] = { // pk = -Ak.gk, the optimal search direction
 		-(Ak[0][0] * gk[0] + Ak[0][1] * gk[1] + Ak[0][2] * gk[2] + Ak[0][3] * gk[3]),
 		-(Ak[1][0] * gk[0] + Ak[1][1] * gk[1] + Ak[1][2] * gk[2] + Ak[1][3] * gk[3]),
@@ -46,7 +44,7 @@ double TAMath::BFGS4(FUNCTOR &fun){
 	};
 
 	int k = 0, i = 0, reincarnated = 0;
-	jj = ii; // DEBUG
+	jj4 = kCallCnt; // DEBUG
 	while(i < 4000)
 	{
 		i++;
@@ -56,7 +54,7 @@ double TAMath::BFGS4(FUNCTOR &fun){
 		dx = sqrt(dxk[0] * dxk[0] + dxk[1] * dxk[1] + dxk[2] * dxk[2] + dxk[3] * dxk[3]);
 
 		memcpy(dgk, gk, sizeof(gk)); // dgk = gk
-		funxy(fun, xk, gk); // refresh gk
+		funxy4(fun, xk, gk); // refresh gk
 		for(int i = 0; i < 4; i++) dgk[i] = gk[i] - dgk[i]; // dgk = gk1 - gk;
 		g = sqrt(gk[0] * gk[0] + gk[1] * gk[1] + gk[2] * gk[2] + gk[3] * gk[3]);
 
@@ -111,8 +109,8 @@ double TAMath::BFGS4(FUNCTOR &fun){
 	cout << d2min << endl; // DEBUG
 
 	cout << setprecision(9); // DEBUG
-	cout << "______fun has been called " << ii - jj << " times." << endl; // DEBUG
-	cout << "ii: " << ii << "\tjj: " << jj << endl; // DEBUG
+	cout << "______fun has been called " << kCallCnt - jj4 << " times." << endl; // DEBUG
+	cout << "kCallCnt: " << kCallCnt << "\tjj4: " << jj4 << endl; // DEBUG
 	getchar(); // DEBUG
 #endif
 
@@ -194,7 +192,8 @@ void Ak1(double (*Ak)[4], const double *dxk, const double *dgk){
 
 
 // derivarives of function fun at xk[4], which would be assigned to array gk[4].
-void funxy(FUNCTOR &fun, const double *xk, double *gk){
+template <typename FUNCTOR>
+void TAMath::funxy4(FUNCTOR &fun, const double *xk, double *gk){
 	double xxp[4]{}, xxm[4]{};
 	double xdelta[4] = {1E-8, 1E-8, 1E-7, 1E-7}; // dx to calculate derivatives
 	for(int i = 0; i < 4; i++){ // loop to calculate the i-th derivative

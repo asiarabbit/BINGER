@@ -230,7 +230,10 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 //							cout << "dt2: " << clp->T_wireMean(uid) << endl;
 //							cout << "2, t[i]: " << t[i] << endl; getchar(); // DEBUG
 							// test the validity of drift time
-							if(!TAMath::Within(t[k], drfTA, drfTB)) isBadTrack = true;
+							if(!clp->TimeThre(t[i])){
+								isBadTrack = true;
+								continue;
+							}
 							if(('X' == type || 'Y' == type) && -9999. != TOF){ // X or Y
 								r[i] = ano->GetDriftDistance(t[i], kl);
 							} // end if

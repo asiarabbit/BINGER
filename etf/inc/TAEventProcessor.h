@@ -91,8 +91,6 @@ public:
 	virtual void Run(int id0 = 0, int id1 = INT_MAX, int secLenLim = INT_MAX, const string &rawrtfile = "");
 	virtual void Initialize();
 	
-	friend TAPDCArrayTa4::SetIsReady(bool isReady = true);
-
 protected:
 	TAEventProcessor(const string &datafile = "", int runId = 0);
 
@@ -109,7 +107,7 @@ protected:
 	TAPID *fPID; ///< particle identification method object
 	TAGPar *fGPar; ///< a container storing global parameters
 	/// to improve the splined track around the target zone - 2019-09-26
-	TAPDCArrayTa4 *fPDCArrTa4;
+	TAPDCArrayTa4 *fPDCArrayTa4;
 };
 
 #endif

@@ -31,7 +31,7 @@ public:
 	virtual void GetDriftDistance(double *r) const; ///< output array fR
 	virtual void GetChi(double *chi); ///< output array fChi
 	using TATrack::GetChi;
-	virtual void SetData(const double *x, const double *z, const double *t, const double *r, double kL, double bL, double dsquare, int gGOOD, const int *nu, const int *LAYER, const double *weight);
+	virtual void SetData(const double *x, const double *z, const double *t, const double *r, double kL, double bL, double dsquare, int gGOOD, const int *nu, const int *LAYER, const double *weight = nullptr);
 	virtual void SetDriftTime(const double *t, const double *w = nullptr); ///< \param w: weight
 	virtual void SetDriftDistance(const double *r); ///< as the name indicates
 	virtual void AssignTrack(tTrack *ptrack); ///< assign tTrack

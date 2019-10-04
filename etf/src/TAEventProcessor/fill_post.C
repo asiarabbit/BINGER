@@ -280,12 +280,30 @@
 		if(IsPID() && 1 == ntrLs[3][0]){ // only one trk in DCArrD, or no pid is possible
 			if(1 == n3DtrLs[1] || (0 == n3DtrLs[1] && 1 == ntrLs[1][0])){
 
-
-				// ameliorate tracks around TA using new algorithm - Oct., 2019 //
+				///// ameliorate tracks around TA using new algorithm ///////
+				// - Oct., 2019 //
+				// extract pOut: info of trkPostMag
+				double pOut[4];
+				for(double &x : pOut) x = -9999.;
+				for(tTrack *&t : track_ls){
+					const int dcArrId = t->type / 10 % 10; // [0-1-2-3]: [L-R-U-D]
+					const int dcType = t->type % 10;
+					// assign DCArrR trks //
+					if(0 == n3DtrLs[1] && 1 == ntrLs[1][0]){ // DCArrR, only one Xproj is found, no 3D trks
+						if(1 == dcArrId && 0 == dcType){
+							pOut[0] = t->k; pOut[2] = t->b;
+						} // end if(1 == dcArrId && 0 == dcType)
+					} // end if(0 == n3DtrLs[1] && 1 == ntrLs[1][0])
+				} // end for over tracks
+				if(1 == n3DtrLs[1]){ // found only one DCArrR 3D trk
+					pOut[0] = trk3DIf[0].k1; pOut[2] = trk3DIf[0].b1;
+					pOut[1] = trk3DIf[0].k2; pOut[3] = trk3DIf[0].b2;
+				}
+				// commence the new tracking //
 				pdcArrayTa4->SetIsReady(true); /// XXX-2019-09-26
 				pdcArrayTa4->SetPostMagXproj(pOut[0], pOut[2]); // k, b
 				pdcArrayTa4->Map();
-				if(pdcArrayTa4->ZeroTrack()) continue; // no TATrackTa4 trk is found
+				if(pdcArrayTa4->ZeroTrack()) continue; // no splined trk is found
 				//////// UPDATE tof1 using TOF of trkTa4 /////////////////
 				// since the tracks around Ta have been updated
 				// their TOF is now more consistent and avaliable
@@ -318,11 +336,10 @@
 //				cout << "Enter your option: "; // DEBUG
 //				std::cin >> GOING; // DEBUG
 //				if(!GOING) continue; // DEBUG
-				double pIn[4], pOut[4]; // [0-1-2-3]: [k1, k2, b1, b2]; pIn: into the magnet
+				double pIn[4]; // [0-1-2-3]: [k1, k2, b1, b2]; pIn: into the magnet
 				double pIn0[4]; // trk info before the target
 				for(int j = 4; j--;){
 					pIn[j] = -9999.; pIn0[j] = -9999.;
-					pOut[j] = -9999.;
 				}
 				for(tTrack *&t : track_ls){
 					const int dcArrId = t->type / 10 % 10; // [0-1-2-3]: [L-R-U-D]
@@ -341,17 +358,7 @@
 					if(1 == ntrLs[3][1] && 3 == dcArrId && 1 == dcType){ // only one DY trk is found
 						pIn[1] = t->k; pIn[3] = t->b;
 					} // end if(1 == ntrLs[3][1])
-					// assign DCArrR trks //
-					if(0 == n3DtrLs[1] && 1 == ntrLs[1][0]){ // DCArrR, only one Xproj is found, no 3D trks
-						if(1 == dcArrId && 0 == dcType){
-							pOut[0] = t->k; pOut[2] = t->b;
-						} // end if(1 == dcArrId && 0 == dcType)
-					} // end if(0 == n3DtrLs[1] && 1 == ntrLs[1][0])
 				} // end for over tracks
-				if(1 == n3DtrLs[1]){ // found only one DCArrR 3D trk
-					pOut[0] = trk3DIf[0].k1; pOut[2] = trk3DIf[0].b1;
-					pOut[1] = trk3DIf[0].k2; pOut[3] = trk3DIf[0].b2;
-				}
 				// XXX XXX XXX XXX //
 				if(1 == n3DtrLs[3]){ // use DCArrU-3D trk or not
 					for(int jj = n3Dtr; jj < n3DtrT; jj++){

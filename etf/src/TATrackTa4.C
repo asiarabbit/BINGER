@@ -31,19 +31,6 @@ TATrackTa4::TATrackTa4(const string &name, const string &title)
 	fPostTaTrk = new TATrack2(name + "-PostTa", title + "-PostTa");
 }
 
-// set name, together with the sub-trk's name
-void TATrackTa4::SetName(const string &name){
-	TAStuff::SetName(name);
-	GetTrackPreTa()->SetName(name + "-PreTa");
-	GetTrackPostTa()->SetName(name + "-PostTa");
-}
-// set title, together with the sub-trk's title
-void TATrackTa4::SetTitle(const string &title){
-	TAStuff::SetTitle(name);
-	GetTrackPreTa()->SetTitle(title + "-PreTa");
-	GetTrackPostTa()->SetTitle(title + "-PostTa");
-}
-
 TATrackTa4::~TATrackTa4(){
 	if(fPreTaTrk){
 		delete fPreTaTrk;
@@ -56,13 +43,19 @@ TATrackTa4::~TATrackTa4(){
 } // end of the destructor
 
 // the copy constructor
-TATrackTa4 &TATrack::TATrack(const TATrack &track){
+TATrackTa4::TATrackTa4(const TATrackTa4 &track){
+	*this = track;
+}
+// the move constructor
+TATrackTa4::TATrackTa4(TATrackTa4 &&track){
 	*this = track;
 }
 // the assignment constructor
-TATrackTa4 &TATrack::operator=(const TATrackTa4 &track){
+TATrackTa4 &TATrackTa4::operator=(const TATrackTa4 &track){
 	if(this == &track) return *this;
 	SetName(track.GetName()); SetTitle(track.GetTitle());
+	
+	fK2 = track.fK2; fB2 = track.fB2;
 	fDX2 = track.fDX2; fDxTa = track.fDxTa; fChi2 = track.fChi2;
 	fIsFitted = track.fIsFitted;
 	fPreTaTrk = new TATrack2(*track.fPreTaTrk);
@@ -70,22 +63,47 @@ TATrackTa4 &TATrack::operator=(const TATrackTa4 &track){
 
 	return *this;
 }
+TATrackTa4 &TATrackTa4::operator=(TATrackTa4 &&track){
+	if(this == &track) return *this;
+	SetName(track.GetName()); SetTitle(track.GetTitle());
+
+	fK2 = track.fK2; fB2 = track.fB2;
+	fDX2 = track.fDX2; fDxTa = track.fDxTa; fChi2 = track.fChi2;
+	fIsFitted = track.fIsFitted;
+	// change the record, and set the old pointers to null
+	fPreTaTrk = track.fPreTaTrk; track.fPreTaTrk = nullptr;
+	fPostTaTrk = track.fPostTaTrk; track.fPostTaTrk = nullptr;
+
+	return *this;
+}
+
+
+// set name, together with the sub-trk's name
+void TATrackTa4::SetName(const string &name){
+	TAStuff::SetName(name);
+	GetTrackPreTa()->SetName(name + "-PreTa");
+	GetTrackPostTa()->SetName(name + "-PostTa");
+}
+// set title, together with the sub-trk's title
+void TATrackTa4::SetTitle(const string &title){
+	TAStuff::SetTitle(title);
+	GetTrackPreTa()->SetTitle(title + "-PreTa");
+	GetTrackPostTa()->SetTitle(title + "-PostTa");
+}
 
 void TATrackTa4::Initialize(){
-	fDX2 = -9999.;
-	fDxTa = -9999.;
-	fPreTaTrk = nullptr;
-	fPostTaTrk = nullptr;
+	fDX2 = -9999.; fDxTa = -9999.;
+	fK2  = -9999.; fB2   = -9999.;
 	fIsFitted = false;
 }
 
 TATrack2 *TATrackTa4::GetTrackPreTa() const{
-	if(!fPreTaTrk) TAPopMsg::Warn(GetName(),.c_str(), "GetTrackPreTa::Requested pointer is null");
+	if(!fPreTaTrk) TAPopMsg::Warn(GetName().c_str(), "GetTrackPreTa::Requested pointer is null");
 	return fPreTaTrk;
 }
 
 TATrack2 *TATrackTa4::GetTrackPostTa() const{
-	if(!fPreTaTrk) TAPopMsg::Warn(GetName(),.c_str(), "GetTrackPostTa::Requested pointer is null");
+	if(!fPreTaTrk) TAPopMsg::Warn(GetName().c_str(), "GetTrackPostTa::Requested pointer is null");
 	return fPostTaTrk;
 }
 
@@ -106,6 +124,16 @@ double TATrackTa4::GetChi2(){
 	if(fChi2 < 0.) TAPopMsg::Error(GetName().c_str(), "GetChi2: minus value!");
 	return fChi2;
 }
+double TATrackTa4::GetK2(){
+	if(-9999. == fK2)
+		TAPopMsg::Warn(GetName().c_str(), "GetK2: fK2 not assigned");
+	return fK2;
+}
+double TATrackTa4::GetB2(){
+	if(-9999. == fB2)
+		TAPopMsg::Warn(GetName().c_str(), "GetB2: fB2 not assigned");
+	return fB2;
+}
 
 void TATrackTa4::SetK2(double k2){
 	if(-9999. == k2)
@@ -118,11 +146,11 @@ void TATrackTa4::SetB2(double b2){
 	fB2 = b2;
 }
 
-double TATrackTa4::GetDX2() const{
+double TATrackTa4::GetDX2(){
 	if(!IsFitted()) Fit();
 	return fDX2;
 }
-double TATrackTa4::GetDxTa() const{
+double TATrackTa4::GetDxTa(){
 	if(!IsFitted()) Fit();
 	return fDxTa;
 }
@@ -165,7 +193,7 @@ void TATrackTa4::Fit(){
 } // end of member function Fit
 
 // k2, b2: postMagTrk parameter
-void TATrackTa4::BFGSFit(TATrack2 *trkPreTa, TATrack *trkPostTa, double k2, double b2){
+void TATrackTa4::BFGSFit(TATrack2 *trkPreTa, TATrack2 *trkPostTa, double k2, double b2){
 	if(IsFitted()) return;
 
 	// output trks info //
@@ -193,7 +221,7 @@ void TATrackTa4::BFGSFit(TATrack2 *trkPreTa, TATrack *trkPostTa, double k2, doub
 
 	// the core fiting algorithm //
 	// guide the BFGS fit with a good start
-	TAMath::IterFit(z, x, r, k, b, gGOOD, LAYER, d2ThrePD);
+	TAMath::IterFit4(z, x, r, k, b, gGOOD, LAYER, d2ThrePD);
 	// refined fit for perfection
 	TAMath::BFGS4(z, x, r, k, b, gGOOD, LAYER, d2ThrePD);
 

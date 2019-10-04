@@ -71,6 +71,7 @@
 #include "readVME.h"
 #include "TAOpticFiberArray.h"
 #include "TAPDCArrayTa4.h"
+#include "TATrackTa4.h"
 
 using std::cout;
 using std::endl;
@@ -541,7 +542,7 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 
 	vector<tEntry *> &entry_ls = GetEntryList();
 	vector<tTrack *> &track_ls = GetTrackList();
-	TAPDCArrayTa4 *pdcArrTa4 = GetPDCArrayTa4();
+	TAPDCArrayTa4 *pdcArrayTa4 = GetPDCArrayTa4();
 
 	// read rootfile and assembly each event
 	int nPXI = 1, nVME = 1; // N of entries in the treeData for both PXI and VME daq systems

@@ -76,6 +76,8 @@ void TATrack2::SetData(const double *x, const double *z, const double *t, const 
 	double r2[6] = {r[0], r[1], r[2], r[3], -9999., -9999.};
 	int nu2[6] = {nu[0], nu[1], nu[2], nu[3], -1, -1};
 	int LAYER2[6] = {LAYER[0], LAYER[1], LAYER[2], LAYER[3], -1, -1};
+	if(!weight)
+		return TATrack::SetData(x2, z2, t2, r2, kL, bL, dsquare, gGOOD, nu2, LAYER2);
 	double weight2[6] = {weight[0], weight[1], weight[2], weight[3], 1., 1.};
 	TATrack::SetData(x2, z2, t2, r2, kL, bL, dsquare, gGOOD, nu2, LAYER2, weight2);
 }

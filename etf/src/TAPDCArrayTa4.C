@@ -33,6 +33,14 @@
 #include "TACtrlPara.h"
 #include "TAMath.h"
 #include "TAParaManager.h"
+#include "tTrack.h"
+#include "TAMWDC.h"
+#include "TAAnode.h"
+#include "TAAnodePara.h"
+#include "TAAnodeData.h"
+#include "TAPlaStrip.h"
+#include "TAGPar.h"
+
 
 #define DEBUG_MAP // debugging the map function
 
@@ -43,10 +51,13 @@ TAPDCArrayTa4 *TAPDCArrayTa4::fInstance = nullptr;
 double TAPDCArrayTa4::fChi2ExtraThre = 500.;
 // the object containing all the constructed detector, responsible for fired
 // channel distribution, tracking and pid result output
-const TAEventProcessor *evProsr = TAEventProcessor::Instance();
+TAEventProcessor *evProsr = TAEventProcessor::Instance();
 static TACtrlPara *clp = TACtrlPara::Instance();
+static TAGPar *gp = TAGPar::Instance();
 
 TAPDCArrayTa4::TAPDCArrayTa4() : fDCArr{0}, fDC{0}{
+	SetName("PDCArrayTa4");
+	SetTitle("PDCArrTa4: For Splined Tracking around Ta Zone");
 	Initialize();
 }
 
@@ -95,15 +106,23 @@ double TAPDCArrayTa4::GetB2() const{
 
 
 void TAPDCArrayTa4::AssignTracks(vector<tTrack *> &track_ls){
-	if(!fTrackTa4List.size()) return; // no tracks to assign
-	TATrack2 *trk[2] = {GetTrackPreTa(), GetTrackPostTa()};
+	if(!fTrackTa4List.size()){ // no tracks to assign
+		TAPopMsg::Warn(GetName().c_str(), "AssignTracks: fTrackTa4List is empty");
+		return;
+	}
+	if(fTrackTa4List.size() != 1){
+		TAPopMsg::Error(GetName().c_str(), "AssignTracks: fTrackTa4List.size is not 1");
+		return;
+	}
+	TATrackTa4 *trkTa4 = fTrackTa4List[0];
+	TATrack2 *trk[2] = {trkTa4->GetTrackPreTa(), trkTa4->GetTrackPostTa()};
 
 	tTrack *ptrack_t = nullptr; // a temporary variable
 	for(int i = 0; i < 2; i++){
 		ptrack_t = new tTrack;
 		trk[0]->AssignTrack(ptrack_t);
 		ptrack_t->type = 120 + i*10; // [pre-post]: [120, 130]
-		track_ls->push_back(ptrack_t);
+		track_ls.push_back(ptrack_t);
 	} // end for over i	
 } // end member function AssignTracks
 
@@ -121,16 +140,17 @@ bool TAPDCArrayTa4::Map(){
 	// prepare for the track amelioration,
 	// needed info includes post-Mag track, and the pointers of the four PDCs
 	// assign the four DCs around the target //
-	static TAParaMnager::ArrDet_t &det_vec
+	static TAParaManager::ArrDet_t &det_vec
 		= evProsr->GetParaManager()->GetDetList();
 	if(!fDCArr[0]) fDCArr[0] = (TAMWDCArray2*)det_vec[8]; // pdc array U
 	if(!fDCArr[1]) fDCArr[1] = (TAMWDCArray2*)det_vec[9]; // pdc array D
 	for(int i = 2; i--;) for(int j = 2; j--;){
 		if(!fDC[i][j] && fDCArr[i]){
 			fDC[i][j] = fDCArr[i]->GetMWDC(j);
-			if(!fDC[i][j])
+			if(!fDC[i][j]){
 				TAPopMsg::Error(GetName().c_str(), "Map(): fDC[%d][%d] is nullptr", i, j);
 				return false;
+			} // end if DC is nullptr
 		} // end if
 	} // end doubly nested for loop
 	// the track list
@@ -145,38 +165,42 @@ bool TAPDCArrayTa4::Map(){
 #endif
 	vector<TATrackTa4 *> &track = fTrackTa4List; // just for convenience
 	if(track.size()) track.clear();
-	const int UID = fDCArr[0]->GetUID();
+	bool cmpShow = false; // debug for function int compare(...)
+	const int UID = GetMWDCArray(0)->GetUID();
 	const double d2Thre = clp->D2Thre(UID);
 	const double d2ThrePD[2] = {
-		fDCArr[0]->GetDsquareThresholdPerDot(),
-		fDCArr[1]->GetDsquareThresholdPerDot()
+		GetMWDCArray(0)->GetDsquareThresholdPerDot(),
+		GetMWDCArray(1)->GetDsquareThresholdPerDot()
 	};
 	char tail[64] = ""; // for naming newTrack
 //	const double chiThre = clp->ChiThre(UID);
 //	const double chiThrePD = clp->ChiThrePD(UID); // chi threshold per dot
 	const double chiThrePD = 0.8; // unit: mm
 	const double chiThre = chiThrePD * 0.8; // XXX: exacting chi control
-	const short nAnodePerLayer[2][4]{};
+	short nAnodePerLayer[2][4]{};
 	for(int i = 2; i--;) for(int j = 2; j--;){
 		nAnodePerLayer[i][j] = fDC[i][j]->GetNAnodePerLayer();
 	}
-	static const int n = 12;
-	double z[n], x[n], t[n], r[n], chi[2][6];
-	for(int i = 6; i--;){
-		z[i] = -9999.; x[i] = -9999.; t[i] = -9999.;
-		r[i] = -9999.; chi[i/6][i%6] = -9999.;
+	double z[2][6], x[2][6], t[2][6], r[2][6], chi[2][6];
+	for(int i = 0; i < 2; i++){
+		for(int j = 0; j < 6; j++){
+			z[i][j] = -9999.; x[i][j] = -9999.; t[i][j] = -9999.;
+			r[i][j] = -9999.; chi[i][j] = -9999.;
+		} // end for over j
 	} // end for over i
-	double kl[2], bl[2], d2[2], TOF[2], d2T; // d2T: the total d2 + extra
+	double kl[2], bl[2], d2[2], TOF;
 	double k2 = GetK2(), b2 = GetB2(), chi2ExtraThre = GetChi2ExtraThre();
 	// the live track for the current hit combination
 	TATrackTa4 newTrack("newTrackTa4", "Particle TrackTa4-ASIA.SUN");
-	TATrack2 *newTrackPreTa = newTrack->GetTrackPreTa();
-	TATrack2 *newTrackPostTa = newTrack->GetTrackPostTa();
+	newTrack.SetK2(GetK2()); newTrack.SetB2(GetB2());
+	TATrack2 *newTrackPreTa = newTrack.GetTrackPreTa();
+	TATrack2 *newTrackPostTa = newTrack.GetTrackPostTa();
 	TATrack2 *newtrk[2] = {newTrackPreTa, newTrackPostTa};
 	int nu[2][4]; // [0-1]: [trkPreTa-trkPostTa], anode id in one layer
 	// gGOOD: indicator for different fired sense wire layer scenarios
 	int gGOOD[2], LAYER[2][4];
-	int nFiredAnodeLayer[2] = 0; // number of fired sense wire layers
+	int nFiredAnodeLayer[2]{}; // number of fired sense wire layers
+	int overlapTrackCnt = 0; // for special use (checking of the tracking process)
 	int overlap = -2; // track incompatibility type
 	// normalEvent: all the 4 sense wire layers are fired
 	// specialEvent: of all the 4 sense wire layers, only one of them is not fired
@@ -184,7 +208,7 @@ bool TAPDCArrayTa4::Map(){
 	bool normalEvent[2]{}, specialEvent[2]{};
 	// valid drift time range
 	double drfTA = gp->Val(42), drfTB = gp->Val(43);
-	const short detId = GetDetId(); // 8-9: PDCArr; 6-7: DCTaArr
+	const short detId = GetMWDCArray(0)->GetDetId(); // 8-9: PDCArr; 6-7: DCTaArr
 	if(8 == detId || 9 == detId){ // PDCArr
 		drfTA = gp->Val(103); drfTB = gp->Val(104); // corresponds to larger drfit time
 	}
@@ -192,35 +216,35 @@ bool TAPDCArrayTa4::Map(){
 	/////////////////////////////////////////////////////////////////////////
 	///// ->->-> the LOOP begins ->->-> /////
 	for(int i = 0; i <= nAnodePerLayer[0][0]; i++){ nu[0][0] = -1; // DC0-X1
-		if(i < nAnodePerLayer[0][0] && fDC[0][0]->GetAnodeL1(0, i))->GetFiredStatus())) nu[0][0] = i; // DC0-X1 --------------------------------------------------------------
+		if(i < nAnodePerLayer[0][0] && fDC[0][0]->GetAnodeL1(0, i)->GetFiredStatus()) nu[0][0] = i; // DC0-X1 --------------------------------------------------------------
 		if(-1 == nu[0][0] && i < nAnodePerLayer[0][0]) continue; // inert anodes within the anode layers would  be ignored
 
 	for(int j = 0; j <= nAnodePerLayer[0][1]; j++){ nu[0][1] = -1; // DC0-X2
-		if(j < nAnodePerLayer[0][1] && fDC[0][1]->GetAnodeL2(0, j))->GetFiredStatus())) nu[0][1] = j; // DC0-X1 --------------------------------------------------------------
+		if(j < nAnodePerLayer[0][1] && fDC[0][1]->GetAnodeL2(0, j)->GetFiredStatus()) nu[0][1] = j; // DC0-X1 --------------------------------------------------------------
 		if(-1 == nu[0][1] && j < nAnodePerLayer[0][1]) continue;
 
 	for(int k = 0; k <= nAnodePerLayer[0][2]; i++){ nu[0][2] = -1; // DC1-X1
-		if(k < nAnodePerLayer[0][2] && fDC[0][2]->GetAnodeL1(0, k))->GetFiredStatus())) nu[0][2] = k; // DC1-X1 --------------------------------------------------------------
+		if(k < nAnodePerLayer[0][2] && fDC[0][2]->GetAnodeL1(0, k)->GetFiredStatus()) nu[0][2] = k; // DC1-X1 --------------------------------------------------------------
 		if(-1 == nu[0][2] && k < nAnodePerLayer[0][2]) continue;
 
 	for(int l = 0; l <= nAnodePerLayer[0][3]; l++){ nu[0][3] = -1; // DC1-X2
-		if(l < nAnodePerLayer[0][3] && fDC[0][3]->GetAnodeL2(0, l))->GetFiredStatus())) nu[0][3] = l; // DC1-X2 --------------------------------------------------------------
+		if(l < nAnodePerLayer[0][3] && fDC[0][3]->GetAnodeL2(0, l)->GetFiredStatus()) nu[0][3] = l; // DC1-X2 --------------------------------------------------------------
 		if(-1 == nu[0][3] && l < nAnodePerLayer[0][3]) continue;
 
 	for(int ii = 0; ii <= nAnodePerLayer[1][0]; ii++){ nu[1][0] = -1; // DC2-X1
-		if(ii < nAnodePerLayer[1][0] && fDC[1][0]->GetAnodeL1(0, ii))->GetFiredStatus())) nu[1][0] = ii; // DC2-X1 --------------------------------------------------------------
+		if(ii < nAnodePerLayer[1][0] && fDC[1][0]->GetAnodeL1(0, ii)->GetFiredStatus()) nu[1][0] = ii; // DC2-X1 --------------------------------------------------------------
 		if(-1 == nu[1][0] && ii < nAnodePerLayer[1][0]) continue;
 
 	for(int jj = 0; jj <= nAnodePerLayer[1][1]; jj++){ nu[1][1] = -1; // DC2-X2
-		if(jj < nAnodePerLayer[1][1] && fDC[1][1]->GetAnodeL2(0, jj))->GetFiredStatus())) nu[1][1] = jj; // DC2-X2 --------------------------------------------------------------
+		if(jj < nAnodePerLayer[1][1] && fDC[1][1]->GetAnodeL2(0, jj)->GetFiredStatus()) nu[1][1] = jj; // DC2-X2 --------------------------------------------------------------
 		if(-1 == nu[1][1] && jj < nAnodePerLayer[1][1]) continue;
 
 	for(int kk = 0; kk <= nAnodePerLayer[1][2]; kk++){ nu[1][2] = -1; // DC3-X1
-		if(kk < nAnodePerLayer[1][2] && fDC[1][2]->GetAnodeL1(0, kk))->GetFiredStatus())) nu[1][2] = kk; // DC3-X1 --------------------------------------------------------------
+		if(kk < nAnodePerLayer[1][2] && fDC[1][2]->GetAnodeL1(0, kk)->GetFiredStatus()) nu[1][2] = kk; // DC3-X1 --------------------------------------------------------------
 		if(-1 == nu[1][2] && kk < nAnodePerLayer[1][2]) continue;
 
 	for(int ll = 0; ll <= nAnodePerLayer[1][3]; ll++){ nu[1][3] = -1; // DC3-X2
-		if(ll < nAnodePerLayer[1][3] && fDC[1][3]->GetAnodeL2(0, ll))->GetFiredStatus())) nu[1][3] = ll; // DC3-X2 --------------------------------------------------------------
+		if(ll < nAnodePerLayer[1][3] && fDC[1][3]->GetAnodeL2(0, ll)->GetFiredStatus()) nu[1][3] = ll; // DC3-X2 --------------------------------------------------------------
 		if(-1 == nu[1][3] && ll < nAnodePerLayer[1][3]) continue;
 
 		for(int I = 0; I < 2; I++){ // loop over DCs
@@ -267,50 +291,50 @@ bool TAPDCArrayTa4::Map(){
 		}
 	//	if(1 == gGOOD[0] || 1 == gGOOD[1]) continue;
 		// initialization
-		d2T = 0.; // the total chi2 for a TATrckTa4 trk
+		TOF = -9999.; // the mutual start time provided by TOF_stop
 		for(int i = 0; i < 2; i++){
 			kl[i] = -9999.; bl[i] = -9999.;
-			d2[i] = -9999.; TOF[i] = -9999.;
+			d2[i] = -9999.; 
 			nFiredAnodeLayer[i] = 0;
 			for(int j = 0; j < 4; j++){
 				z[i][j] = -9999.; x[i][j] = -9999.;
 				t[i][j] = -9999.; r[i][j] = -9999.;
 				chi[i][j] = -9999.; LAYER[i][j] = -9999.;
 				if(nu[i][j] >= 0){
-					LAYER[nFiredAnodeLayer[i]++] = j;
+					LAYER[i][nFiredAnodeLayer[i]++] = j;
 					TAAnodePara *pa = fDC[i][j/2]->GetAnode(0, j%2+1, nu[i][j])->GetAnodePara();
-					z[i*6+j] = pa->GetProjectionZ();
-					x[i*6+j] = pa->GetProjectionX();
+					z[i][j] = pa->GetProjectionZ();
+					x[i][j] = pa->GetProjectionX();
 #ifdef DEBUG_MAP
-					cou << std::fixed << std::setprecision(9);
-					cout << "\tz[" << i << "] = " << z[i] << ";" << endl;
-					cout << "\tx[" << i << "] = " << x[i] << ";" << endl;
+					cout << std::fixed << std::setprecision(9);
+					cout << "\tz[" << i << "][" << j << "] = " << z[i][j] << ";" << endl;
+					cout << "\tx[" << i << "][" << j << "] = " << x[i][j] << ";" << endl;
 #endif
 				} // end if
 				// assign initial values to kl and bl
-				d2[i] = TAMath::Dsquare(z+i*6, x+i*6, kl[i], bl[i], gGOOD[i], LAYER[i], d2ThrePD[i]);
+				d2[i] = TAMath::Dsquare(z[i], x[i], kl[i], bl[i], gGOOD[i], LAYER[i], d2ThrePD[i]);
 #ifdef DEBUG_MAP
 				cout << endl << "d2[" << i << "]: " << d2[i]; // DEBUG
 				cout << "\tkl[" << i << "]: " << kl[i]; // DEBUG
 				cout << "\tbl[" << i << "]: " << bl[i] << endl;
 				cout << "d2Thre[" << i << "] * nFiredAnodeLayer[" << i << "]: ";
-				cout << d2Thre[i] * nFiredAnodeaLayer[i] << endl;
+				cout << d2Thre * nFiredAnodeLayer[i] << endl;
 #endif
 			} // end for over j
 		} // end for over i
-		d2Extra = TAMath::Dx2DxTa_2(kl[0], kl[1], k2, bl[0], bl[1], b2);
-		if(d2[0] < d2Thre * nFiredAnodeLayer[0] && d2[1] < d2Thre * nFiredAnodeLayer[1] && d2Extra < chi2ExtraThre){
+		double d2Extra = TAMath::Dx2DxTa_2(kl[0], kl[1], k2, bl[0], bl[1], b2);
+		if(d2[0] < d2Thre * nFiredAnodeLayer[0] && d2[1] < d2Thre * nFiredAnodeLayer[1] && d2Extra < chi2ExtraThre * 5.){
 #ifdef DEBUG_MAP
 			cout << "\033[31;1mBINGO!\033[0m" << endl; // DEBUG
 			getchar(); // DEBUG
 #endif
 			// whether the current track is bad
-			bool isBadTrack[2] = {false, false};
+			bool isBadTrack = false;
 			overlapTrackCnt = 0;
-			
+
 			// choose the TOF_stop edge that gives a rational drift time //
 			int lid = LAYER[0][0]; // using the layer closest to fPlaT0
-			TAAnode *ano = fDC[0][lid/2]->GetAnode(0, lid%2+1, nu[lid]);
+			TAAnode *ano = fDC[0][lid/2]->GetAnode(0, lid%2+1, nu[0][lid]);
 			const double t0 = ano->GetTime();
 			const unsigned uid = ano->GetUID();
 			const double delta = -clp->T_tofDCtoTOFW(uid) - clp->T_wireMean(uid);
@@ -320,7 +344,7 @@ bool TAPDCArrayTa4::Map(){
 			// (as small and correct as possible while inclusive)
 			// drift time bound for drift time start selection
 			const double t1 = delta - drfTB, t2 = delta - drfTA; // the range borders
-			TOF = GetPlaT0()->GetTime(t0, t1, t2);
+			TOF = GetMWDCArray(0)->GetPlaT0()->GetTime(t0, t1, t2);
 			if(-9999. == TOF){ // drift time start is not available
 				isBadTrack = true;
 				continue;
@@ -328,43 +352,53 @@ bool TAPDCArrayTa4::Map(){
 			// assign the drift time array and drift distance array
 			for(int i = 0; i < 2; i++){ // loop over DCTas
 				for(int j = 0; j < 4; j++) if(nu[i][j] >= 0){ // loop over anode layers
-					int k = i*4+j;
 					TAAnode *ano = fDC[i][j]->GetAnode(0, j%2+1, nu[i][j]);
 					ano->GetAnodeData()->SetTOF(TOF);
-					t[k] = ano->GetDriftTime();
+					t[i][j] = ano->GetDriftTime();
 					unsigned uid = ano->GetUID();
-					t[k] +=
+					t[i][j] +=
 						-clp->T_tofDCtoTOFW(uid) - clp->T_wireMean(uid);
 					// test the validity of drift time
-					if(!TAMath::Within(t[k], drfTA, drfTB)) isBadTrack = true;
-					if(-9999. != TOF) r[k] = ano->GetDriftDistance(t[k], kl[i]);
+					if(!TAMath::Within(t[i][j], drfTA, drfTB)) isBadTrack = true;
+					if(-9999. != TOF) r[i][j] = ano->GetDriftDistance(t[i][j], kl[i]);
 				} // end for over j
-			} // end for over i
 #ifdef DEBUG_MAP
-			for(double tt : t) cout << "t: " << tt << endl; // DEBUG
-			getchar(); // DEBUG
-			for(double rr : r) cout << "r: " << rr << endl; // DEBUG
-			getchar(); // DEBUG
+				for(double tt : t[i]) cout << "t: " << tt << endl; // DEBUG
+				getchar(); // DEBUG
+				for(double rr : r[i]) cout << "r: " << rr << endl; // DEBUG
+				cout << "------------------------------------------\n"; // DEBUG
+				getchar(); // DEBUG
 #endif
+			} // end for over i
 			if(isBadTrack) continue;
 			
 			
-			/// assign the data and initiate the fitting ///
+			/// assign the data ///
 			for(int i = 0; i < 2; i++){ // loop over the two DCTas
 				// assign newTrack
-				int ii = i*6;
-				newTrk[i]->SetData(x+ii, z+ii, t+ii, r+ii, kl[i], bl[i], d2[i], gGOOD[i], nu[i], LAYER[i]);
-				newTrk[i]->SetTOF(TOF, -1, -9999.);
-				newTrack->Fit();
-				newTrk[i]->GetChi(chi[i]);
+				newtrk[i]->SetData(x[i], z[i], t[i], r[i], kl[i], bl[i], d2[i], gGOOD[i], nu[i], LAYER[i]);
+				newtrk[i]->SetTOF(TOF, -1, -9999.);
+			} // end for over i
+
+
+			//////// XXX XXX XXX XXX XXX XXX XXX XXX //////////
+			//// // the magnificant majestic FIT method // ////
+			newTrack.Fit();
+			//////// XXX XXX XXX XXX XXX XXX XXX XXX //////////
+
+
+			/// check the fitting ///
+			for(int i = 0; i < 2; i++){ // loop over the two DCTas
+				newtrk[i]->GetChi(chi[i]);
 #ifdef DEBUG_MAP
-				cout << "newTrk[" << i << "].GetChi(): " << newTrk[i].GetChi() << endl;
+				cout << "newtrk[" << i << "].GetChi2(): " << newtrk[i]->GetChi() << endl;
 				for(double cc : chi[i]) cout << "cc: " << cc << endl; // DEBUG
 				getchar(); // DEBUG
 				newTrack.Show(); // DEBUG
 #endif
-				if(fabs(newtrk[i].GetChi()) > chiThre){
-					isBadTrack = true; continue;
+				if(fabs(newtrk[i]->GetChi()) > chiThre){
+					isBadTrack = true;
+					continue;
 				}
 				for(double cc : chi[i]){
 					if(-9999. != cc && fabs(cc) > chiThrePD){
@@ -373,7 +407,7 @@ bool TAPDCArrayTa4::Map(){
 					} // end inner if
 				} // end for over chi array elements
 			} // end for over i
-			if(newTrack->GetChi2Extra() > GetChi2ExtraThre()) isBadTrack = true;
+			if(newTrack.GetChi2Extra() > GetChi2ExtraThre()) isBadTrack = true;
 			if(isBadTrack) continue;
 
 			//////////////// INCOMPATIBILITY CHECK ////////////////////
@@ -403,13 +437,14 @@ bool TAPDCArrayTa4::Map(){
 			if(1 != overlap){
 				TAPopMsg::Debug(GetName().c_str(), "map: new track confirmed.");
 			}
-			if(cmpshow){
+#endif
+			if(cmpShow){
 				TAPopMsg::Debug(GetName().c_str(), "map: Before pushback, track.size(): %d", track.size());
 			} // end if // DEBUG
 			if(1 != overlap){ // new track accepted
 				newTrack.SetName(GetName());
 				sprintf(tail, "->TrackTa4X_%lu", track.size());
-				newTrack->AppendName(tail);
+				newTrack.AppendName(tail);
 				track.push_back(new TATrackTa4(newTrack));
 			}
 #ifdef DEBUG_MAP
@@ -434,7 +469,7 @@ bool TAPDCArrayTa4::Map(){
 #ifdef DEBUG_MAP
 // sleep(3);
 	TAPopMsg::Debug(GetName().c_str(), "map: track.size(): %d", track.size());
-	for(auto t : track) t->show(); // DEBUG
+	for(auto t : track) t->Show(); // DEBUG
 	cout << "Map returning true..." << endl; // DEBUG
 	getchar(); // DEBUG
 #endif
@@ -457,8 +492,8 @@ bool TAPDCArrayTa4::Map(){
 		track.erase(it, track.end());
 	} // end if
 	/////// remove all the UX and DX tracks to be replaced by new ones	
-	vector<tTrack *>::iterator it1 = remove_if(tl.begin(), tl.end(), [](tTrack *t){ return t->type == 120 || t->type/10 == 130; })
-	tl.erase(it, tl.end());
+	vector<tTrack *>::iterator last = remove_if(tl.begin(), tl.end(), [](tTrack *t){ return t->type == 120 || t->type/10 == 130; });
+	tl.erase(last, tl.end());
 	AssignTracks(tl);
 
 	return true;
@@ -470,7 +505,7 @@ int TAPDCArrayTa4::compare(TATrackTa4 *newTrack, TATrackTa4 *oldTrack, bool show
 	if(GetMWDCArray(0)->GetDetId() == 8) vicinity = 2; // PDC
 	// PDC requires specific vicinity condition (drift distance too large)
 	// fired anode layers
-	int nValid_nu = newTrack->GetNFiredAnodeLayer(),
+	int nValid_nu = newTrack->GetNFiredAnodeLayer();
 	int nValid_nu_temp = oldTrack->GetNFiredAnodeLayer();
 
 	if(show){ // DEBUG
@@ -524,6 +559,7 @@ int TAPDCArrayTa4::compare(TATrackTa4 *newTrack, TATrackTa4 *oldTrack, bool show
 				}
 			} // end if two anodes are fired at the same time
 		} // end for over i
+		if(nValid_nu == vicinityVioCnt) return 0;
 		if(newTrack->GetChi2() < oldTrack->GetChi2()){
 			oldTrack->SetName("OBSOLETE");
 			return 2;

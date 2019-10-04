@@ -35,9 +35,11 @@ using std::complex;
 typedef complex<double> cdouble;
 
 static TACtrlPara *clp = TACtrlPara::Instance();
+// the z border of effective magField
 const double TAMath::kzMagIn = -575.5;
 const double TAMath::kzMagOut = 575.5;
-int TAMath::Chi3D::fCallCnt = 0; // count of calling of the objective function
+// count of calling of the objective function
+unsigned long long TAMath::kCallCnt = 0;
 
 // length of the vector, len: vector dimension
 double TAMath::norm(const double *p, int len){
