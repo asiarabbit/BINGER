@@ -307,7 +307,11 @@
 				//////// UPDATE tof1 using TOF of trkTa4 /////////////////
 				// since the tracks around Ta have been updated
 				// their TOF is now more consistent and avaliable
-				double tRef_DCTa = pdcArrayTa4->GetTrackTa4List()[0]->GetTrackPreTa()->GetTOF();
+				// XXX XXX hehe, it is NOT true XXX XXX //
+				// PDC HPTDCs use independent time synchronization
+				// so their data are of no value as for start time for tofs
+				double tRef_DCTa = tRef; // PDC TOFs are not synchronized to PXIs
+//					pdcArrayTa4->GetTrackTa4List()[0]->GetTrackPreTa()->GetTOF();
 				// calculate beta in RIBLL2 //
 				beta = -1.; // initialization
 				static const double L = 25.881 * 1000.; // the length of RIBLL2

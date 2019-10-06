@@ -30,6 +30,7 @@ int main(int argc, char *argv[]){
 //	usr->Silent(); // don't show TAPopMsg::Info() printings
 //	usr->CheckChannelId(403); // see channel with channelId
 //	usr->CoarseFit();
+	usr->Debug();
 
 	usr->Go(); // pattern recognition, track fit, and particle identification
 

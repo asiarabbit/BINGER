@@ -2,11 +2,19 @@
 	\file TAMath.icc
 	\class TAMath
 	\brief Definitions of the member template functions for class TAMath
-	\date Created: 2019/9/28 Last revised: 2019/10/3, SUN Yazhou.
+	\date Created: 2019/9/28 Last revised: 2019/10/5, SUN Yazhou.
 	\copyright 2017-2019, SUN Yazhou.
 */
 
-//#define DEBUG
+//#define DEBUG_MATH
+
+#include <iostream>
+#include <iomanip>
+#include <cstdlib>
+
+using std::cout;
+using std::endl;
+using std::setprecision;
 
 static unsigned long long jj4 = 0;
 
@@ -58,17 +66,18 @@ double TAMath::BFGS4(FUNCTOR &fun){
 		for(int i = 0; i < 4; i++) dgk[i] = gk[i] - dgk[i]; // dgk = gk1 - gk;
 		g = sqrt(gk[0] * gk[0] + gk[1] * gk[1] + gk[2] * gk[2] + gk[3] * gk[3]);
 
-		if(dx < dxM && g < gM){
-			if(fabs(xk[0]) < 0.50) break;
-			else if(reincarnated > 300) break;
-		}
 		d2 = fun(xk);
 		if(d2 < d2min){
 			d2min = d2;
 			memcpy(xkm, xk, sizeof(xk));
-#ifdef DEBUG
-			cout << "d2min: " << d2min << endl; getchar(); // DEBUG
+#ifdef DEBUG_MATH
+			cout << "d2min: " << d2min << endl; // DEBUG
+//			getchar(); // DEBUG
 #endif
+		}
+		if(dx < dxM && g < gM){
+			if(fabs(xk[0]) < 0.50) break;
+			else if(reincarnated > 300) break;
 		}
 		if(4 == k){ // a spoiled start needs a special treatment
 			k = 0;
@@ -93,10 +102,9 @@ double TAMath::BFGS4(FUNCTOR &fun){
 //		cout << "pk[2]: " << pk[2] << " pk[3]: " << pk[3] << endl; // DEBUG
 //		getchar(); // DEBUG
 	} // end of while
-	fun.UpdatePar(xkm);
 //	for(int i = 0; i < 4; i++) p[i] *= 1. + xkm[i];
 
-#ifdef DEBUG
+#ifdef DEBUG_MATH
 	// adopt the final resolved result
 	cout << "xkm[0]: " << xkm[0] << " xkm[1]: " << xkm[1] << endl; // DEBUG
 	cout << "xkm[2]: " << xkm[2] << " xkm[3]: " << xkm[3] << endl; // DEBUG
@@ -105,14 +113,16 @@ double TAMath::BFGS4(FUNCTOR &fun){
 	cout << "reincarnated " << reincarnated << " times." << endl; // DEBUG
 	cout << "dx = " << dx << "\tg = " << g << endl; // DEBUG
 	cout << "The minimum of fun(...) is "; // DEBUG
-	cout << "fun(" << xk[0] << ", " << xk[1] << ", " << xk[2] << ", " << xk[3] << ") = "; // DEBUG
-	cout << d2min << endl; // DEBUG
+	cout << "fun(" << xkm[0] << ", " << xkm[1] << ", " << xkm[2] << ", " << xkm[3] << ") = "; // DEBUG
+	cout << d2min << "\tfun(xkm): " << fun(xkm) << "\t" << fun(xk) << endl; // DEBUG
 
 	cout << setprecision(9); // DEBUG
 	cout << "______fun has been called " << kCallCnt - jj4 << " times." << endl; // DEBUG
 	cout << "kCallCnt: " << kCallCnt << "\tjj4: " << jj4 << endl; // DEBUG
 	getchar(); // DEBUG
 #endif
+
+	fun.UpdatePar(xkm);
 
 	return d2min;
 } // end of function BFGSFit
@@ -125,11 +135,11 @@ void goldCut(FUNCTOR &fun, const double *pk, double *xk){
 	double pkL = sqrt(pk[0] * pk[0] + pk[1] * pk[1] + pk[2] * pk[2] + pk[3] * pk[3]);
 	double ppk[4] = {pk[0]/pkL, pk[1]/pkL, pk[2]/pkL, pk[3]/pkL};
 
-	double a = 0., b = 0.008; // a and b is the border of the search domain b: 0.03
+	double a = 0., b = 0.01; // a and b is the border of the search domain b: 0.03
 	double x = b - TAMath::Alpha() * (b - a); // interpolation point one
 	double xp = a + TAMath::Alpha() * (b - a); // interpolation point two
-	const double dfM = 1E-10; // error control constant. unit: mm 12
-	const double dxM = 1E-8; // error control constant. unit: mm 9
+	const double dfM = 1E-8; // error control constant. unit: mm 12
+	const double dxM = 1E-6; // error control constant. unit: mm 9
 	double xx[4]{};
 	// x = x0 + x * pk
 	// x: the search step length, pk: the optimal search direction, analogous to Newton method
@@ -191,7 +201,7 @@ void Ak1(double (*Ak)[4], const double *dxk, const double *dgk){
 } // end of function Ak1
 
 
-// derivarives of function fun at xk[4], which would be assigned to array gk[4].
+// derivarives of function fun at xk[4], which would be assigned to array gk[4]
 template <typename FUNCTOR>
 void TAMath::funxy4(FUNCTOR &fun, const double *xk, double *gk){
 	double xxp[4]{}, xxm[4]{};

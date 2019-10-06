@@ -248,6 +248,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 #endif
 				if(isBadTrack) continue;
 				// Assign newTrack
+				newTrack.Initialize(); // initialize the track
 				newTrack.SetData(x, z, t, r, kl, bl, d2, gGOOD, nu, LAYER, weight);
 				newTrack.SetTOF(TOF, firedStripId, nstripStray);
 

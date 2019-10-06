@@ -262,11 +262,11 @@
 89 1E-3
 ######### MWDC Array R ###################
 # MWDC global delay - delay_DCR0
-90 -67.4
+90 -57.8
 # MWDC global delay - delay_DCR1
-91 -66.7
+91 -59.0
 # MWDC global delay - delay_DCR2
-92 -68.7
+92 -60.6
 # TOFW global delay - delay_TOFWR
 93 -92.8
 ######### DCTa - Array U-D ################

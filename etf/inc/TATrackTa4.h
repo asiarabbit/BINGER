@@ -47,10 +47,8 @@ public:
 	virtual double GetDX2();
 	/// DxTa0(PreTa) - DxTa1(PostTa)
 	virtual double GetDxTa();
-	/// \retval: dx2*dx2 + dxTa*dxTa
-	virtual double GetChi2Extra(){
-		return TAMath::Sum2(GetDX2(), GetDxTa());
-	}
+	/// \retval:  fChi2Extra = TAMath::Dx2DxTa_2(...)
+	virtual double GetChi2Extra();
 	/// \retval: fK2
 	virtual double GetK2();
 	/// \retval: fB2
@@ -72,7 +70,7 @@ public:
 	/// the core fitting method, fChi2, fDX2, and fDxTa would be assigned here
 	/// \note for fit method, BFGS is mandatory, for 4-D minimization is too slow
 	virtual void Fit();
-	virtual void Show() const;
+	virtual void Show();
 
 protected:
 	/// minimization using BFGS method
@@ -84,6 +82,7 @@ protected:
 	double fDX2; // x2 - x2p: x2 calculated from postMagTrk - x2 from arc in the mag
 	double fDxTa; ///< the difference of TaHitX between the results of pre- and post-TA track: DxTa0(PreTa) - DxTa1(PostTa)
 	double fChi2; // chi^2, the sum of the square of fitting residues
+	double fChi2Extra; // TAMath::Dx2DxTa_2
 	bool fIsFitted; ///< whether Fit() had been called
 	/// NOTE that the class only reference the two TATrack2 objects,
 	/// so don't bother releasing their memory, or constructing them

@@ -36,8 +36,8 @@ typedef complex<double> cdouble;
 
 static TACtrlPara *clp = TACtrlPara::Instance();
 // the z border of effective magField
-const double TAMath::kzMagIn = -575.5;
-const double TAMath::kzMagOut = 575.5;
+const double TAMath::kzMagIn = -560.5;
+const double TAMath::kzMagOut = 560.5;
 // count of calling of the objective function
 unsigned long long TAMath::kCallCnt = 0;
 

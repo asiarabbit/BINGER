@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2018/9/30, SUN Yazhou.										     //
+// Last modified: 2019/10/5, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -35,7 +35,9 @@ static const TAGPar *gp = TAGPar::Instance();
 
 TATrack::TATrack(const string &name, const string &title, unsigned uid)
 		: TAStuff(name, title, uid){
+
 	Initialize();
+
 	fXc = -9999.; fZc = -9999.;
 	fFitMethod = TATrack::kBFGSFit; fFitPrecision = 0;
 	fDsquareThresholdPerDot = 65.;
@@ -200,6 +202,7 @@ void TATrack::SetData(const double *x, const double *z, const double *t, const d
 		fT[i] = t[i];
 		// weight for weighted addition of chi to chi2
 		if(weight) fWeight[i] = weight[i];
+		else fWeight[i] = 1.;
 		fR[i] = r[i];
 		fNu[i] = nu[i];
 		fLAYER[i] = LAYER[i];
@@ -226,6 +229,7 @@ void TATrack::SetDriftTime(const double *t, const double *w){ // as the name ind
 				"SetDriftTime: t[%d] here contradicates with former assignment of array nu. fNu[%d]: %d - t[%d]: %f", i, i, fNu[i], i, t[i]);
 		fT[i] = t[i];
 		if(w) fWeight[i] = w[i];
+		else fWeight[i] = 1.;
 	} // end for over i
 	fIsFitted = false;
 } // end of function SetDriftTime()

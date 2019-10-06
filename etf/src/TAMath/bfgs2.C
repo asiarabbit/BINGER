@@ -117,7 +117,7 @@ double TAMath::refinedFitBFGS(const double *x, const double *y, const double *r,
 //	cout << "reincarnated " << reincarnated << " times." << endl; // DEBUG
 //	cout << "dx = " << dx << "\tg = " << g << endl; // DEBUG
 //	cout << "The minimum of fun(x, y, gGOOD, LAYER) is "; // DEBUG
-//	cout << "fun(" << xk[0] << ", " << xk[1] << ") = " << d2min << endl; // DEBUG
+//	cout << "fun(" << xkm[0] << ", " << xkm[1] << ") = " << d2min << endl; // DEBUG
 
 //	cout << setprecision(9); // DEBUG
 //	cout << "xkm[0]: " << xkm[0] << "\txkm[1]: " << xkm[1] << endl; // DEBUG

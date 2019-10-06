@@ -29,14 +29,16 @@ void TAMath::IterFit4(const double *z, const double *x, const double *r, double 
 	// initialize kL and bL using LSM
 	// the total d2, including contributions from dxTa and dx2
 	double d2Tmin = 1E200, d2T; // T: total
+	// assign k and b one more time - may be unnecessary
 	Dsquare(z, x, k[0], b[0], gGOOD[0], LAYER[0], d2ThrePD);
 	Dsquare(z+6, x+6, k[1], b[1], gGOOD[1], LAYER[1], d2ThrePD);
 	double zt[2][6], xt[2][6];
+	short sign[2][4]{};
 	for(int i = 2; i--;)
 		for(int j = 6; j--;){
 		zt[i][j] = -9999.;
 		xt[i][j] = -9999.;
-	}
+	} // end the initialization
 	double cosTheta[2], sinTheta[2];
 	for(int i = 0; i < 2; i++){
 		cosTheta[i] = 1. / sqrt(1. + k[i]*k[i]);
@@ -48,12 +50,12 @@ void TAMath::IterFit4(const double *z, const double *x, const double *r, double 
 		for(int I = 0; I < 2; I++){ // loop over DCTas
 			for(int j = 0; j < nF[I]; j++){
 				const short s = LAYER[I][j], l = I*6+s;
-				const short sign = 2 * ((i>>(j+I*nF[0])) & 1) - 1; // +-1
-				const double R = sign * r[l]; // the signed drift distance
+				sign[I][j] = 2 * ((i>>(j+I*nF[0])) & 1) - 1; // +-1
+				const double R = sign[I][j] * r[l]; // the signed drift distance
 				zt[I][s] = z[l] + R * sinTheta[I];
 				xt[I][s] = x[l] - R * cosTheta[I];
 			} // end for over j
-			d2[i] = Dsquare(zt[I], xt[I], kl[I], bl[I], gGOOD[I], LAYER[I], d2ThrePD);
+			d2[I] = Dsquare(zt[I], xt[I], kl[I], bl[I], gGOOD[I], LAYER[I], d2ThrePD);
 		} // end for over I (DCTas)
 		d2T = d2[0] + d2[1] + Dx2DxTa_2(kl, bl);
 		if(d2T < d2Tmin){ // acknowledge the result
@@ -62,6 +64,7 @@ void TAMath::IterFit4(const double *z, const double *x, const double *r, double 
 			d2Tmin = d2T;
 		} // end if
 	} // end for over i
+
 } // end of IterFit4
 
 

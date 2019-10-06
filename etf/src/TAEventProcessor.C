@@ -121,7 +121,10 @@ TAEventProcessor::~TAEventProcessor(){
 	if(fGPar){
 		delete fGPar; fGPar = nullptr;
 	}
-}
+	if(fPDCArrayTa4){
+		delete fPDCArrayTa4; fPDCArrayTa4 = nullptr;
+	}
+} // end the destructor
 TAEventProcessor* TAEventProcessor::Instance(const string &datafile, int runId){
 	if(!fInstance) fInstance = new TAEventProcessor(datafile, runId);
 	return fInstance;

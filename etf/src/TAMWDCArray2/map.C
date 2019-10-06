@@ -241,6 +241,7 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 				} // end loop over drift time
 				if(isBadTrack) continue;
 				// assign newTrack
+				newTrack.Initialize(); // initialize the track
 				newTrack.SetData(x, z, t, r, kl, bl, d2, gGOOD, nu, LAYER, weight);
 				newTrack.SetTOF(TOF, -1, -9999.);
 				

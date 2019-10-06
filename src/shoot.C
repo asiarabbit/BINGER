@@ -11,7 +11,7 @@
 #include "TH1F.h"
 #include "TH2F.h"
 
-#include "TAEventProcessor.h"
+#include "TAUI.h"
 #include "TAGPar.h"
 #include "TAParaManager.h"
 #include "TADetectorPara.h"
@@ -45,9 +45,9 @@ int main(int argc, char **argv){
 } // end of the main function
 
 void shoot(const char *rootfile){
-	TAEventProcessor *ep = TAEventProcessor::Instance();
-	ep->Configure();
-	TAParaManager::ArrDet_t &det_vec = ep->GetParaManager()->GetDetList();
+	TAUI *usr = TAUI::Instance();
+	usr->Configure();
+	TAParaManager::ArrDet_t &det_vec = usr->GetParaManager()->GetDetList();
 	TAMWDCArray *dcArr[2]{0}; // MWDC arrays downstream of the dipole magnet
 	TAMWDCArray2 *pdcArr2[2]{0}; // PDC arrays upstream of the dipole magnet
 	dcArr[0] = (TAMWDCArray*)det_vec[3]; // dc array L

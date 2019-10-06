@@ -8,7 +8,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/10/10.															     //
-// Last modified: 2018/6/24, SUN Yazhou.										     //
+// Last modified: 2019/10/5, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -48,7 +48,7 @@ TAMagnet::TAMagnet(const string &name, const string &title, unsigned uid)
 TAMagnet::~TAMagnet(){}
 
 // i: initial; f: final
-void TAMagnet::TransportIon(double *y, double *yp, double zi, double zf, const bool isTracking){
+void TAMagnet::TransportIon(double *y, double *yp, double zi, double zf, bool isTracking){
 	if(-9999. == fQoP){
 		cout << "\033[31;1mTAMagnet::TransportIon(...):\n";
 		cout << "QoP = -9999. fQoP not set?\033[0m\n";

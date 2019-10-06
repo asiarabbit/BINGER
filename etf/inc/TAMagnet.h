@@ -4,7 +4,7 @@
 	\brief Magnetic rigidity analysis for PID using fourth-order Runge-Kutta
 	method to track particles in magnetic field of the dipole magnet in ETF.
 	\author SUN Yazhou, asia.rabbit@163.com.
-	\date Created: 2017/10/10 Last revised: 2017/11/23, SUN Yazhou.
+	\date Created: 2017/10/10 Last revised: 2019/10/5, SUN Yazhou.
 	\copyright 2017-2018, SUN Yazhou.
 */
 
@@ -44,7 +44,7 @@ public:
 	/// fourth-order Runge-Kutta method is utilized to solve the differential equation. \n
 	/// \param (y, yp): position coorinates and their first derivatives.\n
 	/// \param isTracking: whether to store particle trajectories for showcase purposes
-	void TransportIon(double *y, double *yp, double zi, double zf, const bool isTracking = false);
+	void TransportIon(double *y, double *yp, double zi, double zf, bool isTracking = false);
 	/// assign B with the magnetic intensity vector at position p
 	void GetMagneticIntensity(double *B, const double *p);
 	double GetTrackLength() const; // return fTrackLength

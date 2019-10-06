@@ -67,6 +67,7 @@ public:
 	bool IsTracking() const{ return fIsTracking; }
 	void Verbose(bool opt = true){ TAPopMsg::Verbose(opt); } ///< true or null: verbose; false: succinct
 	void Silent(bool opt = true){ TAPopMsg::Silent(opt); } ///< true: silent TAPopMsg::Info: false: not
+	void Debug(bool opt = true){ TAPopMsg::SetDebug(opt); }
 	void CoarseFit(bool opt = true){ GetCtrlPara()->CoarseFit(opt); } ///< rough ye fast fit
 	void SetPeriod(int index0, int index1); ///< analyze index0 to index1
 	virtual void Configure(); ///< create detectors

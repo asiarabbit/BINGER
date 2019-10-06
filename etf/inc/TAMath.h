@@ -13,8 +13,13 @@
 
 #include <cstring>
 #include <cmath>
+#include <iostream>
+
+using std::cout;
+using std::endl;
 
 #include "TADeployPara.h"
+#include "TAPopMsg.h"
 
 class TAMath{
 public:
@@ -102,31 +107,34 @@ public:
 	static double DxTa(const double *k, const double *b){
 		return DxTa(k[0], k[1], b[0], b[1]);
 	}
+	static double DX2(double k1, double k2, double b1, double b2){
+		double x2[2];
+		TAMath::rho(k1, b1, k2, b2, nullptr, nullptr, x2); // assign x2 array
+		double dx2 = x2[0] - x2[1];
+		return dx2;
+	}
+
 	// return dxTa^2 + dx2^2
 	static double Dx2DxTa_2(double *k, double *b){
 		return Dx2DxTa_2(k[0], k[1], k[2], b[0], b[1], b[2]);
 	}
 	static double Dx2DxTa_2(double k0, double k1, double k2, double b0, double b1, double b2){
 		double dxTa = DxTa(k0, k1, b0, b1);
-		double x2[2];
-		TAMath::rho(k1, b1, k2, b2, nullptr, nullptr, x2); // assign x2 array
-		double dx2 = x2[0] - x2[1];
-		return dxTa*dxTa + dx2*dx2;
+		double dx2 = DX2(k1, k2, b1, b2);
+		return
+			dxTa*dxTa * 1. / 1.72 +
+			dx2*dx2 * 1. / 6.;
 	}
 
 
 	/// the objective function for BFGS minimization algorithm
 	class Fun{
 	public:
-		Fun(double *p = nullptr) : fp(p){}
+		Fun(){}
 		virtual ~Fun(){}
 		virtual double operator()(const double *xk) const = 0;
 		/// update fp with xkm
-		void UpdatePar(const double *xkm){
-			for(int i = 0; i < 4; i++) fp[i] *= 1. + xkm[i];
-		}
-	protected:
-		double *fp; ///< the track parameter set
+		virtual void UpdatePar(const double *xkm) = 0;
 	};
 	/// nested class for definition of BFGS-es with various argument lists
 	/// calculate chi2 of a track, evenly weighted
@@ -134,7 +142,10 @@ public:
 	/// xk[4]: the real variables of the functino fun, correction to p[4]
 	class Chi3D : public Fun{
 	public:
-		Chi3D(const double Ag[][3], const double ag[][3], double *p, const double *r, const int nF) : Fun(p), fAg(Ag), fag(ag), fr(r), fnF(nF){
+		Chi3D(const double Ag[][3], const double ag[][3], double *p, const double *r, const int nF) : fp(p), fAg(Ag), fag(ag), fr(r), fnF(nF){
+			if(!p){
+				TAPopMsg::Error("TAMath::Chi3D", "constructor: the input par arr is nullptr!");
+			}
 		} // end of the constructor
 		~Chi3D(){}
 		double operator()(const double *xk) const override{
@@ -148,7 +159,11 @@ public:
 			TAMath::kCallCnt++;
 			return d2;
 		} // end of function operator()(doubel *xk)
+		virtual void UpdatePar(const double *xkm) override{
+			for(int i = 0; i < 4; i++) fp[i] *= 1. + xkm[i];
+		}
 	private:
+		double *fp; ///< the track parameter set
 		const double (*fAg)[3]; ///< one point in the anode
 		const double (*fag)[3]; ///< the anode orientation array
 		const double *fr; ///< the drift distance array
@@ -170,29 +185,39 @@ public:
 		/// \param gGOOD[2]: fired andoe layer distribution type
 		/// \param d2ThrePD: LSM chi square threshold per dot, irrespective of r
 		ChiTa4(const double *z, const double *x, const double *r, double *k, double *b, int *gGOOD, const int (*LAYER)[6], double d2ThrePD)
-			: fZ(z), fX(x), fR(r),
-			fgGOOD(gGOOD),fLAYER(LAYER), fd2ThrePD(d2ThrePD){
-				fp[0] = k[0]; fp[2] = b[0]; // preTaTrk: x=k0z+b0
-				fp[1] = k[1]; fp[3] = b[1]; // postTaTrk: x=k1z+b1
-				fK2  = k[2]; fB2  = b[2]; // postMagTrk: x=k2z+b2
-			} // end of the constructor
+			: fZ(z), fX(x), fR(r), fK(k), fB(b),
+			fgGOOD(gGOOD), fLAYER(LAYER), fd2ThrePD(d2ThrePD){}
 		~ChiTa4(){}
 		/// \retval: return the fitting chi2 sum
 		double operator()(const double *xk) const override{
 			// update parameters
-			double k0 = fp[0] * (1. + xk[0]), k1 = fp[1] * (1. + xk[1]); // k0, k1
-			double b0 = fp[2] * (1. + xk[2]), b1 = fp[3] * (1. + xk[3]); // b0, b1
+			double k[3] = {-9999., -9999., fK[2]};
+			double b[3] = {-9999., -9999., fB[2]};
+			k[0] = fK[0] * (1. + xk[0]); k[1] = fK[1] * (1. + xk[1]); // k0, k1
+			b[0] = fB[0] * (1. + xk[2]); b[1] = fB[1] * (1. + xk[3]); // b0, b1
 
 			kCallCnt++;
 			return
-		TAMath::minid2(fZ, fX, fR, k0, b0, fgGOOD[0], fLAYER[0]) + // preTaTrk
-		// post Ta trk
-		TAMath::minid2(fZ+6, fX+6, fR+6, k1, b1, fgGOOD[1], fLAYER[1]) +
-		TAMath::Dx2DxTa_2(k0, k1, fK2, b0, b1, fB2); /// XXX the core of the new tracking algorithm XXX ///
+		TAMath::minid2(fZ, fX, fR, k[0], b[0], fgGOOD[0], fLAYER[0]) + // preTaTrk
+		TAMath::minid2(fZ+6, fX+6, fR+6, k[1], b[1], fgGOOD[1], fLAYER[1]) + // post Ta trk
+		TAMath::Dx2DxTa_2(k, b); // XXX the core of the new tracking algorithm
 		} // end of the member function operator()(const double *xk)
+
+		// xkm[0-1-2-3]: [k0, k1, b0, b1]
+		virtual void UpdatePar(const double *xkm) override{
+//			cout << "Before update, k, b:\n"; // DEBUG
+//			cout << fK[0] << "\t" << fK[1] << endl; // DEBUG
+//			cout << fB[0] << "\t" << fB[1] << endl; // DEBUG
+			fK[0] *= 1. + xkm[0]; fB[0] *= 1. + xkm[2]; // preTaTrk: x=k0z+b0
+			fK[1] *= 1. + xkm[1]; fB[1] *= 1. + xkm[3]; // postTaTrk: x=k1z+b1
+//			cout << "After update, k, b:\n"; // DEBUG
+//			cout << fK[0] << "\t" << fK[1] << endl; // DEBUG
+//			cout << fB[0] << "\t" << fB[1] << endl; // DEBUG
+//			getchar(); // DEBUG
+		}
 	private:
 		const double *fZ, *fX, *fR;
-		double fK2, fB2; ///< pars of postMag Xproj
+		double *fK, *fB;
 		const int *fgGOOD, (*fLAYER)[6];
 		double fd2ThrePD;
 	}; // end of declaration of nested class ChiTa4

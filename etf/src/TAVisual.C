@@ -39,8 +39,7 @@
 
 
 static const TAGPar *gp = TAGPar::Instance();
-static const double z_SiPMArr = TADeployPara::Instance()->GetSiPMArrayZ0(); // z of SiPM Pla Array
-static const double z_Ta = TADeployPara::Instance()->GetTargetZ0(); // z of the target
+static const TADeployPara *dp = TADeployPara::Instance();
 static const TACtrlPara *clp = TACtrlPara::Instance();
 static TAPID *pid = TAPID::Instance();
 
@@ -97,7 +96,7 @@ void TAVisual::Configure(){
 	pid->SetCurveGraph(fGCurve);
 	fGTarget = new TGraph(); fGTarget->SetNameTitle("Target", "Target");
 	fGTarget->SetMarkerStyle(29); fGTarget->SetMarkerColor(6); fGTarget->SetMarkerSize(1);
-	fGTarget->SetPoint(0, z_Ta, 0.);
+	fGTarget->SetPoint(0, dp->GetTargetZ0(), 0.);
 	fGBeamline = new TGraph(); fGBeamline->SetNameTitle("Beamline", "Beamline");
 	fGBeamline->SetLineColor(8); fGBeamline->SetLineStyle(3); fGBeamline->SetLineWidth(2);
 	fGBeamline->SetPoint(0, -10000., 0.); fGBeamline->SetPoint(1, 15000., 0.);
@@ -127,7 +126,7 @@ void TAVisual::Configure(){
 	} // end for over strips
 	// specifically for SiPM plastic scintillator array
 	for(TAChannel *&ch : fChArr){
-			gpla->SetPoint(gpla->GetN(), z_SiPMArr, ch->GetPara()->GetValue());
+			gpla->SetPoint(gpla->GetN(), dp->GetSiPMArrayZ0(), ch->GetPara()->GetValue());
 	}
 
 	fGChannel = new TGraph(); fGChannel->SetNameTitle("Channel", "Channel");
@@ -208,7 +207,7 @@ void TAVisual::FillEvent(){
 	while(gch->GetN()) gch->RemovePoint(0); // clear the graph
 	for(TAChannel *&ch : fChArr){
 		if(ch->GetFiredStatus()){
-			gch->SetPoint(gch->GetN(), z_SiPMArr, ch->GetPara()->GetValue());
+			gch->SetPoint(gch->GetN(), dp->GetSiPMArrayZ0(), ch->GetPara()->GetValue());
 		}
 	}
 	// draw trajectory in the dipole magnet
