@@ -600,8 +600,8 @@ void TAPDCArrayTa4::FillTrack(TGraph *gTrack, TGraph *gTrack_R) const{
 	if(!gTrack || !gTrack_R)
 		TAPopMsg::Error(GetName().c_str(), "FillTrack: input TGraph pointer is null");
 	for(TATrackTa4 *t : fTrackTa4List){
-		t->GetTrackPreTa()->FillTrack(gTrack, gTrack_R, 5);
-		t->GetTrackPostTa()->FillTrack(gTrack, gTrack_R, 5);
+		t->GetTrackPreTa()->FillTrack(gTrack, gTrack_R, 1); // 1: dot density fac
+		t->GetTrackPostTa()->FillTrack(gTrack, gTrack_R, 1);
 	}
 } // end member method FillTrack
 

@@ -431,7 +431,7 @@ void TAEventProcessor::FillTrack(TGraph *gTrack, TGraph *gTrack_R) const{
 	for(int i = 2; i--;){
 		if(dcArr[i]) dcArr[i]->FillTrack(gTrack, gTrack_R);
 		if(dcArr2[i]) dcArr2[i]->FillTrack(gTrack, gTrack_R);
-		if(pdcArr2[i]) pdcArr2[i]->FillTrack(gTrack, gTrack_R);
+//		if(pdcArr2[i]) pdcArr2[i]->FillTrack(gTrack, gTrack_R);
 	}
 	if(pdcArrayTa4) pdcArrayTa4->FillTrack(gTrack, gTrack_R);
 } // end member function FillTrack

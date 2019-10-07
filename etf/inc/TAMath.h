@@ -122,8 +122,8 @@ public:
 		double dxTa = DxTa(k0, k1, b0, b1);
 		double dx2 = DX2(k1, k2, b1, b2);
 		return
-			dxTa*dxTa * 1. / 1.72 +
-			dx2*dx2 * 1. / 6.;
+			dxTa*dxTa * 1. / kVdxTa + // 1.72 the relative variance V/sigma_DC
+			dx2*dx2 * 1. / kVdx2; // 7.5
 	}
 
 
@@ -254,6 +254,7 @@ public:
 
 	static const double kzMagIn, kzMagOut;
 	static unsigned long long kCallCnt; ///< count of calls of operator()(double *xk)
+	static const double kVdxTa, kVdx2; ///< the relative variance: V / sigma_DC
 };
 
 #include "TAMath.icc" // definitions of member template function
