@@ -459,14 +459,16 @@ void TATrack::Initialize(){
 } // end of function Initialize().
 
 // a method dedicated for TAVisual::Fill()
-void TATrack::FillTrack(TGraph *gTrack, TGraph *gTrack_R){
+// dotDens: dot density
+void TATrack::FillTrack(TGraph *gTrack, TGraph *gTrack_R, unsigned dotDens){
 	if(!gTrack || !gTrack_R)
 		TAPopMsg::Error(GetName().c_str(), "FillTrack: input TGraph pointer is null");
 	double z, x, theta; // temporary variables
 	// first fill the track line
 	// calculate the interpolation pattern for drawing gTrack
 	static const double L = gp->Val(31), W = gp->Val(32), M = (L - W) / 2., S = (L + W) / 2.;
-	static const int nTr = int(L), nCir = 300; // number of points to be filled
+	const int nTr = int(L) * dotDens;
+	const int nCir = 300 * dotDens; // number of points to be filled
 	const double k = GetSlope(), b = GetIntercept();
 	for(int i = nTr; i--;){
 		z = M + (2.*i/nTr - 1.) * S;

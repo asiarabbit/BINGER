@@ -19,10 +19,13 @@
 
 #include "TAStuff.h"
 
+class TGraph;
+
+struct tTrack;
+
 class TATrackTa4;
 class TAMWDCArray2;
 class TAMWDC;
-struct tTrack;
 class TAEventProcessor;
 
 using std::vector;
@@ -54,6 +57,8 @@ public:
 	bool IsReady() const{ return fIsReady; }
 	// no track is detected
 	bool ZeroTrack() const{ return fZeroTrack; }
+
+	void FillTrack(TGraph *gTrack, TGraph *gTrack_R) const;
 
 	friend class TAEventProcessor;
 

@@ -80,7 +80,7 @@ public:
 	/// show information about the track
 	virtual void Show();
 	/// a method dedicated for TAVisual::Fill()
-	void FillTrack(TGraph *gTrack, TGraph *gTrack_R);
+	void FillTrack(TGraph *gTrack, TGraph *gTrack_R, unsigned dotDens = 1);
 
 	virtual void Initialize();
 

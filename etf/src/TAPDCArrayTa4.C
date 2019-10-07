@@ -595,6 +595,15 @@ int TAPDCArrayTa4::compare(TATrackTa4 *newTrack, TATrackTa4 *oldTrack, bool show
 	return 0;
 } // end member function compare
 
+// a method dedicated for TAVisual::Fill()
+void TAPDCArrayTa4::FillTrack(TGraph *gTrack, TGraph *gTrack_R) const{
+	if(!gTrack || !gTrack_R)
+		TAPopMsg::Error(GetName().c_str(), "FillTrack: input TGraph pointer is null");
+	for(TATrackTa4 *t : fTrackTa4List){
+		t->GetTrackPreTa()->FillTrack(gTrack, gTrack_R, 5);
+		t->GetTrackPostTa()->FillTrack(gTrack, gTrack_R, 5);
+	}
+} // end member method FillTrack
 
 
 

@@ -304,35 +304,6 @@
 				pdcArrayTa4->SetPostMagXproj(pOut[0], pOut[2]); // k, b
 				pdcArrayTa4->Map();
 				if(pdcArrayTa4->ZeroTrack()) continue; // no splined trk is found
-				//////// UPDATE tof1 using TOF of trkTa4 /////////////////
-				// since the tracks around Ta have been updated
-				// their TOF is now more consistent and avaliable
-				// XXX XXX hehe, it is NOT true XXX XXX //
-				// PDC HPTDCs use independent time synchronization
-				// so their data are of no value as for start time for tofs
-				double tRef_DCTa = tRef; // PDC TOFs are not synchronized to PXIs
-//					pdcArrayTa4->GetTrackTa4List()[0]->GetTrackPreTa()->GetTOF();
-				// calculate beta in RIBLL2 //
-				beta = -1.; // initialization
-				static const double L = 25.881 * 1000.; // the length of RIBLL2
-				tof1 = -9999.; // time of flight in RIBLL2
-				if(T0_0 && -9999. != tRef_DCTa){
-					const double t0_0 = T0_0->GetTime(tRef_DCTa);
-					if(-9999. != t0_0){
-						tof1 = tRef_DCTa - t0_0;
-						beta = L / tof1 / c0;
-						htof1->Fill(tof1);
-		//				cout << "t0_0: " << t0_0 << "\ttRef: " << tRef << endl; // DEBUG
-		//				cout << "index: " << index << "\ttof1: " << tof1 << endl; // DEBUG
-		//				cout << "beta: " << beta << endl; // DEBUG
-		//				getchar(); // DEBUG
-					}
-				} // end if
-				//////// UPDATE tof2 /////////////////
-				tof2[0] = tofw[1]->GetStripTime(firedStripId[0], tRef_DCTa, 40., 90.) - tRef_DCTa;
-				tof2[0] += GetGPar()->Val(107);
-				// DONE //
-
 
 
 //				bool GOING = false; // DEBUG
@@ -491,8 +462,9 @@
 
 		if(0) vis->FillHitMap();
 		static int jj = 0;
-		static const int jjM = 100;
-		// the CONDITION for visualization //
+		static const int jjM = 50;
+
+/*		// the CONDITION for visualization //
 		static const int indexArr1[] = { // for CUTG1
 			4265, 7277, 42704, 50557, 50820};
 		static const int indexArr2[] = { // for CUTG2
@@ -504,7 +476,9 @@
 		for(const int t : indexArr1) if(t == index) { BINGO = true; break; }
 		for(const int t : indexArr2) if(t == index) { BINGO = true; break; }
 		for(const int t : indexArr3) if(t == index) { BINGO = true; break; }
-		if(jj < jjM && BINGO){ //  && -9999 != aoz[0]
+*/
+
+		if(jj < jjM){ //  && -9999 != aoz[0] //  && BINGO
 			jj++;
 			static int i0 = 0;
 			if(0 == i0){ // to make sure that this block would only be carried out once

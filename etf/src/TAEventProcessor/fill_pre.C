@@ -120,8 +120,24 @@
 			T0_1->GetUV()->GetData()->Show(); T0_1->GetDV()->GetData()->Show(); getchar(); // DEBUG
 		}
 #endif
-		
+
 		// calculate beta in RIBLL2 //
+		beta = -1.; // initialization
+		static const double L = 25.881 * 1000.; // the length of RIBLL2
+		tof1 = -9999.; // time of flight in RIBLL2
+		if(T0_0 && -9999. != tRef){
+			const double t0_0 = T0_0->GetTime(tRef);
+			if(-9999. != t0_0){
+				tof1 = tRef - t0_0;
+				beta = L / tof1 / c0;
+				htof1->Fill(tof1);
+//				cout << "t0_0: " << t0_0 << "\ttRef: " << tRef << endl; // DEBUG
+//				cout << "index: " << index << "\ttof1: " << tof1 << endl; // DEBUG
+//				cout << "beta: " << beta << endl; // DEBUG
+//				getchar(); // DEBUG
+			}
+		} // end if
+
 		// Time of Flight and beam energy measurement in RIBLL2
 		// vme tof1 //
 		if(vme){

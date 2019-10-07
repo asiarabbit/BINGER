@@ -427,12 +427,14 @@ void TAEventProcessor::FillTrack(TGraph *gTrack, TGraph *gTrack_R) const{
 	static TAMWDCArray *dcArr[2] = {(TAMWDCArray*)detList[3], (TAMWDCArray*)detList[4]};
 	static TAMWDCArray2 *dcArr2[2] = {(TAMWDCArray2*)detList[6], (TAMWDCArray2*)detList[7]};
 	static TAMWDCArray2 *pdcArr2[2] = {(TAMWDCArray2*)detList[8], (TAMWDCArray2*)detList[9]};
+	static TAPDCArrayTa4 *pdcArrayTa4 = TAPDCArrayTa4::Instance();
 	for(int i = 2; i--;){
 		if(dcArr[i]) dcArr[i]->FillTrack(gTrack, gTrack_R);
 		if(dcArr2[i]) dcArr2[i]->FillTrack(gTrack, gTrack_R);
 		if(pdcArr2[i]) pdcArr2[i]->FillTrack(gTrack, gTrack_R);
 	}
-}
+	if(pdcArrayTa4) pdcArrayTa4->FillTrack(gTrack, gTrack_R);
+} // end member function FillTrack
 void TAEventProcessor::Initialize(){
 	for(tEntry *&t : fEntryList) if(t){ delete t; t = nullptr; }
 	fEntryList.clear();
