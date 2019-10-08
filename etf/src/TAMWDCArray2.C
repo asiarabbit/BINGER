@@ -39,6 +39,9 @@
 #include "TAMath.h"
 #include "TAPlaStrip.h"
 #include "TAGPar.h"
+#include "TAEventProcessor.h"
+#include "tEntry.h"
+
 
 static TAGPar *gp = TAGPar::Instance();
 
@@ -99,8 +102,10 @@ void TAMWDCArray2::SetPlaT0(TAPlaStrip *t0){
 
 // assign the recognized TATrack2 objects to tTrack objects for assignments
 void TAMWDCArray2::AssignTracks(vector<tTrack *> &track_ls){ // assign tracks
-	static bool usingPDC = gp->Val(83);
 	if(!fTrackList[0].size() && !fTrackList[1].size()) return; // no tracks to assign
+
+	static bool usingPDC = gp->Val(83);
+	int index = TAEventProcessor::Instance()->GetEntryList()[0]->index;
 	int type[6]{}; TAUIDParser::DNS(type, GetUID());
 	tTrack *ptrack_t = nullptr; // a temporary variable
 	for(int l = 0; l < 2; l++){ // loop over X-Y
@@ -122,6 +127,7 @@ void TAMWDCArray2::AssignTracks(vector<tTrack *> &track_ls){ // assign tracks
 				}
 			} // end if
 			ptrack_t->type = 100 + (detId - 4) * 10 + l; // [67, 89]-4 -> [23, 45]
+			ptrack_t->index = index;
 
 			track_ls.push_back(ptrack_t);
 		}

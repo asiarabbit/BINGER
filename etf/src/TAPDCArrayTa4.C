@@ -12,7 +12,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2019/9/25.															     //
-// Last modified: 2019/9/25, SUN Yazhou.										     //
+// Last modified: 2019/10/8, SUN Yazhou.										     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2019, SUN Yazhou.											     //
@@ -40,9 +40,12 @@
 #include "TAAnodeData.h"
 #include "TAPlaStrip.h"
 #include "TAGPar.h"
+#include "TAEventProcessor.h"
+#include "tEntry.h"
 
 
 //#define DEBUG_MAP // debugging the map function
+//#define DEBUG_MAP_FINAL // only show the mapping result
 
 using std::cout;
 using std::endl;
@@ -117,11 +120,14 @@ void TAPDCArrayTa4::AssignTracks(vector<tTrack *> &track_ls){
 	TATrackTa4 *trkTa4 = fTrackTa4List[0];
 	TATrack2 *trk[2] = {trkTa4->GetTrackPreTa(), trkTa4->GetTrackPostTa()};
 
+	int index = TAEventProcessor::Instance()->GetEntryList()[0]->index;
 	tTrack *ptrack_t = nullptr; // a temporary variable
 	for(int i = 0; i < 2; i++){
 		ptrack_t = new tTrack;
 		trk[i]->AssignTrack(ptrack_t);
 		ptrack_t->type = 120 + i*10; // [pre-post]: [120, 130]
+		ptrack_t->index = index;
+
 		track_ls.push_back(ptrack_t);
 	} // end for over i	
 } // end member function AssignTracks
@@ -176,7 +182,7 @@ bool TAPDCArrayTa4::Map(){
 	char tail[64] = ""; // for naming newTrack
 //	const double chiThre = clp->ChiThre(UID);
 //	const double chiThrePD = clp->ChiThrePD(UID); // chi threshold per dot
-	const double chiThrePD = 3.; // unit: mm
+	const double chiThrePD = 2.8; // unit: mm
 	const double chiThre = chiThrePD * 0.8; // XXX: exacting chi control
 	short nAnodePerLayer[2][2]{};
 	for(int i = 2; i--;) for(int j = 2; j--;){
@@ -327,10 +333,10 @@ bool TAPDCArrayTa4::Map(){
 		} // end for over i
 		double d2Extra = TAMath::Dx2DxTa_2(kl[0], kl[1], k2, bl[0], bl[1], b2);
 #ifdef DEBUG_MAP
-		cout << "d2Extra: " << d2Extra << "\tchi2ExtraThre * 1.5: " << chi2ExtraThre * 1.5 << endl; // DEBUUG
+		cout << "d2Extra: " << d2Extra << "\tchi2ExtraThre * 2.0: " << chi2ExtraThre * 2.0 << endl; // DEBUUG
 		getchar(); // DEBUG
 #endif
-		if(d2[0] < d2Thre * nFiredAnodeLayer[0] && d2[1] < d2Thre * nFiredAnodeLayer[1] && d2Extra < chi2ExtraThre * 1.5){
+		if(d2[0] < d2Thre * nFiredAnodeLayer[0] && d2[1] < d2Thre * nFiredAnodeLayer[1] && d2Extra < chi2ExtraThre * 2.0){
 #ifdef DEBUG_MAP
 			cout << "\033[31;1mBINGO!\033[0m" << endl; // DEBUG
 			getchar(); // DEBUG
@@ -423,7 +429,7 @@ bool TAPDCArrayTa4::Map(){
 			} // end for over i
 //			cout << "mark 2" << endl; // DEBUG
 			if(newTrack.GetChi2Extra() > GetChi2ExtraThre()) isBadTrack = true;
-			if(fabs(newtrk[0]->GetSlope() - newtrk[1]->GetSlope()) > 0.011){
+			if(fabs(newtrk[0]->GetSlope() - newtrk[1]->GetSlope()) > 0.013){
 				isBadTrack = true; // 0.011: 3 sigma of dk. Heng!
 			}
 //			cout << "mark 3" << endl; // DEBUG
@@ -486,7 +492,8 @@ bool TAPDCArrayTa4::Map(){
 	} // end of DC0-X2 loop
 	} // end of DC0-X1 loop
 	/////////////////////////////////////////////////////////////////////////
-#ifdef DEBUG_MAP
+
+#ifdef DEBUG_MAP_FINAL
 // sleep(3);
 	TAPopMsg::Debug(GetName().c_str(), "map: track.size(): %d", track.size());
 	for(auto t : track) t->Show(); // DEBUG

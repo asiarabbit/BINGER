@@ -19,7 +19,6 @@
 #include <climits>
 #include "TAPopMsg.h"
 #include "TACtrlPara.h"
-#include "TAPDCArrayTa4.h"
 
 using std::string;
 using std::vector;

@@ -41,7 +41,7 @@ const double TAMath::kzMagOut = 560.5;
 // count of calling of the objective function
 unsigned long long TAMath::kCallCnt = 0;
 // the relative variance: V / sigma_DC
-const double TAMath::kVdxTa = 1.72;
+const double TAMath::kVdxTa = 2.5;
 const double TAMath::kVdx2 = 7.5;
 
 // length of the vector, len: vector dimension

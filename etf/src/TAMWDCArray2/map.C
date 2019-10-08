@@ -17,6 +17,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 
 //#define DEBUG_MAP
+//#define DEBUG_MAP_FINAL
 
 static TACtrlPara *clp = TACtrlPara::Instance();
 // subordinate function of void Map();
@@ -314,7 +315,7 @@ bool TAMWDCArray2::Map(TAMWDC **MWDC, vector<TATrack2 *> &track, int dcType){
 	} // end of DC0-X2 loop
 	} // end of DC0-X1 loop
 
-#ifdef DEBUG_MAP
+#ifdef DEBUG_MAP_FINAL
 //	sleep(3);
 	TAPopMsg::Debug(GetName().c_str(), "map: track.size(): %d", track.size());
 	for(auto &t : track) t->Show();

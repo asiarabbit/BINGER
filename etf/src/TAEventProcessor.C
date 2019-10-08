@@ -426,7 +426,7 @@ void TAEventProcessor::FillTrack(TGraph *gTrack, TGraph *gTrack_R) const{
 	static TAParaManager::ArrDet_t &detList = GetParaManager()->GetDetList();
 	static TAMWDCArray *dcArr[2] = {(TAMWDCArray*)detList[3], (TAMWDCArray*)detList[4]};
 	static TAMWDCArray2 *dcArr2[2] = {(TAMWDCArray2*)detList[6], (TAMWDCArray2*)detList[7]};
-	static TAMWDCArray2 *pdcArr2[2] = {(TAMWDCArray2*)detList[8], (TAMWDCArray2*)detList[9]};
+//	static TAMWDCArray2 *pdcArr2[2] = {(TAMWDCArray2*)detList[8], (TAMWDCArray2*)detList[9]};
 	static TAPDCArrayTa4 *pdcArrayTa4 = TAPDCArrayTa4::Instance();
 	for(int i = 2; i--;){
 		if(dcArr[i]) dcArr[i]->FillTrack(gTrack, gTrack_R);

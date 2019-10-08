@@ -282,11 +282,11 @@
 # PDC global delay - delay_PDCU0
 98 -14.0
 # PDC global delay - delay_PDCU1
-99 -16.5
+99 -10.6
 # PDC global delay - delay_PDCD0
-100 -32.0
+100 -28.8
 # PDC global delay - delay_PDCD1
-101 -30.5
+101 -28.3
 ######### PDC Tracking Control ############
 # D2Thre - PDC
 102 40.

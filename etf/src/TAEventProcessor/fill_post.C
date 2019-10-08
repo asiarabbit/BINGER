@@ -89,7 +89,6 @@
 				}
 			} // end for over k
 			TOT_DC_Avrg[j] = tra->dcTOTAvrg();
-			index = tra->index; // indexes are the same in the loop
 
 			// particle identification //
 			int ii = 0; taHitX[j] = -9999.; tof2[j] = -9999.; sipmArrStripId[j] = -1;
@@ -446,25 +445,35 @@
 		} // end for over 3D tracks
 
 		// update drift time, drift distance and dcTOTs before filling the trees
-		for(int j = 0; j < ntrT; j++){
+		for(int j = 0; j < ntrT; j++){ // assign track_ls to treeTrack. loop over tracks
 			tTrack *&tra = track_ls[j];
-			for(int k = 0; k < 6; k++){
-				t[j][k] = tra->t[k]; // altered by DriftTimeCorrection()
-				r[j][k] = tra->r[k]; // updated with the altered time
-				TOT_DC[j][k] = tra->dcTOT[k]; // update TOT
-			}
-			TOT_DC_Avrg[j] = tra->dcTOTAvrg(); // update TOTAvrg
+			type[j] = tra->type; id[j] = tra->id;
+			k[j] = tra->k; b[j] = tra->b; TOF[j] = tra->TOF; d2[j] = tra->dsquare;
+			gGOOD[j] = tra->gGOOD; chi2[j] = tra->chi2; Chi[j] = tra->Chi;
+			for(int k = 0; k < 6; k++){ // loop over anode layers
+				nu[j][k] = tra->nu[k];
+				t[j][k] = tra->t[k];
+				w[j][k] = tra->w[k];
+				r[j][k] = tra->r[k];
+				chi[j][k] = tra->chi[k];
+			} // end for over k
+			TOT_DC_Avrg[j] = tra->dcTOTAvrg();
 		} // end for over tracks
+
+		/// XXX THE TREE FILLING XXX ///
 		for(TTree *&tree : objLsTree) tree->Fill();
-		double eff3D = cnt3DTrk/3.;
-		if(0 == cntTrk) eff3D = 0.; else eff3D /= cntTrk;
-		gTrkEff->SetPoint(gTrkEff->GetN(), cntSec, eff3D);
+		/// XXX XXX XXX XXX XXX XXX ///
+
+
+//		double eff3D = cnt3DTrk/3.;
+//		if(0 == cntTrk) eff3D = 0.; else eff3D /= cntTrk;
+//		gTrkEff->SetPoint(gTrkEff->GetN(), cntSec, eff3D);
 
 		if(0) vis->FillHitMap();
 		static int jj = 0;
 		static const int jjM = 50;
 
-/*		// the CONDITION for visualization //
+		// the CONDITION for visualization //
 		static const int indexArr1[] = { // for CUTG1
 			4265, 7277, 42704, 50557, 50820};
 		static const int indexArr2[] = { // for CUTG2
@@ -476,9 +485,9 @@
 		for(const int t : indexArr1) if(t == index) { BINGO = true; break; }
 		for(const int t : indexArr2) if(t == index) { BINGO = true; break; }
 		for(const int t : indexArr3) if(t == index) { BINGO = true; break; }
-*/
 
-		if(jj < jjM){ //  && -9999 != aoz[0] //  && BINGO
+
+		if(jj < jjM && BINGO){ //  && -9999 != aoz[0] // 
 			jj++;
 			static int i0 = 0;
 			if(0 == i0){ // to make sure that this block would only be carried out once
