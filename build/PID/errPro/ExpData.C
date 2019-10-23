@@ -28,7 +28,8 @@ void ExpData::print() const{
 	cout << fVal << "(" << fErr << ", " << rel << "%)";
 }
 std::ostream &operator<<(std::ostream &os, const ExpData &data){
-	os << data.fVal;
+	const double rel = data.fErr / data.fVal * 100.;
+	os << data.fVal << "(" << data.fErr << ", " << rel << "%)";
 	return os;
 }
 const ExpData &ExpData::operator+=(const ExpData &data){
@@ -69,6 +70,22 @@ ExpData ExpData::operator*(const ExpData &data) const{
 }
 ExpData ExpData::operator/(const ExpData &data) const{
 	return ExpData(*this) /= data;
+}
+
+ExpData Sqrt(const ExpData &p){
+	double val = sqrt(p.val());
+	double err = p.err() / (2.*val);
+	return ExpData(val, err);
+}
+ExpData operator+(double x, const ExpData &p){
+	return ExpData(x+p.val(), p.err());
+}
+ExpData operator-(double x, const ExpData &p){
+	return ExpData(x-p.val(), p.err());
+}
+ExpData Exp(const ExpData &p){
+	const double ep = exp(p.val());
+	return ExpData(ep, ep*p.err());
 }
 
 

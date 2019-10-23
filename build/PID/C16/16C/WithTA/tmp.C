@@ -39,17 +39,23 @@ void tmp(){
 
 //	treeTrack->Draw("dE0:tof1>>h(500, 120., 152., 500, -0.5, 4.5)", "dsca11==0;tof1 [ns];dE0;", "col");
 //	treeTrack->Draw("dE0:PDCPos[2][1]>>h(500, -50., 50., 500, -0.5, 4.5)", "dsca11==0&&PDCPos[2][1]!=-9999.;PDCPos[2][1] [mm];dE1 arb.;", "");
-//	treeTrack->Draw("dE0+(PDCPos[1][1]*(0.005*dE0-0.0016)):PDCPos[1][1]>>h(500, -50., 50., 500, -0.5, 4.5)", "dsca11==0&&PDCPos[1][1]!=-9999.;PDCPos[1][1] [mm];dE0-corrected arb.;", "col");
 //	treeTrack->Draw("dE0+(PDCPos[1][1]*(0.005*dE0-0.0016)):tof1>>h(500, 120., 150., 500, 0., 4.5)", "dsca11==0&&PDCPos[1][1]!=-9999.;tof1 [ns];dE0-corrected arb.;", "col");
 //	treeTrack->Draw("dE1:dE0+(PDCPos[1][1]*(0.005*dE0-0.0016))>>h(500, -1., 5., 500, -1., 5.)", "1;dE0-corrected arb.;dE1 arb.;", "col");
 //	treeTrack->Draw("dE0+(PDCPos[1][1]*(0.005*dE0-0.0016)):tof1>>h(500, 120., 152., 500, -0.5, 4.5)", "dsca11==0;tof1[ns];dE0-corrected arb.;", "col");
-
 //	const char *cutOpt[] = {"dE1>2.65", "dE1>2.2&&dE1<2.65", "dE1>1.7&&dE1<2.15", "dE1>1.2&&dE1<1.6"}; // [0-3]: [O-N-C-B]
-//	treeTrack->Draw("aoz[0]:TOFWPos[0]>>h(500, -700., 700., 500, 1.4, 3.)", "dsca11==0&&A0&&(dx2[0]>-9&&dx2[0]<4)&&dE1>1.1&&dE1<1.5;TOFWPosX [mm];aoz;", "colbox");
+//	treeTrack->Draw("aoz[0]:TOFWPos[0]>>h(500, -700., 700., 500, 1.4, 3.)", "dsca11==0&&A0&&dE1>1.5;TOFWPosX [mm];aoz;", "colbox");
+
+
+	// OFFTA && tofwslit
+//	treeTrack->Draw("poz[0]:tof2[0]>>h(500, 60., 72., 500, 1300., 2200.)", "dsca11==0&&A0&&B0&&C0;tof2;poz;", "col");
+//	treeTrack->Draw("tof2[0]:aoz[0]>>h(500, 2., 3., 500, 55., 73.)", "dsca11==0&&A0&&B0&&C0&&dE1>1.5;aoz;tof2;", "col");
+	// A0
+//	treeTrack->Draw("dE0+(PDCPos[1][1]*(0.005*dE0-0.0016)):PDCPos[1][1]>>h(500, -50., 50., 500, -0.5, 4.5)", "dsca11==0&&PDCPos[1][1]!=-9999.;PDCPos[1][1] [mm];dE0-corrected arb.;", "col");
+	// B0
 //	treeTrack->Draw("taHitPos[0][1]:taHitPos[0][0]>>h(500, -40., 40., 500, -40., 40.)", "dsca11==0&&A0;taHitPosX [mm];taHitPosY [mm];", "col");
-//	treeTrack->Draw("poz[0]:tof2[0]>>h(500, 50., 80., 500, 800., 2200.)", "dsca11==0&&A0&&B0&&C0;tof2;poz;", "col");
-//	treeTrack->Draw("tof2[0]:aoz[0]>>h(500, 1.4, 2.6, 500, 63., 73.)", "dsca11==0&&A0&&B0&&C0&&dE1>2.75;aoz;tof2;", "col");
-	treeTrack->Draw("dE1:aoz[0]>>h(500, 1.8, 3.7, 500, 0., 4.5)", "dsca11==0&&A0&&B0&&C0&&(dx2[0]>-9&&dx2[0]<5.5)&&dsca[4]==1;aoz;dE1 arb.;", "colbox");
+	// C0
+//	treeTrack->Draw("t0_1Pos[1]:t0_1Pos[0]>>(500, -60., 60., 500, -60., 60.)", "dsca11==0&&PDCPos[1][1]!=-9999.&&!C0", "col")
+	treeTrack->Draw("dE1:aoz[0]>>h(500, 1.8, 3.7, 500, 0., 4.5)", "dsca11==0&&A0&&B0&&C0;aoz;dE1 arb.;", "colbox");
 
 
 
@@ -62,7 +68,7 @@ void tmp(){
 
 
 
-	return;
+//	return;
 //	treeTrack->Draw("dE1:aoz[0]>>h(500, 1.4, 3., 500, 0., 4.5)", "dsca11==0&&A0&&B0&&C0&&(dx2[0]>-9&&dx2[0]<4)&&sca1drv<0.5;aoz;dE1 arb;", "colbox"); // 
 //	treeTrack->Draw("TOT_DC_Avrg[0]:dE1>>h(500, 0., 4.5, 500, -10., 1000.)", "A0&&B0&&C0&&ntrT==7", "colbox");
 
@@ -91,12 +97,12 @@ void tmp(){
 //	treeTrack->Draw("(TOT_DC_Avrg[0]+TOT_DC_Avrg[1]+TOT_DC_Avrg[2])/3.:dE1>>h(500, -1., 4.5, 500, 0., 500.)", "ntrLs[1][0]==1&&ntrLs[1][1]==1&&ntrLs[1][2]==1&&A0", "col");
 //	treeTrack->Draw("(TOT_DC_Avrg[0]+TOT_DC_Avrg[1]+TOT_DC_Avrg[2])/300.:aoz[0]>>h(500, 1.4, 4., 500, 0., 6.)", "ntrLs[1][0]==1&&ntrLs[1][1]==1&&ntrLs[1][2]==1&&A0", "col");
 
-	cut = "dsca11 == 1";
-	cut += " && tRef_vme0ul[0] != -9999. && tRef_vme0ul[1] != -9999.";
-	cut += " && tRef_vme0dl[0] != -9999. && tRef_vme0dl[1] != -9999.";
-	cut += " && tRef_vme1ul[0] != -9999. && tRef_vme1ul[1] != -9999.";
-	cut += " && tRef_vme1dl[0] != -9999. && tRef_vme1dl[1] != -9999.";
-	cut += ";tl[1]-tl[0] [ns];dE1 arb.;";
+//	cut = "dsca11 == 1";
+//	cut += " && tRef_vme0ul[0] != -9999. && tRef_vme0ul[1] != -9999.";
+//	cut += " && tRef_vme0dl[0] != -9999. && tRef_vme0dl[1] != -9999.";
+//	cut += " && tRef_vme1ul[0] != -9999. && tRef_vme1ul[1] != -9999.";
+//	cut += " && tRef_vme1dl[0] != -9999. && tRef_vme1dl[1] != -9999.";
+//	cut += ";tl[1]-tl[0] [ns];dE1 arb.;";
 //	treeTrack->Draw("(tRef_vme0ul[1]-tRef_vme0ul[0]):dE1>>h(500, -0.1, 4.5, 500, -2000., 8000.)", "tRef_vme0ul[1]!=-9999", "col");
 //	treeTrack->Draw("(tRefLT_U[1]-tRefLT_U[0]):dE1>>h(500, -0.1, 4.5, 500, -2000., 8000.)", "tRefLT_U[1]!=-9999", "col");
 //	cout << "cut: " << cut << endl; // DEBUG
@@ -115,7 +121,7 @@ void tmp(){
 
 	vector<TCutG *> cutgLs;
 	// list of nuclides to be shown in the PID spectrum //
-	vector<const char *> nclLs = {"C16", "C15", "C14", "C13", "B15", "B14", "B13", "B12", "B11", "Be12", "Be11", "Be10", "Be9"};
+	vector<const char *> nclLs = {"C16", "C16Ori", "C15", "C14", "C13", "B15", "B14", "B13", "B12", "B11", "Be12", "Be11", "Be10", "Be9", "C16R", "C16U"};
 	for(const char *n: nclLs) cutgLs.push_back((TCutG*)f->Get(n));
 	if(pidShow) for(TCutG *c : cutgLs){
 		c->Draw("same");
@@ -144,10 +150,20 @@ void tmp(){
 //	treeTrack->Draw("dE1:dE0>>(500, -1., 5., 500, -1., 5.)", "multi_PDC[0][0][0][0]==1&&multi_PDC[0][0][0][1]==1&&multi_PDC[0][0][1][0]==1&&multi_PDC[0][0][1][1]==1&&multi_PDC[0][1][0][0]==1&&multi_PDC[0][1][0][1]==1&&multi_PDC[0][1][1][0]==1&&multi_PDC[0][1][1][1]==1&&dsca11==0&&dsca10==1&&multi_PDC[1][0][0][0]==1&&multi_PDC[1][0][0][1]==1&&multi_PDC[1][0][1][0]==1&&multi_PDC[1][0][1][1]==1&&multi_PDC[1][1][0][0]==1&&multi_PDC[1][1][0][1]==1&&multi_PDC[1][1][1][0]==1&&multi_PDC[1][1][1][1]==1&&multi_DC[1][0][0][0]==1&&multi_DC[1][0][0][1]==1&&multi_DC[1][0][1][0]==1&&multi_DC[1][0][1][1]==1&&multi_DC[1][0][2][0]==1&&multi_DC[1][0][2][1]==1&&multi_DC[1][1][0][0]==1&&multi_DC[1][1][0][1]==1&&multi_DC[1][1][1][0]==1&&multi_DC[1][1][1][1]==1&&multi_DC[1][1][2][0]==1&&multi_DC[1][1][2][1]==1&&multi_DC[1][2][0][0]==1&&multi_DC[1][2][0][1]==1&&multi_DC[1][2][1][0]==1&&multi_DC[1][2][1][1]==1&&multi_DC[1][2][2][0]==1&&multi_DC[1][2][2][1]==1", "col")
 
 
-	const double mainBeam = treeTrack->GetEntries("dsca11==0&&A0&&B0&&C0&&dE1>1.50&&aoz[0]>0.");
+	TCutG *C16Ori = (TCutG*)f->Get("C16Ori");
+	const double mainBeam = treeTrack->GetEntries("dsca11==0&&A0&&B0&&C0&&C16Ori");
 	const double bullsEye = treeTrack->GetEntries("dsca11==0&&A0&&B0&&C0&&C16");
-	cout << "tof2_PU eff: " << bullsEye << "/" << mainBeam << ": ";
+	cout << "tof2_PU_dx2 eff: " << bullsEye << "/" << mainBeam << ": ";
 	errDiv(bullsEye, sqrt(bullsEye), mainBeam, sqrt(mainBeam));
+	// eR and eU
+	TCutG *C16R = (TCutG*)f->Get("C16R");
+	const double blurR = treeTrack->GetEntries("dsca11==0&&A0&&B0&&C0&&C16R");
+	cout << "eR: " << blurR << " / " << mainBeam << ": ";
+	errDiv(blurR, sqrt(blurR), mainBeam, sqrt(mainBeam));
+	TCutG *C16U = (TCutG*)f->Get("C16U");
+	const double blurU = treeTrack->GetEntries("dsca11==0&&A0&&B0&&C0&&C16U");
+	cout << "eU: " << blurU << " / " << mainBeam << ": ";
+	errDiv(blurU, sqrt(blurU), mainBeam, sqrt(mainBeam));
 
 	return;
 

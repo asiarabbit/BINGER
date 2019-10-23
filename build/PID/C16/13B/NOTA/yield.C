@@ -6,7 +6,7 @@ void yield(){
 	vector<TCutG *> cutgLs;
 
 	const int n = 100; // number of points for TCutG in the dE1-aoz spectrum
-	const char *nuclLs[] = {"B13", "B12", "B11", "Be12", "Be11", "Be10", "Be9", "Li7"};
+	const char *nuclLs[] = {"B13", "B12", "B11", "Be12", "Be11", "Be10", "Be9", "B13R", "B13U"};
 	for(const char *c : nuclLs) cutgLs.push_back(new TCutG(c, n));
 
 	for(TCutG *c : cutgLs){
@@ -22,10 +22,21 @@ void yield(){
 
 	// a: aoz - half length of the ellipse's major axis
 	// b: dE1 - half length of the ellipse's minor axis
-	const double x0[] = {2.70, 2.49, 2.28, 3.10, 2.86, 2.60, 2.36, 2.43}; // aoz
-	const double a[]  = {0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07}; // aoz
-	const double y0[] = {1.19, 1.19, 1.19, 0.83, 0.83, 0.83, 0.83, 0.58}; // dE1
-	const double b[]  = {0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15}; // dE1
+	vector<double> x0 = {2.61, 2.41, 2.21, 3.01, 2.76, 2.51, 2.26}; // aoz
+	vector<double> a  = {0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07}; // aoz
+	vector<double> y0 = {1.19, 1.19, 1.19, 0.83, 0.83, 0.83, 0.83}; // dE1
+	vector<double> b  = {0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15}; // dE1
+	// for C16U and C16R //
+	double daoz = fabs(x0[0] - x0[1]), ddE1 = fabs(1.73 - 1.27);
+	// C16R
+	x0.push_back(x0[0] + daoz); y0.push_back(y0[0]);
+	a.push_back(a[0]); b.push_back(b[0]);
+	// C16U
+	x0.push_back(x0[0]); y0.push_back(y0[0] + ddE1);
+	a.push_back(a[0]); b.push_back(b[0]);
+
+
+
 	const int nCut = cutgLs.size();
 	
 	for(int I = 0; I < nCut; I++){

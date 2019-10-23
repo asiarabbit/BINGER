@@ -342,6 +342,11 @@ void TATrack::Fit(){
 			fChi2 += fChi[fLAYER[i]] * fChi[fLAYER[i]] * fWeight[fLAYER[i]];
 		}
 	}
+	if(-9999. != fNStripStray){
+		if(-1. == fNStripStray)
+			TAPopMsg::Warn(GetName().c_str(), "Fit: fNStripStray is -1.");
+		fChi2 += fNStripStray * fNStripStray;
+	}
 
 	fIsFitted = true;
 } // end of member function void fit().
@@ -452,7 +457,7 @@ void TATrack::Initialize(){
 		fLAYER[i] = -1;
 		fChi[i] = -9999.;
 	} // end for over i
-	fTOF = -9999.; fNStripStray = -1.; fFiredStripId = -1; fBeta = -1.;
+	fTOF = -9999.; fNStripStray = -9999.; fFiredStripId = -1; fBeta = -1.;
 	fgGOOD = -1; fNFiredAnodeLayer = -1; fK = -9999.; fB = -9999.; fChi2 = -9999.;
 	fDsquare = -9999.; fIsFitted = false; fIsAssigned = false; f3DId = -1;
 	for(double &x : fXMiss3D) x = -9999.;

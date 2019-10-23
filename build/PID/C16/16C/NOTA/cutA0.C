@@ -26,7 +26,7 @@ void cutA0(){
 		A0->SetPoint(i, x, y);
 	} // end for over i
 	A0->Write("", TObject::kOverwrite);
-	
+
 	// target zone //
 	TCutG *B0 = new TCutG("B0", 5);
 	B0->SetLineColor(2);

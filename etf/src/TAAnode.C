@@ -147,16 +147,22 @@ double TAAnode::GetDriftDistance(double dt, int STR_id){ // k is the track slope
 	double r_base = GetAnodePara()->GetSTR(STR_id)->Eval(dt); // the base drift distance
 	const short detId = GetAnodePara()->GetDetId();
 	if(8 == detId || 9 == detId){ // PDC array, large drift cells - 10mm max drift distance
-//		static const double p[8] = {0.197687, 0.0210968, 0.00048929, -4.14001e-06, 1.47029e-08, -2.68446e-11, 2.44614e-14, -8.70991e-18};
-		static const double p[8] = {0.650296, 0.0424339, 9.17833e-05, -1.63012e-06, 6.938e-09, -1.43108e-11, 1.46396e-14, -5.94383e-18};
-		r_base = p[7]*pow(dt,7)+p[6]*pow(dt,6)+p[5]*pow(dt,5)+p[4]*pow(dt,4)+p[3]*dt*dt*dt+p[2]*dt*dt+p[1]*dt+p[0]; // DEBUG
+		// par set of pol7
+		static const double p[2][8] = {
+			{0.558612, 0.0312021, 0.000291404, -3.45138e-06, 1.60148e-08, -3.92739e-11, 5.02595e-14, -2.6527e-17},
+			{0.504161, 0.0306897, 0.000301748, -3.61528e-06, 1.72443e-08, -4.36404e-11, 5.75065e-14, -3.1056e-17},
+		};
+		const int i = detId - 8; r_base = 0.;
+		for(int j = 0; j < 8; j++) r_base += p[i][j] * pow(dt, j);
+//		r_base = p[i][7]*pow(dt,7)+p[i][6]*pow(dt,6)+p[i][5]*pow(dt,5)+p[i][4]*pow(dt,4)+p[i][3]*dt*dt*dt+p[i][2]*dt*dt+p[i][1]*dt+p[i][0]; // DEBUG
+
 		if(r_base < 0. || dt < -10.) r_base = 0.; // DEBUG
 		if(r_base > 10. || dt > 550.) r_base = 10.; // DEBUG
 
 //		cout << "dt: " << dt << "\tr_base: " << r_base << endl; // DEBUG
 //		getchar(); // DEBUG
 //		return r_base;
-	}
+	} // end if PDC array
 	double r_correct = GetDriftDistanceCorrection(r_base, STR_id); // the anode-specific drift distance corection, determined by STR autocalibration
 //	r_correct = GetDriftDistanceCorrection(r_base+r_correct, STR_id); // so the drift distance bin would be more accurate
 	double r = r_base + r_correct;

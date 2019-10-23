@@ -192,7 +192,7 @@
 					if(nullptr == tArr[jj*2] || nullptr == tArr[jj*2+1]) continue; // select valid DCArr (U or D)
 					//////  Assign anode position and track information for 3D fitting /////////////
 					const int nF = tArr[jj*2]->nFiredAnodeLayer + tArr[jj*2+1]->nFiredAnodeLayer;
-					double Ag[nF][3]{}, ag[nF][3]{}, rr[nF]{}, trkVec[4]{};
+					double Ag[nF][3], ag[nF][3], rr[nF], trkVec[4];
 					trkVec[0] = tArr[jj*2]->k;   trkVec[2] = tArr[jj*2]->b;   // X
 					trkVec[1] = tArr[jj*2+1]->k; trkVec[3] = tArr[jj*2+1]->b; // Y
 					int tmp = 0;
@@ -276,7 +276,8 @@
 		// PID using the DC array downstream the target and the DC array downstream the dipole magnet
 		// veto before target // 
 		if(1 || (4 != VETO_0->GetFiredStatus() && 4 != VETO_1->GetFiredStatus()))
-		if(IsPID() && 1 == ntrLs[3][0]){ // only one trk in DCArrD, or no pid is possible
+		if(IsPID() && ntrLs[3][0] >= 1){ // at least one trk in DCArrD, or no pid is possible
+			// only one trk in DCArrR, or no pid is possible
 			if(1 == n3DtrLs[1] || (0 == n3DtrLs[1] && 1 == ntrLs[1][0])){
 
 				///// ameliorate tracks around TA using new algorithm ///////
@@ -302,7 +303,7 @@
 				pdcArrayTa4->SetIsReady(true); /// XXX-2019-09-26
 				pdcArrayTa4->SetPostMagXproj(pOut[0], pOut[2]); // k, b
 				pdcArrayTa4->Map();
-				if(pdcArrayTa4->ZeroTrack()) continue; // no splined trk is found
+				
 
 
 //				bool GOING = false; // DEBUG
@@ -359,58 +360,59 @@
 					} // end for over jj
 				} // end outer if
 
+				if(!pdcArrayTa4->ZeroTrack()){
+					static TAPID::OPTION pidOpt = (TAPID::OPTION)(GetGPar()->Val(109));
+					pid->Fly(tof2[0], -9999., pOut, 1, pidOpt, pIn, pIn0);
+					aoz[0] = pid->GetAoZ(); aozdmin[0] = pid->GetChi();
+					beta2[0] = pid->GetBeta(); poz[0] = pid->GetPoZ(); // MeV/c
+					brho[0] = pid->GetBrho(); // T.m
+					pid->GetTargetExitAngle(yp[0]); trkLenT[0] = pid->GetTotalTrackLength();
+					pid->GetX2Arr(x2_PID[0]);
+					if(-9999. == x2_PID[0][0] || -9999. == x2_PID[0][1]) dx2_PID[0] = -9999.;
+					else{
+						if(TAPID::kOpt4 == pidOpt) dx2_PID[0] = x2_PID[0][0] - x2_PID[0][1];
+						if(TAPID::kOpt0 == pidOpt || TAPID::kOpt1 == pidOpt || TAPID::kOpt3 == pidOpt)
+							dx2_PID[0] = sqrt(x2_PID[0][0]*x2_PID[0][0] + x2_PID[0][1]*x2_PID[0][1]); // d - taHitCal v.s. taHitReal
+					}
+	//				cout << "x2_PID[0][0]: " << x2_PID[0][0] << "\tx2_PID[0][1]: " << x2_PID[0][1] << endl; // DEBUG
+	//				cout << "dx2_PID[0]: " << dx2_PID[0] << endl; // DEBUG
+	//				getchar(); // DEBUG
+					if(aozdmin[0] > 100. || -9999. == aoz[0]){
+						cntaozWrong++;
+	//					cout << "index: " << index << endl; // DEBUG
+					}
+					// assign 3D PID result //
+					if(Is3DTracking()){
+						t3DPIDInfo &pi = pid3DIf[0];
+						pi.aoz = pid->GetAoZ();
+						pi.aozdmin = pid->GetChi();
+						pi.beta2 = pid->GetBeta();
+						pi.poz = pid->GetPoZ();
+						pi.brho = pid->GetBrho();
+						pid->GetTargetExitAngle(pi.angTaOut);
+						pi.trkLenT = pid->GetTotalTrackLength();
+					}
+					if(0) if(aoz[0] > 0.){ // 
+						cout << "index: " << index << endl; // DEBUG
+						cout << "aoz: " << aoz[0] << "\ttrkLenT: " << trkLenT[0] << endl; // DEBUG
+						cout << "aozdmin: " << aozdmin[0] << endl; // DEBUG
+						cout << "poz[0]: " << poz[0] << endl; // DEBUG
+						cout << "brho[0]: " << brho[0] << " poz[0]: " << poz[0] << endl; // DEBUG
+						cout << "brhoc[0]: " << poz[0] / (0.321840605 * 931.493582); // DEBUG
+						cout << "rho: " << brho[0]*1000./1.3848 << endl; // DEBUG
+						cout << "rhoc: " << brho[0]*1000./1.3848 << endl; // DEBUG
+						cout << "beta: " << pid->GetBeta() << endl; // DEBUG
+						cout << "tof2[0]: " << tof2[0] << endl; // DEBUG
+						getchar(); // DEBUG
+					} // end if
 
-				static TAPID::OPTION pidOpt = (TAPID::OPTION)(GetGPar()->Val(109));
-				pid->Fly(tof2[0], -9999., pOut, 1, pidOpt, pIn, pIn0);
-				aoz[0] = pid->GetAoZ(); aozdmin[0] = pid->GetChi();
-				beta2[0] = pid->GetBeta(); poz[0] = pid->GetPoZ(); // MeV/c
-				brho[0] = pid->GetBrho(); // T.m
-				pid->GetTargetExitAngle(yp[0]); trkLenT[0] = pid->GetTotalTrackLength();
-				pid->GetX2Arr(x2_PID[0]);
-				if(-9999. == x2_PID[0][0] || -9999. == x2_PID[0][1]) dx2_PID[0] = -9999.;
-				else{
-					if(TAPID::kOpt4 == pidOpt) dx2_PID[0] = x2_PID[0][0] - x2_PID[0][1];
-					if(TAPID::kOpt0 == pidOpt || TAPID::kOpt1 == pidOpt || TAPID::kOpt3 == pidOpt)
-						dx2_PID[0] = sqrt(x2_PID[0][0]*x2_PID[0][0] + x2_PID[0][1]*x2_PID[0][1]); // d - taHitCal v.s. taHitReal
-				}
-//				cout << "x2_PID[0][0]: " << x2_PID[0][0] << "\tx2_PID[0][1]: " << x2_PID[0][1] << endl; // DEBUG
-//				cout << "dx2_PID[0]: " << dx2_PID[0] << endl; // DEBUG
-//				getchar(); // DEBUG
-				if(aozdmin[0] > 100. || -9999. == aoz[0]){
-					cntaozWrong++;
-//					cout << "index: " << index << endl; // DEBUG
-				}
-				// assign 3D PID result //
-				if(Is3DTracking()){
-					t3DPIDInfo &pi = pid3DIf[0];
-					pi.aoz = pid->GetAoZ();
-					pi.aozdmin = pid->GetChi();
-					pi.beta2 = pid->GetBeta();
-					pi.poz = pid->GetPoZ();
-					pi.brho = pid->GetBrho();
-					pid->GetTargetExitAngle(pi.angTaOut);
-					pi.trkLenT = pid->GetTotalTrackLength();
-				}
-				if(0) if(aoz[0] > 0.){ // 
-					cout << "index: " << index << endl; // DEBUG
-					cout << "aoz: " << aoz[0] << "\ttrkLenT: " << trkLenT[0] << endl; // DEBUG
-					cout << "aozdmin: " << aozdmin[0] << endl; // DEBUG
-					cout << "poz[0]: " << poz[0] << endl; // DEBUG
-					cout << "brho[0]: " << brho[0] << " poz[0]: " << poz[0] << endl; // DEBUG
-					cout << "brhoc[0]: " << poz[0] / (0.321840605 * 931.493582); // DEBUG
-					cout << "rho: " << brho[0]*1000./1.3848 << endl; // DEBUG
-					cout << "rhoc: " << brho[0]*1000./1.3848 << endl; // DEBUG
-					cout << "beta: " << pid->GetBeta() << endl; // DEBUG
-					cout << "tof2[0]: " << tof2[0] << endl; // DEBUG
-					getchar(); // DEBUG
-				} // end if
-
-				cntaoz++;
+					cntaoz++;
+				} // end if no splined track is found
 //				cout << "mark 1, cntaoz: " << cntaoz << endl; getchar(); // DEBUG
 			} // end inner if
 		} // end the outer if
-		
-		
+
+
 
 
 //		cout << "n3Dtr: " << n3Dtr << endl; getchar(); // DEBUG
@@ -444,6 +446,8 @@
 			} // end if(IsPID())
 		} // end for over 3D tracks
 
+
+		////////////////// UPDATE AFTER RE-TRACKING ////////////////////////////
 		// update drift time, drift distance and dcTOTs before filling the trees
 		for(int j = 0; j < ntrT; j++){ // assign track_ls to treeTrack. loop over tracks
 			tTrack *&tra = track_ls[j];
@@ -460,32 +464,52 @@
 			TOT_DC_Avrg[j] = tra->dcTOTAvrg();
 		} // end for over tracks
 
+		// update ntr variables //
+		memset(ntrLs, 0, sizeof(ntrLs));
+		for(tTrack *&t : track_ls){
+			const int dcArrId = t->type / 10 % 10, dcType = t->type % 10;
+			ntrLs[dcArrId][dcType]++;
+			if(dcArrId > 1 && 1 == dcType) cntTrkY++;
+			if(0 == dcType) cntTrkX++;
+		}
+		ntr = 0; ntrT = track_ls.size();
+		for(tTrack *&t : track_ls){
+			const short dcArrId = t->type / 10 % 10; // dcArrId
+			if(0 == dcArrId || 1 == dcArrId) ntr++; // ntr for MWDCArrayL-R
+		}
+		ntr = ntr < ntrMax ? ntr : ntrMax;
+
+
 		/// XXX THE TREE FILLING XXX ///
 		for(TTree *&tree : objLsTree) tree->Fill();
 		/// XXX XXX XXX XXX XXX XXX ///
+
+
 
 
 //		double eff3D = cnt3DTrk/3.;
 //		if(0 == cntTrk) eff3D = 0.; else eff3D /= cntTrk;
 //		gTrkEff->SetPoint(gTrkEff->GetN(), cntSec, eff3D);
 
-		if(0) vis->FillHitMap();
-		static int jj = 0;
-		static const int jjM = 50;
 
 		// the CONDITION for visualization //
 		static const int indexArr1[] = { // for CUTG1
-			4265, 7277, 42704, 50557, 50820};
+			81, 121, 636, 706, 719, 721, 727, 893, 992, 1136, 1454, 1604, 1607,
+1898, 2018, 2030, 2114, 2255, 2375, 2376, 2594, 2654, 2858, 2973, 2976};
 		static const int indexArr2[] = { // for CUTG2
-			18348, 32388, 59837, 69127, 81555};
+			12317, 14379, 17993, 24103, 24461, 25508, 36483, 45001, 50181, 55596, 57008, 59837, 68406, 74335, 81555, 93986, 105092, 109742, 116680, 120688, 126726, 127131, 132378, 132603, 137569};
 		static const int indexArr3[] = { // for CUTG3
-			26499, 32159, 35916, 39277, 40944};
+			413, 4478, 5544, 7728, 7834, 9408, 10149, 10336, 10734, 10821, 11350, 12728, 13614, 14012, 15311, 18184, 19209, 21690, 22617, 24220, 24338, 24371, 24645, 26499, 27907};
 		// to find a match
 		bool BINGO = false;
 		for(const int t : indexArr1) if(t == index) { BINGO = true; break; }
 		for(const int t : indexArr2) if(t == index) { BINGO = true; break; }
 		for(const int t : indexArr3) if(t == index) { BINGO = true; break; }
 
+
+		if(0) vis->FillHitMap();
+		static int jj = 0;
+		static const int jjM = 100;
 
 		if(jj < jjM && BINGO){ //  && -9999 != aoz[0] // 
 			jj++;

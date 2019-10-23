@@ -28,6 +28,8 @@
 #include "TAMath.h"
 #include "TAChData.h"
 
+//#define DEBUG
+
 TATOFWall::TATOFWall(const string &name, const string &title, unsigned uid)
 		: TADetector(name, title, uid), fNStrip(-9999){ // fNStrip initial value CANNOT be altered
 	fStripArr.reserve(30);
@@ -85,11 +87,15 @@ double TATOFWall::GetStripTime(int i, double t0, double t1, double t2) const{
 // t0, t1 and t2 are set for choosing time over edges
 // (time-t0) within t1 and t2 is chosen
 // t0, t1 and t2 using default values, choose the 1st edge
-double TATOFWall::GetTime(double kl, double bl, double &nstripStray, int &firedStripId, double t0, double t1, double t2) const{
+double TATOFWall::GetTime(double kl, double bl, double &nstripStray, int &firedStripId, double t0, double t1, double t2, double strayScale) const{
+	if(strayScale > 1.){
+		TAPopMsg::Warn(GetName().c_str(), "GetTime: strayScale larger than 1: %f", strayScale);
+	}
+
 	const double delayAvrg = GetDelayAvrg(); t0 += delayAvrg;
 //	cout << "t0: " << t0 << "\tt1: " << t1 << "\tt2: " << t2 << endl; // DEBUG
 	double nStripStray = -9999., nStripStrayMin = 9999.; // see the assignment below.
-	int minID = -1; // serial Id of the strip with minimum nStripStray.
+	int minID = -1; // serial Id of the strip with minimum nStripStray
 
 	const int n = GetNStrip();
 	for(int i = 0; i < n; i++){
@@ -104,14 +110,13 @@ double TATOFWall::GetTime(double kl, double bl, double &nstripStray, int &firedS
 //			cout << "(kl * p[2] - p[0] + bl) / sqrt(1. + kl * kl) / width: "; // DEBUG
 //			cout << (kl * p[2] - p[0] + bl) / sqrt(1. + kl * kl) / width << endl; // DEBUG
 //			cout << "nStripStray: " << nStripStray << endl; getchar(); // DEBUG
-//			cout << "nStripStray: " << nStripStray << endl; getchar(); // DEBUG
 
 			if(fabs(nStripStray) < fabs(nStripStrayMin)){
 				nStripStrayMin = nStripStray; minID = i;
 			}
 		}
 	} // end for over i
-	if(TACtrlPara::Instance()->TOFWallStripStrayTest(nStripStrayMin, GetUID())){
+	if(TACtrlPara::Instance()->TOFWallStripStrayTest(nStripStrayMin * strayScale, GetUID())){
 		if(minID >= 0){
 			firedStripId = minID;
 			nstripStray = nStripStrayMin;
@@ -119,6 +124,13 @@ double TATOFWall::GetTime(double kl, double bl, double &nstripStray, int &firedS
 			return GetStrip(minID)->GetTime(t0,t1,t2) - delayAvrg;
 		} // end if
 	} // end if
+#ifdef DEBUG
+	else{ // DEBUG
+		cout << "nStripStrayMin: " << nStripStrayMin << endl; // DEBUG
+		cout << "minID: " << minID << endl; // DEBUG
+		getchar(); // DEBUG
+	} // DEBUG
+#endif
 
 	nstripStray = -9999.;
 	firedStripId = -1;

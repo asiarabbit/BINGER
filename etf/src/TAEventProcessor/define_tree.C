@@ -251,39 +251,40 @@
 	double aoz3D[n3DtrMax], aozdmin3D[n3DtrMax], beta2_3D[n3DtrMax];
 	double yp3D[n3DtrMax][2], poz3D[n3DtrMax], brho3D[n3DtrMax], trkLenT3D[n3DtrMax];
 	t3DTrkInfo trk3DIf[n3DtrMax]; t3DPIDInfo pid3DIf[n3DtrMax];
-	TTree *treePID3D = new TTree("treePID3D", "PID using 3D Tracking and Refinement");
-//	treePID3D->SetAutoSave(1e7);
-	treePID3D->Branch("index", &index, "index/I");
-	treePID3D->Branch("n3Dtr", &n3Dtr, "n3Dtr/I");
-	treePID3D->Branch("n3DtrLs", n3DtrLs, "n3DtrLs[6]/I");
-	treePID3D->Branch("n3DtrT", &n3DtrT, "n3DtrT/I");
-	treePID3D->Branch("isDCArrR", isDCArrR, "isDCArrR[n3DtrT]/O");
-	treePID3D->Branch("Chi", Chi3D, "Chi[n3DtrT]/D");
-	treePID3D->Branch("chi2", chi2_3D, "chi2[n3DtrT]/D");
-	treePID3D->Branch("chi", chi3D, "chi[n3DtrT][18]/D"); // residuum [x6->u6->v6]
-	treePID3D->Branch("k1", k1, "k1[n3DtrT]/D");
-	treePID3D->Branch("b1", b1, "b1[n3DtrT]/D");
-	treePID3D->Branch("k2", k2, "k2[n3DtrT]/D");
-	treePID3D->Branch("b2", b2, "b2[n3DtrT]/D");
-	treePID3D->Branch("TOF_posY", TOF_posY, "TOF_posY[n3DtrT]/D"); // rough TOF hit postion
-	treePID3D->Branch("TOF_posY_refine", TOF_posY_refine, "TOF_posY_refine[n3DtrT]/D");
-	treePID3D->Branch("firedStripId", firedStripId3D, "firedStripId[n3DtrT]/I");
-	treePID3D->Branch("tof2", tof2_3D, "tof2[n3DtrT]/D");
-	treePID3D->Branch("TOT_DC_Avrg", dcTOTAvrg3D, "TOT_DC_Avrg[n3DtrT]/D");
-	treePID3D->Branch("TOT_DC_cnt", dcTOT3Dcnt, "TOT_DC_cnt[n3DtrT]/I"); // number of valid TOTs
-	treePID3D->Branch("TOT_DC_Avrg_Total", &dcTOTAvrg3D_Total, "TOT_DC_Avrg_Total/D"); // TOT: DCArr-D + DCArr-R
-	// 3D PID result using the same PID method
-	if(IsPID()){
-		treePID3D->Branch("aoz", aoz3D, "aoz[n3Dtr]/D");
-		treePID3D->Branch("aozdmin", aozdmin3D, "aozdmin[n3Dtr]/D");
-		treePID3D->Branch("beta2", beta2_3D, "beta2[n3Dtr]/D");
-		treePID3D->Branch("poz", poz3D, "poz[n3Dtr]/D"); // MeV/c
-		treePID3D->Branch("brho", brho3D, "brho[n3Dtr]/D"); // T.m
-		treePID3D->Branch("angTaOut", yp3D, "angTaOut[n3Dtr][2]/D"); // out angle at the target hit point
-		treePID3D->Branch("trkLenT", trkLenT3D, "trkLenT[n3Dtr]/D");
-	} // end if(IsPID())
-	objLsTree.push_back(treePID3D);
-
+	if(Is3DTracking()){
+		TTree *treePID3D = new TTree("treePID3D", "PID using 3D Tracking and Refinement");
+	//	treePID3D->SetAutoSave(1e7);
+		treePID3D->Branch("index", &index, "index/I");
+		treePID3D->Branch("n3Dtr", &n3Dtr, "n3Dtr/I");
+		treePID3D->Branch("n3DtrLs", n3DtrLs, "n3DtrLs[6]/I");
+		treePID3D->Branch("n3DtrT", &n3DtrT, "n3DtrT/I");
+		treePID3D->Branch("isDCArrR", isDCArrR, "isDCArrR[n3DtrT]/O");
+		treePID3D->Branch("Chi", Chi3D, "Chi[n3DtrT]/D");
+		treePID3D->Branch("chi2", chi2_3D, "chi2[n3DtrT]/D");
+		treePID3D->Branch("chi", chi3D, "chi[n3DtrT][18]/D"); // residuum [x6->u6->v6]
+		treePID3D->Branch("k1", k1, "k1[n3DtrT]/D");
+		treePID3D->Branch("b1", b1, "b1[n3DtrT]/D");
+		treePID3D->Branch("k2", k2, "k2[n3DtrT]/D");
+		treePID3D->Branch("b2", b2, "b2[n3DtrT]/D");
+		treePID3D->Branch("TOF_posY", TOF_posY, "TOF_posY[n3DtrT]/D"); // rough TOF hit postion
+		treePID3D->Branch("TOF_posY_refine", TOF_posY_refine, "TOF_posY_refine[n3DtrT]/D");
+		treePID3D->Branch("firedStripId", firedStripId3D, "firedStripId[n3DtrT]/I");
+		treePID3D->Branch("tof2", tof2_3D, "tof2[n3DtrT]/D");
+		treePID3D->Branch("TOT_DC_Avrg", dcTOTAvrg3D, "TOT_DC_Avrg[n3DtrT]/D");
+		treePID3D->Branch("TOT_DC_cnt", dcTOT3Dcnt, "TOT_DC_cnt[n3DtrT]/I"); // number of valid TOTs
+		treePID3D->Branch("TOT_DC_Avrg_Total", &dcTOTAvrg3D_Total, "TOT_DC_Avrg_Total/D"); // TOT: DCArr-D + DCArr-R
+		// 3D PID result using the same PID method
+		if(IsPID()){
+			treePID3D->Branch("aoz", aoz3D, "aoz[n3Dtr]/D");
+			treePID3D->Branch("aozdmin", aozdmin3D, "aozdmin[n3Dtr]/D");
+			treePID3D->Branch("beta2", beta2_3D, "beta2[n3Dtr]/D");
+			treePID3D->Branch("poz", poz3D, "poz[n3Dtr]/D"); // MeV/c
+			treePID3D->Branch("brho", brho3D, "brho[n3Dtr]/D"); // T.m
+			treePID3D->Branch("angTaOut", yp3D, "angTaOut[n3Dtr][2]/D"); // out angle at the target hit point
+			treePID3D->Branch("trkLenT", trkLenT3D, "trkLenT[n3Dtr]/D");
+		} // end if(IsPID())
+		objLsTree.push_back(treePID3D);
+	} // end if(Is3DTracking())
 
 	int multi_opfa;
 	double ul_opfa[40][5], dl_opfa[40][5];

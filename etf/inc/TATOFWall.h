@@ -40,7 +40,8 @@ public:
 	/// t0, t1 and t2 are set for choosing time over edges
 	/// (time-t0) within t1 and t2 is chosen\n
 	/// t0, t1 and t2 using default values, choose the 1st edge
-	double GetTime(double kl, double bl, double &nstripsStray, int &firedStripId, double t0 = -9999., double t1 = -9999., double t2 = -9999.) const;
+	/// \param: strayScale: scale nstripStray when passing the strayThreTest
+	double GetTime(double kl, double bl, double &nstripsStray, int &firedStripId, double t0 = -9999., double t1 = -9999., double t2 = -9999., double strayScale = 1.) const;
 	virtual void AssignStripPosition();
 	virtual void GetStripProjection(int serialId, double *p) const;
 	double Acceptance() const; ///< detector acceptance

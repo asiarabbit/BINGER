@@ -21,6 +21,7 @@
 static TACtrlPara *clp = TACtrlPara::Instance();
 // subordinate function of void Map();
 bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
+
 #ifdef DEBUG_MAP
 	cout << endl << "\033[32;1m" << GetName() << "\033[0m" << endl; // DEBUG
 	cout << "TAMWDCArray::Map(TAMWDC **, vector<TATrack *>&, int dcType):" << endl; // DEBUG
@@ -49,7 +50,8 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 	double t[6] = {-9999., -9999., -9999., -9999., -9999., -9999.};
 	double r[6] = {-9999., -9999., -9999., -9999., -9999., -9999.};
 	double chi[6] = {-9999., -9999., -9999., -9999., -9999., -9999.};
-	double kl = -9999., bl = -9999., d2 = -9999., TOF = -9999.;
+	double kl = -9999., bl = -9999., d2 = -9999.;
+	double TOF = -9999., t0, t1, t2; // t0-1-2: for getting the appropriate TOF
 	double nstripStray = -1.; // count of strips from a fired strips to the fitted track, a temporary variable
 	int firedStripId = -1; // serial id of the fired strip specific to certain track, a temporary variable
 	const short nAnodePerLayer0 = MWDC[0]->GetNAnodePerLayer();
@@ -182,20 +184,21 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 ////				cout << "track.size(): " << track.size() << endl; // DEBUG
 //				getchar(); // DEBUG
 
+				
 				if('X' == type || 'Y' == type){ // MWDC_X or MWDC_Y
 					// get the lt time (t0) of the DC that is closest to the TOFWall,
 					// edges of TOFW would be compared to t0 for the suitable one
 					int lid = LAYER[nFiredAnodeLayer-1]; // id of the last fired DC anode layer
 					TAAnode *ano = MWDC[lid/2]->GetAnode(dcType, lid%2+1, nu[lid]);
-					const double t0 = ano->GetTime();
+					t0 = ano->GetTime();
 					const unsigned uid = ano->GetUID();
 					const double delta = clp->T_tofDCtoTOFW(uid) - clp->T_wireMean(uid); // minor correction
 					// -20 ~ 250: speculated drift time range
 					// 0+t_wire+t_drift=t_DC; 0+t_tof=t_TOF;
 					// t_TOF-t_DC=(t_tof-t_wire) - t_drift; => delta-t_drift;
 					// (as small and correct as possible while inclusive)
-					const double t1 = delta - gp->Val(43), t2 = delta - gp->Val(42); // the range borders
-					TOF = GetTOFWall()->GetTime(kl, bl, nstripStray, firedStripId, t0, t1, t2);
+					t1 = delta - gp->Val(43); t2 = delta - gp->Val(42); // the range borders
+					TOF = GetTOFWall()->GetTime(kl, bl, nstripStray, firedStripId, t0, t1, t2, 0.6); // 0.7*nstripStray to pass stripThreTest
 //					if(GetTOFWall()->GetNFiredStrip() > 0)
 //						TOF = GetTOFWall()->GetTime(kl, bl, nstripStray, firedStripId, t0, t1, t2);
 //					else{
@@ -246,6 +249,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 				for(double rr: r) cout << "r: " << rr << endl; // DEBUG
 				getchar(); // DEBUG
 #endif
+
 				if(isBadTrack) continue;
 				// Assign newTrack
 				newTrack.Initialize(); // initialize the track
@@ -257,7 +261,7 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 //				cout << "We're going to implement FIT function\n"; getchar(); // DEBUG
 				newTrack.GetChi(chi);
 //				if(newTrack.fIsDEBUG) newTrack.Show(); // DEBUG
-
+				
 #ifdef DEBUG_MAP
 				cout << "newTrack.GetChi(): " << newTrack.GetChi() << endl; // DEBUG
 				for(double cc : chi) cout << "cc: " << cc << endl; // DEBUG
@@ -268,6 +272,11 @@ bool TAMWDCArray::Map(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 //					cout << "newTrack.GetChi(): " << newTrack.GetChi() << endl; getchar(); // DEBUG
 //					cout << "clp->ChiThre(): " << clp->ChiThre() << endl; getchar(); // DEBUG
 					if(fabs(newTrack.GetChi()) > chiThre){
+						isBadTrack = true; continue;
+					}
+					// update nstripStray with new track info
+					TOF = GetTOFWall()->GetTime(newTrack.GetSlope(), newTrack.GetIntercept(), nstripStray, firedStripId, t0, t1, t2, 1.); // default value is 1. Here it's explicitly written out for emphasis
+					if(-9999. == TOF){
 						isBadTrack = true; continue;
 					}
 					for(double cc : chi){
@@ -365,6 +374,7 @@ int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, char type, bool s
 		getchar(); // DEBUG
 	} // end if(show) // DEBUG
 
+/* XXX 2019-10-14 XXX
 	// special elimination treatment for good == 2 tracks
 	if(nstripDeviation <= stripTolerance){
 		if(2 == newTrack->GetgGOOD() && oldTrack->GetgGOOD() > 2){
@@ -390,6 +400,7 @@ int TAMWDCArray::compare(TATrack *newTrack, TATrack *oldTrack, char type, bool s
 			else return 0; // a conclusion cannot be reached yet for U or V tracks
 		} // end if
 	} // end if
+*/ // XXX 2019-10-14 XXX
 
 	nValid_nu = newTrack->GetNFiredAnodeLayer();
 	nValid_nu_temp = oldTrack->GetNFiredAnodeLayer();

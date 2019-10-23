@@ -354,7 +354,7 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut_, short dcArrId,
 	static const double z0_TA = TADeployPara::Instance()->GetTargetZ0(); // 
 	static const double z0_T0_1 = fT0_1->GetZ0(); // -2699.08
 	double y0_SiPMArr = 0.; // hit position in the target
-	if(-9999. == x0TaHit && !pIn)
+	if(-9999. == x0TaHit && nullptr == pIn)
 		TAPopMsg::Error("TAPID", "GetAoQ: Target hit position not properly assigned");
 	// 1050.: z border of the magnetic field.  P_i: (xi,yi,zi): initial point to start RK propogation
 	const double zi = -1000., xi = pIn[0]*zi + pIn[2], yi = pIn[1]*zi + pIn[3];
@@ -531,7 +531,7 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut_, short dcArrId,
 				if(-9999!= x0TaHit){ // pion experiment pid mode
 					dd[0] = y[0] - x0TaHit; dd[1] = y[1] - y0_SiPMArr;
 				}
-				else if(pIn){ // pIn[0-3]: {k1_Ta, k2_Ta, b1_Ta, b2_Ta}, TWO-TRACK mode
+				else if(nullptr != pIn){ // pIn[0-3]: {k1_Ta, k2_Ta, b1_Ta, b2_Ta}, TWO-TRACK mode
 					dd[0] = yp[0] - pOut[0]; // x trk
 					if(0. != pIn[1] && 0. != pOut[1]) dd[1] = yp[1] - pOut[1]; // y trk
 					else dd[1] = 0.; // y trk not known, so it contributes nothing to aoz estimator
@@ -540,7 +540,7 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut_, short dcArrId,
 				d2 = sqrt(dd[0]*dd[0] + dd[1]*dd[1]);
 
 				// use track position information -- EXPERIMENTAL //
-				if(pIn){
+				if(nullptr != pIn){
 					dp[0] = y[0] - pOut[0]*zf + pOut[2]; dp[1] = y[1] - pOut[1]*zf + pOut[3];
 					if(0. == pOut[1]) dp[1] = 0.; // y trk not assigned
 					fX2Arr[0] = dp[0]; fX2Arr[1] = dp[1];

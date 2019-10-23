@@ -1,6 +1,6 @@
 	// nuclide specific information //
 	// experiment information
-	const char *reaction = "230 MeV/u 12C->12C => 10B";
+	const char *reaction = "240 MeV/u 12C->12C => 10B";
 	// dispersion rate XXX: L: left; T: target nuclide; R: right; D: down (under)
 	const ExpData pL(0.8771, 0.0113), pT(pL), pR(0.903, 0.013), pD(0.9039, 0.0084);
 	// contamination rate into the target nuclide zone

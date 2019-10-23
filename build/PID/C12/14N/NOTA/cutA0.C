@@ -6,7 +6,7 @@ void cutA0(){
 
 	// ellipse parameter: (x0, y0), a, b
 	const double px[3] = {1., 138.29, 0.226};
-	const double py[3] = {1., 1.6905, 0.04716};
+	const double py[3] = {1., 1.666, 0.05532};
 	const double x0 = px[1], y0 = py[1]; // ellipse position
 	const double a = 3.*px[2], b = 3.*py[2]; // ellipse axis length: 3 sigma
 	

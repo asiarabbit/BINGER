@@ -5,8 +5,8 @@ void cutA0(){
 	const double pi = TMath::Pi();
 
 	// ellipse parameter: (x0, y0), a, b
-	const double px[3] = {1., 138.02, 0.2565};
-	const double py[3] = {1., 1.2600, 0.0411};
+	const double px[3] = {1., 138.02, 0.226};
+	const double py[3] = {1., 1.262, 0.05532};
 	const double x0 = px[1], y0 = py[1]; // ellipse position
 	const double a = 3.*px[2], b = 3.*py[2]; // ellipse axis length: 3 sigma
 	

@@ -425,11 +425,12 @@ void TASTRCalibDCArrTa::GenerateCalibFile(const string &rootfile, TAMWDCArray2 *
 						TH2F *h2 = h2void;
 						if(!(h2 = (TH2F*)f->Get(name))) continue;
 						int valid_bin_cnt = 0; // valid drift distance bin number
-						int valid_bin_array[nr]{}; // valid bin number array
+						int valid_bin_array[nr]; // valid bin number array
 						for(int l = 0; l < nr; l++){ // loop over drift distance bins
 							// get the projection of the l-th channal along X axis,
 							// from which mean and sigma would be estimated
 							// project the l-th bin in X-axis to Y axis
+							valid_bin_array[l] = 0;
 							TH1D *hpro = h2->ProjectionY("hpro", l+1, l+1);
 							double npro = hpro->GetEntries();
 							const double rms = hpro->GetRMS();

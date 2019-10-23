@@ -40,7 +40,7 @@
 #include "TAAnodeData.h"
 #include "TAPlaStrip.h"
 #include "TAGPar.h"
-#include "TAEventProcessor.h"
+#include "TAUI.h"
 #include "tEntry.h"
 
 
@@ -51,7 +51,7 @@ using std::cout;
 using std::endl;
 
 TAPDCArrayTa4 *TAPDCArrayTa4::fInstance = nullptr;
-double TAPDCArrayTa4::fChi2ExtraThre = 80. / 3.;
+double TAPDCArrayTa4::fChi2ExtraThre = 50. / 3.;
 // the object containing all the constructed detector, responsible for fired
 // channel distribution, tracking and pid result output
 static TACtrlPara *clp = TACtrlPara::Instance();
@@ -120,7 +120,7 @@ void TAPDCArrayTa4::AssignTracks(vector<tTrack *> &track_ls){
 	TATrackTa4 *trkTa4 = fTrackTa4List[0];
 	TATrack2 *trk[2] = {trkTa4->GetTrackPreTa(), trkTa4->GetTrackPostTa()};
 
-	int index = TAEventProcessor::Instance()->GetEntryList()[0]->index;
+	int index = TAUI::Instance()->GetEntryList()[0]->index;
 	tTrack *ptrack_t = nullptr; // a temporary variable
 	for(int i = 0; i < 2; i++){
 		ptrack_t = new tTrack;
@@ -173,6 +173,9 @@ bool TAPDCArrayTa4::Map(){
 	vector<TATrackTa4 *> &track = fTrackTa4List; // just for convenience
 	if(track.size()) track.clear();
 	bool cmpShow = false; // debug for function int compare(...)
+#ifdef DEBMG_MAP
+	cmpShow = true;
+#endif
 	const int UID = GetMWDCArray(0)->GetUID();
 	const double d2Thre = clp->D2Thre(UID);
 	const double d2ThrePD[2] = {
@@ -182,7 +185,7 @@ bool TAPDCArrayTa4::Map(){
 	char tail[64] = ""; // for naming newTrack
 //	const double chiThre = clp->ChiThre(UID);
 //	const double chiThrePD = clp->ChiThrePD(UID); // chi threshold per dot
-	const double chiThrePD = 2.8; // unit: mm
+	const double chiThrePD = 2.5; // unit: mm
 	const double chiThre = chiThrePD * 0.8; // XXX: exacting chi control
 	short nAnodePerLayer[2][2]{};
 	for(int i = 2; i--;) for(int j = 2; j--;){
@@ -333,10 +336,10 @@ bool TAPDCArrayTa4::Map(){
 		} // end for over i
 		double d2Extra = TAMath::Dx2DxTa_2(kl[0], kl[1], k2, bl[0], bl[1], b2);
 #ifdef DEBUG_MAP
-		cout << "d2Extra: " << d2Extra << "\tchi2ExtraThre * 2.0: " << chi2ExtraThre * 2.0 << endl; // DEBUUG
+		cout << "d2Extra: " << d2Extra << "\tchi2ExtraThre * 3.0: " << chi2ExtraThre * 3.0 << endl; // DEBUUG
 		getchar(); // DEBUG
 #endif
-		if(d2[0] < d2Thre * nFiredAnodeLayer[0] && d2[1] < d2Thre * nFiredAnodeLayer[1] && d2Extra < chi2ExtraThre * 2.0){
+		if(d2[0] < d2Thre * nFiredAnodeLayer[0] && d2[1] < d2Thre * nFiredAnodeLayer[1] && d2Extra < chi2ExtraThre * 3.0){
 #ifdef DEBUG_MAP
 			cout << "\033[31;1mBINGO!\033[0m" << endl; // DEBUG
 			getchar(); // DEBUG
@@ -429,9 +432,9 @@ bool TAPDCArrayTa4::Map(){
 			} // end for over i
 //			cout << "mark 2" << endl; // DEBUG
 			if(newTrack.GetChi2Extra() > GetChi2ExtraThre()) isBadTrack = true;
-			if(fabs(newtrk[0]->GetSlope() - newtrk[1]->GetSlope()) > 0.013){
-				isBadTrack = true; // 0.011: 3 sigma of dk. Heng!
-			}
+//			if(fabs(newtrk[0]->GetSlope() - newtrk[1]->GetSlope()) > 0.013){
+//				isBadTrack = true; // 0.011: 3 sigma of dk. Heng!
+//			}
 //			cout << "mark 3" << endl; // DEBUG
 			if(isBadTrack) continue;
 

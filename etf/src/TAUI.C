@@ -29,7 +29,7 @@ using std::endl;
 
 TAUI *TAUI::fInstance = nullptr;
 
-TAUI::TAUI() : fDataFile(""), fVMEDataFile(""), fROOTFile(""), fIndex0(0),
+TAUI::TAUI() : fDataFile{""}, fVMEDataFile{""}, fROOTFile{""}, fIndex0(0),
 	fIndex1(INT_MAX), fRunId(0), fAnaDepth(0), fEvLenLim(INT_MAX){
 }
 TAUI::~TAUI(){}

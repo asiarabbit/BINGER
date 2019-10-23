@@ -74,7 +74,7 @@ void TADCSuperLayer::Configure(){
 	if(-1 == fNCable) fNCable = TADeployPara::Instance()->GetNDCCable(GetUID());
 	const int n = fNCable;
 //	TAPopMsg::Debug(GetName().c_str(), "Configure: ncable: %d", n);
-	TADCCable *ca[n]{0};
+	TADCCable *ca[n]; memset(ca, 0, sizeof(ca));
 	char name[64];
 	for(int i = 0; i < fNCable; i++){
 		sprintf(name, "%s->Cable%d", GetName().c_str(), i);

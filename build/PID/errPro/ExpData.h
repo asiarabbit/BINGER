@@ -13,7 +13,12 @@ public:
 
 	void print() const;
 	friend std::ostream &operator<<(std::ostream &os, const ExpData &data);
-	
+
+	double val() const{ return fVal; }
+	double err() const{ return fErr; }
+	void SetVal(double val){ fVal = val; }
+	void SetErr(double err){ fErr = err; }
+
 	const ExpData &operator+=(const ExpData &);
 	const ExpData &operator-=(const ExpData &);
 	const ExpData &operator*=(const ExpData &);
@@ -26,5 +31,10 @@ private:
 	double fVal;
 	double fErr;
 };
+
+ExpData Sqrt(const ExpData &p);
+ExpData operator+(double k, const ExpData &p);
+ExpData operator-(double k, const ExpData &p);
+ExpData Exp(const ExpData &p);
 
 # endif

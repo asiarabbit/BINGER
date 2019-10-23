@@ -16,22 +16,18 @@ using std::setw;
 int main(){
 	// Target information //
 	const ExpData t5mmC(4.5126e22, 0.0027e22); // cm-2, target density
-	// beam info in general //
-//	const ExpData N0(124363, 0);
-//	const double nB9   = 0, nB10   = 202, nB11   = 326, nB12   = 12;
-//	const double nBe6   = 0, nBe7   = 89, nBe8   = 0, nBe9   = 42;
-//	const double nLi5   = 0;
 
-	// dsca4 == 1
-	const ExpData N0(52057, 0);
-	const double nB9   = 0, nB10   = 71, nB11   = 138, nB12   = 4;
-	const double nBe6   = 0, nBe7   = 46, nBe8   = 0, nBe9   = 15;
+	const ExpData N0(106735, 0);
+	const double nC12 = 84019, nC12Ori = 90257;
+	const double nB9 = 0, nB10 = 137, nB11 = 208, nB12 = 4;
+	const double nBe6 = 0, nBe7 = 45, nBe8 = 0, nBe9 = 15;
 	const double nLi5   = 0;
 
 	// empty TA
-	const ExpData N0_n(22688, 0);
-	const double nB9_n = 0, nB10_n = 6,  nB11_n = 8,  nB12_n = 0;
-	const double nBe6_n = 0, nBe7_n = 3,  nBe8_n = 0, nBe9_n = 0;
+	const ExpData N0_n(74437, 0);
+	const double nC12_n = 60105, nC12Ori_n = 64576;
+	const double nB9_n = 0, nB10_n = 41,  nB11_n = 55,  nB12_n = 2;
+	const double nBe6_n = 0, nBe7_n = 9,  nBe8_n = 0, nBe9_n = 3;
 	const double nLi5_n = 0;
 
 	#include "Be7.C"

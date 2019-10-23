@@ -257,7 +257,7 @@ int TAParaManager::ReadFileList(const char *basePath, ofstream &configFileList, 
 } // end of ReadFileList
 void TAParaManager::Clean(){
 	const int n = fDetList.size();
-	bool isEmpty[n]{0}; // each element for a detector
+	bool isEmpty[n]; // each element for a detector
 	memset(isEmpty, 1, sizeof(isEmpty));
 	for(TAChPara *p : fChParaList){
 		if(-2 != p->GetChannelId()){

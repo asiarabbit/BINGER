@@ -7,7 +7,7 @@
 //																				     //
 // Author: SUN Yazhou, asia.rabbit@163.com.										     //
 // Created: 2017/9/24.															     //
-// Last modified: 2018/6/9, SUN Yazhou.											     //
+// Last modified: 2019/10/9, SUN Yazhou.											     //
 //																				     //
 //																				     //
 // Copyright (C) 2017-2018, SUN Yazhou.											     //
@@ -35,7 +35,7 @@ static TACtrlPara *clp = TACtrlPara::Instance();
 
 TAAnodePara::TAAnodePara(const string &name, const string &title, unsigned uid)
 		: TAChPara(name, title, uid),
-		fGlobalDirection(nullptr), fSTR{0}, fMotherDC(0), fDetId(-1){
+		fGlobalDirection(nullptr), fSTR{0}, fMotherDC(0), fDetId(-1), fDCId(-1){
 	for(int i = 0; i < 3; i++){
 		fGlobalCenter[i] = -9999.;
 		fGlobalProjection[i] = -9999.;
@@ -49,6 +49,7 @@ TAAnodePara::TAAnodePara(const string &name, const string &title, unsigned uid)
 	// assign fDetId
 	int type[6]{}; TAUIDParser::DNS(type, uid);
 	fDetId = type[0];
+	fDCId = type[1]; // 0-1-2-3: [DC0-1-2-TOFW, PDC0-1-x-x; DCTa0-1-x-x]
 } // end of the constructor
 TAAnodePara::~TAAnodePara(){
 	for(const double *&p : fSTRCorArr){
@@ -66,6 +67,10 @@ double TAAnodePara::GetDelay() const{
 int TAAnodePara::GetDetId() const{
 	if(-1 == fDetId) TAPopMsg::Error(GetName().c_str(), "GetDetId(): fDetId not assigned yet~");
 	return fDetId;
+}
+int TAAnodePara::GetDCId() const{
+	if(-1 == fDCId) TAPopMsg::Error(GetName().c_str(), "GetDetId(): fDCId not assigned yet~");
+	return fDCId;
 }
 // projection point of the anode to the normal plane
 double TAAnodePara::GetProjectionX() const{

@@ -111,6 +111,7 @@ public:
 		double x2[2];
 		TAMath::rho(k1, b1, k2, b2, nullptr, nullptr, x2); // assign x2 array
 		double dx2 = x2[0] - x2[1];
+		dx2 -= -2.5; // an artificial shift to shift <dx2> to zero
 		return dx2;
 	}
 
@@ -121,9 +122,16 @@ public:
 	static double Dx2DxTa_2(double k0, double k1, double k2, double b0, double b1, double b2){
 		double dxTa = DxTa(k0, k1, b0, b1);
 		double dx2 = DX2(k1, k2, b1, b2);
+		double dk = atan(k0) - atan(k1);
+		// 10.*dk/0.013 = 769*dk; 3 sigma(dk) scaled to 10 mm
+//		cout << "1, dk: " << dk << endl;
+		dk *= 70.;
+		if(fabs(dk) > 0.013) dk *= 7.;
+//		cout << "2, dk: " << dk << endl;
 		return
 			dxTa*dxTa * 1. / kVdxTa + // 1.72 the relative variance V/sigma_DC
-			dx2*dx2 * 1. / kVdx2; // 7.5
+			dx2*dx2 * 1. / kVdx2 +  // 7.5
+			dk*dk; // XXX 2019-10-15
 	}
 
 
@@ -149,7 +157,7 @@ public:
 		} // end of the constructor
 		~Chi3D(){}
 		double operator()(const double *xk) const override{
-			double dr[fnF]{}, pp[4]{}, d2 = 0.;
+			double dr[fnF], pp[4]{}, d2 = 0.;
 			pp[0] = fp[0] * (1. + xk[0]); pp[1] = fp[1] * (1. + xk[1]); // k1, k2
 			pp[2] = fp[2] * (1. + xk[2]); pp[3] = fp[3] * (1. + xk[3]); // b1, b2
 			for(int i = 0; i < fnF; i++){

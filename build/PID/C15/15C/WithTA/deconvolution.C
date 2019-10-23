@@ -15,21 +15,20 @@ using std::setw;
 
 int main(){
 	// Target information //
-	const ExpData t5mmC(4.5126e22, 0.0027e22); // cm-2, target density
+	const ExpData t5mmC(4.5126e22, 0.0027e22); // cm-2, target nucleus density
 	// beam info in general //
-	const ExpData N0(147372, 0), N0_n(55814, 0);
-	const double dx2rate_m9_4 = 0.8522; // dx2[0]>-9&&dx2[0]<4 pass rate
-	const double nC12 = 95 / dx2rate_m9_4, nC13 = 481 / dx2rate_m9_4, nC14 = 1083 / dx2rate_m9_4; // dx2[0]>-9&&dx2[0]<4
-	const double nB11 = 295, nB12 = 186, nB13 = 214, nB14 = 151, nB15 = 7;
-	const double nBe9 = 83, nBe10 = 142, nBe11 = 27, nBe12 = 23;
-	const double nLi7 = 33, nLi8 = 11;
+	const ExpData N0(152420, 0), N0_n(57824, 0);
+	const double nC12 = 100, nC13 = 575, nC14 = 1382, nC15 = 119320, nC15Ori = 125437;
+	const double nB11 = 208, nB12 = 114, nB13 = 165, nB14 = 129, nB15 = 3;
+	const double nBe9 = 52, nBe10 = 84, nBe11 = 14, nBe12 = 10;
+	const double nLi7 = 14, nLi8 = 4;
 
-	const double nC12_n = 19 / dx2rate_m9_4, nC13_n = 89 / dx2rate_m9_4, nC14_n = 218 / dx2rate_m9_4; // dx2[0]>-9&&dx2[0]<4
-	const double nB11_n = 12, nB12_n = 14, nB13_n = 10, nB14_n = 4, nB15_n = 0;
-	const double nBe9_n = 0, nBe10_n = 6, nBe11_n = 0, nBe12_n = 0;
+	const double nC12_n = 1923, nC13_n = 129, nC14_n = 308, nC15_n = 46965, nC15Ori_n = 49522;
+	const double nB11_n = 9, nB12_n = 13, nB13_n = 5, nB14_n = 3, nB15_n = 0;
+	const double nBe9_n = 1, nBe10_n = 4, nBe11_n = 0, nBe12_n = 0;
 	const double nLi7_n = 0, nLi8_n = 0;
 
-	#include "B14.C"
+	#include "Be10.C"
 
 	// ################ THE CALCULATION ROUTINE >>>>>>>>>>>>>>>>>>>>> //
 	// With Target

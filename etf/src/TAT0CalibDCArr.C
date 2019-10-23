@@ -149,7 +149,7 @@ void TAT0CalibDCArr::Refine_DTHisto(const string &rootfile, TAMWDCArray *dcArr, 
 			trkVec[2] = b[trkId[jj][0]]; // b1
 			trkVec[1] = TAMath::kUV_Y(phiAvrg, k[trkId[jj][1]], k[trkId[jj][2]]); // k2
 			trkVec[3] = TAMath::bUV_Y(phiAvrg, k[trkId[jj][1]], k[trkId[jj][2]], b[trkId[jj][1]], b[trkId[jj][2]]); // b2
-			double anodeId[nF][2]{}; int tmp = 0; // [0]: fired anode layer id: 0-17; [1]: nu
+			double anodeId[nF][2]; int tmp = 0; // [0]: fired anode layer id: 0-17; [1]: nu
 			for(int l = 0; l < 3; l++){ // loop over X-U-V
 				for(int j = 0; j < 6; j++){ // loop over 6 anode layers
 					if(nu[trkId[jj][l]][j] != -1){ // one measure point

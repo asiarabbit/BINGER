@@ -36,13 +36,13 @@ typedef complex<double> cdouble;
 
 static TACtrlPara *clp = TACtrlPara::Instance();
 // the z border of effective magField, unit: mm
-const double TAMath::kzMagIn = -560.5;
-const double TAMath::kzMagOut = 560.5;
+const double TAMath::kzMagIn = -555.5;
+const double TAMath::kzMagOut = 555.5;
 // count of calling of the objective function
 unsigned long long TAMath::kCallCnt = 0;
 // the relative variance: V / sigma_DC
 const double TAMath::kVdxTa = 2.5;
-const double TAMath::kVdx2 = 7.5;
+const double TAMath::kVdx2 = 10.;
 
 // length of the vector, len: vector dimension
 double TAMath::norm(const double *p, int len){

@@ -3,7 +3,7 @@
 	\class TAAnodePara
 	\brief derived from TAChPara, embodiment of DC anode parameter set.
 	\author SUN Yazhou, asia.rabbit@163.com.
-	\date Created: 2017/9/24 Last revised: 2018/6/9, SUN Yazhou.
+	\date Created: 2017/9/24 Last revised: 2019/10/9, SUN Yazhou.
 	\copyright 2017-2018, SUN Yazhou.
 */
 
@@ -29,6 +29,7 @@ public:
 	void GetGlobalProjection(double *Ag) const; ///< anode projection
 	const double *GetSTRCorrection(int angle_no) const;
 	int GetDetId() const;
+	int GetDCId() const;
 	/// specialised for STR calibration
 	int GetDriftDistanceBinNumber(double driftDistance);
 	TF1 *GetSTR(int STR_id) const;
@@ -67,6 +68,7 @@ protected:
 	TF1 *fSTR[kSTRCorAngleNBins];
 	TAMWDC *fMotherDC; ///< DC the anode belongs to
 	short fDetId; ///< the detector Id of DCArr this anode belongs to
+	short fDCId; ///< the DC Id of DCArr this anode belongs to
 };
 
 #endif

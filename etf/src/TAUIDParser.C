@@ -76,7 +76,7 @@ unsigned TAUIDParser::UIDGenerator(const int *type){
 
 	if(3 == type[0] || 4 == type[0] // MWDC Arrays after the big dipole Mag: 3->L, 4->R
 	   || 6 == type[0] || 7 == type[0] // MWDC Arrays around the target: 6->U, 7->D
-	   || 8 == type[0] || 9 == type[0] // MWDC Arrays around the target: 6->PDCArrU, 7->PDCArrD
+	   || 8 == type[0] || 9 == type[0] // MWDC Arrays around the target: 8->PDCArrU, 9->PDCArrD
 	   ){
 		// check the validity of the type for the MWDC arrays
 		if(type[1] < 0 || type[1] > 3)

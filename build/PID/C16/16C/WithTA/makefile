@@ -1,15 +1,19 @@
 cs: deconvolution.C \
 	/home/asia/pionExp2017/build/PID/errPro/ExpData.h \
 	/home/asia/pionExp2017/build/PID/errPro/ExpData.C
-	g++ -o $@ $<
+	g++ -o $@ $< -g
 
-csNOPU: deconvolutionNOPU.C \
+csOri: deconvolutionOri.C \
 	/home/asia/pionExp2017/build/PID/errPro/ExpData.h \
 	/home/asia/pionExp2017/build/PID/errPro/ExpData.C
-	g++ -o $@ $<
+	g++ -o $@ $< -g
 
 clean:
 ifeq '$(wildcard cs)' 'cs'
 	rm cs
+endif
+
+ifeq '$(wildcard csOri)' 'csOri'
+	rm csOri
 endif
 

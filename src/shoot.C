@@ -98,7 +98,7 @@ void shoot(const char *rootfile){
 	TTree *vme = (TTree*)f->Get("vme");
 	TTree *treePID3D = (TTree*)f->Get("treePID3D");
 	treeTrack->AddFriend(vme);
-	treeTrack->AddFriend(treePID3D);
+	if(treePID3D) treeTrack->AddFriend(treePID3D);
 	const int ntrMax = 100, n3DtrMax = ntrMax / 3.;
 	int ntr, ntrT, index, nu[ntrMax][6]{}, gGOOD[ntrMax]{};
 	int type[ntrMax]{}, id[ntrMax]{}, firedStripId[ntrMax];
@@ -132,8 +132,10 @@ void shoot(const char *rootfile){
 	treeTrack->SetBranchAddress("aoz", aoz);
 	vme->SetBranchAddress("sca", sca);
 	vme->SetBranchAddress("dsca", dsca);
-	treePID3D->SetBranchAddress("k2", k2);
-	treePID3D->SetBranchAddress("b2", b2);
+	if(treePID3D){
+		treePID3D->SetBranchAddress("k2", k2);
+		treePID3D->SetBranchAddress("b2", b2);
+	} // end if
 
 	// vector for ROOT objects management
 	vector<TObject *> objls;
@@ -299,6 +301,8 @@ void shoot(const char *rootfile){
 			TOFWPos[ii] = -9999.;
 		} // end for over i
 		kDC_ = -9999.; bDC_ = -9999.;
+		for(double &x : k2) if(x != -9999.) x = -9999.;
+		for(double &x : b2) if(x != -9999.) x = -9999.;
 		for(int j = 0; j < 6; j++) nuDCR[j] = -9999.;
 		stripGap = -9999.;
 

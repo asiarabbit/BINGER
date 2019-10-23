@@ -39,7 +39,7 @@
 #include "TAMath.h"
 #include "TAParaManager.h"
 #include "TAGPar.h"
-#include "TAEventProcessor.h"
+#include "TAUI.h"
 #include "tEntry.h"
 
 //#define DEBUG // DEBUG MODE
@@ -128,7 +128,7 @@ double TAMWDCArray::GetPhiAvrg(){
 void TAMWDCArray::AssignTracks(vector<tTrack *> &track_ls){ // assign tracks
 	if(!fTrackList[0].size()) return; // no tracks to assign
 
-	int index = TAEventProcessor::Instance()->GetEntryList()[0]->index;
+	int index = TAUI::Instance()->GetEntryList()[0]->index;
 	int type[6]{}; TAUIDParser::DNS(type, GetUID());
 	tTrack *ptrack_t = nullptr; // a temporary variable
 	for(int l = 0; l < 3; l++){ // loop over X-U-V

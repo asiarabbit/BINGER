@@ -453,7 +453,7 @@ void TAAssessTa::EvalDCArr(const string &rootfile, DetArr_t *detList, int runid,
 			for(int l = 0; l < 4; l++){ // loop over 4 anode layers
 				const int dcId = l / 2;
 				const int STRid = dcArr->GetMWDC(dcId)->GetSTRid(k[j], dcType);
-				if(-1 != nu[j][l]){
+				if(-1 != nu[j][l]){ //  if(2 == gGOOD[j] && chi[j][l] < 0.6)
 					heff->Fill(dcType*8 + 2 + l + 1);
 					// rc: DCA
 					const double tt = t[j][l], dr = chi[j][l];

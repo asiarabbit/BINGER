@@ -642,8 +642,6 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 		for(tTrack *&t : track_ls){
 			const int dcArrId = t->type / 10 % 10, dcType = t->type % 10;
 			ntrLs[dcArrId][dcType]++;
-			if(dcArrId > 1 && 1 == dcType) cntTrkY++;
-			if(0 == dcType) cntTrkX++;
 		}
 		ntr = 0; ntrT = 0;
 		for(tTrack *&t : track_ls){
@@ -654,6 +652,9 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 #ifdef GO
 		#include "TAEventProcessor/fill_post.C" // fill hists and trees after tracking
 #endif
+
+
+		// output the tracking and pid result //
 		cntTrk += ntrT;
 		cnt3DTrk += n3DtrT;
 		if(index % 1 == 0){
@@ -724,8 +725,8 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 		} // end for over j
 		const int nF = nFX + nFU + nFV; // number of measured points
 		// ag[3]: anode direction vector, Ag[3]: one point in the anode
-		double Ag[nF][3]{}, ag[nF][3]{}, rr[nF]{}; // rr: drift distance in XUV form
-		double anodeId[nF][2]{}; // [0]: fired anode layer id: 0-17; [1]: nu
+		double Ag[nF][3], ag[nF][3], rr[nF]; // rr: drift distance in XUV form
+		double anodeId[nF][2]; // [0]: fired anode layer id: 0-17; [1]: nu
 		double trkVec[4]{}; // track slope
 		TAMWDCArray *dcArr = dcArrV[isDCArrR[jj]];
 		const double phiAvrg = dcArr->GetPhiAvrg();

@@ -17,21 +17,20 @@ int main(){
 	// Target information //
 	const ExpData t5mmC(4.5126e22, 0.0027e22); // cm-2, target density
 	// beam info in general //
-	const ExpData N0(184449, 0), N0_n(79602, 0);
+	const ExpData N0(190828., 0.), N0_n(82490., 0.);
 
-	const double dx2rate_m9_4 = 0.8653; // dx2[0]>-9&&dx2[0]<4 pass rate
-	const double nC13 = 186 / dx2rate_m9_4, nC14 = 953 / dx2rate_m9_4, nC15 = 858 / dx2rate_m9_4; // dx2[0]>-9&&dx2[0]<4
-	const double nC13_n = 47 / dx2rate_m9_4, nC14_n = 210 / dx2rate_m9_4, nC15_n = 198 / dx2rate_m9_4; // dx2[0]>-9&&dx2[0]<4
+	const double nC13 = 190, nC14 = 1126, nC15 = 1165, nC16 = 150869, nC16Ori = 157600, nC17 = 0;
+	const double nC13_n = 64, nC14_n = 277, nC15_n = 300, nC16_n = 67236, nC16Ori_n = 70825, nC17_n = 0;
 
 
-	const double nB12 = 217, nB13 = 319, nB14 = 89, nB15 = 124, nB16 = 0;
-	const double nB12_n = 15, nB13_n = 19, nB14_n = 5, nB15_n = 9, nB16_n = 0;
-	const double nBe10 = 211, nBe11 = 52, nBe12 = 42, nBe13 = 0;
-	const double nBe10_n = 13, nBe11_n = 2, nBe12_n = 1, nBe13_n = 0;
+	const double nB12 = 167, nB13 = 217, nB14 = 71, nB15 = 112, nB16 = 0;
+	const double nB12_n = 9, nB13_n = 14, nB14_n = 6, nB15_n = 7, nB16_n = 0;
+	const double nBe10 = 135, nBe11 = 28, nBe12 = 29, nBe13 = 0;
+	const double nBe10_n = 10, nBe11_n = 2, nBe12_n = 1, nBe13_n = 0;
 	const double nLi8 = 0, nLi9 = 0;
 	const double nLi8_n = 0, nLi9_n = 0;
 
-	#include "B13.C"
+	#include "C16Ori.C"
 
 	// ################ THE CALCULATION ROUTINE >>>>>>>>>>>>>>>>>>>>> //
 	// With Target

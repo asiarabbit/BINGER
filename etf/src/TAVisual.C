@@ -25,7 +25,7 @@
 #include "TAAnode.h"
 #include "TAAnodeData.h"
 #include "TAAnodePara.h"
-#include "TAEventProcessor.h"
+#include "TAUI.h"
 #include "TAPopMsg.h"
 #include "TAPlaStrip.h"
 #include "TAPlaStripPara.h"
@@ -67,7 +67,7 @@ TAVisual *TAVisual::Instance(){
 	return fInstance;
 }
 
-// note that this function can only be called after the TAEventProcessor::Configure is called.
+// note that this function can only be called after the TAUI::Configure is called.
 void TAVisual::Configure(){
 	if(0 == fAnodeArr.size())
 		TAPopMsg::Warn("TAVisual", "Configure: DC Anode array is empty. DC not configured?");
@@ -185,7 +185,7 @@ void TAVisual::FillEvent(){
 	if(!fGTrack_R) TAPopMsg::Error("TAVisual", "Fill: fGTrack_R is null");
 	while(fGTrack->GetN()) fGTrack->RemovePoint(0); // clear the graph
 	while(fGTrack_R->GetN()) fGTrack_R->RemovePoint(0); // clear the graph
-	TAEventProcessor::Instance()->FillTrack(fGTrack, fGTrack_R);
+	TAUI::Instance()->FillTrack(fGTrack, fGTrack_R);
 	// fill fired TOFWall strips
 	if(!fGPlaStrip) TAPopMsg::Error("TAVisual", "Fill: fGPlaStrip is null");
 	TGraph *gpla = fGPlaStrip;

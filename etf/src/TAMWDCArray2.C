@@ -39,7 +39,7 @@
 #include "TAMath.h"
 #include "TAPlaStrip.h"
 #include "TAGPar.h"
-#include "TAEventProcessor.h"
+#include "TAUI.h"
 #include "tEntry.h"
 
 
@@ -105,7 +105,7 @@ void TAMWDCArray2::AssignTracks(vector<tTrack *> &track_ls){ // assign tracks
 	if(!fTrackList[0].size() && !fTrackList[1].size()) return; // no tracks to assign
 
 	static bool usingPDC = gp->Val(83);
-	int index = TAEventProcessor::Instance()->GetEntryList()[0]->index;
+	int index = TAUI::Instance()->GetEntryList()[0]->index;
 	int type[6]{}; TAUIDParser::DNS(type, GetUID());
 	tTrack *ptrack_t = nullptr; // a temporary variable
 	for(int l = 0; l < 2; l++){ // loop over X-Y
