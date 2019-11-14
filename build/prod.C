@@ -8,6 +8,10 @@ using std::endl;
 void errProd(double x1, double dx1, double x2, double dx2);
 
 int main(int argc, char **argv){
+    if(argc < 5){
+        cout << "./prod <x1> <dx1> <x2> <dx2>" << endl;
+        exit(EXIT_FAILURE);
+    }
     double x1 = atof(argv[1]), dx1 = atof(argv[2]);
     double x2 = atof(argv[3]), dx2 = atof(argv[4]);
 

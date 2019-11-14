@@ -304,7 +304,20 @@
 				pdcArrayTa4->SetPostMagXproj(pOut[0], pOut[2]); // k, b
 				pdcArrayTa4->Map();
 				
-
+				// update ntr variables //
+				memset(ntrLs, 0, sizeof(ntrLs));
+				for(tTrack *&t : track_ls){
+					const int dcArrId = t->type / 10 % 10, dcType = t->type % 10;
+					ntrLs[dcArrId][dcType]++;
+					if(dcArrId > 1 && 1 == dcType) cntTrkY++;
+					if(0 == dcType) cntTrkX++;
+				}
+				ntr = 0; ntrT = track_ls.size();
+				for(tTrack *&t : track_ls){
+					const short dcArrId = t->type / 10 % 10; // dcArrId
+					if(0 == dcArrId || 1 == dcArrId) ntr++; // ntr for MWDCArrayL-R
+				}
+				ntr = ntr < ntrMax ? ntr : ntrMax;
 
 //				bool GOING = false; // DEBUG
 //				cout << "index: " << index << endl; // DEBUG
@@ -360,7 +373,13 @@
 					} // end for over jj
 				} // end outer if
 
-				if(!pdcArrayTa4->ZeroTrack()){
+				if(0 && pdcArrayTa4->ZeroTrack()){  // 
+					static int n;
+					TAPopMsg::Warn("TAEvProsr", "Run: pdcArrTa4 zero track! n = %d, index: %d", n++, index);
+//					cout << pOut[0] << " " << pOut[1] << endl;
+//					cout << pIn[0] << " " << pIn[1] << endl;
+				}
+				if(1 == ntrLs[3][0]){ // 1 || !pdcArrayTa4->ZeroTrack()
 					static TAPID::OPTION pidOpt = (TAPID::OPTION)(GetGPar()->Val(109));
 					pid->Fly(tof2[0], -9999., pOut, 1, pidOpt, pIn, pIn0);
 					aoz[0] = pid->GetAoZ(); aozdmin[0] = pid->GetChi();
@@ -464,21 +483,6 @@
 			TOT_DC_Avrg[j] = tra->dcTOTAvrg();
 		} // end for over tracks
 
-		// update ntr variables //
-		memset(ntrLs, 0, sizeof(ntrLs));
-		for(tTrack *&t : track_ls){
-			const int dcArrId = t->type / 10 % 10, dcType = t->type % 10;
-			ntrLs[dcArrId][dcType]++;
-			if(dcArrId > 1 && 1 == dcType) cntTrkY++;
-			if(0 == dcType) cntTrkX++;
-		}
-		ntr = 0; ntrT = track_ls.size();
-		for(tTrack *&t : track_ls){
-			const short dcArrId = t->type / 10 % 10; // dcArrId
-			if(0 == dcArrId || 1 == dcArrId) ntr++; // ntr for MWDCArrayL-R
-		}
-		ntr = ntr < ntrMax ? ntr : ntrMax;
-
 
 		/// XXX THE TREE FILLING XXX ///
 		for(TTree *&tree : objLsTree) tree->Fill();
@@ -499,7 +503,7 @@
 		static const int indexArr2[] = { // for CUTG2
 			12317, 14379, 17993, 24103, 24461, 25508, 36483, 45001, 50181, 55596, 57008, 59837, 68406, 74335, 81555, 93986, 105092, 109742, 116680, 120688, 126726, 127131, 132378, 132603, 137569};
 		static const int indexArr3[] = { // for CUTG3
-			413, 4478, 5544, 7728, 7834, 9408, 10149, 10336, 10734, 10821, 11350, 12728, 13614, 14012, 15311, 18184, 19209, 21690, 22617, 24220, 24338, 24371, 24645, 26499, 27907};
+			413, 4478, 5544, 7728, 7834, 9408, 10149, 10336, 10734, 10821, 11350, 12728, 13614, 14012, 15311, 18184, 19209, 21690, 22617, 24220, 24338, 24371, 24645, 26499, 27907, 513507, 583526};
 		// to find a match
 		bool BINGO = false;
 		for(const int t : indexArr1) if(t == index) { BINGO = true; break; }
@@ -509,7 +513,7 @@
 
 		if(0) vis->FillHitMap();
 		static int jj = 0;
-		static const int jjM = 100;
+		static const int jjM = 0;
 
 		if(jj < jjM && BINGO){ //  && -9999 != aoz[0] // 
 			jj++;

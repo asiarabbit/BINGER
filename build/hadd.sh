@@ -15,5 +15,5 @@ hadd C13TA.root 20180714_0040.dat_0.root 20180714_0425.dat_0.root #20180713_2001
 hadd C13NOTA.root 20180714_0613.dat_0.root
 
 # C12 setting
-hadd C12TA.root 20180713_0000.dat_0.root 20180713_0209.dat_0.root 20180713_0508.dat_0.root
-hadd C12NOTA.root 20180713_0920.dat_0.root 20180713_1336.dat_0.root
+hadd C12TA.root 20180713_0000.dat_0.root 20180713_0209.dat_0.root 20180713_0508.dat_0.root 20180713_1336.dat_0.root
+hadd C12NOTA.root 20180713_0920.dat_0.root

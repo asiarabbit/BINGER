@@ -150,7 +150,7 @@
 # StripTolerance
 46 1
 # FitMethod => kNormalFit: 0; kBFGSFit: 1 kIterFit: 2
-47 1
+47 2
 # Precision => allowed value: -2, -1, 0, 1, 2, 3, increasing depth
 48 2
 # nstripstray unit: /(strip width)

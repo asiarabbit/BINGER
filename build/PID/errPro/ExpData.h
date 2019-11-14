@@ -35,6 +35,8 @@ private:
 ExpData Sqrt(const ExpData &p);
 ExpData operator+(double k, const ExpData &p);
 ExpData operator-(double k, const ExpData &p);
+ExpData operator*(double k, const ExpData &p);
+ExpData operator/(double k, const ExpData &p);
 ExpData Exp(const ExpData &p);
 
 # endif

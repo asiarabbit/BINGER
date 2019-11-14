@@ -122,16 +122,15 @@ public:
 	static double Dx2DxTa_2(double k0, double k1, double k2, double b0, double b1, double b2){
 		double dxTa = DxTa(k0, k1, b0, b1);
 		double dx2 = DX2(k1, k2, b1, b2);
-		double dk = atan(k0) - atan(k1);
-		// 10.*dk/0.013 = 769*dk; 3 sigma(dk) scaled to 10 mm
+		// 10.*k0/0.013 = 769*k0; 3 sigma(k0) scaled to 10 mm
 //		cout << "1, dk: " << dk << endl;
-		dk *= 70.;
-		if(fabs(dk) > 0.013) dk *= 7.;
+		double k0tmp = 500.*k0;
+		if(fabs(k0) > 0.02) k0tmp *= 7.;
 //		cout << "2, dk: " << dk << endl;
 		return
 			dxTa*dxTa * 1. / kVdxTa + // 1.72 the relative variance V/sigma_DC
 			dx2*dx2 * 1. / kVdx2 +  // 7.5
-			dk*dk; // XXX 2019-10-15
+			k0*k0; // XXX 2019-10-15
 	}
 
 

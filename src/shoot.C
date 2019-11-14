@@ -406,7 +406,7 @@ void shoot(const char *rootfile){
 				if(131 == type[j]) pdcgGOOD[1] = gGOOD[j];
 				if(cntPDCX >= 2){
 					cout << "More than 1 PDC-D X track in event " << i << endl;
-					getchar();
+//					getchar();
 				}
 			} // end for over j
 		} // end if

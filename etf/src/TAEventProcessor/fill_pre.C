@@ -192,6 +192,12 @@
 //		getchar(); // DEBUG
 
 		////////////// detector performance statistics //////////////
+		// initialize multiplicity //
+		memset(multi_DC, 0, sizeof(multi_DC));
+		memset(multi_PDC, 0, sizeof(multi_DC));
+		memset(multi_DCTa, 0, sizeof(multi_DC));
+		memset(multiTOFW_pre, 0, sizeof(multiTOFW_pre));
+		memset(multiTOFW_pre, 0, sizeof(multiTOFW_post));
 		// the MWDC arrays downstream of the target //
 		for(int ii = 0; ii < 2; ii++) if(dcArr[ii]){ // loop over MWDC arrays
 			ttRef_TOFW[ii] = -9999.;

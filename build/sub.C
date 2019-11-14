@@ -9,6 +9,10 @@ using std::endl;
 void minus(double x1, double dx1, double x2, double dx2, double *p);
 
 int main(int argc, char **argv){
+    if(argc < 5){
+        cout << "./sub <x1> <dx1> <x2> <dx2>; The result is x1 - x2." << endl;
+        exit(EXIT_FAILURE);
+    }
 	const double x1 = atof(argv[1]), dx1 = atof(argv[2]);
 	const double x2 = atof(argv[3]), dx2 = atof(argv[4]);
 	

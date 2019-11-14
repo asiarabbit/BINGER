@@ -18,8 +18,11 @@
 ./preC16 20180708_1840.dat 20180708.006 -d3
 ./sho 20180708_1840.dat_0.root
 
+hadd -f C16TA.root 20180708_0153.dat_0.root 20180708_1530.dat_0.root 20180708_1840.dat_0.root
 
 # empty TA; 40w
 ./preC16 20180708_2137.dat 20180708.007 -d3
 ./sho 20180708_2137.dat_0.root
+
+mv 20180708_2137.dat_0.root C16NOTA.root
 

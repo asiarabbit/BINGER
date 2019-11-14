@@ -6,6 +6,10 @@ using std::cin;
 using std::endl;
 
 int main(int argc, char **argv){
+    if(argc < 5){
+        cout << "./rateS <x1> <dx1> <x2> <dx2>" << endl;
+        exit(EXIT_FAILURE);
+    }
     double N1 = atof(argv[1]), dN1 = atof(argv[2]);
     double N2 = atof(argv[3]), dN2 = atof(argv[4]);
     const double rate = N1 / N2;

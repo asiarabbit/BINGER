@@ -51,7 +51,7 @@ using std::cout;
 using std::endl;
 
 TAPDCArrayTa4 *TAPDCArrayTa4::fInstance = nullptr;
-double TAPDCArrayTa4::fChi2ExtraThre = 50. / 3.;
+double TAPDCArrayTa4::fChi2ExtraThre = 1e200 / 3.;
 // the object containing all the constructed detector, responsible for fired
 // channel distribution, tracking and pid result output
 static TACtrlPara *clp = TACtrlPara::Instance();
@@ -294,8 +294,12 @@ bool TAPDCArrayTa4::Map(){
 		cout << "END\033[0m" << endl;
 		getchar(); // DEBUG
 #endif
-		if(!normalEvent[0] && !specialEvent[0]) continue;
-		if(!normalEvent[1] && !specialEvent[1]) continue;
+		if(!normalEvent[0] && !specialEvent[0]){
+			continue;
+		}
+		if(!normalEvent[1] && !specialEvent[1]){
+			continue;
+		}
 
 		for(int i = 0; i < 2; i++){
 			gGOOD[i] = -1;
@@ -366,6 +370,7 @@ bool TAPDCArrayTa4::Map(){
 				TOF[i] = GetMWDCArray(i)->GetPlaT0()->GetTime(t0, t1, t2);
 				if(-9999. == TOF[i]){ // drift time start is not available
 					isBadTrack = true;
+					TAPopMsg::Error("TAPDCArray", "Map: Second time tracking, TOF invalid");
 					continue;
 				}
 			} // end for over i: two PDCs
@@ -521,7 +526,7 @@ bool TAPDCArrayTa4::Map(){
 			remove_if(track.begin(), track.end(), [=](TATrackTa4 *t){ return !(t->GetChi2() == d2min); });
 		track.erase(it, track.end());
 	} // end if
-	/////// remove all the UX and DX tracks to be replaced by new ones	
+	/////// remove all the UX and DX tracks to be replaced by new ones
 	vector<tTrack *>::iterator last = remove_if(tl.begin(), tl.end(), [](tTrack *t){ return t->type == 120 || t->type == 130; });
 	tl.erase(last, tl.end());
 	AssignTracks(tl);

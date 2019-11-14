@@ -1,0 +1,16 @@
+/home/asia/pionExp2017/build1/CMakeFiles/rebuild_cache.dir
+/home/asia/pionExp2017/build1/CMakeFiles/edit_cache.dir
+/home/asia/pionExp2017/build1/etf/CMakeFiles/rebuild_cache.dir
+/home/asia/pionExp2017/build1/etf/CMakeFiles/libetf.dir
+/home/asia/pionExp2017/build1/etf/CMakeFiles/edit_cache.dir
+/home/asia/pionExp2017/build1/src/CMakeFiles/rebuild_cache.dir
+/home/asia/pionExp2017/build1/src/CMakeFiles/edit_cache.dir
+/home/asia/pionExp2017/build1/src/CMakeFiles/sho.dir
+/home/asia/pionExp2017/build1/src/CMakeFiles/strdcta.dir
+/home/asia/pionExp2017/build1/src/CMakeFiles/strpdc.dir
+/home/asia/pionExp2017/build1/src/CMakeFiles/pre.dir
+/home/asia/pionExp2017/build1/src/CMakeFiles/sim.dir
+/home/asia/pionExp2017/build1/src/CMakeFiles/ass.dir
+/home/asia/pionExp2017/build1/src/CMakeFiles/t0.dir
+/home/asia/pionExp2017/build1/src/CMakeFiles/str.dir
+/home/asia/pionExp2017/build1/src/CMakeFiles/t0pdc.dir

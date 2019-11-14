@@ -245,7 +245,7 @@ void TATrackTa4::BFGSFit(TATrack2 *trkPreTa, TATrack2 *trkPostTa, double k2, dou
 	// guide the BFGS fit with a good start
 	TAMath::IterFit4(z, x, r, k, b, gGOOD, LAYER, d2ThrePD);
 	// refined fit for perfection
-	TAMath::BFGS4(z, x, r, k, b, gGOOD, LAYER, d2ThrePD);
+//	TAMath::BFGS4(z, x, r, k, b, gGOOD, LAYER, d2ThrePD);
 
 	// accept the new fitting result
 	double chi[2][6], chi2[2]{}; // must be of the length 6

@@ -19,9 +19,14 @@
 ./preC13 20180714_0425.dat 20180713.014 -d3
 ./sho 20180714_0425.dat_0.root
 
+hadd -f C13TA.root 20180714_0040.dat_0.root 20180714_0425.dat_0.root
+
 # empty TA 36w
 ./preC13 20180714_0613.dat 20180714.001 -d3
 ./sho 20180714_0613.dat_0.root
+
+mv 20180714_0613.dat_0.root C13NOTA.root
+
 ############### DC1 FEE configuration failure && MU Gain too large ##########
 
 

@@ -1,6 +1,7 @@
 // ExpData.C -- implementation file for class ExpData -- error propagation
 
 #include <iostream>
+#include <iomanip>
 #include <cstdlib>
 #include <cmath>
 
@@ -24,12 +25,15 @@ ExpData &ExpData::operator=(const ExpData &data){
 }
 
 void ExpData::print() const{
+	cout << std::fixed;
+	cout << std::setprecision(4);
 	const double rel = fErr / fVal * 100.;
 	cout << fVal << "(" << fErr << ", " << rel << "%)";
 }
 std::ostream &operator<<(std::ostream &os, const ExpData &data){
-	const double rel = data.fErr / data.fVal * 100.;
-	os << data.fVal << "(" << data.fErr << ", " << rel << "%)";
+	os << data.fVal;
+//	const double rel = data.fErr / data.fVal * 100.;
+//	os << data.fVal << "(" << data.fErr << ", " << rel << "%)";
 	return os;
 }
 const ExpData &ExpData::operator+=(const ExpData &data){
@@ -88,5 +92,11 @@ ExpData Exp(const ExpData &p){
 	return ExpData(ep, ep*p.err());
 }
 
+ExpData operator*(double k, const ExpData &data){
+	return data*ExpData(k, 0.);
+}
 
+ExpData operator/(double k, const ExpData &data){
+	return data/ExpData(k, 0.);
+}
 
