@@ -57,38 +57,38 @@ include src/CMakeFiles/sim.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/CMakeFiles/sim.dir/flags.make
 
-src/CMakeFiles/sim.dir/sim.C.o: src/CMakeFiles/sim.dir/flags.make
-src/CMakeFiles/sim.dir/sim.C.o: ../src/sim.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/sim.dir/sim.C.o"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sim.dir/sim.C.o -c /home/asia/pionExp2017/src/sim.C
+src/CMakeFiles/sim.dir/sim.cxx.o: src/CMakeFiles/sim.dir/flags.make
+src/CMakeFiles/sim.dir/sim.cxx.o: ../src/sim.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/sim.dir/sim.cxx.o"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sim.dir/sim.cxx.o -c /home/asia/pionExp2017/src/sim.cxx
 
-src/CMakeFiles/sim.dir/sim.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sim.dir/sim.C.i"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/src/sim.C > CMakeFiles/sim.dir/sim.C.i
+src/CMakeFiles/sim.dir/sim.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sim.dir/sim.cxx.i"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/src/sim.cxx > CMakeFiles/sim.dir/sim.cxx.i
 
-src/CMakeFiles/sim.dir/sim.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sim.dir/sim.C.s"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/src/sim.C -o CMakeFiles/sim.dir/sim.C.s
+src/CMakeFiles/sim.dir/sim.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sim.dir/sim.cxx.s"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/src/sim.cxx -o CMakeFiles/sim.dir/sim.cxx.s
 
-src/CMakeFiles/sim.dir/sim.C.o.requires:
+src/CMakeFiles/sim.dir/sim.cxx.o.requires:
 
-.PHONY : src/CMakeFiles/sim.dir/sim.C.o.requires
+.PHONY : src/CMakeFiles/sim.dir/sim.cxx.o.requires
 
-src/CMakeFiles/sim.dir/sim.C.o.provides: src/CMakeFiles/sim.dir/sim.C.o.requires
-	$(MAKE) -f src/CMakeFiles/sim.dir/build.make src/CMakeFiles/sim.dir/sim.C.o.provides.build
-.PHONY : src/CMakeFiles/sim.dir/sim.C.o.provides
+src/CMakeFiles/sim.dir/sim.cxx.o.provides: src/CMakeFiles/sim.dir/sim.cxx.o.requires
+	$(MAKE) -f src/CMakeFiles/sim.dir/build.make src/CMakeFiles/sim.dir/sim.cxx.o.provides.build
+.PHONY : src/CMakeFiles/sim.dir/sim.cxx.o.provides
 
-src/CMakeFiles/sim.dir/sim.C.o.provides.build: src/CMakeFiles/sim.dir/sim.C.o
+src/CMakeFiles/sim.dir/sim.cxx.o.provides.build: src/CMakeFiles/sim.dir/sim.cxx.o
 
 
 # Object files for target sim
 sim_OBJECTS = \
-"CMakeFiles/sim.dir/sim.C.o"
+"CMakeFiles/sim.dir/sim.cxx.o"
 
 # External object files for target sim
 sim_EXTERNAL_OBJECTS =
 
-sim: src/CMakeFiles/sim.dir/sim.C.o
+sim: src/CMakeFiles/sim.dir/sim.cxx.o
 sim: src/CMakeFiles/sim.dir/build.make
 sim: lib/libetf.so
 sim: /home/asia/Documents/root/install/lib/libCore.so
@@ -115,7 +115,7 @@ src/CMakeFiles/sim.dir/build: sim
 
 .PHONY : src/CMakeFiles/sim.dir/build
 
-src/CMakeFiles/sim.dir/requires: src/CMakeFiles/sim.dir/sim.C.o.requires
+src/CMakeFiles/sim.dir/requires: src/CMakeFiles/sim.dir/sim.cxx.o.requires
 
 .PHONY : src/CMakeFiles/sim.dir/requires
 

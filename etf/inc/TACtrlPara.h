@@ -22,28 +22,28 @@ public:
 	static TACtrlPara *Instance();
 	virtual ~TACtrlPara();
 	//-------------- read offline data --------------//
-	static bool IsCheckBunchIdAlignment();
-	static bool IsDriftTimeQtCorrection();
-	bool IsCoarseFit();
-	bool Is3DTracking();
+	bool IsCheckBunchIdAlignment() const;
+	bool IsDriftTimeQtCorrection() const;
+	bool IsCoarseFit() const;
+	bool Is3DTracking() const;
 	/// tolerance window for 3D coincidence test of X U and V track projections
 	/// 5: half a DC cell, given all kinds of errors
-	static double Get3DCoincideWindow();
-	static double D2Thre(unsigned uid = 999999999); ///< for eliminating falsely fired andoes. unit: mm^2
-	static double DsquareThresholdPerDot(unsigned uid);
-	static bool TimeThre(double t, unsigned uid = 999999999); ///< if time is within set range
-	double ChiThre(unsigned uid = 999999999); ///< threshold for chi average
+	double Get3DCoincideWindow() const;
+	double D2Thre(unsigned uid = 999999999) const; ///< for eliminating falsely fired andoes. unit: mm^2
+	double DsquareThresholdPerDot(unsigned uid) const;
+	bool TimeThre(double t, unsigned uid = 999999999) const; ///< if time is within set range
+	double ChiThre(unsigned uid = 999999999) const; ///< threshold for chi average
 	/// threshold for chi per dot, to eliminate false combinations. 4.0
-	double ChiThrePD(unsigned uid = 999999999);
-	static int Vicinity(); ///< used in discerning multiple tracks, unit: cell
-	static int StripTolerance(); ///< used in discerning multiple tracks, unit: strip
+	double ChiThrePD(unsigned uid = 999999999) const;
+	int Vicinity() const; ///< used in discerning multiple tracks, unit: cell
+	int StripTolerance() const; ///< used in discerning multiple tracks, unit: strip
 	/// TATrack::kBFGSFit; // kNormalFit: 0; kBFGSFit: 1 kIterFit: 2
-	static int FitMethod();
+	int FitMethod() const;
 	/// only effective if input fit method is kNormalFit
 	/// allowed value: -2, -1, 0, 1, 2, 3, with calculation depth increasing. unit: mm^2
-	static int Precision();
+	int Precision() const;
 	/// MWDCArrayR_DC1_U: installation error
-	static double DCArrR_DC1UHorizontalDeviation();
+	double DCArrR_DC1UHorizontalDeviation() const;
 	/// as its name indicates, used in TAAnode::GetDriftTime
 	double DriftTimeQtCorrectionWeight() const{ return kDriftTimeQtCorrectionWeight; }
 	const char *DataFileName() const;
@@ -58,14 +58,14 @@ public:
 
 	/// spatial resolution used to smear drift distance during the generation of simulation data
 	/// This method is used in TAAnodePara::GetSpatialResolution()
-	static double GetSimSpatialResolution();
+	double GetSimSpatialResolution() const;
 	void SetSimSpatialResolution(double sigmar);
 
 	/// rough time of flight from DC to TOF wall unit: ns
 	/// for pattern recognition purposes only
 	/// PION: {12.5, 7.5, 2.5}; BEAM TEST: {29.06, 20.34, 18.23} - 17.73 - 1.5
-	static double T_tofDCtoTOFW(unsigned uid);
-	static double T_wireMean(unsigned uid);
+	double T_tofDCtoTOFW(unsigned uid) const;
+	double T_wireMean(unsigned uid) const;
 
 	void SetConfigExpDir(const string &dir);
 	void SetSTRROOTFile(const string &file);
@@ -81,7 +81,7 @@ private:
 	//---------  for pattern recognition -------------------//
 	/// for map function
 	double kDriftTimeQtCorrectionWeight; ///< as its name indicates, used in TAAnode.C
-	static double fSigmaR; ///< spatial resolution used to smear drift distance during the generation of simulation data
+	double fSigmaR; ///< spatial resolution used to smear drift distance during the generation of simulation data
 
 	string kDataFile; ///< for extra use
 	/// the directory name in config directory holding the selected experiment config files

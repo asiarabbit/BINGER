@@ -57,38 +57,38 @@ include src/CMakeFiles/ass.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/CMakeFiles/ass.dir/flags.make
 
-src/CMakeFiles/ass.dir/assess.C.o: src/CMakeFiles/ass.dir/flags.make
-src/CMakeFiles/ass.dir/assess.C.o: ../src/assess.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/ass.dir/assess.C.o"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ass.dir/assess.C.o -c /home/asia/pionExp2017/src/assess.C
+src/CMakeFiles/ass.dir/assess.cxx.o: src/CMakeFiles/ass.dir/flags.make
+src/CMakeFiles/ass.dir/assess.cxx.o: ../src/assess.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/ass.dir/assess.cxx.o"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ass.dir/assess.cxx.o -c /home/asia/pionExp2017/src/assess.cxx
 
-src/CMakeFiles/ass.dir/assess.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ass.dir/assess.C.i"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/src/assess.C > CMakeFiles/ass.dir/assess.C.i
+src/CMakeFiles/ass.dir/assess.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ass.dir/assess.cxx.i"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/src/assess.cxx > CMakeFiles/ass.dir/assess.cxx.i
 
-src/CMakeFiles/ass.dir/assess.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ass.dir/assess.C.s"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/src/assess.C -o CMakeFiles/ass.dir/assess.C.s
+src/CMakeFiles/ass.dir/assess.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ass.dir/assess.cxx.s"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/src/assess.cxx -o CMakeFiles/ass.dir/assess.cxx.s
 
-src/CMakeFiles/ass.dir/assess.C.o.requires:
+src/CMakeFiles/ass.dir/assess.cxx.o.requires:
 
-.PHONY : src/CMakeFiles/ass.dir/assess.C.o.requires
+.PHONY : src/CMakeFiles/ass.dir/assess.cxx.o.requires
 
-src/CMakeFiles/ass.dir/assess.C.o.provides: src/CMakeFiles/ass.dir/assess.C.o.requires
-	$(MAKE) -f src/CMakeFiles/ass.dir/build.make src/CMakeFiles/ass.dir/assess.C.o.provides.build
-.PHONY : src/CMakeFiles/ass.dir/assess.C.o.provides
+src/CMakeFiles/ass.dir/assess.cxx.o.provides: src/CMakeFiles/ass.dir/assess.cxx.o.requires
+	$(MAKE) -f src/CMakeFiles/ass.dir/build.make src/CMakeFiles/ass.dir/assess.cxx.o.provides.build
+.PHONY : src/CMakeFiles/ass.dir/assess.cxx.o.provides
 
-src/CMakeFiles/ass.dir/assess.C.o.provides.build: src/CMakeFiles/ass.dir/assess.C.o
+src/CMakeFiles/ass.dir/assess.cxx.o.provides.build: src/CMakeFiles/ass.dir/assess.cxx.o
 
 
 # Object files for target ass
 ass_OBJECTS = \
-"CMakeFiles/ass.dir/assess.C.o"
+"CMakeFiles/ass.dir/assess.cxx.o"
 
 # External object files for target ass
 ass_EXTERNAL_OBJECTS =
 
-ass: src/CMakeFiles/ass.dir/assess.C.o
+ass: src/CMakeFiles/ass.dir/assess.cxx.o
 ass: src/CMakeFiles/ass.dir/build.make
 ass: lib/libetf.so
 ass: /home/asia/Documents/root/install/lib/libCore.so
@@ -115,7 +115,7 @@ src/CMakeFiles/ass.dir/build: ass
 
 .PHONY : src/CMakeFiles/ass.dir/build
 
-src/CMakeFiles/ass.dir/requires: src/CMakeFiles/ass.dir/assess.C.o.requires
+src/CMakeFiles/ass.dir/requires: src/CMakeFiles/ass.dir/assess.cxx.o.requires
 
 .PHONY : src/CMakeFiles/ass.dir/requires
 

@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/t0pdc.dir/t0cali_pdc.C.o"
+  "CMakeFiles/t0pdc.dir/t0cali_pdc.cxx.o"
   "../t0pdc.pdb"
   "../t0pdc"
 )

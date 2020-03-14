@@ -57,38 +57,38 @@ include src/CMakeFiles/t0.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/CMakeFiles/t0.dir/flags.make
 
-src/CMakeFiles/t0.dir/t0cali.C.o: src/CMakeFiles/t0.dir/flags.make
-src/CMakeFiles/t0.dir/t0cali.C.o: ../src/t0cali.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/t0.dir/t0cali.C.o"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/t0.dir/t0cali.C.o -c /home/asia/pionExp2017/src/t0cali.C
+src/CMakeFiles/t0.dir/t0cali.cxx.o: src/CMakeFiles/t0.dir/flags.make
+src/CMakeFiles/t0.dir/t0cali.cxx.o: ../src/t0cali.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/t0.dir/t0cali.cxx.o"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/t0.dir/t0cali.cxx.o -c /home/asia/pionExp2017/src/t0cali.cxx
 
-src/CMakeFiles/t0.dir/t0cali.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/t0.dir/t0cali.C.i"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/src/t0cali.C > CMakeFiles/t0.dir/t0cali.C.i
+src/CMakeFiles/t0.dir/t0cali.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/t0.dir/t0cali.cxx.i"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/src/t0cali.cxx > CMakeFiles/t0.dir/t0cali.cxx.i
 
-src/CMakeFiles/t0.dir/t0cali.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/t0.dir/t0cali.C.s"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/src/t0cali.C -o CMakeFiles/t0.dir/t0cali.C.s
+src/CMakeFiles/t0.dir/t0cali.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/t0.dir/t0cali.cxx.s"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/src/t0cali.cxx -o CMakeFiles/t0.dir/t0cali.cxx.s
 
-src/CMakeFiles/t0.dir/t0cali.C.o.requires:
+src/CMakeFiles/t0.dir/t0cali.cxx.o.requires:
 
-.PHONY : src/CMakeFiles/t0.dir/t0cali.C.o.requires
+.PHONY : src/CMakeFiles/t0.dir/t0cali.cxx.o.requires
 
-src/CMakeFiles/t0.dir/t0cali.C.o.provides: src/CMakeFiles/t0.dir/t0cali.C.o.requires
-	$(MAKE) -f src/CMakeFiles/t0.dir/build.make src/CMakeFiles/t0.dir/t0cali.C.o.provides.build
-.PHONY : src/CMakeFiles/t0.dir/t0cali.C.o.provides
+src/CMakeFiles/t0.dir/t0cali.cxx.o.provides: src/CMakeFiles/t0.dir/t0cali.cxx.o.requires
+	$(MAKE) -f src/CMakeFiles/t0.dir/build.make src/CMakeFiles/t0.dir/t0cali.cxx.o.provides.build
+.PHONY : src/CMakeFiles/t0.dir/t0cali.cxx.o.provides
 
-src/CMakeFiles/t0.dir/t0cali.C.o.provides.build: src/CMakeFiles/t0.dir/t0cali.C.o
+src/CMakeFiles/t0.dir/t0cali.cxx.o.provides.build: src/CMakeFiles/t0.dir/t0cali.cxx.o
 
 
 # Object files for target t0
 t0_OBJECTS = \
-"CMakeFiles/t0.dir/t0cali.C.o"
+"CMakeFiles/t0.dir/t0cali.cxx.o"
 
 # External object files for target t0
 t0_EXTERNAL_OBJECTS =
 
-t0: src/CMakeFiles/t0.dir/t0cali.C.o
+t0: src/CMakeFiles/t0.dir/t0cali.cxx.o
 t0: src/CMakeFiles/t0.dir/build.make
 t0: lib/libetf.so
 t0: /home/asia/Documents/root/install/lib/libCore.so
@@ -115,7 +115,7 @@ src/CMakeFiles/t0.dir/build: t0
 
 .PHONY : src/CMakeFiles/t0.dir/build
 
-src/CMakeFiles/t0.dir/requires: src/CMakeFiles/t0.dir/t0cali.C.o.requires
+src/CMakeFiles/t0.dir/requires: src/CMakeFiles/t0.dir/t0cali.cxx.o.requires
 
 .PHONY : src/CMakeFiles/t0.dir/requires
 

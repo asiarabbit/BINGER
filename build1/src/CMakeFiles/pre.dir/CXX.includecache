@@ -28,7 +28,7 @@ TACtrlPara.h
 TAEventProcessor.h
 ../etf/inc/TAEventProcessor.h
 
-/home/asia/pionExp2017/src/pre.C
+/home/asia/pionExp2017/src/pre.cxx
 iostream
 -
 cstdlib

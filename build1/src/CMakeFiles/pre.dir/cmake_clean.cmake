@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/pre.dir/pre.C.o"
+  "CMakeFiles/pre.dir/pre.cxx.o"
   "../pre.pdb"
   "../pre"
 )

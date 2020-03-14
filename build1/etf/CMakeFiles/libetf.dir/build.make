@@ -57,2196 +57,2196 @@ include etf/CMakeFiles/libetf.dir/progress.make
 # Include the compile flags for this target's objects.
 include etf/CMakeFiles/libetf.dir/flags.make
 
-etf/CMakeFiles/libetf.dir/src/TAAnode.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAAnode.C.o: ../etf/src/TAAnode.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAAnode.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAAnode.C.o -c /home/asia/pionExp2017/etf/src/TAAnode.C
+etf/CMakeFiles/libetf.dir/src/TAAnode.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAAnode.cxx.o: ../etf/src/TAAnode.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAAnode.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAAnode.cxx.o -c /home/asia/pionExp2017/etf/src/TAAnode.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAAnode.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAAnode.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAAnode.C > CMakeFiles/libetf.dir/src/TAAnode.C.i
+etf/CMakeFiles/libetf.dir/src/TAAnode.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAAnode.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAAnode.cxx > CMakeFiles/libetf.dir/src/TAAnode.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAAnode.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAAnode.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAAnode.C -o CMakeFiles/libetf.dir/src/TAAnode.C.s
+etf/CMakeFiles/libetf.dir/src/TAAnode.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAAnode.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAAnode.cxx -o CMakeFiles/libetf.dir/src/TAAnode.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAAnode.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAAnode.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAAnode.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAAnode.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAAnode.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAAnode.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAnode.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAAnode.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAAnode.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAAnode.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAnode.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAAnode.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAAnode.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAAnode.C.o
+etf/CMakeFiles/libetf.dir/src/TAAnode.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAAnode.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAAnodeData.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAAnodeData.C.o: ../etf/src/TAAnodeData.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAAnodeData.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAAnodeData.C.o -c /home/asia/pionExp2017/etf/src/TAAnodeData.C
+etf/CMakeFiles/libetf.dir/src/TAAnodeData.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAAnodeData.cxx.o: ../etf/src/TAAnodeData.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAAnodeData.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAAnodeData.cxx.o -c /home/asia/pionExp2017/etf/src/TAAnodeData.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAAnodeData.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAAnodeData.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAAnodeData.C > CMakeFiles/libetf.dir/src/TAAnodeData.C.i
+etf/CMakeFiles/libetf.dir/src/TAAnodeData.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAAnodeData.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAAnodeData.cxx > CMakeFiles/libetf.dir/src/TAAnodeData.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAAnodeData.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAAnodeData.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAAnodeData.C -o CMakeFiles/libetf.dir/src/TAAnodeData.C.s
+etf/CMakeFiles/libetf.dir/src/TAAnodeData.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAAnodeData.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAAnodeData.cxx -o CMakeFiles/libetf.dir/src/TAAnodeData.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAAnodeData.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAAnodeData.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAAnodeData.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAAnodeData.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAAnodeData.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAAnodeData.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAnodeData.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAAnodeData.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAAnodeData.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAAnodeData.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAnodeData.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAAnodeData.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAAnodeData.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAAnodeData.C.o
+etf/CMakeFiles/libetf.dir/src/TAAnodeData.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAAnodeData.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAAnodePara.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAAnodePara.C.o: ../etf/src/TAAnodePara.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAAnodePara.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAAnodePara.C.o -c /home/asia/pionExp2017/etf/src/TAAnodePara.C
+etf/CMakeFiles/libetf.dir/src/TAAnodePara.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAAnodePara.cxx.o: ../etf/src/TAAnodePara.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAAnodePara.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAAnodePara.cxx.o -c /home/asia/pionExp2017/etf/src/TAAnodePara.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAAnodePara.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAAnodePara.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAAnodePara.C > CMakeFiles/libetf.dir/src/TAAnodePara.C.i
+etf/CMakeFiles/libetf.dir/src/TAAnodePara.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAAnodePara.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAAnodePara.cxx > CMakeFiles/libetf.dir/src/TAAnodePara.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAAnodePara.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAAnodePara.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAAnodePara.C -o CMakeFiles/libetf.dir/src/TAAnodePara.C.s
+etf/CMakeFiles/libetf.dir/src/TAAnodePara.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAAnodePara.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAAnodePara.cxx -o CMakeFiles/libetf.dir/src/TAAnodePara.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAAnodePara.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAAnodePara.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAAnodePara.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAAnodePara.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAAnodePara.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAAnodePara.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAnodePara.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAAnodePara.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAAnodePara.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAAnodePara.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAnodePara.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAAnodePara.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAAnodePara.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAAnodePara.C.o
+etf/CMakeFiles/libetf.dir/src/TAAnodePara.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAAnodePara.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAAssess.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAAssess.C.o: ../etf/src/TAAssess.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAAssess.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAAssess.C.o -c /home/asia/pionExp2017/etf/src/TAAssess.C
+etf/CMakeFiles/libetf.dir/src/TAAssess.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAAssess.cxx.o: ../etf/src/TAAssess.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAAssess.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAAssess.cxx.o -c /home/asia/pionExp2017/etf/src/TAAssess.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAAssess.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAAssess.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAAssess.C > CMakeFiles/libetf.dir/src/TAAssess.C.i
+etf/CMakeFiles/libetf.dir/src/TAAssess.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAAssess.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAAssess.cxx > CMakeFiles/libetf.dir/src/TAAssess.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAAssess.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAAssess.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAAssess.C -o CMakeFiles/libetf.dir/src/TAAssess.C.s
+etf/CMakeFiles/libetf.dir/src/TAAssess.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAAssess.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAAssess.cxx -o CMakeFiles/libetf.dir/src/TAAssess.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAAssess.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAAssess.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAAssess.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAAssess.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAAssess.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAAssess.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAssess.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAAssess.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAAssess.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAAssess.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAssess.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAAssess.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAAssess.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAAssess.C.o
+etf/CMakeFiles/libetf.dir/src/TAAssess.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAAssess.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAAssessPDC.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAAssessPDC.C.o: ../etf/src/TAAssessPDC.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAAssessPDC.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAAssessPDC.C.o -c /home/asia/pionExp2017/etf/src/TAAssessPDC.C
+etf/CMakeFiles/libetf.dir/src/TAAssessPDC.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAAssessPDC.cxx.o: ../etf/src/TAAssessPDC.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAAssessPDC.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAAssessPDC.cxx.o -c /home/asia/pionExp2017/etf/src/TAAssessPDC.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAAssessPDC.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAAssessPDC.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAAssessPDC.C > CMakeFiles/libetf.dir/src/TAAssessPDC.C.i
+etf/CMakeFiles/libetf.dir/src/TAAssessPDC.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAAssessPDC.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAAssessPDC.cxx > CMakeFiles/libetf.dir/src/TAAssessPDC.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAAssessPDC.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAAssessPDC.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAAssessPDC.C -o CMakeFiles/libetf.dir/src/TAAssessPDC.C.s
+etf/CMakeFiles/libetf.dir/src/TAAssessPDC.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAAssessPDC.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAAssessPDC.cxx -o CMakeFiles/libetf.dir/src/TAAssessPDC.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAAssessPDC.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAAssessPDC.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAAssessPDC.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAAssessPDC.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAAssessPDC.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAAssessPDC.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAssessPDC.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAAssessPDC.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAAssessPDC.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAAssessPDC.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAssessPDC.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAAssessPDC.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAAssessPDC.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAAssessPDC.C.o
+etf/CMakeFiles/libetf.dir/src/TAAssessPDC.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAAssessPDC.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAAssessTa.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAAssessTa.C.o: ../etf/src/TAAssessTa.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAAssessTa.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAAssessTa.C.o -c /home/asia/pionExp2017/etf/src/TAAssessTa.C
+etf/CMakeFiles/libetf.dir/src/TAAssessTa.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAAssessTa.cxx.o: ../etf/src/TAAssessTa.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAAssessTa.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAAssessTa.cxx.o -c /home/asia/pionExp2017/etf/src/TAAssessTa.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAAssessTa.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAAssessTa.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAAssessTa.C > CMakeFiles/libetf.dir/src/TAAssessTa.C.i
+etf/CMakeFiles/libetf.dir/src/TAAssessTa.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAAssessTa.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAAssessTa.cxx > CMakeFiles/libetf.dir/src/TAAssessTa.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAAssessTa.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAAssessTa.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAAssessTa.C -o CMakeFiles/libetf.dir/src/TAAssessTa.C.s
+etf/CMakeFiles/libetf.dir/src/TAAssessTa.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAAssessTa.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAAssessTa.cxx -o CMakeFiles/libetf.dir/src/TAAssessTa.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAAssessTa.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAAssessTa.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAAssessTa.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAAssessTa.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAAssessTa.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAAssessTa.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAssessTa.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAAssessTa.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAAssessTa.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAAssessTa.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAssessTa.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAAssessTa.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAAssessTa.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAAssessTa.C.o
+etf/CMakeFiles/libetf.dir/src/TAAssessTa.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAAssessTa.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TABUAA.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TABUAA.C.o: ../etf/src/TABUAA.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object etf/CMakeFiles/libetf.dir/src/TABUAA.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TABUAA.C.o -c /home/asia/pionExp2017/etf/src/TABUAA.C
+etf/CMakeFiles/libetf.dir/src/TABUAA.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TABUAA.cxx.o: ../etf/src/TABUAA.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object etf/CMakeFiles/libetf.dir/src/TABUAA.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TABUAA.cxx.o -c /home/asia/pionExp2017/etf/src/TABUAA.cxx
 
-etf/CMakeFiles/libetf.dir/src/TABUAA.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TABUAA.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TABUAA.C > CMakeFiles/libetf.dir/src/TABUAA.C.i
+etf/CMakeFiles/libetf.dir/src/TABUAA.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TABUAA.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TABUAA.cxx > CMakeFiles/libetf.dir/src/TABUAA.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TABUAA.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TABUAA.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TABUAA.C -o CMakeFiles/libetf.dir/src/TABUAA.C.s
+etf/CMakeFiles/libetf.dir/src/TABUAA.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TABUAA.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TABUAA.cxx -o CMakeFiles/libetf.dir/src/TABUAA.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TABUAA.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TABUAA.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TABUAA.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TABUAA.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TABUAA.C.o.provides: etf/CMakeFiles/libetf.dir/src/TABUAA.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TABUAA.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TABUAA.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TABUAA.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TABUAA.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TABUAA.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TABUAA.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TABUAA.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TABUAA.C.o
+etf/CMakeFiles/libetf.dir/src/TABUAA.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TABUAA.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAChData.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAChData.C.o: ../etf/src/TAChData.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAChData.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAChData.C.o -c /home/asia/pionExp2017/etf/src/TAChData.C
+etf/CMakeFiles/libetf.dir/src/TAChData.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAChData.cxx.o: ../etf/src/TAChData.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAChData.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAChData.cxx.o -c /home/asia/pionExp2017/etf/src/TAChData.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAChData.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAChData.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAChData.C > CMakeFiles/libetf.dir/src/TAChData.C.i
+etf/CMakeFiles/libetf.dir/src/TAChData.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAChData.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAChData.cxx > CMakeFiles/libetf.dir/src/TAChData.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAChData.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAChData.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAChData.C -o CMakeFiles/libetf.dir/src/TAChData.C.s
+etf/CMakeFiles/libetf.dir/src/TAChData.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAChData.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAChData.cxx -o CMakeFiles/libetf.dir/src/TAChData.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAChData.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAChData.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAChData.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAChData.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAChData.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAChData.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChData.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAChData.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAChData.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAChData.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChData.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAChData.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAChData.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAChData.C.o
+etf/CMakeFiles/libetf.dir/src/TAChData.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAChData.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAChDataVME.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAChDataVME.C.o: ../etf/src/TAChDataVME.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAChDataVME.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAChDataVME.C.o -c /home/asia/pionExp2017/etf/src/TAChDataVME.C
+etf/CMakeFiles/libetf.dir/src/TAChDataVME.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAChDataVME.cxx.o: ../etf/src/TAChDataVME.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAChDataVME.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAChDataVME.cxx.o -c /home/asia/pionExp2017/etf/src/TAChDataVME.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAChDataVME.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAChDataVME.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAChDataVME.C > CMakeFiles/libetf.dir/src/TAChDataVME.C.i
+etf/CMakeFiles/libetf.dir/src/TAChDataVME.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAChDataVME.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAChDataVME.cxx > CMakeFiles/libetf.dir/src/TAChDataVME.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAChDataVME.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAChDataVME.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAChDataVME.C -o CMakeFiles/libetf.dir/src/TAChDataVME.C.s
+etf/CMakeFiles/libetf.dir/src/TAChDataVME.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAChDataVME.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAChDataVME.cxx -o CMakeFiles/libetf.dir/src/TAChDataVME.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAChDataVME.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAChDataVME.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAChDataVME.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAChDataVME.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAChDataVME.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAChDataVME.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChDataVME.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAChDataVME.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAChDataVME.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAChDataVME.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChDataVME.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAChDataVME.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAChDataVME.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAChDataVME.C.o
+etf/CMakeFiles/libetf.dir/src/TAChDataVME.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAChDataVME.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAChPara.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAChPara.C.o: ../etf/src/TAChPara.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAChPara.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAChPara.C.o -c /home/asia/pionExp2017/etf/src/TAChPara.C
+etf/CMakeFiles/libetf.dir/src/TAChPara.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAChPara.cxx.o: ../etf/src/TAChPara.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAChPara.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAChPara.cxx.o -c /home/asia/pionExp2017/etf/src/TAChPara.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAChPara.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAChPara.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAChPara.C > CMakeFiles/libetf.dir/src/TAChPara.C.i
+etf/CMakeFiles/libetf.dir/src/TAChPara.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAChPara.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAChPara.cxx > CMakeFiles/libetf.dir/src/TAChPara.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAChPara.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAChPara.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAChPara.C -o CMakeFiles/libetf.dir/src/TAChPara.C.s
+etf/CMakeFiles/libetf.dir/src/TAChPara.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAChPara.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAChPara.cxx -o CMakeFiles/libetf.dir/src/TAChPara.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAChPara.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAChPara.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAChPara.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAChPara.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAChPara.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAChPara.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChPara.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAChPara.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAChPara.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAChPara.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChPara.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAChPara.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAChPara.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAChPara.C.o
+etf/CMakeFiles/libetf.dir/src/TAChPara.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAChPara.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAChannel.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAChannel.C.o: ../etf/src/TAChannel.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAChannel.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAChannel.C.o -c /home/asia/pionExp2017/etf/src/TAChannel.C
+etf/CMakeFiles/libetf.dir/src/TAChannel.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAChannel.cxx.o: ../etf/src/TAChannel.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAChannel.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAChannel.cxx.o -c /home/asia/pionExp2017/etf/src/TAChannel.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAChannel.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAChannel.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAChannel.C > CMakeFiles/libetf.dir/src/TAChannel.C.i
+etf/CMakeFiles/libetf.dir/src/TAChannel.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAChannel.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAChannel.cxx > CMakeFiles/libetf.dir/src/TAChannel.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAChannel.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAChannel.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAChannel.C -o CMakeFiles/libetf.dir/src/TAChannel.C.s
+etf/CMakeFiles/libetf.dir/src/TAChannel.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAChannel.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAChannel.cxx -o CMakeFiles/libetf.dir/src/TAChannel.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAChannel.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAChannel.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAChannel.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAChannel.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAChannel.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAChannel.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChannel.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAChannel.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAChannel.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAChannel.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChannel.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAChannel.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAChannel.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAChannel.C.o
+etf/CMakeFiles/libetf.dir/src/TAChannel.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAChannel.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TACtrlPara.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TACtrlPara.C.o: ../etf/src/TACtrlPara.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object etf/CMakeFiles/libetf.dir/src/TACtrlPara.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TACtrlPara.C.o -c /home/asia/pionExp2017/etf/src/TACtrlPara.C
+etf/CMakeFiles/libetf.dir/src/TACtrlPara.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TACtrlPara.cxx.o: ../etf/src/TACtrlPara.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object etf/CMakeFiles/libetf.dir/src/TACtrlPara.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TACtrlPara.cxx.o -c /home/asia/pionExp2017/etf/src/TACtrlPara.cxx
 
-etf/CMakeFiles/libetf.dir/src/TACtrlPara.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TACtrlPara.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TACtrlPara.C > CMakeFiles/libetf.dir/src/TACtrlPara.C.i
+etf/CMakeFiles/libetf.dir/src/TACtrlPara.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TACtrlPara.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TACtrlPara.cxx > CMakeFiles/libetf.dir/src/TACtrlPara.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TACtrlPara.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TACtrlPara.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TACtrlPara.C -o CMakeFiles/libetf.dir/src/TACtrlPara.C.s
+etf/CMakeFiles/libetf.dir/src/TACtrlPara.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TACtrlPara.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TACtrlPara.cxx -o CMakeFiles/libetf.dir/src/TACtrlPara.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TACtrlPara.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TACtrlPara.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TACtrlPara.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TACtrlPara.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TACtrlPara.C.o.provides: etf/CMakeFiles/libetf.dir/src/TACtrlPara.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TACtrlPara.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TACtrlPara.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TACtrlPara.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TACtrlPara.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TACtrlPara.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TACtrlPara.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TACtrlPara.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TACtrlPara.C.o
+etf/CMakeFiles/libetf.dir/src/TACtrlPara.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TACtrlPara.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TADCCable.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TADCCable.C.o: ../etf/src/TADCCable.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object etf/CMakeFiles/libetf.dir/src/TADCCable.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TADCCable.C.o -c /home/asia/pionExp2017/etf/src/TADCCable.C
+etf/CMakeFiles/libetf.dir/src/TADCCable.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TADCCable.cxx.o: ../etf/src/TADCCable.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object etf/CMakeFiles/libetf.dir/src/TADCCable.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TADCCable.cxx.o -c /home/asia/pionExp2017/etf/src/TADCCable.cxx
 
-etf/CMakeFiles/libetf.dir/src/TADCCable.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TADCCable.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TADCCable.C > CMakeFiles/libetf.dir/src/TADCCable.C.i
+etf/CMakeFiles/libetf.dir/src/TADCCable.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TADCCable.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TADCCable.cxx > CMakeFiles/libetf.dir/src/TADCCable.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TADCCable.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TADCCable.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TADCCable.C -o CMakeFiles/libetf.dir/src/TADCCable.C.s
+etf/CMakeFiles/libetf.dir/src/TADCCable.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TADCCable.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TADCCable.cxx -o CMakeFiles/libetf.dir/src/TADCCable.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TADCCable.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TADCCable.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TADCCable.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TADCCable.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TADCCable.C.o.provides: etf/CMakeFiles/libetf.dir/src/TADCCable.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADCCable.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TADCCable.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TADCCable.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TADCCable.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADCCable.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TADCCable.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TADCCable.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TADCCable.C.o
+etf/CMakeFiles/libetf.dir/src/TADCCable.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TADCCable.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TADCSFE16.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TADCSFE16.C.o: ../etf/src/TADCSFE16.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object etf/CMakeFiles/libetf.dir/src/TADCSFE16.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TADCSFE16.C.o -c /home/asia/pionExp2017/etf/src/TADCSFE16.C
+etf/CMakeFiles/libetf.dir/src/TADCSFE16.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TADCSFE16.cxx.o: ../etf/src/TADCSFE16.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object etf/CMakeFiles/libetf.dir/src/TADCSFE16.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TADCSFE16.cxx.o -c /home/asia/pionExp2017/etf/src/TADCSFE16.cxx
 
-etf/CMakeFiles/libetf.dir/src/TADCSFE16.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TADCSFE16.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TADCSFE16.C > CMakeFiles/libetf.dir/src/TADCSFE16.C.i
+etf/CMakeFiles/libetf.dir/src/TADCSFE16.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TADCSFE16.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TADCSFE16.cxx > CMakeFiles/libetf.dir/src/TADCSFE16.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TADCSFE16.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TADCSFE16.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TADCSFE16.C -o CMakeFiles/libetf.dir/src/TADCSFE16.C.s
+etf/CMakeFiles/libetf.dir/src/TADCSFE16.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TADCSFE16.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TADCSFE16.cxx -o CMakeFiles/libetf.dir/src/TADCSFE16.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TADCSFE16.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TADCSFE16.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TADCSFE16.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TADCSFE16.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TADCSFE16.C.o.provides: etf/CMakeFiles/libetf.dir/src/TADCSFE16.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADCSFE16.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TADCSFE16.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TADCSFE16.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TADCSFE16.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADCSFE16.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TADCSFE16.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TADCSFE16.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TADCSFE16.C.o
+etf/CMakeFiles/libetf.dir/src/TADCSFE16.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TADCSFE16.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.C.o: ../etf/src/TADCSuperLayer.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TADCSuperLayer.C.o -c /home/asia/pionExp2017/etf/src/TADCSuperLayer.C
+etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.cxx.o: ../etf/src/TADCSuperLayer.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TADCSuperLayer.cxx.o -c /home/asia/pionExp2017/etf/src/TADCSuperLayer.cxx
 
-etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TADCSuperLayer.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TADCSuperLayer.C > CMakeFiles/libetf.dir/src/TADCSuperLayer.C.i
+etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TADCSuperLayer.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TADCSuperLayer.cxx > CMakeFiles/libetf.dir/src/TADCSuperLayer.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TADCSuperLayer.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TADCSuperLayer.C -o CMakeFiles/libetf.dir/src/TADCSuperLayer.C.s
+etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TADCSuperLayer.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TADCSuperLayer.cxx -o CMakeFiles/libetf.dir/src/TADCSuperLayer.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.C.o.provides: etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.C.o
+etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TADeployPara.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TADeployPara.C.o: ../etf/src/TADeployPara.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object etf/CMakeFiles/libetf.dir/src/TADeployPara.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TADeployPara.C.o -c /home/asia/pionExp2017/etf/src/TADeployPara.C
+etf/CMakeFiles/libetf.dir/src/TADeployPara.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TADeployPara.cxx.o: ../etf/src/TADeployPara.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object etf/CMakeFiles/libetf.dir/src/TADeployPara.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TADeployPara.cxx.o -c /home/asia/pionExp2017/etf/src/TADeployPara.cxx
 
-etf/CMakeFiles/libetf.dir/src/TADeployPara.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TADeployPara.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TADeployPara.C > CMakeFiles/libetf.dir/src/TADeployPara.C.i
+etf/CMakeFiles/libetf.dir/src/TADeployPara.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TADeployPara.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TADeployPara.cxx > CMakeFiles/libetf.dir/src/TADeployPara.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TADeployPara.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TADeployPara.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TADeployPara.C -o CMakeFiles/libetf.dir/src/TADeployPara.C.s
+etf/CMakeFiles/libetf.dir/src/TADeployPara.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TADeployPara.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TADeployPara.cxx -o CMakeFiles/libetf.dir/src/TADeployPara.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TADeployPara.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TADeployPara.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TADeployPara.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TADeployPara.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TADeployPara.C.o.provides: etf/CMakeFiles/libetf.dir/src/TADeployPara.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADeployPara.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TADeployPara.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TADeployPara.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TADeployPara.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADeployPara.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TADeployPara.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TADeployPara.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TADeployPara.C.o
+etf/CMakeFiles/libetf.dir/src/TADeployPara.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TADeployPara.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TADetUnion.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TADetUnion.C.o: ../etf/src/TADetUnion.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object etf/CMakeFiles/libetf.dir/src/TADetUnion.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TADetUnion.C.o -c /home/asia/pionExp2017/etf/src/TADetUnion.C
+etf/CMakeFiles/libetf.dir/src/TADetUnion.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TADetUnion.cxx.o: ../etf/src/TADetUnion.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object etf/CMakeFiles/libetf.dir/src/TADetUnion.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TADetUnion.cxx.o -c /home/asia/pionExp2017/etf/src/TADetUnion.cxx
 
-etf/CMakeFiles/libetf.dir/src/TADetUnion.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TADetUnion.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TADetUnion.C > CMakeFiles/libetf.dir/src/TADetUnion.C.i
+etf/CMakeFiles/libetf.dir/src/TADetUnion.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TADetUnion.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TADetUnion.cxx > CMakeFiles/libetf.dir/src/TADetUnion.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TADetUnion.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TADetUnion.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TADetUnion.C -o CMakeFiles/libetf.dir/src/TADetUnion.C.s
+etf/CMakeFiles/libetf.dir/src/TADetUnion.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TADetUnion.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TADetUnion.cxx -o CMakeFiles/libetf.dir/src/TADetUnion.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TADetUnion.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TADetUnion.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TADetUnion.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TADetUnion.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TADetUnion.C.o.provides: etf/CMakeFiles/libetf.dir/src/TADetUnion.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADetUnion.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TADetUnion.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TADetUnion.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TADetUnion.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADetUnion.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TADetUnion.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TADetUnion.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TADetUnion.C.o
+etf/CMakeFiles/libetf.dir/src/TADetUnion.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TADetUnion.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TADetector.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TADetector.C.o: ../etf/src/TADetector.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object etf/CMakeFiles/libetf.dir/src/TADetector.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TADetector.C.o -c /home/asia/pionExp2017/etf/src/TADetector.C
+etf/CMakeFiles/libetf.dir/src/TADetector.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TADetector.cxx.o: ../etf/src/TADetector.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object etf/CMakeFiles/libetf.dir/src/TADetector.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TADetector.cxx.o -c /home/asia/pionExp2017/etf/src/TADetector.cxx
 
-etf/CMakeFiles/libetf.dir/src/TADetector.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TADetector.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TADetector.C > CMakeFiles/libetf.dir/src/TADetector.C.i
+etf/CMakeFiles/libetf.dir/src/TADetector.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TADetector.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TADetector.cxx > CMakeFiles/libetf.dir/src/TADetector.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TADetector.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TADetector.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TADetector.C -o CMakeFiles/libetf.dir/src/TADetector.C.s
+etf/CMakeFiles/libetf.dir/src/TADetector.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TADetector.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TADetector.cxx -o CMakeFiles/libetf.dir/src/TADetector.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TADetector.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TADetector.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TADetector.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TADetector.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TADetector.C.o.provides: etf/CMakeFiles/libetf.dir/src/TADetector.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADetector.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TADetector.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TADetector.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TADetector.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADetector.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TADetector.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TADetector.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TADetector.C.o
+etf/CMakeFiles/libetf.dir/src/TADetector.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TADetector.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TADetectorPara.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TADetectorPara.C.o: ../etf/src/TADetectorPara.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object etf/CMakeFiles/libetf.dir/src/TADetectorPara.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TADetectorPara.C.o -c /home/asia/pionExp2017/etf/src/TADetectorPara.C
+etf/CMakeFiles/libetf.dir/src/TADetectorPara.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TADetectorPara.cxx.o: ../etf/src/TADetectorPara.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object etf/CMakeFiles/libetf.dir/src/TADetectorPara.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TADetectorPara.cxx.o -c /home/asia/pionExp2017/etf/src/TADetectorPara.cxx
 
-etf/CMakeFiles/libetf.dir/src/TADetectorPara.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TADetectorPara.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TADetectorPara.C > CMakeFiles/libetf.dir/src/TADetectorPara.C.i
+etf/CMakeFiles/libetf.dir/src/TADetectorPara.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TADetectorPara.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TADetectorPara.cxx > CMakeFiles/libetf.dir/src/TADetectorPara.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TADetectorPara.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TADetectorPara.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TADetectorPara.C -o CMakeFiles/libetf.dir/src/TADetectorPara.C.s
+etf/CMakeFiles/libetf.dir/src/TADetectorPara.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TADetectorPara.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TADetectorPara.cxx -o CMakeFiles/libetf.dir/src/TADetectorPara.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TADetectorPara.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TADetectorPara.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TADetectorPara.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TADetectorPara.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TADetectorPara.C.o.provides: etf/CMakeFiles/libetf.dir/src/TADetectorPara.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADetectorPara.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TADetectorPara.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TADetectorPara.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TADetectorPara.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADetectorPara.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TADetectorPara.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TADetectorPara.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TADetectorPara.C.o
+etf/CMakeFiles/libetf.dir/src/TADetectorPara.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TADetectorPara.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAEventProcessor.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAEventProcessor.C.o: ../etf/src/TAEventProcessor.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAEventProcessor.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAEventProcessor.C.o -c /home/asia/pionExp2017/etf/src/TAEventProcessor.C
+etf/CMakeFiles/libetf.dir/src/TAEventProcessor.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAEventProcessor.cxx.o: ../etf/src/TAEventProcessor.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAEventProcessor.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAEventProcessor.cxx.o -c /home/asia/pionExp2017/etf/src/TAEventProcessor.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAEventProcessor.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAEventProcessor.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAEventProcessor.C > CMakeFiles/libetf.dir/src/TAEventProcessor.C.i
+etf/CMakeFiles/libetf.dir/src/TAEventProcessor.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAEventProcessor.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAEventProcessor.cxx > CMakeFiles/libetf.dir/src/TAEventProcessor.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAEventProcessor.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAEventProcessor.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAEventProcessor.C -o CMakeFiles/libetf.dir/src/TAEventProcessor.C.s
+etf/CMakeFiles/libetf.dir/src/TAEventProcessor.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAEventProcessor.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAEventProcessor.cxx -o CMakeFiles/libetf.dir/src/TAEventProcessor.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAEventProcessor.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAEventProcessor.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAEventProcessor.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAEventProcessor.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAEventProcessor.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAEventProcessor.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAEventProcessor.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAEventProcessor.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAEventProcessor.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAEventProcessor.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAEventProcessor.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAEventProcessor.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAEventProcessor.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAEventProcessor.C.o
+etf/CMakeFiles/libetf.dir/src/TAEventProcessor.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAEventProcessor.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAGPar.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAGPar.C.o: ../etf/src/TAGPar.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAGPar.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAGPar.C.o -c /home/asia/pionExp2017/etf/src/TAGPar.C
+etf/CMakeFiles/libetf.dir/src/TAGPar.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAGPar.cxx.o: ../etf/src/TAGPar.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAGPar.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAGPar.cxx.o -c /home/asia/pionExp2017/etf/src/TAGPar.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAGPar.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAGPar.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAGPar.C > CMakeFiles/libetf.dir/src/TAGPar.C.i
+etf/CMakeFiles/libetf.dir/src/TAGPar.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAGPar.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAGPar.cxx > CMakeFiles/libetf.dir/src/TAGPar.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAGPar.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAGPar.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAGPar.C -o CMakeFiles/libetf.dir/src/TAGPar.C.s
+etf/CMakeFiles/libetf.dir/src/TAGPar.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAGPar.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAGPar.cxx -o CMakeFiles/libetf.dir/src/TAGPar.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAGPar.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAGPar.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAGPar.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAGPar.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAGPar.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAGPar.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAGPar.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAGPar.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAGPar.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAGPar.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAGPar.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAGPar.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAGPar.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAGPar.C.o
+etf/CMakeFiles/libetf.dir/src/TAGPar.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAGPar.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAMUSIC.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAMUSIC.C.o: ../etf/src/TAMUSIC.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMUSIC.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMUSIC.C.o -c /home/asia/pionExp2017/etf/src/TAMUSIC.C
+etf/CMakeFiles/libetf.dir/src/TAMUSIC.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAMUSIC.cxx.o: ../etf/src/TAMUSIC.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMUSIC.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMUSIC.cxx.o -c /home/asia/pionExp2017/etf/src/TAMUSIC.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAMUSIC.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMUSIC.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMUSIC.C > CMakeFiles/libetf.dir/src/TAMUSIC.C.i
+etf/CMakeFiles/libetf.dir/src/TAMUSIC.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMUSIC.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMUSIC.cxx > CMakeFiles/libetf.dir/src/TAMUSIC.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAMUSIC.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMUSIC.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMUSIC.C -o CMakeFiles/libetf.dir/src/TAMUSIC.C.s
+etf/CMakeFiles/libetf.dir/src/TAMUSIC.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMUSIC.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMUSIC.cxx -o CMakeFiles/libetf.dir/src/TAMUSIC.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAMUSIC.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAMUSIC.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMUSIC.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMUSIC.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAMUSIC.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAMUSIC.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMUSIC.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMUSIC.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAMUSIC.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAMUSIC.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMUSIC.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMUSIC.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAMUSIC.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMUSIC.C.o
+etf/CMakeFiles/libetf.dir/src/TAMUSIC.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMUSIC.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAMUSICL.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAMUSICL.C.o: ../etf/src/TAMUSICL.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMUSICL.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMUSICL.C.o -c /home/asia/pionExp2017/etf/src/TAMUSICL.C
+etf/CMakeFiles/libetf.dir/src/TAMUSICL.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAMUSICL.cxx.o: ../etf/src/TAMUSICL.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMUSICL.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMUSICL.cxx.o -c /home/asia/pionExp2017/etf/src/TAMUSICL.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAMUSICL.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMUSICL.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMUSICL.C > CMakeFiles/libetf.dir/src/TAMUSICL.C.i
+etf/CMakeFiles/libetf.dir/src/TAMUSICL.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMUSICL.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMUSICL.cxx > CMakeFiles/libetf.dir/src/TAMUSICL.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAMUSICL.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMUSICL.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMUSICL.C -o CMakeFiles/libetf.dir/src/TAMUSICL.C.s
+etf/CMakeFiles/libetf.dir/src/TAMUSICL.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMUSICL.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMUSICL.cxx -o CMakeFiles/libetf.dir/src/TAMUSICL.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAMUSICL.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAMUSICL.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMUSICL.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMUSICL.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAMUSICL.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAMUSICL.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMUSICL.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMUSICL.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAMUSICL.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAMUSICL.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMUSICL.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMUSICL.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAMUSICL.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMUSICL.C.o
+etf/CMakeFiles/libetf.dir/src/TAMUSICL.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMUSICL.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAMUSICM.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAMUSICM.C.o: ../etf/src/TAMUSICM.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMUSICM.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMUSICM.C.o -c /home/asia/pionExp2017/etf/src/TAMUSICM.C
+etf/CMakeFiles/libetf.dir/src/TAMUSICM.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAMUSICM.cxx.o: ../etf/src/TAMUSICM.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMUSICM.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMUSICM.cxx.o -c /home/asia/pionExp2017/etf/src/TAMUSICM.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAMUSICM.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMUSICM.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMUSICM.C > CMakeFiles/libetf.dir/src/TAMUSICM.C.i
+etf/CMakeFiles/libetf.dir/src/TAMUSICM.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMUSICM.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMUSICM.cxx > CMakeFiles/libetf.dir/src/TAMUSICM.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAMUSICM.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMUSICM.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMUSICM.C -o CMakeFiles/libetf.dir/src/TAMUSICM.C.s
+etf/CMakeFiles/libetf.dir/src/TAMUSICM.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMUSICM.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMUSICM.cxx -o CMakeFiles/libetf.dir/src/TAMUSICM.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAMUSICM.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAMUSICM.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMUSICM.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMUSICM.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAMUSICM.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAMUSICM.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMUSICM.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMUSICM.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAMUSICM.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAMUSICM.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMUSICM.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMUSICM.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAMUSICM.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMUSICM.C.o
+etf/CMakeFiles/libetf.dir/src/TAMUSICM.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMUSICM.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAMWDC.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAMWDC.C.o: ../etf/src/TAMWDC.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMWDC.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMWDC.C.o -c /home/asia/pionExp2017/etf/src/TAMWDC.C
+etf/CMakeFiles/libetf.dir/src/TAMWDC.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAMWDC.cxx.o: ../etf/src/TAMWDC.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMWDC.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMWDC.cxx.o -c /home/asia/pionExp2017/etf/src/TAMWDC.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAMWDC.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMWDC.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMWDC.C > CMakeFiles/libetf.dir/src/TAMWDC.C.i
+etf/CMakeFiles/libetf.dir/src/TAMWDC.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMWDC.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMWDC.cxx > CMakeFiles/libetf.dir/src/TAMWDC.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAMWDC.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMWDC.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMWDC.C -o CMakeFiles/libetf.dir/src/TAMWDC.C.s
+etf/CMakeFiles/libetf.dir/src/TAMWDC.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMWDC.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMWDC.cxx -o CMakeFiles/libetf.dir/src/TAMWDC.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAMWDC.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAMWDC.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDC.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDC.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAMWDC.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAMWDC.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDC.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDC.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAMWDC.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAMWDC.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDC.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDC.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAMWDC.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMWDC.C.o
+etf/CMakeFiles/libetf.dir/src/TAMWDC.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMWDC.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArray.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAMWDCArray.C.o: ../etf/src/TAMWDCArray.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMWDCArray.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMWDCArray.C.o -c /home/asia/pionExp2017/etf/src/TAMWDCArray.C
+etf/CMakeFiles/libetf.dir/src/TAMWDCArray.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAMWDCArray.cxx.o: ../etf/src/TAMWDCArray.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMWDCArray.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMWDCArray.cxx.o -c /home/asia/pionExp2017/etf/src/TAMWDCArray.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArray.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMWDCArray.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMWDCArray.C > CMakeFiles/libetf.dir/src/TAMWDCArray.C.i
+etf/CMakeFiles/libetf.dir/src/TAMWDCArray.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMWDCArray.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMWDCArray.cxx > CMakeFiles/libetf.dir/src/TAMWDCArray.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArray.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMWDCArray.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMWDCArray.C -o CMakeFiles/libetf.dir/src/TAMWDCArray.C.s
+etf/CMakeFiles/libetf.dir/src/TAMWDCArray.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMWDCArray.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMWDCArray.cxx -o CMakeFiles/libetf.dir/src/TAMWDCArray.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArray.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAMWDCArray.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArray.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArray.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArray.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAMWDCArray.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArray.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArray.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAMWDCArray.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAMWDCArray.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArray.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArray.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArray.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMWDCArray.C.o
+etf/CMakeFiles/libetf.dir/src/TAMWDCArray.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMWDCArray.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.C.o: ../etf/src/TAMWDCArray2.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMWDCArray2.C.o -c /home/asia/pionExp2017/etf/src/TAMWDCArray2.C
+etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.cxx.o: ../etf/src/TAMWDCArray2.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMWDCArray2.cxx.o -c /home/asia/pionExp2017/etf/src/TAMWDCArray2.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMWDCArray2.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMWDCArray2.C > CMakeFiles/libetf.dir/src/TAMWDCArray2.C.i
+etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMWDCArray2.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMWDCArray2.cxx > CMakeFiles/libetf.dir/src/TAMWDCArray2.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMWDCArray2.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMWDCArray2.C -o CMakeFiles/libetf.dir/src/TAMWDCArray2.C.s
+etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMWDCArray2.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMWDCArray2.cxx -o CMakeFiles/libetf.dir/src/TAMWDCArray2.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.C.o
+etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.C.o: ../etf/src/TAMWDCArrayD.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMWDCArrayD.C.o -c /home/asia/pionExp2017/etf/src/TAMWDCArrayD.C
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.cxx.o: ../etf/src/TAMWDCArrayD.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMWDCArrayD.cxx.o -c /home/asia/pionExp2017/etf/src/TAMWDCArrayD.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMWDCArrayD.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMWDCArrayD.C > CMakeFiles/libetf.dir/src/TAMWDCArrayD.C.i
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMWDCArrayD.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMWDCArrayD.cxx > CMakeFiles/libetf.dir/src/TAMWDCArrayD.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMWDCArrayD.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMWDCArrayD.C -o CMakeFiles/libetf.dir/src/TAMWDCArrayD.C.s
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMWDCArrayD.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMWDCArrayD.cxx -o CMakeFiles/libetf.dir/src/TAMWDCArrayD.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.C.o
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.C.o: ../etf/src/TAMWDCArrayL.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMWDCArrayL.C.o -c /home/asia/pionExp2017/etf/src/TAMWDCArrayL.C
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.cxx.o: ../etf/src/TAMWDCArrayL.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMWDCArrayL.cxx.o -c /home/asia/pionExp2017/etf/src/TAMWDCArrayL.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMWDCArrayL.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMWDCArrayL.C > CMakeFiles/libetf.dir/src/TAMWDCArrayL.C.i
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMWDCArrayL.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMWDCArrayL.cxx > CMakeFiles/libetf.dir/src/TAMWDCArrayL.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMWDCArrayL.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMWDCArrayL.C -o CMakeFiles/libetf.dir/src/TAMWDCArrayL.C.s
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMWDCArrayL.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMWDCArrayL.cxx -o CMakeFiles/libetf.dir/src/TAMWDCArrayL.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.C.o
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.C.o: ../etf/src/TAMWDCArrayM.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMWDCArrayM.C.o -c /home/asia/pionExp2017/etf/src/TAMWDCArrayM.C
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.cxx.o: ../etf/src/TAMWDCArrayM.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMWDCArrayM.cxx.o -c /home/asia/pionExp2017/etf/src/TAMWDCArrayM.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMWDCArrayM.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMWDCArrayM.C > CMakeFiles/libetf.dir/src/TAMWDCArrayM.C.i
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMWDCArrayM.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMWDCArrayM.cxx > CMakeFiles/libetf.dir/src/TAMWDCArrayM.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMWDCArrayM.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMWDCArrayM.C -o CMakeFiles/libetf.dir/src/TAMWDCArrayM.C.s
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMWDCArrayM.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMWDCArrayM.cxx -o CMakeFiles/libetf.dir/src/TAMWDCArrayM.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.C.o
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.C.o: ../etf/src/TAMWDCArrayR.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMWDCArrayR.C.o -c /home/asia/pionExp2017/etf/src/TAMWDCArrayR.C
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.cxx.o: ../etf/src/TAMWDCArrayR.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMWDCArrayR.cxx.o -c /home/asia/pionExp2017/etf/src/TAMWDCArrayR.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMWDCArrayR.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMWDCArrayR.C > CMakeFiles/libetf.dir/src/TAMWDCArrayR.C.i
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMWDCArrayR.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMWDCArrayR.cxx > CMakeFiles/libetf.dir/src/TAMWDCArrayR.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMWDCArrayR.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMWDCArrayR.C -o CMakeFiles/libetf.dir/src/TAMWDCArrayR.C.s
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMWDCArrayR.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMWDCArrayR.cxx -o CMakeFiles/libetf.dir/src/TAMWDCArrayR.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.C.o
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.C.o: ../etf/src/TAMWDCArrayU.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMWDCArrayU.C.o -c /home/asia/pionExp2017/etf/src/TAMWDCArrayU.C
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.cxx.o: ../etf/src/TAMWDCArrayU.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMWDCArrayU.cxx.o -c /home/asia/pionExp2017/etf/src/TAMWDCArrayU.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMWDCArrayU.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMWDCArrayU.C > CMakeFiles/libetf.dir/src/TAMWDCArrayU.C.i
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMWDCArrayU.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMWDCArrayU.cxx > CMakeFiles/libetf.dir/src/TAMWDCArrayU.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMWDCArrayU.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMWDCArrayU.C -o CMakeFiles/libetf.dir/src/TAMWDCArrayU.C.s
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMWDCArrayU.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMWDCArrayU.cxx -o CMakeFiles/libetf.dir/src/TAMWDCArrayU.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.C.o
+etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCTa.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAMWDCTa.C.o: ../etf/src/TAMWDCTa.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMWDCTa.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMWDCTa.C.o -c /home/asia/pionExp2017/etf/src/TAMWDCTa.C
+etf/CMakeFiles/libetf.dir/src/TAMWDCTa.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAMWDCTa.cxx.o: ../etf/src/TAMWDCTa.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMWDCTa.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMWDCTa.cxx.o -c /home/asia/pionExp2017/etf/src/TAMWDCTa.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCTa.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMWDCTa.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMWDCTa.C > CMakeFiles/libetf.dir/src/TAMWDCTa.C.i
+etf/CMakeFiles/libetf.dir/src/TAMWDCTa.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMWDCTa.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMWDCTa.cxx > CMakeFiles/libetf.dir/src/TAMWDCTa.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCTa.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMWDCTa.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMWDCTa.C -o CMakeFiles/libetf.dir/src/TAMWDCTa.C.s
+etf/CMakeFiles/libetf.dir/src/TAMWDCTa.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMWDCTa.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMWDCTa.cxx -o CMakeFiles/libetf.dir/src/TAMWDCTa.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCTa.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAMWDCTa.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCTa.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCTa.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCTa.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAMWDCTa.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCTa.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCTa.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAMWDCTa.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAMWDCTa.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCTa.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCTa.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCTa.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMWDCTa.C.o
+etf/CMakeFiles/libetf.dir/src/TAMWDCTa.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMWDCTa.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.C.o: ../etf/src/TAMWDCTaL.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMWDCTaL.C.o -c /home/asia/pionExp2017/etf/src/TAMWDCTaL.C
+etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.cxx.o: ../etf/src/TAMWDCTaL.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMWDCTaL.cxx.o -c /home/asia/pionExp2017/etf/src/TAMWDCTaL.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMWDCTaL.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMWDCTaL.C > CMakeFiles/libetf.dir/src/TAMWDCTaL.C.i
+etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMWDCTaL.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMWDCTaL.cxx > CMakeFiles/libetf.dir/src/TAMWDCTaL.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMWDCTaL.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMWDCTaL.C -o CMakeFiles/libetf.dir/src/TAMWDCTaL.C.s
+etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMWDCTaL.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMWDCTaL.cxx -o CMakeFiles/libetf.dir/src/TAMWDCTaL.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.C.o
+etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.C.o: ../etf/src/TAMWDCTaM.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMWDCTaM.C.o -c /home/asia/pionExp2017/etf/src/TAMWDCTaM.C
+etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.cxx.o: ../etf/src/TAMWDCTaM.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMWDCTaM.cxx.o -c /home/asia/pionExp2017/etf/src/TAMWDCTaM.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMWDCTaM.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMWDCTaM.C > CMakeFiles/libetf.dir/src/TAMWDCTaM.C.i
+etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMWDCTaM.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMWDCTaM.cxx > CMakeFiles/libetf.dir/src/TAMWDCTaM.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMWDCTaM.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMWDCTaM.C -o CMakeFiles/libetf.dir/src/TAMWDCTaM.C.s
+etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMWDCTaM.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMWDCTaM.cxx -o CMakeFiles/libetf.dir/src/TAMWDCTaM.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.C.o
+etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAMagnet.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAMagnet.C.o: ../etf/src/TAMagnet.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMagnet.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMagnet.C.o -c /home/asia/pionExp2017/etf/src/TAMagnet.C
+etf/CMakeFiles/libetf.dir/src/TAMagnet.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAMagnet.cxx.o: ../etf/src/TAMagnet.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMagnet.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMagnet.cxx.o -c /home/asia/pionExp2017/etf/src/TAMagnet.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAMagnet.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMagnet.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMagnet.C > CMakeFiles/libetf.dir/src/TAMagnet.C.i
+etf/CMakeFiles/libetf.dir/src/TAMagnet.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMagnet.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMagnet.cxx > CMakeFiles/libetf.dir/src/TAMagnet.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAMagnet.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMagnet.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMagnet.C -o CMakeFiles/libetf.dir/src/TAMagnet.C.s
+etf/CMakeFiles/libetf.dir/src/TAMagnet.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMagnet.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMagnet.cxx -o CMakeFiles/libetf.dir/src/TAMagnet.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAMagnet.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAMagnet.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMagnet.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMagnet.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAMagnet.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAMagnet.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMagnet.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMagnet.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAMagnet.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAMagnet.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMagnet.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMagnet.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAMagnet.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMagnet.C.o
+etf/CMakeFiles/libetf.dir/src/TAMagnet.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMagnet.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAMath.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAMath.C.o: ../etf/src/TAMath.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMath.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMath.C.o -c /home/asia/pionExp2017/etf/src/TAMath.C
+etf/CMakeFiles/libetf.dir/src/TAMath.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAMath.cxx.o: ../etf/src/TAMath.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAMath.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAMath.cxx.o -c /home/asia/pionExp2017/etf/src/TAMath.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAMath.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMath.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMath.C > CMakeFiles/libetf.dir/src/TAMath.C.i
+etf/CMakeFiles/libetf.dir/src/TAMath.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAMath.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAMath.cxx > CMakeFiles/libetf.dir/src/TAMath.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAMath.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMath.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMath.C -o CMakeFiles/libetf.dir/src/TAMath.C.s
+etf/CMakeFiles/libetf.dir/src/TAMath.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAMath.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAMath.cxx -o CMakeFiles/libetf.dir/src/TAMath.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAMath.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAMath.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMath.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMath.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAMath.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAMath.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMath.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAMath.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAMath.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAMath.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMath.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAMath.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAMath.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMath.C.o
+etf/CMakeFiles/libetf.dir/src/TAMath.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAMath.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.C.o: ../etf/src/TAOpticFiberArray.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAOpticFiberArray.C.o -c /home/asia/pionExp2017/etf/src/TAOpticFiberArray.C
+etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.cxx.o: ../etf/src/TAOpticFiberArray.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAOpticFiberArray.cxx.o -c /home/asia/pionExp2017/etf/src/TAOpticFiberArray.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAOpticFiberArray.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAOpticFiberArray.C > CMakeFiles/libetf.dir/src/TAOpticFiberArray.C.i
+etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAOpticFiberArray.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAOpticFiberArray.cxx > CMakeFiles/libetf.dir/src/TAOpticFiberArray.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAOpticFiberArray.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAOpticFiberArray.C -o CMakeFiles/libetf.dir/src/TAOpticFiberArray.C.s
+etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAOpticFiberArray.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAOpticFiberArray.cxx -o CMakeFiles/libetf.dir/src/TAOpticFiberArray.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.C.o
+etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.C.o: ../etf/src/TAPDCArrayD.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAPDCArrayD.C.o -c /home/asia/pionExp2017/etf/src/TAPDCArrayD.C
+etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.cxx.o: ../etf/src/TAPDCArrayD.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAPDCArrayD.cxx.o -c /home/asia/pionExp2017/etf/src/TAPDCArrayD.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAPDCArrayD.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAPDCArrayD.C > CMakeFiles/libetf.dir/src/TAPDCArrayD.C.i
+etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAPDCArrayD.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAPDCArrayD.cxx > CMakeFiles/libetf.dir/src/TAPDCArrayD.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAPDCArrayD.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAPDCArrayD.C -o CMakeFiles/libetf.dir/src/TAPDCArrayD.C.s
+etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAPDCArrayD.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAPDCArrayD.cxx -o CMakeFiles/libetf.dir/src/TAPDCArrayD.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.C.o
+etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.C.o: ../etf/src/TAPDCArrayTa4.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAPDCArrayTa4.C.o -c /home/asia/pionExp2017/etf/src/TAPDCArrayTa4.C
+etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.cxx.o: ../etf/src/TAPDCArrayTa4.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAPDCArrayTa4.cxx.o -c /home/asia/pionExp2017/etf/src/TAPDCArrayTa4.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAPDCArrayTa4.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAPDCArrayTa4.C > CMakeFiles/libetf.dir/src/TAPDCArrayTa4.C.i
+etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAPDCArrayTa4.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAPDCArrayTa4.cxx > CMakeFiles/libetf.dir/src/TAPDCArrayTa4.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAPDCArrayTa4.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAPDCArrayTa4.C -o CMakeFiles/libetf.dir/src/TAPDCArrayTa4.C.s
+etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAPDCArrayTa4.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAPDCArrayTa4.cxx -o CMakeFiles/libetf.dir/src/TAPDCArrayTa4.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.C.o
+etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.C.o: ../etf/src/TAPDCArrayU.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAPDCArrayU.C.o -c /home/asia/pionExp2017/etf/src/TAPDCArrayU.C
+etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.cxx.o: ../etf/src/TAPDCArrayU.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAPDCArrayU.cxx.o -c /home/asia/pionExp2017/etf/src/TAPDCArrayU.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAPDCArrayU.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAPDCArrayU.C > CMakeFiles/libetf.dir/src/TAPDCArrayU.C.i
+etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAPDCArrayU.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAPDCArrayU.cxx > CMakeFiles/libetf.dir/src/TAPDCArrayU.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAPDCArrayU.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAPDCArrayU.C -o CMakeFiles/libetf.dir/src/TAPDCArrayU.C.s
+etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAPDCArrayU.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAPDCArrayU.cxx -o CMakeFiles/libetf.dir/src/TAPDCArrayU.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.C.o
+etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAPDCL.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAPDCL.C.o: ../etf/src/TAPDCL.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAPDCL.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAPDCL.C.o -c /home/asia/pionExp2017/etf/src/TAPDCL.C
+etf/CMakeFiles/libetf.dir/src/TAPDCL.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAPDCL.cxx.o: ../etf/src/TAPDCL.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAPDCL.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAPDCL.cxx.o -c /home/asia/pionExp2017/etf/src/TAPDCL.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAPDCL.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAPDCL.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAPDCL.C > CMakeFiles/libetf.dir/src/TAPDCL.C.i
+etf/CMakeFiles/libetf.dir/src/TAPDCL.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAPDCL.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAPDCL.cxx > CMakeFiles/libetf.dir/src/TAPDCL.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAPDCL.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAPDCL.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAPDCL.C -o CMakeFiles/libetf.dir/src/TAPDCL.C.s
+etf/CMakeFiles/libetf.dir/src/TAPDCL.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAPDCL.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAPDCL.cxx -o CMakeFiles/libetf.dir/src/TAPDCL.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAPDCL.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAPDCL.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAPDCL.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAPDCL.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAPDCL.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAPDCL.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCL.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAPDCL.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAPDCL.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAPDCL.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCL.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAPDCL.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAPDCL.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAPDCL.C.o
+etf/CMakeFiles/libetf.dir/src/TAPDCL.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAPDCL.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAPDCR.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAPDCR.C.o: ../etf/src/TAPDCR.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAPDCR.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAPDCR.C.o -c /home/asia/pionExp2017/etf/src/TAPDCR.C
+etf/CMakeFiles/libetf.dir/src/TAPDCR.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAPDCR.cxx.o: ../etf/src/TAPDCR.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAPDCR.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAPDCR.cxx.o -c /home/asia/pionExp2017/etf/src/TAPDCR.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAPDCR.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAPDCR.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAPDCR.C > CMakeFiles/libetf.dir/src/TAPDCR.C.i
+etf/CMakeFiles/libetf.dir/src/TAPDCR.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAPDCR.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAPDCR.cxx > CMakeFiles/libetf.dir/src/TAPDCR.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAPDCR.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAPDCR.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAPDCR.C -o CMakeFiles/libetf.dir/src/TAPDCR.C.s
+etf/CMakeFiles/libetf.dir/src/TAPDCR.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAPDCR.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAPDCR.cxx -o CMakeFiles/libetf.dir/src/TAPDCR.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAPDCR.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAPDCR.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAPDCR.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAPDCR.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAPDCR.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAPDCR.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCR.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAPDCR.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAPDCR.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAPDCR.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCR.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAPDCR.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAPDCR.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAPDCR.C.o
+etf/CMakeFiles/libetf.dir/src/TAPDCR.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAPDCR.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAPID.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAPID.C.o: ../etf/src/TAPID.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAPID.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAPID.C.o -c /home/asia/pionExp2017/etf/src/TAPID.C
+etf/CMakeFiles/libetf.dir/src/TAPID.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAPID.cxx.o: ../etf/src/TAPID.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAPID.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAPID.cxx.o -c /home/asia/pionExp2017/etf/src/TAPID.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAPID.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAPID.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAPID.C > CMakeFiles/libetf.dir/src/TAPID.C.i
+etf/CMakeFiles/libetf.dir/src/TAPID.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAPID.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAPID.cxx > CMakeFiles/libetf.dir/src/TAPID.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAPID.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAPID.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAPID.C -o CMakeFiles/libetf.dir/src/TAPID.C.s
+etf/CMakeFiles/libetf.dir/src/TAPID.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAPID.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAPID.cxx -o CMakeFiles/libetf.dir/src/TAPID.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAPID.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAPID.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAPID.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAPID.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAPID.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAPID.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPID.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAPID.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAPID.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAPID.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPID.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAPID.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAPID.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAPID.C.o
+etf/CMakeFiles/libetf.dir/src/TAPID.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAPID.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAParaManager.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAParaManager.C.o: ../etf/src/TAParaManager.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAParaManager.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAParaManager.C.o -c /home/asia/pionExp2017/etf/src/TAParaManager.C
+etf/CMakeFiles/libetf.dir/src/TAParaManager.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAParaManager.cxx.o: ../etf/src/TAParaManager.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAParaManager.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAParaManager.cxx.o -c /home/asia/pionExp2017/etf/src/TAParaManager.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAParaManager.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAParaManager.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAParaManager.C > CMakeFiles/libetf.dir/src/TAParaManager.C.i
+etf/CMakeFiles/libetf.dir/src/TAParaManager.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAParaManager.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAParaManager.cxx > CMakeFiles/libetf.dir/src/TAParaManager.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAParaManager.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAParaManager.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAParaManager.C -o CMakeFiles/libetf.dir/src/TAParaManager.C.s
+etf/CMakeFiles/libetf.dir/src/TAParaManager.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAParaManager.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAParaManager.cxx -o CMakeFiles/libetf.dir/src/TAParaManager.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAParaManager.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAParaManager.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAParaManager.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAParaManager.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAParaManager.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAParaManager.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAParaManager.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAParaManager.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAParaManager.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAParaManager.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAParaManager.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAParaManager.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAParaManager.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAParaManager.C.o
+etf/CMakeFiles/libetf.dir/src/TAParaManager.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAParaManager.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAParameter.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAParameter.C.o: ../etf/src/TAParameter.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAParameter.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAParameter.C.o -c /home/asia/pionExp2017/etf/src/TAParameter.C
+etf/CMakeFiles/libetf.dir/src/TAParameter.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAParameter.cxx.o: ../etf/src/TAParameter.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAParameter.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAParameter.cxx.o -c /home/asia/pionExp2017/etf/src/TAParameter.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAParameter.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAParameter.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAParameter.C > CMakeFiles/libetf.dir/src/TAParameter.C.i
+etf/CMakeFiles/libetf.dir/src/TAParameter.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAParameter.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAParameter.cxx > CMakeFiles/libetf.dir/src/TAParameter.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAParameter.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAParameter.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAParameter.C -o CMakeFiles/libetf.dir/src/TAParameter.C.s
+etf/CMakeFiles/libetf.dir/src/TAParameter.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAParameter.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAParameter.cxx -o CMakeFiles/libetf.dir/src/TAParameter.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAParameter.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAParameter.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAParameter.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAParameter.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAParameter.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAParameter.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAParameter.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAParameter.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAParameter.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAParameter.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAParameter.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAParameter.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAParameter.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAParameter.C.o
+etf/CMakeFiles/libetf.dir/src/TAParameter.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAParameter.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAPlaStrip.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAPlaStrip.C.o: ../etf/src/TAPlaStrip.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_47) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAPlaStrip.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAPlaStrip.C.o -c /home/asia/pionExp2017/etf/src/TAPlaStrip.C
+etf/CMakeFiles/libetf.dir/src/TAPlaStrip.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAPlaStrip.cxx.o: ../etf/src/TAPlaStrip.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_47) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAPlaStrip.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAPlaStrip.cxx.o -c /home/asia/pionExp2017/etf/src/TAPlaStrip.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAPlaStrip.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAPlaStrip.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAPlaStrip.C > CMakeFiles/libetf.dir/src/TAPlaStrip.C.i
+etf/CMakeFiles/libetf.dir/src/TAPlaStrip.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAPlaStrip.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAPlaStrip.cxx > CMakeFiles/libetf.dir/src/TAPlaStrip.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAPlaStrip.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAPlaStrip.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAPlaStrip.C -o CMakeFiles/libetf.dir/src/TAPlaStrip.C.s
+etf/CMakeFiles/libetf.dir/src/TAPlaStrip.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAPlaStrip.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAPlaStrip.cxx -o CMakeFiles/libetf.dir/src/TAPlaStrip.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAPlaStrip.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAPlaStrip.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAPlaStrip.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAPlaStrip.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAPlaStrip.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAPlaStrip.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPlaStrip.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAPlaStrip.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAPlaStrip.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAPlaStrip.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPlaStrip.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAPlaStrip.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAPlaStrip.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAPlaStrip.C.o
+etf/CMakeFiles/libetf.dir/src/TAPlaStrip.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAPlaStrip.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAPlaStripData.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAPlaStripData.C.o: ../etf/src/TAPlaStripData.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_48) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAPlaStripData.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAPlaStripData.C.o -c /home/asia/pionExp2017/etf/src/TAPlaStripData.C
+etf/CMakeFiles/libetf.dir/src/TAPlaStripData.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAPlaStripData.cxx.o: ../etf/src/TAPlaStripData.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_48) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAPlaStripData.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAPlaStripData.cxx.o -c /home/asia/pionExp2017/etf/src/TAPlaStripData.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAPlaStripData.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAPlaStripData.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAPlaStripData.C > CMakeFiles/libetf.dir/src/TAPlaStripData.C.i
+etf/CMakeFiles/libetf.dir/src/TAPlaStripData.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAPlaStripData.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAPlaStripData.cxx > CMakeFiles/libetf.dir/src/TAPlaStripData.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAPlaStripData.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAPlaStripData.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAPlaStripData.C -o CMakeFiles/libetf.dir/src/TAPlaStripData.C.s
+etf/CMakeFiles/libetf.dir/src/TAPlaStripData.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAPlaStripData.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAPlaStripData.cxx -o CMakeFiles/libetf.dir/src/TAPlaStripData.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAPlaStripData.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAPlaStripData.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAPlaStripData.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAPlaStripData.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAPlaStripData.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAPlaStripData.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPlaStripData.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAPlaStripData.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAPlaStripData.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAPlaStripData.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPlaStripData.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAPlaStripData.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAPlaStripData.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAPlaStripData.C.o
+etf/CMakeFiles/libetf.dir/src/TAPlaStripData.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAPlaStripData.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.C.o: ../etf/src/TAPlaStripPara.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_49) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAPlaStripPara.C.o -c /home/asia/pionExp2017/etf/src/TAPlaStripPara.C
+etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.cxx.o: ../etf/src/TAPlaStripPara.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_49) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAPlaStripPara.cxx.o -c /home/asia/pionExp2017/etf/src/TAPlaStripPara.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAPlaStripPara.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAPlaStripPara.C > CMakeFiles/libetf.dir/src/TAPlaStripPara.C.i
+etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAPlaStripPara.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAPlaStripPara.cxx > CMakeFiles/libetf.dir/src/TAPlaStripPara.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAPlaStripPara.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAPlaStripPara.C -o CMakeFiles/libetf.dir/src/TAPlaStripPara.C.s
+etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAPlaStripPara.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAPlaStripPara.cxx -o CMakeFiles/libetf.dir/src/TAPlaStripPara.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.C.o
+etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAPopMsg.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAPopMsg.C.o: ../etf/src/TAPopMsg.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_50) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAPopMsg.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAPopMsg.C.o -c /home/asia/pionExp2017/etf/src/TAPopMsg.C
+etf/CMakeFiles/libetf.dir/src/TAPopMsg.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAPopMsg.cxx.o: ../etf/src/TAPopMsg.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_50) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAPopMsg.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAPopMsg.cxx.o -c /home/asia/pionExp2017/etf/src/TAPopMsg.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAPopMsg.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAPopMsg.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAPopMsg.C > CMakeFiles/libetf.dir/src/TAPopMsg.C.i
+etf/CMakeFiles/libetf.dir/src/TAPopMsg.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAPopMsg.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAPopMsg.cxx > CMakeFiles/libetf.dir/src/TAPopMsg.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAPopMsg.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAPopMsg.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAPopMsg.C -o CMakeFiles/libetf.dir/src/TAPopMsg.C.s
+etf/CMakeFiles/libetf.dir/src/TAPopMsg.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAPopMsg.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAPopMsg.cxx -o CMakeFiles/libetf.dir/src/TAPopMsg.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAPopMsg.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAPopMsg.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAPopMsg.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAPopMsg.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAPopMsg.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAPopMsg.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPopMsg.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAPopMsg.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAPopMsg.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAPopMsg.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPopMsg.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAPopMsg.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAPopMsg.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAPopMsg.C.o
+etf/CMakeFiles/libetf.dir/src/TAPopMsg.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAPopMsg.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.C.o: ../etf/src/TARawDataProcessor.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_51) "Building CXX object etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TARawDataProcessor.C.o -c /home/asia/pionExp2017/etf/src/TARawDataProcessor.C
+etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.cxx.o: ../etf/src/TARawDataProcessor.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_51) "Building CXX object etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TARawDataProcessor.cxx.o -c /home/asia/pionExp2017/etf/src/TARawDataProcessor.cxx
 
-etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TARawDataProcessor.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TARawDataProcessor.C > CMakeFiles/libetf.dir/src/TARawDataProcessor.C.i
+etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TARawDataProcessor.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TARawDataProcessor.cxx > CMakeFiles/libetf.dir/src/TARawDataProcessor.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TARawDataProcessor.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TARawDataProcessor.C -o CMakeFiles/libetf.dir/src/TARawDataProcessor.C.s
+etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TARawDataProcessor.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TARawDataProcessor.cxx -o CMakeFiles/libetf.dir/src/TARawDataProcessor.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.C.o.provides: etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.C.o
+etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.C.o: ../etf/src/TASTRCalibDCArr.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_52) "Building CXX object etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TASTRCalibDCArr.C.o -c /home/asia/pionExp2017/etf/src/TASTRCalibDCArr.C
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.cxx.o: ../etf/src/TASTRCalibDCArr.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_52) "Building CXX object etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TASTRCalibDCArr.cxx.o -c /home/asia/pionExp2017/etf/src/TASTRCalibDCArr.cxx
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TASTRCalibDCArr.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TASTRCalibDCArr.C > CMakeFiles/libetf.dir/src/TASTRCalibDCArr.C.i
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TASTRCalibDCArr.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TASTRCalibDCArr.cxx > CMakeFiles/libetf.dir/src/TASTRCalibDCArr.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TASTRCalibDCArr.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TASTRCalibDCArr.C -o CMakeFiles/libetf.dir/src/TASTRCalibDCArr.C.s
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TASTRCalibDCArr.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TASTRCalibDCArr.cxx -o CMakeFiles/libetf.dir/src/TASTRCalibDCArr.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.C.o.provides: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.C.o
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.C.o: ../etf/src/TASTRCalibDCArrL.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_53) "Building CXX object etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.C.o -c /home/asia/pionExp2017/etf/src/TASTRCalibDCArrL.C
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.cxx.o: ../etf/src/TASTRCalibDCArrL.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_53) "Building CXX object etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.cxx.o -c /home/asia/pionExp2017/etf/src/TASTRCalibDCArrL.cxx
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TASTRCalibDCArrL.C > CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.C.i
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TASTRCalibDCArrL.cxx > CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TASTRCalibDCArrL.C -o CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.C.s
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TASTRCalibDCArrL.cxx -o CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.C.o.provides: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.C.o
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.C.o: ../etf/src/TASTRCalibDCArrR.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_54) "Building CXX object etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.C.o -c /home/asia/pionExp2017/etf/src/TASTRCalibDCArrR.C
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.cxx.o: ../etf/src/TASTRCalibDCArrR.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_54) "Building CXX object etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.cxx.o -c /home/asia/pionExp2017/etf/src/TASTRCalibDCArrR.cxx
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TASTRCalibDCArrR.C > CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.C.i
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TASTRCalibDCArrR.cxx > CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TASTRCalibDCArrR.C -o CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.C.s
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TASTRCalibDCArrR.cxx -o CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.C.o.provides: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.C.o
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.C.o: ../etf/src/TASTRCalibDCArrTa.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_55) "Building CXX object etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.C.o -c /home/asia/pionExp2017/etf/src/TASTRCalibDCArrTa.C
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.cxx.o: ../etf/src/TASTRCalibDCArrTa.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_55) "Building CXX object etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.cxx.o -c /home/asia/pionExp2017/etf/src/TASTRCalibDCArrTa.cxx
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TASTRCalibDCArrTa.C > CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.C.i
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TASTRCalibDCArrTa.cxx > CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TASTRCalibDCArrTa.C -o CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.C.s
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TASTRCalibDCArrTa.cxx -o CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.C.o.provides: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.C.o
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.C.o: ../etf/src/TASTRCalibDCArrTaD.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_56) "Building CXX object etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.C.o -c /home/asia/pionExp2017/etf/src/TASTRCalibDCArrTaD.C
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.cxx.o: ../etf/src/TASTRCalibDCArrTaD.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_56) "Building CXX object etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.cxx.o -c /home/asia/pionExp2017/etf/src/TASTRCalibDCArrTaD.cxx
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TASTRCalibDCArrTaD.C > CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.C.i
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TASTRCalibDCArrTaD.cxx > CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TASTRCalibDCArrTaD.C -o CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.C.s
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TASTRCalibDCArrTaD.cxx -o CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.C.o.provides: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.C.o
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.C.o: ../etf/src/TASTRCalibDCArrTaU.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_57) "Building CXX object etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.C.o -c /home/asia/pionExp2017/etf/src/TASTRCalibDCArrTaU.C
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.cxx.o: ../etf/src/TASTRCalibDCArrTaU.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_57) "Building CXX object etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.cxx.o -c /home/asia/pionExp2017/etf/src/TASTRCalibDCArrTaU.cxx
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TASTRCalibDCArrTaU.C > CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.C.i
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TASTRCalibDCArrTaU.cxx > CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TASTRCalibDCArrTaU.C -o CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.C.s
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TASTRCalibDCArrTaU.cxx -o CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.C.o.provides: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.C.o
+etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.C.o: ../etf/src/TASTRCalibPDCArrD.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_58) "Building CXX object etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.C.o -c /home/asia/pionExp2017/etf/src/TASTRCalibPDCArrD.C
+etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.cxx.o: ../etf/src/TASTRCalibPDCArrD.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_58) "Building CXX object etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.cxx.o -c /home/asia/pionExp2017/etf/src/TASTRCalibPDCArrD.cxx
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TASTRCalibPDCArrD.C > CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.C.i
+etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TASTRCalibPDCArrD.cxx > CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TASTRCalibPDCArrD.C -o CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.C.s
+etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TASTRCalibPDCArrD.cxx -o CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.C.o.provides: etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.C.o
+etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.C.o: ../etf/src/TASTRCalibPDCArrU.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_59) "Building CXX object etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.C.o -c /home/asia/pionExp2017/etf/src/TASTRCalibPDCArrU.C
+etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.cxx.o: ../etf/src/TASTRCalibPDCArrU.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_59) "Building CXX object etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.cxx.o -c /home/asia/pionExp2017/etf/src/TASTRCalibPDCArrU.cxx
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TASTRCalibPDCArrU.C > CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.C.i
+etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TASTRCalibPDCArrU.cxx > CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TASTRCalibPDCArrU.C -o CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.C.s
+etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TASTRCalibPDCArrU.cxx -o CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.C.o.provides: etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.C.o
+etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.C.o: ../etf/src/TASiPMPlaArray.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_60) "Building CXX object etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TASiPMPlaArray.C.o -c /home/asia/pionExp2017/etf/src/TASiPMPlaArray.C
+etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.cxx.o: ../etf/src/TASiPMPlaArray.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_60) "Building CXX object etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TASiPMPlaArray.cxx.o -c /home/asia/pionExp2017/etf/src/TASiPMPlaArray.cxx
 
-etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TASiPMPlaArray.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TASiPMPlaArray.C > CMakeFiles/libetf.dir/src/TASiPMPlaArray.C.i
+etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TASiPMPlaArray.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TASiPMPlaArray.cxx > CMakeFiles/libetf.dir/src/TASiPMPlaArray.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TASiPMPlaArray.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TASiPMPlaArray.C -o CMakeFiles/libetf.dir/src/TASiPMPlaArray.C.s
+etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TASiPMPlaArray.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TASiPMPlaArray.cxx -o CMakeFiles/libetf.dir/src/TASiPMPlaArray.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.C.o.provides: etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.C.o
+etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.C.o: ../etf/src/TASiPMPlaBarrel.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_61) "Building CXX object etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.C.o -c /home/asia/pionExp2017/etf/src/TASiPMPlaBarrel.C
+etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.cxx.o: ../etf/src/TASiPMPlaBarrel.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_61) "Building CXX object etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.cxx.o -c /home/asia/pionExp2017/etf/src/TASiPMPlaBarrel.cxx
 
-etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TASiPMPlaBarrel.C > CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.C.i
+etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TASiPMPlaBarrel.cxx > CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TASiPMPlaBarrel.C -o CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.C.s
+etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TASiPMPlaBarrel.cxx -o CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.C.o.provides: etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.C.o
+etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TASimulation.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TASimulation.C.o: ../etf/src/TASimulation.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_62) "Building CXX object etf/CMakeFiles/libetf.dir/src/TASimulation.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TASimulation.C.o -c /home/asia/pionExp2017/etf/src/TASimulation.C
+etf/CMakeFiles/libetf.dir/src/TASimulation.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TASimulation.cxx.o: ../etf/src/TASimulation.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_62) "Building CXX object etf/CMakeFiles/libetf.dir/src/TASimulation.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TASimulation.cxx.o -c /home/asia/pionExp2017/etf/src/TASimulation.cxx
 
-etf/CMakeFiles/libetf.dir/src/TASimulation.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TASimulation.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TASimulation.C > CMakeFiles/libetf.dir/src/TASimulation.C.i
+etf/CMakeFiles/libetf.dir/src/TASimulation.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TASimulation.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TASimulation.cxx > CMakeFiles/libetf.dir/src/TASimulation.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TASimulation.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TASimulation.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TASimulation.C -o CMakeFiles/libetf.dir/src/TASimulation.C.s
+etf/CMakeFiles/libetf.dir/src/TASimulation.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TASimulation.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TASimulation.cxx -o CMakeFiles/libetf.dir/src/TASimulation.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TASimulation.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TASimulation.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TASimulation.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TASimulation.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TASimulation.C.o.provides: etf/CMakeFiles/libetf.dir/src/TASimulation.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASimulation.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TASimulation.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TASimulation.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TASimulation.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASimulation.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TASimulation.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TASimulation.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TASimulation.C.o
+etf/CMakeFiles/libetf.dir/src/TASimulation.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TASimulation.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAStuff.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAStuff.C.o: ../etf/src/TAStuff.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_63) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAStuff.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAStuff.C.o -c /home/asia/pionExp2017/etf/src/TAStuff.C
+etf/CMakeFiles/libetf.dir/src/TAStuff.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAStuff.cxx.o: ../etf/src/TAStuff.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_63) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAStuff.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAStuff.cxx.o -c /home/asia/pionExp2017/etf/src/TAStuff.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAStuff.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAStuff.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAStuff.C > CMakeFiles/libetf.dir/src/TAStuff.C.i
+etf/CMakeFiles/libetf.dir/src/TAStuff.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAStuff.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAStuff.cxx > CMakeFiles/libetf.dir/src/TAStuff.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAStuff.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAStuff.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAStuff.C -o CMakeFiles/libetf.dir/src/TAStuff.C.s
+etf/CMakeFiles/libetf.dir/src/TAStuff.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAStuff.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAStuff.cxx -o CMakeFiles/libetf.dir/src/TAStuff.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAStuff.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAStuff.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAStuff.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAStuff.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAStuff.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAStuff.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAStuff.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAStuff.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAStuff.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAStuff.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAStuff.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAStuff.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAStuff.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAStuff.C.o
+etf/CMakeFiles/libetf.dir/src/TAStuff.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAStuff.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.C.o: ../etf/src/TAT0CalibDCArr.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_64) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAT0CalibDCArr.C.o -c /home/asia/pionExp2017/etf/src/TAT0CalibDCArr.C
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.cxx.o: ../etf/src/TAT0CalibDCArr.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_64) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAT0CalibDCArr.cxx.o -c /home/asia/pionExp2017/etf/src/TAT0CalibDCArr.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAT0CalibDCArr.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAT0CalibDCArr.C > CMakeFiles/libetf.dir/src/TAT0CalibDCArr.C.i
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAT0CalibDCArr.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAT0CalibDCArr.cxx > CMakeFiles/libetf.dir/src/TAT0CalibDCArr.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAT0CalibDCArr.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAT0CalibDCArr.C -o CMakeFiles/libetf.dir/src/TAT0CalibDCArr.C.s
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAT0CalibDCArr.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAT0CalibDCArr.cxx -o CMakeFiles/libetf.dir/src/TAT0CalibDCArr.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.C.o
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.C.o: ../etf/src/TAT0CalibDCArrL.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_65) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.C.o -c /home/asia/pionExp2017/etf/src/TAT0CalibDCArrL.C
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.cxx.o: ../etf/src/TAT0CalibDCArrL.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_65) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.cxx.o -c /home/asia/pionExp2017/etf/src/TAT0CalibDCArrL.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAT0CalibDCArrL.C > CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.C.i
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAT0CalibDCArrL.cxx > CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAT0CalibDCArrL.C -o CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.C.s
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAT0CalibDCArrL.cxx -o CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.C.o
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.C.o: ../etf/src/TAT0CalibDCArrR.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_66) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.C.o -c /home/asia/pionExp2017/etf/src/TAT0CalibDCArrR.C
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.cxx.o: ../etf/src/TAT0CalibDCArrR.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_66) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.cxx.o -c /home/asia/pionExp2017/etf/src/TAT0CalibDCArrR.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAT0CalibDCArrR.C > CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.C.i
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAT0CalibDCArrR.cxx > CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAT0CalibDCArrR.C -o CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.C.s
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAT0CalibDCArrR.cxx -o CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.C.o
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.C.o: ../etf/src/TAT0CalibDCArrTa.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_67) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.C.o -c /home/asia/pionExp2017/etf/src/TAT0CalibDCArrTa.C
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.cxx.o: ../etf/src/TAT0CalibDCArrTa.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_67) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.cxx.o -c /home/asia/pionExp2017/etf/src/TAT0CalibDCArrTa.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAT0CalibDCArrTa.C > CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.C.i
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAT0CalibDCArrTa.cxx > CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAT0CalibDCArrTa.C -o CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.C.s
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAT0CalibDCArrTa.cxx -o CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.C.o
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.C.o: ../etf/src/TAT0CalibDCArrTaD.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_68) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.C.o -c /home/asia/pionExp2017/etf/src/TAT0CalibDCArrTaD.C
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.cxx.o: ../etf/src/TAT0CalibDCArrTaD.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_68) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.cxx.o -c /home/asia/pionExp2017/etf/src/TAT0CalibDCArrTaD.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAT0CalibDCArrTaD.C > CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.C.i
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAT0CalibDCArrTaD.cxx > CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAT0CalibDCArrTaD.C -o CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.C.s
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAT0CalibDCArrTaD.cxx -o CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.C.o
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.C.o: ../etf/src/TAT0CalibDCArrTaU.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_69) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.C.o -c /home/asia/pionExp2017/etf/src/TAT0CalibDCArrTaU.C
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.cxx.o: ../etf/src/TAT0CalibDCArrTaU.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_69) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.cxx.o -c /home/asia/pionExp2017/etf/src/TAT0CalibDCArrTaU.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAT0CalibDCArrTaU.C > CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.C.i
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAT0CalibDCArrTaU.cxx > CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAT0CalibDCArrTaU.C -o CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.C.s
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAT0CalibDCArrTaU.cxx -o CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.C.o
+etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAT0_0.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAT0_0.C.o: ../etf/src/TAT0_0.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_70) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAT0_0.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAT0_0.C.o -c /home/asia/pionExp2017/etf/src/TAT0_0.C
+etf/CMakeFiles/libetf.dir/src/TAT0_0.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAT0_0.cxx.o: ../etf/src/TAT0_0.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_70) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAT0_0.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAT0_0.cxx.o -c /home/asia/pionExp2017/etf/src/TAT0_0.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAT0_0.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAT0_0.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAT0_0.C > CMakeFiles/libetf.dir/src/TAT0_0.C.i
+etf/CMakeFiles/libetf.dir/src/TAT0_0.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAT0_0.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAT0_0.cxx > CMakeFiles/libetf.dir/src/TAT0_0.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAT0_0.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAT0_0.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAT0_0.C -o CMakeFiles/libetf.dir/src/TAT0_0.C.s
+etf/CMakeFiles/libetf.dir/src/TAT0_0.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAT0_0.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAT0_0.cxx -o CMakeFiles/libetf.dir/src/TAT0_0.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAT0_0.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAT0_0.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0_0.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0_0.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAT0_0.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAT0_0.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0_0.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0_0.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAT0_0.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAT0_0.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0_0.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0_0.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAT0_0.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAT0_0.C.o
+etf/CMakeFiles/libetf.dir/src/TAT0_0.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAT0_0.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAT0_1.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAT0_1.C.o: ../etf/src/TAT0_1.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_71) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAT0_1.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAT0_1.C.o -c /home/asia/pionExp2017/etf/src/TAT0_1.C
+etf/CMakeFiles/libetf.dir/src/TAT0_1.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAT0_1.cxx.o: ../etf/src/TAT0_1.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_71) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAT0_1.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAT0_1.cxx.o -c /home/asia/pionExp2017/etf/src/TAT0_1.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAT0_1.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAT0_1.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAT0_1.C > CMakeFiles/libetf.dir/src/TAT0_1.C.i
+etf/CMakeFiles/libetf.dir/src/TAT0_1.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAT0_1.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAT0_1.cxx > CMakeFiles/libetf.dir/src/TAT0_1.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAT0_1.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAT0_1.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAT0_1.C -o CMakeFiles/libetf.dir/src/TAT0_1.C.s
+etf/CMakeFiles/libetf.dir/src/TAT0_1.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAT0_1.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAT0_1.cxx -o CMakeFiles/libetf.dir/src/TAT0_1.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAT0_1.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAT0_1.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0_1.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0_1.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAT0_1.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAT0_1.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0_1.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0_1.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAT0_1.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAT0_1.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0_1.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAT0_1.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAT0_1.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAT0_1.C.o
+etf/CMakeFiles/libetf.dir/src/TAT0_1.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAT0_1.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TATOFWall.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TATOFWall.C.o: ../etf/src/TATOFWall.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_72) "Building CXX object etf/CMakeFiles/libetf.dir/src/TATOFWall.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TATOFWall.C.o -c /home/asia/pionExp2017/etf/src/TATOFWall.C
+etf/CMakeFiles/libetf.dir/src/TATOFWall.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TATOFWall.cxx.o: ../etf/src/TATOFWall.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_72) "Building CXX object etf/CMakeFiles/libetf.dir/src/TATOFWall.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TATOFWall.cxx.o -c /home/asia/pionExp2017/etf/src/TATOFWall.cxx
 
-etf/CMakeFiles/libetf.dir/src/TATOFWall.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TATOFWall.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TATOFWall.C > CMakeFiles/libetf.dir/src/TATOFWall.C.i
+etf/CMakeFiles/libetf.dir/src/TATOFWall.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TATOFWall.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TATOFWall.cxx > CMakeFiles/libetf.dir/src/TATOFWall.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TATOFWall.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TATOFWall.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TATOFWall.C -o CMakeFiles/libetf.dir/src/TATOFWall.C.s
+etf/CMakeFiles/libetf.dir/src/TATOFWall.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TATOFWall.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TATOFWall.cxx -o CMakeFiles/libetf.dir/src/TATOFWall.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TATOFWall.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TATOFWall.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TATOFWall.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TATOFWall.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TATOFWall.C.o.provides: etf/CMakeFiles/libetf.dir/src/TATOFWall.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATOFWall.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TATOFWall.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TATOFWall.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TATOFWall.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATOFWall.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TATOFWall.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TATOFWall.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TATOFWall.C.o
+etf/CMakeFiles/libetf.dir/src/TATOFWall.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TATOFWall.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TATrack.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TATrack.C.o: ../etf/src/TATrack.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_73) "Building CXX object etf/CMakeFiles/libetf.dir/src/TATrack.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TATrack.C.o -c /home/asia/pionExp2017/etf/src/TATrack.C
+etf/CMakeFiles/libetf.dir/src/TATrack.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TATrack.cxx.o: ../etf/src/TATrack.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_73) "Building CXX object etf/CMakeFiles/libetf.dir/src/TATrack.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TATrack.cxx.o -c /home/asia/pionExp2017/etf/src/TATrack.cxx
 
-etf/CMakeFiles/libetf.dir/src/TATrack.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TATrack.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TATrack.C > CMakeFiles/libetf.dir/src/TATrack.C.i
+etf/CMakeFiles/libetf.dir/src/TATrack.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TATrack.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TATrack.cxx > CMakeFiles/libetf.dir/src/TATrack.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TATrack.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TATrack.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TATrack.C -o CMakeFiles/libetf.dir/src/TATrack.C.s
+etf/CMakeFiles/libetf.dir/src/TATrack.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TATrack.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TATrack.cxx -o CMakeFiles/libetf.dir/src/TATrack.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TATrack.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TATrack.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TATrack.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TATrack.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TATrack.C.o.provides: etf/CMakeFiles/libetf.dir/src/TATrack.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATrack.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TATrack.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TATrack.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TATrack.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATrack.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TATrack.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TATrack.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TATrack.C.o
+etf/CMakeFiles/libetf.dir/src/TATrack.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TATrack.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TATrack2.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TATrack2.C.o: ../etf/src/TATrack2.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_74) "Building CXX object etf/CMakeFiles/libetf.dir/src/TATrack2.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TATrack2.C.o -c /home/asia/pionExp2017/etf/src/TATrack2.C
+etf/CMakeFiles/libetf.dir/src/TATrack2.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TATrack2.cxx.o: ../etf/src/TATrack2.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_74) "Building CXX object etf/CMakeFiles/libetf.dir/src/TATrack2.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TATrack2.cxx.o -c /home/asia/pionExp2017/etf/src/TATrack2.cxx
 
-etf/CMakeFiles/libetf.dir/src/TATrack2.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TATrack2.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TATrack2.C > CMakeFiles/libetf.dir/src/TATrack2.C.i
+etf/CMakeFiles/libetf.dir/src/TATrack2.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TATrack2.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TATrack2.cxx > CMakeFiles/libetf.dir/src/TATrack2.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TATrack2.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TATrack2.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TATrack2.C -o CMakeFiles/libetf.dir/src/TATrack2.C.s
+etf/CMakeFiles/libetf.dir/src/TATrack2.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TATrack2.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TATrack2.cxx -o CMakeFiles/libetf.dir/src/TATrack2.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TATrack2.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TATrack2.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TATrack2.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TATrack2.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TATrack2.C.o.provides: etf/CMakeFiles/libetf.dir/src/TATrack2.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATrack2.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TATrack2.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TATrack2.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TATrack2.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATrack2.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TATrack2.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TATrack2.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TATrack2.C.o
+etf/CMakeFiles/libetf.dir/src/TATrack2.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TATrack2.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TATrackTa4.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TATrackTa4.C.o: ../etf/src/TATrackTa4.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_75) "Building CXX object etf/CMakeFiles/libetf.dir/src/TATrackTa4.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TATrackTa4.C.o -c /home/asia/pionExp2017/etf/src/TATrackTa4.C
+etf/CMakeFiles/libetf.dir/src/TATrackTa4.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TATrackTa4.cxx.o: ../etf/src/TATrackTa4.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_75) "Building CXX object etf/CMakeFiles/libetf.dir/src/TATrackTa4.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TATrackTa4.cxx.o -c /home/asia/pionExp2017/etf/src/TATrackTa4.cxx
 
-etf/CMakeFiles/libetf.dir/src/TATrackTa4.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TATrackTa4.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TATrackTa4.C > CMakeFiles/libetf.dir/src/TATrackTa4.C.i
+etf/CMakeFiles/libetf.dir/src/TATrackTa4.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TATrackTa4.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TATrackTa4.cxx > CMakeFiles/libetf.dir/src/TATrackTa4.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TATrackTa4.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TATrackTa4.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TATrackTa4.C -o CMakeFiles/libetf.dir/src/TATrackTa4.C.s
+etf/CMakeFiles/libetf.dir/src/TATrackTa4.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TATrackTa4.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TATrackTa4.cxx -o CMakeFiles/libetf.dir/src/TATrackTa4.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TATrackTa4.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TATrackTa4.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TATrackTa4.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TATrackTa4.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TATrackTa4.C.o.provides: etf/CMakeFiles/libetf.dir/src/TATrackTa4.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATrackTa4.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TATrackTa4.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TATrackTa4.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TATrackTa4.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATrackTa4.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TATrackTa4.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TATrackTa4.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TATrackTa4.C.o
+etf/CMakeFiles/libetf.dir/src/TATrackTa4.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TATrackTa4.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAUI.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAUI.C.o: ../etf/src/TAUI.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_76) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAUI.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAUI.C.o -c /home/asia/pionExp2017/etf/src/TAUI.C
+etf/CMakeFiles/libetf.dir/src/TAUI.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAUI.cxx.o: ../etf/src/TAUI.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_76) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAUI.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAUI.cxx.o -c /home/asia/pionExp2017/etf/src/TAUI.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAUI.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAUI.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAUI.C > CMakeFiles/libetf.dir/src/TAUI.C.i
+etf/CMakeFiles/libetf.dir/src/TAUI.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAUI.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAUI.cxx > CMakeFiles/libetf.dir/src/TAUI.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAUI.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAUI.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAUI.C -o CMakeFiles/libetf.dir/src/TAUI.C.s
+etf/CMakeFiles/libetf.dir/src/TAUI.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAUI.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAUI.cxx -o CMakeFiles/libetf.dir/src/TAUI.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAUI.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAUI.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAUI.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAUI.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAUI.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAUI.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAUI.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAUI.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAUI.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAUI.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAUI.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAUI.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAUI.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAUI.C.o
+etf/CMakeFiles/libetf.dir/src/TAUI.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAUI.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAUIDParser.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAUIDParser.C.o: ../etf/src/TAUIDParser.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_77) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAUIDParser.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAUIDParser.C.o -c /home/asia/pionExp2017/etf/src/TAUIDParser.C
+etf/CMakeFiles/libetf.dir/src/TAUIDParser.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAUIDParser.cxx.o: ../etf/src/TAUIDParser.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_77) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAUIDParser.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAUIDParser.cxx.o -c /home/asia/pionExp2017/etf/src/TAUIDParser.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAUIDParser.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAUIDParser.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAUIDParser.C > CMakeFiles/libetf.dir/src/TAUIDParser.C.i
+etf/CMakeFiles/libetf.dir/src/TAUIDParser.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAUIDParser.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAUIDParser.cxx > CMakeFiles/libetf.dir/src/TAUIDParser.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAUIDParser.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAUIDParser.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAUIDParser.C -o CMakeFiles/libetf.dir/src/TAUIDParser.C.s
+etf/CMakeFiles/libetf.dir/src/TAUIDParser.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAUIDParser.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAUIDParser.cxx -o CMakeFiles/libetf.dir/src/TAUIDParser.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAUIDParser.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAUIDParser.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAUIDParser.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAUIDParser.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAUIDParser.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAUIDParser.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAUIDParser.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAUIDParser.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAUIDParser.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAUIDParser.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAUIDParser.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAUIDParser.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAUIDParser.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAUIDParser.C.o
+etf/CMakeFiles/libetf.dir/src/TAUIDParser.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAUIDParser.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAVMEReader.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAVMEReader.C.o: ../etf/src/TAVMEReader.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_78) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAVMEReader.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAVMEReader.C.o -c /home/asia/pionExp2017/etf/src/TAVMEReader.C
+etf/CMakeFiles/libetf.dir/src/TAVMEReader.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAVMEReader.cxx.o: ../etf/src/TAVMEReader.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_78) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAVMEReader.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAVMEReader.cxx.o -c /home/asia/pionExp2017/etf/src/TAVMEReader.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAVMEReader.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAVMEReader.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAVMEReader.C > CMakeFiles/libetf.dir/src/TAVMEReader.C.i
+etf/CMakeFiles/libetf.dir/src/TAVMEReader.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAVMEReader.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAVMEReader.cxx > CMakeFiles/libetf.dir/src/TAVMEReader.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAVMEReader.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAVMEReader.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAVMEReader.C -o CMakeFiles/libetf.dir/src/TAVMEReader.C.s
+etf/CMakeFiles/libetf.dir/src/TAVMEReader.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAVMEReader.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAVMEReader.cxx -o CMakeFiles/libetf.dir/src/TAVMEReader.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAVMEReader.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAVMEReader.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAVMEReader.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAVMEReader.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAVMEReader.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAVMEReader.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAVMEReader.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAVMEReader.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAVMEReader.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAVMEReader.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAVMEReader.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAVMEReader.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAVMEReader.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAVMEReader.C.o
+etf/CMakeFiles/libetf.dir/src/TAVMEReader.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAVMEReader.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/TAVisual.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/TAVisual.C.o: ../etf/src/TAVisual.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_79) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAVisual.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAVisual.C.o -c /home/asia/pionExp2017/etf/src/TAVisual.C
+etf/CMakeFiles/libetf.dir/src/TAVisual.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/TAVisual.cxx.o: ../etf/src/TAVisual.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_79) "Building CXX object etf/CMakeFiles/libetf.dir/src/TAVisual.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/TAVisual.cxx.o -c /home/asia/pionExp2017/etf/src/TAVisual.cxx
 
-etf/CMakeFiles/libetf.dir/src/TAVisual.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAVisual.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAVisual.C > CMakeFiles/libetf.dir/src/TAVisual.C.i
+etf/CMakeFiles/libetf.dir/src/TAVisual.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/TAVisual.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/TAVisual.cxx > CMakeFiles/libetf.dir/src/TAVisual.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/TAVisual.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAVisual.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAVisual.C -o CMakeFiles/libetf.dir/src/TAVisual.C.s
+etf/CMakeFiles/libetf.dir/src/TAVisual.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/TAVisual.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/TAVisual.cxx -o CMakeFiles/libetf.dir/src/TAVisual.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/TAVisual.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/TAVisual.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAVisual.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAVisual.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/TAVisual.C.o.provides: etf/CMakeFiles/libetf.dir/src/TAVisual.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAVisual.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/TAVisual.C.o.provides
+etf/CMakeFiles/libetf.dir/src/TAVisual.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/TAVisual.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAVisual.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/TAVisual.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/TAVisual.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAVisual.C.o
+etf/CMakeFiles/libetf.dir/src/TAVisual.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/TAVisual.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.C.o: ../etf/src/t3DPIDInfo.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_80) "Building CXX object etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/t3DPIDInfo.C.o -c /home/asia/pionExp2017/etf/src/t3DPIDInfo.C
+etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.cxx.o: ../etf/src/t3DPIDInfo.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_80) "Building CXX object etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/t3DPIDInfo.cxx.o -c /home/asia/pionExp2017/etf/src/t3DPIDInfo.cxx
 
-etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/t3DPIDInfo.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/t3DPIDInfo.C > CMakeFiles/libetf.dir/src/t3DPIDInfo.C.i
+etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/t3DPIDInfo.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/t3DPIDInfo.cxx > CMakeFiles/libetf.dir/src/t3DPIDInfo.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/t3DPIDInfo.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/t3DPIDInfo.C -o CMakeFiles/libetf.dir/src/t3DPIDInfo.C.s
+etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/t3DPIDInfo.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/t3DPIDInfo.cxx -o CMakeFiles/libetf.dir/src/t3DPIDInfo.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.C.o.provides: etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.C.o.provides
+etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.C.o
+etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.C.o: ../etf/src/t3DTrkInfo.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_81) "Building CXX object etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/t3DTrkInfo.C.o -c /home/asia/pionExp2017/etf/src/t3DTrkInfo.C
+etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.cxx.o: ../etf/src/t3DTrkInfo.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_81) "Building CXX object etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/t3DTrkInfo.cxx.o -c /home/asia/pionExp2017/etf/src/t3DTrkInfo.cxx
 
-etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/t3DTrkInfo.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/t3DTrkInfo.C > CMakeFiles/libetf.dir/src/t3DTrkInfo.C.i
+etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/t3DTrkInfo.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/t3DTrkInfo.cxx > CMakeFiles/libetf.dir/src/t3DTrkInfo.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/t3DTrkInfo.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/t3DTrkInfo.C -o CMakeFiles/libetf.dir/src/t3DTrkInfo.C.s
+etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/t3DTrkInfo.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/t3DTrkInfo.cxx -o CMakeFiles/libetf.dir/src/t3DTrkInfo.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.C.o.provides: etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.C.o.provides
+etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.C.o
+etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/tEntry.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/tEntry.C.o: ../etf/src/tEntry.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_82) "Building CXX object etf/CMakeFiles/libetf.dir/src/tEntry.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/tEntry.C.o -c /home/asia/pionExp2017/etf/src/tEntry.C
+etf/CMakeFiles/libetf.dir/src/tEntry.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/tEntry.cxx.o: ../etf/src/tEntry.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_82) "Building CXX object etf/CMakeFiles/libetf.dir/src/tEntry.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/tEntry.cxx.o -c /home/asia/pionExp2017/etf/src/tEntry.cxx
 
-etf/CMakeFiles/libetf.dir/src/tEntry.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/tEntry.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/tEntry.C > CMakeFiles/libetf.dir/src/tEntry.C.i
+etf/CMakeFiles/libetf.dir/src/tEntry.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/tEntry.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/tEntry.cxx > CMakeFiles/libetf.dir/src/tEntry.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/tEntry.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/tEntry.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/tEntry.C -o CMakeFiles/libetf.dir/src/tEntry.C.s
+etf/CMakeFiles/libetf.dir/src/tEntry.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/tEntry.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/tEntry.cxx -o CMakeFiles/libetf.dir/src/tEntry.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/tEntry.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/tEntry.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/tEntry.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/tEntry.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/tEntry.C.o.provides: etf/CMakeFiles/libetf.dir/src/tEntry.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/tEntry.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/tEntry.C.o.provides
+etf/CMakeFiles/libetf.dir/src/tEntry.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/tEntry.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/tEntry.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/tEntry.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/tEntry.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/tEntry.C.o
+etf/CMakeFiles/libetf.dir/src/tEntry.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/tEntry.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/tTrack.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/tTrack.C.o: ../etf/src/tTrack.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_83) "Building CXX object etf/CMakeFiles/libetf.dir/src/tTrack.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/tTrack.C.o -c /home/asia/pionExp2017/etf/src/tTrack.C
+etf/CMakeFiles/libetf.dir/src/tTrack.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/tTrack.cxx.o: ../etf/src/tTrack.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_83) "Building CXX object etf/CMakeFiles/libetf.dir/src/tTrack.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/tTrack.cxx.o -c /home/asia/pionExp2017/etf/src/tTrack.cxx
 
-etf/CMakeFiles/libetf.dir/src/tTrack.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/tTrack.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/tTrack.C > CMakeFiles/libetf.dir/src/tTrack.C.i
+etf/CMakeFiles/libetf.dir/src/tTrack.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/tTrack.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/tTrack.cxx > CMakeFiles/libetf.dir/src/tTrack.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/tTrack.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/tTrack.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/tTrack.C -o CMakeFiles/libetf.dir/src/tTrack.C.s
+etf/CMakeFiles/libetf.dir/src/tTrack.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/tTrack.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/tTrack.cxx -o CMakeFiles/libetf.dir/src/tTrack.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/tTrack.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/tTrack.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/tTrack.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/tTrack.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/tTrack.C.o.provides: etf/CMakeFiles/libetf.dir/src/tTrack.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/tTrack.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/tTrack.C.o.provides
+etf/CMakeFiles/libetf.dir/src/tTrack.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/tTrack.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/tTrack.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/tTrack.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/tTrack.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/tTrack.C.o
+etf/CMakeFiles/libetf.dir/src/tTrack.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/tTrack.cxx.o
 
 
-etf/CMakeFiles/libetf.dir/src/tTrack2.C.o: etf/CMakeFiles/libetf.dir/flags.make
-etf/CMakeFiles/libetf.dir/src/tTrack2.C.o: ../etf/src/tTrack2.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_84) "Building CXX object etf/CMakeFiles/libetf.dir/src/tTrack2.C.o"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/tTrack2.C.o -c /home/asia/pionExp2017/etf/src/tTrack2.C
+etf/CMakeFiles/libetf.dir/src/tTrack2.cxx.o: etf/CMakeFiles/libetf.dir/flags.make
+etf/CMakeFiles/libetf.dir/src/tTrack2.cxx.o: ../etf/src/tTrack2.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_84) "Building CXX object etf/CMakeFiles/libetf.dir/src/tTrack2.cxx.o"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libetf.dir/src/tTrack2.cxx.o -c /home/asia/pionExp2017/etf/src/tTrack2.cxx
 
-etf/CMakeFiles/libetf.dir/src/tTrack2.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/tTrack2.C.i"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/tTrack2.C > CMakeFiles/libetf.dir/src/tTrack2.C.i
+etf/CMakeFiles/libetf.dir/src/tTrack2.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libetf.dir/src/tTrack2.cxx.i"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/etf/src/tTrack2.cxx > CMakeFiles/libetf.dir/src/tTrack2.cxx.i
 
-etf/CMakeFiles/libetf.dir/src/tTrack2.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/tTrack2.C.s"
-	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/tTrack2.C -o CMakeFiles/libetf.dir/src/tTrack2.C.s
+etf/CMakeFiles/libetf.dir/src/tTrack2.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libetf.dir/src/tTrack2.cxx.s"
+	cd /home/asia/pionExp2017/build1/etf && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/etf/src/tTrack2.cxx -o CMakeFiles/libetf.dir/src/tTrack2.cxx.s
 
-etf/CMakeFiles/libetf.dir/src/tTrack2.C.o.requires:
+etf/CMakeFiles/libetf.dir/src/tTrack2.cxx.o.requires:
 
-.PHONY : etf/CMakeFiles/libetf.dir/src/tTrack2.C.o.requires
+.PHONY : etf/CMakeFiles/libetf.dir/src/tTrack2.cxx.o.requires
 
-etf/CMakeFiles/libetf.dir/src/tTrack2.C.o.provides: etf/CMakeFiles/libetf.dir/src/tTrack2.C.o.requires
-	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/tTrack2.C.o.provides.build
-.PHONY : etf/CMakeFiles/libetf.dir/src/tTrack2.C.o.provides
+etf/CMakeFiles/libetf.dir/src/tTrack2.cxx.o.provides: etf/CMakeFiles/libetf.dir/src/tTrack2.cxx.o.requires
+	$(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/tTrack2.cxx.o.provides.build
+.PHONY : etf/CMakeFiles/libetf.dir/src/tTrack2.cxx.o.provides
 
-etf/CMakeFiles/libetf.dir/src/tTrack2.C.o.provides.build: etf/CMakeFiles/libetf.dir/src/tTrack2.C.o
+etf/CMakeFiles/libetf.dir/src/tTrack2.cxx.o.provides.build: etf/CMakeFiles/libetf.dir/src/tTrack2.cxx.o
 
 
 # Object files for target libetf
 libetf_OBJECTS = \
-"CMakeFiles/libetf.dir/src/TAAnode.C.o" \
-"CMakeFiles/libetf.dir/src/TAAnodeData.C.o" \
-"CMakeFiles/libetf.dir/src/TAAnodePara.C.o" \
-"CMakeFiles/libetf.dir/src/TAAssess.C.o" \
-"CMakeFiles/libetf.dir/src/TAAssessPDC.C.o" \
-"CMakeFiles/libetf.dir/src/TAAssessTa.C.o" \
-"CMakeFiles/libetf.dir/src/TABUAA.C.o" \
-"CMakeFiles/libetf.dir/src/TAChData.C.o" \
-"CMakeFiles/libetf.dir/src/TAChDataVME.C.o" \
-"CMakeFiles/libetf.dir/src/TAChPara.C.o" \
-"CMakeFiles/libetf.dir/src/TAChannel.C.o" \
-"CMakeFiles/libetf.dir/src/TACtrlPara.C.o" \
-"CMakeFiles/libetf.dir/src/TADCCable.C.o" \
-"CMakeFiles/libetf.dir/src/TADCSFE16.C.o" \
-"CMakeFiles/libetf.dir/src/TADCSuperLayer.C.o" \
-"CMakeFiles/libetf.dir/src/TADeployPara.C.o" \
-"CMakeFiles/libetf.dir/src/TADetUnion.C.o" \
-"CMakeFiles/libetf.dir/src/TADetector.C.o" \
-"CMakeFiles/libetf.dir/src/TADetectorPara.C.o" \
-"CMakeFiles/libetf.dir/src/TAEventProcessor.C.o" \
-"CMakeFiles/libetf.dir/src/TAGPar.C.o" \
-"CMakeFiles/libetf.dir/src/TAMUSIC.C.o" \
-"CMakeFiles/libetf.dir/src/TAMUSICL.C.o" \
-"CMakeFiles/libetf.dir/src/TAMUSICM.C.o" \
-"CMakeFiles/libetf.dir/src/TAMWDC.C.o" \
-"CMakeFiles/libetf.dir/src/TAMWDCArray.C.o" \
-"CMakeFiles/libetf.dir/src/TAMWDCArray2.C.o" \
-"CMakeFiles/libetf.dir/src/TAMWDCArrayD.C.o" \
-"CMakeFiles/libetf.dir/src/TAMWDCArrayL.C.o" \
-"CMakeFiles/libetf.dir/src/TAMWDCArrayM.C.o" \
-"CMakeFiles/libetf.dir/src/TAMWDCArrayR.C.o" \
-"CMakeFiles/libetf.dir/src/TAMWDCArrayU.C.o" \
-"CMakeFiles/libetf.dir/src/TAMWDCTa.C.o" \
-"CMakeFiles/libetf.dir/src/TAMWDCTaL.C.o" \
-"CMakeFiles/libetf.dir/src/TAMWDCTaM.C.o" \
-"CMakeFiles/libetf.dir/src/TAMagnet.C.o" \
-"CMakeFiles/libetf.dir/src/TAMath.C.o" \
-"CMakeFiles/libetf.dir/src/TAOpticFiberArray.C.o" \
-"CMakeFiles/libetf.dir/src/TAPDCArrayD.C.o" \
-"CMakeFiles/libetf.dir/src/TAPDCArrayTa4.C.o" \
-"CMakeFiles/libetf.dir/src/TAPDCArrayU.C.o" \
-"CMakeFiles/libetf.dir/src/TAPDCL.C.o" \
-"CMakeFiles/libetf.dir/src/TAPDCR.C.o" \
-"CMakeFiles/libetf.dir/src/TAPID.C.o" \
-"CMakeFiles/libetf.dir/src/TAParaManager.C.o" \
-"CMakeFiles/libetf.dir/src/TAParameter.C.o" \
-"CMakeFiles/libetf.dir/src/TAPlaStrip.C.o" \
-"CMakeFiles/libetf.dir/src/TAPlaStripData.C.o" \
-"CMakeFiles/libetf.dir/src/TAPlaStripPara.C.o" \
-"CMakeFiles/libetf.dir/src/TAPopMsg.C.o" \
-"CMakeFiles/libetf.dir/src/TARawDataProcessor.C.o" \
-"CMakeFiles/libetf.dir/src/TASTRCalibDCArr.C.o" \
-"CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.C.o" \
-"CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.C.o" \
-"CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.C.o" \
-"CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.C.o" \
-"CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.C.o" \
-"CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.C.o" \
-"CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.C.o" \
-"CMakeFiles/libetf.dir/src/TASiPMPlaArray.C.o" \
-"CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.C.o" \
-"CMakeFiles/libetf.dir/src/TASimulation.C.o" \
-"CMakeFiles/libetf.dir/src/TAStuff.C.o" \
-"CMakeFiles/libetf.dir/src/TAT0CalibDCArr.C.o" \
-"CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.C.o" \
-"CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.C.o" \
-"CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.C.o" \
-"CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.C.o" \
-"CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.C.o" \
-"CMakeFiles/libetf.dir/src/TAT0_0.C.o" \
-"CMakeFiles/libetf.dir/src/TAT0_1.C.o" \
-"CMakeFiles/libetf.dir/src/TATOFWall.C.o" \
-"CMakeFiles/libetf.dir/src/TATrack.C.o" \
-"CMakeFiles/libetf.dir/src/TATrack2.C.o" \
-"CMakeFiles/libetf.dir/src/TATrackTa4.C.o" \
-"CMakeFiles/libetf.dir/src/TAUI.C.o" \
-"CMakeFiles/libetf.dir/src/TAUIDParser.C.o" \
-"CMakeFiles/libetf.dir/src/TAVMEReader.C.o" \
-"CMakeFiles/libetf.dir/src/TAVisual.C.o" \
-"CMakeFiles/libetf.dir/src/t3DPIDInfo.C.o" \
-"CMakeFiles/libetf.dir/src/t3DTrkInfo.C.o" \
-"CMakeFiles/libetf.dir/src/tEntry.C.o" \
-"CMakeFiles/libetf.dir/src/tTrack.C.o" \
-"CMakeFiles/libetf.dir/src/tTrack2.C.o"
+"CMakeFiles/libetf.dir/src/TAAnode.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAAnodeData.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAAnodePara.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAAssess.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAAssessPDC.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAAssessTa.cxx.o" \
+"CMakeFiles/libetf.dir/src/TABUAA.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAChData.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAChDataVME.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAChPara.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAChannel.cxx.o" \
+"CMakeFiles/libetf.dir/src/TACtrlPara.cxx.o" \
+"CMakeFiles/libetf.dir/src/TADCCable.cxx.o" \
+"CMakeFiles/libetf.dir/src/TADCSFE16.cxx.o" \
+"CMakeFiles/libetf.dir/src/TADCSuperLayer.cxx.o" \
+"CMakeFiles/libetf.dir/src/TADeployPara.cxx.o" \
+"CMakeFiles/libetf.dir/src/TADetUnion.cxx.o" \
+"CMakeFiles/libetf.dir/src/TADetector.cxx.o" \
+"CMakeFiles/libetf.dir/src/TADetectorPara.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAEventProcessor.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAGPar.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAMUSIC.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAMUSICL.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAMUSICM.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAMWDC.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAMWDCArray.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAMWDCArray2.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAMWDCArrayD.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAMWDCArrayL.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAMWDCArrayM.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAMWDCArrayR.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAMWDCArrayU.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAMWDCTa.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAMWDCTaL.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAMWDCTaM.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAMagnet.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAMath.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAOpticFiberArray.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAPDCArrayD.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAPDCArrayTa4.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAPDCArrayU.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAPDCL.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAPDCR.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAPID.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAParaManager.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAParameter.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAPlaStrip.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAPlaStripData.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAPlaStripPara.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAPopMsg.cxx.o" \
+"CMakeFiles/libetf.dir/src/TARawDataProcessor.cxx.o" \
+"CMakeFiles/libetf.dir/src/TASTRCalibDCArr.cxx.o" \
+"CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.cxx.o" \
+"CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.cxx.o" \
+"CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.cxx.o" \
+"CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.cxx.o" \
+"CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.cxx.o" \
+"CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.cxx.o" \
+"CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.cxx.o" \
+"CMakeFiles/libetf.dir/src/TASiPMPlaArray.cxx.o" \
+"CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.cxx.o" \
+"CMakeFiles/libetf.dir/src/TASimulation.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAStuff.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAT0CalibDCArr.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAT0_0.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAT0_1.cxx.o" \
+"CMakeFiles/libetf.dir/src/TATOFWall.cxx.o" \
+"CMakeFiles/libetf.dir/src/TATrack.cxx.o" \
+"CMakeFiles/libetf.dir/src/TATrack2.cxx.o" \
+"CMakeFiles/libetf.dir/src/TATrackTa4.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAUI.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAUIDParser.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAVMEReader.cxx.o" \
+"CMakeFiles/libetf.dir/src/TAVisual.cxx.o" \
+"CMakeFiles/libetf.dir/src/t3DPIDInfo.cxx.o" \
+"CMakeFiles/libetf.dir/src/t3DTrkInfo.cxx.o" \
+"CMakeFiles/libetf.dir/src/tEntry.cxx.o" \
+"CMakeFiles/libetf.dir/src/tTrack.cxx.o" \
+"CMakeFiles/libetf.dir/src/tTrack2.cxx.o"
 
 # External object files for target libetf
 libetf_EXTERNAL_OBJECTS =
 
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAAnode.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAAnodeData.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAAnodePara.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAAssess.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAAssessPDC.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAAssessTa.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TABUAA.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAChData.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAChDataVME.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAChPara.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAChannel.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TACtrlPara.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TADCCable.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TADCSFE16.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TADeployPara.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TADetUnion.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TADetector.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TADetectorPara.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAEventProcessor.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAGPar.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMUSIC.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMUSICL.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMUSICM.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMWDC.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMWDCArray.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMWDCTa.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMagnet.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMath.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAPDCL.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAPDCR.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAPID.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAParaManager.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAParameter.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAPlaStrip.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAPlaStripData.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAPopMsg.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TASimulation.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAStuff.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAT0_0.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAT0_1.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TATOFWall.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TATrack.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TATrack2.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TATrackTa4.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAUI.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAUIDParser.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAVMEReader.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAVisual.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/tEntry.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/tTrack.C.o
-lib/libetf.so: etf/CMakeFiles/libetf.dir/src/tTrack2.C.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAAnode.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAAnodeData.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAAnodePara.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAAssess.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAAssessPDC.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAAssessTa.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TABUAA.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAChData.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAChDataVME.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAChPara.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAChannel.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TACtrlPara.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TADCCable.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TADCSFE16.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TADeployPara.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TADetUnion.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TADetector.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TADetectorPara.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAEventProcessor.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAGPar.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMUSIC.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMUSICL.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMUSICM.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMWDC.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMWDCArray.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMWDCTa.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMagnet.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAMath.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAPDCL.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAPDCR.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAPID.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAParaManager.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAParameter.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAPlaStrip.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAPlaStripData.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAPopMsg.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TASimulation.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAStuff.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAT0_0.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAT0_1.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TATOFWall.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TATrack.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TATrack2.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TATrackTa4.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAUI.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAUIDParser.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAVMEReader.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/TAVisual.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/tEntry.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/tTrack.cxx.o
+lib/libetf.so: etf/CMakeFiles/libetf.dir/src/tTrack2.cxx.o
 lib/libetf.so: etf/CMakeFiles/libetf.dir/build.make
 lib/libetf.so: etf/CMakeFiles/libetf.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_85) "Linking CXX shared library ../lib/libetf.so"
@@ -2257,90 +2257,90 @@ etf/CMakeFiles/libetf.dir/build: lib/libetf.so
 
 .PHONY : etf/CMakeFiles/libetf.dir/build
 
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAAnode.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAAnodeData.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAAnodePara.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAAssess.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAAssessPDC.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAAssessTa.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TABUAA.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAChData.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAChDataVME.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAChPara.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAChannel.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TACtrlPara.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TADCCable.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TADCSFE16.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TADeployPara.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TADetUnion.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TADetector.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TADetectorPara.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAEventProcessor.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAGPar.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMUSIC.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMUSICL.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMUSICM.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMWDC.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMWDCArray.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMWDCTa.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMagnet.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMath.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAPDCL.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAPDCR.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAPID.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAParaManager.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAParameter.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAPlaStrip.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAPlaStripData.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAPopMsg.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TASimulation.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAStuff.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAT0_0.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAT0_1.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TATOFWall.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TATrack.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TATrack2.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TATrackTa4.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAUI.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAUIDParser.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAVMEReader.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAVisual.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/tEntry.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/tTrack.C.o.requires
-etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/tTrack2.C.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAAnode.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAAnodeData.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAAnodePara.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAAssess.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAAssessPDC.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAAssessTa.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TABUAA.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAChData.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAChDataVME.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAChPara.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAChannel.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TACtrlPara.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TADCCable.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TADCSFE16.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TADeployPara.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TADetUnion.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TADetector.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TADetectorPara.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAEventProcessor.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAGPar.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMUSIC.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMUSICL.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMUSICM.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMWDC.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMWDCArray.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMWDCTa.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMagnet.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAMath.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAPDCL.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAPDCR.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAPID.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAParaManager.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAParameter.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAPlaStrip.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAPlaStripData.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAPopMsg.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TASimulation.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAStuff.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAT0_0.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAT0_1.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TATOFWall.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TATrack.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TATrack2.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TATrackTa4.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAUI.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAUIDParser.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAVMEReader.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/TAVisual.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/tEntry.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/tTrack.cxx.o.requires
+etf/CMakeFiles/libetf.dir/requires: etf/CMakeFiles/libetf.dir/src/tTrack2.cxx.o.requires
 
 .PHONY : etf/CMakeFiles/libetf.dir/requires
 

@@ -3,7 +3,8 @@
 	\class TAMath
 	\brief Offering a mathematical toolkit for math problems in the data analysis.
 	\author SUN Yazhou, asia.rabbit@163.com.
-	\date Created: 2017/9/25 Last revised: 2018/9/13, SUN Yazhou.
+	\date Created: 2017/9/25
+	\date Last revised: 2020/03/13, SUN Yazhou.
 	\copyright 2017-2018, SUN Yazhou.
 */
 
@@ -63,18 +64,25 @@ public:
 	static double bXY_V(double phi, double k1, double k2, double b1, double b2);
 	/// the closest point of two skew lines -> hitpA: hit point on lA: (a, A)
 	/// B, b: track point and track vector; A, a: anode point and track vector;
-	static void GetHitPoint(const double *b, const double *B, const double *a, const double *A, double *hitpA);
+	static void GetHitPoint(const double *b, const double *B, const double *a,
+		const double *A, double *hitpA);
 	/// solve particle trajectory in uniform magnetic field, with only Mag boundry, exit track
 	/// and target position known; returning the track radius of curvature in the magnetic field\n
 	/// input unit: mm; output unit: mm\n
 	/// x=ki z+bi, track after Target, before Mag; (zo, xo): rotating center of the arc\n
 	/// \retval [0-5]: [thetaDeflect, rho, ki, bi, zo, xo]
-	static void UniformMagneticSolution(double k1, double b1, double zMagOut, double zMagIn, double zTa, double xTa, double *result);
+	static void UniformMagneticSolution(double k1, double b1, double zMagOut,
+		double zMagIn, double zTa, double xTa, double *result);
 	/// analytic PID method using DCTaArr
-	static double rho(double kin, double bin, double kout, double bout, double *zo = nullptr, double *xo = nullptr, double *x2Arr = nullptr);
+	static double rho(double kin, double bin, double kout, double bout,
+			double *zo = nullptr, double *xo = nullptr, double *x2Arr = nullptr);
 	static double Gamma(double beta);
 	static double BetaGamma(double beta){ return Gamma(beta) * beta; }
 	static double GammaBeta(double beta){ return BetaGamma(beta); }
+	static double Sign(double c){
+		if(c >= 0) return 1.;
+		else return -1.;
+	}
 	// generic programming :)
 	/// \retval: sum of square of each one in the parameter list
 	static double Sum2(){ return 0.; }
@@ -123,14 +131,12 @@ public:
 		double dxTa = DxTa(k0, k1, b0, b1);
 		double dx2 = DX2(k1, k2, b1, b2);
 		// 10.*k0/0.013 = 769*k0; 3 sigma(k0) scaled to 10 mm
-//		cout << "1, dk: " << dk << endl;
-		double k0tmp = 500.*k0;
-		if(fabs(k0) > 0.02) k0tmp *= 7.;
-//		cout << "2, dk: " << dk << endl;
+		double dk = fabs(k0-k1), dktmp = 200. * dk;
+		if(dk > 0.02) dktmp *= 3.;
 		return
-			dxTa*dxTa * 1. / kVdxTa + // 1.72 the relative variance V/sigma_DC
-			dx2*dx2 * 1. / kVdx2 +  // 7.5
-			k0*k0; // XXX 2019-10-15
+			dxTa*dxTa * 1. / kVdxTa + // 2.5 the relative variance V/sigma_DC
+			dx2*dx2 * 1. / kVdx2 +  // 10.
+			dktmp*dktmp; // XXX 2020-03-12
 	}
 
 
@@ -182,7 +188,7 @@ public:
 		Chi3D fun(Ag, ag, p, r, nF);
 		return BFGS4(fun); // template BFGS function
 	} // end of member function BFGS for 3-D tracking
-	
+
 	/// \todo for the amelioration of the splined pre- and post-Ta trk
 	class ChiTa4 : public Fun{
 	public:
@@ -191,7 +197,8 @@ public:
 		/// \param LAYER[2]: fired andoe layer id of [0-1]->[pre-postTa] trk
 		/// \param gGOOD[2]: fired andoe layer distribution type
 		/// \param d2ThrePD: LSM chi square threshold per dot, irrespective of r
-		ChiTa4(const double *z, const double *x, const double *r, double *k, double *b, int *gGOOD, const int (*LAYER)[6], double d2ThrePD)
+		ChiTa4(const double *z, const double *x, const double *r, double *k,
+				double *b, int *gGOOD, const int (*LAYER)[6], double d2ThrePD)
 			: fZ(z), fX(x), fR(r), fK(k), fB(b),
 			fgGOOD(gGOOD), fLAYER(LAYER), fd2ThrePD(d2ThrePD){}
 		~ChiTa4(){}
@@ -228,15 +235,21 @@ public:
 		const int *fgGOOD, (*fLAYER)[6];
 		double fd2ThrePD;
 	}; // end of declaration of nested class ChiTa4
-	static double BFGS4(const double *z, const double *x, const double *r, double *k, double *b, int *gGOOD, const int (*LAYER)[6], double d2ThrePD){
+	static double BFGS4(const double *z, const double *x, const double *r,
+			double *k, double *b, int *gGOOD, const int (*LAYER)[6], double d2ThrePD){
 		ChiTa4 fun(z, x, r, k, b, gGOOD, LAYER, d2ThrePD);
 		return BFGS4(fun);
 	} // end of member function for splined tracking around TaZone
-	/// minimization using iterative fit method, 
-	// exhaust possible drift distance signs to minimize fitting chi2
+	/// minimization using iterative fit method,
+	/// exhaust possible drift distance signs to minimize fitting chi2
 	/// \param k2: slope of postMagTrk; \param b2: intercept of postMagTrk
 	/// \param z2: +z border of the equivalent magField
-	static void IterFit4(const double *z, const double *x, const double *r, double *k, double *b, int *gGOOD, const int (*LAYER)[6], double d2ThrePD);
+	static void IterFit4(const double *z, const double *x, const double *r,
+		double *k, double *b, int *gGOOD, const int (*LAYER)[6], double d2ThrePD);
+	/// iteration only revolve around singly fired wires
+	/// for X1X2-bothly fired ones, X1|X2, the track goes in between, no l-r ambiguity
+	static void IterFit4Single(const double *z, const double *x, const double *r,
+		double *k, double *b, int *gGOOD, const int (*LAYER)[6], double d2ThrePD);
 
 
 	/// minimization and Least Squares Method functions, serving TATrack track fitting
@@ -264,6 +277,6 @@ public:
 	static const double kVdxTa, kVdx2; ///< the relative variance: V / sigma_DC
 };
 
-#include "TAMath.icc" // definitions of member template function
+#include "TAMath.hpp" // definitions of member template function
 
 #endif

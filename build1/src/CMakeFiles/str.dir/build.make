@@ -57,38 +57,38 @@ include src/CMakeFiles/str.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/CMakeFiles/str.dir/flags.make
 
-src/CMakeFiles/str.dir/strcali.C.o: src/CMakeFiles/str.dir/flags.make
-src/CMakeFiles/str.dir/strcali.C.o: ../src/strcali.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/str.dir/strcali.C.o"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/str.dir/strcali.C.o -c /home/asia/pionExp2017/src/strcali.C
+src/CMakeFiles/str.dir/strcali.cxx.o: src/CMakeFiles/str.dir/flags.make
+src/CMakeFiles/str.dir/strcali.cxx.o: ../src/strcali.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/str.dir/strcali.cxx.o"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/str.dir/strcali.cxx.o -c /home/asia/pionExp2017/src/strcali.cxx
 
-src/CMakeFiles/str.dir/strcali.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/str.dir/strcali.C.i"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/src/strcali.C > CMakeFiles/str.dir/strcali.C.i
+src/CMakeFiles/str.dir/strcali.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/str.dir/strcali.cxx.i"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/src/strcali.cxx > CMakeFiles/str.dir/strcali.cxx.i
 
-src/CMakeFiles/str.dir/strcali.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/str.dir/strcali.C.s"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/src/strcali.C -o CMakeFiles/str.dir/strcali.C.s
+src/CMakeFiles/str.dir/strcali.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/str.dir/strcali.cxx.s"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/src/strcali.cxx -o CMakeFiles/str.dir/strcali.cxx.s
 
-src/CMakeFiles/str.dir/strcali.C.o.requires:
+src/CMakeFiles/str.dir/strcali.cxx.o.requires:
 
-.PHONY : src/CMakeFiles/str.dir/strcali.C.o.requires
+.PHONY : src/CMakeFiles/str.dir/strcali.cxx.o.requires
 
-src/CMakeFiles/str.dir/strcali.C.o.provides: src/CMakeFiles/str.dir/strcali.C.o.requires
-	$(MAKE) -f src/CMakeFiles/str.dir/build.make src/CMakeFiles/str.dir/strcali.C.o.provides.build
-.PHONY : src/CMakeFiles/str.dir/strcali.C.o.provides
+src/CMakeFiles/str.dir/strcali.cxx.o.provides: src/CMakeFiles/str.dir/strcali.cxx.o.requires
+	$(MAKE) -f src/CMakeFiles/str.dir/build.make src/CMakeFiles/str.dir/strcali.cxx.o.provides.build
+.PHONY : src/CMakeFiles/str.dir/strcali.cxx.o.provides
 
-src/CMakeFiles/str.dir/strcali.C.o.provides.build: src/CMakeFiles/str.dir/strcali.C.o
+src/CMakeFiles/str.dir/strcali.cxx.o.provides.build: src/CMakeFiles/str.dir/strcali.cxx.o
 
 
 # Object files for target str
 str_OBJECTS = \
-"CMakeFiles/str.dir/strcali.C.o"
+"CMakeFiles/str.dir/strcali.cxx.o"
 
 # External object files for target str
 str_EXTERNAL_OBJECTS =
 
-str: src/CMakeFiles/str.dir/strcali.C.o
+str: src/CMakeFiles/str.dir/strcali.cxx.o
 str: src/CMakeFiles/str.dir/build.make
 str: lib/libetf.so
 str: /home/asia/Documents/root/install/lib/libCore.so
@@ -115,7 +115,7 @@ src/CMakeFiles/str.dir/build: str
 
 .PHONY : src/CMakeFiles/str.dir/build
 
-src/CMakeFiles/str.dir/requires: src/CMakeFiles/str.dir/strcali.C.o.requires
+src/CMakeFiles/str.dir/requires: src/CMakeFiles/str.dir/strcali.cxx.o.requires
 
 .PHONY : src/CMakeFiles/str.dir/requires
 

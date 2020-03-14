@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/strdcta.dir/strcali_dcta.C.o"
+  "CMakeFiles/strdcta.dir/strcali_dcta.cxx.o"
   "../strdcta.pdb"
   "../strdcta"
 )

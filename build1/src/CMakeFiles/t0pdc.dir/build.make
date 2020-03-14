@@ -57,38 +57,38 @@ include src/CMakeFiles/t0pdc.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/CMakeFiles/t0pdc.dir/flags.make
 
-src/CMakeFiles/t0pdc.dir/t0cali_pdc.C.o: src/CMakeFiles/t0pdc.dir/flags.make
-src/CMakeFiles/t0pdc.dir/t0cali_pdc.C.o: ../src/t0cali_pdc.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/t0pdc.dir/t0cali_pdc.C.o"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/t0pdc.dir/t0cali_pdc.C.o -c /home/asia/pionExp2017/src/t0cali_pdc.C
+src/CMakeFiles/t0pdc.dir/t0cali_pdc.cxx.o: src/CMakeFiles/t0pdc.dir/flags.make
+src/CMakeFiles/t0pdc.dir/t0cali_pdc.cxx.o: ../src/t0cali_pdc.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/t0pdc.dir/t0cali_pdc.cxx.o"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/t0pdc.dir/t0cali_pdc.cxx.o -c /home/asia/pionExp2017/src/t0cali_pdc.cxx
 
-src/CMakeFiles/t0pdc.dir/t0cali_pdc.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/t0pdc.dir/t0cali_pdc.C.i"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/src/t0cali_pdc.C > CMakeFiles/t0pdc.dir/t0cali_pdc.C.i
+src/CMakeFiles/t0pdc.dir/t0cali_pdc.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/t0pdc.dir/t0cali_pdc.cxx.i"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/src/t0cali_pdc.cxx > CMakeFiles/t0pdc.dir/t0cali_pdc.cxx.i
 
-src/CMakeFiles/t0pdc.dir/t0cali_pdc.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/t0pdc.dir/t0cali_pdc.C.s"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/src/t0cali_pdc.C -o CMakeFiles/t0pdc.dir/t0cali_pdc.C.s
+src/CMakeFiles/t0pdc.dir/t0cali_pdc.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/t0pdc.dir/t0cali_pdc.cxx.s"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/src/t0cali_pdc.cxx -o CMakeFiles/t0pdc.dir/t0cali_pdc.cxx.s
 
-src/CMakeFiles/t0pdc.dir/t0cali_pdc.C.o.requires:
+src/CMakeFiles/t0pdc.dir/t0cali_pdc.cxx.o.requires:
 
-.PHONY : src/CMakeFiles/t0pdc.dir/t0cali_pdc.C.o.requires
+.PHONY : src/CMakeFiles/t0pdc.dir/t0cali_pdc.cxx.o.requires
 
-src/CMakeFiles/t0pdc.dir/t0cali_pdc.C.o.provides: src/CMakeFiles/t0pdc.dir/t0cali_pdc.C.o.requires
-	$(MAKE) -f src/CMakeFiles/t0pdc.dir/build.make src/CMakeFiles/t0pdc.dir/t0cali_pdc.C.o.provides.build
-.PHONY : src/CMakeFiles/t0pdc.dir/t0cali_pdc.C.o.provides
+src/CMakeFiles/t0pdc.dir/t0cali_pdc.cxx.o.provides: src/CMakeFiles/t0pdc.dir/t0cali_pdc.cxx.o.requires
+	$(MAKE) -f src/CMakeFiles/t0pdc.dir/build.make src/CMakeFiles/t0pdc.dir/t0cali_pdc.cxx.o.provides.build
+.PHONY : src/CMakeFiles/t0pdc.dir/t0cali_pdc.cxx.o.provides
 
-src/CMakeFiles/t0pdc.dir/t0cali_pdc.C.o.provides.build: src/CMakeFiles/t0pdc.dir/t0cali_pdc.C.o
+src/CMakeFiles/t0pdc.dir/t0cali_pdc.cxx.o.provides.build: src/CMakeFiles/t0pdc.dir/t0cali_pdc.cxx.o
 
 
 # Object files for target t0pdc
 t0pdc_OBJECTS = \
-"CMakeFiles/t0pdc.dir/t0cali_pdc.C.o"
+"CMakeFiles/t0pdc.dir/t0cali_pdc.cxx.o"
 
 # External object files for target t0pdc
 t0pdc_EXTERNAL_OBJECTS =
 
-t0pdc: src/CMakeFiles/t0pdc.dir/t0cali_pdc.C.o
+t0pdc: src/CMakeFiles/t0pdc.dir/t0cali_pdc.cxx.o
 t0pdc: src/CMakeFiles/t0pdc.dir/build.make
 t0pdc: lib/libetf.so
 t0pdc: /home/asia/Documents/root/install/lib/libCore.so
@@ -115,7 +115,7 @@ src/CMakeFiles/t0pdc.dir/build: t0pdc
 
 .PHONY : src/CMakeFiles/t0pdc.dir/build
 
-src/CMakeFiles/t0pdc.dir/requires: src/CMakeFiles/t0pdc.dir/t0cali_pdc.C.o.requires
+src/CMakeFiles/t0pdc.dir/requires: src/CMakeFiles/t0pdc.dir/t0cali_pdc.cxx.o.requires
 
 .PHONY : src/CMakeFiles/t0pdc.dir/requires
 

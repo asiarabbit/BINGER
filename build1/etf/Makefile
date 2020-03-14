@@ -125,2273 +125,2273 @@ libetf/fast:
 	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/build
 .PHONY : libetf/fast
 
-src/TAAnode.o: src/TAAnode.C.o
+src/TAAnode.o: src/TAAnode.cxx.o
 
 .PHONY : src/TAAnode.o
 
 # target to build an object file
-src/TAAnode.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAnode.C.o
-.PHONY : src/TAAnode.C.o
+src/TAAnode.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAnode.cxx.o
+.PHONY : src/TAAnode.cxx.o
 
-src/TAAnode.i: src/TAAnode.C.i
+src/TAAnode.i: src/TAAnode.cxx.i
 
 .PHONY : src/TAAnode.i
 
 # target to preprocess a source file
-src/TAAnode.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAnode.C.i
-.PHONY : src/TAAnode.C.i
+src/TAAnode.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAnode.cxx.i
+.PHONY : src/TAAnode.cxx.i
 
-src/TAAnode.s: src/TAAnode.C.s
+src/TAAnode.s: src/TAAnode.cxx.s
 
 .PHONY : src/TAAnode.s
 
 # target to generate assembly for a file
-src/TAAnode.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAnode.C.s
-.PHONY : src/TAAnode.C.s
+src/TAAnode.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAnode.cxx.s
+.PHONY : src/TAAnode.cxx.s
 
-src/TAAnodeData.o: src/TAAnodeData.C.o
+src/TAAnodeData.o: src/TAAnodeData.cxx.o
 
 .PHONY : src/TAAnodeData.o
 
 # target to build an object file
-src/TAAnodeData.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAnodeData.C.o
-.PHONY : src/TAAnodeData.C.o
+src/TAAnodeData.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAnodeData.cxx.o
+.PHONY : src/TAAnodeData.cxx.o
 
-src/TAAnodeData.i: src/TAAnodeData.C.i
+src/TAAnodeData.i: src/TAAnodeData.cxx.i
 
 .PHONY : src/TAAnodeData.i
 
 # target to preprocess a source file
-src/TAAnodeData.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAnodeData.C.i
-.PHONY : src/TAAnodeData.C.i
+src/TAAnodeData.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAnodeData.cxx.i
+.PHONY : src/TAAnodeData.cxx.i
 
-src/TAAnodeData.s: src/TAAnodeData.C.s
+src/TAAnodeData.s: src/TAAnodeData.cxx.s
 
 .PHONY : src/TAAnodeData.s
 
 # target to generate assembly for a file
-src/TAAnodeData.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAnodeData.C.s
-.PHONY : src/TAAnodeData.C.s
+src/TAAnodeData.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAnodeData.cxx.s
+.PHONY : src/TAAnodeData.cxx.s
 
-src/TAAnodePara.o: src/TAAnodePara.C.o
+src/TAAnodePara.o: src/TAAnodePara.cxx.o
 
 .PHONY : src/TAAnodePara.o
 
 # target to build an object file
-src/TAAnodePara.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAnodePara.C.o
-.PHONY : src/TAAnodePara.C.o
+src/TAAnodePara.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAnodePara.cxx.o
+.PHONY : src/TAAnodePara.cxx.o
 
-src/TAAnodePara.i: src/TAAnodePara.C.i
+src/TAAnodePara.i: src/TAAnodePara.cxx.i
 
 .PHONY : src/TAAnodePara.i
 
 # target to preprocess a source file
-src/TAAnodePara.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAnodePara.C.i
-.PHONY : src/TAAnodePara.C.i
+src/TAAnodePara.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAnodePara.cxx.i
+.PHONY : src/TAAnodePara.cxx.i
 
-src/TAAnodePara.s: src/TAAnodePara.C.s
+src/TAAnodePara.s: src/TAAnodePara.cxx.s
 
 .PHONY : src/TAAnodePara.s
 
 # target to generate assembly for a file
-src/TAAnodePara.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAnodePara.C.s
-.PHONY : src/TAAnodePara.C.s
+src/TAAnodePara.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAnodePara.cxx.s
+.PHONY : src/TAAnodePara.cxx.s
 
-src/TAAssess.o: src/TAAssess.C.o
+src/TAAssess.o: src/TAAssess.cxx.o
 
 .PHONY : src/TAAssess.o
 
 # target to build an object file
-src/TAAssess.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAssess.C.o
-.PHONY : src/TAAssess.C.o
+src/TAAssess.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAssess.cxx.o
+.PHONY : src/TAAssess.cxx.o
 
-src/TAAssess.i: src/TAAssess.C.i
+src/TAAssess.i: src/TAAssess.cxx.i
 
 .PHONY : src/TAAssess.i
 
 # target to preprocess a source file
-src/TAAssess.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAssess.C.i
-.PHONY : src/TAAssess.C.i
+src/TAAssess.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAssess.cxx.i
+.PHONY : src/TAAssess.cxx.i
 
-src/TAAssess.s: src/TAAssess.C.s
+src/TAAssess.s: src/TAAssess.cxx.s
 
 .PHONY : src/TAAssess.s
 
 # target to generate assembly for a file
-src/TAAssess.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAssess.C.s
-.PHONY : src/TAAssess.C.s
+src/TAAssess.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAssess.cxx.s
+.PHONY : src/TAAssess.cxx.s
 
-src/TAAssessPDC.o: src/TAAssessPDC.C.o
+src/TAAssessPDC.o: src/TAAssessPDC.cxx.o
 
 .PHONY : src/TAAssessPDC.o
 
 # target to build an object file
-src/TAAssessPDC.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAssessPDC.C.o
-.PHONY : src/TAAssessPDC.C.o
+src/TAAssessPDC.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAssessPDC.cxx.o
+.PHONY : src/TAAssessPDC.cxx.o
 
-src/TAAssessPDC.i: src/TAAssessPDC.C.i
+src/TAAssessPDC.i: src/TAAssessPDC.cxx.i
 
 .PHONY : src/TAAssessPDC.i
 
 # target to preprocess a source file
-src/TAAssessPDC.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAssessPDC.C.i
-.PHONY : src/TAAssessPDC.C.i
+src/TAAssessPDC.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAssessPDC.cxx.i
+.PHONY : src/TAAssessPDC.cxx.i
 
-src/TAAssessPDC.s: src/TAAssessPDC.C.s
+src/TAAssessPDC.s: src/TAAssessPDC.cxx.s
 
 .PHONY : src/TAAssessPDC.s
 
 # target to generate assembly for a file
-src/TAAssessPDC.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAssessPDC.C.s
-.PHONY : src/TAAssessPDC.C.s
+src/TAAssessPDC.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAssessPDC.cxx.s
+.PHONY : src/TAAssessPDC.cxx.s
 
-src/TAAssessTa.o: src/TAAssessTa.C.o
+src/TAAssessTa.o: src/TAAssessTa.cxx.o
 
 .PHONY : src/TAAssessTa.o
 
 # target to build an object file
-src/TAAssessTa.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAssessTa.C.o
-.PHONY : src/TAAssessTa.C.o
+src/TAAssessTa.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAssessTa.cxx.o
+.PHONY : src/TAAssessTa.cxx.o
 
-src/TAAssessTa.i: src/TAAssessTa.C.i
+src/TAAssessTa.i: src/TAAssessTa.cxx.i
 
 .PHONY : src/TAAssessTa.i
 
 # target to preprocess a source file
-src/TAAssessTa.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAssessTa.C.i
-.PHONY : src/TAAssessTa.C.i
+src/TAAssessTa.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAssessTa.cxx.i
+.PHONY : src/TAAssessTa.cxx.i
 
-src/TAAssessTa.s: src/TAAssessTa.C.s
+src/TAAssessTa.s: src/TAAssessTa.cxx.s
 
 .PHONY : src/TAAssessTa.s
 
 # target to generate assembly for a file
-src/TAAssessTa.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAssessTa.C.s
-.PHONY : src/TAAssessTa.C.s
+src/TAAssessTa.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAAssessTa.cxx.s
+.PHONY : src/TAAssessTa.cxx.s
 
-src/TABUAA.o: src/TABUAA.C.o
+src/TABUAA.o: src/TABUAA.cxx.o
 
 .PHONY : src/TABUAA.o
 
 # target to build an object file
-src/TABUAA.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TABUAA.C.o
-.PHONY : src/TABUAA.C.o
+src/TABUAA.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TABUAA.cxx.o
+.PHONY : src/TABUAA.cxx.o
 
-src/TABUAA.i: src/TABUAA.C.i
+src/TABUAA.i: src/TABUAA.cxx.i
 
 .PHONY : src/TABUAA.i
 
 # target to preprocess a source file
-src/TABUAA.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TABUAA.C.i
-.PHONY : src/TABUAA.C.i
+src/TABUAA.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TABUAA.cxx.i
+.PHONY : src/TABUAA.cxx.i
 
-src/TABUAA.s: src/TABUAA.C.s
+src/TABUAA.s: src/TABUAA.cxx.s
 
 .PHONY : src/TABUAA.s
 
 # target to generate assembly for a file
-src/TABUAA.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TABUAA.C.s
-.PHONY : src/TABUAA.C.s
+src/TABUAA.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TABUAA.cxx.s
+.PHONY : src/TABUAA.cxx.s
 
-src/TAChData.o: src/TAChData.C.o
+src/TAChData.o: src/TAChData.cxx.o
 
 .PHONY : src/TAChData.o
 
 # target to build an object file
-src/TAChData.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChData.C.o
-.PHONY : src/TAChData.C.o
+src/TAChData.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChData.cxx.o
+.PHONY : src/TAChData.cxx.o
 
-src/TAChData.i: src/TAChData.C.i
+src/TAChData.i: src/TAChData.cxx.i
 
 .PHONY : src/TAChData.i
 
 # target to preprocess a source file
-src/TAChData.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChData.C.i
-.PHONY : src/TAChData.C.i
+src/TAChData.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChData.cxx.i
+.PHONY : src/TAChData.cxx.i
 
-src/TAChData.s: src/TAChData.C.s
+src/TAChData.s: src/TAChData.cxx.s
 
 .PHONY : src/TAChData.s
 
 # target to generate assembly for a file
-src/TAChData.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChData.C.s
-.PHONY : src/TAChData.C.s
+src/TAChData.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChData.cxx.s
+.PHONY : src/TAChData.cxx.s
 
-src/TAChDataVME.o: src/TAChDataVME.C.o
+src/TAChDataVME.o: src/TAChDataVME.cxx.o
 
 .PHONY : src/TAChDataVME.o
 
 # target to build an object file
-src/TAChDataVME.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChDataVME.C.o
-.PHONY : src/TAChDataVME.C.o
+src/TAChDataVME.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChDataVME.cxx.o
+.PHONY : src/TAChDataVME.cxx.o
 
-src/TAChDataVME.i: src/TAChDataVME.C.i
+src/TAChDataVME.i: src/TAChDataVME.cxx.i
 
 .PHONY : src/TAChDataVME.i
 
 # target to preprocess a source file
-src/TAChDataVME.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChDataVME.C.i
-.PHONY : src/TAChDataVME.C.i
+src/TAChDataVME.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChDataVME.cxx.i
+.PHONY : src/TAChDataVME.cxx.i
 
-src/TAChDataVME.s: src/TAChDataVME.C.s
+src/TAChDataVME.s: src/TAChDataVME.cxx.s
 
 .PHONY : src/TAChDataVME.s
 
 # target to generate assembly for a file
-src/TAChDataVME.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChDataVME.C.s
-.PHONY : src/TAChDataVME.C.s
+src/TAChDataVME.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChDataVME.cxx.s
+.PHONY : src/TAChDataVME.cxx.s
 
-src/TAChPara.o: src/TAChPara.C.o
+src/TAChPara.o: src/TAChPara.cxx.o
 
 .PHONY : src/TAChPara.o
 
 # target to build an object file
-src/TAChPara.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChPara.C.o
-.PHONY : src/TAChPara.C.o
+src/TAChPara.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChPara.cxx.o
+.PHONY : src/TAChPara.cxx.o
 
-src/TAChPara.i: src/TAChPara.C.i
+src/TAChPara.i: src/TAChPara.cxx.i
 
 .PHONY : src/TAChPara.i
 
 # target to preprocess a source file
-src/TAChPara.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChPara.C.i
-.PHONY : src/TAChPara.C.i
+src/TAChPara.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChPara.cxx.i
+.PHONY : src/TAChPara.cxx.i
 
-src/TAChPara.s: src/TAChPara.C.s
+src/TAChPara.s: src/TAChPara.cxx.s
 
 .PHONY : src/TAChPara.s
 
 # target to generate assembly for a file
-src/TAChPara.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChPara.C.s
-.PHONY : src/TAChPara.C.s
+src/TAChPara.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChPara.cxx.s
+.PHONY : src/TAChPara.cxx.s
 
-src/TAChannel.o: src/TAChannel.C.o
+src/TAChannel.o: src/TAChannel.cxx.o
 
 .PHONY : src/TAChannel.o
 
 # target to build an object file
-src/TAChannel.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChannel.C.o
-.PHONY : src/TAChannel.C.o
+src/TAChannel.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChannel.cxx.o
+.PHONY : src/TAChannel.cxx.o
 
-src/TAChannel.i: src/TAChannel.C.i
+src/TAChannel.i: src/TAChannel.cxx.i
 
 .PHONY : src/TAChannel.i
 
 # target to preprocess a source file
-src/TAChannel.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChannel.C.i
-.PHONY : src/TAChannel.C.i
+src/TAChannel.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChannel.cxx.i
+.PHONY : src/TAChannel.cxx.i
 
-src/TAChannel.s: src/TAChannel.C.s
+src/TAChannel.s: src/TAChannel.cxx.s
 
 .PHONY : src/TAChannel.s
 
 # target to generate assembly for a file
-src/TAChannel.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChannel.C.s
-.PHONY : src/TAChannel.C.s
+src/TAChannel.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAChannel.cxx.s
+.PHONY : src/TAChannel.cxx.s
 
-src/TACtrlPara.o: src/TACtrlPara.C.o
+src/TACtrlPara.o: src/TACtrlPara.cxx.o
 
 .PHONY : src/TACtrlPara.o
 
 # target to build an object file
-src/TACtrlPara.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TACtrlPara.C.o
-.PHONY : src/TACtrlPara.C.o
+src/TACtrlPara.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TACtrlPara.cxx.o
+.PHONY : src/TACtrlPara.cxx.o
 
-src/TACtrlPara.i: src/TACtrlPara.C.i
+src/TACtrlPara.i: src/TACtrlPara.cxx.i
 
 .PHONY : src/TACtrlPara.i
 
 # target to preprocess a source file
-src/TACtrlPara.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TACtrlPara.C.i
-.PHONY : src/TACtrlPara.C.i
+src/TACtrlPara.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TACtrlPara.cxx.i
+.PHONY : src/TACtrlPara.cxx.i
 
-src/TACtrlPara.s: src/TACtrlPara.C.s
+src/TACtrlPara.s: src/TACtrlPara.cxx.s
 
 .PHONY : src/TACtrlPara.s
 
 # target to generate assembly for a file
-src/TACtrlPara.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TACtrlPara.C.s
-.PHONY : src/TACtrlPara.C.s
+src/TACtrlPara.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TACtrlPara.cxx.s
+.PHONY : src/TACtrlPara.cxx.s
 
-src/TADCCable.o: src/TADCCable.C.o
+src/TADCCable.o: src/TADCCable.cxx.o
 
 .PHONY : src/TADCCable.o
 
 # target to build an object file
-src/TADCCable.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADCCable.C.o
-.PHONY : src/TADCCable.C.o
+src/TADCCable.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADCCable.cxx.o
+.PHONY : src/TADCCable.cxx.o
 
-src/TADCCable.i: src/TADCCable.C.i
+src/TADCCable.i: src/TADCCable.cxx.i
 
 .PHONY : src/TADCCable.i
 
 # target to preprocess a source file
-src/TADCCable.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADCCable.C.i
-.PHONY : src/TADCCable.C.i
+src/TADCCable.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADCCable.cxx.i
+.PHONY : src/TADCCable.cxx.i
 
-src/TADCCable.s: src/TADCCable.C.s
+src/TADCCable.s: src/TADCCable.cxx.s
 
 .PHONY : src/TADCCable.s
 
 # target to generate assembly for a file
-src/TADCCable.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADCCable.C.s
-.PHONY : src/TADCCable.C.s
+src/TADCCable.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADCCable.cxx.s
+.PHONY : src/TADCCable.cxx.s
 
-src/TADCSFE16.o: src/TADCSFE16.C.o
+src/TADCSFE16.o: src/TADCSFE16.cxx.o
 
 .PHONY : src/TADCSFE16.o
 
 # target to build an object file
-src/TADCSFE16.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADCSFE16.C.o
-.PHONY : src/TADCSFE16.C.o
+src/TADCSFE16.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADCSFE16.cxx.o
+.PHONY : src/TADCSFE16.cxx.o
 
-src/TADCSFE16.i: src/TADCSFE16.C.i
+src/TADCSFE16.i: src/TADCSFE16.cxx.i
 
 .PHONY : src/TADCSFE16.i
 
 # target to preprocess a source file
-src/TADCSFE16.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADCSFE16.C.i
-.PHONY : src/TADCSFE16.C.i
+src/TADCSFE16.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADCSFE16.cxx.i
+.PHONY : src/TADCSFE16.cxx.i
 
-src/TADCSFE16.s: src/TADCSFE16.C.s
+src/TADCSFE16.s: src/TADCSFE16.cxx.s
 
 .PHONY : src/TADCSFE16.s
 
 # target to generate assembly for a file
-src/TADCSFE16.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADCSFE16.C.s
-.PHONY : src/TADCSFE16.C.s
+src/TADCSFE16.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADCSFE16.cxx.s
+.PHONY : src/TADCSFE16.cxx.s
 
-src/TADCSuperLayer.o: src/TADCSuperLayer.C.o
+src/TADCSuperLayer.o: src/TADCSuperLayer.cxx.o
 
 .PHONY : src/TADCSuperLayer.o
 
 # target to build an object file
-src/TADCSuperLayer.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.C.o
-.PHONY : src/TADCSuperLayer.C.o
+src/TADCSuperLayer.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.cxx.o
+.PHONY : src/TADCSuperLayer.cxx.o
 
-src/TADCSuperLayer.i: src/TADCSuperLayer.C.i
+src/TADCSuperLayer.i: src/TADCSuperLayer.cxx.i
 
 .PHONY : src/TADCSuperLayer.i
 
 # target to preprocess a source file
-src/TADCSuperLayer.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.C.i
-.PHONY : src/TADCSuperLayer.C.i
+src/TADCSuperLayer.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.cxx.i
+.PHONY : src/TADCSuperLayer.cxx.i
 
-src/TADCSuperLayer.s: src/TADCSuperLayer.C.s
+src/TADCSuperLayer.s: src/TADCSuperLayer.cxx.s
 
 .PHONY : src/TADCSuperLayer.s
 
 # target to generate assembly for a file
-src/TADCSuperLayer.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.C.s
-.PHONY : src/TADCSuperLayer.C.s
+src/TADCSuperLayer.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADCSuperLayer.cxx.s
+.PHONY : src/TADCSuperLayer.cxx.s
 
-src/TADeployPara.o: src/TADeployPara.C.o
+src/TADeployPara.o: src/TADeployPara.cxx.o
 
 .PHONY : src/TADeployPara.o
 
 # target to build an object file
-src/TADeployPara.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADeployPara.C.o
-.PHONY : src/TADeployPara.C.o
+src/TADeployPara.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADeployPara.cxx.o
+.PHONY : src/TADeployPara.cxx.o
 
-src/TADeployPara.i: src/TADeployPara.C.i
+src/TADeployPara.i: src/TADeployPara.cxx.i
 
 .PHONY : src/TADeployPara.i
 
 # target to preprocess a source file
-src/TADeployPara.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADeployPara.C.i
-.PHONY : src/TADeployPara.C.i
+src/TADeployPara.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADeployPara.cxx.i
+.PHONY : src/TADeployPara.cxx.i
 
-src/TADeployPara.s: src/TADeployPara.C.s
+src/TADeployPara.s: src/TADeployPara.cxx.s
 
 .PHONY : src/TADeployPara.s
 
 # target to generate assembly for a file
-src/TADeployPara.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADeployPara.C.s
-.PHONY : src/TADeployPara.C.s
+src/TADeployPara.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADeployPara.cxx.s
+.PHONY : src/TADeployPara.cxx.s
 
-src/TADetUnion.o: src/TADetUnion.C.o
+src/TADetUnion.o: src/TADetUnion.cxx.o
 
 .PHONY : src/TADetUnion.o
 
 # target to build an object file
-src/TADetUnion.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADetUnion.C.o
-.PHONY : src/TADetUnion.C.o
+src/TADetUnion.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADetUnion.cxx.o
+.PHONY : src/TADetUnion.cxx.o
 
-src/TADetUnion.i: src/TADetUnion.C.i
+src/TADetUnion.i: src/TADetUnion.cxx.i
 
 .PHONY : src/TADetUnion.i
 
 # target to preprocess a source file
-src/TADetUnion.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADetUnion.C.i
-.PHONY : src/TADetUnion.C.i
+src/TADetUnion.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADetUnion.cxx.i
+.PHONY : src/TADetUnion.cxx.i
 
-src/TADetUnion.s: src/TADetUnion.C.s
+src/TADetUnion.s: src/TADetUnion.cxx.s
 
 .PHONY : src/TADetUnion.s
 
 # target to generate assembly for a file
-src/TADetUnion.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADetUnion.C.s
-.PHONY : src/TADetUnion.C.s
+src/TADetUnion.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADetUnion.cxx.s
+.PHONY : src/TADetUnion.cxx.s
 
-src/TADetector.o: src/TADetector.C.o
+src/TADetector.o: src/TADetector.cxx.o
 
 .PHONY : src/TADetector.o
 
 # target to build an object file
-src/TADetector.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADetector.C.o
-.PHONY : src/TADetector.C.o
+src/TADetector.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADetector.cxx.o
+.PHONY : src/TADetector.cxx.o
 
-src/TADetector.i: src/TADetector.C.i
+src/TADetector.i: src/TADetector.cxx.i
 
 .PHONY : src/TADetector.i
 
 # target to preprocess a source file
-src/TADetector.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADetector.C.i
-.PHONY : src/TADetector.C.i
+src/TADetector.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADetector.cxx.i
+.PHONY : src/TADetector.cxx.i
 
-src/TADetector.s: src/TADetector.C.s
+src/TADetector.s: src/TADetector.cxx.s
 
 .PHONY : src/TADetector.s
 
 # target to generate assembly for a file
-src/TADetector.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADetector.C.s
-.PHONY : src/TADetector.C.s
+src/TADetector.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADetector.cxx.s
+.PHONY : src/TADetector.cxx.s
 
-src/TADetectorPara.o: src/TADetectorPara.C.o
+src/TADetectorPara.o: src/TADetectorPara.cxx.o
 
 .PHONY : src/TADetectorPara.o
 
 # target to build an object file
-src/TADetectorPara.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADetectorPara.C.o
-.PHONY : src/TADetectorPara.C.o
+src/TADetectorPara.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADetectorPara.cxx.o
+.PHONY : src/TADetectorPara.cxx.o
 
-src/TADetectorPara.i: src/TADetectorPara.C.i
+src/TADetectorPara.i: src/TADetectorPara.cxx.i
 
 .PHONY : src/TADetectorPara.i
 
 # target to preprocess a source file
-src/TADetectorPara.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADetectorPara.C.i
-.PHONY : src/TADetectorPara.C.i
+src/TADetectorPara.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADetectorPara.cxx.i
+.PHONY : src/TADetectorPara.cxx.i
 
-src/TADetectorPara.s: src/TADetectorPara.C.s
+src/TADetectorPara.s: src/TADetectorPara.cxx.s
 
 .PHONY : src/TADetectorPara.s
 
 # target to generate assembly for a file
-src/TADetectorPara.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADetectorPara.C.s
-.PHONY : src/TADetectorPara.C.s
+src/TADetectorPara.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TADetectorPara.cxx.s
+.PHONY : src/TADetectorPara.cxx.s
 
-src/TAEventProcessor.o: src/TAEventProcessor.C.o
+src/TAEventProcessor.o: src/TAEventProcessor.cxx.o
 
 .PHONY : src/TAEventProcessor.o
 
 # target to build an object file
-src/TAEventProcessor.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAEventProcessor.C.o
-.PHONY : src/TAEventProcessor.C.o
+src/TAEventProcessor.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAEventProcessor.cxx.o
+.PHONY : src/TAEventProcessor.cxx.o
 
-src/TAEventProcessor.i: src/TAEventProcessor.C.i
+src/TAEventProcessor.i: src/TAEventProcessor.cxx.i
 
 .PHONY : src/TAEventProcessor.i
 
 # target to preprocess a source file
-src/TAEventProcessor.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAEventProcessor.C.i
-.PHONY : src/TAEventProcessor.C.i
+src/TAEventProcessor.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAEventProcessor.cxx.i
+.PHONY : src/TAEventProcessor.cxx.i
 
-src/TAEventProcessor.s: src/TAEventProcessor.C.s
+src/TAEventProcessor.s: src/TAEventProcessor.cxx.s
 
 .PHONY : src/TAEventProcessor.s
 
 # target to generate assembly for a file
-src/TAEventProcessor.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAEventProcessor.C.s
-.PHONY : src/TAEventProcessor.C.s
+src/TAEventProcessor.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAEventProcessor.cxx.s
+.PHONY : src/TAEventProcessor.cxx.s
 
-src/TAGPar.o: src/TAGPar.C.o
+src/TAGPar.o: src/TAGPar.cxx.o
 
 .PHONY : src/TAGPar.o
 
 # target to build an object file
-src/TAGPar.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAGPar.C.o
-.PHONY : src/TAGPar.C.o
+src/TAGPar.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAGPar.cxx.o
+.PHONY : src/TAGPar.cxx.o
 
-src/TAGPar.i: src/TAGPar.C.i
+src/TAGPar.i: src/TAGPar.cxx.i
 
 .PHONY : src/TAGPar.i
 
 # target to preprocess a source file
-src/TAGPar.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAGPar.C.i
-.PHONY : src/TAGPar.C.i
+src/TAGPar.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAGPar.cxx.i
+.PHONY : src/TAGPar.cxx.i
 
-src/TAGPar.s: src/TAGPar.C.s
+src/TAGPar.s: src/TAGPar.cxx.s
 
 .PHONY : src/TAGPar.s
 
 # target to generate assembly for a file
-src/TAGPar.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAGPar.C.s
-.PHONY : src/TAGPar.C.s
+src/TAGPar.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAGPar.cxx.s
+.PHONY : src/TAGPar.cxx.s
 
-src/TAMUSIC.o: src/TAMUSIC.C.o
+src/TAMUSIC.o: src/TAMUSIC.cxx.o
 
 .PHONY : src/TAMUSIC.o
 
 # target to build an object file
-src/TAMUSIC.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMUSIC.C.o
-.PHONY : src/TAMUSIC.C.o
+src/TAMUSIC.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMUSIC.cxx.o
+.PHONY : src/TAMUSIC.cxx.o
 
-src/TAMUSIC.i: src/TAMUSIC.C.i
+src/TAMUSIC.i: src/TAMUSIC.cxx.i
 
 .PHONY : src/TAMUSIC.i
 
 # target to preprocess a source file
-src/TAMUSIC.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMUSIC.C.i
-.PHONY : src/TAMUSIC.C.i
+src/TAMUSIC.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMUSIC.cxx.i
+.PHONY : src/TAMUSIC.cxx.i
 
-src/TAMUSIC.s: src/TAMUSIC.C.s
+src/TAMUSIC.s: src/TAMUSIC.cxx.s
 
 .PHONY : src/TAMUSIC.s
 
 # target to generate assembly for a file
-src/TAMUSIC.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMUSIC.C.s
-.PHONY : src/TAMUSIC.C.s
+src/TAMUSIC.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMUSIC.cxx.s
+.PHONY : src/TAMUSIC.cxx.s
 
-src/TAMUSICL.o: src/TAMUSICL.C.o
+src/TAMUSICL.o: src/TAMUSICL.cxx.o
 
 .PHONY : src/TAMUSICL.o
 
 # target to build an object file
-src/TAMUSICL.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMUSICL.C.o
-.PHONY : src/TAMUSICL.C.o
+src/TAMUSICL.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMUSICL.cxx.o
+.PHONY : src/TAMUSICL.cxx.o
 
-src/TAMUSICL.i: src/TAMUSICL.C.i
+src/TAMUSICL.i: src/TAMUSICL.cxx.i
 
 .PHONY : src/TAMUSICL.i
 
 # target to preprocess a source file
-src/TAMUSICL.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMUSICL.C.i
-.PHONY : src/TAMUSICL.C.i
+src/TAMUSICL.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMUSICL.cxx.i
+.PHONY : src/TAMUSICL.cxx.i
 
-src/TAMUSICL.s: src/TAMUSICL.C.s
+src/TAMUSICL.s: src/TAMUSICL.cxx.s
 
 .PHONY : src/TAMUSICL.s
 
 # target to generate assembly for a file
-src/TAMUSICL.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMUSICL.C.s
-.PHONY : src/TAMUSICL.C.s
+src/TAMUSICL.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMUSICL.cxx.s
+.PHONY : src/TAMUSICL.cxx.s
 
-src/TAMUSICM.o: src/TAMUSICM.C.o
+src/TAMUSICM.o: src/TAMUSICM.cxx.o
 
 .PHONY : src/TAMUSICM.o
 
 # target to build an object file
-src/TAMUSICM.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMUSICM.C.o
-.PHONY : src/TAMUSICM.C.o
+src/TAMUSICM.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMUSICM.cxx.o
+.PHONY : src/TAMUSICM.cxx.o
 
-src/TAMUSICM.i: src/TAMUSICM.C.i
+src/TAMUSICM.i: src/TAMUSICM.cxx.i
 
 .PHONY : src/TAMUSICM.i
 
 # target to preprocess a source file
-src/TAMUSICM.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMUSICM.C.i
-.PHONY : src/TAMUSICM.C.i
+src/TAMUSICM.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMUSICM.cxx.i
+.PHONY : src/TAMUSICM.cxx.i
 
-src/TAMUSICM.s: src/TAMUSICM.C.s
+src/TAMUSICM.s: src/TAMUSICM.cxx.s
 
 .PHONY : src/TAMUSICM.s
 
 # target to generate assembly for a file
-src/TAMUSICM.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMUSICM.C.s
-.PHONY : src/TAMUSICM.C.s
+src/TAMUSICM.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMUSICM.cxx.s
+.PHONY : src/TAMUSICM.cxx.s
 
-src/TAMWDC.o: src/TAMWDC.C.o
+src/TAMWDC.o: src/TAMWDC.cxx.o
 
 .PHONY : src/TAMWDC.o
 
 # target to build an object file
-src/TAMWDC.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDC.C.o
-.PHONY : src/TAMWDC.C.o
+src/TAMWDC.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDC.cxx.o
+.PHONY : src/TAMWDC.cxx.o
 
-src/TAMWDC.i: src/TAMWDC.C.i
+src/TAMWDC.i: src/TAMWDC.cxx.i
 
 .PHONY : src/TAMWDC.i
 
 # target to preprocess a source file
-src/TAMWDC.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDC.C.i
-.PHONY : src/TAMWDC.C.i
+src/TAMWDC.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDC.cxx.i
+.PHONY : src/TAMWDC.cxx.i
 
-src/TAMWDC.s: src/TAMWDC.C.s
+src/TAMWDC.s: src/TAMWDC.cxx.s
 
 .PHONY : src/TAMWDC.s
 
 # target to generate assembly for a file
-src/TAMWDC.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDC.C.s
-.PHONY : src/TAMWDC.C.s
+src/TAMWDC.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDC.cxx.s
+.PHONY : src/TAMWDC.cxx.s
 
-src/TAMWDCArray.o: src/TAMWDCArray.C.o
+src/TAMWDCArray.o: src/TAMWDCArray.cxx.o
 
 .PHONY : src/TAMWDCArray.o
 
 # target to build an object file
-src/TAMWDCArray.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArray.C.o
-.PHONY : src/TAMWDCArray.C.o
+src/TAMWDCArray.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArray.cxx.o
+.PHONY : src/TAMWDCArray.cxx.o
 
-src/TAMWDCArray.i: src/TAMWDCArray.C.i
+src/TAMWDCArray.i: src/TAMWDCArray.cxx.i
 
 .PHONY : src/TAMWDCArray.i
 
 # target to preprocess a source file
-src/TAMWDCArray.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArray.C.i
-.PHONY : src/TAMWDCArray.C.i
+src/TAMWDCArray.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArray.cxx.i
+.PHONY : src/TAMWDCArray.cxx.i
 
-src/TAMWDCArray.s: src/TAMWDCArray.C.s
+src/TAMWDCArray.s: src/TAMWDCArray.cxx.s
 
 .PHONY : src/TAMWDCArray.s
 
 # target to generate assembly for a file
-src/TAMWDCArray.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArray.C.s
-.PHONY : src/TAMWDCArray.C.s
+src/TAMWDCArray.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArray.cxx.s
+.PHONY : src/TAMWDCArray.cxx.s
 
-src/TAMWDCArray2.o: src/TAMWDCArray2.C.o
+src/TAMWDCArray2.o: src/TAMWDCArray2.cxx.o
 
 .PHONY : src/TAMWDCArray2.o
 
 # target to build an object file
-src/TAMWDCArray2.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.C.o
-.PHONY : src/TAMWDCArray2.C.o
+src/TAMWDCArray2.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.cxx.o
+.PHONY : src/TAMWDCArray2.cxx.o
 
-src/TAMWDCArray2.i: src/TAMWDCArray2.C.i
+src/TAMWDCArray2.i: src/TAMWDCArray2.cxx.i
 
 .PHONY : src/TAMWDCArray2.i
 
 # target to preprocess a source file
-src/TAMWDCArray2.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.C.i
-.PHONY : src/TAMWDCArray2.C.i
+src/TAMWDCArray2.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.cxx.i
+.PHONY : src/TAMWDCArray2.cxx.i
 
-src/TAMWDCArray2.s: src/TAMWDCArray2.C.s
+src/TAMWDCArray2.s: src/TAMWDCArray2.cxx.s
 
 .PHONY : src/TAMWDCArray2.s
 
 # target to generate assembly for a file
-src/TAMWDCArray2.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.C.s
-.PHONY : src/TAMWDCArray2.C.s
+src/TAMWDCArray2.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArray2.cxx.s
+.PHONY : src/TAMWDCArray2.cxx.s
 
-src/TAMWDCArrayD.o: src/TAMWDCArrayD.C.o
+src/TAMWDCArrayD.o: src/TAMWDCArrayD.cxx.o
 
 .PHONY : src/TAMWDCArrayD.o
 
 # target to build an object file
-src/TAMWDCArrayD.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.C.o
-.PHONY : src/TAMWDCArrayD.C.o
+src/TAMWDCArrayD.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.cxx.o
+.PHONY : src/TAMWDCArrayD.cxx.o
 
-src/TAMWDCArrayD.i: src/TAMWDCArrayD.C.i
+src/TAMWDCArrayD.i: src/TAMWDCArrayD.cxx.i
 
 .PHONY : src/TAMWDCArrayD.i
 
 # target to preprocess a source file
-src/TAMWDCArrayD.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.C.i
-.PHONY : src/TAMWDCArrayD.C.i
+src/TAMWDCArrayD.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.cxx.i
+.PHONY : src/TAMWDCArrayD.cxx.i
 
-src/TAMWDCArrayD.s: src/TAMWDCArrayD.C.s
+src/TAMWDCArrayD.s: src/TAMWDCArrayD.cxx.s
 
 .PHONY : src/TAMWDCArrayD.s
 
 # target to generate assembly for a file
-src/TAMWDCArrayD.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.C.s
-.PHONY : src/TAMWDCArrayD.C.s
+src/TAMWDCArrayD.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayD.cxx.s
+.PHONY : src/TAMWDCArrayD.cxx.s
 
-src/TAMWDCArrayL.o: src/TAMWDCArrayL.C.o
+src/TAMWDCArrayL.o: src/TAMWDCArrayL.cxx.o
 
 .PHONY : src/TAMWDCArrayL.o
 
 # target to build an object file
-src/TAMWDCArrayL.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.C.o
-.PHONY : src/TAMWDCArrayL.C.o
+src/TAMWDCArrayL.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.cxx.o
+.PHONY : src/TAMWDCArrayL.cxx.o
 
-src/TAMWDCArrayL.i: src/TAMWDCArrayL.C.i
+src/TAMWDCArrayL.i: src/TAMWDCArrayL.cxx.i
 
 .PHONY : src/TAMWDCArrayL.i
 
 # target to preprocess a source file
-src/TAMWDCArrayL.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.C.i
-.PHONY : src/TAMWDCArrayL.C.i
+src/TAMWDCArrayL.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.cxx.i
+.PHONY : src/TAMWDCArrayL.cxx.i
 
-src/TAMWDCArrayL.s: src/TAMWDCArrayL.C.s
+src/TAMWDCArrayL.s: src/TAMWDCArrayL.cxx.s
 
 .PHONY : src/TAMWDCArrayL.s
 
 # target to generate assembly for a file
-src/TAMWDCArrayL.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.C.s
-.PHONY : src/TAMWDCArrayL.C.s
+src/TAMWDCArrayL.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayL.cxx.s
+.PHONY : src/TAMWDCArrayL.cxx.s
 
-src/TAMWDCArrayM.o: src/TAMWDCArrayM.C.o
+src/TAMWDCArrayM.o: src/TAMWDCArrayM.cxx.o
 
 .PHONY : src/TAMWDCArrayM.o
 
 # target to build an object file
-src/TAMWDCArrayM.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.C.o
-.PHONY : src/TAMWDCArrayM.C.o
+src/TAMWDCArrayM.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.cxx.o
+.PHONY : src/TAMWDCArrayM.cxx.o
 
-src/TAMWDCArrayM.i: src/TAMWDCArrayM.C.i
+src/TAMWDCArrayM.i: src/TAMWDCArrayM.cxx.i
 
 .PHONY : src/TAMWDCArrayM.i
 
 # target to preprocess a source file
-src/TAMWDCArrayM.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.C.i
-.PHONY : src/TAMWDCArrayM.C.i
+src/TAMWDCArrayM.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.cxx.i
+.PHONY : src/TAMWDCArrayM.cxx.i
 
-src/TAMWDCArrayM.s: src/TAMWDCArrayM.C.s
+src/TAMWDCArrayM.s: src/TAMWDCArrayM.cxx.s
 
 .PHONY : src/TAMWDCArrayM.s
 
 # target to generate assembly for a file
-src/TAMWDCArrayM.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.C.s
-.PHONY : src/TAMWDCArrayM.C.s
+src/TAMWDCArrayM.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayM.cxx.s
+.PHONY : src/TAMWDCArrayM.cxx.s
 
-src/TAMWDCArrayR.o: src/TAMWDCArrayR.C.o
+src/TAMWDCArrayR.o: src/TAMWDCArrayR.cxx.o
 
 .PHONY : src/TAMWDCArrayR.o
 
 # target to build an object file
-src/TAMWDCArrayR.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.C.o
-.PHONY : src/TAMWDCArrayR.C.o
+src/TAMWDCArrayR.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.cxx.o
+.PHONY : src/TAMWDCArrayR.cxx.o
 
-src/TAMWDCArrayR.i: src/TAMWDCArrayR.C.i
+src/TAMWDCArrayR.i: src/TAMWDCArrayR.cxx.i
 
 .PHONY : src/TAMWDCArrayR.i
 
 # target to preprocess a source file
-src/TAMWDCArrayR.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.C.i
-.PHONY : src/TAMWDCArrayR.C.i
+src/TAMWDCArrayR.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.cxx.i
+.PHONY : src/TAMWDCArrayR.cxx.i
 
-src/TAMWDCArrayR.s: src/TAMWDCArrayR.C.s
+src/TAMWDCArrayR.s: src/TAMWDCArrayR.cxx.s
 
 .PHONY : src/TAMWDCArrayR.s
 
 # target to generate assembly for a file
-src/TAMWDCArrayR.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.C.s
-.PHONY : src/TAMWDCArrayR.C.s
+src/TAMWDCArrayR.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayR.cxx.s
+.PHONY : src/TAMWDCArrayR.cxx.s
 
-src/TAMWDCArrayU.o: src/TAMWDCArrayU.C.o
+src/TAMWDCArrayU.o: src/TAMWDCArrayU.cxx.o
 
 .PHONY : src/TAMWDCArrayU.o
 
 # target to build an object file
-src/TAMWDCArrayU.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.C.o
-.PHONY : src/TAMWDCArrayU.C.o
+src/TAMWDCArrayU.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.cxx.o
+.PHONY : src/TAMWDCArrayU.cxx.o
 
-src/TAMWDCArrayU.i: src/TAMWDCArrayU.C.i
+src/TAMWDCArrayU.i: src/TAMWDCArrayU.cxx.i
 
 .PHONY : src/TAMWDCArrayU.i
 
 # target to preprocess a source file
-src/TAMWDCArrayU.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.C.i
-.PHONY : src/TAMWDCArrayU.C.i
+src/TAMWDCArrayU.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.cxx.i
+.PHONY : src/TAMWDCArrayU.cxx.i
 
-src/TAMWDCArrayU.s: src/TAMWDCArrayU.C.s
+src/TAMWDCArrayU.s: src/TAMWDCArrayU.cxx.s
 
 .PHONY : src/TAMWDCArrayU.s
 
 # target to generate assembly for a file
-src/TAMWDCArrayU.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.C.s
-.PHONY : src/TAMWDCArrayU.C.s
+src/TAMWDCArrayU.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCArrayU.cxx.s
+.PHONY : src/TAMWDCArrayU.cxx.s
 
-src/TAMWDCTa.o: src/TAMWDCTa.C.o
+src/TAMWDCTa.o: src/TAMWDCTa.cxx.o
 
 .PHONY : src/TAMWDCTa.o
 
 # target to build an object file
-src/TAMWDCTa.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCTa.C.o
-.PHONY : src/TAMWDCTa.C.o
+src/TAMWDCTa.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCTa.cxx.o
+.PHONY : src/TAMWDCTa.cxx.o
 
-src/TAMWDCTa.i: src/TAMWDCTa.C.i
+src/TAMWDCTa.i: src/TAMWDCTa.cxx.i
 
 .PHONY : src/TAMWDCTa.i
 
 # target to preprocess a source file
-src/TAMWDCTa.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCTa.C.i
-.PHONY : src/TAMWDCTa.C.i
+src/TAMWDCTa.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCTa.cxx.i
+.PHONY : src/TAMWDCTa.cxx.i
 
-src/TAMWDCTa.s: src/TAMWDCTa.C.s
+src/TAMWDCTa.s: src/TAMWDCTa.cxx.s
 
 .PHONY : src/TAMWDCTa.s
 
 # target to generate assembly for a file
-src/TAMWDCTa.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCTa.C.s
-.PHONY : src/TAMWDCTa.C.s
+src/TAMWDCTa.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCTa.cxx.s
+.PHONY : src/TAMWDCTa.cxx.s
 
-src/TAMWDCTaL.o: src/TAMWDCTaL.C.o
+src/TAMWDCTaL.o: src/TAMWDCTaL.cxx.o
 
 .PHONY : src/TAMWDCTaL.o
 
 # target to build an object file
-src/TAMWDCTaL.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.C.o
-.PHONY : src/TAMWDCTaL.C.o
+src/TAMWDCTaL.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.cxx.o
+.PHONY : src/TAMWDCTaL.cxx.o
 
-src/TAMWDCTaL.i: src/TAMWDCTaL.C.i
+src/TAMWDCTaL.i: src/TAMWDCTaL.cxx.i
 
 .PHONY : src/TAMWDCTaL.i
 
 # target to preprocess a source file
-src/TAMWDCTaL.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.C.i
-.PHONY : src/TAMWDCTaL.C.i
+src/TAMWDCTaL.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.cxx.i
+.PHONY : src/TAMWDCTaL.cxx.i
 
-src/TAMWDCTaL.s: src/TAMWDCTaL.C.s
+src/TAMWDCTaL.s: src/TAMWDCTaL.cxx.s
 
 .PHONY : src/TAMWDCTaL.s
 
 # target to generate assembly for a file
-src/TAMWDCTaL.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.C.s
-.PHONY : src/TAMWDCTaL.C.s
+src/TAMWDCTaL.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCTaL.cxx.s
+.PHONY : src/TAMWDCTaL.cxx.s
 
-src/TAMWDCTaM.o: src/TAMWDCTaM.C.o
+src/TAMWDCTaM.o: src/TAMWDCTaM.cxx.o
 
 .PHONY : src/TAMWDCTaM.o
 
 # target to build an object file
-src/TAMWDCTaM.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.C.o
-.PHONY : src/TAMWDCTaM.C.o
+src/TAMWDCTaM.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.cxx.o
+.PHONY : src/TAMWDCTaM.cxx.o
 
-src/TAMWDCTaM.i: src/TAMWDCTaM.C.i
+src/TAMWDCTaM.i: src/TAMWDCTaM.cxx.i
 
 .PHONY : src/TAMWDCTaM.i
 
 # target to preprocess a source file
-src/TAMWDCTaM.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.C.i
-.PHONY : src/TAMWDCTaM.C.i
+src/TAMWDCTaM.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.cxx.i
+.PHONY : src/TAMWDCTaM.cxx.i
 
-src/TAMWDCTaM.s: src/TAMWDCTaM.C.s
+src/TAMWDCTaM.s: src/TAMWDCTaM.cxx.s
 
 .PHONY : src/TAMWDCTaM.s
 
 # target to generate assembly for a file
-src/TAMWDCTaM.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.C.s
-.PHONY : src/TAMWDCTaM.C.s
+src/TAMWDCTaM.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMWDCTaM.cxx.s
+.PHONY : src/TAMWDCTaM.cxx.s
 
-src/TAMagnet.o: src/TAMagnet.C.o
+src/TAMagnet.o: src/TAMagnet.cxx.o
 
 .PHONY : src/TAMagnet.o
 
 # target to build an object file
-src/TAMagnet.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMagnet.C.o
-.PHONY : src/TAMagnet.C.o
+src/TAMagnet.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMagnet.cxx.o
+.PHONY : src/TAMagnet.cxx.o
 
-src/TAMagnet.i: src/TAMagnet.C.i
+src/TAMagnet.i: src/TAMagnet.cxx.i
 
 .PHONY : src/TAMagnet.i
 
 # target to preprocess a source file
-src/TAMagnet.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMagnet.C.i
-.PHONY : src/TAMagnet.C.i
+src/TAMagnet.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMagnet.cxx.i
+.PHONY : src/TAMagnet.cxx.i
 
-src/TAMagnet.s: src/TAMagnet.C.s
+src/TAMagnet.s: src/TAMagnet.cxx.s
 
 .PHONY : src/TAMagnet.s
 
 # target to generate assembly for a file
-src/TAMagnet.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMagnet.C.s
-.PHONY : src/TAMagnet.C.s
+src/TAMagnet.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMagnet.cxx.s
+.PHONY : src/TAMagnet.cxx.s
 
-src/TAMath.o: src/TAMath.C.o
+src/TAMath.o: src/TAMath.cxx.o
 
 .PHONY : src/TAMath.o
 
 # target to build an object file
-src/TAMath.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMath.C.o
-.PHONY : src/TAMath.C.o
+src/TAMath.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMath.cxx.o
+.PHONY : src/TAMath.cxx.o
 
-src/TAMath.i: src/TAMath.C.i
+src/TAMath.i: src/TAMath.cxx.i
 
 .PHONY : src/TAMath.i
 
 # target to preprocess a source file
-src/TAMath.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMath.C.i
-.PHONY : src/TAMath.C.i
+src/TAMath.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMath.cxx.i
+.PHONY : src/TAMath.cxx.i
 
-src/TAMath.s: src/TAMath.C.s
+src/TAMath.s: src/TAMath.cxx.s
 
 .PHONY : src/TAMath.s
 
 # target to generate assembly for a file
-src/TAMath.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMath.C.s
-.PHONY : src/TAMath.C.s
+src/TAMath.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAMath.cxx.s
+.PHONY : src/TAMath.cxx.s
 
-src/TAOpticFiberArray.o: src/TAOpticFiberArray.C.o
+src/TAOpticFiberArray.o: src/TAOpticFiberArray.cxx.o
 
 .PHONY : src/TAOpticFiberArray.o
 
 # target to build an object file
-src/TAOpticFiberArray.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.C.o
-.PHONY : src/TAOpticFiberArray.C.o
+src/TAOpticFiberArray.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.cxx.o
+.PHONY : src/TAOpticFiberArray.cxx.o
 
-src/TAOpticFiberArray.i: src/TAOpticFiberArray.C.i
+src/TAOpticFiberArray.i: src/TAOpticFiberArray.cxx.i
 
 .PHONY : src/TAOpticFiberArray.i
 
 # target to preprocess a source file
-src/TAOpticFiberArray.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.C.i
-.PHONY : src/TAOpticFiberArray.C.i
+src/TAOpticFiberArray.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.cxx.i
+.PHONY : src/TAOpticFiberArray.cxx.i
 
-src/TAOpticFiberArray.s: src/TAOpticFiberArray.C.s
+src/TAOpticFiberArray.s: src/TAOpticFiberArray.cxx.s
 
 .PHONY : src/TAOpticFiberArray.s
 
 # target to generate assembly for a file
-src/TAOpticFiberArray.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.C.s
-.PHONY : src/TAOpticFiberArray.C.s
+src/TAOpticFiberArray.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAOpticFiberArray.cxx.s
+.PHONY : src/TAOpticFiberArray.cxx.s
 
-src/TAPDCArrayD.o: src/TAPDCArrayD.C.o
+src/TAPDCArrayD.o: src/TAPDCArrayD.cxx.o
 
 .PHONY : src/TAPDCArrayD.o
 
 # target to build an object file
-src/TAPDCArrayD.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.C.o
-.PHONY : src/TAPDCArrayD.C.o
+src/TAPDCArrayD.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.cxx.o
+.PHONY : src/TAPDCArrayD.cxx.o
 
-src/TAPDCArrayD.i: src/TAPDCArrayD.C.i
+src/TAPDCArrayD.i: src/TAPDCArrayD.cxx.i
 
 .PHONY : src/TAPDCArrayD.i
 
 # target to preprocess a source file
-src/TAPDCArrayD.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.C.i
-.PHONY : src/TAPDCArrayD.C.i
+src/TAPDCArrayD.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.cxx.i
+.PHONY : src/TAPDCArrayD.cxx.i
 
-src/TAPDCArrayD.s: src/TAPDCArrayD.C.s
+src/TAPDCArrayD.s: src/TAPDCArrayD.cxx.s
 
 .PHONY : src/TAPDCArrayD.s
 
 # target to generate assembly for a file
-src/TAPDCArrayD.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.C.s
-.PHONY : src/TAPDCArrayD.C.s
+src/TAPDCArrayD.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCArrayD.cxx.s
+.PHONY : src/TAPDCArrayD.cxx.s
 
-src/TAPDCArrayTa4.o: src/TAPDCArrayTa4.C.o
+src/TAPDCArrayTa4.o: src/TAPDCArrayTa4.cxx.o
 
 .PHONY : src/TAPDCArrayTa4.o
 
 # target to build an object file
-src/TAPDCArrayTa4.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.C.o
-.PHONY : src/TAPDCArrayTa4.C.o
+src/TAPDCArrayTa4.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.cxx.o
+.PHONY : src/TAPDCArrayTa4.cxx.o
 
-src/TAPDCArrayTa4.i: src/TAPDCArrayTa4.C.i
+src/TAPDCArrayTa4.i: src/TAPDCArrayTa4.cxx.i
 
 .PHONY : src/TAPDCArrayTa4.i
 
 # target to preprocess a source file
-src/TAPDCArrayTa4.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.C.i
-.PHONY : src/TAPDCArrayTa4.C.i
+src/TAPDCArrayTa4.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.cxx.i
+.PHONY : src/TAPDCArrayTa4.cxx.i
 
-src/TAPDCArrayTa4.s: src/TAPDCArrayTa4.C.s
+src/TAPDCArrayTa4.s: src/TAPDCArrayTa4.cxx.s
 
 .PHONY : src/TAPDCArrayTa4.s
 
 # target to generate assembly for a file
-src/TAPDCArrayTa4.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.C.s
-.PHONY : src/TAPDCArrayTa4.C.s
+src/TAPDCArrayTa4.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCArrayTa4.cxx.s
+.PHONY : src/TAPDCArrayTa4.cxx.s
 
-src/TAPDCArrayU.o: src/TAPDCArrayU.C.o
+src/TAPDCArrayU.o: src/TAPDCArrayU.cxx.o
 
 .PHONY : src/TAPDCArrayU.o
 
 # target to build an object file
-src/TAPDCArrayU.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.C.o
-.PHONY : src/TAPDCArrayU.C.o
+src/TAPDCArrayU.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.cxx.o
+.PHONY : src/TAPDCArrayU.cxx.o
 
-src/TAPDCArrayU.i: src/TAPDCArrayU.C.i
+src/TAPDCArrayU.i: src/TAPDCArrayU.cxx.i
 
 .PHONY : src/TAPDCArrayU.i
 
 # target to preprocess a source file
-src/TAPDCArrayU.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.C.i
-.PHONY : src/TAPDCArrayU.C.i
+src/TAPDCArrayU.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.cxx.i
+.PHONY : src/TAPDCArrayU.cxx.i
 
-src/TAPDCArrayU.s: src/TAPDCArrayU.C.s
+src/TAPDCArrayU.s: src/TAPDCArrayU.cxx.s
 
 .PHONY : src/TAPDCArrayU.s
 
 # target to generate assembly for a file
-src/TAPDCArrayU.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.C.s
-.PHONY : src/TAPDCArrayU.C.s
+src/TAPDCArrayU.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCArrayU.cxx.s
+.PHONY : src/TAPDCArrayU.cxx.s
 
-src/TAPDCL.o: src/TAPDCL.C.o
+src/TAPDCL.o: src/TAPDCL.cxx.o
 
 .PHONY : src/TAPDCL.o
 
 # target to build an object file
-src/TAPDCL.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCL.C.o
-.PHONY : src/TAPDCL.C.o
+src/TAPDCL.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCL.cxx.o
+.PHONY : src/TAPDCL.cxx.o
 
-src/TAPDCL.i: src/TAPDCL.C.i
+src/TAPDCL.i: src/TAPDCL.cxx.i
 
 .PHONY : src/TAPDCL.i
 
 # target to preprocess a source file
-src/TAPDCL.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCL.C.i
-.PHONY : src/TAPDCL.C.i
+src/TAPDCL.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCL.cxx.i
+.PHONY : src/TAPDCL.cxx.i
 
-src/TAPDCL.s: src/TAPDCL.C.s
+src/TAPDCL.s: src/TAPDCL.cxx.s
 
 .PHONY : src/TAPDCL.s
 
 # target to generate assembly for a file
-src/TAPDCL.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCL.C.s
-.PHONY : src/TAPDCL.C.s
+src/TAPDCL.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCL.cxx.s
+.PHONY : src/TAPDCL.cxx.s
 
-src/TAPDCR.o: src/TAPDCR.C.o
+src/TAPDCR.o: src/TAPDCR.cxx.o
 
 .PHONY : src/TAPDCR.o
 
 # target to build an object file
-src/TAPDCR.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCR.C.o
-.PHONY : src/TAPDCR.C.o
+src/TAPDCR.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCR.cxx.o
+.PHONY : src/TAPDCR.cxx.o
 
-src/TAPDCR.i: src/TAPDCR.C.i
+src/TAPDCR.i: src/TAPDCR.cxx.i
 
 .PHONY : src/TAPDCR.i
 
 # target to preprocess a source file
-src/TAPDCR.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCR.C.i
-.PHONY : src/TAPDCR.C.i
+src/TAPDCR.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCR.cxx.i
+.PHONY : src/TAPDCR.cxx.i
 
-src/TAPDCR.s: src/TAPDCR.C.s
+src/TAPDCR.s: src/TAPDCR.cxx.s
 
 .PHONY : src/TAPDCR.s
 
 # target to generate assembly for a file
-src/TAPDCR.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCR.C.s
-.PHONY : src/TAPDCR.C.s
+src/TAPDCR.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPDCR.cxx.s
+.PHONY : src/TAPDCR.cxx.s
 
-src/TAPID.o: src/TAPID.C.o
+src/TAPID.o: src/TAPID.cxx.o
 
 .PHONY : src/TAPID.o
 
 # target to build an object file
-src/TAPID.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPID.C.o
-.PHONY : src/TAPID.C.o
+src/TAPID.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPID.cxx.o
+.PHONY : src/TAPID.cxx.o
 
-src/TAPID.i: src/TAPID.C.i
+src/TAPID.i: src/TAPID.cxx.i
 
 .PHONY : src/TAPID.i
 
 # target to preprocess a source file
-src/TAPID.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPID.C.i
-.PHONY : src/TAPID.C.i
+src/TAPID.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPID.cxx.i
+.PHONY : src/TAPID.cxx.i
 
-src/TAPID.s: src/TAPID.C.s
+src/TAPID.s: src/TAPID.cxx.s
 
 .PHONY : src/TAPID.s
 
 # target to generate assembly for a file
-src/TAPID.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPID.C.s
-.PHONY : src/TAPID.C.s
+src/TAPID.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPID.cxx.s
+.PHONY : src/TAPID.cxx.s
 
-src/TAParaManager.o: src/TAParaManager.C.o
+src/TAParaManager.o: src/TAParaManager.cxx.o
 
 .PHONY : src/TAParaManager.o
 
 # target to build an object file
-src/TAParaManager.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAParaManager.C.o
-.PHONY : src/TAParaManager.C.o
+src/TAParaManager.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAParaManager.cxx.o
+.PHONY : src/TAParaManager.cxx.o
 
-src/TAParaManager.i: src/TAParaManager.C.i
+src/TAParaManager.i: src/TAParaManager.cxx.i
 
 .PHONY : src/TAParaManager.i
 
 # target to preprocess a source file
-src/TAParaManager.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAParaManager.C.i
-.PHONY : src/TAParaManager.C.i
+src/TAParaManager.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAParaManager.cxx.i
+.PHONY : src/TAParaManager.cxx.i
 
-src/TAParaManager.s: src/TAParaManager.C.s
+src/TAParaManager.s: src/TAParaManager.cxx.s
 
 .PHONY : src/TAParaManager.s
 
 # target to generate assembly for a file
-src/TAParaManager.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAParaManager.C.s
-.PHONY : src/TAParaManager.C.s
+src/TAParaManager.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAParaManager.cxx.s
+.PHONY : src/TAParaManager.cxx.s
 
-src/TAParameter.o: src/TAParameter.C.o
+src/TAParameter.o: src/TAParameter.cxx.o
 
 .PHONY : src/TAParameter.o
 
 # target to build an object file
-src/TAParameter.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAParameter.C.o
-.PHONY : src/TAParameter.C.o
+src/TAParameter.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAParameter.cxx.o
+.PHONY : src/TAParameter.cxx.o
 
-src/TAParameter.i: src/TAParameter.C.i
+src/TAParameter.i: src/TAParameter.cxx.i
 
 .PHONY : src/TAParameter.i
 
 # target to preprocess a source file
-src/TAParameter.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAParameter.C.i
-.PHONY : src/TAParameter.C.i
+src/TAParameter.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAParameter.cxx.i
+.PHONY : src/TAParameter.cxx.i
 
-src/TAParameter.s: src/TAParameter.C.s
+src/TAParameter.s: src/TAParameter.cxx.s
 
 .PHONY : src/TAParameter.s
 
 # target to generate assembly for a file
-src/TAParameter.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAParameter.C.s
-.PHONY : src/TAParameter.C.s
+src/TAParameter.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAParameter.cxx.s
+.PHONY : src/TAParameter.cxx.s
 
-src/TAPlaStrip.o: src/TAPlaStrip.C.o
+src/TAPlaStrip.o: src/TAPlaStrip.cxx.o
 
 .PHONY : src/TAPlaStrip.o
 
 # target to build an object file
-src/TAPlaStrip.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPlaStrip.C.o
-.PHONY : src/TAPlaStrip.C.o
+src/TAPlaStrip.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPlaStrip.cxx.o
+.PHONY : src/TAPlaStrip.cxx.o
 
-src/TAPlaStrip.i: src/TAPlaStrip.C.i
+src/TAPlaStrip.i: src/TAPlaStrip.cxx.i
 
 .PHONY : src/TAPlaStrip.i
 
 # target to preprocess a source file
-src/TAPlaStrip.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPlaStrip.C.i
-.PHONY : src/TAPlaStrip.C.i
+src/TAPlaStrip.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPlaStrip.cxx.i
+.PHONY : src/TAPlaStrip.cxx.i
 
-src/TAPlaStrip.s: src/TAPlaStrip.C.s
+src/TAPlaStrip.s: src/TAPlaStrip.cxx.s
 
 .PHONY : src/TAPlaStrip.s
 
 # target to generate assembly for a file
-src/TAPlaStrip.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPlaStrip.C.s
-.PHONY : src/TAPlaStrip.C.s
+src/TAPlaStrip.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPlaStrip.cxx.s
+.PHONY : src/TAPlaStrip.cxx.s
 
-src/TAPlaStripData.o: src/TAPlaStripData.C.o
+src/TAPlaStripData.o: src/TAPlaStripData.cxx.o
 
 .PHONY : src/TAPlaStripData.o
 
 # target to build an object file
-src/TAPlaStripData.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPlaStripData.C.o
-.PHONY : src/TAPlaStripData.C.o
+src/TAPlaStripData.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPlaStripData.cxx.o
+.PHONY : src/TAPlaStripData.cxx.o
 
-src/TAPlaStripData.i: src/TAPlaStripData.C.i
+src/TAPlaStripData.i: src/TAPlaStripData.cxx.i
 
 .PHONY : src/TAPlaStripData.i
 
 # target to preprocess a source file
-src/TAPlaStripData.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPlaStripData.C.i
-.PHONY : src/TAPlaStripData.C.i
+src/TAPlaStripData.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPlaStripData.cxx.i
+.PHONY : src/TAPlaStripData.cxx.i
 
-src/TAPlaStripData.s: src/TAPlaStripData.C.s
+src/TAPlaStripData.s: src/TAPlaStripData.cxx.s
 
 .PHONY : src/TAPlaStripData.s
 
 # target to generate assembly for a file
-src/TAPlaStripData.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPlaStripData.C.s
-.PHONY : src/TAPlaStripData.C.s
+src/TAPlaStripData.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPlaStripData.cxx.s
+.PHONY : src/TAPlaStripData.cxx.s
 
-src/TAPlaStripPara.o: src/TAPlaStripPara.C.o
+src/TAPlaStripPara.o: src/TAPlaStripPara.cxx.o
 
 .PHONY : src/TAPlaStripPara.o
 
 # target to build an object file
-src/TAPlaStripPara.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.C.o
-.PHONY : src/TAPlaStripPara.C.o
+src/TAPlaStripPara.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.cxx.o
+.PHONY : src/TAPlaStripPara.cxx.o
 
-src/TAPlaStripPara.i: src/TAPlaStripPara.C.i
+src/TAPlaStripPara.i: src/TAPlaStripPara.cxx.i
 
 .PHONY : src/TAPlaStripPara.i
 
 # target to preprocess a source file
-src/TAPlaStripPara.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.C.i
-.PHONY : src/TAPlaStripPara.C.i
+src/TAPlaStripPara.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.cxx.i
+.PHONY : src/TAPlaStripPara.cxx.i
 
-src/TAPlaStripPara.s: src/TAPlaStripPara.C.s
+src/TAPlaStripPara.s: src/TAPlaStripPara.cxx.s
 
 .PHONY : src/TAPlaStripPara.s
 
 # target to generate assembly for a file
-src/TAPlaStripPara.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.C.s
-.PHONY : src/TAPlaStripPara.C.s
+src/TAPlaStripPara.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPlaStripPara.cxx.s
+.PHONY : src/TAPlaStripPara.cxx.s
 
-src/TAPopMsg.o: src/TAPopMsg.C.o
+src/TAPopMsg.o: src/TAPopMsg.cxx.o
 
 .PHONY : src/TAPopMsg.o
 
 # target to build an object file
-src/TAPopMsg.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPopMsg.C.o
-.PHONY : src/TAPopMsg.C.o
+src/TAPopMsg.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPopMsg.cxx.o
+.PHONY : src/TAPopMsg.cxx.o
 
-src/TAPopMsg.i: src/TAPopMsg.C.i
+src/TAPopMsg.i: src/TAPopMsg.cxx.i
 
 .PHONY : src/TAPopMsg.i
 
 # target to preprocess a source file
-src/TAPopMsg.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPopMsg.C.i
-.PHONY : src/TAPopMsg.C.i
+src/TAPopMsg.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPopMsg.cxx.i
+.PHONY : src/TAPopMsg.cxx.i
 
-src/TAPopMsg.s: src/TAPopMsg.C.s
+src/TAPopMsg.s: src/TAPopMsg.cxx.s
 
 .PHONY : src/TAPopMsg.s
 
 # target to generate assembly for a file
-src/TAPopMsg.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPopMsg.C.s
-.PHONY : src/TAPopMsg.C.s
+src/TAPopMsg.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAPopMsg.cxx.s
+.PHONY : src/TAPopMsg.cxx.s
 
-src/TARawDataProcessor.o: src/TARawDataProcessor.C.o
+src/TARawDataProcessor.o: src/TARawDataProcessor.cxx.o
 
 .PHONY : src/TARawDataProcessor.o
 
 # target to build an object file
-src/TARawDataProcessor.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.C.o
-.PHONY : src/TARawDataProcessor.C.o
+src/TARawDataProcessor.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.cxx.o
+.PHONY : src/TARawDataProcessor.cxx.o
 
-src/TARawDataProcessor.i: src/TARawDataProcessor.C.i
+src/TARawDataProcessor.i: src/TARawDataProcessor.cxx.i
 
 .PHONY : src/TARawDataProcessor.i
 
 # target to preprocess a source file
-src/TARawDataProcessor.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.C.i
-.PHONY : src/TARawDataProcessor.C.i
+src/TARawDataProcessor.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.cxx.i
+.PHONY : src/TARawDataProcessor.cxx.i
 
-src/TARawDataProcessor.s: src/TARawDataProcessor.C.s
+src/TARawDataProcessor.s: src/TARawDataProcessor.cxx.s
 
 .PHONY : src/TARawDataProcessor.s
 
 # target to generate assembly for a file
-src/TARawDataProcessor.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.C.s
-.PHONY : src/TARawDataProcessor.C.s
+src/TARawDataProcessor.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TARawDataProcessor.cxx.s
+.PHONY : src/TARawDataProcessor.cxx.s
 
-src/TASTRCalibDCArr.o: src/TASTRCalibDCArr.C.o
+src/TASTRCalibDCArr.o: src/TASTRCalibDCArr.cxx.o
 
 .PHONY : src/TASTRCalibDCArr.o
 
 # target to build an object file
-src/TASTRCalibDCArr.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.C.o
-.PHONY : src/TASTRCalibDCArr.C.o
+src/TASTRCalibDCArr.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.cxx.o
+.PHONY : src/TASTRCalibDCArr.cxx.o
 
-src/TASTRCalibDCArr.i: src/TASTRCalibDCArr.C.i
+src/TASTRCalibDCArr.i: src/TASTRCalibDCArr.cxx.i
 
 .PHONY : src/TASTRCalibDCArr.i
 
 # target to preprocess a source file
-src/TASTRCalibDCArr.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.C.i
-.PHONY : src/TASTRCalibDCArr.C.i
+src/TASTRCalibDCArr.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.cxx.i
+.PHONY : src/TASTRCalibDCArr.cxx.i
 
-src/TASTRCalibDCArr.s: src/TASTRCalibDCArr.C.s
+src/TASTRCalibDCArr.s: src/TASTRCalibDCArr.cxx.s
 
 .PHONY : src/TASTRCalibDCArr.s
 
 # target to generate assembly for a file
-src/TASTRCalibDCArr.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.C.s
-.PHONY : src/TASTRCalibDCArr.C.s
+src/TASTRCalibDCArr.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArr.cxx.s
+.PHONY : src/TASTRCalibDCArr.cxx.s
 
-src/TASTRCalibDCArrL.o: src/TASTRCalibDCArrL.C.o
+src/TASTRCalibDCArrL.o: src/TASTRCalibDCArrL.cxx.o
 
 .PHONY : src/TASTRCalibDCArrL.o
 
 # target to build an object file
-src/TASTRCalibDCArrL.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.C.o
-.PHONY : src/TASTRCalibDCArrL.C.o
+src/TASTRCalibDCArrL.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.cxx.o
+.PHONY : src/TASTRCalibDCArrL.cxx.o
 
-src/TASTRCalibDCArrL.i: src/TASTRCalibDCArrL.C.i
+src/TASTRCalibDCArrL.i: src/TASTRCalibDCArrL.cxx.i
 
 .PHONY : src/TASTRCalibDCArrL.i
 
 # target to preprocess a source file
-src/TASTRCalibDCArrL.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.C.i
-.PHONY : src/TASTRCalibDCArrL.C.i
+src/TASTRCalibDCArrL.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.cxx.i
+.PHONY : src/TASTRCalibDCArrL.cxx.i
 
-src/TASTRCalibDCArrL.s: src/TASTRCalibDCArrL.C.s
+src/TASTRCalibDCArrL.s: src/TASTRCalibDCArrL.cxx.s
 
 .PHONY : src/TASTRCalibDCArrL.s
 
 # target to generate assembly for a file
-src/TASTRCalibDCArrL.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.C.s
-.PHONY : src/TASTRCalibDCArrL.C.s
+src/TASTRCalibDCArrL.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrL.cxx.s
+.PHONY : src/TASTRCalibDCArrL.cxx.s
 
-src/TASTRCalibDCArrR.o: src/TASTRCalibDCArrR.C.o
+src/TASTRCalibDCArrR.o: src/TASTRCalibDCArrR.cxx.o
 
 .PHONY : src/TASTRCalibDCArrR.o
 
 # target to build an object file
-src/TASTRCalibDCArrR.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.C.o
-.PHONY : src/TASTRCalibDCArrR.C.o
+src/TASTRCalibDCArrR.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.cxx.o
+.PHONY : src/TASTRCalibDCArrR.cxx.o
 
-src/TASTRCalibDCArrR.i: src/TASTRCalibDCArrR.C.i
+src/TASTRCalibDCArrR.i: src/TASTRCalibDCArrR.cxx.i
 
 .PHONY : src/TASTRCalibDCArrR.i
 
 # target to preprocess a source file
-src/TASTRCalibDCArrR.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.C.i
-.PHONY : src/TASTRCalibDCArrR.C.i
+src/TASTRCalibDCArrR.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.cxx.i
+.PHONY : src/TASTRCalibDCArrR.cxx.i
 
-src/TASTRCalibDCArrR.s: src/TASTRCalibDCArrR.C.s
+src/TASTRCalibDCArrR.s: src/TASTRCalibDCArrR.cxx.s
 
 .PHONY : src/TASTRCalibDCArrR.s
 
 # target to generate assembly for a file
-src/TASTRCalibDCArrR.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.C.s
-.PHONY : src/TASTRCalibDCArrR.C.s
+src/TASTRCalibDCArrR.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrR.cxx.s
+.PHONY : src/TASTRCalibDCArrR.cxx.s
 
-src/TASTRCalibDCArrTa.o: src/TASTRCalibDCArrTa.C.o
+src/TASTRCalibDCArrTa.o: src/TASTRCalibDCArrTa.cxx.o
 
 .PHONY : src/TASTRCalibDCArrTa.o
 
 # target to build an object file
-src/TASTRCalibDCArrTa.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.C.o
-.PHONY : src/TASTRCalibDCArrTa.C.o
+src/TASTRCalibDCArrTa.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.cxx.o
+.PHONY : src/TASTRCalibDCArrTa.cxx.o
 
-src/TASTRCalibDCArrTa.i: src/TASTRCalibDCArrTa.C.i
+src/TASTRCalibDCArrTa.i: src/TASTRCalibDCArrTa.cxx.i
 
 .PHONY : src/TASTRCalibDCArrTa.i
 
 # target to preprocess a source file
-src/TASTRCalibDCArrTa.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.C.i
-.PHONY : src/TASTRCalibDCArrTa.C.i
+src/TASTRCalibDCArrTa.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.cxx.i
+.PHONY : src/TASTRCalibDCArrTa.cxx.i
 
-src/TASTRCalibDCArrTa.s: src/TASTRCalibDCArrTa.C.s
+src/TASTRCalibDCArrTa.s: src/TASTRCalibDCArrTa.cxx.s
 
 .PHONY : src/TASTRCalibDCArrTa.s
 
 # target to generate assembly for a file
-src/TASTRCalibDCArrTa.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.C.s
-.PHONY : src/TASTRCalibDCArrTa.C.s
+src/TASTRCalibDCArrTa.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTa.cxx.s
+.PHONY : src/TASTRCalibDCArrTa.cxx.s
 
-src/TASTRCalibDCArrTaD.o: src/TASTRCalibDCArrTaD.C.o
+src/TASTRCalibDCArrTaD.o: src/TASTRCalibDCArrTaD.cxx.o
 
 .PHONY : src/TASTRCalibDCArrTaD.o
 
 # target to build an object file
-src/TASTRCalibDCArrTaD.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.C.o
-.PHONY : src/TASTRCalibDCArrTaD.C.o
+src/TASTRCalibDCArrTaD.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.cxx.o
+.PHONY : src/TASTRCalibDCArrTaD.cxx.o
 
-src/TASTRCalibDCArrTaD.i: src/TASTRCalibDCArrTaD.C.i
+src/TASTRCalibDCArrTaD.i: src/TASTRCalibDCArrTaD.cxx.i
 
 .PHONY : src/TASTRCalibDCArrTaD.i
 
 # target to preprocess a source file
-src/TASTRCalibDCArrTaD.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.C.i
-.PHONY : src/TASTRCalibDCArrTaD.C.i
+src/TASTRCalibDCArrTaD.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.cxx.i
+.PHONY : src/TASTRCalibDCArrTaD.cxx.i
 
-src/TASTRCalibDCArrTaD.s: src/TASTRCalibDCArrTaD.C.s
+src/TASTRCalibDCArrTaD.s: src/TASTRCalibDCArrTaD.cxx.s
 
 .PHONY : src/TASTRCalibDCArrTaD.s
 
 # target to generate assembly for a file
-src/TASTRCalibDCArrTaD.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.C.s
-.PHONY : src/TASTRCalibDCArrTaD.C.s
+src/TASTRCalibDCArrTaD.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaD.cxx.s
+.PHONY : src/TASTRCalibDCArrTaD.cxx.s
 
-src/TASTRCalibDCArrTaU.o: src/TASTRCalibDCArrTaU.C.o
+src/TASTRCalibDCArrTaU.o: src/TASTRCalibDCArrTaU.cxx.o
 
 .PHONY : src/TASTRCalibDCArrTaU.o
 
 # target to build an object file
-src/TASTRCalibDCArrTaU.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.C.o
-.PHONY : src/TASTRCalibDCArrTaU.C.o
+src/TASTRCalibDCArrTaU.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.cxx.o
+.PHONY : src/TASTRCalibDCArrTaU.cxx.o
 
-src/TASTRCalibDCArrTaU.i: src/TASTRCalibDCArrTaU.C.i
+src/TASTRCalibDCArrTaU.i: src/TASTRCalibDCArrTaU.cxx.i
 
 .PHONY : src/TASTRCalibDCArrTaU.i
 
 # target to preprocess a source file
-src/TASTRCalibDCArrTaU.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.C.i
-.PHONY : src/TASTRCalibDCArrTaU.C.i
+src/TASTRCalibDCArrTaU.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.cxx.i
+.PHONY : src/TASTRCalibDCArrTaU.cxx.i
 
-src/TASTRCalibDCArrTaU.s: src/TASTRCalibDCArrTaU.C.s
+src/TASTRCalibDCArrTaU.s: src/TASTRCalibDCArrTaU.cxx.s
 
 .PHONY : src/TASTRCalibDCArrTaU.s
 
 # target to generate assembly for a file
-src/TASTRCalibDCArrTaU.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.C.s
-.PHONY : src/TASTRCalibDCArrTaU.C.s
+src/TASTRCalibDCArrTaU.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibDCArrTaU.cxx.s
+.PHONY : src/TASTRCalibDCArrTaU.cxx.s
 
-src/TASTRCalibPDCArrD.o: src/TASTRCalibPDCArrD.C.o
+src/TASTRCalibPDCArrD.o: src/TASTRCalibPDCArrD.cxx.o
 
 .PHONY : src/TASTRCalibPDCArrD.o
 
 # target to build an object file
-src/TASTRCalibPDCArrD.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.C.o
-.PHONY : src/TASTRCalibPDCArrD.C.o
+src/TASTRCalibPDCArrD.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.cxx.o
+.PHONY : src/TASTRCalibPDCArrD.cxx.o
 
-src/TASTRCalibPDCArrD.i: src/TASTRCalibPDCArrD.C.i
+src/TASTRCalibPDCArrD.i: src/TASTRCalibPDCArrD.cxx.i
 
 .PHONY : src/TASTRCalibPDCArrD.i
 
 # target to preprocess a source file
-src/TASTRCalibPDCArrD.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.C.i
-.PHONY : src/TASTRCalibPDCArrD.C.i
+src/TASTRCalibPDCArrD.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.cxx.i
+.PHONY : src/TASTRCalibPDCArrD.cxx.i
 
-src/TASTRCalibPDCArrD.s: src/TASTRCalibPDCArrD.C.s
+src/TASTRCalibPDCArrD.s: src/TASTRCalibPDCArrD.cxx.s
 
 .PHONY : src/TASTRCalibPDCArrD.s
 
 # target to generate assembly for a file
-src/TASTRCalibPDCArrD.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.C.s
-.PHONY : src/TASTRCalibPDCArrD.C.s
+src/TASTRCalibPDCArrD.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrD.cxx.s
+.PHONY : src/TASTRCalibPDCArrD.cxx.s
 
-src/TASTRCalibPDCArrU.o: src/TASTRCalibPDCArrU.C.o
+src/TASTRCalibPDCArrU.o: src/TASTRCalibPDCArrU.cxx.o
 
 .PHONY : src/TASTRCalibPDCArrU.o
 
 # target to build an object file
-src/TASTRCalibPDCArrU.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.C.o
-.PHONY : src/TASTRCalibPDCArrU.C.o
+src/TASTRCalibPDCArrU.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.cxx.o
+.PHONY : src/TASTRCalibPDCArrU.cxx.o
 
-src/TASTRCalibPDCArrU.i: src/TASTRCalibPDCArrU.C.i
+src/TASTRCalibPDCArrU.i: src/TASTRCalibPDCArrU.cxx.i
 
 .PHONY : src/TASTRCalibPDCArrU.i
 
 # target to preprocess a source file
-src/TASTRCalibPDCArrU.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.C.i
-.PHONY : src/TASTRCalibPDCArrU.C.i
+src/TASTRCalibPDCArrU.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.cxx.i
+.PHONY : src/TASTRCalibPDCArrU.cxx.i
 
-src/TASTRCalibPDCArrU.s: src/TASTRCalibPDCArrU.C.s
+src/TASTRCalibPDCArrU.s: src/TASTRCalibPDCArrU.cxx.s
 
 .PHONY : src/TASTRCalibPDCArrU.s
 
 # target to generate assembly for a file
-src/TASTRCalibPDCArrU.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.C.s
-.PHONY : src/TASTRCalibPDCArrU.C.s
+src/TASTRCalibPDCArrU.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASTRCalibPDCArrU.cxx.s
+.PHONY : src/TASTRCalibPDCArrU.cxx.s
 
-src/TASiPMPlaArray.o: src/TASiPMPlaArray.C.o
+src/TASiPMPlaArray.o: src/TASiPMPlaArray.cxx.o
 
 .PHONY : src/TASiPMPlaArray.o
 
 # target to build an object file
-src/TASiPMPlaArray.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.C.o
-.PHONY : src/TASiPMPlaArray.C.o
+src/TASiPMPlaArray.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.cxx.o
+.PHONY : src/TASiPMPlaArray.cxx.o
 
-src/TASiPMPlaArray.i: src/TASiPMPlaArray.C.i
+src/TASiPMPlaArray.i: src/TASiPMPlaArray.cxx.i
 
 .PHONY : src/TASiPMPlaArray.i
 
 # target to preprocess a source file
-src/TASiPMPlaArray.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.C.i
-.PHONY : src/TASiPMPlaArray.C.i
+src/TASiPMPlaArray.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.cxx.i
+.PHONY : src/TASiPMPlaArray.cxx.i
 
-src/TASiPMPlaArray.s: src/TASiPMPlaArray.C.s
+src/TASiPMPlaArray.s: src/TASiPMPlaArray.cxx.s
 
 .PHONY : src/TASiPMPlaArray.s
 
 # target to generate assembly for a file
-src/TASiPMPlaArray.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.C.s
-.PHONY : src/TASiPMPlaArray.C.s
+src/TASiPMPlaArray.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASiPMPlaArray.cxx.s
+.PHONY : src/TASiPMPlaArray.cxx.s
 
-src/TASiPMPlaBarrel.o: src/TASiPMPlaBarrel.C.o
+src/TASiPMPlaBarrel.o: src/TASiPMPlaBarrel.cxx.o
 
 .PHONY : src/TASiPMPlaBarrel.o
 
 # target to build an object file
-src/TASiPMPlaBarrel.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.C.o
-.PHONY : src/TASiPMPlaBarrel.C.o
+src/TASiPMPlaBarrel.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.cxx.o
+.PHONY : src/TASiPMPlaBarrel.cxx.o
 
-src/TASiPMPlaBarrel.i: src/TASiPMPlaBarrel.C.i
+src/TASiPMPlaBarrel.i: src/TASiPMPlaBarrel.cxx.i
 
 .PHONY : src/TASiPMPlaBarrel.i
 
 # target to preprocess a source file
-src/TASiPMPlaBarrel.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.C.i
-.PHONY : src/TASiPMPlaBarrel.C.i
+src/TASiPMPlaBarrel.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.cxx.i
+.PHONY : src/TASiPMPlaBarrel.cxx.i
 
-src/TASiPMPlaBarrel.s: src/TASiPMPlaBarrel.C.s
+src/TASiPMPlaBarrel.s: src/TASiPMPlaBarrel.cxx.s
 
 .PHONY : src/TASiPMPlaBarrel.s
 
 # target to generate assembly for a file
-src/TASiPMPlaBarrel.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.C.s
-.PHONY : src/TASiPMPlaBarrel.C.s
+src/TASiPMPlaBarrel.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASiPMPlaBarrel.cxx.s
+.PHONY : src/TASiPMPlaBarrel.cxx.s
 
-src/TASimulation.o: src/TASimulation.C.o
+src/TASimulation.o: src/TASimulation.cxx.o
 
 .PHONY : src/TASimulation.o
 
 # target to build an object file
-src/TASimulation.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASimulation.C.o
-.PHONY : src/TASimulation.C.o
+src/TASimulation.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASimulation.cxx.o
+.PHONY : src/TASimulation.cxx.o
 
-src/TASimulation.i: src/TASimulation.C.i
+src/TASimulation.i: src/TASimulation.cxx.i
 
 .PHONY : src/TASimulation.i
 
 # target to preprocess a source file
-src/TASimulation.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASimulation.C.i
-.PHONY : src/TASimulation.C.i
+src/TASimulation.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASimulation.cxx.i
+.PHONY : src/TASimulation.cxx.i
 
-src/TASimulation.s: src/TASimulation.C.s
+src/TASimulation.s: src/TASimulation.cxx.s
 
 .PHONY : src/TASimulation.s
 
 # target to generate assembly for a file
-src/TASimulation.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASimulation.C.s
-.PHONY : src/TASimulation.C.s
+src/TASimulation.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TASimulation.cxx.s
+.PHONY : src/TASimulation.cxx.s
 
-src/TAStuff.o: src/TAStuff.C.o
+src/TAStuff.o: src/TAStuff.cxx.o
 
 .PHONY : src/TAStuff.o
 
 # target to build an object file
-src/TAStuff.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAStuff.C.o
-.PHONY : src/TAStuff.C.o
+src/TAStuff.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAStuff.cxx.o
+.PHONY : src/TAStuff.cxx.o
 
-src/TAStuff.i: src/TAStuff.C.i
+src/TAStuff.i: src/TAStuff.cxx.i
 
 .PHONY : src/TAStuff.i
 
 # target to preprocess a source file
-src/TAStuff.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAStuff.C.i
-.PHONY : src/TAStuff.C.i
+src/TAStuff.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAStuff.cxx.i
+.PHONY : src/TAStuff.cxx.i
 
-src/TAStuff.s: src/TAStuff.C.s
+src/TAStuff.s: src/TAStuff.cxx.s
 
 .PHONY : src/TAStuff.s
 
 # target to generate assembly for a file
-src/TAStuff.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAStuff.C.s
-.PHONY : src/TAStuff.C.s
+src/TAStuff.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAStuff.cxx.s
+.PHONY : src/TAStuff.cxx.s
 
-src/TAT0CalibDCArr.o: src/TAT0CalibDCArr.C.o
+src/TAT0CalibDCArr.o: src/TAT0CalibDCArr.cxx.o
 
 .PHONY : src/TAT0CalibDCArr.o
 
 # target to build an object file
-src/TAT0CalibDCArr.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.C.o
-.PHONY : src/TAT0CalibDCArr.C.o
+src/TAT0CalibDCArr.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.cxx.o
+.PHONY : src/TAT0CalibDCArr.cxx.o
 
-src/TAT0CalibDCArr.i: src/TAT0CalibDCArr.C.i
+src/TAT0CalibDCArr.i: src/TAT0CalibDCArr.cxx.i
 
 .PHONY : src/TAT0CalibDCArr.i
 
 # target to preprocess a source file
-src/TAT0CalibDCArr.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.C.i
-.PHONY : src/TAT0CalibDCArr.C.i
+src/TAT0CalibDCArr.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.cxx.i
+.PHONY : src/TAT0CalibDCArr.cxx.i
 
-src/TAT0CalibDCArr.s: src/TAT0CalibDCArr.C.s
+src/TAT0CalibDCArr.s: src/TAT0CalibDCArr.cxx.s
 
 .PHONY : src/TAT0CalibDCArr.s
 
 # target to generate assembly for a file
-src/TAT0CalibDCArr.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.C.s
-.PHONY : src/TAT0CalibDCArr.C.s
+src/TAT0CalibDCArr.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArr.cxx.s
+.PHONY : src/TAT0CalibDCArr.cxx.s
 
-src/TAT0CalibDCArrL.o: src/TAT0CalibDCArrL.C.o
+src/TAT0CalibDCArrL.o: src/TAT0CalibDCArrL.cxx.o
 
 .PHONY : src/TAT0CalibDCArrL.o
 
 # target to build an object file
-src/TAT0CalibDCArrL.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.C.o
-.PHONY : src/TAT0CalibDCArrL.C.o
+src/TAT0CalibDCArrL.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.cxx.o
+.PHONY : src/TAT0CalibDCArrL.cxx.o
 
-src/TAT0CalibDCArrL.i: src/TAT0CalibDCArrL.C.i
+src/TAT0CalibDCArrL.i: src/TAT0CalibDCArrL.cxx.i
 
 .PHONY : src/TAT0CalibDCArrL.i
 
 # target to preprocess a source file
-src/TAT0CalibDCArrL.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.C.i
-.PHONY : src/TAT0CalibDCArrL.C.i
+src/TAT0CalibDCArrL.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.cxx.i
+.PHONY : src/TAT0CalibDCArrL.cxx.i
 
-src/TAT0CalibDCArrL.s: src/TAT0CalibDCArrL.C.s
+src/TAT0CalibDCArrL.s: src/TAT0CalibDCArrL.cxx.s
 
 .PHONY : src/TAT0CalibDCArrL.s
 
 # target to generate assembly for a file
-src/TAT0CalibDCArrL.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.C.s
-.PHONY : src/TAT0CalibDCArrL.C.s
+src/TAT0CalibDCArrL.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrL.cxx.s
+.PHONY : src/TAT0CalibDCArrL.cxx.s
 
-src/TAT0CalibDCArrR.o: src/TAT0CalibDCArrR.C.o
+src/TAT0CalibDCArrR.o: src/TAT0CalibDCArrR.cxx.o
 
 .PHONY : src/TAT0CalibDCArrR.o
 
 # target to build an object file
-src/TAT0CalibDCArrR.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.C.o
-.PHONY : src/TAT0CalibDCArrR.C.o
+src/TAT0CalibDCArrR.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.cxx.o
+.PHONY : src/TAT0CalibDCArrR.cxx.o
 
-src/TAT0CalibDCArrR.i: src/TAT0CalibDCArrR.C.i
+src/TAT0CalibDCArrR.i: src/TAT0CalibDCArrR.cxx.i
 
 .PHONY : src/TAT0CalibDCArrR.i
 
 # target to preprocess a source file
-src/TAT0CalibDCArrR.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.C.i
-.PHONY : src/TAT0CalibDCArrR.C.i
+src/TAT0CalibDCArrR.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.cxx.i
+.PHONY : src/TAT0CalibDCArrR.cxx.i
 
-src/TAT0CalibDCArrR.s: src/TAT0CalibDCArrR.C.s
+src/TAT0CalibDCArrR.s: src/TAT0CalibDCArrR.cxx.s
 
 .PHONY : src/TAT0CalibDCArrR.s
 
 # target to generate assembly for a file
-src/TAT0CalibDCArrR.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.C.s
-.PHONY : src/TAT0CalibDCArrR.C.s
+src/TAT0CalibDCArrR.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrR.cxx.s
+.PHONY : src/TAT0CalibDCArrR.cxx.s
 
-src/TAT0CalibDCArrTa.o: src/TAT0CalibDCArrTa.C.o
+src/TAT0CalibDCArrTa.o: src/TAT0CalibDCArrTa.cxx.o
 
 .PHONY : src/TAT0CalibDCArrTa.o
 
 # target to build an object file
-src/TAT0CalibDCArrTa.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.C.o
-.PHONY : src/TAT0CalibDCArrTa.C.o
+src/TAT0CalibDCArrTa.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.cxx.o
+.PHONY : src/TAT0CalibDCArrTa.cxx.o
 
-src/TAT0CalibDCArrTa.i: src/TAT0CalibDCArrTa.C.i
+src/TAT0CalibDCArrTa.i: src/TAT0CalibDCArrTa.cxx.i
 
 .PHONY : src/TAT0CalibDCArrTa.i
 
 # target to preprocess a source file
-src/TAT0CalibDCArrTa.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.C.i
-.PHONY : src/TAT0CalibDCArrTa.C.i
+src/TAT0CalibDCArrTa.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.cxx.i
+.PHONY : src/TAT0CalibDCArrTa.cxx.i
 
-src/TAT0CalibDCArrTa.s: src/TAT0CalibDCArrTa.C.s
+src/TAT0CalibDCArrTa.s: src/TAT0CalibDCArrTa.cxx.s
 
 .PHONY : src/TAT0CalibDCArrTa.s
 
 # target to generate assembly for a file
-src/TAT0CalibDCArrTa.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.C.s
-.PHONY : src/TAT0CalibDCArrTa.C.s
+src/TAT0CalibDCArrTa.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTa.cxx.s
+.PHONY : src/TAT0CalibDCArrTa.cxx.s
 
-src/TAT0CalibDCArrTaD.o: src/TAT0CalibDCArrTaD.C.o
+src/TAT0CalibDCArrTaD.o: src/TAT0CalibDCArrTaD.cxx.o
 
 .PHONY : src/TAT0CalibDCArrTaD.o
 
 # target to build an object file
-src/TAT0CalibDCArrTaD.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.C.o
-.PHONY : src/TAT0CalibDCArrTaD.C.o
+src/TAT0CalibDCArrTaD.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.cxx.o
+.PHONY : src/TAT0CalibDCArrTaD.cxx.o
 
-src/TAT0CalibDCArrTaD.i: src/TAT0CalibDCArrTaD.C.i
+src/TAT0CalibDCArrTaD.i: src/TAT0CalibDCArrTaD.cxx.i
 
 .PHONY : src/TAT0CalibDCArrTaD.i
 
 # target to preprocess a source file
-src/TAT0CalibDCArrTaD.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.C.i
-.PHONY : src/TAT0CalibDCArrTaD.C.i
+src/TAT0CalibDCArrTaD.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.cxx.i
+.PHONY : src/TAT0CalibDCArrTaD.cxx.i
 
-src/TAT0CalibDCArrTaD.s: src/TAT0CalibDCArrTaD.C.s
+src/TAT0CalibDCArrTaD.s: src/TAT0CalibDCArrTaD.cxx.s
 
 .PHONY : src/TAT0CalibDCArrTaD.s
 
 # target to generate assembly for a file
-src/TAT0CalibDCArrTaD.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.C.s
-.PHONY : src/TAT0CalibDCArrTaD.C.s
+src/TAT0CalibDCArrTaD.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaD.cxx.s
+.PHONY : src/TAT0CalibDCArrTaD.cxx.s
 
-src/TAT0CalibDCArrTaU.o: src/TAT0CalibDCArrTaU.C.o
+src/TAT0CalibDCArrTaU.o: src/TAT0CalibDCArrTaU.cxx.o
 
 .PHONY : src/TAT0CalibDCArrTaU.o
 
 # target to build an object file
-src/TAT0CalibDCArrTaU.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.C.o
-.PHONY : src/TAT0CalibDCArrTaU.C.o
+src/TAT0CalibDCArrTaU.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.cxx.o
+.PHONY : src/TAT0CalibDCArrTaU.cxx.o
 
-src/TAT0CalibDCArrTaU.i: src/TAT0CalibDCArrTaU.C.i
+src/TAT0CalibDCArrTaU.i: src/TAT0CalibDCArrTaU.cxx.i
 
 .PHONY : src/TAT0CalibDCArrTaU.i
 
 # target to preprocess a source file
-src/TAT0CalibDCArrTaU.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.C.i
-.PHONY : src/TAT0CalibDCArrTaU.C.i
+src/TAT0CalibDCArrTaU.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.cxx.i
+.PHONY : src/TAT0CalibDCArrTaU.cxx.i
 
-src/TAT0CalibDCArrTaU.s: src/TAT0CalibDCArrTaU.C.s
+src/TAT0CalibDCArrTaU.s: src/TAT0CalibDCArrTaU.cxx.s
 
 .PHONY : src/TAT0CalibDCArrTaU.s
 
 # target to generate assembly for a file
-src/TAT0CalibDCArrTaU.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.C.s
-.PHONY : src/TAT0CalibDCArrTaU.C.s
+src/TAT0CalibDCArrTaU.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0CalibDCArrTaU.cxx.s
+.PHONY : src/TAT0CalibDCArrTaU.cxx.s
 
-src/TAT0_0.o: src/TAT0_0.C.o
+src/TAT0_0.o: src/TAT0_0.cxx.o
 
 .PHONY : src/TAT0_0.o
 
 # target to build an object file
-src/TAT0_0.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0_0.C.o
-.PHONY : src/TAT0_0.C.o
+src/TAT0_0.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0_0.cxx.o
+.PHONY : src/TAT0_0.cxx.o
 
-src/TAT0_0.i: src/TAT0_0.C.i
+src/TAT0_0.i: src/TAT0_0.cxx.i
 
 .PHONY : src/TAT0_0.i
 
 # target to preprocess a source file
-src/TAT0_0.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0_0.C.i
-.PHONY : src/TAT0_0.C.i
+src/TAT0_0.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0_0.cxx.i
+.PHONY : src/TAT0_0.cxx.i
 
-src/TAT0_0.s: src/TAT0_0.C.s
+src/TAT0_0.s: src/TAT0_0.cxx.s
 
 .PHONY : src/TAT0_0.s
 
 # target to generate assembly for a file
-src/TAT0_0.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0_0.C.s
-.PHONY : src/TAT0_0.C.s
+src/TAT0_0.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0_0.cxx.s
+.PHONY : src/TAT0_0.cxx.s
 
-src/TAT0_1.o: src/TAT0_1.C.o
+src/TAT0_1.o: src/TAT0_1.cxx.o
 
 .PHONY : src/TAT0_1.o
 
 # target to build an object file
-src/TAT0_1.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0_1.C.o
-.PHONY : src/TAT0_1.C.o
+src/TAT0_1.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0_1.cxx.o
+.PHONY : src/TAT0_1.cxx.o
 
-src/TAT0_1.i: src/TAT0_1.C.i
+src/TAT0_1.i: src/TAT0_1.cxx.i
 
 .PHONY : src/TAT0_1.i
 
 # target to preprocess a source file
-src/TAT0_1.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0_1.C.i
-.PHONY : src/TAT0_1.C.i
+src/TAT0_1.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0_1.cxx.i
+.PHONY : src/TAT0_1.cxx.i
 
-src/TAT0_1.s: src/TAT0_1.C.s
+src/TAT0_1.s: src/TAT0_1.cxx.s
 
 .PHONY : src/TAT0_1.s
 
 # target to generate assembly for a file
-src/TAT0_1.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0_1.C.s
-.PHONY : src/TAT0_1.C.s
+src/TAT0_1.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAT0_1.cxx.s
+.PHONY : src/TAT0_1.cxx.s
 
-src/TATOFWall.o: src/TATOFWall.C.o
+src/TATOFWall.o: src/TATOFWall.cxx.o
 
 .PHONY : src/TATOFWall.o
 
 # target to build an object file
-src/TATOFWall.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATOFWall.C.o
-.PHONY : src/TATOFWall.C.o
+src/TATOFWall.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATOFWall.cxx.o
+.PHONY : src/TATOFWall.cxx.o
 
-src/TATOFWall.i: src/TATOFWall.C.i
+src/TATOFWall.i: src/TATOFWall.cxx.i
 
 .PHONY : src/TATOFWall.i
 
 # target to preprocess a source file
-src/TATOFWall.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATOFWall.C.i
-.PHONY : src/TATOFWall.C.i
+src/TATOFWall.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATOFWall.cxx.i
+.PHONY : src/TATOFWall.cxx.i
 
-src/TATOFWall.s: src/TATOFWall.C.s
+src/TATOFWall.s: src/TATOFWall.cxx.s
 
 .PHONY : src/TATOFWall.s
 
 # target to generate assembly for a file
-src/TATOFWall.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATOFWall.C.s
-.PHONY : src/TATOFWall.C.s
+src/TATOFWall.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATOFWall.cxx.s
+.PHONY : src/TATOFWall.cxx.s
 
-src/TATrack.o: src/TATrack.C.o
+src/TATrack.o: src/TATrack.cxx.o
 
 .PHONY : src/TATrack.o
 
 # target to build an object file
-src/TATrack.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATrack.C.o
-.PHONY : src/TATrack.C.o
+src/TATrack.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATrack.cxx.o
+.PHONY : src/TATrack.cxx.o
 
-src/TATrack.i: src/TATrack.C.i
+src/TATrack.i: src/TATrack.cxx.i
 
 .PHONY : src/TATrack.i
 
 # target to preprocess a source file
-src/TATrack.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATrack.C.i
-.PHONY : src/TATrack.C.i
+src/TATrack.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATrack.cxx.i
+.PHONY : src/TATrack.cxx.i
 
-src/TATrack.s: src/TATrack.C.s
+src/TATrack.s: src/TATrack.cxx.s
 
 .PHONY : src/TATrack.s
 
 # target to generate assembly for a file
-src/TATrack.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATrack.C.s
-.PHONY : src/TATrack.C.s
+src/TATrack.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATrack.cxx.s
+.PHONY : src/TATrack.cxx.s
 
-src/TATrack2.o: src/TATrack2.C.o
+src/TATrack2.o: src/TATrack2.cxx.o
 
 .PHONY : src/TATrack2.o
 
 # target to build an object file
-src/TATrack2.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATrack2.C.o
-.PHONY : src/TATrack2.C.o
+src/TATrack2.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATrack2.cxx.o
+.PHONY : src/TATrack2.cxx.o
 
-src/TATrack2.i: src/TATrack2.C.i
+src/TATrack2.i: src/TATrack2.cxx.i
 
 .PHONY : src/TATrack2.i
 
 # target to preprocess a source file
-src/TATrack2.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATrack2.C.i
-.PHONY : src/TATrack2.C.i
+src/TATrack2.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATrack2.cxx.i
+.PHONY : src/TATrack2.cxx.i
 
-src/TATrack2.s: src/TATrack2.C.s
+src/TATrack2.s: src/TATrack2.cxx.s
 
 .PHONY : src/TATrack2.s
 
 # target to generate assembly for a file
-src/TATrack2.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATrack2.C.s
-.PHONY : src/TATrack2.C.s
+src/TATrack2.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATrack2.cxx.s
+.PHONY : src/TATrack2.cxx.s
 
-src/TATrackTa4.o: src/TATrackTa4.C.o
+src/TATrackTa4.o: src/TATrackTa4.cxx.o
 
 .PHONY : src/TATrackTa4.o
 
 # target to build an object file
-src/TATrackTa4.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATrackTa4.C.o
-.PHONY : src/TATrackTa4.C.o
+src/TATrackTa4.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATrackTa4.cxx.o
+.PHONY : src/TATrackTa4.cxx.o
 
-src/TATrackTa4.i: src/TATrackTa4.C.i
+src/TATrackTa4.i: src/TATrackTa4.cxx.i
 
 .PHONY : src/TATrackTa4.i
 
 # target to preprocess a source file
-src/TATrackTa4.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATrackTa4.C.i
-.PHONY : src/TATrackTa4.C.i
+src/TATrackTa4.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATrackTa4.cxx.i
+.PHONY : src/TATrackTa4.cxx.i
 
-src/TATrackTa4.s: src/TATrackTa4.C.s
+src/TATrackTa4.s: src/TATrackTa4.cxx.s
 
 .PHONY : src/TATrackTa4.s
 
 # target to generate assembly for a file
-src/TATrackTa4.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATrackTa4.C.s
-.PHONY : src/TATrackTa4.C.s
+src/TATrackTa4.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TATrackTa4.cxx.s
+.PHONY : src/TATrackTa4.cxx.s
 
-src/TAUI.o: src/TAUI.C.o
+src/TAUI.o: src/TAUI.cxx.o
 
 .PHONY : src/TAUI.o
 
 # target to build an object file
-src/TAUI.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAUI.C.o
-.PHONY : src/TAUI.C.o
+src/TAUI.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAUI.cxx.o
+.PHONY : src/TAUI.cxx.o
 
-src/TAUI.i: src/TAUI.C.i
+src/TAUI.i: src/TAUI.cxx.i
 
 .PHONY : src/TAUI.i
 
 # target to preprocess a source file
-src/TAUI.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAUI.C.i
-.PHONY : src/TAUI.C.i
+src/TAUI.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAUI.cxx.i
+.PHONY : src/TAUI.cxx.i
 
-src/TAUI.s: src/TAUI.C.s
+src/TAUI.s: src/TAUI.cxx.s
 
 .PHONY : src/TAUI.s
 
 # target to generate assembly for a file
-src/TAUI.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAUI.C.s
-.PHONY : src/TAUI.C.s
+src/TAUI.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAUI.cxx.s
+.PHONY : src/TAUI.cxx.s
 
-src/TAUIDParser.o: src/TAUIDParser.C.o
+src/TAUIDParser.o: src/TAUIDParser.cxx.o
 
 .PHONY : src/TAUIDParser.o
 
 # target to build an object file
-src/TAUIDParser.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAUIDParser.C.o
-.PHONY : src/TAUIDParser.C.o
+src/TAUIDParser.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAUIDParser.cxx.o
+.PHONY : src/TAUIDParser.cxx.o
 
-src/TAUIDParser.i: src/TAUIDParser.C.i
+src/TAUIDParser.i: src/TAUIDParser.cxx.i
 
 .PHONY : src/TAUIDParser.i
 
 # target to preprocess a source file
-src/TAUIDParser.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAUIDParser.C.i
-.PHONY : src/TAUIDParser.C.i
+src/TAUIDParser.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAUIDParser.cxx.i
+.PHONY : src/TAUIDParser.cxx.i
 
-src/TAUIDParser.s: src/TAUIDParser.C.s
+src/TAUIDParser.s: src/TAUIDParser.cxx.s
 
 .PHONY : src/TAUIDParser.s
 
 # target to generate assembly for a file
-src/TAUIDParser.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAUIDParser.C.s
-.PHONY : src/TAUIDParser.C.s
+src/TAUIDParser.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAUIDParser.cxx.s
+.PHONY : src/TAUIDParser.cxx.s
 
-src/TAVMEReader.o: src/TAVMEReader.C.o
+src/TAVMEReader.o: src/TAVMEReader.cxx.o
 
 .PHONY : src/TAVMEReader.o
 
 # target to build an object file
-src/TAVMEReader.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAVMEReader.C.o
-.PHONY : src/TAVMEReader.C.o
+src/TAVMEReader.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAVMEReader.cxx.o
+.PHONY : src/TAVMEReader.cxx.o
 
-src/TAVMEReader.i: src/TAVMEReader.C.i
+src/TAVMEReader.i: src/TAVMEReader.cxx.i
 
 .PHONY : src/TAVMEReader.i
 
 # target to preprocess a source file
-src/TAVMEReader.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAVMEReader.C.i
-.PHONY : src/TAVMEReader.C.i
+src/TAVMEReader.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAVMEReader.cxx.i
+.PHONY : src/TAVMEReader.cxx.i
 
-src/TAVMEReader.s: src/TAVMEReader.C.s
+src/TAVMEReader.s: src/TAVMEReader.cxx.s
 
 .PHONY : src/TAVMEReader.s
 
 # target to generate assembly for a file
-src/TAVMEReader.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAVMEReader.C.s
-.PHONY : src/TAVMEReader.C.s
+src/TAVMEReader.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAVMEReader.cxx.s
+.PHONY : src/TAVMEReader.cxx.s
 
-src/TAVisual.o: src/TAVisual.C.o
+src/TAVisual.o: src/TAVisual.cxx.o
 
 .PHONY : src/TAVisual.o
 
 # target to build an object file
-src/TAVisual.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAVisual.C.o
-.PHONY : src/TAVisual.C.o
+src/TAVisual.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAVisual.cxx.o
+.PHONY : src/TAVisual.cxx.o
 
-src/TAVisual.i: src/TAVisual.C.i
+src/TAVisual.i: src/TAVisual.cxx.i
 
 .PHONY : src/TAVisual.i
 
 # target to preprocess a source file
-src/TAVisual.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAVisual.C.i
-.PHONY : src/TAVisual.C.i
+src/TAVisual.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAVisual.cxx.i
+.PHONY : src/TAVisual.cxx.i
 
-src/TAVisual.s: src/TAVisual.C.s
+src/TAVisual.s: src/TAVisual.cxx.s
 
 .PHONY : src/TAVisual.s
 
 # target to generate assembly for a file
-src/TAVisual.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAVisual.C.s
-.PHONY : src/TAVisual.C.s
+src/TAVisual.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/TAVisual.cxx.s
+.PHONY : src/TAVisual.cxx.s
 
-src/t3DPIDInfo.o: src/t3DPIDInfo.C.o
+src/t3DPIDInfo.o: src/t3DPIDInfo.cxx.o
 
 .PHONY : src/t3DPIDInfo.o
 
 # target to build an object file
-src/t3DPIDInfo.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.C.o
-.PHONY : src/t3DPIDInfo.C.o
+src/t3DPIDInfo.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.cxx.o
+.PHONY : src/t3DPIDInfo.cxx.o
 
-src/t3DPIDInfo.i: src/t3DPIDInfo.C.i
+src/t3DPIDInfo.i: src/t3DPIDInfo.cxx.i
 
 .PHONY : src/t3DPIDInfo.i
 
 # target to preprocess a source file
-src/t3DPIDInfo.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.C.i
-.PHONY : src/t3DPIDInfo.C.i
+src/t3DPIDInfo.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.cxx.i
+.PHONY : src/t3DPIDInfo.cxx.i
 
-src/t3DPIDInfo.s: src/t3DPIDInfo.C.s
+src/t3DPIDInfo.s: src/t3DPIDInfo.cxx.s
 
 .PHONY : src/t3DPIDInfo.s
 
 # target to generate assembly for a file
-src/t3DPIDInfo.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.C.s
-.PHONY : src/t3DPIDInfo.C.s
+src/t3DPIDInfo.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/t3DPIDInfo.cxx.s
+.PHONY : src/t3DPIDInfo.cxx.s
 
-src/t3DTrkInfo.o: src/t3DTrkInfo.C.o
+src/t3DTrkInfo.o: src/t3DTrkInfo.cxx.o
 
 .PHONY : src/t3DTrkInfo.o
 
 # target to build an object file
-src/t3DTrkInfo.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.C.o
-.PHONY : src/t3DTrkInfo.C.o
+src/t3DTrkInfo.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.cxx.o
+.PHONY : src/t3DTrkInfo.cxx.o
 
-src/t3DTrkInfo.i: src/t3DTrkInfo.C.i
+src/t3DTrkInfo.i: src/t3DTrkInfo.cxx.i
 
 .PHONY : src/t3DTrkInfo.i
 
 # target to preprocess a source file
-src/t3DTrkInfo.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.C.i
-.PHONY : src/t3DTrkInfo.C.i
+src/t3DTrkInfo.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.cxx.i
+.PHONY : src/t3DTrkInfo.cxx.i
 
-src/t3DTrkInfo.s: src/t3DTrkInfo.C.s
+src/t3DTrkInfo.s: src/t3DTrkInfo.cxx.s
 
 .PHONY : src/t3DTrkInfo.s
 
 # target to generate assembly for a file
-src/t3DTrkInfo.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.C.s
-.PHONY : src/t3DTrkInfo.C.s
+src/t3DTrkInfo.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/t3DTrkInfo.cxx.s
+.PHONY : src/t3DTrkInfo.cxx.s
 
-src/tEntry.o: src/tEntry.C.o
+src/tEntry.o: src/tEntry.cxx.o
 
 .PHONY : src/tEntry.o
 
 # target to build an object file
-src/tEntry.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/tEntry.C.o
-.PHONY : src/tEntry.C.o
+src/tEntry.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/tEntry.cxx.o
+.PHONY : src/tEntry.cxx.o
 
-src/tEntry.i: src/tEntry.C.i
+src/tEntry.i: src/tEntry.cxx.i
 
 .PHONY : src/tEntry.i
 
 # target to preprocess a source file
-src/tEntry.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/tEntry.C.i
-.PHONY : src/tEntry.C.i
+src/tEntry.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/tEntry.cxx.i
+.PHONY : src/tEntry.cxx.i
 
-src/tEntry.s: src/tEntry.C.s
+src/tEntry.s: src/tEntry.cxx.s
 
 .PHONY : src/tEntry.s
 
 # target to generate assembly for a file
-src/tEntry.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/tEntry.C.s
-.PHONY : src/tEntry.C.s
+src/tEntry.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/tEntry.cxx.s
+.PHONY : src/tEntry.cxx.s
 
-src/tTrack.o: src/tTrack.C.o
+src/tTrack.o: src/tTrack.cxx.o
 
 .PHONY : src/tTrack.o
 
 # target to build an object file
-src/tTrack.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/tTrack.C.o
-.PHONY : src/tTrack.C.o
+src/tTrack.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/tTrack.cxx.o
+.PHONY : src/tTrack.cxx.o
 
-src/tTrack.i: src/tTrack.C.i
+src/tTrack.i: src/tTrack.cxx.i
 
 .PHONY : src/tTrack.i
 
 # target to preprocess a source file
-src/tTrack.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/tTrack.C.i
-.PHONY : src/tTrack.C.i
+src/tTrack.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/tTrack.cxx.i
+.PHONY : src/tTrack.cxx.i
 
-src/tTrack.s: src/tTrack.C.s
+src/tTrack.s: src/tTrack.cxx.s
 
 .PHONY : src/tTrack.s
 
 # target to generate assembly for a file
-src/tTrack.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/tTrack.C.s
-.PHONY : src/tTrack.C.s
+src/tTrack.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/tTrack.cxx.s
+.PHONY : src/tTrack.cxx.s
 
-src/tTrack2.o: src/tTrack2.C.o
+src/tTrack2.o: src/tTrack2.cxx.o
 
 .PHONY : src/tTrack2.o
 
 # target to build an object file
-src/tTrack2.C.o:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/tTrack2.C.o
-.PHONY : src/tTrack2.C.o
+src/tTrack2.cxx.o:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/tTrack2.cxx.o
+.PHONY : src/tTrack2.cxx.o
 
-src/tTrack2.i: src/tTrack2.C.i
+src/tTrack2.i: src/tTrack2.cxx.i
 
 .PHONY : src/tTrack2.i
 
 # target to preprocess a source file
-src/tTrack2.C.i:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/tTrack2.C.i
-.PHONY : src/tTrack2.C.i
+src/tTrack2.cxx.i:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/tTrack2.cxx.i
+.PHONY : src/tTrack2.cxx.i
 
-src/tTrack2.s: src/tTrack2.C.s
+src/tTrack2.s: src/tTrack2.cxx.s
 
 .PHONY : src/tTrack2.s
 
 # target to generate assembly for a file
-src/tTrack2.C.s:
-	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/tTrack2.C.s
-.PHONY : src/tTrack2.C.s
+src/tTrack2.cxx.s:
+	cd /home/asia/pionExp2017/build1 && $(MAKE) -f etf/CMakeFiles/libetf.dir/build.make etf/CMakeFiles/libetf.dir/src/tTrack2.cxx.s
+.PHONY : src/tTrack2.cxx.s
 
 # Help Target
 help:

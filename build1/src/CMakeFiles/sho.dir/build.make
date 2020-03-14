@@ -57,38 +57,38 @@ include src/CMakeFiles/sho.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/CMakeFiles/sho.dir/flags.make
 
-src/CMakeFiles/sho.dir/shoot.C.o: src/CMakeFiles/sho.dir/flags.make
-src/CMakeFiles/sho.dir/shoot.C.o: ../src/shoot.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/sho.dir/shoot.C.o"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sho.dir/shoot.C.o -c /home/asia/pionExp2017/src/shoot.C
+src/CMakeFiles/sho.dir/shoot.cxx.o: src/CMakeFiles/sho.dir/flags.make
+src/CMakeFiles/sho.dir/shoot.cxx.o: ../src/shoot.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/sho.dir/shoot.cxx.o"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sho.dir/shoot.cxx.o -c /home/asia/pionExp2017/src/shoot.cxx
 
-src/CMakeFiles/sho.dir/shoot.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sho.dir/shoot.C.i"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/src/shoot.C > CMakeFiles/sho.dir/shoot.C.i
+src/CMakeFiles/sho.dir/shoot.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sho.dir/shoot.cxx.i"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/src/shoot.cxx > CMakeFiles/sho.dir/shoot.cxx.i
 
-src/CMakeFiles/sho.dir/shoot.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sho.dir/shoot.C.s"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/src/shoot.C -o CMakeFiles/sho.dir/shoot.C.s
+src/CMakeFiles/sho.dir/shoot.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sho.dir/shoot.cxx.s"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/src/shoot.cxx -o CMakeFiles/sho.dir/shoot.cxx.s
 
-src/CMakeFiles/sho.dir/shoot.C.o.requires:
+src/CMakeFiles/sho.dir/shoot.cxx.o.requires:
 
-.PHONY : src/CMakeFiles/sho.dir/shoot.C.o.requires
+.PHONY : src/CMakeFiles/sho.dir/shoot.cxx.o.requires
 
-src/CMakeFiles/sho.dir/shoot.C.o.provides: src/CMakeFiles/sho.dir/shoot.C.o.requires
-	$(MAKE) -f src/CMakeFiles/sho.dir/build.make src/CMakeFiles/sho.dir/shoot.C.o.provides.build
-.PHONY : src/CMakeFiles/sho.dir/shoot.C.o.provides
+src/CMakeFiles/sho.dir/shoot.cxx.o.provides: src/CMakeFiles/sho.dir/shoot.cxx.o.requires
+	$(MAKE) -f src/CMakeFiles/sho.dir/build.make src/CMakeFiles/sho.dir/shoot.cxx.o.provides.build
+.PHONY : src/CMakeFiles/sho.dir/shoot.cxx.o.provides
 
-src/CMakeFiles/sho.dir/shoot.C.o.provides.build: src/CMakeFiles/sho.dir/shoot.C.o
+src/CMakeFiles/sho.dir/shoot.cxx.o.provides.build: src/CMakeFiles/sho.dir/shoot.cxx.o
 
 
 # Object files for target sho
 sho_OBJECTS = \
-"CMakeFiles/sho.dir/shoot.C.o"
+"CMakeFiles/sho.dir/shoot.cxx.o"
 
 # External object files for target sho
 sho_EXTERNAL_OBJECTS =
 
-sho: src/CMakeFiles/sho.dir/shoot.C.o
+sho: src/CMakeFiles/sho.dir/shoot.cxx.o
 sho: src/CMakeFiles/sho.dir/build.make
 sho: lib/libetf.so
 sho: /home/asia/Documents/root/install/lib/libCore.so
@@ -115,7 +115,7 @@ src/CMakeFiles/sho.dir/build: sho
 
 .PHONY : src/CMakeFiles/sho.dir/build
 
-src/CMakeFiles/sho.dir/requires: src/CMakeFiles/sho.dir/shoot.C.o.requires
+src/CMakeFiles/sho.dir/requires: src/CMakeFiles/sho.dir/shoot.cxx.o.requires
 
 .PHONY : src/CMakeFiles/sho.dir/requires
 

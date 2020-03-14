@@ -207,10 +207,10 @@ TADeployPara.h
 ../etf/inc/TADeployPara.h
 TAPopMsg.h
 ../etf/inc/TAPopMsg.h
-TAMath.icc
-../etf/inc/TAMath.icc
+TAMath.hpp
+../etf/inc/TAMath.hpp
 
-../etf/inc/TAMath.icc
+../etf/inc/TAMath.hpp
 iostream
 -
 iomanip
@@ -1390,7 +1390,7 @@ unistd.h
 sys/types.h
 -
 
-/home/asia/pionExp2017/etf/src/TAAnode.C
+/home/asia/pionExp2017/etf/src/TAAnode.cxx
 TAAnodePara.h
 /home/asia/pionExp2017/etf/src/TAAnodePara.h
 TAAnodeData.h
@@ -1406,7 +1406,7 @@ TACtrlPara.h
 TAVisual.h
 /home/asia/pionExp2017/etf/src/TAVisual.h
 
-/home/asia/pionExp2017/etf/src/TAAnodeData.C
+/home/asia/pionExp2017/etf/src/TAAnodeData.cxx
 iostream
 -
 TAAnodeData.h
@@ -1414,7 +1414,7 @@ TAAnodeData.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TAAnodePara.C
+/home/asia/pionExp2017/etf/src/TAAnodePara.cxx
 TAAnodePara.h
 /home/asia/pionExp2017/etf/src/TAAnodePara.h
 TAPopMsg.h
@@ -1432,7 +1432,7 @@ TADeployPara.h
 TAUIDParser.h
 /home/asia/pionExp2017/etf/src/TAUIDParser.h
 
-/home/asia/pionExp2017/etf/src/TAAssess.C
+/home/asia/pionExp2017/etf/src/TAAssess.cxx
 iostream
 -
 iomanip
@@ -1480,7 +1480,7 @@ TAAnode.h
 TAAnodePara.h
 /home/asia/pionExp2017/etf/src/TAAnodePara.h
 
-/home/asia/pionExp2017/etf/src/TAAssessPDC.C
+/home/asia/pionExp2017/etf/src/TAAssessPDC.cxx
 iostream
 -
 iomanip
@@ -1530,7 +1530,7 @@ TAAnodePara.h
 TAGPar.h
 /home/asia/pionExp2017/etf/src/TAGPar.h
 
-/home/asia/pionExp2017/etf/src/TAAssessTa.C
+/home/asia/pionExp2017/etf/src/TAAssessTa.cxx
 iostream
 -
 iomanip
@@ -1580,7 +1580,7 @@ TAAnodePara.h
 TAGPar.h
 /home/asia/pionExp2017/etf/src/TAGPar.h
 
-/home/asia/pionExp2017/etf/src/TABUAA.C
+/home/asia/pionExp2017/etf/src/TABUAA.cxx
 iostream
 -
 fstream
@@ -1605,16 +1605,16 @@ TAMath.h
 /home/asia/pionExp2017/etf/src/TAMath.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
-TABUAA/read.C
-/home/asia/pionExp2017/etf/src/TABUAA/read.C
-TABUAA/VMEAnalyze.C
-/home/asia/pionExp2017/etf/src/TABUAA/VMEAnalyze.C
+TABUAA/read.cxx
+/home/asia/pionExp2017/etf/src/TABUAA/read.cxx
+TABUAA/VMEAnalyze.cxx
+/home/asia/pionExp2017/etf/src/TABUAA/VMEAnalyze.cxx
 
-/home/asia/pionExp2017/etf/src/TABUAA/VMEAnalyze.C
+/home/asia/pionExp2017/etf/src/TABUAA/VMEAnalyze.cxx
 
-/home/asia/pionExp2017/etf/src/TABUAA/read.C
+/home/asia/pionExp2017/etf/src/TABUAA/read.cxx
 
-/home/asia/pionExp2017/etf/src/TAChData.C
+/home/asia/pionExp2017/etf/src/TAChData.cxx
 iostream
 -
 cstring
@@ -1628,11 +1628,11 @@ TAPopMsg.h
 tEntry.h
 /home/asia/pionExp2017/etf/src/tEntry.h
 
-/home/asia/pionExp2017/etf/src/TAChDataVME.C
+/home/asia/pionExp2017/etf/src/TAChDataVME.cxx
 TAChDataVME.h
 /home/asia/pionExp2017/etf/src/TAChDataVME.h
 
-/home/asia/pionExp2017/etf/src/TAChPara.C
+/home/asia/pionExp2017/etf/src/TAChPara.cxx
 TAChPara.h
 /home/asia/pionExp2017/etf/src/TAChPara.h
 TAPopMsg.h
@@ -1640,7 +1640,7 @@ TAPopMsg.h
 TAParaManager.h
 /home/asia/pionExp2017/etf/src/TAParaManager.h
 
-/home/asia/pionExp2017/etf/src/TAChannel.C
+/home/asia/pionExp2017/etf/src/TAChannel.cxx
 TAChannel.h
 /home/asia/pionExp2017/etf/src/TAChannel.h
 TAPopMsg.h
@@ -1648,7 +1648,7 @@ TAPopMsg.h
 tEntry.h
 /home/asia/pionExp2017/etf/src/tEntry.h
 
-/home/asia/pionExp2017/etf/src/TACtrlPara.C
+/home/asia/pionExp2017/etf/src/TACtrlPara.cxx
 TFile.h
 /home/asia/pionExp2017/etf/src/TFile.h
 cstring
@@ -1666,7 +1666,7 @@ TAAnodePara.h
 TAGPar.h
 /home/asia/pionExp2017/etf/src/TAGPar.h
 
-/home/asia/pionExp2017/etf/src/TADCCable.C
+/home/asia/pionExp2017/etf/src/TADCCable.cxx
 TADCCable.h
 /home/asia/pionExp2017/etf/src/TADCCable.h
 TADCSFE16.h
@@ -1674,7 +1674,7 @@ TADCSFE16.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TADCSFE16.C
+/home/asia/pionExp2017/etf/src/TADCSFE16.cxx
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 TADCSFE16.h
@@ -1682,7 +1682,7 @@ TADCSFE16.h
 TAAnode.h
 /home/asia/pionExp2017/etf/src/TAAnode.h
 
-/home/asia/pionExp2017/etf/src/TADCSuperLayer.C
+/home/asia/pionExp2017/etf/src/TADCSuperLayer.cxx
 cstring
 -
 TADCSuperLayer.h
@@ -1696,7 +1696,7 @@ TAUIDParser.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TADeployPara.C
+/home/asia/pionExp2017/etf/src/TADeployPara.cxx
 TADeployPara.h
 /home/asia/pionExp2017/etf/src/TADeployPara.h
 TAPopMsg.h
@@ -1708,7 +1708,7 @@ TACtrlPara.h
 TAGPar.h
 /home/asia/pionExp2017/etf/src/TAGPar.h
 
-/home/asia/pionExp2017/etf/src/TADetUnion.C
+/home/asia/pionExp2017/etf/src/TADetUnion.cxx
 TADetUnion.h
 /home/asia/pionExp2017/etf/src/TADetUnion.h
 TAStuff.h
@@ -1716,7 +1716,7 @@ TAStuff.h
 TAUIDParser.h
 /home/asia/pionExp2017/etf/src/TAUIDParser.h
 
-/home/asia/pionExp2017/etf/src/TADetector.C
+/home/asia/pionExp2017/etf/src/TADetector.cxx
 TADetector.h
 /home/asia/pionExp2017/etf/src/TADetector.h
 TAPopMsg.h
@@ -1724,7 +1724,7 @@ TAPopMsg.h
 TADetectorPara.h
 /home/asia/pionExp2017/etf/src/TADetectorPara.h
 
-/home/asia/pionExp2017/etf/src/TADetectorPara.C
+/home/asia/pionExp2017/etf/src/TADetectorPara.cxx
 TADetectorPara.h
 /home/asia/pionExp2017/etf/src/TADetectorPara.h
 TAMath.h
@@ -1732,7 +1732,7 @@ TAMath.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TAEventProcessor.C
+/home/asia/pionExp2017/etf/src/TAEventProcessor.cxx
 iostream
 -
 iomanip
@@ -1835,28 +1835,28 @@ TAPDCArrayTa4.h
 /home/asia/pionExp2017/etf/src/TAPDCArrayTa4.h
 TATrackTa4.h
 /home/asia/pionExp2017/etf/src/TATrackTa4.h
-TAEventProcessor/define_hist.C
-/home/asia/pionExp2017/etf/src/TAEventProcessor/define_hist.C
-TAEventProcessor/define_tree.C
-/home/asia/pionExp2017/etf/src/TAEventProcessor/define_tree.C
-TAEventProcessor/fill_pre.C
-/home/asia/pionExp2017/etf/src/TAEventProcessor/fill_pre.C
-TAEventProcessor/fill_post.C
-/home/asia/pionExp2017/etf/src/TAEventProcessor/fill_post.C
-TAEventProcessor/write.C
-/home/asia/pionExp2017/etf/src/TAEventProcessor/write.C
+TAEventProcessor/define_hist.cxx
+/home/asia/pionExp2017/etf/src/TAEventProcessor/define_hist.cxx
+TAEventProcessor/define_tree.cxx
+/home/asia/pionExp2017/etf/src/TAEventProcessor/define_tree.cxx
+TAEventProcessor/fill_pre.cxx
+/home/asia/pionExp2017/etf/src/TAEventProcessor/fill_pre.cxx
+TAEventProcessor/fill_post.cxx
+/home/asia/pionExp2017/etf/src/TAEventProcessor/fill_post.cxx
+TAEventProcessor/write.cxx
+/home/asia/pionExp2017/etf/src/TAEventProcessor/write.cxx
 
-/home/asia/pionExp2017/etf/src/TAEventProcessor/define_hist.C
+/home/asia/pionExp2017/etf/src/TAEventProcessor/define_hist.cxx
 
-/home/asia/pionExp2017/etf/src/TAEventProcessor/define_tree.C
+/home/asia/pionExp2017/etf/src/TAEventProcessor/define_tree.cxx
 
-/home/asia/pionExp2017/etf/src/TAEventProcessor/fill_post.C
+/home/asia/pionExp2017/etf/src/TAEventProcessor/fill_post.cxx
 
-/home/asia/pionExp2017/etf/src/TAEventProcessor/fill_pre.C
+/home/asia/pionExp2017/etf/src/TAEventProcessor/fill_pre.cxx
 
-/home/asia/pionExp2017/etf/src/TAEventProcessor/write.C
+/home/asia/pionExp2017/etf/src/TAEventProcessor/write.cxx
 
-/home/asia/pionExp2017/etf/src/TAGPar.C
+/home/asia/pionExp2017/etf/src/TAGPar.cxx
 iostream
 -
 cstdlib
@@ -1874,7 +1874,7 @@ TAParameter.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TAMUSIC.C
+/home/asia/pionExp2017/etf/src/TAMUSIC.cxx
 TAMUSIC.h
 /home/asia/pionExp2017/etf/src/TAMUSIC.h
 TAChannel.h
@@ -1884,7 +1884,7 @@ TAPopMsg.h
 TAUIDParser.h
 /home/asia/pionExp2017/etf/src/TAUIDParser.h
 
-/home/asia/pionExp2017/etf/src/TAMUSICL.C
+/home/asia/pionExp2017/etf/src/TAMUSICL.cxx
 cmath
 -
 TAMUSICL.h
@@ -1894,7 +1894,7 @@ TAPopMsg.h
 TAChannel.h
 /home/asia/pionExp2017/etf/src/TAChannel.h
 
-/home/asia/pionExp2017/etf/src/TAMUSICM.C
+/home/asia/pionExp2017/etf/src/TAMUSICM.cxx
 cmath
 -
 TAMUSICM.h
@@ -1904,7 +1904,7 @@ TAPopMsg.h
 TAChannel.h
 /home/asia/pionExp2017/etf/src/TAChannel.h
 
-/home/asia/pionExp2017/etf/src/TAMWDC.C
+/home/asia/pionExp2017/etf/src/TAMWDC.cxx
 cmath
 -
 TF1.h
@@ -1936,7 +1936,7 @@ TAUIDParser.h
 TADeployPara.h
 /home/asia/pionExp2017/etf/src/TADeployPara.h
 
-/home/asia/pionExp2017/etf/src/TAMWDCArray.C
+/home/asia/pionExp2017/etf/src/TAMWDCArray.cxx
 iostream
 -
 cstdlib
@@ -1989,12 +1989,12 @@ TAUI.h
 /home/asia/pionExp2017/etf/src/TAUI.h
 tEntry.h
 /home/asia/pionExp2017/etf/src/tEntry.h
-TAMWDCArray/map.C
-/home/asia/pionExp2017/etf/src/TAMWDCArray/map.C
+TAMWDCArray/map.cxx
+/home/asia/pionExp2017/etf/src/TAMWDCArray/map.cxx
 
-/home/asia/pionExp2017/etf/src/TAMWDCArray/map.C
+/home/asia/pionExp2017/etf/src/TAMWDCArray/map.cxx
 
-/home/asia/pionExp2017/etf/src/TAMWDCArray2.C
+/home/asia/pionExp2017/etf/src/TAMWDCArray2.cxx
 iostream
 -
 cstdlib
@@ -2041,12 +2041,12 @@ TAUI.h
 /home/asia/pionExp2017/etf/src/TAUI.h
 tEntry.h
 /home/asia/pionExp2017/etf/src/tEntry.h
-TAMWDCArray2/map.C
-/home/asia/pionExp2017/etf/src/TAMWDCArray2/map.C
+TAMWDCArray2/map.cxx
+/home/asia/pionExp2017/etf/src/TAMWDCArray2/map.cxx
 
-/home/asia/pionExp2017/etf/src/TAMWDCArray2/map.C
+/home/asia/pionExp2017/etf/src/TAMWDCArray2/map.cxx
 
-/home/asia/pionExp2017/etf/src/TAMWDCArrayD.C
+/home/asia/pionExp2017/etf/src/TAMWDCArrayD.cxx
 TAMWDCArrayD.h
 /home/asia/pionExp2017/etf/src/TAMWDCArrayD.h
 TAPopMsg.h
@@ -2056,7 +2056,7 @@ TAMWDCTaL.h
 TACtrlPara.h
 /home/asia/pionExp2017/etf/src/TACtrlPara.h
 
-/home/asia/pionExp2017/etf/src/TAMWDCArrayL.C
+/home/asia/pionExp2017/etf/src/TAMWDCArrayL.cxx
 TAMWDCArrayL.h
 /home/asia/pionExp2017/etf/src/TAMWDCArrayL.h
 TAPopMsg.h
@@ -2068,7 +2068,7 @@ TATOFWall.h
 TACtrlPara.h
 /home/asia/pionExp2017/etf/src/TACtrlPara.h
 
-/home/asia/pionExp2017/etf/src/TAMWDCArrayM.C
+/home/asia/pionExp2017/etf/src/TAMWDCArrayM.cxx
 TAMWDCArrayM.h
 /home/asia/pionExp2017/etf/src/TAMWDCArrayM.h
 TAPopMsg.h
@@ -2080,7 +2080,7 @@ TATOFWall.h
 TACtrlPara.h
 /home/asia/pionExp2017/etf/src/TACtrlPara.h
 
-/home/asia/pionExp2017/etf/src/TAMWDCArrayR.C
+/home/asia/pionExp2017/etf/src/TAMWDCArrayR.cxx
 TAMWDCArrayR.h
 /home/asia/pionExp2017/etf/src/TAMWDCArrayR.h
 TAPopMsg.h
@@ -2092,7 +2092,7 @@ TATOFWall.h
 TACtrlPara.h
 /home/asia/pionExp2017/etf/src/TACtrlPara.h
 
-/home/asia/pionExp2017/etf/src/TAMWDCArrayU.C
+/home/asia/pionExp2017/etf/src/TAMWDCArrayU.cxx
 TAMWDCArrayU.h
 /home/asia/pionExp2017/etf/src/TAMWDCArrayU.h
 TAPopMsg.h
@@ -2102,7 +2102,7 @@ TAMWDCTaM.h
 TACtrlPara.h
 /home/asia/pionExp2017/etf/src/TACtrlPara.h
 
-/home/asia/pionExp2017/etf/src/TAMWDCTa.C
+/home/asia/pionExp2017/etf/src/TAMWDCTa.cxx
 TAAnode.h
 /home/asia/pionExp2017/etf/src/TAAnode.h
 TAAnodePara.h
@@ -2128,7 +2128,7 @@ TAMath.h
 TAUIDParser.h
 /home/asia/pionExp2017/etf/src/TAUIDParser.h
 
-/home/asia/pionExp2017/etf/src/TAMWDCTaL.C
+/home/asia/pionExp2017/etf/src/TAMWDCTaL.cxx
 TAMWDCTaL.h
 /home/asia/pionExp2017/etf/src/TAMWDCTaL.h
 TADetectorPara.h
@@ -2136,7 +2136,7 @@ TADetectorPara.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TAMWDCTaM.C
+/home/asia/pionExp2017/etf/src/TAMWDCTaM.cxx
 TAMWDCTaM.h
 /home/asia/pionExp2017/etf/src/TAMWDCTaM.h
 TADetectorPara.h
@@ -2144,7 +2144,7 @@ TADetectorPara.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TAMagnet.C
+/home/asia/pionExp2017/etf/src/TAMagnet.cxx
 TGraph.h
 /home/asia/pionExp2017/etf/src/TGraph.h
 TGraph2D.h
@@ -2172,7 +2172,7 @@ TAPopMsg.h
 TAMath.h
 /home/asia/pionExp2017/etf/src/TAMath.h
 
-/home/asia/pionExp2017/etf/src/TAMath.C
+/home/asia/pionExp2017/etf/src/TAMath.cxx
 iostream
 -
 iomanip
@@ -2191,56 +2191,60 @@ TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 TACtrlPara.h
 /home/asia/pionExp2017/etf/src/TACtrlPara.h
-TAMath/uniformMagneticSolution.C
-/home/asia/pionExp2017/etf/src/TAMath/uniformMagneticSolution.C
-TAMath/deviaFun.C
-/home/asia/pionExp2017/etf/src/TAMath/deviaFun.C
-TAMath/iterFit.C
-/home/asia/pionExp2017/etf/src/TAMath/iterFit.C
-TAMath/iterFit4.C
-/home/asia/pionExp2017/etf/src/TAMath/iterFit4.C
-TAMath/refinedFit.C
-/home/asia/pionExp2017/etf/src/TAMath/refinedFit.C
-TAMath/bfgs2.C
-/home/asia/pionExp2017/etf/src/TAMath/bfgs2.C
+TAMath/uniformMagneticSolution.cxx
+/home/asia/pionExp2017/etf/src/TAMath/uniformMagneticSolution.cxx
+TAMath/deviaFun.cxx
+/home/asia/pionExp2017/etf/src/TAMath/deviaFun.cxx
+TAMath/iterFit.cxx
+/home/asia/pionExp2017/etf/src/TAMath/iterFit.cxx
+TAMath/iterFit4.cxx
+/home/asia/pionExp2017/etf/src/TAMath/iterFit4.cxx
+TAMath/iterFit4Single.cxx
+/home/asia/pionExp2017/etf/src/TAMath/iterFit4Single.cxx
+TAMath/refinedFit.cxx
+/home/asia/pionExp2017/etf/src/TAMath/refinedFit.cxx
+TAMath/bfgs2.cxx
+/home/asia/pionExp2017/etf/src/TAMath/bfgs2.cxx
 
-/home/asia/pionExp2017/etf/src/TAMath/bfgs2.C
+/home/asia/pionExp2017/etf/src/TAMath/bfgs2.cxx
 
-/home/asia/pionExp2017/etf/src/TAMath/deviaFun.C
-one.C
-/home/asia/pionExp2017/etf/src/TAMath/one.C
-two.C
-/home/asia/pionExp2017/etf/src/TAMath/two.C
-three.C
-/home/asia/pionExp2017/etf/src/TAMath/three.C
-four.C
-/home/asia/pionExp2017/etf/src/TAMath/four.C
-five.C
-/home/asia/pionExp2017/etf/src/TAMath/five.C
-six.C
-/home/asia/pionExp2017/etf/src/TAMath/six.C
+/home/asia/pionExp2017/etf/src/TAMath/deviaFun.cxx
+one.cxx
+/home/asia/pionExp2017/etf/src/TAMath/one.cxx
+two.cxx
+/home/asia/pionExp2017/etf/src/TAMath/two.cxx
+three.cxx
+/home/asia/pionExp2017/etf/src/TAMath/three.cxx
+four.cxx
+/home/asia/pionExp2017/etf/src/TAMath/four.cxx
+five.cxx
+/home/asia/pionExp2017/etf/src/TAMath/five.cxx
+six.cxx
+/home/asia/pionExp2017/etf/src/TAMath/six.cxx
 
-/home/asia/pionExp2017/etf/src/TAMath/five.C
+/home/asia/pionExp2017/etf/src/TAMath/five.cxx
 
-/home/asia/pionExp2017/etf/src/TAMath/four.C
+/home/asia/pionExp2017/etf/src/TAMath/four.cxx
 
-/home/asia/pionExp2017/etf/src/TAMath/iterFit.C
+/home/asia/pionExp2017/etf/src/TAMath/iterFit.cxx
 
-/home/asia/pionExp2017/etf/src/TAMath/iterFit4.C
+/home/asia/pionExp2017/etf/src/TAMath/iterFit4.cxx
 
-/home/asia/pionExp2017/etf/src/TAMath/one.C
+/home/asia/pionExp2017/etf/src/TAMath/iterFit4Single.cxx
 
-/home/asia/pionExp2017/etf/src/TAMath/refinedFit.C
+/home/asia/pionExp2017/etf/src/TAMath/one.cxx
 
-/home/asia/pionExp2017/etf/src/TAMath/six.C
+/home/asia/pionExp2017/etf/src/TAMath/refinedFit.cxx
 
-/home/asia/pionExp2017/etf/src/TAMath/three.C
+/home/asia/pionExp2017/etf/src/TAMath/six.cxx
 
-/home/asia/pionExp2017/etf/src/TAMath/two.C
+/home/asia/pionExp2017/etf/src/TAMath/three.cxx
 
-/home/asia/pionExp2017/etf/src/TAMath/uniformMagneticSolution.C
+/home/asia/pionExp2017/etf/src/TAMath/two.cxx
 
-/home/asia/pionExp2017/etf/src/TAOpticFiberArray.C
+/home/asia/pionExp2017/etf/src/TAMath/uniformMagneticSolution.cxx
+
+/home/asia/pionExp2017/etf/src/TAOpticFiberArray.cxx
 TAOpticFiberArray.h
 /home/asia/pionExp2017/etf/src/TAOpticFiberArray.h
 TAUIDParser.h
@@ -2256,7 +2260,7 @@ TADetectorPara.h
 TAChannel.h
 /home/asia/pionExp2017/etf/src/TAChannel.h
 
-/home/asia/pionExp2017/etf/src/TAPDCArrayD.C
+/home/asia/pionExp2017/etf/src/TAPDCArrayD.cxx
 TAPDCArrayD.h
 /home/asia/pionExp2017/etf/src/TAPDCArrayD.h
 TAPopMsg.h
@@ -2266,7 +2270,7 @@ TAPDCR.h
 TACtrlPara.h
 /home/asia/pionExp2017/etf/src/TACtrlPara.h
 
-/home/asia/pionExp2017/etf/src/TAPDCArrayTa4.C
+/home/asia/pionExp2017/etf/src/TAPDCArrayTa4.cxx
 iostream
 -
 cstdlib
@@ -2312,7 +2316,7 @@ TAUI.h
 tEntry.h
 /home/asia/pionExp2017/etf/src/tEntry.h
 
-/home/asia/pionExp2017/etf/src/TAPDCArrayU.C
+/home/asia/pionExp2017/etf/src/TAPDCArrayU.cxx
 TAPDCArrayU.h
 /home/asia/pionExp2017/etf/src/TAPDCArrayU.h
 TAPopMsg.h
@@ -2322,7 +2326,7 @@ TAPDCL.h
 TACtrlPara.h
 /home/asia/pionExp2017/etf/src/TACtrlPara.h
 
-/home/asia/pionExp2017/etf/src/TAPDCL.C
+/home/asia/pionExp2017/etf/src/TAPDCL.cxx
 TAPDCL.h
 /home/asia/pionExp2017/etf/src/TAPDCL.h
 TADetectorPara.h
@@ -2330,7 +2334,7 @@ TADetectorPara.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TAPDCR.C
+/home/asia/pionExp2017/etf/src/TAPDCR.cxx
 TAPDCR.h
 /home/asia/pionExp2017/etf/src/TAPDCR.h
 TADetectorPara.h
@@ -2338,7 +2342,7 @@ TADetectorPara.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TAPID.C
+/home/asia/pionExp2017/etf/src/TAPID.cxx
 cmath
 -
 libgen.h
@@ -2374,7 +2378,7 @@ TAPlaStripPara.h
 TAT0_1.h
 /home/asia/pionExp2017/etf/src/TAT0_1.h
 
-/home/asia/pionExp2017/etf/src/TAParaManager.C
+/home/asia/pionExp2017/etf/src/TAParaManager.cxx
 cstdio
 -
 cstdlib
@@ -2420,13 +2424,13 @@ TAGPar.h
 TAUIDParser.h
 /home/asia/pionExp2017/etf/src/TAUIDParser.h
 
-/home/asia/pionExp2017/etf/src/TAParameter.C
+/home/asia/pionExp2017/etf/src/TAParameter.cxx
 TAParameter.h
 /home/asia/pionExp2017/etf/src/TAParameter.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TAPlaStrip.C
+/home/asia/pionExp2017/etf/src/TAPlaStrip.cxx
 TAPlaStrip.h
 /home/asia/pionExp2017/etf/src/TAPlaStrip.h
 TAPlaStripPara.h
@@ -2446,19 +2450,19 @@ TADeployPara.h
 TAVisual.h
 /home/asia/pionExp2017/etf/src/TAVisual.h
 
-/home/asia/pionExp2017/etf/src/TAPlaStripData.C
+/home/asia/pionExp2017/etf/src/TAPlaStripData.cxx
 TAPlaStripData.h
 /home/asia/pionExp2017/etf/src/TAPlaStripData.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TAPlaStripPara.C
+/home/asia/pionExp2017/etf/src/TAPlaStripPara.cxx
 TAPlaStripPara.h
 /home/asia/pionExp2017/etf/src/TAPlaStripPara.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TAPopMsg.C
+/home/asia/pionExp2017/etf/src/TAPopMsg.cxx
 iostream
 -
 ctime
@@ -2470,7 +2474,7 @@ cstdlib
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TARawDataProcessor.C
+/home/asia/pionExp2017/etf/src/TARawDataProcessor.cxx
 unistd.h
 -
 cstdlib
@@ -2500,7 +2504,7 @@ tEntry.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TASTRCalibDCArr.C
+/home/asia/pionExp2017/etf/src/TASTRCalibDCArr.cxx
 iostream
 -
 iomanip
@@ -2544,7 +2548,7 @@ TAAnode.h
 TAAnodePara.h
 /home/asia/pionExp2017/etf/src/TAAnodePara.h
 
-/home/asia/pionExp2017/etf/src/TASTRCalibDCArrL.C
+/home/asia/pionExp2017/etf/src/TASTRCalibDCArrL.cxx
 TASTRCalibDCArrL.h
 /home/asia/pionExp2017/etf/src/TASTRCalibDCArrL.h
 TAMWDCArrayL.h
@@ -2554,7 +2558,7 @@ TAParaManager.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TASTRCalibDCArrR.C
+/home/asia/pionExp2017/etf/src/TASTRCalibDCArrR.cxx
 TASTRCalibDCArrR.h
 /home/asia/pionExp2017/etf/src/TASTRCalibDCArrR.h
 TAMWDCArrayR.h
@@ -2564,7 +2568,7 @@ TAParaManager.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TASTRCalibDCArrTa.C
+/home/asia/pionExp2017/etf/src/TASTRCalibDCArrTa.cxx
 iostream
 -
 iomanip
@@ -2610,7 +2614,7 @@ TAAnodePara.h
 TAGPar.h
 /home/asia/pionExp2017/etf/src/TAGPar.h
 
-/home/asia/pionExp2017/etf/src/TASTRCalibDCArrTaD.C
+/home/asia/pionExp2017/etf/src/TASTRCalibDCArrTaD.cxx
 TASTRCalibDCArrTaD.h
 /home/asia/pionExp2017/etf/src/TASTRCalibDCArrTaD.h
 TAMWDCArrayD.h
@@ -2620,7 +2624,7 @@ TAParaManager.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TASTRCalibDCArrTaU.C
+/home/asia/pionExp2017/etf/src/TASTRCalibDCArrTaU.cxx
 TASTRCalibDCArrTaU.h
 /home/asia/pionExp2017/etf/src/TASTRCalibDCArrTaU.h
 TAMWDCArrayU.h
@@ -2630,7 +2634,7 @@ TAParaManager.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TASTRCalibPDCArrD.C
+/home/asia/pionExp2017/etf/src/TASTRCalibPDCArrD.cxx
 TASTRCalibPDCArrD.h
 /home/asia/pionExp2017/etf/src/TASTRCalibPDCArrD.h
 TAPDCArrayD.h
@@ -2640,7 +2644,7 @@ TAParaManager.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TASTRCalibPDCArrU.C
+/home/asia/pionExp2017/etf/src/TASTRCalibPDCArrU.cxx
 TASTRCalibPDCArrU.h
 /home/asia/pionExp2017/etf/src/TASTRCalibPDCArrU.h
 TAPDCArrayU.h
@@ -2650,7 +2654,7 @@ TAParaManager.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TASiPMPlaArray.C
+/home/asia/pionExp2017/etf/src/TASiPMPlaArray.cxx
 cmath
 -
 TASiPMPlaArray.h
@@ -2668,7 +2672,7 @@ TAVisual.h
 TADeployPara.h
 /home/asia/pionExp2017/etf/src/TADeployPara.h
 
-/home/asia/pionExp2017/etf/src/TASiPMPlaBarrel.C
+/home/asia/pionExp2017/etf/src/TASiPMPlaBarrel.cxx
 cmath
 -
 TASiPMPlaBarrel.h
@@ -2690,7 +2694,7 @@ TAChPara.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TASimulation.C
+/home/asia/pionExp2017/etf/src/TASimulation.cxx
 iostream
 -
 iomanip
@@ -2738,13 +2742,13 @@ TAPopMsg.h
 TAMath.h
 /home/asia/pionExp2017/etf/src/TAMath.h
 
-/home/asia/pionExp2017/etf/src/TAStuff.C
+/home/asia/pionExp2017/etf/src/TAStuff.cxx
 TAStuff.h
 /home/asia/pionExp2017/etf/src/TAStuff.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TAT0CalibDCArr.C
+/home/asia/pionExp2017/etf/src/TAT0CalibDCArr.cxx
 iostream
 -
 iomanip
@@ -2786,7 +2790,7 @@ TACtrlPara.h
 TAParaManager.h
 /home/asia/pionExp2017/etf/src/TAParaManager.h
 
-/home/asia/pionExp2017/etf/src/TAT0CalibDCArrL.C
+/home/asia/pionExp2017/etf/src/TAT0CalibDCArrL.cxx
 TAT0CalibDCArrL.h
 /home/asia/pionExp2017/etf/src/TAT0CalibDCArrL.h
 TAMWDCArrayL.h
@@ -2796,7 +2800,7 @@ TAParaManager.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TAT0CalibDCArrR.C
+/home/asia/pionExp2017/etf/src/TAT0CalibDCArrR.cxx
 TAT0CalibDCArrR.h
 /home/asia/pionExp2017/etf/src/TAT0CalibDCArrR.h
 TAMWDCArrayR.h
@@ -2806,7 +2810,7 @@ TAParaManager.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TAT0CalibDCArrTa.C
+/home/asia/pionExp2017/etf/src/TAT0CalibDCArrTa.cxx
 iostream
 -
 iomanip
@@ -2848,7 +2852,7 @@ TACtrlPara.h
 TAParaManager.h
 /home/asia/pionExp2017/etf/src/TAParaManager.h
 
-/home/asia/pionExp2017/etf/src/TAT0CalibDCArrTaD.C
+/home/asia/pionExp2017/etf/src/TAT0CalibDCArrTaD.cxx
 TAT0CalibDCArrTaD.h
 /home/asia/pionExp2017/etf/src/TAT0CalibDCArrTaD.h
 TAMWDCArrayD.h
@@ -2858,7 +2862,7 @@ TAParaManager.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TAT0CalibDCArrTaU.C
+/home/asia/pionExp2017/etf/src/TAT0CalibDCArrTaU.cxx
 TAT0CalibDCArrTaU.h
 /home/asia/pionExp2017/etf/src/TAT0CalibDCArrTaU.h
 TAMWDCArrayU.h
@@ -2868,7 +2872,7 @@ TAParaManager.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TAT0_0.C
+/home/asia/pionExp2017/etf/src/TAT0_0.cxx
 TAUIDParser.h
 /home/asia/pionExp2017/etf/src/TAUIDParser.h
 TAPopMsg.h
@@ -2880,7 +2884,7 @@ TAChannel.h
 TAGPar.h
 /home/asia/pionExp2017/etf/src/TAGPar.h
 
-/home/asia/pionExp2017/etf/src/TAT0_1.C
+/home/asia/pionExp2017/etf/src/TAT0_1.cxx
 TAT0_1.h
 /home/asia/pionExp2017/etf/src/TAT0_1.h
 TAUIDParser.h
@@ -2896,7 +2900,7 @@ TAPlaStripData.h
 TAGPar.h
 /home/asia/pionExp2017/etf/src/TAGPar.h
 
-/home/asia/pionExp2017/etf/src/TATOFWall.C
+/home/asia/pionExp2017/etf/src/TATOFWall.cxx
 cstring
 -
 cmath
@@ -2922,7 +2926,7 @@ TAMath.h
 TAChData.h
 /home/asia/pionExp2017/etf/src/TAChData.h
 
-/home/asia/pionExp2017/etf/src/TATrack.C
+/home/asia/pionExp2017/etf/src/TATrack.cxx
 iostream
 -
 cstring
@@ -2942,7 +2946,7 @@ tTrack.h
 TAGPar.h
 /home/asia/pionExp2017/etf/src/TAGPar.h
 
-/home/asia/pionExp2017/etf/src/TATrack2.C
+/home/asia/pionExp2017/etf/src/TATrack2.cxx
 iostream
 -
 cstring
@@ -2956,7 +2960,7 @@ TAPopMsg.h
 tTrack.h
 /home/asia/pionExp2017/etf/src/tTrack.h
 
-/home/asia/pionExp2017/etf/src/TATrackTa4.C
+/home/asia/pionExp2017/etf/src/TATrackTa4.cxx
 cmath
 -
 TATrackTa4.h
@@ -2966,7 +2970,7 @@ TAPopMsg.h
 TAMath.h
 /home/asia/pionExp2017/etf/src/TAMath.h
 
-/home/asia/pionExp2017/etf/src/TAUI.C
+/home/asia/pionExp2017/etf/src/TAUI.cxx
 iostream
 -
 cstdlib
@@ -2982,13 +2986,13 @@ TAUI.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 
-/home/asia/pionExp2017/etf/src/TAUIDParser.C
+/home/asia/pionExp2017/etf/src/TAUIDParser.cxx
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
 TAUIDParser.h
 /home/asia/pionExp2017/etf/src/TAUIDParser.h
 
-/home/asia/pionExp2017/etf/src/TAVMEReader.C
+/home/asia/pionExp2017/etf/src/TAVMEReader.cxx
 iostream
 -
 cstdlib
@@ -3018,7 +3022,7 @@ TAPopMsg.h
 TAMath.h
 /home/asia/pionExp2017/etf/src/TAMath.h
 
-/home/asia/pionExp2017/etf/src/TAVisual.C
+/home/asia/pionExp2017/etf/src/TAVisual.cxx
 TGraph.h
 /home/asia/pionExp2017/etf/src/TGraph.h
 TLegend.h
@@ -3058,15 +3062,15 @@ TAMath.h
 TACtrlPara.h
 /home/asia/pionExp2017/etf/src/TACtrlPara.h
 
-/home/asia/pionExp2017/etf/src/t3DPIDInfo.C
+/home/asia/pionExp2017/etf/src/t3DPIDInfo.cxx
 t3DPIDInfo.h
 /home/asia/pionExp2017/etf/src/t3DPIDInfo.h
 
-/home/asia/pionExp2017/etf/src/t3DTrkInfo.C
+/home/asia/pionExp2017/etf/src/t3DTrkInfo.cxx
 t3DTrkInfo.h
 /home/asia/pionExp2017/etf/src/t3DTrkInfo.h
 
-/home/asia/pionExp2017/etf/src/tEntry.C
+/home/asia/pionExp2017/etf/src/tEntry.cxx
 iostream
 -
 iomanip
@@ -3078,7 +3082,7 @@ cstring
 tEntry.h
 /home/asia/pionExp2017/etf/src/tEntry.h
 
-/home/asia/pionExp2017/etf/src/tTrack.C
+/home/asia/pionExp2017/etf/src/tTrack.cxx
 iostream
 -
 cstdlib
@@ -3086,7 +3090,7 @@ cstdlib
 tTrack.h
 /home/asia/pionExp2017/etf/src/tTrack.h
 
-/home/asia/pionExp2017/etf/src/tTrack2.C
+/home/asia/pionExp2017/etf/src/tTrack2.cxx
 iostream
 -
 cstdlib

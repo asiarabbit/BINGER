@@ -57,38 +57,38 @@ include src/CMakeFiles/strpdc.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/CMakeFiles/strpdc.dir/flags.make
 
-src/CMakeFiles/strpdc.dir/strcali_pdc.C.o: src/CMakeFiles/strpdc.dir/flags.make
-src/CMakeFiles/strpdc.dir/strcali_pdc.C.o: ../src/strcali_pdc.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/strpdc.dir/strcali_pdc.C.o"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/strpdc.dir/strcali_pdc.C.o -c /home/asia/pionExp2017/src/strcali_pdc.C
+src/CMakeFiles/strpdc.dir/strcali_pdc.cxx.o: src/CMakeFiles/strpdc.dir/flags.make
+src/CMakeFiles/strpdc.dir/strcali_pdc.cxx.o: ../src/strcali_pdc.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/strpdc.dir/strcali_pdc.cxx.o"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/strpdc.dir/strcali_pdc.cxx.o -c /home/asia/pionExp2017/src/strcali_pdc.cxx
 
-src/CMakeFiles/strpdc.dir/strcali_pdc.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/strpdc.dir/strcali_pdc.C.i"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/src/strcali_pdc.C > CMakeFiles/strpdc.dir/strcali_pdc.C.i
+src/CMakeFiles/strpdc.dir/strcali_pdc.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/strpdc.dir/strcali_pdc.cxx.i"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/src/strcali_pdc.cxx > CMakeFiles/strpdc.dir/strcali_pdc.cxx.i
 
-src/CMakeFiles/strpdc.dir/strcali_pdc.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/strpdc.dir/strcali_pdc.C.s"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/src/strcali_pdc.C -o CMakeFiles/strpdc.dir/strcali_pdc.C.s
+src/CMakeFiles/strpdc.dir/strcali_pdc.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/strpdc.dir/strcali_pdc.cxx.s"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/src/strcali_pdc.cxx -o CMakeFiles/strpdc.dir/strcali_pdc.cxx.s
 
-src/CMakeFiles/strpdc.dir/strcali_pdc.C.o.requires:
+src/CMakeFiles/strpdc.dir/strcali_pdc.cxx.o.requires:
 
-.PHONY : src/CMakeFiles/strpdc.dir/strcali_pdc.C.o.requires
+.PHONY : src/CMakeFiles/strpdc.dir/strcali_pdc.cxx.o.requires
 
-src/CMakeFiles/strpdc.dir/strcali_pdc.C.o.provides: src/CMakeFiles/strpdc.dir/strcali_pdc.C.o.requires
-	$(MAKE) -f src/CMakeFiles/strpdc.dir/build.make src/CMakeFiles/strpdc.dir/strcali_pdc.C.o.provides.build
-.PHONY : src/CMakeFiles/strpdc.dir/strcali_pdc.C.o.provides
+src/CMakeFiles/strpdc.dir/strcali_pdc.cxx.o.provides: src/CMakeFiles/strpdc.dir/strcali_pdc.cxx.o.requires
+	$(MAKE) -f src/CMakeFiles/strpdc.dir/build.make src/CMakeFiles/strpdc.dir/strcali_pdc.cxx.o.provides.build
+.PHONY : src/CMakeFiles/strpdc.dir/strcali_pdc.cxx.o.provides
 
-src/CMakeFiles/strpdc.dir/strcali_pdc.C.o.provides.build: src/CMakeFiles/strpdc.dir/strcali_pdc.C.o
+src/CMakeFiles/strpdc.dir/strcali_pdc.cxx.o.provides.build: src/CMakeFiles/strpdc.dir/strcali_pdc.cxx.o
 
 
 # Object files for target strpdc
 strpdc_OBJECTS = \
-"CMakeFiles/strpdc.dir/strcali_pdc.C.o"
+"CMakeFiles/strpdc.dir/strcali_pdc.cxx.o"
 
 # External object files for target strpdc
 strpdc_EXTERNAL_OBJECTS =
 
-strpdc: src/CMakeFiles/strpdc.dir/strcali_pdc.C.o
+strpdc: src/CMakeFiles/strpdc.dir/strcali_pdc.cxx.o
 strpdc: src/CMakeFiles/strpdc.dir/build.make
 strpdc: lib/libetf.so
 strpdc: /home/asia/Documents/root/install/lib/libCore.so
@@ -115,7 +115,7 @@ src/CMakeFiles/strpdc.dir/build: strpdc
 
 .PHONY : src/CMakeFiles/strpdc.dir/build
 
-src/CMakeFiles/strpdc.dir/requires: src/CMakeFiles/strpdc.dir/strcali_pdc.C.o.requires
+src/CMakeFiles/strpdc.dir/requires: src/CMakeFiles/strpdc.dir/strcali_pdc.cxx.o.requires
 
 .PHONY : src/CMakeFiles/strpdc.dir/requires
 

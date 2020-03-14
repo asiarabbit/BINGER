@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/asia/pionExp2017/src/strcali_pdc.C" "/home/asia/pionExp2017/build1/src/CMakeFiles/strpdc.dir/strcali_pdc.C.o"
+  "/home/asia/pionExp2017/src/strcali_pdc.cxx" "/home/asia/pionExp2017/build1/src/CMakeFiles/strpdc.dir/strcali_pdc.cxx.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

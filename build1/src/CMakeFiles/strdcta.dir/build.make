@@ -57,38 +57,38 @@ include src/CMakeFiles/strdcta.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/CMakeFiles/strdcta.dir/flags.make
 
-src/CMakeFiles/strdcta.dir/strcali_dcta.C.o: src/CMakeFiles/strdcta.dir/flags.make
-src/CMakeFiles/strdcta.dir/strcali_dcta.C.o: ../src/strcali_dcta.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/strdcta.dir/strcali_dcta.C.o"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/strdcta.dir/strcali_dcta.C.o -c /home/asia/pionExp2017/src/strcali_dcta.C
+src/CMakeFiles/strdcta.dir/strcali_dcta.cxx.o: src/CMakeFiles/strdcta.dir/flags.make
+src/CMakeFiles/strdcta.dir/strcali_dcta.cxx.o: ../src/strcali_dcta.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/strdcta.dir/strcali_dcta.cxx.o"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/strdcta.dir/strcali_dcta.cxx.o -c /home/asia/pionExp2017/src/strcali_dcta.cxx
 
-src/CMakeFiles/strdcta.dir/strcali_dcta.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/strdcta.dir/strcali_dcta.C.i"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/src/strcali_dcta.C > CMakeFiles/strdcta.dir/strcali_dcta.C.i
+src/CMakeFiles/strdcta.dir/strcali_dcta.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/strdcta.dir/strcali_dcta.cxx.i"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/src/strcali_dcta.cxx > CMakeFiles/strdcta.dir/strcali_dcta.cxx.i
 
-src/CMakeFiles/strdcta.dir/strcali_dcta.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/strdcta.dir/strcali_dcta.C.s"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/src/strcali_dcta.C -o CMakeFiles/strdcta.dir/strcali_dcta.C.s
+src/CMakeFiles/strdcta.dir/strcali_dcta.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/strdcta.dir/strcali_dcta.cxx.s"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/src/strcali_dcta.cxx -o CMakeFiles/strdcta.dir/strcali_dcta.cxx.s
 
-src/CMakeFiles/strdcta.dir/strcali_dcta.C.o.requires:
+src/CMakeFiles/strdcta.dir/strcali_dcta.cxx.o.requires:
 
-.PHONY : src/CMakeFiles/strdcta.dir/strcali_dcta.C.o.requires
+.PHONY : src/CMakeFiles/strdcta.dir/strcali_dcta.cxx.o.requires
 
-src/CMakeFiles/strdcta.dir/strcali_dcta.C.o.provides: src/CMakeFiles/strdcta.dir/strcali_dcta.C.o.requires
-	$(MAKE) -f src/CMakeFiles/strdcta.dir/build.make src/CMakeFiles/strdcta.dir/strcali_dcta.C.o.provides.build
-.PHONY : src/CMakeFiles/strdcta.dir/strcali_dcta.C.o.provides
+src/CMakeFiles/strdcta.dir/strcali_dcta.cxx.o.provides: src/CMakeFiles/strdcta.dir/strcali_dcta.cxx.o.requires
+	$(MAKE) -f src/CMakeFiles/strdcta.dir/build.make src/CMakeFiles/strdcta.dir/strcali_dcta.cxx.o.provides.build
+.PHONY : src/CMakeFiles/strdcta.dir/strcali_dcta.cxx.o.provides
 
-src/CMakeFiles/strdcta.dir/strcali_dcta.C.o.provides.build: src/CMakeFiles/strdcta.dir/strcali_dcta.C.o
+src/CMakeFiles/strdcta.dir/strcali_dcta.cxx.o.provides.build: src/CMakeFiles/strdcta.dir/strcali_dcta.cxx.o
 
 
 # Object files for target strdcta
 strdcta_OBJECTS = \
-"CMakeFiles/strdcta.dir/strcali_dcta.C.o"
+"CMakeFiles/strdcta.dir/strcali_dcta.cxx.o"
 
 # External object files for target strdcta
 strdcta_EXTERNAL_OBJECTS =
 
-strdcta: src/CMakeFiles/strdcta.dir/strcali_dcta.C.o
+strdcta: src/CMakeFiles/strdcta.dir/strcali_dcta.cxx.o
 strdcta: src/CMakeFiles/strdcta.dir/build.make
 strdcta: lib/libetf.so
 strdcta: /home/asia/Documents/root/install/lib/libCore.so
@@ -115,7 +115,7 @@ src/CMakeFiles/strdcta.dir/build: strdcta
 
 .PHONY : src/CMakeFiles/strdcta.dir/build
 
-src/CMakeFiles/strdcta.dir/requires: src/CMakeFiles/strdcta.dir/strcali_dcta.C.o.requires
+src/CMakeFiles/strdcta.dir/requires: src/CMakeFiles/strdcta.dir/strcali_dcta.cxx.o.requires
 
 .PHONY : src/CMakeFiles/strdcta.dir/requires
 

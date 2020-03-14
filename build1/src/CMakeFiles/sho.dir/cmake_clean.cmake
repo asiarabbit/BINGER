@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/sho.dir/shoot.C.o"
+  "CMakeFiles/sho.dir/shoot.cxx.o"
   "../sho.pdb"
   "../sho"
 )

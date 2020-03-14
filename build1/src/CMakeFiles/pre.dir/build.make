@@ -57,38 +57,38 @@ include src/CMakeFiles/pre.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/CMakeFiles/pre.dir/flags.make
 
-src/CMakeFiles/pre.dir/pre.C.o: src/CMakeFiles/pre.dir/flags.make
-src/CMakeFiles/pre.dir/pre.C.o: ../src/pre.C
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/pre.dir/pre.C.o"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/pre.dir/pre.C.o -c /home/asia/pionExp2017/src/pre.C
+src/CMakeFiles/pre.dir/pre.cxx.o: src/CMakeFiles/pre.dir/flags.make
+src/CMakeFiles/pre.dir/pre.cxx.o: ../src/pre.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/asia/pionExp2017/build1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/pre.dir/pre.cxx.o"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/pre.dir/pre.cxx.o -c /home/asia/pionExp2017/src/pre.cxx
 
-src/CMakeFiles/pre.dir/pre.C.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/pre.dir/pre.C.i"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/src/pre.C > CMakeFiles/pre.dir/pre.C.i
+src/CMakeFiles/pre.dir/pre.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/pre.dir/pre.cxx.i"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/asia/pionExp2017/src/pre.cxx > CMakeFiles/pre.dir/pre.cxx.i
 
-src/CMakeFiles/pre.dir/pre.C.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/pre.dir/pre.C.s"
-	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/src/pre.C -o CMakeFiles/pre.dir/pre.C.s
+src/CMakeFiles/pre.dir/pre.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/pre.dir/pre.cxx.s"
+	cd /home/asia/pionExp2017/build1/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/asia/pionExp2017/src/pre.cxx -o CMakeFiles/pre.dir/pre.cxx.s
 
-src/CMakeFiles/pre.dir/pre.C.o.requires:
+src/CMakeFiles/pre.dir/pre.cxx.o.requires:
 
-.PHONY : src/CMakeFiles/pre.dir/pre.C.o.requires
+.PHONY : src/CMakeFiles/pre.dir/pre.cxx.o.requires
 
-src/CMakeFiles/pre.dir/pre.C.o.provides: src/CMakeFiles/pre.dir/pre.C.o.requires
-	$(MAKE) -f src/CMakeFiles/pre.dir/build.make src/CMakeFiles/pre.dir/pre.C.o.provides.build
-.PHONY : src/CMakeFiles/pre.dir/pre.C.o.provides
+src/CMakeFiles/pre.dir/pre.cxx.o.provides: src/CMakeFiles/pre.dir/pre.cxx.o.requires
+	$(MAKE) -f src/CMakeFiles/pre.dir/build.make src/CMakeFiles/pre.dir/pre.cxx.o.provides.build
+.PHONY : src/CMakeFiles/pre.dir/pre.cxx.o.provides
 
-src/CMakeFiles/pre.dir/pre.C.o.provides.build: src/CMakeFiles/pre.dir/pre.C.o
+src/CMakeFiles/pre.dir/pre.cxx.o.provides.build: src/CMakeFiles/pre.dir/pre.cxx.o
 
 
 # Object files for target pre
 pre_OBJECTS = \
-"CMakeFiles/pre.dir/pre.C.o"
+"CMakeFiles/pre.dir/pre.cxx.o"
 
 # External object files for target pre
 pre_EXTERNAL_OBJECTS =
 
-pre: src/CMakeFiles/pre.dir/pre.C.o
+pre: src/CMakeFiles/pre.dir/pre.cxx.o
 pre: src/CMakeFiles/pre.dir/build.make
 pre: lib/libetf.so
 pre: /home/asia/Documents/root/install/lib/libCore.so
@@ -115,7 +115,7 @@ src/CMakeFiles/pre.dir/build: pre
 
 .PHONY : src/CMakeFiles/pre.dir/build
 
-src/CMakeFiles/pre.dir/requires: src/CMakeFiles/pre.dir/pre.C.o.requires
+src/CMakeFiles/pre.dir/requires: src/CMakeFiles/pre.dir/pre.cxx.o.requires
 
 .PHONY : src/CMakeFiles/pre.dir/requires
 

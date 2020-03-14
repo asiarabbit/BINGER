@@ -34,6 +34,11 @@
 # ROOT files
 *.root
 
+# documents
+*.pdf
+*.doc
+*.odt
+
 # raw binary data files
 *.data
 
@@ -47,19 +52,19 @@
 content
 
 # ignore directories
-build/*
+build*/*
 docs/*
 !docs/html/
 !docs/Doxyfile
 misc/*
 !misc/tools/Garfield/
 !misc/tools/chidGenerator/
-!build/*.sh
-!build/*.C
-!build/PID/
+!build*/*.sh
+!build*/*.C
+!build*/PID/
 data/*
 !data/example/
 !config/
 Lab/
-!Lab/theory/MOMDIS/ 
+!Lab/theory/MOMDIS/
 anaG4SimBuild/*
