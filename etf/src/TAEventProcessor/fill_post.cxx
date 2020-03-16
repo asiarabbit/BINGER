@@ -516,7 +516,7 @@ fitting, sub is abnormal: sub: %d", sub);
 
 		if(0) vis->FillHitMap();
 		static int jj = 0;
-		static const int jjM = 0;
+		static const int jjM = 10;
 
 		if(jj < jjM){ //  && -9999 != aoz[0] // && BINGO
 			jj++;

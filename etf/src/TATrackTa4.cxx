@@ -42,7 +42,7 @@ TATrackTa4::~TATrackTa4(){
 		delete fPostTaTrk;
 		fPostTaTrk = nullptr;
 	}
-	fDX2 = -1234.; // DEBUG
+	// fDX2 = -1234.; // DEBUG
 } // end of the destructor
 
 // the copy constructor

@@ -87,8 +87,8 @@ double TACtrlPara::ChiThrePD(unsigned uid) const{
 }
 // threshold for chi. (sqrt(chi2 / nFiredAnodeLayer)-2) unit: mm map.C 1.0 1.5
 double TACtrlPara::ChiThre(unsigned uid) const{
-	int type[6]{}; TAUIDParser::DNS(type, uid); // exclusive for PDCs, 2020-03-11
-	if(8 == type[0] || 9 == type[0]) return 2.; // to be consistent with Ta4 tracking
+	// int type[6]{}; TAUIDParser::DNS(type, uid); // exclusive for PDCs, 2020-03-11
+	// if(8 == type[0] || 9 == type[0]) return 2.; // to be consistent with Ta4 tracking
 	double chiThre = 0.8 * ChiThrePD(uid) *
 		(IsDriftTimeQtCorrection() ? kDriftTimeQtCorrectionWeight : 1.);
 	return chiThre;

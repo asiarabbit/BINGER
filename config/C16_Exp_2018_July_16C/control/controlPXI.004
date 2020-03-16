@@ -86,7 +86,7 @@
 # HVDCR0X
 22  5
 # HVDCR0U
-23  5 
+23  5
 # HVDCR0V
 24  5
 # HVDCR1X
@@ -168,7 +168,7 @@
 54 0.
 
 ######################## DCs around the target ######################################
-## ## ## ## ## ## ## ## DCs made by P. Ma ## ## ## ## ## ## ## ## ## ## ## ## ## ## 
+## ## ## ## ## ## ## ## DCs made by P. Ma ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 # T_tof: time of flight: used to correct drift time -> for MWDC Array U and D
 # T_tofDC0toTOFWUX: T_tof from X sense wires of DC0 to TOFW (plaSci-T0_det), for MWDC array U and D
 # T_tofDCTa0toTOFWUX
@@ -295,7 +295,7 @@
 # TimeThreHB - PDC
 104 750.
 # ChiThrePD - PDC
-105 5.
+105 7.5
 
 ############ TOF STOP OPTION ##############
 # 1: PXI channel; 15: VME channel
@@ -311,6 +311,3 @@
 108 1
 # for 16O exp #
 109 4
-
-
-

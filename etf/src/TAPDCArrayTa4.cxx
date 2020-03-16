@@ -198,7 +198,7 @@ bool TAPDCArrayTa4::Map(){
 	char tail[64] = ""; // for naming newTrack
 //	const double chiThre = clp->ChiThre(UID);
 //	const double chiThrePD = clp->ChiThrePD(UID); // chi threshold per dot
-	const double chiThrePD[2] = {2.5, 2.1}; // unit: mm [PDCArr-U--D]
+	const double chiThrePD[2] = {7.5, 7.5}; // unit: mm [PDCArr-U--D]
 	const double chiThre[2] =
 		{chiThrePD[0] * 0.8, chiThrePD[1] * 0.8}; // XXX: exacting chi control
 	short nAnodePerLayer[2][2]{};
@@ -542,16 +542,23 @@ track.size(): %d", track.size());
 				d2min = t->GetChi2();
 			}
 		} // end for
-		vector<TATrackTa4 *>::iterator it = remove_if(track.begin(), track.end(),
-			[=](TATrackTa4 *t){ return !(t->GetChi2() == d2min); });
-		for_each(it, track.end(), [](TATrackTa4 *&t){ if(t){delete t; t = nullptr;} });
-		track.erase(it, track.end());
+		for(unsigned k = 0; k < track.size(); k++){
+			if(track[k]->GetChi2() != d2min){
+				delete track[k]; track[k] = nullptr;
+				track.erase(track.begin()+k);
+				k--;
+			} // end if
+		} // end for over k
 	} // end if
 	/////// remove all the UX and DX tracks to be replaced by new ones
-	vector<tTrack *>::iterator last = remove_if(tl.begin(), tl.end(),
-		[](tTrack *t){ return t->type == 120 || t->type == 130; });
-	for_each(last, tl.end(), [](tTrack *&t){ if(t){delete t; t = nullptr;} });
-	tl.erase(last, tl.end());
+	for(unsigned k = 0; k < tl.size(); k++){
+		if(tl[k]->type == 120 || tl[k]->type == 130){
+			delete tl[k]; tl[k] = nullptr;
+			tl.erase(tl.begin()+k);
+			k--;
+		} // end if
+	} // end for over k
+
 	AssignTracks(tl);
 
 	return true;

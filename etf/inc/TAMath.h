@@ -134,9 +134,10 @@ public:
 		double dk = fabs(k0-k1), dktmp = 200. * dk;
 		if(dk > 0.02) dktmp *= 3.;
 		return
-			dxTa*dxTa * 1. / kVdxTa + // 2.5 the relative variance V/sigma_DC
-			dx2*dx2 * 1. / kVdx2 +  // 10.
-			dktmp*dktmp; // XXX 2020-03-12
+			dxTa*dxTa * 1. / kVdxTa // 2.5 the relative variance V/sigma_DC
+			+ dx2*dx2 * 1. / kVdx2 // 10.
+			+ dktmp*dktmp // XXX 2020-03-12
+			;
 	}
 
 

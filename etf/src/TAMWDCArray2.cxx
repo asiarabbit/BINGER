@@ -142,7 +142,7 @@ void TAMWDCArray2::Map(){ // map the fired channels in one data section once and
 	) return;
 
 	Map(fMWDC, fTrackList[0], 0); // X
-	if(ctrlPara->Is3DTracking()) Map(fMWDC, fTrackList[1], 1); // Y
+	Map(fMWDC, fTrackList[1], 1); // Y // if(ctrlPara->Is3DTracking())
 } // end of function void Map()
 
 void TAMWDCArray2::Initialize(){
