@@ -1,18 +1,18 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 // Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TAPID.C															 //
-//   TAPID.C -- source file for class TAPID											 //
-//   Introduction: derived from TAMagnet, particle identification using magnetic	 //
-// rigidity analysis. An interface class from TAMagnet to user.						 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2017/10/23.															     //
-// Last modified: 2018/9/18, SUN Yazhou.										     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
+//																																							     //
+// BINGER/inc/etf/TAPID.cxx																													 //
+//   TAPID.cxx -- source file for class TAPID																				 //
+//   Introduction: derived from TAMagnet, particle identification using magnetic		 //
+// rigidity analysis. An interface class from TAMagnet to user.											 //
+//																				  																			   //
+// Author: SUN Yazhou, asia.rabbit@163.com.										 									     //
+// Created: 2017/10/23.																													     //
+// Last modified: 2018/9/18, SUN Yazhou.																				     //
+//																																							     //
+//																																							     //
+// Copyright (C) 2017-2018, SUN Yazhou.																					     //
+// All rights reserved.																													     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
 #include <cmath>
@@ -84,7 +84,7 @@ void TAPID::FlyPion(double tof2, double x0TaHit, const double *pOut_, short dcAr
 	double k1 = pOut[0], k2 = pOut[1], b1 = pOut[2], b2 = pOut[3];
 
 	// the central z coordinate of the target
-	static const double z0_TA = TADeployPara::Instance()->GetTargetZ0(); // 
+	static const double z0_TA = TADeployPara::Instance()->GetTargetZ0(); //
 	static const double z0_T0_1 = fT0_1->GetZ0(); // -2699.08
 	double y0_SiPMArr = 0.; // hit position in the target
 	if(-9999. == x0TaHit)
@@ -341,7 +341,7 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut_, short dcArrId,
 	if(-9999. == pOut[1]) pOut[1] = 0.; // k2_out
 	if(-9999. == pOut[3]) pOut[3] = 0.; // b2_out
 	double k1 = pOut[0], k2 = pOut[1], b1 = pOut[2], b2 = pOut[3];
-	double pIn[4] = {pIn_[0], pIn_[1], pIn_[2], pIn_[3]}; // track between target and the mag // 
+	double pIn[4] = {pIn_[0], pIn_[1], pIn_[2], pIn_[3]}; // track between target and the mag //
 	if(-9999. == pIn[1]) pIn[1] = 0.; // k2_in
 	if(-9999. == pIn[3]) pIn[3] = 0.; // b2_in
 	double pIn0[4] = {pIn0_[0], pIn0_[1], pIn0_[2], pIn0_[3]}; // track before the target //
@@ -351,7 +351,7 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut_, short dcArrId,
 	if(-9999. == pIn0[3]) pIn0[3] = 0.; // b2_in0
 
 	// the central z coordinate of the target
-	static const double z0_TA = TADeployPara::Instance()->GetTargetZ0(); // 
+	static const double z0_TA = TADeployPara::Instance()->GetTargetZ0(); //
 	static const double z0_T0_1 = fT0_1->GetZ0(); // -2699.08
 	double y0_SiPMArr = 0.; // hit position in the target
 	if(-9999. == x0TaHit && nullptr == pIn)
@@ -455,7 +455,7 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut_, short dcArrId,
 		if(fGCurve){
 			fTrackVec.clear();
 			tra_t tra;
-			const int n = 2000;
+			const int n = 20000;
 			for(int i = 0; i <= n; i++){
 				double ai = (1. - 2.*i/n)*TAMath::Pi();
 				double zi = zo+fabs(rho)*cos(ai);
@@ -740,8 +740,3 @@ void TAPID::Initialize(){
 	fTotalTrackLength = -9999; fIsFlied = false;
 	fX2Arr[0] = -9999.; fX2Arr[1] = -9999.;
 }
-
-
-
-
-

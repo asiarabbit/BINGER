@@ -1,18 +1,18 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 // Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TAMagnet.C														 //
-//   TAMagnet.C -- source file for class TAMagnet									 //
+//																																							     //
+// BINGER/inc/etf/TAMagnet.cxx																											 //
+//   TAMagnet.cxx -- source file for class TAMagnet																	 //
 //   Introduction: magnetic rigidity analysis for PID using fourth-order Runge-Kutta //
-// method to track particles in magnetic field of the dipole magnet in ETF.			 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2017/10/10.															     //
-// Last modified: 2019/10/5, SUN Yazhou.										     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
+// method to track particles in magnetic field of the dipole magnet in ETF.					 //
+//																																							     //
+// Author: SUN Yazhou, asia.rabbit@163.com.																			     //
+// Created: 2017/10/10.																													     //
+// Last modified: 2019/10/5, SUN Yazhou.																				     //
+//																																							     //
+//																																							     //
+// Copyright (C) 2017-2018, SUN Yazhou.																					     //
+// All rights reserved.															  														   //
 ///////////////////////////////////////////////////////////////////////////////////////
 
 // ROOT include
@@ -60,7 +60,7 @@ void TAMagnet::TransportIon(double *y, double *yp, double zi, double zf, bool is
 		direction = -1.;
 	} // end if
 
-	double x = zi, h = fh0 * direction; // set the iteration start and iteration step length	
+	double x = zi, h = fh0 * direction; // set the iteration start and iteration step length
 	// propagate the particle step by step
 	int i = 0; tra_t tra;
 	if(isTracking) fTrackVec.clear();
@@ -485,7 +485,7 @@ double TAMagnet::GetTrackLength() const{
 		cout << "WTF?\033[0m\n";
 		while(1) getchar();
 	} // end if
-	
+
 	return fTrackLength;
 } // end of member function GetTrackLength()
 
@@ -570,7 +570,7 @@ double TAMagnet::trilinear(const double *f, const double *dp){
 		fy[i] = (10.-dp[1])/10.*fx[2*i] + dp[1]/10.*fx[2*i+1];
 	// interpolation along z-axis
 	fz = (10.-dp[2])/10.*fy[0] + dp[2]/10.*fy[1];
-	
+
 	return fz;
 } // end of function trilinear interpolation
 
@@ -578,7 +578,6 @@ double TAMagnet::trilinear(const double *f, const double *dp){
 void TAMagnet::Initialize(){
 	fTrackLength = -9999.;
 	fQoP = -9999.; fAoZ = -9999.;
-	fOutOfRangeError = false; // out of the active volume of the magnet	
+	fOutOfRangeError = false; // out of the active volume of the magnet
 	if(fTrackVec.size()) fTrackVec.clear();
 }
-

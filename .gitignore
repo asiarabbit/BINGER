@@ -63,8 +63,10 @@ misc/*
 !build*/*.C
 !build*/PID/
 data/*
+!config/STR/STR_spline.root
 !data/example/
 !config/
 Lab/
 !Lab/theory/MOMDIS/
 anaG4SimBuild/*
+!build1/WithTA_2020_0314/

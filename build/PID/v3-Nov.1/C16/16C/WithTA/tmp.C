@@ -57,8 +57,7 @@ void tmp(){
 //	treeTrack->Draw("t0_1Pos[1]:t0_1Pos[0]>>(500, -60., 60., 500, -60., 60.)", "dsca11==0&&PDCPos[1][1]!=-9999.&&!C0", "col")
 	treeTrack->Draw("dE1:aoz[0]>>h(500, 1.8, 3.7, 500, 0., 4.5)", "dsca11==0&&A0&&B0&&C0;aoz;dE1 arb.;", "colbox");
 
-
-
+	return;
 
 /// scriptlet to dissect dx2 smear ///
 //	treeTrack->Draw("kTa[0][0]-kTa[1][0]:dx2[0]>>(500, -100., 150., 500, -0.1, 0.1)", "A0&&B0&&C0&&(dE1>1.50)&&dsca11==0", "col");

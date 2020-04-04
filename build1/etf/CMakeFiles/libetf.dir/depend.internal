@@ -2528,6 +2528,7 @@ etf/CMakeFiles/libetf.dir/src/TAUI.cxx.o
  ../etf/inc/TAEventProcessor.h
  ../etf/inc/TAPopMsg.h
  ../etf/inc/TAUI.h
+ ../etf/inc/TAVisual.h
  /home/asia/pionExp2017/etf/src/TAUI.cxx
 etf/CMakeFiles/libetf.dir/src/TAUIDParser.cxx.o
  ../etf/inc/TAPopMsg.h

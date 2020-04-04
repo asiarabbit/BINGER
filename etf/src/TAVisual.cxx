@@ -95,7 +95,7 @@ void TAVisual::Configure(){
 	fGCurve->SetMarkerColor(6); fGCurve->SetLineColor(6);
 	pid->SetCurveGraph(fGCurve);
 	fGTarget = new TGraph(); fGTarget->SetNameTitle("Target", "Target");
-	fGTarget->SetMarkerStyle(29); fGTarget->SetMarkerColor(6); fGTarget->SetMarkerSize(1);
+	fGTarget->SetMarkerStyle(3); fGTarget->SetMarkerColor(2); fGTarget->SetMarkerSize(2);
 	fGTarget->SetPoint(0, dp->GetTargetZ0(), 0.);
 	fGBeamline = new TGraph(); fGBeamline->SetNameTitle("Beamline", "Beamline");
 	fGBeamline->SetLineColor(8); fGBeamline->SetLineStyle(3); fGBeamline->SetLineWidth(2);
@@ -281,4 +281,14 @@ void TAVisual::AddPlaStrip(TAPlaStrip *str){
 }
 void TAVisual::AddChannel(TAChannel *ch){
 	fChArr.push_back(ch);
+}
+
+bool TAVisual::OnTheList(int index) const{
+	if(index < 0) return false;
+	for(const int t : fIndexList) if(t == index) return true;
+	return false;
+}
+void TAVisual::AddIndexToDraw(int index){
+	if(index < 0) TAPopMsg::Error("TAVisual", "AddIndexToDraw: minus index.");
+	fIndexList.push_back(index);
 }

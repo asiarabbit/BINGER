@@ -23,6 +23,7 @@
 #include <unistd.h>
 #include "TAUI.h"
 #include "TAPopMsg.h"
+#include "TAVisual.h"
 
 using std::cout;
 using std::endl;
@@ -42,10 +43,11 @@ void TAUI::GetOpt(int argc, char *argv[]){
 	int ch;
 //	opterr = 0;
 	if(1 == argc) PromptHelp();
-	while((ch = getopt(argc, argv, ":i:f:d::u::m::hv")) != -1){
+	while((ch = getopt(argc, argv, ":i:f:p:d::u::m::hv")) != -1){
 		switch(ch){
 			case 'i': fIndex0 = atoi(optarg); break;
 			case 'f': fIndex1 = atoi(optarg); break;
+			case 'p': GetVisual()->AddIndexToDraw(atoi(optarg)); break;
 			case 'd': fAnaDepth = 2; if(optarg) fAnaDepth = atoi(optarg); break;
 			case 'u': fRunId = 1; if(optarg) fRunId = atoi(optarg); break;
 			case 'm': fEvLenLim = atoi(optarg); break;
@@ -92,9 +94,10 @@ void TAUI::GetOpt(int argc, char *argv[]){
 void TAUI::PromptHelp(bool isVerbose){
 	cout << "\n          ----------------- USER MANUL ----------------\n";
 	cout << "Usage:\n";
-	cout << "\t./pre <datafile or rootfile>" ;
+	cout << "\t./pre <datafile or rootfile> ";
 	cout << "[-\033[1mi\033[0m index0] [-\033[1mf\033[0m index1]\n";
-	cout << "\t\t[-\033[1md\033[0manalyze-depth] ";
+	cout << "\t\t[-\033[1mp\033[0m index] ";
+	cout << "[-\033[1md\033[0manalyze-depth] ";
 	cout << "[-\033[1mm\033[0mevent-length-limit] [-\033[1mu\033[0mrunId]\n";
 	cout << "\t\t[-\033[1mh\033[0m] [-\033[1mv\033[0m]\n";
 	if(!isVerbose) cout << "Use './pre -h' for detailed help.\n";
@@ -104,6 +107,7 @@ void TAUI::PromptHelp(bool isVerbose){
 	cout << "\t[datafile]: \n\t\traw binary datafile\n";
 	cout << "\t[-i <index0>] [-f <index1>]: \n\t\tindex range of events to be analysed.\n";
 	cout << "\t\ti-initial, f-final. All events are chosen by default.\n";
+	cout << "\t[-p <index>]: \n\t\tindex to be drawn.\n";
 	cout << "\t[-d[<depth>]]: \n\t\tanalyze depth:\n";
 	cout << "\t\tnot used or 0: daq and detector statistics.";
 	cout << "\n\t\t1: simple tracking; 2: normal tracking (default); 3: PID";

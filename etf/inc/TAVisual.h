@@ -4,7 +4,7 @@
 	\brief Visualize the particle tracks and fired detectors. This is a user
 	interface, so is rather important to show the quality of the whole code.
 	\author SUN Yazhou, asia.rabbit@163.com.
-	\date Created: 2017/10/22 Last revised: 2017/10/23, SUN Yazhou.
+	\date Created: 2017/10/22 Last revised: 2020/03/20, SUN Yazhou.
 	\copyright 2017-2018, SUN Yazhou.
 */
 
@@ -43,6 +43,9 @@ public:
 	void DrawHitMap();
 	TCanvas *GetCanvas();
 	virtual void Configure();
+	virtual bool OnTheList(int index) const; // draw the event or not
+	void AddIndexToDraw(int index);
+
 protected:
 	static TAVisual *fInstance;
 	TAVisual();
@@ -68,6 +71,8 @@ protected:
 	TH2F *fH2HitMap;
 	tHitMap *fHitMapData; ///< array for the function value to fH2HitMap
 	TCanvas *fCanvas;
+
+	vector<int> fIndexList; // the event list to be drawn
 };
 
 

@@ -499,26 +499,21 @@ fitting, sub is abnormal: sub: %d", sub);
 
 
 		// the CONDITION for visualization //
-		// static const int indexArr1[] = { // 2020 March start again
-		// 	855,   3497,  4531,  4851,  5544,  6613,  7046,  7082,  10175, 10278,
-		// 	10336, 10734, 10821, 13075, 13131, 15311, 16607, 18184, 18663, 19569,
-		// 	19655, 22503, 26499, 27113, 29122, 37057, 38259, 39277, 40944, 43218,
-		// 	45121, 45451, 45804, 48547, 48629, 49534, 49872, 50820, 51196, 51840
-		// };
-		// static const int indexArr2[] = {};
-		// static const int indexArr3[] = {};
-		// // to find a match
-		// bool BINGO = false;
-		// for(const int t : indexArr1) if(t == index) { BINGO = true; break; }
-		// for(const int t : indexArr2) if(t == index) { BINGO = true; break; }
-		// for(const int t : indexArr3) if(t == index) { BINGO = true; break; }
+		static const int indexArr1[] = {};
+		static const int indexArr2[] = {};
+		static const int indexArr3[] = {};
+		// to find a match
+		bool BINGO = false;
+		for(const int t : indexArr1) if(t == index) { BINGO = true; break; }
+		for(const int t : indexArr2) if(t == index) { BINGO = true; break; }
+		for(const int t : indexArr3) if(t == index) { BINGO = true; break; }
 
 
 		if(0) vis->FillHitMap();
 		static int jj = 0;
 		static const int jjM = 10;
 
-		if(jj < jjM){ //  && -9999 != aoz[0] // && BINGO
+		if(jj < jjM && (BINGO || vis->OnTheList(index))){ // index permitted by vis
 			jj++;
 			static int i0 = 0;
 			if(0 == i0){ // to make sure that this block would only be carried out once

@@ -1,0 +1,3 @@
+The det_eff has been updated to the result of NOTA calculations.
+The survival rate is still sqrt(Ni/N0).
+But the cross sections are calculated from the ratio of postTA objective nuclide and the unreacted one, i.e. nuclObj/nuclOri

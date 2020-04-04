@@ -2985,6 +2985,8 @@ TAUI.h
 /home/asia/pionExp2017/etf/src/TAUI.h
 TAPopMsg.h
 /home/asia/pionExp2017/etf/src/TAPopMsg.h
+TAVisual.h
+/home/asia/pionExp2017/etf/src/TAVisual.h
 
 /home/asia/pionExp2017/etf/src/TAUIDParser.cxx
 TAPopMsg.h

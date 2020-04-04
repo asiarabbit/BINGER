@@ -2527,6 +2527,7 @@ etf/CMakeFiles/libetf.dir/src/TAUI.cxx.o: ../etf/inc/TACtrlPara.h
 etf/CMakeFiles/libetf.dir/src/TAUI.cxx.o: ../etf/inc/TAEventProcessor.h
 etf/CMakeFiles/libetf.dir/src/TAUI.cxx.o: ../etf/inc/TAPopMsg.h
 etf/CMakeFiles/libetf.dir/src/TAUI.cxx.o: ../etf/inc/TAUI.h
+etf/CMakeFiles/libetf.dir/src/TAUI.cxx.o: ../etf/inc/TAVisual.h
 etf/CMakeFiles/libetf.dir/src/TAUI.cxx.o: ../etf/src/TAUI.cxx
 
 etf/CMakeFiles/libetf.dir/src/TAUIDParser.cxx.o: ../etf/inc/TAPopMsg.h
