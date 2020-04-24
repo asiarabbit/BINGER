@@ -31,9 +31,6 @@
 *.out
 *.app
 
-# ROOT files
-*.root
-
 # documents
 *.pdf
 *.doc
@@ -58,15 +55,19 @@ docs/*
 !docs/Doxyfile
 misc/*
 !misc/tools/Garfield/
+!misc/tools/Garfield/*.root
 !misc/tools/chidGenerator/
+!misc/tools/chidGenerator/*.root
 !build*/*.sh
 !build*/*.C
 !build*/PID/
+build*/PID/**/*.root
 data/*
-!config/STR/STR_spline.root
 !data/example/
 !config/
 Lab/
 !Lab/theory/MOMDIS/
+!Lab/theory/MOMDIS/*.root
 anaG4SimBuild/*
 !build1/WithTA_2020_0314/
+build1/WithTA_2020_0314/**/*.root
