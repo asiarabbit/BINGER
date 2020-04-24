@@ -1,18 +1,18 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 // Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TAPlaStrip.C														 //
-//   TAPlaStrip.C -- source file for class TAPlaStrip								 //
-//   Introduction: designed for both-end-readout plastic scintillator strip.		 //
-// Container class, representating all the attributes and function of the strip.	 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2017/10/9.															     //
-// Last modified: 2018/6/11, SUN Yazhou.										     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
+//																																							     //
+// BINGER/inc/etf/TAPlaStrip.cxx																										 //
+//   TAPlaStrip.cxx -- source file for class TAPlaStrip															 //
+//   Introduction: designed for both-end-readout plastic scintillator strip.				 //
+// Container class, representating all the attributes and function of the strip.		 //
+//																																							     //
+// Author: SUN Yazhou, asia.rabbit@163.com.																			     //
+// Created: 2017/10/9.																													     //
+// Last modified: 2018/6/11, SUN Yazhou.																				     //
+//																																							     //
+//																																							     //
+// Copyright (C) 2017-2018, SUN Yazhou.																					     //
+// All rights reserved.																													     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
 #include "TAPlaStrip.h"
@@ -55,8 +55,8 @@ double TAPlaStrip::GetHitPosition() const{ // distance from hit point to the dow
 	if(-9999. == pos){ // not assigned
 		if(GetDV()->GetData()->GetFiredStatus() && GetUV()->GetData()->GetFiredStatus()){
 			// distance from hit point to the down end.
-			pos = GetStripPara()->GetLength() / 2. + 
-				( GetDV()->GetTime() - GetUV()->GetTime() ) * 
+			pos = GetStripPara()->GetLength() / 2. +
+				( GetDV()->GetTime() - GetUV()->GetTime() ) *
 				GetStripPara()->GetVeff() / 2.;
 			GetStripData()->SetHitPosition(pos); // so that the hit position would only be calculated once
 		} // end if(f..)
@@ -111,7 +111,7 @@ double TAPlaStrip::GetTime(double t0x, double t1x, double t2x){ // get hit time
 //		cout << "GetDV()->GetLT(t0,t1,t2): " << GetDV()->GetLT(t0,t1,t2) << endl; // DEBUG
 //		getchar(); // DEBUG
 		short sta = GetFiredStatus();
-		if(4 == sta || 
+		if(4 == sta ||
 		3 == sta
 		   ){
 			time = -pa->GetLength()/(2.*pa->GetVeff()) + tt / 2. - delay;
@@ -192,11 +192,3 @@ void TAPlaStrip::Configure(){
 		fStripPara->SetVeff(deploy->GetTOFWallStripVeff(uid));
 	}
 }
-
-
-
-
-
-
-
-

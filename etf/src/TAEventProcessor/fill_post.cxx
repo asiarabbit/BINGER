@@ -493,7 +493,7 @@ fitting, sub is abnormal: sub: %d", sub);
 						multi_DC_invalid[dcArrId][dcId][dcType][layerId]--;
 						for(short &x : nu_DC[dcArrId][dcId][dcType][layerId]) if(NU == x) x += 1000;
 					} // end if
-					if(dcArrId <= 3 && dcArrId >= 2){ // PDCs
+					if(dcArrId <= 3 && dcArrId >= 2){ // DCTas
 						multi_PDC_invalid[dcArrId][dcId][dcType][layerId]--;
 						for(short &x : nu_PDC[dcArrId-2][dcId][dcType][layerId]) if(NU == x) x += 1000;
 					} // end if

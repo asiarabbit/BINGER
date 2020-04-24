@@ -1,0 +1,48 @@
+##################################################################################################
+# Data Analysis Code Project for the External Target Facility, CSR-HIRFL, @IMP
+# Exp: 280AMeV 18O Beam, July 7-14, 2018
+#
+# Detector position file with information specifying position and orientation.
+#
+# File format is as follows:
+# x   y   z   phi   yaw   pitch   roll
+# unit: mm	degree
+#
+# Created Time: 2017/12/09
+# Author: SUN Yazhou, asia.rabbit@163.com
+# Last Modified: 2019/01/10, SUN Yazhou
+##################################################################################################
+
+
+
+######################### PDC Arrays around the target ##############################
+# __________ ETF -> PDCArrayU -> PDC0 __________
+0.05	-1.11	-2564.26 	0.067	-0.16	0.11 			8
+# __________ ETF -> PDCArrayU -> PDC1 __________
+3.85	-1.47	-2024.08	-0.016	-0.053	0.067 			72
+# __________ ETF -> PDCArrayD -> PDC0 __________
+0.25	-0.79	-1725.15	-0.079	-0.11	0.26 			9
+# __________ ETF -> PDCArrayD -> PDC1 __________ # x+0.57
+-0.08	0.86	-933.64		-0.14	0.12	0.38 			73
+
+######################### P.Ma's MWDC Arrays downstream of the dipole ###############
+# MWDC Array U
+# __________ ETF -> MWDCArrayU -> MWDC0 __________
+0.0 	0.0 	628.5 		0.0 	0.0 	0.0 			6
+# __________ ETF -> MWDCArrayU -> MWDC1 __________
+0.0 	0.0 	696.5		0.0 	0.0 	0.0 			70
+# MWDC Array D
+# __________ ETF -> MWDCArrayD -> MWDC0 __________
+0.0 	0.0 	763.0 		0.0 	0.0 	0.0 			7
+# __________ ETF -> MWDCArrayD -> MWDC1 __________
+0.0 	0.0 	851.0 		0.0 	0.0 	0.0 			71
+
+######################### MWDC Arrays downstream of the dipole magnet ###############
+# __________ ETF -> MWDCArrayR -> MWDC0 __________
+473.58	23.92	1961.02		14.27 	0.63	0.55			4
+# __________ ETF -> MWDCArrayR -> MWDC1 __________
+998.29	8.78	3499.40 	14.47	0.15	0.15			68
+# __________ ETF -> MWDCArrayR -> MWDC2 __________
+1335.77	10.16	4999.67 	14.87	0.38	0.44			132
+# __________ ETF -> MWDCArrayR -> TOFWall __________
+2238.89	0.0		8275.43 	14.9	-0.67	-0.49			196

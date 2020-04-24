@@ -118,7 +118,7 @@ void TAMWDCArray2::AssignTracks(vector<tTrack *> &track_ls){ // assign tracks
 
 			// track type: 1[UD, pdcUD][XY] <=> 1[23, 45][01]
 			int detId = type[0];
-			if(usingPDC){ // swithc 67 with 89
+			if(usingPDC){ // substitute 67 with 89
 				switch(type[0]){
 					case 6: detId = 8; break;
 					case 7: detId = 9; break;

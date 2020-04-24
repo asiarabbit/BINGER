@@ -1,19 +1,19 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 // Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TAParaManager.C													 //
-//   TAParaManager.C -- source file for class TAParaManager							 //
-//   Introduction: Global parameter manager, a container class. All the parameter	 //
+//																																							     //
+// BINGER/inc/etf/TAParaManager.cxx																									 //
+//   TAParaManager.cxx -- source file for class TAParaManager												 //
+//   Introduction: Global parameter manager, a container class. All the parameter		 //
 // used in the code would be registered in this class for assignment and retrieval.  //
 // This class is supposed to be a singleton, reading parameters from config files.	 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2017/9/26.															     //
-// Last modified: 2018/4/21, SUN Yazhou.										     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
+//																																							     //
+// Author: SUN Yazhou, asia.rabbit@163.com.																			     //
+// Created: 2017/9/26.																													     //
+// Last modified: 2018/4/21, SUN Yazhou.																				     //
+//																																							     //
+//																																							     //
+// Copyright (C) 2017-2018, SUN Yazhou.																					     //
+// All rights reserved.																													     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
 #include <cstdio>
@@ -339,7 +339,7 @@ void TAParaManager::AssignDetPos(const char *fname) const{
 		sscanf(line, "%lg %lg %lg %lg %lg %lg %lg", &value[0], &value[1],
 			&value[2], &value[3], &value[4], &value[5], &UID);
 		for(int i = 3; i--;) value[i+3] *= TAMath::DEGREE(); // degree -> rad
-		
+
 		// find the right detector and assign the posiiton set
 		unsigned uid = unsigned(UID);
 		bool isAssigned = false;
@@ -604,6 +604,3 @@ void TAParaManager::AssignGPar(const char *fname) const{
 	} // end while
 	gp->SetHasRead(true);
 }
-
-
-

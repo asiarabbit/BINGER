@@ -1,0 +1,153 @@
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <string>
+#include <fstream>
+#include <cctype>
+#include <ctime>
+
+using namespace std;
+typedef int tChId_Ta[4][2][1]; // [DC0-1-2-3][X-Y][Cable#]
+
+tChId_Ta chIdM = { // Upstream of the target
+	// DC0
+	{
+	{101}, // DC0: X1
+	{-2}   // DC0: Y1
+	},
+
+	// DC1
+	{
+	{133}, // DC1: X1
+	{-2}   // DC1: Y1
+	},
+
+	// DC2
+	{
+	{165}, // DC2: X1
+	{-2}   // DC2: Y1
+	},
+	
+	// DC3
+	{
+	{197}, // DC2: X1
+	{-2}   // DC2: Y1
+	}
+};
+
+const char *time0(){
+	time_t tt = ::time(NULL);
+	tm *t = localtime(&tt);
+	static char ttt[128];
+	sprintf(ttt, "%d/%02d/%02d %02d:%02d", t->tm_year + 1900,
+	 t->tm_mon + 1, t->tm_mday, t->tm_hour, t->tm_min);
+	return ttt;
+}
+
+void cable(const char *path, int *type, int chId, int cableId, char xy, int dcId, char isU){
+	char fname[2][64];
+	ofstream *fout[2];
+	sprintf(fname[0], "%s/sfe0.000", path);
+	sprintf(fname[1], "%s/sfe1.000", path);
+//	cout << "fname[0]: " << fname[0] << endl; getchar(); // DEBUG
+//	cout << "fname[0]: " << fname[1] << endl; getchar(); // DEBUG
+	fout[0] = new ofstream(fname[0], ios::app);
+	fout[1] = new ofstream(fname[1], ios::app);
+	string s0;
+s0+="##################################################################################################\n";
+s0+="# Data Analysis Code Project for the External Target Facility, CSR-HIRFL, @IMP\n";
+s0+="#\n";
+s0+="# Channel Id file for 16 channels of an SFE16 chip used for Ampli-Shape-Discri in MWDC FEE.\n";
+
+	string s2;
+s2+="# channelId map rule: PXI channel id 1 -> 16 <=> SFE16 channel No. 1 -> 16\n";
+s2+="# SFE16 channel No. 1 -> 16: from left to right (facing beam direction, x incrementing).\n";
+s2+="# SFE0 cooresponds to X(Y)1 with smaller z than SFE1(X(Y)2),\n";
+s2+="# and is 2.5-mm x(y)-wise translated w.r.t. X(Y)2.\n";
+s2+="#\n";
+s2+="# File format is as follows:\n";
+s2+="# channelId	uid\n";
+s2+="#\n";
+char ts0[128]; sprintf(ts0, "# Created Time: %s\n", time0());
+s2+=ts0;
+s2+="# Author: SUN Yazhou, asia.rabbit@163.com\n";
+sprintf(ts0, "# Last Modified: %s, SUN Yazhou\n", time0());
+s2+=ts0;
+s2+="##################################################################################################\n";
+//	cout << "time0: " << time0() << endl; getchar(); // DEBUG
+
+	for(int I = 0; I < 2; I++){ // loop over two SFE16 chips
+		ofstream &fr = *fout[I];
+		// add file header
+		char s1[128];
+		sprintf(s1, "# Identity: __________ ETF -> MWDCArray%c -> MWDC%d -> %c -> Cable%d -> SFE%d(%c%d) __________\n", isU, dcId, xy, cableId, I, xy, I+1);
+		fr << s0 << s1 << s2 << endl;
+
+		for(int i = 0; i < 16; i++){
+		    if(type[5] >= 16 || type[4] >= 2 || type[3] >= 1 ||
+		     type[2] >= 2 || type[1] >= 4 ||
+		     (type[0] != 3 && type[0] != 4)){
+		        cout << "invalid type value 0.\n";
+		       	for(int ii = 0; ii < 6; ii++){
+		       		cout << "type[" << ii << "]: " << type[ii] << endl;
+		       	}
+		        cout << "type[0]: " << type[0] << endl;
+		        getchar();
+		        exit(EXIT_FAILURE);
+		    }
+		    for(int j = 6; j--;) if(type[j] < 0){
+		        cout << "invalid type value 2.\n"; getchar();
+		        exit(EXIT_FAILURE);
+		    }
+
+			int uid = type[0] + (type[1]<<6) + (type[2]<<9)
+				+ (type[3]<<11) + (type[4]<<14) + (type[5]<<15);
+		    fr << chId << "\t" << uid << endl;
+		    if(chId > 0) chId++;
+		    else chId = -2;
+		    type[5]++;
+		} // end for over i
+		type[5] = 0; type[4] = 1;
+		fr.close();
+	} // end for over I
+} // end function void cable
+
+
+// main function to generete the chid config-dir tree
+int main(){
+	char isU[] = "M", xy[] = "XY";
+	int len[1][4] = {{1, 1, 1, 1}};
+	tChId_Ta *chId[] = {&chIdM};
+	string mkdir = "mkdir "; char path0[128] = "channelIdTaDCM4";
+	system((mkdir+path0).c_str());
+	int type[6];
+	for(int i = 0; i < 1; i++){ // loop over MWDC array M
+		type[0] = i + 4;
+		char path1[128]; sprintf(path1, "/mwdcArr%c", isU[i]);
+		system((mkdir+path0+path1).c_str());
+		for(int j = 0; j < 4; j++){ // loop over MWDCs
+			type[1] = j;
+			char path2[128]; sprintf(path2, "/mwdc%d", j);
+			system((mkdir+path0+path1+path2).c_str());
+			for(int k = 0; k < 2; k++){ // loop over X-Y
+				type[2] = k;
+				char path3[128]; sprintf(path3, "/%c", tolower(xy[k]));
+				system((mkdir+path0+path1+path2+path3).c_str());
+				for(int l = 0; l < len[i][j]; l++){ // loop over cables in an SLayer
+					type[3] = l;  type[4] = 0; type[5] = 0;
+					char path4[128]; sprintf(path4, "/cable%d", l);
+					char path[128];
+					sprintf(path, "%s%s%s%s%s", path0, path1, path2, path3, path4);
+					system((mkdir+path).c_str());
+//					cout << "chId: " << (*chId[i])[j][k][l] << endl; // DEBUG
+//					cout << "path: " << path << endl; getchar(); getchar(); // DEBUG
+					cable(path, type, (*chId[i])[j][k][l], l, xy[k], j, isU[i]);
+				} // end for over cables in an SLayer
+			} // end for over X-Y
+		} // end for over dc
+	} // end for over U - D
+} // end of the main function
+
+
+
+

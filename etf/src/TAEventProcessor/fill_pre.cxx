@@ -143,7 +143,7 @@
 		if(vme){
 			tof1vme = ((evt.mtdc0[1][0] + evt.mtdc0[2][0]) / 2. -  evt.mtdc0[0][0]) * 0.09765625 + 141.3;
 			tof1tac = (-0.010217 * evt.adc[0] -0.0104695 * evt.adc[1]) / 2. + 158.3;
-			dE0 = (evt.adc[16] + evt.adc[17]) / 2000.;
+			dE0 = (evt.adc[16] + evt.adc[17] + evt.adc[18] + evt.adc[19]) / 2000.;
 			dE1 = (evt.adc[22] + evt.adc[23] + evt.adc[24]) / 3000.;
 			dsca10 = evt.dsca[10]; dsca11 = evt.dsca[11];
 			hpid00->Fill(tof1vme, dE0);

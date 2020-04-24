@@ -1,18 +1,18 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 // Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TAMWDCTa.C														 //
-//   TAMWDCTa.C -- source file for class TAMWDCTa									 //
+//																																							     //
+// BINGER/inc/etf/TAMWDCTa.cxx																											 //
+//   TAMWDCTa.cxx -- source file for class TAMWDCTa																	 //
 //   Introduction: A class derived from TAMWDC. S stands for small. This class is for//
-// MWDCs around the target.															 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2018/3/27.															     //
-// Last modified: 2018/9/6, SUN Yazhou.											     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
+// MWDCs around the target.																													 //
+//																																							     //
+// Author: SUN Yazhou, asia.rabbit@163.com.																			     //
+// Created: 2018/3/27.																													     //
+// Last modified: 2018/9/6, SUN Yazhou.																					     //
+//																																							     //
+//																																							     //
+// Copyright (C) 2017-2018, SUN Yazhou.																					     //
+// All rights reserved.																													     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
 #include "TAAnode.h"
@@ -86,4 +86,3 @@ void TAMWDCTa::Configure(){
 	}
 //	TAPopMsg::Debug(GetName().c_str(), "Configure: showcase: fNAnodePerLayer: %d", fNAnodePerLayer);
 } // end member function Configure
-

@@ -25,9 +25,8 @@
 static const TAGPar *gp = TAGPar::Instance();
 
 TAT0_0::TAT0_0(const string &name, const string &title, unsigned uid)
-		: TAStrip(name, title, uid), TADetUnion(uid){
-	fFiredStatus = -2; fDelay = -9999.;
-}
+		: TAStrip(name, title, uid), TADetUnion(uid){}
+
 TAT0_0::~TAT0_0(){}
 
 // get the channel that belongs to this with uid.
@@ -62,7 +61,7 @@ void TAT0_0::Configure(){
 	double p[3] = {0., 0., GetZ0()}; GetStripPara()->SetGlobalProjection(p);
 
 	fStripPara->SetWidth(100.); // mm, not accurate
-	fStripPara->SetLength(100.); // mm，
+	fStripPara->SetLength(100.); // mm,
 	fStripPara->AppendDelay(1.E-7);
 	fStripPara->SetVeff(1200. / 7.8); // mm/ns, roughly calibrated
 

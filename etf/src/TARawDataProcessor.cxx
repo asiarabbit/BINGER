@@ -635,7 +635,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 				int chData = buffer[pos+j]; // channel data
 				slot = (chData>>27) & 0x1F;
 
-				if((5 == slot || 17 == slot) && !id_v830 && !id_v1190){ // QDC v965 and ADC v785
+				if((5 == slot || 18 == slot) && !id_v830 && !id_v1190){ // QDC v965 and ADC v785
 					header = (chData>>24) & 0x7;
 					if(2 == header){ // data header
 #ifdef DEBUG_VME
@@ -663,7 +663,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 								if(chId >= 32) TAPopMsg::Error("TARawDataProcessor", "ReadOfflineVME: abnormal chId for qdc plugin: %d", chId);
 								evt.qdc[0][chId] = chData & 0xFFF;
 								break;
-							case 17: // ADC v785; slot 17
+							case 18: // ADC v785; slot 17
 								entry_temp.channelId = chId + 8501;
 								entry_temp.leadingTime[0] = (chData & 0xFFF);
 								if(31 == chId) pileUp = entry_temp.leadingTime[0] +  rand0_5();
