@@ -51,8 +51,8 @@ void eff(){
 	double p[4]{}; // to pass result
 
 	cout << endl << "PDC detection effciency - e_eP: " << endl;
-	cut1 = "dsca11==0&&A0&&B0&&C0&&ntrLs[1][0]==1&&" + cutdE1;
-	cut2 = "dsca11==0&&A0&&B0&&C0&&ntrLs[1][0]==1&&ntrLs[3][0]==1&&aoz[0]>0.&&" + cutdE1;
+	cut1 = "dsca11==0&&A0&&B0&&C0&&ntrLs[1][0]==1&&ntrLs[2][0]==1&&" + cutdE1;
+	cut2 = "dsca11==0&&A0&&B0&&C0&&ntrLs[1][0]==1&&ntrLs[2][0]==1&&ntrLs[3][0]==1&&" + cutdE1;
 	cout << "cut1: " << cut1 << endl;
 	n1 = treeTrack->GetEntries(cut1.c_str());
 	n2 = treeTrack->GetEntries(cut2.c_str());

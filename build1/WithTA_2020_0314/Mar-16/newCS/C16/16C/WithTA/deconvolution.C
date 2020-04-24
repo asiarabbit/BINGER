@@ -20,8 +20,8 @@ int main(){
 
 	// beam info in general //
 	const ExpData N0(190950, 0);
-//	const double nC12 = 13, nC13 = 255, nC14 = 1336, nC15 = 1310, nC16 = 155766, nC16Ori = 164097, nC17 = 0;
-	const double nC12 = 13, nC13 = 223.306, nC14 = 1360.47, nC15 = 1329.56, nC16 = 155766, nC16Ori = 164097, nC17 = 0; // only C13-C14-15, Refine - with PDCTa4 Tracking, gaus fit
+	const double nC12 = 13, nC13 = 255, nC14 = 1336, nC15 = 1310, nC16 = 155766, nC16Ori = 164097, nC17 = 0;
+//	const double nC12 = 13, nC13 = 223.306, nC14 = 1360.47, nC15 = 1329.56, nC16 = 155766, nC16Ori = 164097, nC17 = 0; // only C13-C14-15, Refine - with PDCTa4 Tracking, gaus fit
 	const double nB11 = 205, nB12 = 228, nB13 = 348, nB14 = 93, nB15 = 142, nB16 = 0;
 	const double nBe10 = 246, nBe11 = 59, nBe12 = 47, nBe13 = 0;
 	const double nLi8 = 0, nLi9 = 0;

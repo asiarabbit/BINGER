@@ -130,10 +130,26 @@
 	short multi_DC[2][3][3][2]{}; // DCArr[L-R][DC0-1-2][XUV][X1-2]
 	short multi_DCTa[2][2][2][2]{}; // DCTaArr[U-D][DC0-1][XY][X1-2]
 	short multi_PDC[2][2][2][2]{}; // PDCArr[U-D][DC0-1][XY][X1-2]
+	// multiplicities for invalid hits (not belonging to any track)
+	short multi_DC_invalid[2][3][3][2]{}; // DCArr[L-R][DC0-1-2][XUV][X1-2]
+	short multi_DCTa_invalid[2][2][2][2]{}; // DCTaArr[U-D][DC0-1][XY][X1-2]
+	short multi_PDC_invalid[2][2][2][2]{}; // PDCArr[U-D][DC0-1][XY][X1-2]
+	// the id of fired sense wires, including the valid and free ones //
+	// maximum multiplicity
+	static const int maxMultiDC = 6, maxMultiDCTa = 3, maxMultiPDC = maxMultiDCTa;
+	short nu_DC[2][3][3][2][maxMultiDC]{}; // DCArr[L-R][DC0-1-2][XUV][X1-2][]
+	short nu_DCTa[2][2][2][2][maxMultiDCTa]{}; // DCTaArr[U-D][DC0-1][XY][X1-2]
+	short nu_PDC[2][2][2][2][maxMultiPDC]{}; // PDCArr[U-D][DC0-1][XY][X1-2]
 	TTree *treeMulti = new TTree("treeMulti", "DC multiplicity");
 	treeMulti->Branch("multi_DC", multi_DC, "multi_DC[2][3][3][2]/S");
 	treeMulti->Branch("multi_DCTa", multi_DCTa, "multi_DCTa[2][2][2][2]/S");
 	treeMulti->Branch("multi_PDC", multi_PDC, "multi_PDC[2][2][2][2]/S");
+	treeMulti->Branch("multi_DC_invalid", multi_DC_invalid, "multi_DC_invalid[2][3][3][2]/S");
+	treeMulti->Branch("multi_DCTa_invalid", multi_DCTa_invalid, "multi_DCTa_invalid[2][2][2][2]/S");
+	treeMulti->Branch("multi_PDC_invalid", multi_PDC_invalid, "multi_PDC_invalid[2][2][2][2]/S");
+	treeMulti->Branch("nu_DC", nu_DC, "nu_DC[2][3][3][2][6]/S");
+	treeMulti->Branch("nu_DCTa", nu_DCTa, "nu_DCTa[2][2][2][2][3]/S");
+	treeMulti->Branch("nu_PDC", nu_PDC, "nu_PDC[2][2][2][2][3]/S");
 	objLsTree.push_back(treeMulti);
 
 	// time to T-Reference

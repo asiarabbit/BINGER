@@ -57,6 +57,28 @@ void tmp(){
 //	treeTrack->Draw("t0_1Pos[1]:t0_1Pos[0]>>(500, -60., 60., 500, -60., 60.)", "dsca11==0&&PDCPos[1][1]!=-9999.&&!C0", "col")
 	treeTrack->Draw("dE1:aoz[0]>>h(500, 1.8, 3.7, 500, 0., 4.5)", "dsca11==0&&A0&&B0&&C0;aoz;dE1 arb.;", "colbox");
 
+	/// P_parallel ///
+	// cos<k_0,k_1> distribution
+//	treeTrack->Draw("(1.+kTa[0][0]*kTa[1][0]+kTa[0][1]*kTa[1][1])/(sqrt(1.+kTa[0][0]*kTa[0][0]+kTa[0][1]*kTa[0][1])*sqrt(1.+kTa[1][0]*kTa[1][0]+kTa[1][1]*kTa[1][1]))>>(500, 0.98, 1.01)", "A0&&B0&&C0&&dsca11==0&&ntrLs[2][0]==1&&ntrLs[2][1]==1&&ntrLs[3][0]==1&&ntrLs[3][1]==1&&aoz[0]>0.");
+	// <k_0,k_1> distribution (in degree)
+//	treeTrack->Draw("acos((1.+kTa[0][0]*kTa[1][0]+kTa[0][1]*kTa[1][1])/(sqrt(1.+kTa[0][0]*kTa[0][0]+kTa[0][1]*kTa[0][1])*sqrt(1.+kTa[1][0]*kTa[1][0]+kTa[1][1]*kTa[1][1])))/0.0174533>>(500, -0.01, 3.)", "A0&&B0&&C0&&dsca11==0&&ntrLs[2][0]==1&&ntrLs[2][1]==1&&ntrLs[3][0]==1&&ntrLs[3][1]==1&&aoz[0]>0.");
+	// <(1,0,0),k_0> distribution (in degree)
+//	treeTrack->Draw("acos(1./sqrt(1.+kTa[0][0]*kTa[0][0]+kTa[0][1]*kTa[0][1]))/0.0174533>>(500, -0.01, 3.)", "A0&&B0&&C0&&dsca11==0&&ntrLs[2][0]==1&&ntrLs[2][1]==1&&ntrLs[3][0]==1&&ntrLs[3][1]==1&&aoz[0]>0.");
+	// <(1,0,0),k_1> distribution (in degree)
+//	treeTrack->Draw("acos(1./sqrt(1.+kTa[1][0]*kTa[1][0]+kTa[1][1]*kTa[1][1]))/0.0174533>>(500, -0.01, 3.)", "A0&&B0&&C0&&dsca11==0&&ntrLs[2][0]==1&&ntrLs[2][1]==1&&ntrLs[3][0]==1&&ntrLs[3][1]==1&&aoz[0]>0.");
+
+	// P_parallel finally
+//	treeTrack->Draw("poz[0]*(1.+kTa[0][0]*kTa[1][0]+kTa[0][1]*kTa[1][1])/(sqrt(1.+kTa[0][0]*kTa[0][0]+kTa[0][1]*kTa[0][1])*sqrt(1.+kTa[1][0]*kTa[1][0]+kTa[1][1]*kTa[1][1]))>>(500, 1., 10.)", "A0&&B0&&C0&&dsca11==0&&ntrLs[2][0]==1&&ntrLs[2][1]==1&&ntrLs[3][0]==1&&ntrLs[3][1]==1&&aoz[0]>0.");
+//	treeTrack->Draw("poz[0]*()");
+//	"(1.+kTa[0][0]*kTa[1][0]+kTa[0][1]*kTa[1][1])/(sqrt(1.+kTa[0][0]*kTa[0][0]+kTa[0][1]*kTa[0][1])*sqrt(1.+kTa[1][0]*kTa[1][0]+kTa[1][1]*kTa[1][1]))"
+//	"ntrLs[2][0]==1&&ntrLs[2][1]==1&&ntrLs[3][0]==1&&ntrLs[3][0]==1"
+//	"A0&&B0&&C0&&dsca11==0"
+//	treeTrack->Draw("15.*beta2[0]/sqrt(1-beta2[0]*beta2[0])*931.494>>h(400, 7000, 11500)", "A0&&B0&&C0&&aoz[0]>0.&&pozpl!=-9999.&&C15", "");
+//	treeTrack->Draw("6*pozpl>>h(70, 8500, 11000)", "A0&&B0&&C0&&pozpl!=-9999.&&C15", "");
+//	treeTrack->Draw("15.*beta2[0]/sqrt(1-beta2[0]*beta2[0])*931.494*sqrt(1.-pozpl/poz[0]*pozpl/poz[0])>>h(300, -100., 700.)", "A0&&B0&&C0&&aoz[0]>0.&&pozpl!=-9999.&&C15", "");
+//	treeTrack->Draw("15.*beta2[0]/sqrt(1-beta2[0]*beta2[0])*931.494*pozpl/poz[0]>>h(100, 8500., 11000.)", "A0&&B0&&C0&&aoz[0]>0.&&pozpl!=-9999.&&C15", "");
+//	treeTrack->Draw("15.*beta2[0]/sqrt(1-beta2[0]*beta2[0])*931.494*cospl>>h(100, 8500., 11000.)", "A0&&B0&&C0&&aoz[0]>0.&&pozpl!=-9999.&&C15", "");
+
 //return;
 
 /// scriptlet to dissect dx2 smear ///

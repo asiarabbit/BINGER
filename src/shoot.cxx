@@ -110,6 +110,7 @@ void shoot(const char *rootfile){
 	double tRef_pos; // hit position of T0_1
 	unsigned sca[16]; int dsca[16];
 	double k2[n3DtrMax], b2[n3DtrMax];
+	double poz[ntrMax]; // poz postTa, in MeV/c
 	treeTrack->SetBranchAddress("index", &index);
 	treeTrack->SetBranchAddress("tRef_pos", &tRef_pos);
 	treeTrack->SetBranchAddress("ntr", &ntr);
@@ -130,6 +131,7 @@ void shoot(const char *rootfile){
 	treeTrack->SetBranchAddress("type", type);
 	treeTrack->SetBranchAddress("id", id);
 	treeTrack->SetBranchAddress("aoz", aoz);
+	treeTrack->SetBranchAddress("poz", poz);
 	vme->SetBranchAddress("sca", sca);
 	vme->SetBranchAddress("dsca", dsca);
 	if(treePID3D){
@@ -158,6 +160,8 @@ void shoot(const char *rootfile){
 	double stripGap = -9999.;
 	const double stripGapP0 = -0.327509, stripGapP1 = 40.3689; // strip Gap function: s(stripId) = p0+stripId*p1
 	double sca1drv = 0.;
+	double pozpl; // longitudinal momentum of the residue
+	double cospl; // cos<n_in, n_out> to get the parallel momentum
 	TTree *treeshoot = new TTree("treeshoot", "shoot! haha~");
 	treeshoot->Branch("index", &index, "index/I");
 	treeshoot->Branch("taHitPos", taHitPos, "taHitPos[2][2]/D");
@@ -181,6 +185,8 @@ void shoot(const char *rootfile){
 	treeshoot->Branch("stripGap", &stripGap, "stripGap/D");
 	treeshoot->Branch("dsca4", &dsca4, "dsca4/I");
 	treeshoot->Branch("pdcgGOOD", pdcgGOOD, "pdcgGOOD[2]/I");
+	treeshoot->Branch("pozpl", &pozpl, "pozpl/D");
+	treeshoot->Branch("cospl", &cospl, "cospl/D");
 
 	const char ud[] = "UD", xy[] = "XY";
 	ostringstream name, title;
@@ -301,8 +307,8 @@ void shoot(const char *rootfile){
 			TOFWPos[ii] = -9999.;
 		} // end for over i
 		kDC_ = -9999.; bDC_ = -9999.;
-		for(double &x : k2) if(x != -9999.) x = -9999.;
-		for(double &x : b2) if(x != -9999.) x = -9999.;
+//		for(double &x : k2) if(x != -9999.) x = -9999.;
+//		for(double &x : b2) if(x != -9999.) x = -9999.;
 		for(int j = 0; j < 6; j++) nuDCR[j] = -9999.;
 		stripGap = -9999.;
 
@@ -396,6 +402,7 @@ void shoot(const char *rootfile){
 
 		// extract pdcgGOOD info
 		pdcgGOOD[0] = -1; pdcgGOOD[1] = -1;
+		pozpl = -9999.; cospl = -9999.;
 		if(aoz[0] != -9999.){
 			int cntPDCX = 0;
 			for(int j = 0; j < ntrT; j++){
@@ -408,6 +415,16 @@ void shoot(const char *rootfile){
 					cout << "More than 1 PDC-D X track in event " << i << endl;
 //					getchar();
 				}
+				///// extract the longitudinal momentum of the residue /////
+				// only 1 trkUX(Y) and 1 trkDX(Y)
+				if(1 == ntrLs[2][0] && 1 == ntrLs[2][1] &&
+					 1 == ntrLs[3][0] && 1 == ntrLs[3][1]){
+					double n0[3] = {1, kTa[0][0], kTa[0][1]}; // the incident direction
+					double n1[3] = {1, kTa[1][0], kTa[1][1]}; // the outgoing direction
+					cospl = // n0*n1/(|n0|*|n1|)=cos<n0,n1>
+						TAMath::innerProduct(n0, n1) / (TAMath::norm(n0)*TAMath::norm(n1));
+					pozpl = cospl * poz[0]; // projection to the incident direction
+				} // end if
 			} // end for over j
 		} // end if
 

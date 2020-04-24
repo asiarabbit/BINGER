@@ -16,6 +16,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 
 // ROOT include
+
+#include <iostream>
+
 #include "TGraph.h"
 #include "TLegend.h"
 #include "TH2F.h"
@@ -292,3 +295,13 @@ void TAVisual::AddIndexToDraw(int index){
 	if(index < 0) TAPopMsg::Error("TAVisual", "AddIndexToDraw: minus index.");
 	fIndexList.push_back(index);
 }
+// print the list of events to draw
+void TAVisual::PrintDrawList() const{
+	std::cout << std::endl;
+	for(auto x : fIndexList) std::cout << x << "  ";
+	std::cout << std::endl;	
+}
+
+
+
+

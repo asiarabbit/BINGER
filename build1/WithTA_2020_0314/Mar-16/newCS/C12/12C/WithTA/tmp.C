@@ -61,6 +61,10 @@ void tmp(){
 //	return;
 
 
+///////// ppl /////////
+//treeTrack->Draw("11.*beta2[0]/sqrt(1-beta2[0]*beta2[0])*931.494*cospl>>h(100, 6000., 8500.)", "A0&&B0&&C0&&aoz[0]>0.&&pozpl!=-9999.&&C11", "");
+
+
 /// scriptlet to dissect dx2 smear ///
 //	treeTrack->Draw("kTa[0][0]-kTa[1][0]:dx2[0]>>(500, -100., 150., 500, -0.1, 0.1)", "A0&&B0&&C0&&(dE1>1.00)&&dsca11==0", "col");
 //	treeTrack->Draw("kTa[0][0]-kTa[1][0]:dx2[0]>>(500, -100., 150., 500, -0.1, 0.1)", "A0&&B0&&C0&&(dE1>1.00)&&dsca11==0&&C14", "col");

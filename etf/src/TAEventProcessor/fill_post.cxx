@@ -481,6 +481,25 @@ fitting, sub is abnormal: sub: %d", sub);
 				w[j][k] = tra->w[k];
 				r[j][k] = tra->r[k];
 				chi[j][k] = tra->chi[k];
+
+				/////////// mark those sense wires that ////////////////
+				//////// don't belong to any track with a minus sign in treeMulti ////////////
+				// dcArrId: 0-1-2-3 => dcArrL-R--U-D; dcType: 0-1 => X-Y, 0-1-2: X-U-V
+				short dcArrId = type[j]/10%10, dcType = type[j]%10, dcId = k/2, layerId = k%2;
+				// it's the same layer for sure
+				const double NU = nu[j][k];
+				if(NU >= 0){
+					if(dcArrId <= 1){ // DCArrL-R
+						multi_DC_invalid[dcArrId][dcId][dcType][layerId]--;
+						for(short &x : nu_DC[dcArrId][dcId][dcType][layerId]) if(NU == x) x += 1000;
+					} // end if
+					if(dcArrId <= 3 && dcArrId >= 2){ // PDCs
+						multi_PDC_invalid[dcArrId][dcId][dcType][layerId]--;
+						for(short &x : nu_PDC[dcArrId-2][dcId][dcType][layerId]) if(NU == x) x += 1000;
+					} // end if
+				} // end outer if
+				//////////////////////////////////////////////////////////////////////////////
+
 			} // end for over k
 			TOT_DC_Avrg[j] = tra->dcTOTAvrg();
 		} // end for over tracks

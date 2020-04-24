@@ -38,7 +38,7 @@ void sigmaIC(){
 	
 	// draw the graphs //
 	TCanvas *c = new TCanvas("c", "c", 800, 600);
-	TLegend *lg = new TLegend(0.7, 0.8, 0.9, 0.9);
+	TLegend *lg = new TLegend(0.4, 0.5, 0.9, 0.9);
 	c->SetGrid();
 
 
@@ -52,9 +52,9 @@ void sigmaIC(){
 	gsigmaI240->Draw("PLsame");
 	gsigmaI900->Draw("PLsame");
 	
-	lg->AddEntry(gsigmaR83, "83MeV/u, R");
-	lg->AddEntry(gsigmaI240, "240MeV/u, I");
-	lg->AddEntry(gsigmaI900, "900MeV/u, I");
+	lg->AddEntry(gsigmaR83, "83MeV/u, Reaction C.S.");
+	lg->AddEntry(gsigmaI240, "240MeV/u, Interaction C.S.");
+	lg->AddEntry(gsigmaI900, "900MeV/u, Interaction C.S.");
 	lg->SetY1(0.7);
 	lg->Draw();
 

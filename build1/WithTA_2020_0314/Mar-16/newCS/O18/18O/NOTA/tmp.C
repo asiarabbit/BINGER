@@ -4,7 +4,7 @@
 
 void errDiv(double x1, double dx1, double x2, double dx2, double *pp = nullptr);
 void tmp(){
-	TFile *f = new TFile("~/pionExp2017/build/O18NOTA.root", "update"); // 0920 0508
+	TFile *f = new TFile("~/pionExp2017/build1/O18NOTA.root", "update"); // 0920 0508
 	TTree *treeTrack = (TTree*)f->Get("treeTrack");
 	TTree *treeshoot = (TTree*)f->Get("treeshoot");
 	TTree *treeTOFWR = (TTree*)f->Get("treeTOFWR");
@@ -47,7 +47,7 @@ void tmp(){
 //	treeTrack->Draw("t0_1Pos[1]:t0_1Pos[0]>>h(500, -40., 40., 500, -40., 40.)", "dsca11==0&&A0;taHitPosX [mm];taHitPosY [mm];", "col");
 //	treeTrack->Draw("poz[0]:tof2[0]>>h(500, 50., 80., 500, 800., 2200.)", "dsca11==0&&A0&&B0&&C0;tof2;poz;", "col");
 //	treeTrack->Draw("tof2[0]:aoz[0]>>h(500, 1.4, 2.6, 500, 63., 73.)", "dsca11==0&&A0&&B0&&C0&&dE1>2.75;aoz;tof2;", "col");
-	treeTrack->Draw("dE1:aoz[0]>>h(500, 1.4, 3., 500, 0., 4.5)", "dsca11==0&&A0&&B0&&C0&&dsca4==1&&(dx2[0]>-9&&dx2[0]<4);aoz;dE1 arb.;", "colbox"); // 
+	treeTrack->Draw("dE1:aoz[0]>>h(500, 1.6, 2.6, 500, 0., 4.5)", "dsca11==0&&A0&&B0&&C0;aoz;dE1 arb.;", "col"); // 
 //	treeTrack->Draw("dE1:aoz[0]>>h(500, 1.4, 3., 500, 0., 4.5)", "dsca11==0&&A0&&B0&&C0&&(dx2[0]>-9&&dx2[0]<4)&&sca1drv<0.5;aoz;dE1 arb;", "colbox"); // 
 //	treeTrack->Draw("TOT_DC_Avrg[0]:dE1>>h(500, 0., 4.5, 500, -10., 1000.)", "A0&&B0&&C0&&ntrT==7", "colbox");
 

@@ -58,6 +58,10 @@ void tmp(){
 //	treeTrack->Draw("t0_1Pos[1]:t0_1Pos[0]>>(500, -60., 60., 500, -60., 60.)", "dsca11==0&&PDCPos[1][1]!=-9999.", "col");
 	treeTrack->Draw("dE1:aoz[0]>>h(500, 1.4, 2.8, 500, 0., 5.)", "dsca11==0&&A0&&B0&&C0;aoz;dE1 arb.;", "colbox");
 
+
+///////// ppl /////////
+//treeTrack->Draw("12.*beta2[0]/sqrt(1-beta2[0]*beta2[0])*931.494*cospl>>h(100, 6500., 9000.)", "A0&&B0&&C0&&aoz[0]>0.&&pozpl!=-9999.&&C12", "");
+
 //	return;
 
 

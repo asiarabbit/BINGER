@@ -6,7 +6,7 @@
 
 # 5mmC; B: 1.20
 
-#36w; B: 1.2004 Tesla
+# 36w; B: 1.2004 Tesla
 ./preO18 20180707_2052.dat 20180707.021 -d6
 ./sho 20180707_2052.dat_0.root
 #mv 20180707_2052.dat_0.root O18TA.root

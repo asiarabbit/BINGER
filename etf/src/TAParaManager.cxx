@@ -59,7 +59,7 @@ TAParaManager::TAParaManager() : fDetList{0}{
 	// add physical constants
 	AddPhysConst("e0", 1.60217733E-19); // elementary charge, unit: C
 	AddPhysConst("u0", 1.66053886E-27); // atomic mass unit, unit: kg
-	AddPhysConst("u0MeV", 931.493582); // atomic mass unit, unit: MeV
+	AddPhysConst("u0MeV", 931.494061); // atomic mass unit, unit: MeV
 	AddPhysConst("c0", 299.792458); //light speed in vacuum, unit: mm/ns
 	AddPhysConst("mAr", 39.9525); // mass of naked argon, unit: u
 }

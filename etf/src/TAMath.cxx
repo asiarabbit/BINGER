@@ -52,6 +52,13 @@ double TAMath::norm(const double *p, int len){
 	}
 	return sqrt(norm);
 }
+double TAMath::innerProduct(const double *p0, const double *p1, int len){
+	double prod = 0.;
+	for(int i = 0; i < len; i++){
+		prod += p0[i]*p1[i];
+	}
+	return prod;
+}
 // |p0-p1|, len=3
 double TAMath::L(const double *p0, const double *p1, int len){
 	const int n = 10;

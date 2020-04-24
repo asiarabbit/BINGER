@@ -147,11 +147,12 @@ void TAPID::FlyPion(double tof2, double x0TaHit, const double *pOut_, short dcAr
 //		cout << "fBeta: " << fBeta << "\tfTotalTrackLength: " << fTotalTrackLength << endl;
 //		getchar(); // DEBUG
 		// 0.321840605 = e0/(u0*c0*1E6) SI unit
-		fAoZ = B * (rho/1000.) * 0.321840605 / (fBeta * fGamma);
+		fBrho = B * rho / 1000.; // T.m
+		// 0.32184043951=299.792458/931.494061
+		fPoZ = fBrho * 299.792458; // MeV/c // 0.32184044 * u0MeV
+		fAoZ = fPoZ / u0MeV / (fBeta * fGamma);
 		fAoZdmin = 0.;
 		fAngleTaOut[0] = atan(ki); fAngleTaOut[1] = atan(k2);
-		fPoZ = B * (rho/1000.) * 0.321840605 * u0MeV; // MeV/c
-		fBrho = B * rho / 1000.; // T.m
 		fIsFlied = true; // fIsflied should be assigned immediately after flying
 //		cout << "fAoZ: " << fAoZ << "\tfBrho: " << fBrho << endl; // DEBUG
 //		getchar(); // DEBUG

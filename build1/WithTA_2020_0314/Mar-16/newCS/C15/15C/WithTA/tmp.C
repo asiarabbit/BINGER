@@ -59,6 +59,11 @@ void tmp(){
 	treeTrack->Draw("dE1:aoz[0]>>h(500, 1.5, 3.7, 500, 0., 4.5)", "dsca11==0&&A0&&B0&&C0;aoz;dE1 arb.;", "colbox");
 
 
+///////////// ppl //////////////
+//treeTrack->Draw("6*(1.0252625*pozpl-0.02109*beta2[0]/sqrt(1-beta2[0]*beta2[0])*931.494)>>h1(100, 8500, 11000)", "A0&&B0&&C0&&dsca11==0&&pozpl!=-9999.&&C14", "same");
+//treeTrack->Draw("15.*beta2[0]/sqrt(1-beta2[0]*beta2[0])*931.494*cospl>>h(100, 8000., 10500.)", "A0&&B0&&C0&&aoz[0]>0.&&pozpl!=-9999.&&C15", "");
+//treeTrack->Draw("15.*beta2[0]/sqrt(1-beta2[0]*beta2[0])*931.494*cospl-168.15340>>h(100, 8500., 11000.)", "A0&&B0&&C0&&aoz[0]>0.&&pozpl!=-9999.&&C15", "");
+
 
 
 /// scriptlet to dissect dx2 smear ///

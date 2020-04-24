@@ -44,6 +44,7 @@ public:
 	TCanvas *GetCanvas();
 	virtual void Configure();
 	virtual bool OnTheList(int index) const; // draw the event or not
+	virtual void PrintDrawList() const; // print the list of events to draw
 	void AddIndexToDraw(int index);
 
 protected:

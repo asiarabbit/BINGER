@@ -170,6 +170,8 @@ void TAUI::Go(){
 	else cout << "   fRunId: (null)" << endl; // DEBUG
 	cout  << "fEvLenLim: " << fEvLenLim << "   fIndex0: " << fIndex0; // DEBUG
 	cout << "   fIndex1: " << fIndex1 << endl; // DEBUG
+	cout << "DrawIndexList: "; // DEBUG
+	GetVisual()->PrintDrawList(); // DEBUG
 	cout << "       -------------------------------\n"; // DEBUG
 
 	Run(fIndex0, fIndex1, fEvLenLim, fROOTFile);

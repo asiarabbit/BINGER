@@ -196,6 +196,9 @@
 		memset(multi_DC, 0, sizeof(multi_DC));
 		memset(multi_PDC, 0, sizeof(multi_DC));
 		memset(multi_DCTa, 0, sizeof(multi_DC));
+		memset(multi_DC_invalid, 0, sizeof(multi_DC_invalid));
+		memset(multi_PDC_invalid, 0, sizeof(multi_DC_invalid));
+		memset(multi_DCTa_invalid, 0, sizeof(multi_DC_invalid));
 		memset(multiTOFW_pre, 0, sizeof(multiTOFW_pre));
 		memset(multiTOFW_pre, 0, sizeof(multiTOFW_post));
 		// the MWDC arrays downstream of the target //
@@ -257,9 +260,12 @@
 						ttRef_DC[ii][j][k][l] = -9999.;
 						DC_NLM[ii][j][k][l] = 0; // maximum number of leading edges in a wire layer
 						DC_LTM[ii][j][k][l] = 0.; // maximum leading edge time over all the edges of a wire layer
+						int nuCnt = 0; // for counting fired anodes per layer
+						for(auto &x : nu_DC[ii][j][k][l]) x = -9999;
 						for(int m = 0; m < na; m++){ // loop over anode per layer
 							TAAnode *ano = dc[ii][j]->GetAnode(k, l + 1, m);
 							if(ano->GetFiredStatus()){
+								if(nuCnt < maxMultiDC) nu_DC[ii][j][k][l][nuCnt++] = m;
 								hDCFiredDist[ii][j][k]->Fill(l*na+m);
 								double dcToTrig = ano->GetTime();
 								if(tRef != -9999.){
@@ -284,6 +290,7 @@
 							}
 						} // end for over anode of one layer
 						multi_DC[ii][j][k][l] = dc[ii][j]->GetNFiredAnodePerLayer(k, l+1);
+						multi_DC_invalid[ii][j][k][l] = multi_DC[ii][j][k][l];
 						hDCMulti[ii][j][k][l]->Fill(dc[ii][j]->GetNFiredAnodePerLayer(k, l+1));
 					} // end for over layer 1 and 2
 				} // end for over X-U-V
@@ -298,9 +305,12 @@
 				for(int k = 0; k < 2; k++){ // loop over XY SLayers
 					for(int l = 0; l < 2; l++){ // loop over layer option (1, 2)
 						ttRef_DCTa[ii][j][k][l] = -9999.;
+						int nuCnt = 0; // for counting fired anodes per layer
+						for(auto &x : nu_DCTa[ii][j][k][l]) x = -9999;
 						for(int m = 0; m < na; m++){ // loop over anode per layer
 							TAAnode *ano = dc2[ii][j]->GetAnode(k, l + 1, m);
 							if(ano->GetFiredStatus()){
+								if(nuCnt < maxMultiDCTa) nu_DCTa[ii][j][k][l][nuCnt++] = m;
 								hDCTaFiredDist[ii][j][k]->Fill(l*na+m);
 								double dcToTrig = ano->GetTime();
 								if(tRef != -9999.){
@@ -318,6 +328,7 @@
 							}
 						} // end for over anode of one layer
 						multi_DCTa[ii][j][k][l] = dc2[ii][j]->GetNFiredAnodePerLayer(k, l+1);
+						multi_DCTa_invalid[ii][j][k][l] = multi_DCTa[ii][j][k][l];
 						hDCTaMulti[ii][j][k][l]->Fill(dc2[ii][j]->GetNFiredAnodePerLayer(k, l+1));
 					} // end for over layer 1 and 2
 				} // end for over X-U-V
@@ -332,9 +343,12 @@
 						ttRef_PDC[ii][j][k][l] = -9999.;
 						PDC_NLM[ii][j][k][l] = 0; // maximum number of leading edges in a wire layer
 						PDC_LTM[ii][j][k][l] = 0.; // maximum leading edge time over all the edges of a wire layer
+						int nuCnt = 0; // for counting fired anodes per layer
+						for(auto &x : nu_PDC[ii][j][k][l]) x = -9999;
 						for(int m = 0; m < na; m++){ // loop over anode per layer
 							TAAnode *ano = pdc2[ii][j]->GetAnode(k, l + 1, m);
 							if(ano->GetFiredStatus()){
+								if(nuCnt < maxMultiPDC) nu_PDC[ii][j][k][l][nuCnt++] = m;
 								hPDCFiredDist[ii][j][k]->Fill(l*na+m);
 								const double t0 = pdcArr2[ii]->GetPlaT0()->GetTime();
 								const double dcToTrig = ano->GetTime();
@@ -362,6 +376,7 @@
 							} // end if the anode is fired
 						} // end for over anode of one layer
 						multi_PDC[ii][j][k][l] = pdc2[ii][j]->GetNFiredAnodePerLayer(k, l+1);
+						multi_PDC_invalid[ii][j][k][l] = multi_PDC[ii][j][k][l];
 						hPDCMulti[ii][j][k][l]->Fill(pdc2[ii][j]->GetNFiredAnodePerLayer(k, l+1));
 					} // end for over layer 1 and 2
 				} // end for over X-U-V

@@ -36,6 +36,7 @@ public:
 	static void rotate(const double *pIn, double *pOut, const double *angle);
 	static void rotateOffset(const double *pIn, double *pOut, const double *angOff);
 	static double norm(const double *p, int len = 3); ///< length of the vector, len: vector dimension
+	static double innerProduct(const double *p0, const double *p1, int len = 3);
 	static double L(const double *p0, const double *p1, int len = 3); ///< |p0-p1|
 	static double VecAng3D(const double *a, const double *b); ///< angle between two 3D vectors <a, b>
 	/// well, this is an anyhow specialised function written specifically to calculate alpha-angle
