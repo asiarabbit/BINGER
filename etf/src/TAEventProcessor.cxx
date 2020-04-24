@@ -284,10 +284,10 @@ void TAEventProcessor::Configure(){
 	detList[4] = new TAMWDCArrayR("DCArrayR", "DCArrayR@Post-Magnet", 4);
 //	detList[4] = new TAMWDCArrayM("DCArrayM", "DCArrayM@P.Ma_TEST", 4);
 //	detList[5] = new TASiPMPlaBarrel("SiPMPlaBarrel", "SiPMPlaBarrel@Hug-Target", 5);
-//	detList[6] = new TAMWDCArrayU("DCArrayU", "DCArrayU@Pre-Target", 6);
-//	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7);
-	detList[8] = new TAPDCArrayU("PDCArrayU", "PDCArrayU@Pre-Target", 8);
-	detList[9] = new TAPDCArrayD("PDCArrayD", "PDCArrayD@Post-Target", 9);
+	detList[6] = new TAMWDCArrayU("DCArrayU", "DCArrayU@Pre-Target", 6);
+	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7);
+	// detList[8] = new TAPDCArrayU("PDCArrayU", "PDCArrayU@Pre-Target", 8);
+	// detList[9] = new TAPDCArrayD("PDCArrayD", "PDCArrayD@Post-Target", 9);
 //	detList[10] = new TAMUSICM("MUSICM", "MUSICM@Pre-Target", 10);
 //	detList[11] = new TAMUSICL("MUSICL", "MUSICL@Post-Target", 11);
 //	detList[12] = new TAT0_1("VETO_0", "VETO_0@Pre-MSUICF", 12);

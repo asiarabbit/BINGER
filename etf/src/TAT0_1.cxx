@@ -1,19 +1,19 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 // Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TAT0_1.C														     //
-//   TAT0_1.C -- source file for class TAT0_1									     //
-//   Introduction: start time detector, located at the end of RIBLL2 to measure		 //
+//																																							     //
+// BINGER/inc/etf/TAT0_1.cxx																										     //
+//   TAT0_1.cxx -- source file for class TAT0_1																	     //
+//   Introduction: start time detector, located at the end of RIBLL2 to measure			 //
 // particle time of flight. It is actually a plastic scintillator with both-end PMT	 //
-// readouts.																		 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2017/10/10.															     //
-// Last modified: 2018/6/8, SUN Yazhou.											     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
+// readouts.																																				 //
+//																																							     //
+// Author: SUN Yazhou, asia.rabbit@163.com.																			     //
+// Created: 2017/10/10.																													     //
+// Last modified: 2018/6/8, SUN Yazhou.																					     //
+//																																							     //
+//																																							     //
+// Copyright (C) 2017-2018, SUN Yazhou.																					     //
+// All rights reserved.																													     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
 #include "TAT0_1.h"
@@ -84,16 +84,3 @@ void TAT0_1::Configure(){
 	// print user-defined configurations
 	TAPopMsg::ConfigInfo(GetName().c_str(), "Configure: \nfZ0: %f\nfDelay: %f\nfWidth: %f\nfLength: %f\nfVeff: %f\n", fZ0, GetDelay(), fStripPara->GetWidth(), fStripPara->GetLength(), fStripPara->GetVeff());
 } // end of member method Configure
-
-
-
-
-
-
-
-
-
-
-
-
-
