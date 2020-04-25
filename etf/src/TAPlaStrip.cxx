@@ -93,7 +93,8 @@ int TAPlaStrip::GetFiredStatus() const{
 	return sta;
 } // end function GetFiredStatus
 // t0, t1 and t2 are set for choosing ch->GetLT over edges
-// (ch->GetLT-t0) within t1 and t2 is chosen. t0, t1 and t2 using default values, choose the 1st edge
+// (ch->GetLT-t0) within t1 and t2 is chosen.
+// t0, t1 and t2 using default values, the 1st edge would be chosen
 double TAPlaStrip::GetTime(double t0x, double t1x, double t2x){ // get hit time
 	// to make t1 and t2 meaningful with the presence of delay
 	TAPlaStripPara *pa = GetStripPara();

@@ -183,7 +183,7 @@
 # DC sense wire high voltage (HV) for MWDC arrays around the target #
 # composed of DCs made by P. Ma #
 # HV (V):		1400
-# HV option:	0 
+# HV option:	0
 # HV option should be set to -1 when no HV is applied
 # HVDCU0X: HVs for X sense wires of DC0 from DCArray-U ((upstream the target))
 # MWDC array U
@@ -206,9 +206,9 @@
 66  0
 ## time to trig for DCs around the target
 # dcTaToTrigLB
-67  500.
+67  0.
 # dcTaToTrigHB
-68  850.
+68  350.
 
 
 ## ## ## ## ## ## ## ## DCs from BUAA, made in Japan ## ## ## ## ## ## ## ## ## ## ## ## ##
@@ -276,13 +276,13 @@
 93 -92.8
 ######### DCTa - Array U-D ################
 # MWDCTa global delay - delay_DCU0
-94 28.
+94 -100
 # MWDCTa global delay - delay_DCU1
-95 28.
+95 -95.57
 # MWDCTa global delay - delay_DCD0
-96 28.
+96 -100
 # MWDCTa global delay - delay_DCD1
-97 28.
+97 -100
 ######### PDC - Array U-D #################
 # PDC global delay - delay_PDCU0
 98 -14.0

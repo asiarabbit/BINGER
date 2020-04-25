@@ -23,7 +23,7 @@ public:
 	TAT0_0(const string &name = "", const string &title = "", unsigned uid = 999999999);
 	virtual ~TAT0_0();
 
-	virtual void Initialize() override;
+	virtual void Initialize() override{ TAPlaStrip::Initialize(); }
 	/// get the channel that belongs to this with uid
 	virtual TAStuff *GetChannel(unsigned uid) const override;
 	virtual void Configure() override; ///< create detector objects

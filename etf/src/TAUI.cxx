@@ -107,7 +107,8 @@ void TAUI::PromptHelp(bool isVerbose){
 	cout << "\t[datafile]: \n\t\traw binary datafile\n";
 	cout << "\t[-i <index0>] [-f <index1>]: \n\t\tindex range of events to be analysed.\n";
 	cout << "\t\ti-initial, f-final. All events are chosen by default.\n";
-	cout << "\t[-p <index>]: \n\t\tindex to be drawn.\n";
+	cout << "\t[-p <index>]: \n\t\tevent with index to be drawn.\n";
+	cout << "\t\tIt can be used iteratively to specify a list of events. e.g.: -pindex1 -pindex2\n";
 	cout << "\t[-d[<depth>]]: \n\t\tanalyze depth:\n";
 	cout << "\t\tnot used or 0: daq and detector statistics.";
 	cout << "\n\t\t1: simple tracking; 2: normal tracking (default); 3: PID";

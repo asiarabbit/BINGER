@@ -1,18 +1,18 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 // Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TAPlaStripData.C													 //
-//   TAPlaStripData.C -- source file for class TAPlaStripData						 //
+//																																							     //
+// BINGER/inc/etf/TAPlaStripData.cxx																								 //
+//   TAPlaStripData.C -- source file for class TAPlaStripData												 //
 //   Introduction: for caching data of an event relating to a TOF Wall plastic strip //
-// with both-end-readout uisng PMT coupling.										 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2017/10/9.															     //
-// Last modified: 2017/10/9, SUN Yazhou.										     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
+// with both-end-readout uisng PMT coupling.																				 //
+//																																							     //
+// Author: SUN Yazhou, asia.rabbit@163.com.																			     //
+// Created: 2017/10/9.																													     //
+// Last modified: 2017/10/9, SUN Yazhou.																				     //
+//																																							     //
+//																																							     //
+// Copyright (C) 2017-2018, SUN Yazhou.																					     //
+// All rights reserved.																													     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -40,4 +40,3 @@ void TAPlaStripData::Initialize(){ // initialized to unfired status
 	fFiredStatus = -2; fTime = -9999.;
 	fHitPosition = -9999.;
 }
-

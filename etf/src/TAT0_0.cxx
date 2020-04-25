@@ -49,10 +49,6 @@ TAStuff *TAT0_0::GetChannel(unsigned uid) const{
 	return nullptr;
 }
 
-void TAT0_0::Initialize(){
-	if(fUV && fUV->GetFiredStatus()) fUV->Initialize();
-	if(fUH && fUH->GetFiredStatus()) fUH->Initialize();
-}
 void TAT0_0::Configure(){
 	if(fUV){
 		TAPopMsg::Warn(GetName().c_str(), "Configure: has been called once");

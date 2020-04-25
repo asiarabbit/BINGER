@@ -131,23 +131,24 @@
 				tof1 = tRef - t0_0;
 				beta = L / tof1 / c0;
 				htof1->Fill(tof1);
-//				cout << "t0_0: " << t0_0 << "\ttRef: " << tRef << endl; // DEBUG
-//				cout << "index: " << index << "\ttof1: " << tof1 << endl; // DEBUG
-//				cout << "beta: " << beta << endl; // DEBUG
-//				getchar(); // DEBUG
+				// // cout << "t0_0: " << t0_0 << "\ttRef: " << tRef << endl; // DEBUG
+				// // cout << "index: " << index << "\ttof1: " << tof1 << endl; // DEBUG
+				// // cout << "beta: " << beta << endl; // DEBUG
+				// getchar(); // DEBUG
 			}
 		} // end if
 
 		// Time of Flight and beam energy measurement in RIBLL2
 		// vme tof1 //
 		if(vme){
-			tof1vme = ((evt.mtdc0[1][0] + evt.mtdc0[2][0]) / 2. -  evt.mtdc0[0][0]) * 0.09765625 + 141.3;
+			// tof1vme = ((evt.mtdc0[1][0] + evt.mtdc0[2][0]) / 2. -  evt.mtdc0[0][0])
+			// 	* 0.09765625 + 141.3;
 			// 0-1-2-3: Tstart_L_R_L_R
-			// tof1vme = ((evt.mtdc1[1][0] + evt.mtdc1[2][0]) / 2.
-				// - (evt.mtdc1[12][0] + evt.mtdc1[13][0]) / 2.) * 0.09765625 + 141.3;
+			tof1vme = ((evt.mtdc1[2][0] + evt.mtdc1[3][0]) / 2.
+				- (evt.mtdc1[0][0] + evt.mtdc1[1][0]) / 2.) * 0.09765625 + 141.3;
 			tof1tac = (-0.010217 * evt.adc[0] -0.0104695 * evt.adc[1]) / 2. + 158.3;
 			dE0 = (evt.adc[16] + evt.adc[17] + evt.adc[18] + evt.adc[19]) / 2000.;
-			dE1 = (evt.adc[22] + evt.adc[23] + evt.adc[24]) / 3000.;
+			dE1 = (evt.adc[20] + evt.adc[21] + evt.adc[22] + evt.adc[23]) / 2000.;
 			dsca10 = evt.dsca[10]; dsca11 = evt.dsca[11];
 			hpid00->Fill(tof1vme, dE0);
 			hpid01->Fill(tof1vme, dE1);
@@ -308,8 +309,10 @@
 									hDCTaToTrig->Fill(i, ano->GetTime(i));
 								}
 								// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
-								if(!(dcToTrig > gpar->Val(67) && dcToTrig < gpar->Val(68))) ano->GetData()->SetFiredStatus(false); // (340., 840.)->pion2017; (1000., 1400.)->beamTest2016
-//								if(1 == ii && 0 == j && 0 == k) ano->GetData()->SetFiredStatus(false);
+								if(!(dcToTrig > gpar->Val(67) && dcToTrig < gpar->Val(68)))
+									// (340., 840.)->pion2017; (1000., 1400.)->beamTest2016
+									ano->GetData()->SetFiredStatus(false);
+								// if(1 == ii && 0 == j && 0 == k) ano->GetData()->SetFiredStatus(false);
 							}
 						} // end for over anode of one layer
 						multi_DCTa[ii][j][k][l] = dc2[ii][j]->GetNFiredAnodePerLayer(k, l+1);
@@ -318,7 +321,7 @@
 					} // end for over layer 1 and 2
 				} // end for over X-U-V
 			} // end for over DCs
-		} // end for over DC arrays
+		} // end for over DCTa arrays
 		// DCs made from BUAA, made by Japan
 		for(int ii = 0; ii < 2; ii++) if(pdcArr2[ii]){ // loop over MWDC arrays around the target
 			for(int j = 0; j < 2; j++){ // loop over two MWDCs

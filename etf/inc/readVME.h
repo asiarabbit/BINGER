@@ -16,7 +16,7 @@
 using std::vector;
 
 /// \struct tVME_event
-/// \brief Struct to store a VME event 
+/// \brief Struct to store a VME event
 struct tVME_event{
 	int index; //!< event index in a block
 	int length; //!< event length
@@ -24,8 +24,8 @@ struct tVME_event{
 	int adc[32]; //!< MUlti-Sampling Ionization Chamber (music) data
 	int tdc[2][32]; //!< MWPC1 and MWDC2 upstream the target and MWPC3 downstream the target.
 	int qdc[3][32]; //!< 3 modules * 32 channels.
-	int mtdc0[128][10]; // 
-	int mtdc1[128][10]; // 
+	int mtdc0[128][10]; //
+	int mtdc1[128][10]; //
 	int hit[32];
 	unsigned sca[16];
 	unsigned psca[16];
@@ -34,14 +34,14 @@ struct tVME_event{
 		initialize();
 	} // end of the default constructor
 	void initialize(){
-		index = -1; length = -9999.; VMEReadCount = -9999.;
+		index = -1; length = -9999; VMEReadCount = -9999;
 		for(int i = 0; i < 32; i++){
-			tdc[0][i] = -9999.; tdc[1][i] = -9999.; adc[i] = -9999.; hit[i] = 0;
-			qdc[0][i] = -9999.; qdc[1][i] = -9999.; qdc[2][i] = -9999.;
+			tdc[0][i] = -9999; tdc[1][i] = -9999; adc[i] = -9999; hit[i] = 0;
+			qdc[0][i] = -9999; qdc[1][i] = -9999; qdc[2][i] = -9999;
 		} // end for over i
 		for(int i = 0; i < 128; i++) for(int j = 0; j < 10; j++){
-			if(mtdc0[i][j] != -9999.) mtdc0[i][j] = -9999.;
-			if(mtdc1[i][j] != -9999.) mtdc1[i][j] = -9999.;
+			if(mtdc0[i][j] != -9999) mtdc0[i][j] = -9999;
+			if(mtdc1[i][j] != -9999) mtdc1[i][j] = -9999;
 		}
 		for(int i = 0; i < 16; i++){
 			sca[i] = 0; psca[i] = 0; dsca[i] = 0;

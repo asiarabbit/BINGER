@@ -696,7 +696,8 @@ int TARawDataProcessor::ReadOfflineVME(){
 					} // end if Global Header
 					if(16 == slot && (9 == geo || 11 == geo)){ // global trailer
 						if(9 != id_v1190 && 11 != id_v1190)
-							TAPopMsg::Error("TARawDataProcessor", "ReadOfflineVME: HPTDC global trailer encountered, but id_v1190 value is abnormal: %d", id_v1190);
+							TAPopMsg::Error("TARawDataProcessor", "ReadOfflineVME: HPTDC global\
+trailer encountered, but id_v1190 value is abnormal: %d", id_v1190);
 # ifdef DEBUG_VME
 						cout << "HPTDC Global Trailer for v1190, geo: " << geo << endl; // DEBUG
 						cout << "id_v1190: " << id_v1190 << endl; // DEBUG
@@ -704,8 +705,12 @@ int TARawDataProcessor::ReadOfflineVME(){
 #endif
 						// assign and fill treeDataVME in global trailer
 						for(int jj = 0; jj < 128; jj++) if(channelId[jj] >= 0){
+# ifdef DEBUG_VME
+							cout << "fired mtdc channel: " << jj << " ---------" << endl; // DEBUG
+# endif
 							int chid = channelId[jj]; // chid in a v1190 plugin
-							if(chid >= 128) TAPopMsg::Error("TARawDataProcessor", "ReadOfflineVME: abnormal chId for mtdc plugin: %d", chid);
+							if(chid >= 128) TAPopMsg::Error("TARawDataProcessor",
+								"ReadOfflineVME: abnormal chId for mtdc plugin: %d", chid);
 							if(9 == id_v1190) entry_temp.channelId = chid + 8001;
 							else if(11 == id_v1190) entry_temp.channelId = chid + 8201;
 							if(nhl[chid] > edge_num_limit || nht[chid] > edge_num_limit){
@@ -780,7 +785,8 @@ int TARawDataProcessor::ReadOfflineVME(){
 				///////////////////////////////////////////
 
 				if(0 == slot && id_v1190 && !id_v830){ // HPTDC physical data zone
-					int chId = (chData>>19) & 0x7F; // local chId in the plugin
+					// int chId = (chData>>19) & 0x7F; // local chId in the plugin
+					int chId = (chData>>21) & 0x1F; // local chId in the plugin
 					bool lt = (chData>>26) & 0x1; // leading or trailing edge
 					if(0 == lt){ // leading edge
 						hl[chId][nhl[chId]] = chData & 0x7FFFF; nhl[chId]++;
