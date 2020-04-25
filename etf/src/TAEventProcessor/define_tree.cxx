@@ -32,7 +32,7 @@
 	// beta2: w.r.t. tof2, trkLenT: total track length from the target to the TOF wall
 	double beta2[ntrMax], trkLenT[ntrMax];
 	double tof2[ntrMax], taHitX[ntrMax]; // tof2: from T0_1 to TOFWall; taHitX: hit pos in target
-	int firedStripId[ntrMax], sipmArrStripId[ntrMax];
+	int firedStripId[ntrMax];
 	// TOT: time over threshold.    for a certain strip, U: upside; D: downside,
 	// V: very high resolution mode, H: high resolutio mode
 	double TOTUV[ntrMax], TOTUH[ntrMax], TOTDV[ntrMax], TOTDH[ntrMax];
@@ -89,11 +89,6 @@
 	treeTrack->Branch("TOF_T1", &TOF_T1, "TOF_T1/D"); // time tag of T1 plastic scintillator
 	treeTrack->Branch("firedStripId", firedStripId, "firedStripId[ntr]/I");
 	treeTrack->Branch("nStripStray", nStripStray, "nStripStray[ntr]/D"); // distance of track to fired TOF Wall strip center
-	// sipmArr part //
-	if(sipmArr){
-		treeTrack->Branch("taHitX", taHitX, "taHitX[ntr]/D");
-		treeTrack->Branch("sipmArrStripId", sipmArrStripId, "sipmArrStripId[ntr]/I");
-	} // end if(sipmArr)
 	// PID part //
 	double x2_PID[ntrMax][2], dx2_PID[ntrMax];
 	if(IsPID()){
@@ -107,16 +102,7 @@
 		treeTrack->Branch("dx2", dx2_PID, "dx2[ntr]/D");
 	} // end if(IsPID())
 	// for timing starts of two PDCArrays, v1190-slot9 and v1190-slot11
-	double tRef_vme0ul[5], tRef_vme1ul[5], tRef_vme0dl[5], tRef_vme1dl[5];
-	for(int i = 5; i--;){
-		tRef_vme0ul[i] = -9999.; tRef_vme1ul[i] = -9999.;
-		tRef_vme0dl[i] = -9999.; tRef_vme1dl[i] = -9999.;
-	}
 	if(vme){ // vme - integrated Daq part
-		treeTrack->Branch("tRef_vme0ul", tRef_vme0ul, "tRef_vme0ul[5]/D");
-		treeTrack->Branch("tRef_vme1ul", tRef_vme1ul, "tRef_vme1ul[5]/D");
-		treeTrack->Branch("tRef_vme0dl", tRef_vme0dl, "tRef_vme0dl[5]/D");
-		treeTrack->Branch("tRef_vme1dl", tRef_vme1dl, "tRef_vme1dl[5]/D");
 		treeTrack->Branch("tof1vme", &tof1vme, "tof1vme/D"); // tof from T0_0 to T0_1
 		treeTrack->Branch("tof1tac", &tof1tac, "tof1tac/D"); // tof from T0_0 to T0_1
 		treeTrack->Branch("dE0", &dE0, "dE0/D"); // energy loss before TA
@@ -165,43 +151,6 @@
 	treeTTRef->Branch("ttRef_TOFW", ttRef_TOFW, "ttRef_TOFW[2]/D");
 	objLsTree.push_back(treeTTRef);
 
-
-	int multiSipmArr_pre,  hitIdLsSipmArr_pre[10];
-	int multiSipmArr_post, hitIdLsSipmArr_post[10];
-	double uvlTLsSipmArr_pre[10]; // uvl: up, Very high resl, leading edge
-	if(sipmArr){
-		TTree *treeSiPMPlaArr = new TTree("treeSiPMPlaArr", "SiPM Plastic Scintillator Bar Array Statistics");
-	//	treeSiPMPlaArr->SetAutoSave(1e7);
-		treeSiPMPlaArr->Branch("index", &index, "index/I");
-		treeSiPMPlaArr->Branch("multi_pre", &multiSipmArr_pre, "multi_pre/I");
-		treeSiPMPlaArr->Branch("multi_post", &multiSipmArr_post, "multi_post/I");
-		treeSiPMPlaArr->Branch("hitIdLs_pre", hitIdLsSipmArr_pre, "hitIdLs_pre[multi_pre]/I");
-		treeSiPMPlaArr->Branch("hitIdLs_post", hitIdLsSipmArr_post, "hitIdLs_post[multi_post]/I");
-		treeSiPMPlaArr->Branch("uvlTLs_pre", uvlTLsSipmArr_pre, "uvlTLs_pre[multi_pre]/D");
-		objLsTree.push_back(treeSiPMPlaArr);
-	} // end if(sipmArr)
-
-	int multiSipmBarr_pre,  hitIdLsSipmBarr_pre[24];
-	int multiSipmBarr_post, hitIdLsSipmBarr_post[24];
-	short hitStaLsSipmBarr_pre[24]; double uvlTLsSipmBarr_pre[24], dvlTLsSipmBarr_pre[24];
-	double timeToTrigSipmBarr, timeToTRefSipmBarr;
-	if(sipmBarr){
-		TTree *treeSiPMPlaBarr = new TTree("treeSiPMPlaBarr", "SiPM Plastic Scintillator Strip Barrel Statistics");
-	//	treeSiPMPlaBarr->SetAutoSave(1e7);
-		treeSiPMPlaBarr->Branch("index", &index, "index/I");
-		treeSiPMPlaBarr->Branch("tRef", &tRef, "tRef/D");
-		treeSiPMPlaBarr->Branch("timeToTrig", &timeToTrigSipmBarr, "timeToTrig/D");
-		treeSiPMPlaBarr->Branch("timeToTRef", &timeToTRefSipmBarr, "timeToTRef/D");
-		treeSiPMPlaBarr->Branch("multi_pre", &multiSipmBarr_pre, "multi_pre/I");
-		treeSiPMPlaBarr->Branch("multi_post", &multiSipmBarr_post, "multi_post/I");
-		treeSiPMPlaBarr->Branch("hitIdLs_pre", hitIdLsSipmBarr_pre, "hitIdLs_pre[multi_pre]/I");
-		treeSiPMPlaBarr->Branch("hitIdLs_post", hitIdLsSipmBarr_post, "hitIdLs_post[multi_post]/I");
-		treeSiPMPlaBarr->Branch("hitStaLs_pre", hitStaLsSipmBarr_pre, "hitStaLs_pre[multi_pre]/S");
-		treeSiPMPlaBarr->Branch("uvlTLs_pre", uvlTLsSipmBarr_pre, "uvlTLs_pre[multi_pre]/D");
-		treeSiPMPlaBarr->Branch("dvlTLs_pre", dvlTLsSipmBarr_pre, "dvlTLs_pre[multi_pre]/D");
-		objLsTree.push_back(treeSiPMPlaBarr);
-	} // end if(sipmBarr)
-
 	int multiTOFW_pre[2], hitIdLsTOFW_pre[2][30];
 	int multiTOFW_post[2], hitIdLsTOFW_post[2][30];
 	short hitStaLsTOFW_pre[2][30]; double uvlTLsTOFW_pre[2][30], dvlTLsTOFW_pre[2][30];
@@ -219,39 +168,6 @@
 		treeTOFW[i]->Branch("uvlTLs_pre", uvlTLsTOFW_pre[i], "uvlTLs_pre[multi_pre]/D");
 		treeTOFW[i]->Branch("dvlTLs_pre", dvlTLsTOFW_pre[i], "dvlTLs_pre[multi_pre]/D");
 		objLsTree.push_back(treeTOFW[i]);
-	}
-
-	// trees for MUSICs
-	TTree *treeMUSIC[3]{}; // [0-2]: MUSICM-L-Si: up-downstream of the target
-	double deltaE[3]{}, Z[3]{}, MU_ch[3][6]{};
-	for(int i = 0; i < 3; i++){
-		deltaE[i] = -9999.; Z[i] = -9999.;
-		for(int j = 0; j < 6; j++) MU_ch[i][j] = -9999.;
-	}
-	int pileUp[3]{}, nF_MU[3]{}; // N of Fired ch (pileup-ch excluded)
-	int pileUpSCA; // pileup recorded by scaler
-	treeMUSIC[0] = new TTree("treeMUSICM", "MUSIC upstream of the target");
-	treeMUSIC[1] = new TTree("treeMUSICL", "MUSIC downstream of the target");
-	treeMUSIC[2] = new TTree("treeSi", "Si downstream of the target");
-	for(int i = 3; i--;) if(music[i]){
-		treeMUSIC[i]->Branch("index", &index, "index/I");
-		treeMUSIC[i]->Branch("deltaE", &deltaE[i], "deltaE/D");
-		treeMUSIC[i]->Branch("Z", &Z[i], "Z/D");
-		treeMUSIC[i]->Branch("pileUp", &pileUp[i], "pileUp/I");
-		treeMUSIC[i]->Branch("pileUpSCA", &pileUpSCA, "pileUpSCA/I");
-		treeMUSIC[i]->Branch("nF", &nF_MU[i], "nF/I");
-	}
-	if(music[0]){
-		treeMUSIC[0]->Branch("ch", MU_ch[0], "ch[4]/D"); // 4 sampling units
-		objLsTree.push_back(treeMUSIC[0]);
-	}
-	if(music[1]){
-		treeMUSIC[1]->Branch("ch", MU_ch[1], "ch[8]/D"); // 8 sampling units
-		objLsTree.push_back(treeMUSIC[1]);
-	}
-	if(music[2]){
-		treeMUSIC[2]->Branch("ch", MU_ch[2], "ch[4]/D"); // 8 sampling units
-		objLsTree.push_back(treeMUSIC[2]);
 	}
 
 	const int n3DtrMax = ntrMax/3;
@@ -301,29 +217,6 @@
 		} // end if(IsPID())
 		objLsTree.push_back(treePID3D);
 	} // end if(Is3DTracking())
-
-	int multi_opfa;
-	double ul_opfa[40][5], dl_opfa[40][5];
-	double ut_opfa[40][5], dt_opfa[40][5];
-	double pos_opfa[40];
-	for(int i = 0; i < 40; i++){
-		for(int j = 0; j < 5; j++){
-			ul_opfa[i][j] = -9999; dl_opfa[i][j] = -9999;
-		}
-		pos_opfa[i] = -9999.;
-	}
-	TTree *treeOpticFiberArr = new TTree("treeOpticFiber", "Optic Fiber array");
-	if(opfa){
-		treeOpticFiberArr->Branch("index", &index, "index/I");
-		treeOpticFiberArr->Branch("multi", &multi_opfa, "multi/I");
-		treeOpticFiberArr->Branch("ul", ul_opfa, "ul[40][5]/D");
-		treeOpticFiberArr->Branch("dl", dl_opfa, "dl[40][5]/D");
-		treeOpticFiberArr->Branch("ut", ut_opfa, "ut[40][5]/D");
-		treeOpticFiberArr->Branch("dt", dt_opfa, "dt[40][5]/D");
-		treeOpticFiberArr->Branch("pos", pos_opfa, "pos[40]/D");
-		objLsTree.push_back(treeOpticFiberArr);
-	}
-
 
 	// pile up evidence provided by DCs //
 	// for PDCs

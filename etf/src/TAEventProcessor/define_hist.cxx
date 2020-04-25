@@ -30,20 +30,7 @@
 //	cout << "TOFStopOption: " << TOFStopOption << endl; getchar(); // DEBUG
 	TAT0_1 *T0_1 = (TAT0_1*)det_vec[TOFStopOption]; // [1-15-17]: [PXI-slot9-slot11]
 
-//	TAT0_1 *str_t0_1[3] = {
-//		(TAT0_1*)det_vec[1],
-//		(TAT0_1*)det_vec[15], // v1190 - slot_9
-//		(TAT0_1*)det_vec[17] // v1190 - slot_11
-//	};
-
-
-
-	TAT0_1 *VETO_0 = (TAT0_1*)det_vec[12];
-	TAT0_1 *VETO_1 = (TAT0_1*)det_vec[13];
-	TAT0_1 *T0_1_VME0 = (TAT0_1*)det_vec[15];
-	TAT0_1 *T0_1_VME1 = (TAT0_1*)det_vec[17];
-	TASiPMPlaArray *sipmArr = (TASiPMPlaArray*)det_vec[2];
-	TASiPMPlaBarrel *sipmBarr = (TASiPMPlaBarrel*)det_vec[5];
+	// TAT0_0 *T0_0UD = (TAT0_0*)det_vec[2];
 	TAMWDCArray *dcArr[2]{0}; // MWDC arrays downstream of the dipole magnet
 	TAMWDCArray2 *dcArr2[2]{0}; // MWDC arrays upstream of the dipole magnet
 	TAMWDCArray2 *pdcArr2[2]{0}; // PDC arrays upstream of the dipole magnet
@@ -53,11 +40,6 @@
 	dcArr2[1] = (TAMWDCArray2*)det_vec[7]; // dc array D
 	pdcArr2[0] = (TAMWDCArray2*)det_vec[8]; // pdc array U
 	pdcArr2[1] = (TAMWDCArray2*)det_vec[9]; // pdc array D
-	TAMUSIC *music[3]{0}; // MUSIC around the target
-	music[0] = (TAMUSIC*)det_vec[10]; // upstream of the target
-	music[1] = (TAMUSIC*)det_vec[11]; // downstream of the target
-	music[2] = (TAMUSIC*)det_vec[18]; // Si-downstream of the target
-	TAOpticFiberArray *opfa = (TAOpticFiberArray*)det_vec[19]; // optic fiber array made by Cheng
 	TATOFWall *tofw[2]{0};
 	if(dcArr[0]) tofw[0] = dcArr[0]->GetTOFWall();
 	if(dcArr[1]) tofw[1] = dcArr[1]->GetTOFWall();

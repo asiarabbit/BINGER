@@ -142,30 +142,15 @@
 		// vme tof1 //
 		if(vme){
 			tof1vme = ((evt.mtdc0[1][0] + evt.mtdc0[2][0]) / 2. -  evt.mtdc0[0][0]) * 0.09765625 + 141.3;
+			// 0-1-2-3: Tstart_L_R_L_R
+			// tof1vme = ((evt.mtdc1[1][0] + evt.mtdc1[2][0]) / 2.
+				// - (evt.mtdc1[12][0] + evt.mtdc1[13][0]) / 2.) * 0.09765625 + 141.3;
 			tof1tac = (-0.010217 * evt.adc[0] -0.0104695 * evt.adc[1]) / 2. + 158.3;
 			dE0 = (evt.adc[16] + evt.adc[17] + evt.adc[18] + evt.adc[19]) / 2000.;
 			dE1 = (evt.adc[22] + evt.adc[23] + evt.adc[24]) / 3000.;
 			dsca10 = evt.dsca[10]; dsca11 = evt.dsca[11];
 			hpid00->Fill(tof1vme, dE0);
 			hpid01->Fill(tof1vme, dE1);
-			for(int i = 0; i < 5; i++){
-				tRef_vme0ul[i] = -9999.; tRef_vme0dl[i] = -9999.;
-				tRef_vme1ul[i] = -9999.; tRef_vme1dl[i] = -9999.;
-				tRefLT_U[i] = -9999.; tRefLT_D[i] = -9999.;
-//				if(T0_1_VME0->GetUV()->GetData()->GetNLeadingEdge() == 2)
-					tRef_vme0ul[i] = T0_1_VME0->GetUV()->GetLeadingTime(i);
-//				if(T0_1_VME0->GetDV()->GetData()->GetNLeadingEdge() == 2)
-					tRef_vme0dl[i] = T0_1_VME0->GetDV()->GetLeadingTime(i);
-//				if(T0_1_VME1->GetUV()->GetData()->GetNLeadingEdge() == 2)
-					tRef_vme1ul[i] = T0_1_VME1->GetUV()->GetLeadingTime(i);
-//				if(T0_1_VME1->GetDV()->GetData()->GetNLeadingEdge() == 2)
-					tRef_vme1dl[i] = T0_1_VME1->GetDV()->GetLeadingTime(i);
-
-//				if(T0_1->GetUV()->GetData()->GetNLeadingEdge() == 2)
-					tRefLT_U[i] = T0_1->GetUV()->GetLeadingTime(i);
-//				if(T0_1->GetDV()->GetData()->GetNLeadingEdge() == 2)
-					tRefLT_D[i] = T0_1->GetDV()->GetLeadingTime(i);
-			} // end for over edges
 		}
 		// vme tof1
 
@@ -382,110 +367,3 @@
 				} // end for over X-U-V
 			} // end for over DCs
 		} // end for over DC arrays
-
-
-
-
-
-		// sipmArr stastics //
-		if(sipmArr){
-			hSiPMPlaArrMulti->Fill(sipmArr->GetNFiredStrip());
-			sipmArr->GetFiredStripArr(multiSipmArr_pre, hitIdLsSipmArr_pre, uvlTLsSipmArr_pre);
-			for(TAChannel *&ch : sipmArr->GetChArr()){
-				if(ch->GetFiredStatus()){
-					hSiPMPlaArrFiredDist->Fill(ch->GetSerialId());
-					double timeToTrig = ch->GetLT(0., 200., 650.);
-					// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
-					if(!(timeToTrig > gpar->Val(9) && gpar->Val(10))) ch->GetData()->SetFiredStatus(false);
-					if(tRef != -9999.){
-						hsipmArrToTRef->Fill(ch->GetSerialId(), timeToTrig - tRef);
-					}
-					hsipmArrToTrig->Fill(ch->GetSerialId(), timeToTrig);
-				}
-			} // end for over channels
-			sipmArr->GetFiredStripArr(multiSipmArr_post, hitIdLsSipmArr_post);
-			hSiPMPlaArrMulti->Fill(multiSipmArr_post);
-		} // end if(sipmArr)
-
-		if(sipmBarr){
-			sipmBarr->GetFiredStripArr(multiSipmBarr_pre, hitIdLsSipmBarr_pre, hitStaLsSipmBarr_pre, uvlTLsSipmBarr_pre, dvlTLsSipmBarr_pre);
-			for(TAPlaStrip *&str : sipmBarr->GetStripArr()){
-				const short sta = str->GetFiredStatus();
-				const int strId = str->GetStripId();
-				if(4 == sta) hSiPMPlaBarrFiredDist->Fill(strId);
-				if(4 == sta || 3 == sta){
-					hSiPMPlaBarrHitPos->Fill(strId, str->GetHitPosition());
-					// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
-					timeToTrigSipmBarr = str->GetTime(0., 300., 600.);
-					hsipmBarrToTrig->Fill(strId, timeToTrigSipmBarr);
-					if(tRef != -9999.){
-						timeToTRefSipmBarr = timeToTrigSipmBarr - tRef;
-						hsipmBarrToTRef->Fill(strId, timeToTRefSipmBarr);
-					}
-	//				if(tRef != -9999. && !(timeToTRefSipmBarr > -600. && timeToTRefSipmBarr < 300.))
-					if(!(timeToTrigSipmBarr > gpar->Val(11) && timeToTrigSipmBarr < gpar->Val(12)))
-					{
-						str->GetStripData()->SetFiredStatus(-10);
-					}
-				}
-			} // end for over sipmArr
-			sipmBarr->GetFiredStripArr(multiSipmBarr_post, hitIdLsSipmBarr_post);
-			hSiPMPlaBarrMulti->Fill(multiSipmBarr_post);
-		} // end if(sipmBarr)
-
-		// MUSIC statistics;   psca: previous value of sca
-		static unsigned psca[16];
-		pileUpSCA = sca[10] - psca[10];
-		for(int j = 0; j < 3; j++) if(music[j]){ // loop over two MUSICs
-			nF_MU[j] = music[j]->GetNFiredChannel();
-			if(0 == nF_MU[j]) continue;
-			if(pileUpSCA >= 2) music[j]->SetPileUp(true);
-			else if(pileUpSCA == 1) music[j]->SetPileUp(false);
-			pileUp[j] = music[j]->GetPileUp();
-//			else TAPopMsg::Error("TAEvProsr", "Run: MUSIC PileUpSCA anomaly: %d", pileUpSCA);
-			deltaE[j] = music[j]->GetDeltaE();
-//			music[j]->SetBeta(beta);
-//			Z[j] = music[j]->GetZ();
-			for(double &t : MU_ch[j]) t = -9999.;
-			int sub = 0;
-			for(TAChannel *c : music[j]->GetChArr()) MU_ch[j][sub++] = c->GetLeadingTime();
-		} // end loop over two MUSICs
-		memcpy(psca, sca, sizeof(sca));
-
-		// optical fiber array statistics
-		if(opfa){
-			multi_opfa = 0;
-			for(int j = 0; j < 40; j++){
-				pos_opfa[j] = -9999.;
-				for(double &x : ul_opfa[j]) x = -9999.;
-				for(double &x : dl_opfa[j]) x = -9999.;
-				for(double &x : ut_opfa[j]) x = -9999.;
-				for(double &x : dt_opfa[j]) x = -9999.;
-				TAPlaStrip *str = opfa->GetStrip(j);
-				const short sta = str->GetFiredStatus();
-				if(3 == sta || 4 == sta){
-					multi_opfa++;
-					TAChannel *uv = str->GetUV();
-					TAChannel *dv = str->GetDV();
-//					uv->GetData()->Show(); // DEBUG
-//					dv->GetData()->Show(); // DEBUG
-//					getchar(); // DEBUG
-					for(int k = 0; k < 5; k++){
-						double tul = uv->GetLeadingTime(k);
-						double tdl = dv->GetLeadingTime(k);
-						double tut = uv->GetData()->GetTrailingTime(k);
-						double tdt = dv->GetData()->GetTrailingTime(k);
-						ul_opfa[j][k] = tul;
-						dl_opfa[j][k] = tdl;
-						ut_opfa[j][k] = tut;
-						dt_opfa[j][k] = tdt;
-						if(0 == k && -9999. != tul && -9999. != tdl)
-							pos_opfa[j] = tul - tdl;
-					}
-				}
-			}
-			int tmp = 0;
-			for(int i = 0; i < 40; i++){
-				if(-9999. == pos_opfa[i]) tmp++;
-			}
-		} // end if(opfa)

@@ -249,7 +249,7 @@
 82  4200.
 
 # whether using PDC tracks for PID. Note that this is a boolean
-83 1
+83 0
 
 
 # target z position - targetZ0
@@ -315,4 +315,4 @@
 # for pion exp #
 108 1
 # for 16O exp #
-109 4
+109 2

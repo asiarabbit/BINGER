@@ -40,7 +40,7 @@
 #include "TAGPar.h"
 #include "TAUIDParser.h"
 
-//#define VERBOSE // show TAPopMsg::Info() information
+#define VERBOSE // show TAPopMsg::Info() information
 
 using std::string;
 using std::cout;

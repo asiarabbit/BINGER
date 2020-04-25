@@ -5,7 +5,7 @@
 	particle time of flight. It is actually a plastic scintillator with one-end PMT
 	readout.
 	\author SUN Yazhou, asia.rabbit@163.com.
-	\date Created: 2020/04/24 Last revised: 2017/10/13, SUN Yazhou.
+	\date Created: 2020/04/25 Last revised: 2017/10/13, SUN Yazhou.
 	\copyright 2017-2018, SUN Yazhou.
 */
 
@@ -13,7 +13,7 @@
 #ifndef _TAT0_0_H_
 #define _TAT0_0_H_
 
-#include "TAStrip.h"
+#include "TAPlaStrip.h"
 #include "TADetUnion.h"
 
 class TAChannel;

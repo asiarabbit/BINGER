@@ -64,9 +64,9 @@ void TAT0_1::Configure(){
 	}
 	SetZ0(gp->Val(85)); // from this to 32Q02 unit: mm 20171026_2157, pionExp
 	fUV = new TAChannel(fName+"->UV", fName+"->UV", fUID+(0<<6)); fUV->SetSerialId(0);
-	fUH = new TAChannel(fName+"->UH", fName+"->UH", fUID+(1<<6)); fUV->SetSerialId(1);
-	fDV = new TAChannel(fName+"->DV", fName+"->DV", fUID+(2<<6)); fUV->SetSerialId(2);
-	fDH = new TAChannel(fName+"->DH", fName+"->DH", fUID+(3<<6)); fUV->SetSerialId(3);
+	fUH = new TAChannel(fName+"->UH", fName+"->UH", fUID+(1<<6)); fUH->SetSerialId(1);
+	fDV = new TAChannel(fName+"->DV", fName+"->DV", fUID+(2<<6)); fDV->SetSerialId(2);
+	fDH = new TAChannel(fName+"->DH", fName+"->DH", fUID+(3<<6)); fDH->SetSerialId(3);
 
 	fStripPara = new TAPlaStripPara(fName+"->Para", fName+"->Para", fUID);
 	fStripData = new TAPlaStripData(fName+"->Data", fName+"->Data", fUID);

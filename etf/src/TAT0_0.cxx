@@ -16,32 +16,39 @@
 // All rights reserved.																													     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
+#include "TAT0_0.h"
 #include "TAUIDParser.h"
 #include "TAPopMsg.h"
-#include "TAT0_0.h"
 #include "TAChannel.h"
+#include "TAPlaStripPara.h"
+#include "TAPlaStripData.h"
 #include "TAGPar.h"
 
 static const TAGPar *gp = TAGPar::Instance();
 
 TAT0_0::TAT0_0(const string &name, const string &title, unsigned uid)
-		: TAStrip(name, title, uid), TADetUnion(uid){}
+		: TAPlaStrip(name, title, uid), TADetUnion(uid){}
 
 TAT0_0::~TAT0_0(){}
 
 // get the channel that belongs to this with uid.
+// get the channel that belongs to this with uid
 TAStuff *TAT0_0::GetChannel(unsigned uid) const{
-	if(uid > 0x7F) return nullptr; // not a uid belonging to this object
+	if(uid > 0xFF) return nullptr; // not a uid belonging to this object
 	int type[2]{}; TAUIDParser::DNS(type, uid); // parse input uid
 	int TYPE[2]{}; TAUIDParser::DNS(TYPE, fUID); // parse uid of this
 	if(type[0] == TYPE[0]){ // belongs to this
-		if(0 == type[1])
-			return GetUV();
-		else if(1 == type[1])
-			return GetUH();
-	}
+		switch(type[1]){
+			case 0: return GetUV();
+			case 1: return GetUH();
+			case 2: return GetDV();
+			case 3: return GetDH();
+			default: break;
+		} // end switch
+	} // end if
 	return nullptr;
 }
+
 void TAT0_0::Initialize(){
 	if(fUV && fUV->GetFiredStatus()) fUV->Initialize();
 	if(fUH && fUH->GetFiredStatus()) fUH->Initialize();
@@ -52,13 +59,15 @@ void TAT0_0::Configure(){
 		return; // Configure() has been called
 	}
 	fUV = new TAChannel(fName+"->UV", fName+"->UV", fUID+(0<<6)); fUV->SetSerialId(0);
-	fUH = new TAChannel(fName+"->UH", fName+"->UH", fUID+(1<<6)); fUV->SetSerialId(1);
-	fDV = new TAChannel(fName+"->DV", fName+"->DV", fUID+(2<<6)); fUV->SetSerialId(2);
-	fDH = new TAChannel(fName+"->DH", fName+"->DH", fUID+(3<<6)); fUV->SetSerialId(3);
+	fUH = new TAChannel(fName+"->UH", fName+"->UH", fUID+(1<<6)); fUH->SetSerialId(1);
+	fDV = new TAChannel(fName+"->DV", fName+"->DV", fUID+(2<<6)); fDV->SetSerialId(2);
+	fDH = new TAChannel(fName+"->DH", fName+"->DH", fUID+(3<<6)); fDH->SetSerialId(3);
 
 	fStripPara = new TAPlaStripPara(fName+"->Para", fName+"->Para", fUID);
 	fStripData = new TAPlaStripData(fName+"->Data", fName+"->Data", fUID);
-	double p[3] = {0., 0., GetZ0()}; GetStripPara()->SetGlobalProjection(p);
+	 // 25.881m: from RIBLL2-F1 to Tstop (T0_1), i.e. from T0_0 to T0_1
+	double p[3] = {0., 0., 25881};
+	GetStripPara()->SetGlobalProjection(p);
 
 	fStripPara->SetWidth(100.); // mm, not accurate
 	fStripPara->SetLength(100.); // mm,
@@ -69,6 +78,6 @@ void TAT0_0::Configure(){
 	SetStripId(0);
 
 	// print user-defined configurations
-	TAPopMsg::ConfigInfo(GetName().c_str(), "Configure: \nfZ0: %f\nfDelay: %f\nfWidth: %f\nfLength: %f\nfVeff: %f\n",
-	 fZ0, GetDelay(), fStripPara->GetWidth(), fStripPara->GetLength(), fStripPara->GetVeff());
+	TAPopMsg::ConfigInfo(GetName().c_str(), "Configure: \nfDelay: %f\nfWidth: %f\nfLength: %f\nfVeff: %f\n",
+	 GetDelay(), fStripPara->GetWidth(), fStripPara->GetLength(), fStripPara->GetVeff());
 } // end of member method Configure

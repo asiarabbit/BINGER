@@ -1,18 +1,18 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 // Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TAPlaStripPara.C													 //
-//   TAPlaStripPara.C -- source file for class TAPlaStripPara						 //
-//   Introduction: for caching Parameter of a TOF Wall plastic strip with			 //
-// both-end-readout uisng PMT coupling.												 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2017/10/9.															     //
-// Last modified: 2017/10/9, SUN Yazhou.										     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
+//																																							     //
+// BINGER/inc/etf/TAPlaStripPara.cxx																								 //
+//   TAPlaStripPara.cxx -- source file for class TAPlaStripPara											 //
+//   Introduction: for caching Parameter of a TOF Wall plastic strip with						 //
+// both-end-readout uisng PMT coupling.																							 //
+//																																							     //
+// Author: SUN Yazhou, asia.rabbit@163.com.																			     //
+// Created: 2017/10/9.																													     //
+// Last modified: 2017/10/9, SUN Yazhou.																				     //
+//																																							     //
+//																																							     //
+// Copyright (C) 2017-2018, SUN Yazhou.																					     //
+// All rights reserved.																													     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
 #include "TAPlaStripPara.h"
@@ -56,4 +56,3 @@ const double *TAPlaStripPara::GetGlobalProjection() const{
 void TAPlaStripPara::SetGlobalProjection(const double *Ag){
 	for(int i = 3; i--;) fGlobalProjection[i] = Ag[i];
 }
-

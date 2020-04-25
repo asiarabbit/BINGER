@@ -91,34 +91,7 @@
 			TOT_DC_Avrg[j] = tra->dcTOTAvrg();
 
 			// particle identification //
-			int ii = 0; taHitX[j] = -9999.; tof2[j] = -9999.; sipmArrStripId[j] = -1;
-			int priority = 0, priorityM = 1000; // to select the optimal fired sipmArr strip time
-			if(sipmArr && sipmArr->GetNFiredStrip() >= 1){
-				for(TAChannel *&ch : sipmArr->GetChArr()){
-					if(ch->GetFiredStatus()){
-						// sipm -> TOFWall
-						double time = tra->TOF - sipmArr->GetStripTime(ch->GetSerialId());
-						if(time < 50. && time > 30.) priority = 1;
-						else if(time < 60. && time > 20.) priority = 2;
-						else if(time < 80. && time > 10.) priority = 3;
-						else if(time < 100. && time > 0.) priority = 4;
-						else if(time < 200. && time > -10.) priority = 5;
-						else if(time < 400. && time > -100.) priority = 6;
-						else if(time < 800. && time > -200.) priority = 7;
-						else priority = 8;
-						if(priority < priorityM){
-							priorityM = priority;
-							sipmArrStripId[j] = ii;
-							taHitX[j] = sipmArr->GetStripX(ii);
-						}
-						if(8 == priorityM){ // abnormally fired
-							taHitX[j] = -9999.;
-						}
-						htof2sipmArr->Fill(ii, time);
-					} // end if(ch->...)
-					ii++;
-				} // end for over channels
-			} // end outer if
+			taHitX[j] = -9999.; tof2[j] = -9999.;
 			if(tRef != -9999. && firedStripId[j] >= 0 && dcArrId < 2){
 				tof2[j] = tofw[dcArrId]->GetStripTime(firedStripId[j], tRef, 40., 90.) - tRef;
 				tof2[j] += GetGPar()->Val(107);
@@ -275,9 +248,8 @@ fitting, sub is abnormal: sub: %d", sub);
 
 		/////////////////////// PID DOWNSTREAM THE TARGET ////////////////////////////////////////
 		// PID using the DC array downstream the target and the DC array downstream the dipole magnet
-		// veto before target //
-		if(1 || (4 != VETO_0->GetFiredStatus() && 4 != VETO_1->GetFiredStatus()))
-		if(IsPID() && ntrLs[3][0] >= 1){ // at least one trk in DCArrD, or no pid is possible
+		// 2020-April: no DCArrD anymore :(, have got to force PID using only trkPreTa and trkpostMag
+		if(IsPID() && ntrLs[3][0] >= 0){ // at least one trk in DCArrD, or no pid is possible
 			// only one trk in DCArrR, or no pid is possible
 			if(1 == n3DtrLs[1] || (0 == n3DtrLs[1] && 1 == ntrLs[1][0])){
 
@@ -300,10 +272,10 @@ fitting, sub is abnormal: sub: %d", sub);
 					pOut[0] = trk3DIf[0].k1; pOut[2] = trk3DIf[0].b1;
 					pOut[1] = trk3DIf[0].k2; pOut[3] = trk3DIf[0].b2;
 				}
-				// commence the new tracking //
-				pdcArrayTa4->SetIsReady(true); /// XXX-2019-09-26
-				pdcArrayTa4->SetPostMagXproj(pOut[0], pOut[2]); // k, b
-				pdcArrayTa4->Map();
+				// // commence the new tracking //
+				// pdcArrayTa4->SetIsReady(true); /// XXX-2019-09-26
+				// pdcArrayTa4->SetPostMagXproj(pOut[0], pOut[2]); // k, b
+				// pdcArrayTa4->Map();
 
 				// update ntr variables //
 				memset(ntrLs, 0, sizeof(ntrLs));
@@ -349,7 +321,7 @@ fitting, sub is abnormal: sub: %d", sub);
 						pIn[1] = t->k; pIn[3] = t->b;
 					} // end if(1 == ntrLs[3][1])
 				} // end for over tracks
-				// XXX XXX XXX XXX //
+				// XXX XXX XXX XXX, assign pIn(0).b1/k2 if the corresponding Y trk is present //
 				if(1 == n3DtrLs[3]){ // use DCArrU-3D trk or not
 					for(int jj = n3Dtr; jj < n3DtrT; jj++){
 						if(0 == trk3DIf[jj].isDCArrR){ // DCArrU
@@ -381,7 +353,9 @@ fitting, sub is abnormal: sub: %d", sub);
 //					cout << pOut[0] << " " << pOut[1] << endl;
 //					cout << pIn[0] << " " << pIn[1] << endl;
 				}
-				if(1 == ntrLs[3][0]){ // 1 || !pdcArrayTa4->ZeroTrack()
+				// 2020-04-25: XX- 1 == ntrLs[3][0] -XX no DCArrD anymore, :( //
+				// using YY- 1 == ntrLs[2][0] -YY instead. :) //
+				if(1 == ntrLs[2][0]){ // 1 || !pdcArrayTa4->ZeroTrack()
 					static TAPID::OPTION pidOpt = (TAPID::OPTION)(GetGPar()->Val(109));
 					pid->Fly(tof2[0], -9999., pOut, 1, pidOpt, pIn, pIn0);
 					aoz[0] = pid->GetAoZ(); aozdmin[0] = pid->GetChi();

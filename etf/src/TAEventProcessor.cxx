@@ -263,10 +263,11 @@ void TAEventProcessor::Configure(){
 		return;
 	}
 	// select an experiment, to direct to a directory containing the exp config parameters
-	const char dir[8][64] = {"pion_2017Oct", "beamTest_2016Nov", "C16_Exp_2018_Summer", // 0-1-2
+	const char dir[9][64] = {"pion_2017Oct", "beamTest_2016Nov", "C16_Exp_2018_Summer", // 0-1-2
 						"tripletDC_P_Ma_Test", "tripletDC_P_Ma_Test_ETF", "OpticFiber", // 3-4-5
-							"C16_Exp_2018_July_18O", "C16_Exp_2018_July_16C"}; // 6-7
-	const char *sdir = dir[7];
+						"C16_Exp_2018_July_18O", "C16_Exp_2018_July_16C", // 6-7
+						"C12_Exp_2020_April"}; // 8
+	const char *sdir = dir[8];
 	TAPopMsg::Info("TAEventProcessor", "Configure: selected Exp Config Dir: %s", sdir);
 	SetConfigExpDir(sdir);
 	// STR_spline.root || STR_stiff.root || STR_aaa900.root
@@ -279,38 +280,33 @@ void TAEventProcessor::Configure(){
 	// note that the detector UID has to be equal to the array detList subscript
 	detList[0] = new TAT0_0("T0_0", "T0_0@Mid-RIBLL2", 0); // shutdown: FORBIDDEN
 	detList[1] = new TAT0_1("T0_1", "T0_1@End-RIBLL2", 1); // shutdown: FORBIDDEN
-//	detList[2] = new TASiPMPlaArray("SiPMPlaArray", "SiPMPlaArray@Post-Target", 2);
+	detList[2] = new TAT0_0("T0_0UD", "T0_0UD@Mid-RIBLL2", 2); // shutdown: FORBIDDEN
 //	detList[3] = new TAMWDCArrayL("DCArrayL", "DCArrayL@Post-Magnet", 3);
 	detList[4] = new TAMWDCArrayR("DCArrayR", "DCArrayR@Post-Magnet", 4);
 //	detList[4] = new TAMWDCArrayM("DCArrayM", "DCArrayM@P.Ma_TEST", 4);
-//	detList[5] = new TASiPMPlaBarrel("SiPMPlaBarrel", "SiPMPlaBarrel@Hug-Target", 5);
 	detList[6] = new TAMWDCArrayU("DCArrayU", "DCArrayU@Pre-Target", 6);
 	detList[7] = new TAMWDCArrayD("DCArrayD", "DCArrayD@Post-Target", 7);
 	// detList[8] = new TAPDCArrayU("PDCArrayU", "PDCArrayU@Pre-Target", 8);
 	// detList[9] = new TAPDCArrayD("PDCArrayD", "PDCArrayD@Post-Target", 9);
-//	detList[10] = new TAMUSICM("MUSICM", "MUSICM@Pre-Target", 10);
-//	detList[11] = new TAMUSICL("MUSICL", "MUSICL@Post-Target", 11);
 //	detList[12] = new TAT0_1("VETO_0", "VETO_0@Pre-MSUICF", 12);
 //	detList[13] = new TAT0_1("VETO_1", "VETO_1@Post-MSUICF", 13);
-	detList[14] = new TAT0_0("T0_0_VME0", "T0_0_VME0@Mid-RIBLL2", 14); // for PDCArrU
-	detList[15] = new TAT0_1("T0_1_VME0", "T0_1_VME1@End-RIBLL2", 15); // for PDCArrU
-	detList[16] = new TAT0_0("T0_0_VME1", "T0_0_VME0@Mid-RIBLL2", 16); // for PDCArrD
-	detList[17] = new TAT0_1("T0_1_VME1", "T0_1_VME1@End-RIBLL2", 17); // for PDCArrD
-//	detList[18] = new TAMUSICM("Si", "Si@Post-Target", 18);
-	detList[19] = new TAOpticFiberArray("OpticFiberArray", "OpticFiberArray", 19);
+	// detList[14] = new TAT0_0("T0_0_VME0", "T0_0_VME0@Mid-RIBLL2", 14); // for PDCArrU
+	// detList[15] = new TAT0_1("T0_1_VME0", "T0_1_VME1@End-RIBLL2", 15); // for PDCArrU
+	// detList[16] = new TAT0_0("T0_0_VME1", "T0_0_VME0@Mid-RIBLL2", 16); // for PDCArrD
+	// detList[17] = new TAT0_1("T0_1_VME1", "T0_1_VME1@End-RIBLL2", 17); // for PDCArrD
 
 	for(TADetUnion *&p : detList) if(p) p->Configure(); // build the detectors
 	// time start for DCArrU-D is TAT0_1
 	TAT0_1 *str_t0_1 = (TAT0_1*)detList[1];
-	TAT0_1 *str_t0_1_0 = (TAT0_1*)detList[15]; // v1190 - slot_9
-	TAT0_1 *str_t0_1_1 = (TAT0_1*)detList[17]; // v1190 - slot_11
+	// TAT0_1 *str_t0_1_0 = (TAT0_1*)detList[15]; // v1190 - slot_9
+	// TAT0_1 *str_t0_1_1 = (TAT0_1*)detList[17]; // v1190 - slot_11
 	if(!str_t0_1) TAPopMsg::Error("TAEvProsr", "Configure: T0_1 is nullptr");
 	if(detList[3]) ((TAMWDCArray*)detList[3])->SetPlaT0(str_t0_1);
 	if(detList[4]) ((TAMWDCArray*)detList[4])->SetPlaT0(str_t0_1);
 	if(detList[6]) ((TAMWDCArray2*)detList[6])->SetPlaT0(str_t0_1);
 	if(detList[7]) ((TAMWDCArray2*)detList[7])->SetPlaT0(str_t0_1);
-	if(detList[8]) ((TAMWDCArray2*)detList[8])->SetPlaT0(str_t0_1_0); // PDCArrU
-	if(detList[9]) ((TAMWDCArray2*)detList[9])->SetPlaT0(str_t0_1_1); // PDCArrD // should be 1_1 for beam exp
+	// if(detList[8]) ((TAMWDCArray2*)detList[8])->SetPlaT0(str_t0_1_0); // PDCArrU
+	// if(detList[9]) ((TAMWDCArray2*)detList[9])->SetPlaT0(str_t0_1_1); // PDCArrD // should be 1_1 for beam exp
 	// for P. Ma's test
 	bool isPMaTest = false;
 	if(isPMaTest && detList[4]){
@@ -323,7 +319,7 @@ void TAEventProcessor::Configure(){
 		if(!strcmp("tripletDC_P_Ma_Test_ETF", sdir)) str_t0_1->SetIsSingleEnd(true);
 	} // end configuration of TOFWall for P. Ma's Test
 
-	// read all the parameters required and assign positiion parameters to every channel and alike
+	// read all the parameters required and assign position parameters to every channel and alike
 	GetParaManager()->ReadParameters();
 
 	if(IsPID()) GetPID()->Configure();

@@ -9,7 +9,7 @@
 //																																							     //
 // Author: SUN Yazhou, asia.rabbit@163.com.																			     //
 // Created: 2017/10/10.																													     //
-// Last modified: 2018/5/27, SUN Yazhou.																				     //
+// Last modified: 2020/04/25, SUN Yazhou.																				     //
 //																																							     //
 //																																							     //
 // Copyright (C) 2017-2018, SUN Yazhou.																					     //
@@ -37,8 +37,7 @@ using std::cout;
 using std::endl;
 using std::flush;
 
-//#define DEBUG
-//#define DEBUG_VME
+#define DEBUG_VME
 
 TARawDataProcessor* TARawDataProcessor::fInstance = nullptr;
 
@@ -561,9 +560,9 @@ int TARawDataProcessor::ReadOfflineVME(){
 	int event_num = 0; // number of events processed
 	int block_num = 0; // number of blocks processed
 	// blcok header
-#ifdef DEBUG_VME
+# ifdef DEBUG_VME
 	int blk_index, blk_last_pos, ev_vmeReadCnt; // block index, last pos of data zone and ? (not clear what this is)
-#endif
+# endif
 	int blk_ev_num; // event number
 	// event header
 	int ev_len, ev_index; // event length, event index
@@ -593,7 +592,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 		// block header - the first 3 words
 		blk_ev_num = buffer[1];
 		pos = 3;
-#ifdef DEBUG_VME
+# ifdef DEBUG_VME
 		blk_index = buffer[0];
 		blk_last_pos = buffer[2];
 		cout << "---------- Block Header -------------\n"; // DEBUG
@@ -601,7 +600,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 		cout << ", block event number: " << blk_ev_num; // DEBUG
 		cout << ", block_last_pos: " << blk_last_pos << endl; // DEBUG
 		getchar(); // DEBUG
-#endif
+# endif
 
 		// loop over events in the preset block
 		for(int i = 0; i < blk_ev_num; i++){
@@ -616,7 +615,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 //			cout << "ev_index: " << ev_index << "\tindex0: " << index0 << endl; // DEBUG
 //			cout << "entry_temp.index: " << entry_temp.index << endl; getchar(); // DEBUG
 			entry_temp.bunchId = 0;
-#ifdef DEBUG_VME
+# ifdef DEBUG_VME
 			ev_vmeReadCnt = buffer[pos+2];
 			cout << "---------- Event Header -------------\n"; // DEBUG
 			cout << "event index: " << ev_index; // DEBUG
@@ -638,7 +637,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 				if((5 == slot || 18 == slot) && !id_v830 && !id_v1190){ // QDC v965 and ADC v785
 					header = (chData>>24) & 0x7;
 					if(2 == header){ // data header
-#ifdef DEBUG_VME
+# ifdef DEBUG_VME
 						int cnt = (chData >> 8) & 0x3F;
 						cout << "Header for v7x5, slot: " << slot; // DEBUG
 						cout << ", count: " << cnt << endl; // DEBUG
@@ -647,7 +646,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 						continue;
 					} // end header reading
 					if(4 == header){ // data trailer
-#ifdef DEBUG_VME
+# ifdef DEBUG_VME
 						cout << "Trailer for v7x5, slot: " << slot; // DEBUG
 						getchar(); // DEBUG
 #endif
@@ -688,7 +687,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 						for(int &x : channelId) x = -2;
 						memset(nhl, 0, sizeof(nhl));
 						memset(nht, 0, sizeof(nht));
-#ifdef DEBUG_VME
+# ifdef DEBUG_VME
 						cout << "HPTDC Global Header for v1190, geo: " << geo << endl; // DEBUG
 						cout << "id_v1190: " << id_v1190 << endl; // DEBUG
 						getchar(); // DEBUG
@@ -698,7 +697,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 					if(16 == slot && (9 == geo || 11 == geo)){ // global trailer
 						if(9 != id_v1190 && 11 != id_v1190)
 							TAPopMsg::Error("TARawDataProcessor", "ReadOfflineVME: HPTDC global trailer encountered, but id_v1190 value is abnormal: %d", id_v1190);
-#ifdef DEBUG_VME
+# ifdef DEBUG_VME
 						cout << "HPTDC Global Trailer for v1190, geo: " << geo << endl; // DEBUG
 						cout << "id_v1190: " << id_v1190 << endl; // DEBUG
 						getchar(); // DEBUG
@@ -746,7 +745,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 //					memset(sca, 0, sizeof(sca));
 //					memset(psca, 0, sizeof(psca));
 //					memset(dsca, 0, sizeof(dsca));
-#ifdef DEBUG_VME
+# ifdef DEBUG_VME
 					cout << "v830 header encountered" << endl; // DEBUG
 					getchar(); // DEBUG
 #endif
@@ -755,7 +754,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 				///// <-<-<- start or end of data zone for certain plugins <-<-<- ////
 				// HPTDC group header and group trailer //
 				if(1 == slot && id_v1190){ // TDC group header
-#ifdef DEBUG_VME
+# ifdef DEBUG_VME
 					cout << "TDC group header for v1190, id_v1190: " << id_v1190 << endl; // DEBUG
 					int bunchId = chData & 0xFFF, eventId = chData>>12 & 0xFFF; // DEBUG
 					int TDCId = chData>>24 & 0xF, headMark = chData>>28 & 0xF; // DEBUG
@@ -766,7 +765,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 					continue;
 				} // end TDC group header
 				if(3 == slot && id_v1190 && !id_v830){ // TDC group trailer
-#ifdef DEBUG_VME
+# ifdef DEBUG_VME
 					int cnt = (chData & 0xFFF) - 2; // exclude the word count of header and trailer
 					cout << "TDC group trailer for v1190, id_v1190: " << id_v1190 << endl; // DEBUG
 					cout << cnt << " hits." << endl; // DEBUG

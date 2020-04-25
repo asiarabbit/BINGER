@@ -355,8 +355,16 @@ void TAPID::Fly(double tof2, double x0TaHit, const double *pOut_, short dcArrId,
 	static const double z0_TA = TADeployPara::Instance()->GetTargetZ0(); //
 	static const double z0_T0_1 = fT0_1->GetZ0(); // -2699.08
 	double y0_SiPMArr = 0.; // hit position in the target
-	if(-9999. == x0TaHit && nullptr == pIn)
-		TAPopMsg::Error("TAPID", "GetAoQ: Target hit position not properly assigned");
+	// 2020-04-25, add " && nullptr == pIn0", since preTaTrk can also provide x0TaHit
+	bool preTaTrkPresent = pIn0[0] && pIn0[2]; // k, b not zero <=> trk present
+	bool postTaTrkPresent = pIn[1] && pIn[3]; // k, b not zero <=> trk present
+	if(-9999. == x0TaHit){
+		if(!preTaTrkPresent && !postTaTrkPresent)
+			TAPopMsg::Error("TAPID", "GetAoQ: Target hit position not properly assigned");
+		// calculate x0TaHit, postTaTrk is preferred to preTaTrk //
+		if(postTaTrkPresent) x0TaHit = pIn[0]*z0_TA + pIn[2];
+		else if(preTaTrkPresent) x0TaHit = pIn0[0]*z0_TA + pIn0[2];
+	}
 	// 1050.: z border of the magnetic field.  P_i: (xi,yi,zi): initial point to start RK propogation
 	const double zi = -1000., xi = pIn[0]*zi + pIn[2], yi = pIn[1]*zi + pIn[3];
 	const double yp0[2] = {pIn[0], pIn[1]}; // magF initial entrance direction
