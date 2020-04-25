@@ -1,0 +1,20 @@
+##################################################################################################
+# Data Analysis Code Project for the External Target Facility, CSR-HIRFL, @IMP
+#
+# Channel Id file for plastic scintillator placed in the egress of RIBLL2.
+#
+# File format is as follows:
+# channelId	uid
+# up to down -> TOF stop LV - LH - RV - RH
+#
+# Created Time: 2017/12/09
+# Author: SUN Yazhou, asia.rabbit@163.com
+# Last Modified: 2020/04/25, SUN Yazhou
+##################################################################################################
+
+# under PXI global clock
+2605	1
+2606	65
+2607	129
+2608	193
+
