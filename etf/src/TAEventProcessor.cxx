@@ -280,7 +280,7 @@ void TAEventProcessor::Configure(){
 	// note that the detector UID has to be equal to the array detList subscript
 	detList[0] = new TAT0_0("T0_0", "T0_0@Mid-RIBLL2", 0); // shutdown: FORBIDDEN
 	detList[1] = new TAT0_1("T0_1", "T0_1@End-RIBLL2", 1); // shutdown: FORBIDDEN
-	detList[2] = new TAT0_0("T0_0UD", "T0_0UD@Mid-RIBLL2", 2); // shutdown: FORBIDDEN
+	// detList[2] = new TAT0_0("T0_0UD", "T0_0UD@Mid-RIBLL2", 2); // shutdown: FORBIDDEN
 //	detList[3] = new TAMWDCArrayL("DCArrayL", "DCArrayL@Post-Magnet", 3);
 	detList[4] = new TAMWDCArrayR("DCArrayR", "DCArrayR@Post-Magnet", 4);
 //	detList[4] = new TAMWDCArrayM("DCArrayM", "DCArrayM@P.Ma_TEST", 4);

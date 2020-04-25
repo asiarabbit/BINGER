@@ -37,7 +37,7 @@ using std::cout;
 using std::endl;
 using std::flush;
 
-#define DEBUG_VME
+// #define DEBUG_VME
 
 TARawDataProcessor* TARawDataProcessor::fInstance = nullptr;
 
