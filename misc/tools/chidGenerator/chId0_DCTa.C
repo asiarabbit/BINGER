@@ -2,25 +2,25 @@
 
 tChId_Ta chIdU = { // Upstream of the target
 	{
-	{3001}, // DC0: X1
-	{3033}, // DC0: Y1
+	{3497}, // DC0: X1
+	{3465}, // DC0: Y1
 	},
 
 	{
-	{3065}, // DC1: X1
-	{3097}, // DC1: Y1
+	{3401}, // DC1: X1
+	{3433}, // DC1: Y1
 	}
 };
 
 tChId_Ta chIdD = { // downstream of the target
 	{
-	{3201}, // DC0: X1
-	{3233}, // DC0: Y1
+	{-2}, // DC0: X1
+	{-2}, // DC0: Y1
 	},
 
 	{
-	{3265}, // DC1: X1
-	{3297}, // DC1: Y1
+	{-2}, // DC1: X1
+	{-2}, // DC1: Y1
 	}
 };
 
