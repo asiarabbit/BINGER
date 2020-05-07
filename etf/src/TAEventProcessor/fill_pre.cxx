@@ -131,10 +131,10 @@
 				tof1 = tRef - t0_0;
 				beta = L / tof1 / c0;
 				htof1->Fill(tof1);
-				// // cout << "t0_0: " << t0_0 << "\ttRef: " << tRef << endl; // DEBUG
-				// // cout << "index: " << index << "\ttof1: " << tof1 << endl; // DEBUG
-				// // cout << "beta: " << beta << endl; // DEBUG
-				// getchar(); // DEBUG
+				cout << "t0_0: " << t0_0 << "\ttRef: " << tRef << endl; // DEBUG
+				cout << "index: " << index << "\ttof1: " << tof1 << endl; // DEBUG
+				cout << "beta: " << beta << endl; // DEBUG
+				getchar(); // DEBUG
 			}
 		} // end if
 
@@ -147,7 +147,7 @@
 			tof1vme = ((evt.mtdc1[2][0] + evt.mtdc1[3][0]) / 2.
 				- (evt.mtdc1[0][0] + evt.mtdc1[1][0]) / 2.) * 0.09765625 + 141.3;
 			tof1tac = (-0.010217 * evt.adc[0] -0.0104695 * evt.adc[1]) / 2. + 158.3;
-			dE0 = (evt.adc[16] + evt.adc[17] + evt.adc[18] + evt.adc[19]) / 2000.;
+			dE0 = (evt.adc[1] + evt.adc[2] + evt.adc[3]) / 3000.;
 			dE1 = (evt.adc[20] + evt.adc[21] + evt.adc[22] + evt.adc[23]) / 2000.;
 			dsca10 = evt.dsca[10]; dsca11 = evt.dsca[11];
 			hpid00->Fill(tof1vme, dE0);

@@ -1,18 +1,18 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 // Data Analysis Code Project for the External Target Facility, HIRFL-CSR, @IMP      //
-//																				     //
-// BINGER/inc/etf/TADeployPara.C												     //
-//   TADeployPara.C -- source file for class TADeployPara						     //
-//   Introduction: an information class for storing and conveying detector design	 //
-// parameters, mainly used to pass specifications when creating detector objects.	 //
-//																				     //
-// Author: SUN Yazhou, asia.rabbit@163.com.										     //
-// Created: 2017/10/12.															     //
-// Last modified: 2018/4/26, SUN Yazhou.										     //
-//																				     //
-//																				     //
-// Copyright (C) 2017-2018, SUN Yazhou.											     //
-// All rights reserved.															     //
+//																																							     //
+// BINGER/inc/etf/TADeployPara.cxx																							     //
+//   TADeployPara.cxx -- source file for class TADeployPara											     //
+//   Introduction: an information class for storing and conveying detector design		 //
+// parameters, mainly used to pass specifications when creating detector objects.		 //
+//																																							     //
+// Author: SUN Yazhou, asia.rabbit@163.com.																			     //
+// Created: 2017/10/12.																													     //
+// Last modified: 2018/4/26, SUN Yazhou.																				     //
+//																																							     //
+//																																							     //
+// Copyright (C) 2017-2018, SUN Yazhou.																					     //
+// All rights reserved.																													     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
 #include "TADeployPara.h"
@@ -123,4 +123,3 @@ double TADeployPara::GetTargetZ0() const{
 	static const double z = gp->Val(84);
 	return z;
 }
-

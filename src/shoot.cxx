@@ -52,8 +52,9 @@ void shoot(const char *rootfile){
 	TAMWDCArray2 *pdcArr2[2]{0}; // PDC arrays upstream of the dipole magnet
 	dcArr[0] = (TAMWDCArray*)det_vec[3]; // dc array L
 	dcArr[1] = (TAMWDCArray*)det_vec[4]; // dc array R
-	pdcArr2[0] = (TAMWDCArray2*)det_vec[8]; // pdc array U
-	pdcArr2[1] = (TAMWDCArray2*)det_vec[9]; // pdc array D
+	// 2020, April, NOW its dcUD(dc2)
+	pdcArr2[0] = (TAMWDCArray2*)det_vec[6]; // pdc array U, NOW its dcUD(dc2)
+	pdcArr2[1] = (TAMWDCArray2*)det_vec[7]; // pdc array D, NOW its dcUD(dc2)
 	TATOFWall *tofw[2]{0};
 	if(dcArr[0]) tofw[0] = dcArr[0]->GetTOFWall();
 	if(dcArr[1]) tofw[1] = dcArr[1]->GetTOFWall();

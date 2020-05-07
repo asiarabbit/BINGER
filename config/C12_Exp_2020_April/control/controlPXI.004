@@ -117,7 +117,7 @@
 32  5000.
 
 # T0_1UV_delay
-33  -0.05
+33  -0.8159
 
 # T_tof: time of flight: used to correct drift time -> for MWDC Array L and R
 # T_tofDC0toTOFWLX: T_tof from X sense wires of DC0 to TOFW, for MWDC array L
@@ -276,9 +276,9 @@
 93 -92.8
 ######### DCTa - Array U-D ################
 # MWDCTa global delay - delay_DCU0
-94 -100
+94 -46.78
 # MWDCTa global delay - delay_DCU1
-95 -95.57
+95 -42.55
 # MWDCTa global delay - delay_DCD0
 96 -100
 # MWDCTa global delay - delay_DCD1

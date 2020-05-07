@@ -18,14 +18,16 @@ using std::endl;
 
 // pion: 0.24835; C16: 1.45; C15: 1.295; C14: 1.20; C12: 0.9535
 // unit: Telsa     0-C16 1-C15  2-C14   3-C13, 4-C12    5-O18   6-O18-NOTA
-const double B[] = {1.45, 1.295, 1.2006, 1.075, 0.9535, 1.2004, 1.2336};
+const double B[] = {1.45, 1.295, 1.2006, 1.075, 0.9535, 1.2004, 1.2336,
+// 2020April        7-C12
+										1.024};
 
 int main(int argc, char *argv[]){
 	TAUI *usr = TAUI::Instance();
 	usr->GetOpt(argc, argv); // parse the user input parameter list
 
 	//user options
-	usr->SetMagneticIntensity(B[0]);
+	usr->SetMagneticIntensity(B[7]);
 //	usr->BunchIdMisAlignCheck();
 //	usr->Silent(); // don't show TAPopMsg::Info() printings
 //	usr->CheckChannelId(403); // see channel with channelId
