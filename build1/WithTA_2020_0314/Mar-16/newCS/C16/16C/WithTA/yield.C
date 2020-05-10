@@ -34,8 +34,7 @@ void yield(){
 	// C16U
 	x0.push_back(x0[0]); y0.push_back(y0[0] + ddE1);
 	a.push_back(a[0]); b.push_back(b[0]);
-	
-	
+
 	
 	const int nCut = cutgLs.size();
 	

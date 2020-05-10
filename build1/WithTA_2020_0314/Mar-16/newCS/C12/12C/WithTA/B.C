@@ -20,21 +20,22 @@ int main(){
 	const char *reaction = "240 MeV/u 12C->12C => ^xB";
 	// for target nuclide: detecting efficiency and survival rate penetrating the target
 	const ExpData e_dT(0.900669, 0.0165077);
+	const ExpData e_PU(0.9809, 5e-5); // Pile-up compensation
 	const ExpData sigma0(762.1677, 18.1800); // interaction c.s. in mb
 	const ExpData e_SVT(Exp(sigma0*(-1e-27)*t5mmC)); // sigma0: interaction cross section
-	const ExpData e_e = e_dT*e_SVT;
+	const ExpData e_e = e_PU*e_SVT;
 
 	// yeild, TA-in //
 	const ExpData N0(129309, 0);
 	ExpData B(892., sqrt(892.)); // dE1 in (1.60, 2.15)
-	ExpData BeContamination(13, sqrt(13)); B -= BeContamination;
+	ExpData BeContamination(24, sqrt(24)); B -= BeContamination/e_dT;
 	const ExpData CS = B / (e_e*N0*t5mmC) * 1e27; // unit: mb
 	// yeild, TA-out //
 	const ExpData N0_n(52587, 0);
-	ExpData B_n(114., sqrt(114.)); // dE1 in (1.60, 2.15)
-	ExpData BeContamination_n(1, sqrt(1)); B_n -= BeContamination_n;
+	ExpData B_n(104., sqrt(104.)); // dE1 in (1.1, 1.47)
+	ExpData BeContamination_n(2, sqrt(2)); B_n -= BeContamination_n/e_dT;
 	B_n /= e_e;
-	const ExpData CS_n = B_n / (e_e*N0*t5mmC) * 1e27; // unit: mb
+	const ExpData CS_n = B_n / (e_e*N0_n*t5mmC) * 1e27; // unit: mb
 	// net cross section
 	const ExpData CSF = CS - CS_n;
 
