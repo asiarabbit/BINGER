@@ -80,7 +80,7 @@ using std::setw;
 //#define DEBUG
 #define GO // do the filling of ROOT objects
 //#define VERBOSE // show TAPopMsg::Info() information
-//#define SHOW_ENTRY
+// #define SHOW_ENTRY
 
 TAEventProcessor* TAEventProcessor::fInstance = nullptr;
 
@@ -180,7 +180,7 @@ void TAEventProcessor::SetMagPerEvent(unsigned clock){
 			valid = false;
 			return;
 		}
-		double B, T; // magnetic/Tesla; Temperature/C; 
+		double B, T; // magnetic/Tesla; Temperature/C;
 		int y, m, d, h, min, s; // time/s
 		tree->SetBranchAddress("B", &B);
 		tree->SetBranchAddress("T", &T);
@@ -238,7 +238,7 @@ void TAEventProcessor::SetDataFile(const string &datafile, int runId, bool isPXI
 	const char c = datafile.c_str()[0];
 	string name;
 	if('/' == c || '.' == c) name = datafile; // data file with its path specified
-	else name = "../data/"+datafile;		
+	else name = "../data/"+datafile;
 	GetRawDataProcessor()->SetDataFileName(name, runId, isPXI);
 }
 void TAEventProcessor::SetPeriod(int index0, int index1){
@@ -247,7 +247,7 @@ void TAEventProcessor::SetPeriod(int index0, int index1){
 // create detectors
 void TAEventProcessor::Configure(){
 	static bool isCalled = false; // make sure that no matter how many times called,
-	if(isCalled){ // configure function would only be implemented once
+	if(isCalled){ // configure function would only be implemented onc*T0_1e
 //		TAPopMsg::Warn("TAEventProcessor", "Configurte: has been called once.");
 		return;
 	}
@@ -310,7 +310,7 @@ void TAEventProcessor::Configure(){
 //			tofw->SetNStrip(1);
 //			stripArr.push_back((TAPlaStrip*)str_t0_1);
 //		}
-		if(!strcmp("quadrupleDC_P_Ma_Test", sdir)) str_t0_1->SetIsSingleEnd(true);
+		// if(!strcmp("quadrupleDC_P_Ma_Test", sdir)) str_t0_1->SetIsSingleEnd(true);
 	} // end configuration of TOFWall for P. Ma's Test
 
 	// read all the parameters required and assign positiion parameters to every channel and alike
@@ -495,7 +495,7 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 		GetRawDataProcessor()->SetPeriod(id0, id1);
 		GetRawDataProcessor()->ReadOffline(); // prepare data file
 		rootfile = GetRawDataProcessor()->GetROOTFileName();
-		printf("\033[32;1m  Analyzing event#%d to event#%d from datafile  %s and %s\n\033[0m", id0, id1, 
+		printf("\033[32;1m  Analyzing event#%d to event#%d from datafile  %s and %s\n\033[0m", id0, id1,
 			GetRawDataProcessor()->GetPXIDataFileName(), GetRawDataProcessor()->GetVMEDataFileName());
 	} // end if(strcmp...)
 	else printf("\033[32;1m  Analyzing event#%d to event#%d from rootfile   %s\n\033[0m", id0, id1, rootfile.c_str());
@@ -585,7 +585,7 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 		if(indext[0] >= 0) index = indext[0]; // use pxi index
 		else if(indext[1] >= 0) index = indext[1]; // use vme index
 		else TAPopMsg::Error("TAEvProsr", "Run: indexes of VME and PXI are both below 0.");
-		
+
 		if(treeSCA) treeSCA->GetEntry(cntSec);
 		if(vme) vme->GetEntry(cntSec);
 		cntSec++;
@@ -614,7 +614,7 @@ void TAEventProcessor::Run(int id0, int id1, int secLenLim, const string &rawrtf
 		for(auto &t : entry_ls) cout << t->name << "\t" << t->channelId << endl; // DEBUG
 		getchar(); // DEBUG
 #endif
-//		for(auto &t : entry_ls) t->show(); // DEBUG
+		// for(auto &t : entry_ls) t->show(); // DEBUG
 //		getchar(); // DEBUG
 #ifdef GO
 		#include "TAEventProcessor/fill_pre.C" // fill hists and trees before tracking
@@ -702,7 +702,7 @@ void TAEventProcessor::RefineTracks(int &n3Dtr, t3DTrkInfo *trk3DIf, const doubl
 	// // // ^^^^^^^ circulation over 3-D tracks in one data section ^^^^^^^ // // //
 	for(int jj = 0; jj < n3Dtr; jj++){ // loop over 3D tracks in a data section
 		isDCArrR[jj] = bool(tl[trkId[jj][0]]->type/10%10); // 0: L; 1: R
-		int nFX = 0, nFU = 0, nFV = 0; // fired anode layers in 
+		int nFX = 0, nFU = 0, nFV = 0; // fired anode layers in
 		for(int j = 0; j < 6; j++){ // count effective measurements
 			if(tl[trkId[jj][0]]->nu[j] != -1) nFX++;
 			if(tl[trkId[jj][1]]->nu[j] != -1) nFU++;
@@ -845,7 +845,3 @@ void TAEventProcessor::RefinePID(const int n3Dtr, const t3DTrkInfo *trk3DIf, t3D
 		pi.trkLenT = pid->GetTotalTrackLength();
 	}
 }
-
-
-
-

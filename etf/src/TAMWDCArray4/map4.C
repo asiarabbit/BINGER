@@ -16,7 +16,7 @@
 // All rights reserved.															     //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-//#define DEBUG_MAP
+// #define DEBUG_MAP
 
 static TACtrlPara *clp = TACtrlPara::Instance();
 // subordinate function of void Map();
@@ -71,50 +71,80 @@ bool TAMWDCArray4::Map4(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 	int overlapTrackCnt = 0; // for special use (checking of the tracking process)
 	int nFiredAnodeLayer = 0; // number of fired sense wire layers
 	int overlap = -2; // a temporary variable for the return value of int compare2(...)
+	bool bothFired0 = false, bothFired1 = false, bothFired2 = false, bothFired3 = false;
+	bool normalEvent = false, specialEvent = false;
 
 	//////////////////////////////// THE 8-FOLD NESTED LOOP ////////////////////////////////
-	// to loop over all the possible combinations of fired sense wires 
+	// to loop over all the possible combinations of fired sense wires
 	// for the least-Dsquare tracks for a specific event
 	// i == nAnodePerLayer# corresponds to the one situation where all the fired anodes
 	// in the layer is deemed as invalid (caused by noise, unwanted particles, etc.).
+	if(MWDC[0]->GetNFiredAnodePerLayer(dcType, 1) <= 10)
 	for(int i = 0; i <= nAnodePerLayer0; i++){ nu[0] = -1; // DC0-X1
 		if(i < nAnodePerLayer0 && MWDC[0]->GetAnodeL1(dcType, i)->GetFiredStatus()) nu[0] = i; // DC0-X1 --------------------------------------------------------------
 		if(-1 == nu[0] && i < nAnodePerLayer0) continue; // inert anodes within the anode layers would be ignored
 
+	if(MWDC[0]->GetNFiredAnodePerLayer(dcType, 2) <= 10)
 	for(int j = 0; j <= nAnodePerLayer0; j++){ nu[1] = -1; // DC0-X2
 		if(j < nAnodePerLayer0 && MWDC[0]->GetAnodeL2(dcType, j)->GetFiredStatus()) nu[1] = j; // DC0-X2 --------------------------------------------------------------
 		if(-1 == nu[1] && j < nAnodePerLayer0) continue;
 
+	if(MWDC[1]->GetNFiredAnodePerLayer(dcType, 1) <= 10)
 	for(int ii = 0; ii <= nAnodePerLayer1; ii++){ nu[2] = -1; // DC1-X1
 		if(ii < nAnodePerLayer1 && MWDC[1]->GetAnodeL1(dcType, ii)->GetFiredStatus()) nu[2] = ii; // DC1-X1 --------------------------------------------------------------
 		if(-1 == nu[2] && ii < nAnodePerLayer1) continue;
 
+	if(MWDC[1]->GetNFiredAnodePerLayer(dcType, 2) <= 10)
 	for(int jj = 0; jj <= nAnodePerLayer1; jj++){ nu[3] = -1; // DC1-X2
 		if(jj < nAnodePerLayer1 && MWDC[1]->GetAnodeL2(dcType, jj)->GetFiredStatus()) nu[3] = jj; // DC1-X2 --------------------------------------------------------------
 		if(-1 == nu[3] && jj < nAnodePerLayer1) continue;
 
+	if(MWDC[2]->GetNFiredAnodePerLayer(dcType, 1) <= 10)
 	for(int iii = 0; iii <= nAnodePerLayer2; iii++){ nu[4] = -1; // DC2-X1
 		if(iii < nAnodePerLayer2 && MWDC[2]->GetAnodeL1(dcType, iii)->GetFiredStatus()) nu[4] = iii; // DC2-X1 --------------------------------------------------------------
 		if(-1 == nu[4] && iii < nAnodePerLayer2) continue;
 
+	if(MWDC[2]->GetNFiredAnodePerLayer(dcType, 2) <= 10)
 	for(int jjj = 0; jjj <= nAnodePerLayer2; jjj++){ nu[5] = -1; // DC2-X2
 		if(jjj < nAnodePerLayer2 && MWDC[2]->GetAnodeL2(dcType, jjj)->GetFiredStatus()) nu[5] = jjj; // DC2-X2 --------------------------------------------------------------
 		if(-1 == nu[5] && jjj < nAnodePerLayer2) continue;
 
+	if(MWDC[3]->GetNFiredAnodePerLayer(dcType, 1) <= 10)
 	for(int iiii = 0; iiii <= nAnodePerLayer3; iiii++){ nu[6] = -1; // DC3-X1
 		if(iiii < nAnodePerLayer3 && MWDC[3]->GetAnodeL1(dcType, iiii)->GetFiredStatus()) nu[6] = iiii; // DC3-X1 --------------------------------------------------------------
 		if(-1 == nu[6] && iiii < nAnodePerLayer3) continue;
 
+	if(MWDC[3]->GetNFiredAnodePerLayer(dcType, 2) <= 10)
 	for(int jjjj = 0; jjjj <= nAnodePerLayer3; jjjj++){ nu[7] = -1; // DC3-X2
 		if(jjjj < nAnodePerLayer3 && MWDC[3]->GetAnodeL2(dcType, jjjj)->GetFiredStatus()) nu[7] = jjjj; // DC3-X2 --------------------------------------------------------------
 		if(-1 == nu[7] && jjjj < nAnodePerLayer3) continue;
+
+			// to tell eligible track candidates //
+			// Each MWDC has fired anode(s)
+			normalEvent = (nu[0] >= 0 || nu[1] >= 0) && (nu[2] >= 0 || nu[3] >= 0)
+				&& (nu[4] >= 0 || nu[5] >= 0) && (nu[6] >= 0 || nu[7] >= 0);
+//			if(!normalEvent) continue;
+			specialEvent = false;
+			if(!normalEvent){
+				bothFired0 = nu[0] >= 0 && nu[1] >= 0; // DC0
+				bothFired1 = nu[2] >= 0 && nu[3] >= 0; // DC1
+				bothFired2 = nu[4] >= 0 && nu[5] >= 0; // DC2
+				bothFired3 = nu[6] >= 0 && nu[7] >= 0; // DC3
+				specialEvent =
+				(bothFired0 && bothFired1) || (bothFired0 && bothFired2) || (bothFired0 && bothFired3) ||
+				(bothFired1 && bothFired2) || (bothFired1 && bothFired3) || (bothFired2 && bothFired3);
+
+			} // end if(!normalEvent)
+//			if(!(bothFired0 && bothFired1 && bothFired2)) continue;
+			if(!normalEvent && !specialEvent) continue; // Each MWDC has to be fired, or any two MWDCs are two-anode-plane fired.
+
+
 
 			nFiredAnodeLayer = 0;
 			for(int i = 0; i < 8; i++){
 				LAYER[i] = -1;
 				if(nu[i] >= 0) LAYER[nFiredAnodeLayer++] = i;
 			}
-			if(nFiredAnodeLayer < 4) continue;
 			gGOOD = nFiredAnodeLayer;
 			if(4 == nFiredAnodeLayer) if(nu[LAYER[0]]/2 == nu[LAYER[1]]/2 && nu[LAYER[2]]/2 == nu[LAYER[3]]/2) gGOOD = 2;
 #ifdef DEBUG_MAP
@@ -141,7 +171,7 @@ bool TAMWDCArray4::Map4(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 #endif
 				} // end if
 			}
-			
+
 			// initialization
 			kl = -9999.; bl = -9999.; d2 = -9999.; TOF = -9999.;
 			// Here it's Dsquare(z, x...), NOT Dsquare(x, z...), because the coordinate system is different from those conventional ones now
@@ -215,7 +245,7 @@ bool TAMWDCArray4::Map4(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 				// assign newTrack
 				newTrack.SetData(x, z, t, r, kl, bl, d2, gGOOD, nu, LAYER, weight);
 				newTrack.SetTOF(TOF, -1, -9999.);
-				
+
 				// NOTE that this function would trigger TATrack::Fit() so as to increase
 				// system burden
 //				cout << "We're going to implement FIT function\n"; getchar(); // DEBUG
@@ -296,7 +326,7 @@ bool TAMWDCArray4::Map4(TAMWDC **MWDC, vector<TATrack *> &track, int dcType){
 	cout << "Map returning true..." << endl; // DEBUG
 	getchar(); // DEBUG
 #endif
-	
+
 	return true;
 
 } // end of Map function
@@ -424,9 +454,6 @@ int TAMWDCArray4::compare4(TATrack *newTrack, TATrack *oldTrack, char type, bool
 		} // end else
 
 	} // end if
-	
+
 	return 0;
 } // end of function compare
-
-
-

@@ -29,13 +29,13 @@
 # Detector time to trig range: to select signals belonging to the same one particle in an event
 # Global delay accounted for
 # T0_1ToTrigLBUV
-0   545.
+0   1000.
 # T0_1ToTrigHBUV
-1   580.
+1   1100.
 # T0_1ToTrigLBDV
-2   545.
+2   1000.
 # T0_1ToTrigHBDV
-3   580.
+3   1100.
 # T0_1DelayAvrg: average delay for T0_1, applying to both UV and DV
 4   0.
 # tofwToTrigLB
@@ -43,9 +43,9 @@
 # tofwToTrigHB
 6   880.
 # dcToTrigLB
-7   400.
+7   0.
 # dcToTrigHB
-8   700.
+8   2500.
 # sipmPlaArrToTrigLB
 9   200.
 # sipmPlaArrToTrigHB
@@ -285,5 +285,3 @@
 100 1e-7
 # PDC global delay - delay_PDCD1
 101 1e-7
-
-

@@ -326,11 +326,12 @@ void TACtrlPara::AssignSTR(TAAnodePara *para) const{
 			else if(!rt[hv][i])
 				TAPopMsg::Error("TACtrlPara", "AssignSTR: required rt is nullptr: hv: %d, nang: %d", hv, i);
 //			else para->SetSTR(rtM[hv][i], i); // XXX: note that this is only for P. Ma triplet-DCTaM Test
-			else para->SetSTR(rt[hv][i], i);
-//			cout << "hv: " << hv << "\ti: " << i << endl; // DEBUG
-//			cout << "rt[hv][i]: " << rt[hv][i]->GetName() << endl; // DEBUG
-//			cout << "rt[hv][i]->Eval(100.): " << rt[hv][i]->Eval(43.) << endl; // DEBUG
-//			getchar(); // DEBUG
+			else para->SetSTR(rtL[0][0], i);
+			// cout << "para->GetName(): " << para->GetName() << endl; // DEBUG
+			// cout << "hv: " << hv << "\ti: " << i << endl; // DEBUG
+			// cout << "rtL[0][0]: " << rtL[0][0]->GetName() << endl; // DEBUG
+			// cout << "rtL[0][0]->Eval(100.): " << rtL[0][0]->Eval(100.) << endl; // DEBUG
+			// getchar(); // DEBUG
 		} // end for over i
 	} // end if(3 == type[0] || 4 == type[0])
 	else if(6 == type[0] || 7 == type[0] || 8 == type[0] || 9 == type[0]){ // MWDC array U-D
@@ -384,19 +385,3 @@ void TACtrlPara::SetSimSpatialResolution(double sigmar){
 		TAPopMsg::Error("TACtrlPara", "SetSimSpatialResolution: input sigma-r is abnormal: %f", sigmar);
 	fSigmaR = sigmar;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

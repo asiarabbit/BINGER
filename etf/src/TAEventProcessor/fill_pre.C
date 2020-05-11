@@ -20,6 +20,7 @@
 //#define DEBUG
 //#define DEBUG_T0_1_pos
 
+
 		///////////////////// OUTPUT THE ANALYSIS RESULT //////////////////////////////////////////
 		// daq statistics //
 		// the last entry of a data section, then channelId stores secLen.
@@ -87,7 +88,7 @@
 		//if(0)
 		for(int j = 0; j < nUVLEdge_T0_1; j++){
 			double tmpuv = T0_1->GetUV()->GetTime(j) - T0_1_delayAvrg;
-			double tmpdv = T0_1->GetDV()->GetLT(tmpuv+T0_1_delayAvrg) - T0_1_delayAvrg; // 
+			double tmpdv = T0_1->GetDV()->GetLT(tmpuv+T0_1_delayAvrg) - T0_1_delayAvrg; //
 			double tmpdt = fabs(tmpuv - tmpdv);
 			if(tmpuv > timeToTrigHighBoundUV || tmpuv < timeToTrigLowBoundUV) tmpdt += 20.;
 			if(tmpdt < dmin_T0_1){
@@ -121,7 +122,7 @@
 			T0_1->GetUV()->GetData()->Show(); T0_1->GetDV()->GetData()->Show(); getchar(); // DEBUG
 		}
 #endif
-		
+
 		beta = -1.; // initialization
 		static const double L = 25.881 * 1000.; // the length of RIBLL2
 		tof1 = -9999.; // time of flight in RIBLL2
@@ -244,7 +245,6 @@
 						} // end for over anode of one layer
 						multi_DC[ii][j][k][l] = dc[ii][j]->GetNFiredAnodePerLayer(k, l+1);
 						hDCMulti[ii][j][k][l]->Fill(multi_DC[ii][j][k][l]);
-//cout << "mark 1" << endl; getchar();
 					} // end for over layer 1 and 2
 				} // end for over X-U-V
 			} // end for over DCs
@@ -252,8 +252,8 @@
 
 
 		// MWDC arrays around the target //
-		// DCs made by P. Ma
-		for(int ii = 0; ii < 2; ii++) if(dcArr2[ii]){ // loop over MWDC arrays around the target
+		// DCs made by P. Ma if(dcArr2[ii])
+		for(int ii = 0; ii < 2; ii++) { // loop over MWDC arrays around the target
 			for(int j = 0; j < 2; j++){ // loop over two MWDCs
 				const int na = dc2[ii][j]->GetNAnodePerLayer();
 				for(int k = 0; k < 2; k++){ // loop over XY SLayers
@@ -270,8 +270,9 @@
 								}
 //								if(0 == ii && 0 == k && 0 == j)
 								{
-									for(int i = 0; i < ano->GetData()->GetNLeadingEdge(); i++)
-									hDCTaToTrig->Fill(i, ano->GetTime(i));
+									for(int i = 0; i < ano->GetData()->GetNLeadingEdge(); i++){
+										hDCTaToTrig->Fill(i, ano->GetTime(i));
+									}
 								}
 								// NOTE THAT FIRED STATUS ALTERING SHOULD BE PUT IN THE LAST OF THIS SCRIPTLET! //
 								if(!(dcToTrig > gpar->Val(67) && dcToTrig < gpar->Val(68))) ano->GetData()->SetFiredStatus(false); // (340., 840.)->pion2017; (1000., 1400.)->beamTest2016
@@ -429,16 +430,3 @@
 				if(-9999. == pos_opfa[i]) tmp++;
 			}
 		} // end if(opfa)
-
-
-
-
-
-
-
-
-
-
-
-
-

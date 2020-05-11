@@ -30,7 +30,7 @@
 #include "TADCSFE16.h"
 #include "TADCCable.h"
 #include "TADCSuperLayer.h"
-#include "TAMWDCTaM.h"
+#include "TAMWDCTaL.h"
 #include "TADetectorPara.h"
 #include "TAPlaStripPara.h"
 #include "TAPlaStrip.h"
@@ -114,10 +114,10 @@ void TAMWDCArray4::Configure(){
 		return; // Configure() has been called
 	}
 	SetDsquareThresholdPerDot(TACtrlPara::DsquareThresholdPerDot(fUID));
-	if(!fMWDC[0]) fMWDC[0] = new TAMWDCTaM(fName+"->DC0", fTitle+"->DC0", fUID+(0<<6));
-	if(!fMWDC[1]) fMWDC[1] = new TAMWDCTaM(fName+"->DC1", fTitle+"->DC1", fUID+(1<<6));
-	if(!fMWDC[2]) fMWDC[2] = new TAMWDCTaM(fName+"->DC2", fTitle+"->DC2", fUID+(2<<6));
-	if(!fMWDC[3]) fMWDC[3] = new TAMWDCTaM(fName+"->DC3", fTitle+"->DC3", fUID+(3<<6));
+	if(!fMWDC[0]) fMWDC[0] = new TAMWDCTaL(fName+"->DC0", fTitle+"->DC0", fUID+(0<<6));
+	if(!fMWDC[1]) fMWDC[1] = new TAMWDCTaL(fName+"->DC1", fTitle+"->DC1", fUID+(1<<6));
+	if(!fMWDC[2]) fMWDC[2] = new TAMWDCTaL(fName+"->DC2", fTitle+"->DC2", fUID+(2<<6));
+	if(!fMWDC[3]) fMWDC[3] = new TAMWDCTaL(fName+"->DC3", fTitle+"->DC3", fUID+(3<<6));
 
 	for(int i = 4; i--;){
 		fMWDC[i]->SetMWDCId(i);
@@ -130,7 +130,7 @@ TAStuff *TAMWDCArray4::GetChannel(unsigned uid) const{
 	if(uid > 0x7FFFF) return nullptr; // not a uid belonging to this class (only 19 bits)
 	int type[6]{}; TAUIDParser::DNS(type, uid); // parse input uid
 	int TYPE[6]{}; TAUIDParser::DNS(TYPE, GetUID()); // parse uid of this
-	
+
 	if(type[0] == TYPE[0]){ // belongs to this object
 		if(type[1] < 4){ // MWDCs
 			return
@@ -159,6 +159,3 @@ void TAMWDCArray4::Info() const{
 	GetPlaT0()->Info();
 	cout << "\n\033[1m______________________________________________________________\033[0m\n\n";
 }
-
-
-

@@ -65,6 +65,10 @@
 	for(int i = 2; i--;) for(int j = 4; j--;) if(dcArr[i]) dc[i][j] = dcArr[i]->GetMWDC(j);
 	for(int i = 2; i--;) for(int j = 2; j--;) if(dcArr2[i]) dc2[i][j] = dcArr2[i]->GetMWDC(j);
 	for(int i = 2; i--;) for(int j = 2; j--;) if(pdcArr2[i]) pdc2[i][j] = pdcArr2[i]->GetMWDC(j);
+	dc2[0][0] = dcArr[1]->GetMWDC(0);
+	dc2[0][1] = dcArr[1]->GetMWDC(1);
+	dc2[1][0] = dcArr[1]->GetMWDC(2);
+	dc2[1][1] = dcArr[1]->GetMWDC(3);
 //	TAAnode *ano = dc[1][1]->GetAnodeL1(1, 58); // DEBUG
 //	cout << ano->GetAnodePara()->GetSTR(0)->GetTitle() << endl; getchar(); // DEBUG
 //	cout << ano->GetDriftDistance(70., 0) << endl; getchar(); // DEBUG
@@ -95,12 +99,12 @@
 		sprintf(name, "hn%cvsChid", lt[i]);
 		sprintf(title, "Number of %s Edges v.s. Channel Id;channel Id;N Edge", s_lt[i]);
 		hnxvsChid[i] = new TH2F(name, title, 10001, -0.5, 10000.5, 15, -1.5, 13.5);
-		objLs[0].push_back(hnxvsChid[i]);
+		objLs[1].push_back(hnxvsChid[i]);
 		for(int j = 0; j < 2; j++){
 			sprintf(name, "h%ct%d_%dvsChid", lt[i], j+1, j);
 			sprintf(title, "%s Edge %d - %d v.s. Channel Id;channel id;lt[1]-lt[0] [ns]", s_lt[i], j+1, j);
 			hxtn_nvsChid[2*i+j] = new TH2F(name, title, 10001, -0.5, 10000.5, 1000, -1500., 1500.);
-			objLs[0].push_back(hxtn_nvsChid[2*i+j]);
+			objLs[1].push_back(hxtn_nvsChid[2*i+j]);
 		} // end for over leading and trailing edges
 	}
 	TH2F *hnl_ntvsChid = new TH2F("hnl_ntvsChid", "N-Leading_Edge - N-Trailing-Edge v.s. Channel Id;channel Id;nl - nt", 10001, -0.5, 10000.5, 17, -8.5, 8.5);
@@ -222,7 +226,7 @@
 
 	TGraph *gTrkEff = new TGraph();
 	gTrkEff->SetNameTitle("gTrkEff", "index-Tracking Efficiency diagram;event index;3D Efficiency");
-	objLs[0].push_back(gTrkEff);
+	objLs[1].push_back(gTrkEff);
 
 	int cnt_timeToTrig_T0_1UV = 0, cnt_timeToTrig_T0_1DV = 0;
 	int cntTRef = 0;
@@ -301,7 +305,3 @@
 	objLs[6].push_back(hPDCToTrig);
 	TH2F *hPDCToTrigNoPU = new TH2F("hPDCToTrigNoPU", "hPDCToTrig - dsca11==0;edgeNumId;timeToTrig [ns]", 7, -1.5, 5.5, 10000, -4000., 16000.);
 	if(vme) objLs[6].push_back(hPDCToTrigNoPU);
-
-
-
-

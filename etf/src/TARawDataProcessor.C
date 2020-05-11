@@ -108,7 +108,7 @@ int TARawDataProcessor::ReadOfflinePXI(){
 		TTree *treeData = (TTree*)f->Get("treeData");
 		if(treeData){
 			TAPopMsg::Info("TARawDataProcessor", "ReadOfflinePXI: %s exist and treeData not nullptr. So this function has been called once. BINGER would use the current ROOTFile and treeData. RawData => ROOT file transformation would be skipped", fROOTFile.c_str());
-			
+
 			// retrieve the index of the last event, and assign which to fEventCnt
 			int index_t;
 			treeData->SetBranchAddress("index", &index_t);
@@ -168,7 +168,7 @@ int TARawDataProcessor::ReadOfflinePXI(){
 
 
 	// channel_offset_table
-	int *edge_num = NULL;	
+	int *edge_num = NULL;
 	int *offset = NULL; // arrray to store data_offset_table
 	bool offset_ed = false; // indicating whether pointer offset has been allocated.
 
@@ -183,7 +183,7 @@ int TARawDataProcessor::ReadOfflinePXI(){
 	short length_last_ch; // length of the last channel of a fired fragment.
 	int bunchID[frag_num_limit_per_event]{};
 	int eventID[frag_num_limit_per_event]{};
-	
+
 	tEntry entry_temp;
 	TFile *f = new TFile(fROOTFile.c_str(), "RECREATE");
 	TTree *treeData = new TTree("treeData", ("experiment data-"+fPXIDataFile).c_str());
@@ -225,7 +225,7 @@ int TARawDataProcessor::ReadOfflinePXI(){
 		// read fragment head(s)
 		// allocate proper memory to pointer frag_h with data type fragment_head
 		if(frag_nu > 0){
-			frag_h = new fragment_head[frag_nu]; 
+			frag_h = new fragment_head[frag_nu];
 			if(fread(frag_h, sizeof(fragment_head), frag_nu, fp) <= 0) break; // read all fragment heads at one time
 			section_len += frag_nu * sizeof(fragment_head); // increment event length by the length read just now
 			// To see if the event is a vacant event, which only has a section head and  a fragment head.
@@ -260,7 +260,7 @@ int TARawDataProcessor::ReadOfflinePXI(){
 				for(int j = 0; j < va_ch_nu; j++) ch_id[j] = frag_h[i].start_channel + j; // channel id
 			} // end if(frag_h[i].channel_full == 1)
 			else { // not all the channels in the fragment are fired, so there is a data_validity_table
-				if(fread(&va_ch_nu, sizeof(int), 1, fp) <= 0) break; // read valid channel number				
+				if(fread(&va_ch_nu, sizeof(int), 1, fp) <= 0) break; // read valid channel number
 //				fAskMe.ch_nu += va_ch_nu - 1; /// Nov. 7, 2016
 //				fAskMe.fragment[i].va_ch_nu = va_ch_nu - 1;  /// Nov. 7, 2016
 				ch_id = new int[va_ch_nu];
@@ -307,7 +307,7 @@ int TARawDataProcessor::ReadOfflinePXI(){
 								hl[j][nhl] = (data_ch[k] & 0x7FFFF); nhl++;
 							}
 							else{ // MWDC
-								ht[j][nht] = (data_ch[k] & 0x7FFFF); nht++;
+								hl[j][nhl] = (data_ch[k] & 0x7FFFF); nhl++;
 							}
 						} // end if
 						else{
@@ -315,17 +315,17 @@ int TARawDataProcessor::ReadOfflinePXI(){
 								ht[j][nht] = (data_ch[k] & 0x7FFFF); nht++;
 							}
 							else{ // MWDC
-								hl[j][nhl] = (data_ch[k] & 0x7FFFF); nhl++;
+								ht[j][nht] = (data_ch[k] & 0x7FFFF); nht++;
 							}
 						}
 					}
 					else{ // very high
 						if(0 == (data_ch[k]>>30 & 0x1) ){
-							vl[j][nvl] = (data_ch[k] & 0x1FFFFF); // (data_ch[k] & 0x7FFFF) * 4 + (data_ch[k]>>19 & 0x3); // 
+							vl[j][nvl] = (data_ch[k] & 0x1FFFFF); // (data_ch[k] & 0x7FFFF) * 4 + (data_ch[k]>>19 & 0x3); //
 							nvl++;
 						}
 						else{
-							vt[j][nvt] = (data_ch[k] & 0x1FFFFF); // (data_ch[k] & 0x7FFFF) * 4 + (data_ch[k]>>19 & 0x3); // 
+							vt[j][nvt] = (data_ch[k] & 0x1FFFFF); // (data_ch[k] & 0x7FFFF) * 4 + (data_ch[k]>>19 & 0x3); //
 							nvt++;
 						}
 					}
@@ -410,7 +410,7 @@ int TARawDataProcessor::ReadOfflinePXI(){
 			if(!(ch_num[i] == 33 || ch_num[i] == 129)){
 				cout << "Odd... Channel number of one fragment doesn't equal 33 or 129.";
 				cout << " ch_num[" << i << "]: " << ch_num[i] << endl;
-				getchar(); // DEBUG 
+				getchar(); // DEBUG
 			} // end if(!(ch...)
 
 
@@ -451,7 +451,7 @@ int TARawDataProcessor::ReadOfflinePXI(){
 		// circle over events
 		// mark the end of one data section.
 		entry_temp.index = -2; // default is -1; so don't confuse with it.
-		entry_temp.channelId = section_len; // this place is dispatched for new use.	
+		entry_temp.channelId = section_len; // this place is dispatched for new use.
 		entry_temp.nl = 0;
 		entry_temp.nt = 0;
 		entry_temp.bunchId = bunchID[0];
@@ -465,7 +465,7 @@ int TARawDataProcessor::ReadOfflinePXI(){
 	// ensure a normal ending at the end of a data file //
 	if(entry_temp.nl != 0){
 		entry_temp.index = -2; // default is -1; so don't confuse with it.
-		entry_temp.channelId = section_len; // this place is dispatched for new use.	
+		entry_temp.channelId = section_len; // this place is dispatched for new use.
 		entry_temp.nl = 0;
 		entry_temp.nt = 0;
 		entry_temp.bunchId = bunchID[0];
@@ -587,7 +587,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 		memset(buffer, 0, sizeof(buffer)); // abandon the first block
 	}
 	block_num++;
-	
+
 	int index, index0 = -1; // index0: to make the first index to be zero
 	while(fread(buffer, sizeof(int), blkSize, fp) > 0){
 		// block header - the first 3 words
@@ -718,7 +718,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 //							entry_temp.nt = nht[chid]; // DEBUG
 
 							for(int k = 0; k < nhl[chid] && k < edge_num_limit; k++){
-								entry_temp.leadingTime[k] = 
+								entry_temp.leadingTime[k] =
 									(hl[chid][k] +  rand0_5()) * H_BLIP;
 								// fill tree - vme with mtdc data //
 								// only leading edges are collected
@@ -726,7 +726,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 								else if(11 == id_v1190) evt.mtdc1[chid][k] = hl[chid][k];
 							} // end for over k
 							for(int k = 0; k < nht[chid] && k < edge_num_limit; k++)
-								entry_temp.trailingTime[k] = 
+								entry_temp.trailingTime[k] =
 									(ht[chid][k] +  rand0_5()) * H_BLIP;
 							if(index >= fIndex0) treeDataVME->Fill();
 
@@ -735,7 +735,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 							if(nht[chid] > 0) for(int k = 0; k < nht[chid]; k++)
 								ht[chid][k] = 0;
 						} // end for over chs in a v1190 plugin and if
-						
+
 						id_v1190 = 0;
 						continue;
 					} // end if Global Trailer
@@ -837,7 +837,7 @@ int TARawDataProcessor::ReadOfflineVME(){
 				entry_temp.leadingTime[0] = pileUp;
 				if(index >= fIndex0) treeDataVME->Fill();
 			} // end if(-9999. != pileUp)
-			
+
 			// mark the end of one event
 			entry_temp.index = -2;
 			entry_temp.channelId = ev_len;
@@ -888,11 +888,3 @@ int TARawDataProcessor::ReadOfflineVME(){
 
 	return 0;
 } // end function ReadOfflineVME
-
-
-
-
-
-
-
-

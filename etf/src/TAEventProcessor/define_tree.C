@@ -114,23 +114,23 @@
 	objLsTree.push_back(treeTrack);
 
 	// Multiplicity
-	short multi_DC[2][3][3][2]{}; // DCArr[L-R][DC0-1-2][XUV][X1-2]
+	short multi_DC[2][4][3][2]{}; // DCArr[L-R][DC0-1-2][XUV][X1-2]
 	short multi_DCTa[2][2][2][2]{}; // DCTaArr[U-D][DC0-1][XY][X1-2]
 	short multi_PDC[2][2][2][2]{}; // PDCArr[U-D][DC0-1][XY][X1-2]
 	TTree *treeMulti = new TTree("treeMulti", "DC multiplicity");
-	treeMulti->Branch("multi_DC", multi_DC, "multi_DC[2][3][3][2]/S");
+	treeMulti->Branch("multi_DC", multi_DC, "multi_DC[2][4][3][2]/S");
 	treeMulti->Branch("multi_DCTa", multi_DCTa, "multi_DCTa[2][2][2][2]/S");
 	treeMulti->Branch("multi_PDC", multi_PDC, "multi_PDC[2][2][2][2]/S");
 	objLsTree.push_back(treeMulti);
 
 	// time to T-Reference
 	// ********* this is for the last fired anode in a certain sense wire layer for convenience
-	double ttRef_DC[2][3][3][2]{}; // DCArr[L-R][DC0-1-2][XUV][X1-2]
+	double ttRef_DC[2][4][3][2]{}; // DCArr[L-R][DC0-1-2][XUV][X1-2]
 	double ttRef_DCTa[2][2][2][2]{}; // DCTaArr[U-D][DC0-1][XY][X1-2]
 	double ttRef_PDC[2][2][2][2]{}; // PDCArr[U-D][DC0-1][XY][X1-2]
 	double ttRef_TOFW[2]{}; // DCArr[L-R]
 	TTree *treeTTRef = new TTree("treeTTRef", "Time to Reference");
-	treeTTRef->Branch("ttRef_DC", ttRef_DC, "ttRef_DC[2][3][3][2]/D");
+	treeTTRef->Branch("ttRef_DC", ttRef_DC, "ttRef_DC[2][4][3][2]/D");
 	treeTTRef->Branch("ttRef_DCTa", ttRef_DCTa, "ttRef_DCTa[2][2][2][2]/D");
 	treeTTRef->Branch("ttRef_PDC", ttRef_PDC, "ttRef_PDC[2][2][2][2]/D");
 	treeTTRef->Branch("ttRef_TOFW", ttRef_TOFW, "ttRef_TOFW[2]/D");
@@ -226,7 +226,7 @@
 	}
 
 	const int n3DtrMax = ntrMax/3;
-	int n3Dtr, n3DtrT; // n3Dtr: N of trks in DCArrL-R; n3DtrT: N of trks in DCArrL-R-U-D 
+	int n3Dtr, n3DtrT; // n3Dtr: N of trks in DCArrL-R; n3DtrT: N of trks in DCArrL-R-U-D
 	bool isDCArrR[n3DtrMax];
 	double Chi3D[n3DtrMax], chi2_3D[n3DtrMax], chi3D[n3DtrMax][18];
 	double k1[n3DtrMax], b1[n3DtrMax], k2[n3DtrMax], b2[n3DtrMax]; // x=k1*z+b1; y=k2*z+b2;
@@ -286,8 +286,8 @@
 		treeOpticFiberArr->Branch("pos", pos_opfa, "pos[40]/D");
 		objLsTree.push_back(treeOpticFiberArr);
 	}
-	
-	
+
+
 	// pile up evidence provided by DCs //
 	// for PDCs
 	// NLM: maximum number of leading edges
@@ -302,21 +302,16 @@
 		objLsTree.push_back(treePDCPileUp);
 	}
 	// for DCs
-	int DC_NLM[2][3][3][2]{}; // [L-R][DC0-1-2][X-U-V][X1-X2]
-	double DC_LTM[2][3][3][2]{};
+	int DC_NLM[2][4][3][2]{}; // [L-R][DC0-1-2][X-U-V][X1-X2]
+	double DC_LTM[2][4][3][2]{};
 	TTree *treeDCPileUp[2]{};
 	treeDCPileUp[0] = new TTree("treeDCLPileUp", "PileUp tree for DCArr L");
 	treeDCPileUp[1] = new TTree("treeDCRPileUp", "PileUp tree for DCArr R");
 	for(int i = 0; i < 2; i++){
 		if(dcArr[i]){
 			treeDCPileUp[i]->Branch("index", &index, "index/I");
-			treeDCPileUp[i]->Branch("DC_NLM", DC_NLM[i], "DC_NLM[3][3][2]/I");
-			treeDCPileUp[i]->Branch("DC_LTM", DC_LTM[i], "DC_LTM[3][3][2]/D");
+			treeDCPileUp[i]->Branch("DC_NLM", DC_NLM[i], "DC_NLM[4][3][2]/I");
+			treeDCPileUp[i]->Branch("DC_LTM", DC_LTM[i], "DC_LTM[4][3][2]/D");
 			objLsTree.push_back(treeDCPileUp[i]);
 		} // end if
 	} // end for over DCArrL-R
-
-
-
-
-

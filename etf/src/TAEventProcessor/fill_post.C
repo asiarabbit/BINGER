@@ -36,7 +36,7 @@
 			   && 4 != dcArrId && 5 != dcArrId ) // DCArr-PDC-UD
 				TAPopMsg::Error("TAEventProcessor", "Run: invalid dcArrId: %d", dcArrId);
 			if(0 == dcArrId || 1 == dcArrId){
-				firedStripId[j] = tra->firedStripId; nStripStray[j] = tra->nStripStray;	
+				firedStripId[j] = tra->firedStripId; nStripStray[j] = tra->nStripStray;
 				memcpy(xMiss3D[j], tra->xMiss3D, sizeof(xMiss3D[j]));
 			} // end if(0 == dcArrId || 1 == dcArrId)
 			const int dcType = type[j]%10; // [0-1-2 or 0-1]: [X-U-V or X-Y]
@@ -122,7 +122,7 @@
 				} // end for over channels
 			} // end outer if
 			if(tRef != -9999. && firedStripId[j] >= 0 && dcArrId < 2){
-				tof2[j] = tofw[dcArrId]->GetStripTime(firedStripId[j], tRef, 40., 90.) - tRef; // 
+				tof2[j] = tofw[dcArrId]->GetStripTime(firedStripId[j], tRef, 40., 90.) - tRef; //
 			}
 			yp[j][0] = -9999.; yp[j][1] = -9999.; trkLenT[j] = -9999.;
 			aoz[j] = -9999.; aozdmin[j] = -9999.; beta2[j] = -1.;
@@ -260,7 +260,7 @@
 
 		/////////////////////// PID DOWNSTREAM THE TARGET ////////////////////////////////////////
 		// PID using the DC array downstream the target and the DC array downstream the dipole magnet
-		// veto before target // 
+		// veto before target //
 		if(1 || (4 != VETO_0->GetFiredStatus() && 4 != VETO_1->GetFiredStatus()))
 		if(IsPID() && 1 == ntrLs[3][0]){ // only one trk in DCArrD, or no pid is possible
 			if(1 == n3DtrLs[1] || (0 == n3DtrLs[1] && 1 == ntrLs[1][0])){
@@ -337,7 +337,7 @@
 					cntaozWrong++;
 //					cout << "index: " << index << endl; // DEBUG
 				}
-				if(0) if(aoz[0] > 0.){ // 
+				if(0) if(aoz[0] > 0.){ //
 					cout << "index: " << index << endl; // DEBUG
 					cout << "aoz: " << aoz[0] << "\ttrkLenT: " << trkLenT[0] << endl; // DEBUG
 					cout << "aozdmin: " << aozdmin[0] << endl; // DEBUG
@@ -411,17 +411,3 @@
 		} // end if
 		// stop filling the curved track in the dipole magnet
 		else TAPID::Instance()->SetCurveGraph(nullptr);
-
-
-
-
-
-
-
-
-
-
-
-
-
-

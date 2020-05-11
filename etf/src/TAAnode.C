@@ -30,7 +30,7 @@ TAAnode::TAAnode(const string &name, const string &title, unsigned uid)
 	fData = new TAAnodeData(name+"->Data", title+"->Data", uid);
 
 	fAnodeId = -1;
-	
+
 	int type[6]{}; TAUIDParser::DNS(type, GetUID());
 	if(0 == type[2]) TAVisual::Instance()->AddAnode(this); // only X anodes would be visualized
 }
@@ -146,11 +146,11 @@ double TAAnode::GetDriftDistance(double dt, double k){
 double TAAnode::GetDriftDistance(double dt, int STR_id){ // k is the track slope
 	double r_base = GetAnodePara()->GetSTR(STR_id)->Eval(dt); // the base drift distance
 	const short detId = GetAnodePara()->GetDetId();
-	if(4 == detId || 9 == detId){ // PDC array, large drift cells - 10mm max drift distance
+	if(8 == detId || 9 == detId){ // PDC array, large drift cells - 10mm max drift distance
 		static const double p[7] = {0.150324, 0.110309, -0.00379359, 5.13088e-05, 3.62186e-06, -1.27e-07, 1.08317e-09};
 		r_base = p[6]*pow(dt,6)+p[5]*pow(dt,5)+p[4]*pow(dt,4)+p[3]*dt*dt*dt+p[2]*dt*dt+p[1]*dt+p[0]; // DEBUG
 		if(r_base < 0. || dt < -1.) r_base = 0.; // DEBUG
-		if(r_base > 2.5 || dt > 50.) r_base = 2.5; // DEBUG
+		// if(r_base > 2.5 || dt > 50.) r_base = 2.5; // DEBUG
 //		cout << "dt: " << dt << "\tr_base: " << r_base << endl; // DEBUG
 //		getchar(); // DEBUG
 		return r_base;
@@ -192,5 +192,3 @@ void TAAnode::SetChId(int id){
 void TAAnode::Initialize(){
 	GetData()->Initialize();
 }
-
-
