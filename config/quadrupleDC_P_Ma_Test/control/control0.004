@@ -112,9 +112,9 @@
 # (-W,-W) 	    0                 (L,-W)
 # L-DownstreamMag: L downstream the dipole magnet
 # L-DownstreamMag
-31  10000.
+31  400.
 # W-DownstreamMag
-32  3000.
+32  200.
 
 # T0_1UV_delay
 33  0.

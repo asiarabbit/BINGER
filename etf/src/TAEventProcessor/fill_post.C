@@ -398,7 +398,7 @@
 
 		if(0) vis->FillHitMap();
 		static int jj = 0;
-		if(jj < 10){
+		if(jj < 10 && ntrT > 0){
 //			if(gGOOD[1] != 1 && gGOOD[2] != 1) continue;
 			jj++;
 			static int i0 = 0;
