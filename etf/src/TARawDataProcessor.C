@@ -307,7 +307,7 @@ int TARawDataProcessor::ReadOfflinePXI(){
 								hl[j][nhl] = (data_ch[k] & 0x7FFFF); nhl++;
 							}
 							else{ // MWDC
-								hl[j][nhl] = (data_ch[k] & 0x7FFFF); nhl++;
+								ht[j][nht] = (data_ch[k] & 0x7FFFF); nht++;
 							}
 						} // end if
 						else{
@@ -315,7 +315,7 @@ int TARawDataProcessor::ReadOfflinePXI(){
 								ht[j][nht] = (data_ch[k] & 0x7FFFF); nht++;
 							}
 							else{ // MWDC
-								ht[j][nht] = (data_ch[k] & 0x7FFFF); nht++;
+								hl[j][nhl] = (data_ch[k] & 0x7FFFF); nhl++;
 							}
 						}
 					}
